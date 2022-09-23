@@ -6,6 +6,7 @@ import EditarViveroScreen from "../gestorVivero/EditarViveroScreen";
 import ProduccionPropiaScreen from "../gestorVivero/inventario/ProduccionPropiaScreen";
 import PropagacionScreen from "../gestorVivero/inventario/PropagacionScreen";
 import CronogramaScreen from "../cronograma/CronogramaScreen";
+import DonacionesScreen from "../gestorVivero/inventario/DonacionScreen";
 
 const ConservacionRoutes = () => {
   return (
@@ -28,6 +29,8 @@ const ConservacionRoutes = () => {
           <Route path="propagacion" element={<PropagacionScreen />} />
 
           <Route path="produccionpropia" element={<ProduccionPropiaScreen />} />
+
+          <Route path="donacion" element={<DonacionesScreen />} />
 
         </Route>
 

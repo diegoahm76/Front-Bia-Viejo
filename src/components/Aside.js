@@ -473,7 +473,7 @@ const Aside = () => {
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/donacion"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
                                     {" "}
