@@ -1,32 +1,9 @@
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 
-const options1 = [
-  { label: "Macarenia", value: "CL" },
-  { label: "Villavicencio", value: "CL" },
-  { label: "Mapiripan", value: "CL" },
-  { label: "Todos", value: "CL" },
-];
-
-const options2 = [
-  { label: "Macarenia", value: "CL" },
-  { label: "Villavicencio", value: "CL" },
-  { label: "Mapiripan", value: "CL" },
-  { label: "Todos", value: "CL" },
-];
-
-const options3 = [
-  { label: "Macarenia", value: "CL" },
-  { label: "Villavicencio", value: "CL" },
-  { label: "Mapiripan", value: "CL" },
-  { label: "Todos", value: "CL" },
-];
-
-const options4 = [
-  { label: "Macarenia", value: "CL" },
-  { label: "Villavicencio", value: "CL" },
-  { label: "Mapiripan", value: "CL" },
-  { label: "Todos", value: "CL" },
+const options = [
+  { label: "Si", value: true },
+  { label: "No", value: false },
 ];
 
 const ProduccionPropiaScreen = () => {
@@ -67,7 +44,7 @@ const ProduccionPropiaScreen = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={options1}
+                    options={options}
                     placeholder="Seleccione"
                   />
                 )}
@@ -89,7 +66,7 @@ const ProduccionPropiaScreen = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={options2}
+                    options={options}
                     placeholder="Seleccione"
                   />
                 )}
@@ -111,7 +88,7 @@ const ProduccionPropiaScreen = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={options3}
+                    options={options}
                     placeholder="Seleccione"
                   />
                 )}
@@ -133,7 +110,7 @@ const ProduccionPropiaScreen = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={options4}
+                    options={options}
                     placeholder="Seleccione"
                   />
                 )}
