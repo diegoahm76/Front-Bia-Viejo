@@ -1,4 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 import HomeScreen from "./screens/layout/HomeScreen";
 import LoginScreen from "./screens/auth/LoginScreen";
@@ -11,40 +13,44 @@ import GestorDocumentalRoutes from "./screens/gestorDocumental/routes/GestorDocu
 import TramitesYServiciosRoutes from "./screens/tramitesYServicios/routes/TramitesYServiciosRoutes";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
-function App() {
+import { getDataFromLocalStorage } from "./actions/userActions";
 
+function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getDataFromLocalStorage())
+  }, []);
   return (
     <Routes>
+      <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
+        <Route path="/dashboard" element={<HomeScreen />}>
+          <Route index element={<LogoScreen />} />
 
-        <Route element={<ProtectedRoutes role="isAdmin" redirectTo={"/login"} />}>
+          <Route path="almacen/*" element={<AlmacenRoutes />} />
 
-          <Route path="/dashboard" element={<HomeScreen />} >
+          <Route path="recaudo/*" element={<RecaudoRoutes />} />
 
-            <Route index element={<LogoScreen />} />
+          <Route path="conservacion/*" element={<ConservacionRoutes />} />
 
-            <Route path="almacen/*" element={<AlmacenRoutes />} />
+          <Route
+            path="gestordocumental/*"
+            element={<GestorDocumentalRoutes />}
+          />
 
-            <Route path="recaudo/*" element={<RecaudoRoutes />} />
-            
-            <Route path="conservacion/*" element={<ConservacionRoutes />} />
-
-            <Route path="gestordocumental/*" element={<GestorDocumentalRoutes />} />
-
-            <Route path="tramitesyservicios/*" element={<TramitesYServiciosRoutes />} />
-
-          </Route>
-
-          <Route path="/*" element={<Navigate to="/dashboard" />} />
- 
+          <Route
+            path="tramitesyservicios/*"
+            element={<TramitesYServiciosRoutes />}
+          />
         </Route>
 
-        <Route element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}>
+        <Route path="/*" element={<Navigate to="/dashboard" />} />
+      </Route>
 
-          <Route path="/login" element={<LoginScreen />} />
-          
-        </Route>
-
-      
+      <Route
+        element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}
+      >
+        <Route path="/login" element={<LoginScreen />} />
+      </Route>
     </Routes>
   );
 }
