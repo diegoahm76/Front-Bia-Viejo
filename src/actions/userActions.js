@@ -62,7 +62,7 @@ export const getDataFromLocalStorage = () => (dispatch) => {
   dispatch(getDataLocalStorageRequest());
 
   const dataUserJSON = localStorage.getItem("userInfo");
-  console.log(dataUserJSON)
+
   if (dataUserJSON) {
     const dataUser = JSON.parse(dataUserJSON);
     dispatch(getDataLocalStorageSuccess(dataUser));

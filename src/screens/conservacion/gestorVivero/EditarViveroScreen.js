@@ -2,6 +2,12 @@ import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import ReactModal from "react-modal";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  activeModalAction,
+  desactiveModalAction,
+} from "../../../actions/modalActions";
 
 const options = [
   { label: "Todos", value: "All" },
@@ -130,11 +136,10 @@ const defaultColDef = {
   editable: true,
   flex: 1,
   filter: true,
-  floatingFilter: true,
   wrapHeaderText: true,
   resizable: true,
   initialWidth: 200,
-  autoHeaderHeight: true,
+  suppressMovable: true,
 };
 
 const defaultColDef2 = {
@@ -143,6 +148,7 @@ const defaultColDef2 = {
   sortable: true,
   flex: 1,
   initialWidth: 100,
+  suppressMovable: true,
 };
 
 const columnDefs2 = [
@@ -156,8 +162,17 @@ const onGridReady = (params) => {
 };
 
 const EditarViveroScreen = () => {
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const isModalActive = useSelector((state) => state.modal.isModalActive);
   const [currentSelectValue, setCurrentSelectValue] = useState(null);
+  const dispatch = useDispatch();
+
+  const handleOpenModal = () => {
+    dispatch(activeModalAction());
+  };
+
+  const handleCloseModal = () => {
+    dispatch(desactiveModalAction());
+  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-8 col-md-10 col-12 mx-auto">
@@ -233,16 +248,18 @@ const EditarViveroScreen = () => {
               ></AgGridReact>
             </div>
           </div>
-          <button
-            className="btn bg-gradient-primary mt-3"
-            onClick={() => setIsOpenModal(true)}
-          >
-            Ver más información del vivero
-          </button>
+          <div className="d-flex">
+            <button
+              className="btn bg-gradient-primary mt-3 ms-auto"
+              onClick={handleOpenModal}
+            >
+              Ver más información del vivero
+            </button>
+          </div>
           {/*Renderizado del modal*/}
           <ReactModal
             className="row max-vh-100 px-4"
-            isOpen={isOpenModal}
+            isOpen={isModalActive}
             parentSelector={() => document.getElementById("root")}
             style={{ overlay: { overflowY: "scroll", zIndex: "9999" } }}
           >
@@ -352,7 +369,7 @@ const EditarViveroScreen = () => {
               <div className="d-flex justify-content-end">
                 <button
                   className="btn bg-gradient-danger mt-3"
-                  onClick={() => setIsOpenModal(false)}
+                  onClick={handleCloseModal}
                 >
                   Cerrar modal
                 </button>

@@ -6,8 +6,6 @@ const ProtectedRoutes = ({ redirectTo, negate }) => {
 
   let validation = Object.entries(userInfo).length !== 0;
 
-  console.log(validation, negate, userInfo)
-
   if(negate){
     validation = !validation;
   }
