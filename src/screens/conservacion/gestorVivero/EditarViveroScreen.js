@@ -1,6 +1,5 @@
 import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
-import ReactModal from "react-modal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,6 +7,7 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
+import Modal from "../../../components/Modal";
 
 const options = [
   { label: "Todos", value: "All" },
@@ -162,7 +162,6 @@ const onGridReady = (params) => {
 };
 
 const EditarViveroScreen = () => {
-  const isModalActive = useSelector((state) => state.modal.isModalActive);
   const [currentSelectValue, setCurrentSelectValue] = useState(null);
   const dispatch = useDispatch();
 
@@ -241,6 +240,7 @@ const EditarViveroScreen = () => {
           <div id="myGrid" className="ag-theme-alpine">
             <div className="ag-theme-alpine" style={{ height: "400px" }}>
               <AgGridReact
+                className="ag-theme-alpine"
                 columnDefs={columnDefs}
                 rowData={dataPrueba[currentSelectValue]?.plantsQuantityForType}
                 defaultColDef={defaultColDef}
@@ -257,125 +257,113 @@ const EditarViveroScreen = () => {
             </button>
           </div>
           {/*Renderizado del modal*/}
-          <ReactModal
-            className="row max-vh-100 px-4"
-            isOpen={isModalActive}
-            parentSelector={() => document.getElementById("root")}
-            style={{ overlay: { overflowY: "scroll", zIndex: "9999" } }}
-          >
-            <div className="col-lg-8 col-md-10 col-12 mx-auto bg-white">
-              <h3 className="mt-3 mb-0 text-center mb-6">
-                Informacion adicional del vivero
-              </h3>
-              <h5 className="font-weight-bolder mt-2">
-                Instalaciones del vivero
-              </h5>
-              <div className="row">
-                <div className="col-12 col-md-6 mt-2">
-                  <label className="fw-bold">Tipo de vivero: </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>Mega vivero</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">
-                    Medio de creación de vivero:{" "}
-                  </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>Recursos propios de la corporación</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">Coordinador de vivero: </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>***********************</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">Viverista: </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>***********************</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">Area del vivero: </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>300 m2</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">Area de propagación: </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>300 m2</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">
-                    Area de preparación de sustrato:{" "}
-                  </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>20 m2</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">
-                    Cantidad de areas de embolsado:{" "}
-                  </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>20 m2</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">
-                    Area de las eras de producción:{" "}
-                  </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>200 m2</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">
-                    Cantidad de bodegas en el vivero:{" "}
-                  </label>
-                </div>
-                <div className="col-12 col-md-6 ">
-                  <label>3</label>
-                </div>
-                <div className="col-12 col-md-6">
-                  <label className="fw-bold">
-                    Documentación adjunta con el vivero:{" "}
-                  </label>
-                </div>
-                <div className="col-12 col-md-6 row gap-2">
-                  <div className="col-3 text-center">
-                    <i className="fa-solid fa-file fs-3 d-block"></i>
-                    <label className="d-block m-0">Contratos</label>
-                  </div>
-                  <div className="col-3 text-center">
-                    <i className="fa-solid fa-file fs-3 d-block"></i>
-                    <label className="d-block m-0">
-                      Acta de recibimiento de vivero
-                    </label>
-                  </div>
-                  <div className="col-3 text-center">
-                    <i className="fa-solid fa-file fs-3 d-block"></i>
-                    <label className="d-block m-0">Planos de vivero</label>
-                  </div>
-                </div>
+          <Modal title={"Tablero de control"}>
+            <h5 className="font-weight-bolder mt-2">
+              Instalaciones del vivero
+            </h5>
+            <div className="row">
+              <div className="col-12 col-md-6 mt-2">
+                <label className="fw-bold">Tipo de vivero: </label>
               </div>
-              <button className="btn bg-gradient-primary d-flex ms-auto mt-2">
-                Descargar todos los documentos
-              </button>
-              <div className="d-flex justify-content-end">
-                <button
-                  className="btn bg-gradient-danger mt-3"
-                  onClick={handleCloseModal}
-                >
-                  Cerrar modal
-                </button>
+              <div className="col-12 col-md-6 ">
+                <label>Mega vivero</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">Medio de creación de vivero: </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>Recursos propios de la corporación</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">Coordinador de vivero: </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>***********************</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">Viverista: </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>***********************</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">Area del vivero: </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>300 m2</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">Area de propagación: </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>300 m2</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">
+                  Area de preparación de sustrato:{" "}
+                </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>20 m2</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">
+                  Cantidad de areas de embolsado:{" "}
+                </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>20 m2</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">
+                  Area de las eras de producción:{" "}
+                </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>200 m2</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">
+                  Cantidad de bodegas en el vivero:{" "}
+                </label>
+              </div>
+              <div className="col-12 col-md-6 ">
+                <label>3</label>
+              </div>
+              <div className="col-12 col-md-6">
+                <label className="fw-bold">
+                  Documentación adjunta con el vivero:{" "}
+                </label>
+              </div>
+              <div className="col-12 col-md-6 row gap-2">
+                <div className="col-3 text-center">
+                  <i className="fa-solid fa-file fs-3 d-block"></i>
+                  <label className="d-block m-0">Contratos</label>
+                </div>
+                <div className="col-3 text-center">
+                  <i className="fa-solid fa-file fs-3 d-block"></i>
+                  <label className="d-block m-0">
+                    Acta de recibimiento de vivero
+                  </label>
+                </div>
+                <div className="col-3 text-center">
+                  <i className="fa-solid fa-file fs-3 d-block"></i>
+                  <label className="d-block m-0">Planos de vivero</label>
+                </div>
               </div>
             </div>
-          </ReactModal>
+            <button className="btn bg-gradient-primary d-flex ms-auto mt-2">
+              Descargar todos los documentos
+            </button>
+            <div className="d-flex justify-content-end">
+              <button
+                className="btn bg-gradient-danger mt-3"
+                onClick={handleCloseModal}
+              >
+                Cerrar modal
+              </button>
+            </div>
+          </Modal>
         </div>
       </div>
     </div>
