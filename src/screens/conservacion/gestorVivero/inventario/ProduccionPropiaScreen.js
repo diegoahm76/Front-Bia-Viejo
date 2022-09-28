@@ -15,7 +15,7 @@ const ProduccionPropiaScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
+      <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Configuración</h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
@@ -127,16 +127,17 @@ const ProduccionPropiaScreen = () => {
             </div>
             <div className="col-12 col-sm-5 d-flex align-items-start gap-1">
               <div className="input-group input-group-dynamic">
-                <label
+                {/* <label
                   htmlFor="exampleFormControlInput1"
                   className="form-label"
                 >
                   Escribir digitos de porcentaje
-                </label>
+                </label> */}
                 <input
                   className="multisteps-form__input form-control"
                   type="number"
                   {...register("option5")}
+                  placeholder="Escribir digitos de porcentaje"
                 />
               </div>
               <p className="pt-2 fw-bold">%</p>
