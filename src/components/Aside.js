@@ -18,6 +18,9 @@ import IconoProduccion from "../assets/iconosConservacion/ecologic-leaf-svgrepo-
 import IconoSolicitudes from "../assets/iconosConservacion/folder-svgrepo-com.svg";
 import IconoDistribucion from "../assets/iconosConservacion/delivery-truck-delivery-svgrepo-com.svg";
 import IconoCronograma from "../assets/iconosConservacion/calendar-svgrepo-com.svg";
+import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-com.svg";
+import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
+import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
 
 const Aside = () => {
   const userInfo = useSelector((state) => state.user.user);
@@ -899,13 +902,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Reportes"
                     >
-                      <i
+                      {/* <i
                         className="fa-regular fa-file"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoReportes} alt="Reportes" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Reportes <b className="caret"></b>
@@ -948,13 +952,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Configuracion"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-sliders"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoConfiguracion} alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Configuracion <b className="caret"></b>
@@ -997,13 +1002,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#CentroNotificaciones"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-bell"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoCentroNotificacion} alt="Centro de notificaciones" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Centro de <br />

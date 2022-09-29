@@ -184,7 +184,7 @@ const EditarViveroScreen = () => {
             Seleccione el vivero para visualización de información
           </h5>
           <div className="row">
-            <div className="col-4 mt-2">
+            <div className="col-6 mt-2">
               <Select
                 options={options}
                 onChange={(e) => setCurrentSelectValue(e.value)}
