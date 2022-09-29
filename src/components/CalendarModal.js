@@ -130,13 +130,6 @@ const CalendarModal = () => {
     })
   };
 
-  const onDateChanged = (event, changing) => {
-    setFormValues({
-      ...formValues,
-      [changing]: event,
-    });
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -238,9 +231,7 @@ const CalendarModal = () => {
                         selected={formValues.fechaInicio}
                         className="multisteps-form__input form-control p-2"
                         placeholderText="dd/mm/aaaa"
-                        // onChange={(event) =>
-                        //   onDateChanged(event, "fechaInicio")
-                        // }
+                        onSelect={(e) => setFormValues({...formValues, fechaInicio: e })}
                       />
                     )}
                   />
@@ -258,7 +249,7 @@ const CalendarModal = () => {
                         selected={formValues.fechaFin}
                         className="multisteps-form__input form-control p-2"
                         placeholderText="dd/mm/aaaa"
-                        onChange={(event) => onDateChanged(event, "fechaFin")}
+                        onSelect={(e) => setFormValues({...formValues, fechaFin: e })}
                       />
                     )}
                   />

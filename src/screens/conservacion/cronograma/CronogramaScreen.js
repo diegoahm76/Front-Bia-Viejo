@@ -73,7 +73,7 @@ const events = [
 
 const CronogramaScreen = () => {
 
-  const [lastView, setLastView] = useState(localStorage.getItem('lastView' || 'week'))
+  const [lastView, setLastView] = useState(localStorage.getItem('lastView') || 'week')
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
