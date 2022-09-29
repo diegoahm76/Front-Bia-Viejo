@@ -7,8 +7,13 @@ import ProduccionPropiaScreen from "../gestorVivero/inventario/ProduccionPropiaS
 import PropagacionScreen from "../gestorVivero/inventario/PropagacionScreen";
 import CronogramaScreen from "../cronograma/CronogramaScreen";
 import DonacionesScreen from "../gestorVivero/inventario/DonacionScreen";
+
 import ProduccionPropiaJohn from "../gestorVivero/inventario/ProduccionPropiaJohn";
 import { MoverMaterialVegetalScreen } from "../distribucion/MoverMaterialVegetalScreen";
+
+import EntregasPendientesScreen from "../distribucion/EntregasPendientesScreen";
+import EntregadosScreen from "../distribucion/EntregadosScreen";
+
 
 const ConservacionRoutes = () => {
   return (
@@ -49,7 +54,15 @@ const ConservacionRoutes = () => {
       </Route>
 
       <Route path="distribucion">
+      
         <Route path="movermaterialvegetal"  element={<MoverMaterialVegetalScreen />}/>
+
+        <Route index element={<Navigate to="/dashboard/conservacion" />} />
+
+        <Route path="entregaspendientes" element={<EntregasPendientesScreen />} />
+
+        <Route path="entregados" element={<EntregadosScreen />} />
+
       </Route>
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />

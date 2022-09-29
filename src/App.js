@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     dispatch(getDataFromLocalStorage())
   }, []);
+  
   return (
     <Routes>
       <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
