@@ -162,7 +162,7 @@ const onGridReady = (params) => {
 };
 
 const EditarViveroScreen = () => {
-  const [currentSelectValue, setCurrentSelectValue] = useState(null);
+  const [currentSelectValue, setCurrentSelectValue] = useState("All");
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
@@ -253,7 +253,7 @@ const EditarViveroScreen = () => {
               className="btn bg-gradient-primary mt-3 ms-auto"
               onClick={handleOpenModal}
             >
-              Ver más información del vivero
+              Detalle vivero
             </button>
           </div>
           {/*Renderizado del modal*/}
