@@ -40,7 +40,7 @@ function AgregarViveroScreen() {
   };
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
+      <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Agregar Vivero</h3>
         {/* <p className="lead font-weight-normal opacity-8 mb-7 text-center">
           This information will let us know more about you.

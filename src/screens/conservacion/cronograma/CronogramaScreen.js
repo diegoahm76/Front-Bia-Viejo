@@ -5,6 +5,8 @@ import { addHours } from "date-fns";
 import { localizer } from "../../../helpers/calendarLocalizer";
 import { getMessagesES } from "../../../helpers/getMessages";
 import CalendarEvent from "../../../components/CalendarEvent";
+import { useState } from "react";
+import CalendarModal from "../../../components/CalendarModal";
 
 const events = [
   {
@@ -27,9 +29,52 @@ const events = [
       name: "Juan David",
     },
   },
+  {
+    title: "Prueba Evento",
+    notes: "Comprar la cena",
+    start: new Date(),
+    end: addHours(new Date(), 4),
+    user: {
+      id: "1234",
+      name: "Juan David",
+    },
+  },
+  {
+    title: "Prueba Evento",
+    notes: "Comprar la cena",
+    start: new Date(),
+    end: addHours(new Date(), 4),
+    user: {
+      id: "1234",
+      name: "Juan David",
+    },
+  },
+  {
+    title: "Prueba Evento",
+    notes: "Comprar la cena",
+    start: new Date(),
+    end: addHours(new Date(), 4),
+    user: {
+      id: "1234",
+      name: "Juan David",
+    },
+  },
+  {
+    title: "Prueba Evento",
+    notes: "Comprar la cena",
+    start: new Date(),
+    end: addHours(new Date(), 4),
+    user: {
+      id: "1234",
+      name: "Juan David",
+    },
+  },
 ];
 
 const CronogramaScreen = () => {
+
+  const [lastView, setLastView] = useState(localStorage.getItem('lastView' || 'week'))
+
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
       backgroundColor: "var(--bs-primary)",
@@ -43,12 +88,26 @@ const CronogramaScreen = () => {
     };
   };
 
+  const onDoubleClick = (event) => {
+    console.log({doubleClick: event})
+  }
+
+  const onSelect = (event) => {
+    console.log({click: event})
+  }
+
+  const onViewChanged = (event) => {
+    localStorage.setItem('lastView', event)
+    setLastView(event)
+  }
+
   return (
     <>
       <Calendar
         culture="es"
         localizer={localizer}
         events={events}
+        defaultView={ lastView }
         startAccessor="start"
         endAccessor="end"
         //className="h-100"
@@ -62,7 +121,13 @@ const CronogramaScreen = () => {
         components={{
           event: CalendarEvent,
         }}
+        onDoubleClickEvent={onDoubleClick}
+        onSelectEvent={onSelect}
+        onView={onViewChanged}
       />
+
+      <CalendarModal />
+
     </>
   );
 };

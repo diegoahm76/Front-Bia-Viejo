@@ -3,7 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogoutAction } from "../actions/userActions";
 import LogoCormacarena from "../assets/logos/eps/LogoVertical.svg";
-
+import IconoAlmacen from "../assets/ecology-house-svgrepo-com.svg";
+import IconoRecaudo from "../assets/voltmeter-power-svgrepo-com.svg";
+import IconoSeguimientoPlanes from "../assets/networking-share-svgrepo-com.svg";
+import IconoConservacion from "../assets/sprout-tree-svgrepo-com.svg";
+import IconoGestionDocumental from "../assets/recycling-environment-svgrepo-com.svg";
+import IconoTramitesServicios from "../assets/analytics-bar-chart-svgrepo-com.svg";
+import IconoRecursoHidrico from "../assets/h2o-svgrepo-com.svg";
+import IconoAgregarVivero from "../assets/iconosConservacion/add-svgrepo-com.svg";
+import IconoGestorVivero from "../assets/iconosConservacion/leaf-svgrepo-com.svg";
+import IconoEditarVivero from "../assets/iconosConservacion/edit-svgrepo-com.svg";
+import IconoGMaterialVegetal from "../assets/iconosConservacion/sprout-tree-svgrepo-com.svg";
+import IconoProduccion from "../assets/iconosConservacion/ecologic-leaf-svgrepo-com.svg";
+import IconoSolicitudes from "../assets/iconosConservacion/folder-svgrepo-com.svg";
+import IconoDistribucion from "../assets/iconosConservacion/delivery-truck-delivery-svgrepo-com.svg";
+import IconoCronograma from "../assets/iconosConservacion/calendar-svgrepo-com.svg";
+import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-com.svg";
+import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
+import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
 
 const Aside = () => {
   const userInfo = useSelector((state) => state.user.user);
@@ -92,7 +109,8 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i class="fa-solid fa-warehouse"></i>
+                {/* <i class="fa-solid fa-warehouse"></i> */}
+                <img src={IconoAlmacen} alt="almacen" />
                 <span className="nav-link-text ms-2 ps-1">Almacén</span>
               </a>
               <div className="collapse" id="almacen">
@@ -169,7 +187,8 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i class="fa-solid fa-money-check"></i>
+                {/* <i class="fa-solid fa-money-check"></i> */}
+                <img src={IconoRecaudo} alt="Recaudo" />
                 <span className="nav-link-text ms-2 ps-1">Recaudó</span>
               </a>
               <div className="collapse " id="pagesExamples">
@@ -270,7 +289,8 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                {/* <i class="fa-solid fa-magnifying-glass-chart"></i> */}
+                <img src={IconoSeguimientoPlanes} alt="Seguimiento planes" />
                 <span className="nav-link-text ms-2 ps-1">
                   Seguimiento planes
                 </span>
@@ -349,7 +369,8 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i className="fas fa-sharp fa-solid fa-seedling"></i>
+                {/* <i className="fas fa-sharp fa-solid fa-seedling"></i> */}
+                <img src={IconoConservacion} alt="Conservacion" />
                 <span className="nav-link-text ms-2 ps-1">Conservación</span>
               </a>
               <div className="collapse" id="conservacion">
@@ -361,13 +382,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Gestor-vivero"
                     >
-                      <i
+                      {/* <i
                         className="fas fa-solid fa-leaf"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoGestorVivero} alt="Gestor vivero" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Gestor Vivero <b className="caret"></b>
@@ -380,7 +402,12 @@ const Aside = () => {
                             className="nav-link text-white "
                             to="conservacion/gestorvivero/agregarvivero"
                           >
-                            <span className="sidenav-mini-icon"> A </span>
+                            {/* <span className="sidenav-mini-icon"> A </span> */}
+                            <img
+                              src={IconoAgregarVivero}
+                              className="sidenav-mini-icon"
+                              alt="Agregar vivero"
+                            />
                             <span className="sidenav-normal  ms-2  ps-1">
                               {" "}
                               Agregar Vivero{" "}
@@ -392,7 +419,8 @@ const Aside = () => {
                             className="nav-link text-white "
                             to="conservacion/gestorvivero/editarvivero"
                           >
-                            <span className="sidenav-mini-icon"> E </span>
+                            {/* <span className="sidenav-mini-icon"> E </span> */}
+                            <img src={IconoEditarVivero} alt="Editar vivero" />
                             <span className="sidenav-normal  ms-2  ps-1">
                               {" "}
                               Editar Vivero{" "}
@@ -538,13 +566,17 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#GestorMaterialVegetal"
                     >
-                      <i
+                      {/* <i
                         className="fa fa-brands fa-pagelines"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img
+                        src={IconoGMaterialVegetal}
+                        alt="G. Material vegetal"
+                      />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         G. material vegetal <b className="caret"></b>
@@ -557,11 +589,31 @@ const Aside = () => {
                             className="nav-link text-white "
                             href="../../pages/pages/users/new-user.html"
                           >
-                            <span className="sidenav-mini-icon"> C </span>
+                            <span className="sidenav-mini-icon"> p </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Consultar solicitudes <br />
-                              realizadas a vivero{" "}
+                              Produccion propia
+                            </span>
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link text-white "
+                            href="../../pages/pages/users/new-user.html"
+                          >
+                            <span className="sidenav-mini-icon"> M </span>
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Material vegetal sembrado
+                            </span>
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link text-white "
+                            href="../../pages/pages/users/new-user.html"
+                          >
+                            <span className="sidenav-mini-icon"> E </span>
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Editar material vegetal
                             </span>
                           </a>
                         </li>
@@ -572,9 +624,18 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> C </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Consultar informes <br />
-                              de caracterizacion{" "}
+                              Cuarentena material vegetal
+                            </span>
+                          </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link text-white "
+                            href="../../pages/pages/users/new-user.html"
+                          >
+                            <span className="sidenav-mini-icon"> A </span>
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Activar material vegetal
                             </span>
                           </a>
                         </li>
@@ -588,13 +649,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Produccion"
                     >
-                      <i
+                      {/* <i
                         className="fa fa-solid fa-gears"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoProduccion} alt="Produccion" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Produccion <b className="caret"></b>
@@ -607,10 +669,9 @@ const Aside = () => {
                             className="nav-link text-white "
                             href="../../pages/pages/account/settings.html"
                           >
-                            <span className="sidenav-mini-icon"> S </span>
+                            <span className="sidenav-mini-icon"> C </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Settings{" "}
+                              Control y seguimiento de <br /> material vegetal
                             </span>
                           </a>
                         </li>
@@ -619,33 +680,9 @@ const Aside = () => {
                             className="nav-link text-white "
                             href="../../pages/pages/account/billing.html"
                           >
-                            <span className="sidenav-mini-icon"> B </span>
+                            <span className="sidenav-mini-icon"> E </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                            </span>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/account/invoice.html"
-                          >
-                            <span className="sidenav-mini-icon"> I </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Invoice{" "}
-                            </span>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/account/security.html"
-                          >
-                            <span className="sidenav-mini-icon"> S </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Security{" "}
+                              Etapas de material vegetal
                             </span>
                           </a>
                         </li>
@@ -659,17 +696,17 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#projectsExample"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-arrow-up-right-from-square"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
-                      <span className="sidenav-normal  ms-2  ps-1 text-center">
-                        {" "}
+                      ></i> */}
+                      <img src={IconoSolicitudes} alt="Solicitudes" />
+                      <span className="sidenav-normal  ms-2  ps-1">
                         solicitudes de <br />
-                        material vegetal <b className="caret"></b>
+                        material vegetal
                       </span>
                     </a>
                     <div className="collapse " id="projectsExample">
@@ -681,8 +718,7 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> G </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              General{" "}
+                              Solicitudes realizadas <br />a vivero
                             </span>
                           </a>
                         </li>
@@ -693,8 +729,7 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> T </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Timeline{" "}
+                              Historial de solicitudes
                             </span>
                           </a>
                         </li>
@@ -705,8 +740,8 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> N </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              New Project{" "}
+                              Consulta de informes <br />
+                              de caracterizacion
                             </span>
                           </a>
                         </li>
@@ -720,16 +755,16 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Distrubucion"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-truck"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoDistribucion} alt="Distribucion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Distrubucion <b className="caret"></b>
+                        Distrubucion
                       </span>
                     </a>
                     <div className="collapse " id="Distrubucion">
@@ -741,8 +776,8 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> V </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Default{" "}
+                              Solicitud de material <br />
+                              vegetal
                             </span>
                           </a>
                         </li>
@@ -753,10 +788,59 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> V </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Info{" "}
+                              Mover material vegetal
                             </span>
                           </a>
+                        </li>
+                        <li className="nav-item">
+                          <a
+                            className="nav-link text-white "
+                            href="../../pages/pages/vr/vr-info.html"
+                          >
+                            <span className="sidenav-mini-icon"> V </span>
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Historial de movimientos
+                            </span>
+                          </a>
+                        </li>
+
+                        <li className="nav-item ">
+                          <a
+                            className="nav-link text-white "
+                            data-bs-toggle="collapse"
+                            aria-expanded="false"
+                            href="#entregaDeMaterial"
+                          >
+                            <span className="sidenav-mini-icon"> I </span>
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Entrega de material <br />
+                              vegetal
+                            </span>
+                          </a>
+                          <div className="collapse " id="entregaDeMaterial">
+                            <ul className="nav nav-sm flex-column">
+                              <li className="nav-item">
+                                <Link
+                                  className="nav-link text-white "
+                                  to="conservacion/gestorvivero/inventario/propagacion"
+                                >
+                                  <span className="sidenav-normal  ms-2  ps-1">
+                                    Material vegetal entregado
+                                  </span>
+                                </Link>
+                              </li>
+                              <li className="nav-item">
+                                <Link
+                                  className="nav-link text-white "
+                                  to="conservacion/gestorvivero/inventario/produccionpropia"
+                                >
+                                  <span className="sidenav-normal  ms-2  ps-1">
+                                    Material vegetal pendiente
+                                  </span>
+                                </Link>
+                              </li>
+                            </ul>
+                          </div>
                         </li>
                       </ul>
                     </div>
@@ -769,16 +853,16 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Cronograma"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-calendar-days"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoCronograma} alt="Cronograma" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Cronograma <b className="caret"></b>
+                        Cronograma
                       </span>
                     </a>
                     <div className="collapse " id="Cronograma">
@@ -818,13 +902,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Reportes"
                     >
-                      <i
+                      {/* <i
                         className="fa-regular fa-file"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoReportes} alt="Reportes" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Reportes <b className="caret"></b>
@@ -867,13 +952,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Configuracion"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-sliders"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoConfiguracion} alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Configuracion <b className="caret"></b>
@@ -916,13 +1002,14 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#CentroNotificaciones"
                     >
-                      <i
+                      {/* <i
                         className="fa-solid fa-bell"
                         style={{
                           fontSize: "0.8rem",
                           color: "var(--bs-primary)",
                         }}
-                      ></i>
+                      ></i> */}
+                      <img src={IconoCentroNotificacion} alt="Centro de notificaciones" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Centro de <br />
@@ -970,9 +1057,10 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i className="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">
+                {/* <i className="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">
                   content_paste
-                </i>
+                </i> */}
+                <img src={IconoGestionDocumental} alt="Gestion documental" />
                 <span className="nav-link-text ms-2 ps-1">
                   Gestión documental
                 </span>
@@ -1027,9 +1115,10 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i className="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">
+                {/* <i className="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">
                   upcoming
-                </i>
+                </i> */}
+                <img src={IconoTramitesServicios} alt="Tramites y servicios" />
                 <span className="nav-link-text ms-2 ps-1">
                   Trámites y servicios
                 </span>
@@ -1115,7 +1204,8 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                <i class="fa-solid fa-hand-holding-droplet"></i>
+                <img src={IconoRecursoHidrico} alt="Recurso hidrico" />
+                {/* <i class="fa-solid fa-hand-holding-droplet"></i> */}
                 <span className="nav-link-text ms-2 ps-1">Recurso hídrico</span>
               </a>
               <div className="collapse " id="componentsExamples">

@@ -192,7 +192,7 @@ const EditarViveroScreen = () => {
   }
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
+      <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Panel de control</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -202,7 +202,7 @@ const EditarViveroScreen = () => {
             Seleccione el vivero para visualización de información
           </h5>
           <div className="row">
-            <div className="col-4 mt-2">
+            <div className="col-6 mt-2">
               <Select
                 options={options}
                 onChange={(e) => setCurrentSelectValue(e.value)}
