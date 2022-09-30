@@ -488,8 +488,7 @@ const Aside = () => {
                                   to="conservacion/gestorvivero/inventario/propagacion"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Propagacion{" "}
+                                    Propagacion
                                   </span>
                                 </Link>
                               </li>
@@ -499,19 +498,17 @@ const Aside = () => {
                                   to="conservacion/gestorvivero/inventario/produccionpropia"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Produccion propia{" "}
+                                    Produccion propia
                                   </span>
                                 </Link>
                               </li>
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/plantasencuarentena"
                                 >
-                                  <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Plantas en cuarentena{" "}
+                                  <span className="sidenav-normal ms-2 ps-1">
+                                    Plantas en cuarentena
                                   </span>
                                 </Link>
                               </li>
@@ -551,7 +548,7 @@ const Aside = () => {
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/donacion/insumos"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
                                     {" "}
@@ -594,34 +591,26 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#GestorMaterialVegetal"
                     >
-                      {/* <i
-                        className="fa fa-brands fa-pagelines"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img
                         src={IconoGMaterialVegetal}
                         alt="G. Material vegetal"
                       />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        G. material vegetal <b className="caret"></b>
+                        G. material vegetal
                       </span>
                     </a>
                     <div className="collapse " id="GestorMaterialVegetal">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/users/new-user.html"
+                            to="conservacion/gestormaterialvegetal/crearproduccionpropia"
                           >
                             <span className="sidenav-mini-icon"> p </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Produccion propia
+                              Crear produccion propia
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
                           <a
@@ -783,15 +772,8 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Distrubucion"
                     >
-                      {/* <i
-                        className="fa-solid fa-truck"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoDistribucion} alt="Distribucion" />
-                      <span className="sidenav-normal  ms-2  ps-1">
+                      <span className="sidenav-normal ms-2 ps-1">
                         Distrubucion
                       </span>
                     </a>
@@ -810,15 +792,15 @@ const Aside = () => {
                           </a>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-info.html"
+                            to="conservacion/distribucion/movermaterialvegetal"
                           >
                             <span className="sidenav-mini-icon"> V </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Mover material vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
                           <a
