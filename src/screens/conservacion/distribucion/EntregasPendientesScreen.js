@@ -6,7 +6,8 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
-import Modal from "../../../components/Modal";
+import CalendarModal from "../../../components/CalendarModal";
+
 
 const columDefs = [
   { headerName: "Numero de solicitud", field: "Numero de solicitud" },
@@ -167,7 +168,7 @@ const EntregasPendientesScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
+      <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Entregas pendientes</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -221,7 +222,7 @@ const EntregasPendientesScreen = () => {
           >
             Gestionar
           </button>
-          <Modal title={"Entrega de material e insumos"}>
+          <CalendarModal>
             <label className="mt-5 fw-bold fs-6 d-block">
               Numero de entrega: <span className="fw-normal">0000960</span>
             </label>
@@ -279,7 +280,7 @@ const EntregasPendientesScreen = () => {
                 Entregar material
               </button>
             </div>
-          </Modal>
+          </CalendarModal>
         </div>
       </div>
     </div>
