@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import {
   activeModalAction,
   desactiveModalAction,
-} from "../../../actions/modalActions";
-import CalendarModal from "../../../components/CalendarModal";
+} from "../../actions/modalActions";
+import CalendarModal from "../../components/CalendarModal";
 
 const options = [
   { label: "Todos", value: "All" },
@@ -161,7 +161,7 @@ const onGridReady = (params) => {
   return gridApi;
 };
 
-const EditarViveroScreen = () => {
+const TableroDeControlConservacion = () => {
   const [currentSelectValue, setCurrentSelectValue] = useState("All");
   const dispatch = useDispatch();
 
@@ -193,14 +193,14 @@ const EditarViveroScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Panel de control</h3>
+        <h3 className="mt-3 mb-0 text-center mb-6">Panel de control conservacion</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h5 className="font-weight-bolder mt-2">
+          <label className="font-weight-bolder mt-2">
             Seleccione el vivero para visualización de información
-          </h5>
+          </label>
           <div className="row">
             <div className="col-6 mt-2">
               <Select
@@ -387,4 +387,4 @@ const EditarViveroScreen = () => {
     </div>
   );
 };
-export default EditarViveroScreen;
+export default TableroDeControlConservacion;

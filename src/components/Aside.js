@@ -21,6 +21,7 @@ import IconoCronograma from "../assets/iconosConservacion/calendar-svgrepo-com.s
 import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-com.svg";
 import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
 import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
+import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
 
 const Aside = () => {
   const userInfo = useSelector((state) => state.user.user);
@@ -49,12 +50,7 @@ const Aside = () => {
             aria-hidden="true"
             id="iconSidenav"
           ></i>
-          <Link
-            className="navbar-brand m-0"
-            to="dashboard"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Link className="navbar-brand m-0" to="/dashboard">
             <img
               src={LogoCormacarena}
               className="navbar-brand-img h-100"
@@ -100,6 +96,38 @@ const Aside = () => {
               </div>
             </li>
             <hr className="horizontal light mt-0" />
+            <li className="nav-item mb-2 mt-0">
+              <a
+                data-bs-toggle="collapse"
+                href="#tablerosDeControl"
+                className="nav-link text-white"
+                aria-controls="tablerosDeControl"
+                role="button"
+                aria-expanded="false"
+              >
+                <img src={IconoTablerosDeControl} alt="Tableros de control" />
+                <span className="nav-link-text ms-2 ps-1">
+                  Tableros de control
+                </span>
+              </a>
+              <div className="collapse" id="tablerosDeControl">
+                <ul className="nav ">
+                  <li className="nav-item active">
+                    <Link
+                      to="tablerosdecontrol/conservacion"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> C </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Conservacion
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <hr className="horizontal light mt-0" />
+
             <li className="nav-item">
               <a
                 data-bs-toggle="collapse"
@@ -822,7 +850,7 @@ const Aside = () => {
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion/gestorvivero/inventario/propagacion"
+                                  to="conservacion/distribucion/entregamv/entregados"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
                                     Material vegetal entregado
@@ -832,7 +860,7 @@ const Aside = () => {
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion/gestorvivero/inventario/produccionpropia"
+                                  to="conservacion/distribucion/entregamv/pendientes"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
                                     Material vegetal pendiente
@@ -847,52 +875,15 @@ const Aside = () => {
                   </li>
 
                   <li className="nav-item ">
-                    <a
+                    <Link
                       className="nav-link text-white "
-                      data-bs-toggle="collapse"
-                      aria-expanded="false"
-                      href="#Cronograma"
+                      to="conservacion/cronograma"
                     >
-                      {/* <i
-                        className="fa-solid fa-calendar-days"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoCronograma} alt="Cronograma" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         Cronograma
                       </span>
-                    </a>
-                    <div className="collapse " id="Cronograma">
-                      <ul className="nav nav-sm flex-column">
-                        <li className="nav-item">
-                          <Link
-                            className="nav-link text-white "
-                            to="conservacion-cronograma-calendario"
-                          >
-                            <span className="sidenav-mini-icon"> C </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Calendario{" "}
-                            </span>
-                          </Link>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-info.html"
-                          >
-                            <span className="sidenav-mini-icon"> V </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Info{" "}
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                    </Link>
                   </li>
 
                   <li className="nav-item ">
@@ -946,53 +937,15 @@ const Aside = () => {
                   </li>
 
                   <li className="nav-item ">
-                    <a
+                    <Link
                       className="nav-link text-white "
-                      data-bs-toggle="collapse"
-                      aria-expanded="false"
-                      href="#Configuracion"
+                      to="conservacion/configuracion"
                     >
-                      {/* <i
-                        className="fa-solid fa-sliders"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoConfiguracion} alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Configuracion <b className="caret"></b>
+                        Configuracion
                       </span>
-                    </a>
-                    <div className="collapse " id="Configuracion">
-                      <ul className="nav nav-sm flex-column">
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-default.html"
-                          >
-                            <span className="sidenav-mini-icon"> V </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Default{" "}
-                            </span>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-info.html"
-                          >
-                            <span className="sidenav-mini-icon"> V </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Info{" "}
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                    </Link>
                   </li>
 
                   <li className="nav-item ">
@@ -1009,7 +962,10 @@ const Aside = () => {
                           color: "var(--bs-primary)",
                         }}
                       ></i> */}
-                      <img src={IconoCentroNotificacion} alt="Centro de notificaciones" />
+                      <img
+                        src={IconoCentroNotificacion}
+                        alt="Centro de notificaciones"
+                      />
                       <span className="sidenav-normal  ms-2  ps-1">
                         {" "}
                         Centro de <br />

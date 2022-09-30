@@ -6,7 +6,7 @@ const options = [
   { label: "No", value: false },
 ];
 
-const ProduccionPropiaScreen = () => {
+const ConfiguracionScreen = () => {
   const { register, handleSubmit, control } = useForm();
 
   const submit = (data) => {
@@ -166,4 +166,4 @@ const ProduccionPropiaScreen = () => {
     </div>
   );
 };
-export default ProduccionPropiaScreen;
+export default ConfiguracionScreen;

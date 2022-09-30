@@ -255,8 +255,8 @@ const CronogramaScreen = () => {
         onSelectEvent={onSelect}
         onView={onViewChanged}
       />
-      <button onClick={handleOpenModal} className="btn btn-primary fab">
-        +
+      <button onClick={handleOpenModal} className="bg-primary btn-cuadrado fab">
+        <i className="fas fa-plus text-white"></i>
       </button>
 
       <CalendarModal>
@@ -309,6 +309,16 @@ const CronogramaScreen = () => {
               )}
             </div>
             <div className="col-12 d-flex justify-content-end">
+              {!opcionesSeleccionadas.tipoActividad &&
+                !opcionesSeleccionadas.seleccioneVivero && (
+                  <button
+                    type="button"
+                    className="btn bg-gradient-light text-capitalize"
+                    onClick={handleCloseModal}
+                  >
+                    <span>Cancelar</span>
+                  </button>
+                )}
               <button
                 type="submit"
                 className="mt-3 btn btn-primary flex-center text-capitalize"
@@ -469,7 +479,7 @@ const CronogramaScreen = () => {
                 </div>
                 <div className="d-flex justify-content-end mt-4">
                   <button
-                    type="submit"
+                    type="button"
                     className="btn bg-gradient-light text-capitalize"
                     onClick={handleCloseModal}
                   >
