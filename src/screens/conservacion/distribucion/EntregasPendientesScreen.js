@@ -8,6 +8,7 @@ import {
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 
+
 const columDefs = [
   { headerName: "Numero de solicitud", field: "Numero de solicitud" },
   { headerName: "Nombre de profesional", field: "Nombre de profesional" },

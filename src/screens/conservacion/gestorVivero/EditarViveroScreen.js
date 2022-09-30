@@ -1,7 +1,7 @@
 import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   activeModalAction,
@@ -33,7 +33,7 @@ const dataPrueba = {
         long: `4"5'7.428"`,
       },
     ],
-    plantsQuantity: 12356,
+    plantsQuantity: 4400,
     plantsQuantityForType: [
       {
         "Nombre Común": "Flor morado",
@@ -58,22 +58,22 @@ const dataPrueba = {
       {
         "Nombre Común": "Flor morado",
         "Nombre Científico": "Jacaranda sp",
-        "Cantidad total": 1234,
+        "Cantidad total": 600,
       },
       {
         "Nombre Común": "Flor morado",
         "Nombre Científico": "Jacaranda sp",
-        "Cantidad total": 1234,
+        "Cantidad total": 600,
       },
       {
         "Nombre Común": "Flor morado",
         "Nombre Científico": "Jacaranda sp",
-        "Cantidad total": 1234,
+        "Cantidad total": 600,
       },
       {
         "Nombre Común": "Flor morado",
         "Nombre Científico": "Jacaranda sp",
-        "Cantidad total": 1234,
+        "Cantidad total": 600,
       },
     ],
   },
@@ -94,7 +94,7 @@ const dataPrueba = {
         long: `5"7'8.528"`,
       },
     ],
-    plantsQuantity: 12356,
+    plantsQuantity: 1700,
     plantsQuantityForType: [
       {
         "Nombre Común": "Flor morado",
@@ -119,7 +119,7 @@ const dataPrueba = {
       {
         "Nombre Común": "Flor morado",
         "Nombre Científico": "Jacaranda sp",
-        "Cantidad total": 1234,
+        "Cantidad total": 600,
       },
     ],
   },
@@ -172,6 +172,24 @@ const EditarViveroScreen = () => {
   const handleCloseModal = () => {
     dispatch(desactiveModalAction());
   };
+
+  const getTotalPlants = () => {
+    let totalPlants = 0
+    const keysDataPrueba = Object.keys(dataPrueba)
+    keysDataPrueba.forEach(keyData => {
+      totalPlants = totalPlants + dataPrueba[keyData].plantsQuantity 
+    })
+    return totalPlants
+  }
+
+  const getTotalPlantsBySpecies = () => {
+    const totalPlantsBySpecies = []
+    const keysDataPrueba = Object.keys(dataPrueba)
+    keysDataPrueba.forEach(keyData => {
+      totalPlantsBySpecies.push(...dataPrueba[keyData].plantsQuantityForType)
+    })
+    return totalPlantsBySpecies
+  }
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -230,7 +248,7 @@ const EditarViveroScreen = () => {
           <label className="text-center mt-4 fw-bold fs-6 d-block">
             Numero total de plantas:{" "}
             <span className="fw-normal">
-              {dataPrueba[currentSelectValue]?.plantsQuantity}
+              {currentSelectValue === "All" ? getTotalPlants() : dataPrueba[currentSelectValue]?.plantsQuantity}
             </span>
           </label>
           <label className="text-center mt-4 fw-bold fs-6 d-block">
@@ -242,7 +260,7 @@ const EditarViveroScreen = () => {
               <AgGridReact
                 className="ag-theme-alpine"
                 columnDefs={columnDefs}
-                rowData={dataPrueba[currentSelectValue]?.plantsQuantityForType}
+                rowData={currentSelectValue === "All" ? getTotalPlantsBySpecies() : dataPrueba[currentSelectValue]?.plantsQuantityForType}
                 defaultColDef={defaultColDef}
                 onGridReady={onGridReady}
               ></AgGridReact>
