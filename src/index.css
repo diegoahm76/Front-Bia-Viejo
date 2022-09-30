@@ -52,3 +52,13 @@ code {
   outline: none;
   padding: 15px;
 }
+
+/* FABS */
+.fab {
+  border-radius: 100%;
+  bottom: 25px;
+  font-size: 30px;
+  padding: 25px;
+  position: fixed;
+  right: 25px;
+}
