@@ -308,12 +308,12 @@ const CronogramaScreen = () => {
                 <small className="text-danger">Este campo es obligatorio</small>
               )}
             </div>
-            <div className="col-12 d-flex justify-content-end">
+            <div className="col-12 d-flex justify-content-end gap-3">
               {!opcionesSeleccionadas.tipoActividad &&
                 !opcionesSeleccionadas.seleccioneVivero && (
                   <button
                     type="button"
-                    className="btn bg-gradient-light text-capitalize"
+                    className=" mt-3 btn bg-gradient-light flex-center text-capitalize"
                     onClick={handleCloseModal}
                   >
                     <span>Cancelar</span>

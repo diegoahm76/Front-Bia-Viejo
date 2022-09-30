@@ -4,7 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-function ProduccionPropiaJohn() {
+function ProduccionPropiaScreen() {
   const actionButton = (params) => {
     console.log(params);
     alert(`${params.data.nombreComun} ${params.data.disponibleVivero}`);
@@ -352,4 +352,4 @@ function ProduccionPropiaJohn() {
   );
 }
 
-export default ProduccionPropiaJohn;
+export default ProduccionPropiaScreen;
