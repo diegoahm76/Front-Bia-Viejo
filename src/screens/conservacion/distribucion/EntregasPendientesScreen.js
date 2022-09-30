@@ -8,11 +8,6 @@ import {
 } from "../../../actions/modalActions";
 import Modal from "../../../components/Modal";
 
-const optionsMostrar = [
-  { label: "Villavicencio", value: "VLL" },
-  { label: "Yopal", value: "YP" },
-];
-
 const columDefs = [
   { headerName: "Numero de solicitud", field: "Numero de solicitud" },
   { headerName: "Nombre de profesional", field: "Nombre de profesional" },
