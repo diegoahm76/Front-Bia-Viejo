@@ -110,7 +110,7 @@ const columnDefsModal = [
 const EntregadosScreen = () => {
   const [viveroSelect, setViveroSelect] = useState(null);
   const [profesionalSelect, setProfesionalSelect] = useState(null);
-  const [rowData, setRowData] = useState(dataPrueba);
+  const [rowData, setRowData] = useState([]);
 
   const dispatch = useDispatch();
 

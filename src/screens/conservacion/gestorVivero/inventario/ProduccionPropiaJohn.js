@@ -272,6 +272,7 @@ function ProduccionPropiaJohn() {
   const onGridReady = (params) => {
     gridApi = params.api;
   };
+  
   const onExportClick = () => {
     gridApi.exportDataAsCsv();
   };
