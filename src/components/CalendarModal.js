@@ -15,9 +15,8 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const CalendarModal = ({children}) => {
-
-  const isModalActive = useSelector(state => state.modal.isModalActive)
+const CalendarModal = ({ children }) => {
+  const isModalActive = useSelector((state) => state.modal.isModalActive);
 
   return (
     <Modal
