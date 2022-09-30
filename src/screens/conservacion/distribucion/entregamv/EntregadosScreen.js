@@ -6,8 +6,8 @@ import Select from "react-select";
 import {
   activeModalAction,
   desactiveModalAction,
-} from "../../../actions/modalActions";
-import CalendarModal from "../../../components/CalendarModal";
+} from "../../../../actions/modalActions";
+import CalendarModal from "../../../../components/CalendarModal";
 
 const defaultColDef = {
   sortable: true,

@@ -14,6 +14,7 @@ import TramitesYServiciosRoutes from "./screens/tramitesYServicios/routes/Tramit
 import ProtectedRoutes from "./components/ProtectedRoutes";
 
 import { getDataFromLocalStorage } from "./actions/userActions";
+import TablerosDeControlRoutes from "./screens/tablerosDeControl/routes/TablerosDeControlRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,8 @@ function App() {
       <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
         <Route path="/dashboard" element={<HomeScreen />}>
           <Route index element={<LogoScreen />} />
+
+          <Route path="tablerosdecontrol/*" element={<TablerosDeControlRoutes />} />
 
           <Route path="almacen/*" element={<AlmacenRoutes />} />
 
