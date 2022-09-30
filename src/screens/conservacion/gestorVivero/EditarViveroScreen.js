@@ -7,7 +7,7 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
-import Modal from "../../../components/Modal";
+import CalendarModal from "../../../components/CalendarModal";
 
 const options = [
   { label: "Todos", value: "All" },
@@ -275,7 +275,7 @@ const EditarViveroScreen = () => {
             </button>
           </div>
           {/*Renderizado del modal*/}
-          <Modal title={"Tablero de control"}>
+          <CalendarModal>
             <h5 className="font-weight-bolder mt-2">
               Instalaciones del vivero
             </h5>
@@ -381,7 +381,7 @@ const EditarViveroScreen = () => {
                 Cerrar modal
               </button>
             </div>
-          </Modal>
+          </CalendarModal>
         </div>
       </div>
     </div>
