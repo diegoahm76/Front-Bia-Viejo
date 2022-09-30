@@ -18,9 +18,7 @@ import { getDataFromLocalStorage } from "./actions/userActions";
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getDataFromLocalStorage())
-  }, []);
+  dispatch(getDataFromLocalStorage())
   
   return (
     <Routes>

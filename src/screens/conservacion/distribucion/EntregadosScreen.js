@@ -110,15 +110,12 @@ const columnDefsModal = [
 const EntregadosScreen = () => {
   const [viveroSelect, setViveroSelect] = useState(null);
   const [profesionalSelect, setProfesionalSelect] = useState(null);
-
   const [rowData, setRowData] = useState(dataPrueba);
 
-  const refSelect = useRef();
   const dispatch = useDispatch();
+
   const getOptionsForSelects = (valueName) => {
-    const dataOptionsAll = dataPrueba.map(
-      (data) => data[valueName]
-    );
+    const dataOptionsAll = dataPrueba.map((data) => data[valueName]);
     const dataOptionsWithoutFormat = dataOptionsAll.filter(
       (item, index) => dataOptionsAll.indexOf(item) === index
     );
@@ -126,6 +123,7 @@ const EntregadosScreen = () => {
       label: data,
       value: data,
     }));
+    dataOptions.unshift({ label: "Todos", value: "Todos" });
     return dataOptions;
   };
 
@@ -135,7 +133,6 @@ const EntregadosScreen = () => {
 
   const actionButton = (params) => {
     dispatch(activeModalAction());
-    console.log(refSelect.current.props.value);
   };
 
   const columnDefs = [
@@ -163,23 +160,24 @@ const EntregadosScreen = () => {
     if (viveroSelect === null && profesionalSelect === null) {
       return false;
     }
+    console.log(viveroSelect, profesionalSelect)
 
     const dataFilteredByVivero = dataPrueba.filter(
       (data) =>
         data["Vivero relacionado"] === viveroSelect || viveroSelect === "Todos"
     );
 
+    console.log(dataFilteredByVivero, profesionalSelect);
+
     const dataFilteredByProfesional = dataFilteredByVivero.filter(
       (data) =>
         data["Nombre de profesional"] === profesionalSelect ||
         profesionalSelect === "Todos"
     );
-
     setRowData(dataFilteredByProfesional);
   };
 
   const handleClickBuscar = () => {
-    console.log("Estamos entrando");
     filterBySelects();
   };
 
@@ -200,7 +198,7 @@ const EntregadosScreen = () => {
               <Select
                 options={getOptionsForSelects("Vivero relacionado")}
                 placeholder="Seleccione"
-                onChange={(e) => setViveroSelect(e.value)}
+                onChange={(e) => setViveroSelect(e.label)}
               />
             </div>
             <div className="col-12 col-md-6">
@@ -208,12 +206,13 @@ const EntregadosScreen = () => {
               <Select
                 options={getOptionsForSelects("Nombre de profesional")}
                 placeholder="Seleccione"
+                onChange={(e) => setProfesionalSelect(e.label)}
               />
             </div>
           </div>
           <button
             onClick={handleClickBuscar}
-            className="btn bg-gradient-primary d-block ms-auto mt-3"
+            className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize"
           >
             Buscar
           </button>
@@ -233,6 +232,7 @@ const EntregadosScreen = () => {
             </div>
           </div>
           <CalendarModal>
+            <h3 className="font-weight-bolder mt-2">Entregados</h3>
             <label className="mt-5 fw-bold fs-6 d-block">
               Numero de entrega: <span className="fw-normal">0000960</span>
             </label>
@@ -247,7 +247,7 @@ const EntregadosScreen = () => {
                   <i className="fa-solid fa-file fs-3 d-block"></i>
                   <label className="d-block m-0">Contratos</label>
                 </div>
-                <button className="btn bg-gradient-primary ms-auto d-block mt-3">
+                <button className="btn bg-gradient-primary ms-auto d-block mt-3 text-capitalize">
                   Anexar Documentación
                 </button>
               </div>
@@ -280,7 +280,7 @@ const EntregadosScreen = () => {
               Estos campos no son editables por seguridad de la información
             </label>
             <button
-              className="btn bg-gradient-primary d-block ms-auto mt-3"
+              className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize"
               onClick={handleCloseModal}
             >
               Cerrar

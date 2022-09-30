@@ -268,7 +268,7 @@ const EditarViveroScreen = () => {
           </div>
           <div className="d-flex">
             <button
-              className="btn bg-gradient-primary mt-3 ms-auto"
+              className="btn bg-gradient-primary mt-3 ms-auto text-capitalize"
               onClick={handleOpenModal}
             >
               Detalle vivero
@@ -370,12 +370,12 @@ const EditarViveroScreen = () => {
                 </div>
               </div>
             </div>
-            <button className="btn bg-gradient-primary d-flex ms-auto mt-2">
+            <button className="btn bg-gradient-primary d-flex ms-auto mt-2 text-capitalize">
               Descargar todos los documentos
             </button>
             <div className="d-flex justify-content-end">
               <button
-                className="btn bg-gradient-danger mt-3"
+                className="btn bg-gradient-danger mt-3 text-capitalize"
                 onClick={handleCloseModal}
               >
                 Cerrar modal

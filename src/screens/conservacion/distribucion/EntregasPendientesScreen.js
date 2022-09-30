@@ -131,7 +131,6 @@ const EntregasPendientesScreen = () => {
       value: data,
     }));
     dataOptions.unshift({ label: "Todos", value: "Todos" });
-    console.log(dataOptions)
     return dataOptions;
   };
 
@@ -198,7 +197,7 @@ const EntregasPendientesScreen = () => {
           </div>
           <button
             onClick={handleClickBuscar}
-            className="btn bg-gradient-primary d-block ms-auto mt-3"
+            className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize"
           >
             Buscar
           </button>
@@ -218,7 +217,7 @@ const EntregasPendientesScreen = () => {
           </div>
           <button
             onClick={handleOpenModal}
-            className="btn bg-gradient-primary ms-auto d-block mt-3"
+            className="btn bg-gradient-primary ms-auto d-block mt-3 text-capitalize"
           >
             Gestionar
           </button>
@@ -238,7 +237,7 @@ const EntregasPendientesScreen = () => {
                   <i className="fa-solid fa-file fs-3 d-block"></i>
                   <label className="d-block m-0">Contratos</label>
                 </div>
-                <button className="btn bg-gradient-primary ms-auto d-block mt-3">
+                <button className="btn bg-gradient-primary ms-auto d-block mt-3 text-capitalize">
                   Anexar Documentación
                 </button>
               </div>
@@ -257,7 +256,7 @@ const EntregasPendientesScreen = () => {
                 ></AgGridReact>
               </div>
             </div>
-            <button className="btn bg-gradient-primary d-block ms-auto mt-3">
+            <button className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize">
               Editar
             </button>
             <div className="input-group input-group-dynamic flex-column">
@@ -268,13 +267,13 @@ const EntregasPendientesScreen = () => {
             </div>
             <div className="d-flex justify-content-end gap-2">
               <button
-                className="btn bg-gradient-danger d-block mt-3"
+                className="btn bg-gradient-danger d-block mt-3 text-capitalize"
                 onClick={handleCloseModal}
               >
                 Rechazar entrega material
               </button>
               <button
-                className="btn bg-gradient-primary d-block mt-3"
+                className="btn bg-gradient-primary d-block mt-3 text-capitalize"
                 onClick={handleCloseModal}
               >
                 Entregar material
