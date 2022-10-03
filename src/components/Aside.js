@@ -38,12 +38,6 @@ const Aside = () => {
       id="sidenav-main"
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
-        {/* <div class="mobile-toggler d-xl-none">
-          <button data-bs-toggle="modal" data-bs-target="#navbModal">
-            <i class="fa-solid fa-bars"></i>
-          </button>
-        </div> */}
-
         <div className="sidenav-header">
           <i
             className="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -137,7 +131,6 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                {/* <i class="fa-solid fa-warehouse"></i> */}
                 <img src={IconoAlmacen} alt="almacen" />
                 <span className="nav-link-text ms-2 ps-1">Almacén</span>
               </a>
@@ -215,7 +208,6 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                {/* <i class="fa-solid fa-money-check"></i> */}
                 <img src={IconoRecaudo} alt="Recaudo" />
                 <span className="nav-link-text ms-2 ps-1">Recaudó</span>
               </a>
@@ -317,7 +309,6 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                {/* <i class="fa-solid fa-magnifying-glass-chart"></i> */}
                 <img src={IconoSeguimientoPlanes} alt="Seguimiento planes" />
                 <span className="nav-link-text ms-2 ps-1">
                   Seguimiento planes
@@ -380,8 +371,7 @@ const Aside = () => {
                     >
                       <span className="sidenav-mini-icon"> C </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Consulta de Historicos{" "}
+                        Consulta de Historicos
                       </span>
                     </a>
                   </li>
@@ -397,7 +387,6 @@ const Aside = () => {
                 role="button"
                 aria-expanded="false"
               >
-                {/* <i className="fas fa-sharp fa-solid fa-seedling"></i> */}
                 <img src={IconoConservacion} alt="Conservacion" />
                 <span className="nav-link-text ms-2 ps-1">Conservación</span>
               </a>
@@ -410,17 +399,9 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Gestor-vivero"
                     >
-                      {/* <i
-                        className="fas fa-solid fa-leaf"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoGestorVivero} alt="Gestor vivero" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Gestor Vivero <b className="caret"></b>
+                        Gestor Vivero
                       </span>
                     </a>
                     <div className="collapse " id="Gestor-vivero">
@@ -430,15 +411,13 @@ const Aside = () => {
                             className="nav-link text-white "
                             to="conservacion/gestorvivero/agregarvivero"
                           >
-                            {/* <span className="sidenav-mini-icon"> A </span> */}
                             <img
                               src={IconoAgregarVivero}
                               className="sidenav-mini-icon"
                               alt="Agregar vivero"
                             />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Agregar Vivero{" "}
+                              Agregar Vivero
                             </span>
                           </Link>
                         </li>
@@ -447,26 +426,12 @@ const Aside = () => {
                             className="nav-link text-white "
                             to="conservacion/gestorvivero/editarvivero"
                           >
-                            {/* <span className="sidenav-mini-icon"> E </span> */}
                             <img src={IconoEditarVivero} alt="Editar vivero" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Editar Vivero{" "}
+                              Editar Vivero
                             </span>
                           </Link>
                         </li>
-                        {/* <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/profile/messages.html"
-                          >
-                            <span className="sidenav-mini-icon"> I </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Inventario{" "}
-                            </span>
-                          </a>
-                        </li> */}
                         <li className="nav-item ">
                           <a
                             className="nav-link text-white "
@@ -476,8 +441,7 @@ const Aside = () => {
                           >
                             <span className="sidenav-mini-icon"> I </span>
                             <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              Inventario{" "}
+                              Inventario
                             </span>
                           </a>
                           <div className="collapse " id="inventario">
@@ -515,11 +479,10 @@ const Aside = () => {
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/compensacion"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Compensacion{" "}
+                                    Compensacion
                                   </span>
                                 </Link>
                               </li>
@@ -537,44 +500,40 @@ const Aside = () => {
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/medidasderesarcimiento"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Medidas de resarcimiento{" "}
+                                    Medidas de resarcimiento
                                   </span>
                                 </Link>
                               </li>
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion/gestorvivero/inventario/donacion/insumos"
+                                  to="conservacion/gestorvivero/inventario/insumos"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Insumos{" "}
+                                    Insumos
                                   </span>
                                 </Link>
                               </li>
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/herramientas"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Herramientas{" "}
+                                    Herramientas
                                   </span>
                                 </Link>
                               </li>
                               <li className="nav-item">
                                 <Link
                                   className="nav-link text-white "
-                                  to="conservacion-gestorvivero-agregarvivero"
+                                  to="conservacion/gestorvivero/inventario/disponiblematerialvegetal"
                                 >
                                   <span className="sidenav-normal  ms-2  ps-1">
-                                    {" "}
-                                    Disponible Material Vegetal{" "}
+                                    Disponible Material Vegetal
                                   </span>
                                 </Link>
                               </li>
@@ -613,48 +572,48 @@ const Aside = () => {
                           </Link>
                         </li>
                         <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/users/new-user.html"
+                          <Link
+                            className="nav-link text-white"
+                            to="conservacion/gestormaterialvegetal/materialvegetalsembrado"
                           >
                             <span className="sidenav-mini-icon"> M </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Material vegetal sembrado
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/users/new-user.html"
+                            to="conservacion/gestormaterialvegetal/editarmaterialvegetal"
                           >
                             <span className="sidenav-mini-icon"> E </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Editar material vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/users/new-user.html"
+                            to="conservacion/gestormaterialvegetal/cuarentenadematerialvegetal"
                           >
                             <span className="sidenav-mini-icon"> C </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Cuarentena material vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/users/new-user.html"
+                            to="conservacion/gestormaterialvegetal/activarmaterialvegetal"
                           >
                             <span className="sidenav-mini-icon"> A </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Activar material vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -666,42 +625,34 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#Produccion"
                     >
-                      {/* <i
-                        className="fa fa-solid fa-gears"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoProduccion} alt="Produccion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Produccion <b className="caret"></b>
+                        Produccion
                       </span>
                     </a>
                     <div className="collapse " id="Produccion">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/account/settings.html"
+                          <Link
+                            className="nav-link text-white"
+                            to="conservacion/produccion/controlyseguimientodematerialvegetal"
                           >
                             <span className="sidenav-mini-icon"> C </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Control y seguimiento de <br /> material vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/account/billing.html"
+                            to="conservacion/produccion/etapasdematerialvegetal"
                           >
                             <span className="sidenav-mini-icon"> E </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Etapas de material vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -713,13 +664,6 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#projectsExample"
                     >
-                      {/* <i
-                        className="fa-solid fa-arrow-up-right-from-square"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoSolicitudes} alt="Solicitudes" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         solicitudes de <br />
@@ -729,38 +673,37 @@ const Aside = () => {
                     <div className="collapse " id="projectsExample">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/projects/general.html"
+                            to="conservacion/solicitudes/solicitudesrealizadasavivero"
                           >
                             <span className="sidenav-mini-icon"> G </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Solicitudes realizadas <br />a vivero
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/projects/timeline.html"
-                          >
+                            to="conservacion/solicitudes/historialdesolicitudes"                          >
                             <span className="sidenav-mini-icon"> T </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Historial de solicitudes
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/projects/new-project.html"
+                            to="conservacion/solicitudes/consultainformesdecaracterizacion"
                           >
                             <span className="sidenav-mini-icon"> N </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Consulta de informes <br />
                               de caracterizacion
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>
@@ -780,16 +723,16 @@ const Aside = () => {
                     <div className="collapse " id="Distrubucion">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-default.html"
+                            to="conservacion/distribucion/solicitudesdematerial"
                           >
                             <span className="sidenav-mini-icon"> V </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Solicitud de material <br />
                               vegetal
                             </span>
-                          </a>
+                          </Link>
                         </li>
                         <li className="nav-item">
                           <Link
@@ -803,15 +746,15 @@ const Aside = () => {
                           </Link>
                         </li>
                         <li className="nav-item">
-                          <a
+                          <Link
                             className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-info.html"
+                            to="conservacion/distribucion/historialdemovimientos"
                           >
                             <span className="sidenav-mini-icon"> V </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Historial de movimientos
                             </span>
-                          </a>
+                          </Link>
                         </li>
 
                         <li className="nav-item ">

@@ -398,7 +398,7 @@ const CronogramaScreen = () => {
                     >
                       <AgGridReact
                         columnDefs={columnDefs}
-                        rowData={rowData}
+                        //rowData={rowData}
                         debounceVerticalScrollbar={true}
                         rowSelection={"single"}
                         defaultColDef={defaultColDef}
@@ -407,13 +407,6 @@ const CronogramaScreen = () => {
                   </div>
                   <div
                     className="col-2 d-flex flex-column justify-content-center aling-items-center"
-                    // style={{
-                    //   display: "flex",
-                    //   flexDirection: "column",
-                    //   flexWrap: "nowrap",
-                    //   justifyContent: "center",
-                    //   alignItems: "center",
-                    // }}
                   >
                     <div className="input-group input-group-dynamic flex-column">
                       <label htmlFor="exampleFormControlInput1">Cantidad</label>
@@ -422,7 +415,6 @@ const CronogramaScreen = () => {
                         type="text"
                         placeholder="Nombre"
                         name="nombre"
-                        // {...register("nombre", { required: true })}
                       />
                     </div>
                     <div className="d-flex flex-column justify-content-center aling-items-center">
@@ -448,7 +440,7 @@ const CronogramaScreen = () => {
                     >
                       <AgGridReact
                         columnDefs={columnDefs2}
-                        rowData={rowData2}
+                        //rowData={rowData2}
                         // debounceVerticalScrollbar={true}
                         defaultColDef={defaultColDef}
                       ></AgGridReact>
