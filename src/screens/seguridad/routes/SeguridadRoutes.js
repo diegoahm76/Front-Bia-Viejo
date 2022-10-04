@@ -1,6 +1,8 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import ActualizarDatosScreen from "../ActualizarDatosScreen";
+import ActualizarDatosEmpresaScreen from "../ActualizarDatosEmpresaScreen";
+import ActualizarDatosPersonaScreen from "../ActualizarDatosPersonaScreen";
 import AuditoriaScreen from "../AuditoriaScreen";
+import RolesScreen from "../RolesScreen";
 
 const SeguridadRoutes = () => {
   return (
@@ -8,7 +10,11 @@ const SeguridadRoutes = () => {
 
       <Route path="auditoria" element={<AuditoriaScreen />} />
 
-      <Route path="actualizardatos" element={<ActualizarDatosScreen />} />
+      <Route path="actualizardatosempresa" element={<ActualizarDatosEmpresaScreen />} />
+
+      <Route path="actualizardatospersona" element={<ActualizarDatosPersonaScreen />} />
+
+      <Route path="roles" element={<RolesScreen />} />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
 
