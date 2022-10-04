@@ -28,6 +28,7 @@ import HistorialDeSolicitudesScreen from "../solicitudes/HistorialDeSolicitudesS
 import ConsultaDeInformesDeCaracterizacionScreen from "../solicitudes/ConsultaDeInformesDeCaracterizacionScreen";
 import SolicitudesDeMaterialSreen from "../distribucion/SolicitudesDeMaterialSreen";
 import HistorialDeMovimientosScreen from "../distribucion/HistorialDeMovimientosScreen";
+import ReportesScreen from "../reportes/ReportesScreen";
 
 
 
@@ -162,9 +163,7 @@ const ConservacionRoutes = () => {
 
       <Route path="cronograma" element={<CronogramaScreen />} />
 
-      {/**
-       * Reportes
-       */}
+      <Route path="reportes" element={<ReportesScreen />} />
 
       <Route path="configuracion" element={<ConfiguracionScreen />} />
 
