@@ -22,6 +22,7 @@ import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-co
 import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
 import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
+import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
 
 const Aside = () => {
   const userInfo = useSelector((state) => state.user.user);
@@ -686,7 +687,8 @@ const Aside = () => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                            to="conservacion/solicitudes/historialdesolicitudes"                          >
+                            to="conservacion/solicitudes/historialdesolicitudes"
+                          >
                             <span className="sidenav-mini-icon"> T </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Historial de solicitudes
@@ -1086,7 +1088,6 @@ const Aside = () => {
                 aria-expanded="false"
               >
                 <img src={IconoRecursoHidrico} alt="Recurso hidrico" />
-                {/* <i class="fa-solid fa-hand-holding-droplet"></i> */}
                 <span className="nav-link-text ms-2 ps-1">Recurso hídrico</span>
               </a>
               <div className="collapse " id="componentsExamples">
@@ -1104,6 +1105,62 @@ const Aside = () => {
                         Alerts{" "}
                       </span>
                     </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      href="https://www.creative-tim.com/learning-lab/bootstrap/badge/material-dashboard"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="sidenav-mini-icon"> B </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        {" "}
+                        Badge{" "}
+                      </span>
+                    </a>
+                  </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/material-dashboard"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <span className="sidenav-mini-icon"> B </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        {" "}
+                        Buttons{" "}
+                      </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            <li className="nav-item">
+              <a
+                data-bs-toggle="collapse"
+                href="#seguridad"
+                className="nav-link text-white"
+                aria-controls="seguridad"
+                role="button"
+                aria-expanded="false"
+              >
+                <img src={IconoSeguridad} alt="Seguridad" />
+                <span className="nav-link-text ms-2 ps-1">Seguridad</span>
+              </a>
+              <div className="collapse " id="seguridad">
+                <ul className="nav ">
+                  <li className="nav-item ">
+                    <Link
+                      className="nav-link text-white "
+                      to="seguridad/administradordeusuarios"
+                    >
+                      <span className="sidenav-mini-icon"> A </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Administrador de <br /> usuarios
+                      </span>
+                    </Link>
                   </li>
                   <li className="nav-item ">
                     <a

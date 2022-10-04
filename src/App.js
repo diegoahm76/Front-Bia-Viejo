@@ -16,6 +16,8 @@ import { getDataFromLocalStorage } from "./actions/userActions";
 import TablerosDeControlRoutes from "./screens/tablerosDeControl/routes/TablerosDeControlRoutes";
 import RegisterScreen from "./screens/auth/register/RegisterScreen";
 import SeguridadRoutes from "./screens/seguridad/routes/SeguridadRoutes";
+import RecuperacionDeContrasenaScreen from "./screens/auth/recuperarContrasena/RecuperacionDeContrasenaScreen";
+import ActualizarContrasenaScreen from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -61,6 +63,10 @@ function App() {
         <Route path="/login" element={<LoginScreen />} />
 
         <Route path="/register" element={<RegisterScreen />} />
+
+        <Route path="/recuperarcontrasena" element={<RecuperacionDeContrasenaScreen />} />
+
+        <Route path="/actualizarcontrasena" element={<ActualizarContrasenaScreen />} />
       </Route>
     </Routes>
   );

@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import AdministradorDeUsuariosScreen from "../AdministradorDeUsuariosScreen";
 import ActualizarDatosEmpresaScreen from "../ActualizarDatosEmpresaScreen";
 import ActualizarDatosPersonaScreen from "../ActualizarDatosPersonaScreen";
 import AuditoriaScreen from "../AuditoriaScreen";
@@ -15,6 +16,8 @@ const SeguridadRoutes = () => {
       <Route path="actualizardatospersona" element={<ActualizarDatosPersonaScreen />} />
 
       <Route path="roles" element={<RolesScreen />} />
+
+      <Route path="administradordeusuarios" element={<AdministradorDeUsuariosScreen />} />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
 

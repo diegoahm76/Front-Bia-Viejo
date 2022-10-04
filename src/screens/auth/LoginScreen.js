@@ -4,7 +4,6 @@ import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/logos/eps/LogoHorizontal_mod.svg";
 import LogBackground from "../../assets/logos/Macareniaa.jpg";
 
-
 function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,23 +49,27 @@ function LoginScreen() {
                   />
                 </div>
                 <form className="text-start" onSubmit={submitHandler}>
-                  <div className="input-group input-group-outline my-3">
+                  <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       className="form-control"
                       placeholder="Emaill"
+                      //{...register("documento")}
                     />
+                    <label className="ms-2">Email</label>
                   </div>
-                  <div className="input-group input-group-outline mb-3">
+                  <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       className="form-control"
                       placeholder="Password"
+                      //{...register("documento")}
                     />
+                    <label className="ms-2">Password</label>
                   </div>
                   <div className="text-center">
                     <button
