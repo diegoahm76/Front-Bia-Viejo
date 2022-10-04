@@ -203,8 +203,6 @@ const RegisterScreen = () => {
                 {isUser && (
                   <>
                     <div className="col-12 col-md-6">
-                      {/* Estructura inputs Bootstrap */}
-
                       <div className="form-floating input-group input-group-dynamic">
                         <input
                           className="form-control"
@@ -274,7 +272,6 @@ const RegisterScreen = () => {
                   <label htmlFor="exampleFormControlInput1">
                     Fecha de nacimiento <span className="text-danger">*</span>
                   </label>
-                  {/* Uso DatePicker */}
                   <Controller
                     name="fechaNacimiento"
                     control={control}

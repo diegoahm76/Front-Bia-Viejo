@@ -16,7 +16,13 @@ const municipiosOptions = [
   { label: "San Jose de Cucuta", value: "San Jose de Cucuta" },
 ];
 
-const ActualizarDatosScreen = () => {
+const paisOptions = [
+  { label: "Colombia", value: "COL" },
+  { label: "Mexico", value: "MX" },
+  { label: "Venezuela", value: "VEN" },
+];
+
+const ActualizarDatosEmpresaScreen = () => {
   const {
     register,
     control,
@@ -33,7 +39,7 @@ const ActualizarDatosScreen = () => {
       <span className="mask opacity-6"></span>
       <div className="container my-auto p-2 p-2">
         <div className="row">
-          <div className="col-12 col-md-7 mx-auto">
+          <div className="col-12 col-md-8 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               <h3 className="mt-3 mb-0 text-center mb-6">
                 Actualizar datos de empresa
@@ -108,7 +114,7 @@ const ActualizarDatosScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={departamentosOptions}
+                        options={paisOptions}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -257,4 +263,4 @@ const ActualizarDatosScreen = () => {
     </>
   );
 };
-export default ActualizarDatosScreen;
+export default ActualizarDatosEmpresaScreen;
