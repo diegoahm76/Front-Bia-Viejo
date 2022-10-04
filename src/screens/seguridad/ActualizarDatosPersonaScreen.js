@@ -465,7 +465,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
-                  className="btn bg-gradient-primary text-capitalize"
+                  className={`btn bg-gradient-danger mb-0 text-capitalize ${(page === 1 && "d-none")}`}
                   type="button"
                   onClick={handlePreviousPage}
                 >

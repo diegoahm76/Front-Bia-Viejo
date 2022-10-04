@@ -129,7 +129,7 @@ const CronogramaScreen = () => {
   };
 
   const [lastView, setLastView] = useState(
-    localStorage.getItem("lastView" || "week")
+    localStorage.getItem("lastView") || "week"
   );
   const {
     handleSubmit,
