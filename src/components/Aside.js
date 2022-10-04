@@ -814,53 +814,15 @@ const Aside = () => {
                   </li>
 
                   <li className="nav-item ">
-                    <a
-                      className="nav-link text-white "
-                      data-bs-toggle="collapse"
-                      aria-expanded="false"
-                      href="#Reportes"
+                    <Link
+                      className="nav-link text-white"
+                      to="conservacion/reportes"
                     >
-                      {/* <i
-                        className="fa-regular fa-file"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img src={IconoReportes} alt="Reportes" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Reportes <b className="caret"></b>
+                        Reportes
                       </span>
-                    </a>
-                    <div className="collapse " id="Reportes">
-                      <ul className="nav nav-sm flex-column">
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-default.html"
-                          >
-                            <span className="sidenav-mini-icon"> V </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Default{" "}
-                            </span>
-                          </a>
-                        </li>
-                        <li className="nav-item">
-                          <a
-                            className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-info.html"
-                          >
-                            <span className="sidenav-mini-icon"> V </span>
-                            <span className="sidenav-normal  ms-2  ps-1">
-                              {" "}
-                              VR Info{" "}
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
+                    </Link>
                   </li>
 
                   <li className="nav-item ">
