@@ -55,7 +55,7 @@ const AdministradorDeEmpresasScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
+        <h3 className="mt-3 mb-0 text-center mb-4">
           Administrador de empresas
         </h3>
         <form
