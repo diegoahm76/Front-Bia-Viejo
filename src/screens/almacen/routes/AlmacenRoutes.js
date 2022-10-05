@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom/dist";
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
 import ReportesScreen from "../ReportesScreen";
+import { EntradaDeArticuloScreen } from "../EntradaDeArticuloScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -16,6 +17,9 @@ const AlmacenRoutes = () => {
       <Route path="reportes" element={<ReportesScreen />} />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
+
+      <Route path="entrada-articulos" element={<EntradaDeArticuloScreen/>}/>
+      
 
     </Routes>
   );
