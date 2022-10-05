@@ -34,7 +34,7 @@ const municipiosOptions = [
   { label: "San Jose de Cucuta", value: "San Jose de Cucuta" },
 ];
 
-const AdministradorDeUsuariosScreen = () => {
+const AdministradorDeEmpresasScreen = () => {
   const { register, handleSubmit, control } = useForm();
 
   const [formValues, setFormValues] = useState({
@@ -55,8 +55,8 @@ const AdministradorDeUsuariosScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Administrador de usuarios
+        <h3 className="mt-3 mb-0 text-center mb-4">
+          Administrador de empresas
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -109,7 +109,6 @@ const AdministradorDeUsuariosScreen = () => {
                 </button>
               </div>
             </div>
-
             <h5 className="font-weight-bolder mt-4">Datos personales</h5>
             <hr className="dark horizontal my-0" />
             <div className="mt-4 row">
@@ -154,11 +153,11 @@ const AdministradorDeUsuariosScreen = () => {
                       className="form-control"
                       type="text"
                       //required
-                      placeholder="Primer nombre"
-                      {...register("primerNombre")}
+                      placeholder="codigo de verificacion"
+                      {...register("codVerificacion")}
                     />
                     <label className="ms-2">
-                      Primer nombre: <span className="text-danger">*</span>
+                      Cod. verificacion: <span className="text-danger">*</span>
                     </label>
                   </div>
                 </div>
@@ -168,35 +167,24 @@ const AdministradorDeUsuariosScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Segundo nombre"
-                    {...register("segundoNombre")}
+                    placeholder="Nombre comercial"
+                    {...register("nombreComercial")}
                   />
-                  <label className="ms-2">Segundo nombre:</label>
+                  <label className="ms-2">Nombre comercial:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
-                    placeholder="Primer apellido"
+                    placeholder="Razon social"
                     type="text"
                     //required
-                    {...register("primerApellido")}
+                    {...register("razonSocial")}
                   />
                   <label className="ms-2">
-                    Primer apellido: <span className="text-danger">*</span>
+                    Razon social: <span className="text-danger">*</span>
                   </label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Segundo apellido"
-                    {...register("segundoApellido")}
-                  />
-                  <label className="ms-2">Segundo apellido:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -226,33 +214,30 @@ const AdministradorDeUsuariosScreen = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="sexo"
-                    {...register("sexo")}
-                  />
-                  <label className="ms-2">Sexo:</label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <label className="form-label">Estado civil:</label>
-                <Controller
-                  name="estadoCivil"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={estadoCivilOptions}
-                      placeholder="Seleccionar"
-                    />
-                  )}
+            </div>
+            <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
+            <hr className="dark horizontal my-0" />
+            <div className="mt-4 row">
+              <div className="form-floating input-group input-group-dynamic mt-2">
+                <input
+                  className="form-control"
+                  type="text"
+                  disabled
+                  value="Carrera 28 # 15-53"
+                  //{...register("direccionNotificacion")}
                 />
+                <label className="ms-2">
+                  Dirección de empresa: <span className="text-danger">*</span>
+                </label>
+                <button
+                  type="button"
+                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                >
+                  Generar
+                </button>
               </div>
               <div className="col-12 col-md-4">
-                <label className="form-label">País de nacimiento:</label>
+                <label className="form-label">País:</label>
                 <Controller
                   name="paisResidencia"
                   control={control}
@@ -265,161 +250,71 @@ const AdministradorDeUsuariosScreen = () => {
                   )}
                 />
               </div>
-              <div className="input-group input-group-dynamic flex-column col-12 col-md-4 mt-4">
-                <label htmlFor="exampleFormControlInput1">
-                  Fecha de nacimiento <span className="text-danger">*</span>
-                </label>
+              <div className="col-12 col-md-4">
+                <label className="form-label">Departamento:</label>
                 <Controller
-                  name="fechaNacimiento"
+                  name="departamento"
                   control={control}
                   render={({ field }) => (
-                    <DatePicker
+                    <Select
                       {...field}
-                      locale="es"
-                      //required
-                      selected={formValues.fechaNacimiento}
-                      onSelect={(e) =>
-                        setFormValues({ ...formValues, fechaNacimiento: e })
-                      }
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
+                      options={departamentosOptions}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-4">
+                <label className="form-label">
+                  Municipio: <span className="text-danger">*</span>
+                </label>
+                <Controller
+                  name="municipio"
+                  control={control}
+                  // rules={{
+                  //   required: true,
+                  // }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={municipiosOptions}
+                      placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
             </div>
-            <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
-            <hr className="dark horizontal my-0" />
-            <div className="mt-4 row">
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    required
-                    placeholder="Emaila Principal"
-                    {...register("emailPrincipal")}
-                  />
-                  <label className="ms-2">
-                    Email principal: <span className="text-danger">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Email laboral"
-                    {...register("emailLaboral")}
-                  />
-                  <label className="ms-2">Email laboral:</label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    placeholder="Direccion"
-                    type="text"
-                    //required
-                    {...register("direccionNotificacion")}
-                  />
-                  <label className="ms-2">
-                    Direccion notificacion:{" "}
-                    <span className="text-danger">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Ubicacion geografica"
-                    {...register("ubicacionGeografica")}
-                  />
-                  <label className="ms-2">Ubicacion geografica:</label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="email"
-                    //required
-                    placeholder="Telefono"
-                    {...register("telefonoFijo")}
-                  />
-                  <label className="ms-2">
-                    Telefono fijo: <span className="text-danger">*</span>
-                  </label>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Telefono"
-                    {...register("telefonoLaboral")}
-                  />
-                  <label className="ms-2">
-                    Telefono laboral: <span className="text-danger">*</span>
-                  </label>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="row" hidden={page === 1}>
-            <h5 className="font-weight-bolder">Lugar de residencia</h5>
+            <h5 className="font-weight-bolder">Datos de notificacion</h5>
             <div className="col-12 col-md-4">
-              <label className="form-label">País:</label>
-              <Controller
-                name="paisResidencia"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={paisesOptions}
-                    placeholder="Seleccionar"
-                  />
-                )}
-              />
+              <div className="form-floating input-group input-group-dynamic">
+                <input
+                  className="form-control"
+                  type="email"
+                  //required
+                  placeholder="E-mail"
+                  {...register("eMail")}
+                />
+                <label className="ms-2">
+                  E-mail de notificacion: <span className="text-danger">*</span>
+                </label>
+              </div>
             </div>
             <div className="col-12 col-md-4">
-              <label className="form-label">Departamento:</label>
-              <Controller
-                name="departamento"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={departamentosOptions}
-                    placeholder="Seleccionar"
-                  />
-                )}
-              />
-            </div>
-            <div className="col-12 col-md-4">
-              <label className="form-label">
-                Municipio: <span className="text-danger">*</span>
-              </label>
-              <Controller
-                name="municipio"
-                control={control}
-                // rules={{
-                //   required: true,
-                // }}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={municipiosOptions}
-                    placeholder="Seleccionar"
-                  />
-                )}
-              />
+              <div className="form-floating input-group input-group-dynamic">
+                <input
+                  className="form-control"
+                  type="email"
+                  //required
+                  placeholder="E-mail"
+                  {...register("eMail")}
+                />
+                <label className="ms-2">
+                  E-mail secundario: <span className="text-danger">*</span>
+                </label>
+              </div>
             </div>
             <div className="form-floating input-group input-group-dynamic mt-2">
               <input
@@ -430,7 +325,7 @@ const AdministradorDeUsuariosScreen = () => {
                 //{...register("direccionNotificacion")}
               />
               <label className="ms-2">
-                Dirección de notificación:{" "}
+                Dirección de notificacion:{" "}
                 <span className="text-danger">*</span>
               </label>
               <button
@@ -440,48 +335,84 @@ const AdministradorDeUsuariosScreen = () => {
                 Generar
               </button>
             </div>
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  className="form-control"
-                  type="tel"
-                  placeholder="Telefono"
-                  {...register("telefonoLaboral")}
+            <div className="row col-12 justify-content-center align-items-center">
+              <div className="col-12 col-md-4">
+                <label className="form-label">
+                  Municipio de notificacion:{" "}
+                  <span className="text-danger">*</span>
+                </label>
+                <Controller
+                  name="tipoDocumento2"
+                  control={control}
+                  // rules={{
+                  //   required: true,
+                  // }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={municipiosOptions}
+                      placeholder="Seleccionar"
+                    />
+                  )}
                 />
-                <label className="ms-2">Referencia adicional:</label>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic ms-2">
+                  <input
+                    className="form-control"
+                    type="text"
+                    //required
+                    placeholder="Ubicacion geografica"
+                    {...register("ubicacionGeografica")}
+                  />
+                  <label className="ms-2">
+                    Ubicacion geografica: <span className="text-danger">*</span>
+                  </label>
+                </div>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic ms-2">
+                  <input
+                    className="form-control"
+                    type="text"
+                    //required
+                    placeholder="Celular de notificacion"
+                    {...register("celularDeNotificacion")}
+                  />
+                  <label className="ms-2">
+                    Celular de notificacion:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                </div>
               </div>
             </div>
             <div className="col-12 col-md-4">
-              <label className="form-label">Municipio donde labora:</label>
-              <Controller
-                name="paisResidencia"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={paisesOptions}
-                    placeholder="Seleccionar"
-                  />
-                )}
-              />
+              <div className="form-floating input-group input-group-dynamic ms-2">
+                <input
+                  className="form-control"
+                  type="text"
+                  //required
+                  placeholder="Telefono alterno"
+                  {...register("telefonoAlterno")}
+                />
+                <label className="ms-2">
+                  Telefono alterno: <span className="text-danger">*</span>
+                </label>
+              </div>
             </div>
-            <div className="form-floating input-group input-group-dynamic mt-2">
-              <input
-                className="form-control"
-                type="text"
-                disabled
-                value="Carrera 28 # 15-53"
-                //{...register("direccionNotificacion")}
-              />
-              <label className="ms-2">
-                Dirección laboral: <span className="text-danger">*</span>
-              </label>
-              <button
-                type="button"
-                className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-              >
-                Generar
-              </button>
+            <div className="col-12 col-md-4">
+              <div className="form-floating input-group input-group-dynamic ms-2">
+                <input
+                  className="form-control"
+                  type="text"
+                  //required
+                  placeholder="Telefono empresa"
+                  {...register("telefonoEmpresa")}
+                />
+                <label className="ms-2">
+                  Telefono empresa: <span className="text-danger">*</span>
+                </label>
+              </div>
             </div>
             <h5 className="font-weight-bolder mt-4">Datos de usuario</h5>
             <hr className="dark horizontal my-0" />
@@ -527,8 +458,8 @@ const AdministradorDeUsuariosScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Ubicacion geografica"
-                    {...register("ubicacionGeografica")}
+                    placeholder="Motivo de la accion"
+                    {...register("motivoDeLaAccion")}
                   />
                   <label className="ms-2">Motivo de la accion:</label>
                 </div>
@@ -540,17 +471,6 @@ const AdministradorDeUsuariosScreen = () => {
             <p className="font-weight-bolder mt-4">Tipo de usuario</p>
             <div className="row flex-column">
               <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexRadioDefault1">
-                  Interno
-                </label>
-                <input
-                  class="form-check-input"
-                  type="radio"
-                  name="flexRadioDefault"
-                  id="flexRadioDefault1"
-                />
-              </div>
-              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                 <label class="form-check-label" for="flexRadioDefault2">
                   Externo
                 </label>
@@ -561,22 +481,6 @@ const AdministradorDeUsuariosScreen = () => {
                   id="flexRadioDefault2"
                 />
               </div>
-            </div>
-            <div className="row aling-items-center">
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Ubicacion geografica"
-                    {...register("ubicacionGeografica")}
-                  />
-                  <label className="ms-2">Motivo de la accion:</label>
-                </div>
-              </div>
-              <button className="btn bg-gradient-primary text-capitalize col-12 col-md-2 mb-0 mt-3 ms-3">
-                Actualizar
-              </button>
             </div>
             <h5 className="font-weight-bolder mt-4">
               Modulos / Grupos / Roles
@@ -675,4 +579,4 @@ const AdministradorDeUsuariosScreen = () => {
     </div>
   );
 };
-export default AdministradorDeUsuariosScreen;
+export default AdministradorDeEmpresasScreen;

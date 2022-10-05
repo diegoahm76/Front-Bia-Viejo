@@ -4,6 +4,7 @@ import ActualizarDatosEmpresaScreen from "../ActualizarDatosEmpresaScreen";
 import ActualizarDatosPersonaScreen from "../ActualizarDatosPersonaScreen";
 import AuditoriaScreen from "../AuditoriaScreen";
 import RolesScreen from "../RolesScreen";
+import AdministradorDeEmpresasScreen from "../AdministradorDeEmpresasScreen";
 
 const SeguridadRoutes = () => {
   return (
@@ -18,6 +19,8 @@ const SeguridadRoutes = () => {
       <Route path="roles" element={<RolesScreen />} />
 
       <Route path="administradordeusuarios" element={<AdministradorDeUsuariosScreen />} />
+
+      <Route path="administradordeempresas" element={<AdministradorDeEmpresasScreen />} />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
 
