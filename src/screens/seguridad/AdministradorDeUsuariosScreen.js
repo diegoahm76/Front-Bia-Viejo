@@ -54,7 +54,7 @@ const AdministradorDeUsuariosScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Administrador de usuarios
         </h3>
