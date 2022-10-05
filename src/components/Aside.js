@@ -24,7 +24,7 @@ import IconoReportes from "../assets/iconosConservacion/chart-presentation-repor
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
 import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
 
-const Aside = () => {
+const Aside = ({showAside}) => {
   const userInfo = useSelector((state) => state.user.user);
 
   const dispatch = useDispatch();
@@ -35,16 +35,11 @@ const Aside = () => {
 
   return (
     <aside
-      className="collapse sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"} border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark`}
       id="sidenav-main"
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
         <div className="sidenav-header">
-          <i
-            className="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
-            aria-hidden="true"
-            id="iconSidenav"
-          ></i>
           <Link className="navbar-brand m-0" to="/dashboard">
             <img
               src={LogoCormacarena}
@@ -58,7 +53,7 @@ const Aside = () => {
         </div>
         <hr className="horizontal light mt-0 mb-2" />
         <div
-          className="collapse navbar-collapse  w-auto h-auto"
+          className="collapse navbar-collapse w-auto h-auto"
           id="sidenav-collapse-main"
         >
           <ul className="navbar-nav">
