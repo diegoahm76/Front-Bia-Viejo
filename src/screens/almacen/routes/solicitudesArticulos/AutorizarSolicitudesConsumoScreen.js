@@ -14,7 +14,7 @@ import CalendarModal from "../../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
 import { Calendar } from "react-big-calendar";
 
-const AutorizarSolicitudActivoPrestamoScreen = () => {
+const AutorizarSolicitudesConsumoScreen = () => {
   const [formValues, setFormValues] = useState({
     fechaInicio: "",
   });
@@ -139,7 +139,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
     <div className="row min-vh-100 ">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar una solicitud de activo en prestamo
+          Autorizar solicitudes de consumo
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -159,6 +159,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero consecutivo"
+                    disabled
                     {...register("numeroConsecutivo")}
                   />
                   <label className="ms-2">Numero consecutivo</label>
@@ -204,6 +205,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                       name="tipoDocumento"
                       control={control}
                       defaultValue={optionsTipoDocumento[0]}
+                      disabled
                       rules={{
                         required: true,
                       }}
@@ -224,6 +226,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
+                    disabled
                     {...register("numeroCedula")}
                   />
                   <label className="ms-2">Número de cedula</label>
@@ -235,18 +238,11 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="nombre completo"
+                    disabled
                     {...register("nombreCompleto")}
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
-              </div>
-              <div className="col-12 col-sm-6 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button
-                  type="submit"
-                  className="mt-4 btn btn-primary flex-center text-capitalize"
-                >
-                  Buscar
-                </button>
               </div>
             </div>
           </form>
@@ -299,14 +295,6 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
             </div>
           </form>
           <form>
-            <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="submit"
-                className="mt-4 btn btn-primary flex-center text-capitalize"
-              >
-                Agregar Producto
-              </button>
-            </div>
             <div
               className="ag-theme-alpine mt-2 mb-4"
               style={{ height: "300px" }}
@@ -324,6 +312,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                 className="multisteps-form__input form-control p-2 mw-100 w-auto"
                 type="text"
                 placeholder="Observaciones"
+                disabled
                 rows="3"
                 name="Observaciones"
               />
@@ -350,7 +339,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
             <div className="row min-vh-100 ">
               <div className="col-lg-10 col-md-10 col-12 mx-auto">
                 <h3 className="mt-3 mb-0 text-center mb-6">
-                  Rechazar solicitud de activo en prestamo
+                  Rechazar solicitud de consumo
                 </h3>
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -408,4 +397,4 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
   );
 };
 
-export default AutorizarSolicitudActivoPrestamoScreen;
+export default AutorizarSolicitudesConsumoScreen;
