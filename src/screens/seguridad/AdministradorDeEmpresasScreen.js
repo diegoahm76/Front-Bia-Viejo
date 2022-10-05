@@ -54,7 +54,7 @@ const AdministradorDeEmpresasScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-4">
           Administrador de empresas
         </h3>
@@ -66,8 +66,8 @@ const AdministradorDeEmpresasScreen = () => {
         >
           <div className="row" hidden={page === 2}>
             <h5 className="font-weight-bolder">Buscar usuario</h5>
-            <div className="mt-4 row">
-              <div className="col-12 col-md-6">
+            <div className="mt-4 row align-items-center">
+              <div className="col-12 col-md-4">
                 <label className="form-label">
                   Tipo de documento: <span className="text-danger">*</span>
                 </label>
@@ -86,9 +86,7 @@ const AdministradorDeEmpresasScreen = () => {
                   )}
                 />
               </div>
-            </div>
-            <div className="row col-12 justify-content-center align-items-center">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -102,7 +100,7 @@ const AdministradorDeEmpresasScreen = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <button className="btn bg-gradient-primary mb-0 text-capitalize">
                   Buscar
                 </button>
@@ -115,7 +113,7 @@ const AdministradorDeEmpresasScreen = () => {
             <hr className="dark horizontal my-0" />
             <div className="mt-4 row">
               <div className="row col-12 justify-content-center align-items-center">
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-4">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
@@ -134,7 +132,7 @@ const AdministradorDeEmpresasScreen = () => {
                     )}
                   />
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic ms-2">
                     <input
                       className="form-control"
@@ -149,22 +147,22 @@ const AdministradorDeEmpresasScreen = () => {
                     </label>
                   </div>
                 </div>
-              </div>
-              <div className="col-12 col-md-6">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    //required
-                    placeholder="codigo de verificacion"
-                    {...register("codVerificacion")}
-                  />
-                  <label className="ms-2">
-                    Cod. verificacion: <span className="text-danger">*</span>
-                  </label>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      //required
+                      placeholder="codigo de verificacion"
+                      {...register("codVerificacion")}
+                    />
+                    <label className="ms-2">
+                      Cod. verificacion: <span className="text-danger">*</span>
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -175,7 +173,7 @@ const AdministradorDeEmpresasScreen = () => {
                   <label className="ms-2">Nombre comercial:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -189,7 +187,7 @@ const AdministradorDeEmpresasScreen = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -203,7 +201,7 @@ const AdministradorDeEmpresasScreen = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -238,7 +236,7 @@ const AdministradorDeEmpresasScreen = () => {
                   Generar
                 </button>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">País:</label>
                 <Controller
                   name="paisResidencia"
@@ -252,7 +250,7 @@ const AdministradorDeEmpresasScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">Departamento:</label>
                 <Controller
                   name="departamento"
@@ -266,7 +264,7 @@ const AdministradorDeEmpresasScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">
                   Municipio: <span className="text-danger">*</span>
                 </label>
@@ -290,7 +288,7 @@ const AdministradorDeEmpresasScreen = () => {
 
           <div className="row" hidden={page === 1}>
             <h5 className="font-weight-bolder">Datos de notificacion</h5>
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
                   className="form-control"
@@ -304,7 +302,7 @@ const AdministradorDeEmpresasScreen = () => {
                 </label>
               </div>
             </div>
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
                   className="form-control"
@@ -338,7 +336,7 @@ const AdministradorDeEmpresasScreen = () => {
               </button>
             </div>
             <div className="row col-12 justify-content-center align-items-center">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">
                   Municipio de notificacion:{" "}
                   <span className="text-danger">*</span>
@@ -358,7 +356,7 @@ const AdministradorDeEmpresasScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic ms-2">
                   <input
                     className="form-control"
@@ -372,23 +370,23 @@ const AdministradorDeEmpresasScreen = () => {
                   </label>
                 </div>
               </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="form-floating input-group input-group-dynamic ms-2">
-                <input
-                  className="form-control"
-                  type="text"
-                  //required
-                  placeholder="Celular de notificacion"
-                  {...register("celularDeNotificacion")}
-                />
-                <label className="ms-2">
-                  Celular de notificacion:{" "}
-                  <span className="text-danger">*</span>
-                </label>
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic ms-2">
+                  <input
+                    className="form-control"
+                    type="text"
+                    //required
+                    placeholder="Celular de notificacion"
+                    {...register("celularDeNotificacion")}
+                  />
+                  <label className="ms-2">
+                    Celular de notificacion:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                </div>
               </div>
             </div>
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic ms-2">
                 <input
                   className="form-control"
@@ -402,7 +400,7 @@ const AdministradorDeEmpresasScreen = () => {
                 </label>
               </div>
             </div>
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic ms-2">
                 <input
                   className="form-control"
@@ -418,7 +416,7 @@ const AdministradorDeEmpresasScreen = () => {
             </div>
             <h5 className="font-weight-bolder mt-4">Datos de usuario</h5>
             <hr className="dark horizontal my-0" />
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
                   className="form-control"
@@ -431,7 +429,7 @@ const AdministradorDeEmpresasScreen = () => {
               </div>
             </div>
             <div className="row flex-column mt-3">
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                 <label class="form-check-label" for="flexCheckDefault">
                   Bloqueado
                 </label>
@@ -442,7 +440,7 @@ const AdministradorDeEmpresasScreen = () => {
                   id="flexCheckDefault"
                 />
               </div>
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                 <label class="form-check-label" for="flexCheckDefault">
                   Activo
                 </label>
@@ -455,7 +453,7 @@ const AdministradorDeEmpresasScreen = () => {
               </div>
             </div>
             <div className="row aling-items-center">
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -472,7 +470,7 @@ const AdministradorDeEmpresasScreen = () => {
             </div>
             <p className="font-weight-bolder mt-4">Tipo de usuario</p>
             <div className="row flex-column">
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                 <label class="form-check-label" for="flexRadioDefault2">
                   Externo
                 </label>
@@ -488,7 +486,7 @@ const AdministradorDeEmpresasScreen = () => {
               Modulos / Grupos / Roles
             </h5>
             <hr className="dark horizontal my-0" />
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <label className="form-label">Roles:</label>
               <Controller
                 name="paisResidencia"
@@ -504,7 +502,7 @@ const AdministradorDeEmpresasScreen = () => {
                 )}
               />
             </div>
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-4">
               <label className="form-label">Tipo de tercero:</label>
               <Controller
                 name="paisResidencia"
