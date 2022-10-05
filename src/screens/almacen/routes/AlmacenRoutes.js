@@ -5,6 +5,13 @@ import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
 import ReportesScreen from "../ReportesScreen";
 
+
+import ReporteHistoricoDeActivoScreen from "../reportes/ReporteHistoricoDeActivoScreen";
+import ConsultaPazYSalvoScreen from "../reportes/ConsultaPazYSalvoScreen";
+import PracticaScreen from "../reportes/PracticaScreen";
+
+
+
 const AlmacenRoutes = () => {
   return (
     <Routes>
@@ -13,11 +20,25 @@ const AlmacenRoutes = () => {
 
       <Route path="creacion-articulo" element={<CreacionArticulo />} />
 
-      <Route path="reportes" element={<ReportesScreen />} />
-
       <Route path="/*" element={<Navigate to="/dashboard" />} />
 
+      <Route path="reportes">
+
+        <Route path="reportehistoricoactivo" element= {<ReporteHistoricoDeActivoScreen/>}/>
+
+        <Route path="consultapazysalvo" element= {<ConsultaPazYSalvoScreen/>}/>
+
+        <Route path="practica" element= {<PracticaScreen/>}/>
+
+      </Route>
+
     </Routes>
+
+      
+
+
+
+    
   );
 };
 
