@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom/dist";
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
 import ReportesScreen from "../ReportesScreen";
+import AutorizarSolicitudActivoPrestamoScreen from "./solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -14,6 +15,10 @@ const AlmacenRoutes = () => {
       <Route path="creacion-articulo" element={<CreacionArticulo />} />
 
       <Route path="reportes" element={<ReportesScreen />} />
+
+      <Route path="solicitudesarticulos">
+        <Route path="autorizarsolicitudactivoprestamo" element={<AutorizarSolicitudActivoPrestamoScreen/>}/>
+      </Route>
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
 
