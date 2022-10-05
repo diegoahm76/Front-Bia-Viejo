@@ -844,13 +844,6 @@ const Aside = () => {
                       aria-expanded="false"
                       href="#CentroNotificaciones"
                     >
-                      {/* <i
-                        className="fa-solid fa-bell"
-                        style={{
-                          fontSize: "0.8rem",
-                          color: "var(--bs-primary)",
-                        }}
-                      ></i> */}
                       <img
                         src={IconoCentroNotificacion}
                         alt="Centro de notificaciones"
@@ -1125,18 +1118,15 @@ const Aside = () => {
                     </Link>
                   </li>
                   <li className="nav-item ">
-                    <a
+                    <Link
                       className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/badge/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
+                      to="seguridad/administradordeempresas"
                     >
-                      <span className="sidenav-mini-icon"> B </span>
+                      <span className="sidenav-mini-icon"> A </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Badge{" "}
+                        Administrador de <br /> empresas
                       </span>
-                    </a>
+                    </Link>
                   </li>
                   <li className="nav-item ">
                     <a
