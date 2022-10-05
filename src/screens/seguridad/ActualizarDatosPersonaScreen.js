@@ -301,8 +301,8 @@ const ActualizarDatosPersonaScreen = () => {
                   Dirección residencial: <span className="text-danger">*</span>
                 </label>
                 <button
+                  className={`btn bg-gradient-danger mb-0 text-capitalize ${(page === 1 && "d-none")}`}
                   type="button"
-                  className="btn bg-gradient-primary text-capitalize"
                 >
                   Generar
                 </button>
