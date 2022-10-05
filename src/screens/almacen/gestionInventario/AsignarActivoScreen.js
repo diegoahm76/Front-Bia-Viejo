@@ -29,28 +29,26 @@ function AsignarActivoScreen() {
   
 
   return (
-    <div className="min-vh-100">
-      <div className="row">
-        <div className="col col-lg-10 col-md-10 col-12 mx-auto">
-          <h3 className="text-center my-4">Asignar un Activo</h3>
-        </div>
+    <div className="row min-vh-100">     
+        <div className="col-lg-12 col-md-12 col-12 mx-auto">
+          <h3 className="mt-3 mb-0 text-center mb-6">Asignar un Activo</h3>
+        
 
         {/*  CUERPO DEL FORMULARIO  */}
-        <div class="card col-lg-10 col-md-10 col-12 mx-auto">
+       
           <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            className="multisteps-form__form"
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
-              <div className="my-3">
+            <div className="multisteps-form__content">
+            <div className="row my-3">
+              <div className="col-12 col-sm-6">
                 <h5 className="font-weight-bolder border-radius-xl my-2">
                   Datos Generales
                 </h5>
+                </div>
               </div>
             {/*  PRIMERA FILA  */}
               <div className="row justify-content-between">
@@ -122,10 +120,9 @@ function AsignarActivoScreen() {
                 </div>
               </div>
               {/*  TERCERA FILA  */}
-            </div>
-          </form>
-        </div>
-      </div>
+              </div>
+            </form>  
+            </div>   
     </div>
   );
 }
