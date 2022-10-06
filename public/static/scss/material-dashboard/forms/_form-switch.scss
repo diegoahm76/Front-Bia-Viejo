@@ -22,12 +22,12 @@
 
     &:checked:after {
       transform: translateX($form-switch-translate-x-end);
-      border-color: $dark-gradient;
+      border-color: $primary-gradient;
     }
 
     &:checked {
-      border-color: $dark-gradient;
-      background-color: $dark-gradient;
+      border-color: $primary-gradient;
+      background-color: $primary-gradient;
       &:active{
         &:after{
           box-shadow: $form-switch-check-active-checked-after-shadow;
