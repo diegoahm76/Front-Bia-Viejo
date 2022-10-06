@@ -19018,11 +19018,11 @@ body.dark-version {
 }
 .form-switch .form-check-input:checked:after {
   transform: translateX(21px);
-  border-color: #42424a;
+  border-color: #3BA9E0;
 }
 .form-switch .form-check-input:checked {
-  border-color: #42424a;
-  background-color: #42424a;
+  border-color: #3BA9E0;
+  background-color: #3BA9E0;
 }
 .form-switch .form-check-input:checked:active:after {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 15px rgba(53, 71, 102, 0.1);
