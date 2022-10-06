@@ -59,7 +59,7 @@ const ActualizarDatosPersonaScreen = () => {
   };
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
+      <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Actualizar datos de persona
         </h3>
@@ -103,7 +103,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">Codigo de verificación:</label>
                 </div>
               </div>
-              <div className="col-8 col-md-6">
+              <div className="col-8 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -120,7 +120,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <label class="form-check-label">Si/No</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -136,7 +136,7 @@ const ActualizarDatosPersonaScreen = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -147,7 +147,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">Segundo nombre:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -163,7 +163,7 @@ const ActualizarDatosPersonaScreen = () => {
                   </label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -174,33 +174,35 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">Segundo apellido:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
-                <label className="form-label">Sexo:</label>
-                <Controller
-                  name="sexo"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={sexoOptions}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-6">
-                <label className="form-label">Estado civil:</label>
-                <Controller
-                  name="estadoCivil"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={estadoCivilOptions}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <label className="form-label">Sexo:</label>
+                  <Controller
+                    name="sexo"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={sexoOptions}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+                <div className="col-12 col-md-4">
+                  <label className="form-label">Estado civil:</label>
+                  <Controller
+                    name="estadoCivil"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={estadoCivilOptions}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
               </div>
               <div className="input-group input-group-dynamic flex-column col-6 mt-4">
                 <label htmlFor="exampleFormControlInput1">
@@ -226,7 +228,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">País de nacimiento:</label>
                 <Controller
                   name="paisNacimiento"
@@ -242,7 +244,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               {/* LUGAR DE RESIDENCIA */}
               <h5 className="font-weight-bolder mt-4">Lugar de residencia</h5>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">País:</label>
                 <Controller
                   name="paisResidencia"
@@ -256,7 +258,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">Departamento:</label>
                 <Controller
                   name="departamento"
@@ -270,7 +272,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">
                   Municipio: <span className="text-danger">*</span>
                 </label>
@@ -300,10 +302,7 @@ const ActualizarDatosPersonaScreen = () => {
                 <label className="ms-2">
                   Dirección residencial: <span className="text-danger">*</span>
                 </label>
-                <button
-                  className={`btn bg-gradient-danger mb-0 text-capitalize ${(page === 1 && "d-none")}`}
-                  type="button"
-                >
+                <button className="btn bg-gradient-primary" type="button">
                   Generar
                 </button>
               </div>
@@ -327,7 +326,7 @@ const ActualizarDatosPersonaScreen = () => {
             <div className={"row"} hidden={page === 1}>
               {/* DATOS DE CONTACTO */}
               <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">Municipio donde labora:</label>
                 <Controller
                   name="municipioDondeLabora"
@@ -361,7 +360,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               {/* DATOS DE NOTIFICACIÓN */}
               <h5 className="font-weight-bolder mt-4">Datos de notificación</h5>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -373,7 +372,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">E-mail:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -403,7 +402,7 @@ const ActualizarDatosPersonaScreen = () => {
                   Generar
                 </button>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <label className="form-label">
                   Municipio notificación: <span className="text-danger">*</span>
                 </label>
@@ -422,7 +421,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic mt-3">
                   <input
                     className="form-control"
@@ -433,8 +432,8 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">Dirección geográfica:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic mt-md-3">
                   <input
                     className="form-control"
                     type="tel"
@@ -444,7 +443,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">Celular notificación:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -455,7 +454,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <label className="ms-2">Teléfono fijo:</label>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"

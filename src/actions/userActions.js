@@ -1,4 +1,4 @@
-import axios from "axios";
+import clienteAxios from "../config/clienteAxios";
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
@@ -19,9 +19,9 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      "/api/users/login/",
-      { username: email, password: password },
+    const { data } = await clienteAxios.post(
+      "users/login/",
+      { email, password },
       config
     );
 

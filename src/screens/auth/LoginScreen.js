@@ -1,18 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/logos/eps/LogoHorizontal_mod.svg";
 import LogBackground from "../../assets/logos/Macareniaa.jpg";
+import ReCaptcha from "react-google-recaptcha";
+import { useForm } from "react-hook-form";
 
 function LoginScreen() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const captchaRef = useRef(null);
 
   const dispatch = useDispatch();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(userLoginAction(email, password));
+  const { register, handleSubmit } = useForm();
+
+  const submitHandler = (dataForm) => {
+    const token = captchaRef.current.getValue();
+    if (token) {
+      dispatch(userLoginAction(dataForm.email, dataForm.password));
+    } else {
+      console.log("Sigue intentando");
+    }
   };
 
   return (
@@ -48,28 +55,33 @@ function LoginScreen() {
                     style={{ maxWidth: "40%", maxHeight: "40%" }}
                   />
                 </div>
-                <form className="text-start" onSubmit={submitHandler}>
+                <form
+                  className="text-start"
+                  onSubmit={handleSubmit(submitHandler)}
+                >
                   <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       className="form-control"
                       placeholder="Emaill"
-                      //{...register("documento")}
+                      {...register("email")}
                     />
                     <label className="ms-2">Email</label>
                   </div>
                   <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       className="form-control"
                       placeholder="Password"
-                      //{...register("documento")}
+                      {...register("password")}
                     />
-                    <label className="ms-2">Password</label>
+                    <label className="ms-2">Contraseña</label>
+                  </div>
+                  <div className="mt-4 d-flex justify-content-center">
+                    <ReCaptcha
+                      sitekey={process.env.REACT_APP_SITE_KEY}
+                      ref={captchaRef}
+                    />
                   </div>
                   <div className="text-center">
                     <button
