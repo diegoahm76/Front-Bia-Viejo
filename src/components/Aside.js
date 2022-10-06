@@ -66,7 +66,7 @@ const Aside = ({showAside}) => {
                 role="button"
                 aria-expanded="false"
               >
-                <span className="nav-link-text ms-2 ps-1">{userInfo.name}</span>
+                <span className="nav-link-text ms-2 ps-1">{userInfo.nombre_de_usuario}</span>
               </a>
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
