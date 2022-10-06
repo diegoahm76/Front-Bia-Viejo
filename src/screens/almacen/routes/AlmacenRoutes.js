@@ -8,7 +8,13 @@ import ReportesScreen from "../ReportesScreen";
 
 import ReporteHistoricoDeActivoScreen from "../reportes/ReporteHistoricoDeActivoScreen";
 import ConsultaPazYSalvoScreen from "../reportes/ConsultaPazYSalvoScreen";
-import PracticaScreen from "../reportes/PracticaScreen";
+import ReporteDeInventarioScreen from "../reportes/ReporteDeInventarioScreen";
+import ReporteDeInventarioPorPersonaScreen from "../reportes/ReporteDeInventarioPorPersonaScreen";
+import ReporteDeEntradaScreen from "../reportes/ReporteDeEntradaScreen";
+import ReporteSolicitudDeAsignacionScreen from "../reportes/ReporteSolicitudDeAsignacionScreen";
+
+import PracticaScreen from "../reportes/PracticaScreen"; 
+
 
 
 
@@ -28,6 +34,14 @@ const AlmacenRoutes = () => {
 
         <Route path="consultapazysalvo" element= {<ConsultaPazYSalvoScreen/>}/>
 
+        <Route path="reportedeinventario" element= {<ReporteDeInventarioScreen/>}/>
+        
+        <Route path="reportedeinventarioporpersonaogrupo" element= {<ReporteDeInventarioPorPersonaScreen/>}/>
+
+        <Route path="reporteentradadealmacen" element= {<ReporteDeEntradaScreen/>}/>
+
+        <Route path="reportesolicituddeasiganacion" element= {<ReporteSolicitudDeAsignacionScreen/>}/>
+        
         <Route path="practica" element= {<PracticaScreen/>}/>
 
       </Route>

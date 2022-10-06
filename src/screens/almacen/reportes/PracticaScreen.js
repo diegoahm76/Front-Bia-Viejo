@@ -200,8 +200,8 @@ const PracticaScreen = () => {
                         )}
                       /></div>
                     </label>
-                    
                   </div>
+
                   <div className="col-12 col-sm-6">
                     <div className="form-floating input-group input-group-dynamic ">
                       <input
@@ -338,37 +338,3 @@ const PracticaScreen = () => {
     };
 
 export default PracticaScreen
-
-
-const columnDefs = [
-  {
-    headerName: "Fecha",
-    field: "Fecha",
-    minWidth: 150,
-    maxWidth: 200,
-  },
-  {
-    headerName: "Tipo de movimiento",
-    field: "Tipo de movimiento",
-    minWidth: 150,
-    maxWidth: 200,
-  },
-  {
-    headerName: "Consecutivo",
-    field: "Consecutivo",
-    minWidth: 150,
-    maxWidth: 200,
-  },
-  {
-    headerName: "Ubicacion",
-    field: "Ubicacion",
-    minWidth: 150,
-    maxWidth: 200,
-  },
-  {
-    headerName: "Responsable",
-    field: "Responsable",
-    minWidth: 150,
-    maxWidth: 200,
-  },
-];

@@ -101,7 +101,7 @@ const ReporteHistoricoDeActivoScreen = () => {
               <label className="form-control ms-0 fw-bolder text-center">
                 <n>Tipo de articulo</n>
               </label>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     name="codigoArticulo"
@@ -110,7 +110,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                     placeholder="Codigo de articulo"
                     {...register("codigoArticulo", { required: true })}
                   />
-                  <label className="ms-2">Codigo del articulo</label>
+                  <label className="ms-2">Codigo del articulo <small className="text-danger">*</small></label>
                 </div>
                 {errors.codigoArticulo && (
                   <small className="text-danger">
@@ -119,7 +119,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     name="nombreArticulo"
@@ -129,11 +129,11 @@ const ReporteHistoricoDeActivoScreen = () => {
                     value="Computador"
                     disabled
                   />
-                  <label className="ms-2">Nombre del articulo</label>
+                  <label className="ms-2">Nombre del articulo <small className="text-danger">*</small></label>
                 </div>
               </div>
 
-              <div className="mt-4 row">
+              <div className="col-12 col-sm-4">
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -154,7 +154,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                     title="Send"
                     form="configForm"
                   >
-                    Continuar
+                    Buscar
                   </button>
                 </div>
               </div>
