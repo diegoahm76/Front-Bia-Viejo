@@ -165,7 +165,7 @@ const dataElmentosInspeccionar = [
   },
 ];
 
-const InspeccionDiariaDeVehiculo = () => {
+const InspeccionDiariaDeVehiculoScreen = () => {
   const { register, handleSubmit } = useForm();
   return (
     <div className="row min-vh-100">
@@ -267,11 +267,35 @@ const InspeccionDiariaDeVehiculo = () => {
                 ))}
               </div>
             ))}
-            
+
+            <div className="input-group input-group-dynamic flex-column mt-3">
+              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
+              <textarea
+                className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                type="text"
+                rows="4"
+                name="Observaciones"
+              />
+            </div>
+
+            <div className="d-flex justify-content-end gap-2 mt-3">
+              <button
+                className="btn bg-gradient-light text-capitalize"
+                type="button"
+              >
+                Limpiar
+              </button>
+              <button
+                className="btn bg-gradient-primary text-capitalize"
+                type="button"
+              >
+                Guardar
+              </button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   );
 };
-export default InspeccionDiariaDeVehiculo;
+export default InspeccionDiariaDeVehiculoScreen;

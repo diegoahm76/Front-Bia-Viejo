@@ -290,7 +290,7 @@ const RolesScreen = () => {
                       </h2>
                       <div
                         id={`R${data.subsistema}`}
-                        class="accordion-collapse collapse show"
+                        class="accordion-collapse collapse"
                       >
                         <div class="accordion-body">
                           <div class="accordion">
@@ -322,7 +322,7 @@ const RolesScreen = () => {
                                 </h2>
                                 <div
                                   id={`R${data.subsistema}${tipoSubsistema.tipo}`}
-                                  class="accordion-collapse collapse show"
+                                  class="accordion-collapse collapse"
                                 >
                                   <div class="accordion-body">
                                     <div class="form-check mt-4">
