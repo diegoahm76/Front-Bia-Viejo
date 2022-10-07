@@ -5,6 +5,7 @@ import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
 import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
+import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
 
 const AlmacenRoutes = () => {
@@ -24,6 +25,11 @@ const AlmacenRoutes = () => {
       <Route
         path="consultarsolicitudesdevehiculos"
         element={<ConsultarSolicitudesDeVehiculosScreen />}
+      />
+
+      <Route
+        path="solicitudesencoladeespera"
+        element={<SolicitudesEnColaDeEsperaScreen />}
       />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />

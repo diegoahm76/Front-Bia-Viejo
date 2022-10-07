@@ -273,7 +273,7 @@ const InspeccionDiariaDeVehiculoScreen = () => {
               <textarea
                 className="multisteps-form__input form-control p-2 mw-100 w-auto"
                 type="text"
-                rows="3"
+                rows="4"
                 name="Observaciones"
               />
             </div>
