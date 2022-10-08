@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import Select from "react-select";
 import { userRegisterAction } from "../../../actions/userActions";
 import LogBackground from "../../../assets/logos/Macareniaa.jpg";
+import clienteAxios from "../../../config/clienteAxios";
 
 const optionsTipoPersona = [
   { label: "Natural", value: "N" },
@@ -13,12 +14,12 @@ const optionsTipoPersona = [
 
 const optionsTipoDocumento = [
   { label: "C.C.", value: "cc" },
-  { label: "T.I", value: "TI" },
+  { label: "T.I", value: "ti" },
 ];
 
 const optionsYorNo = [
-  { label: "Si", value: "si" },
-  { label: "No", value: "no" },
+  { label: "No", value: false },
+  { label: "Si", value: true },
 ];
 
 const departamentosOptions = [
@@ -36,21 +37,92 @@ const municipiosOptions = [
 ];
 
 const RegisterScreen = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const [yesOrNo, setYesOrNo] = useState(false);
   const [isUser, setIsUser] = useState(true);
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
+    tipo_persona: "N",
+    tipo_documento: "cc",
   });
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, control, handleSubmit } = useForm();
 
-  const submitForm = (data) => {
+  const objTest = {
+    persona: {
+      id_persona: 3,
+      tipo_documento: {
+        cod_tipo_documento: "cc",
+        nombre: "Cedula de ciudadania",
+      },
+      estado_civil: {
+        cod_estado_civil: "1",
+        nombre: "Soltero",
+      },
+      representante_legal: null,
+      tipo_persona: "N",
+      numero_documento: "1121952532",
+      digito_verificacion: null,
+      primer_nombre: null,
+      segundo_nombre: null,
+      primer_apellido: null,
+      segundo_apellido: null,
+      nombre_comercial: null,
+      razon_social: null,
+      pais_residencia: "AF",
+      departamento_residencia: "05",
+      municipio_residencia: "17388",
+      direccion_residencia: null,
+      direccion_residencia_ref: null,
+      ubicacion_georeferenciada: "12",
+      direccion_laboral: null,
+      direccion_notificaciones: null,
+      pais_nacimiento: "AL",
+      fecha_nacimiento: null,
+      sexo: "I",
+      email: "user2@user.com",
+      email_empresarial: null,
+      telefono_fijo_residencial: null,
+      telefono_celular: null,
+      telefono_empresa: null,
+      cod_municipio_laboral_nal: null,
+      cod_municipio_notificacion_nal: null,
+      telefono_celular_empresa: null,
+      telefono_empresa_2: null,
+      cod_pais_nacionalidad_empresa: "AS",
+      acepta_notificacion_sms: false,
+      acepta_notificacion_email: false,
+      acepta_tratamiento_datos: false,
+    },
+  };
+
+  const submitForm = async (data) => {
     console.log(data);
+
+    // Falta hacer confirmación de datos correo
+
+    const persona = {
+      tipo_persona: formValues.tipo_persona,
+      tipo_documento: data.tipoDocumento.value,
+      numero_documento: data.numero_documento,
+      digito_verificacion: data.dv || null,
+      primer_nombre: data.primerNombre,
+      segundo_nombre: data.segundoNombre || null,
+      primer_apellido: data.primerApellido,
+      segundo_apellido: data.segundoApellido || null,
+      ubicacion_georeferenciada: "12", //Este valor queda pendiente por revisar porque sale obligatorio según el mockup
+      pais_residencia: "AG", // Este campo debería no ser obligatorio según el mockup
+      departamento_residencia: "05", // Este campo debería no ser obligatorio según el mockup
+      pais_nacimiento: "AL", // Este campo debería no ser obligatorio según el mockup
+      sexo: "I", //Este campo debería no ser obligatorio según el mockup
+      email: data.eMail,
+      cod_pais_nacionalidad_empresa: "AS", //Este campo debería no ser obligatorio según el mockup
+      telefono_celular: data.celular,
+      nombre_comercial: data.nombreComercial || null,
+    };
+
+    console.log(persona);
+
     const usuario = {
       nombre_de_usuario: "Prueba con info quemada",
       password: "1234561231j",
@@ -59,9 +131,34 @@ const RegisterScreen = () => {
       email: "tengosueno@gmail.com",
       persona: 6,
       id_usuario_creador: null,
-      tipo_usuario: "E"
+      tipo_usuario: "E",
+    };
+
+    try {
+      const { data } = await clienteAxios.post("personas/registerpersona/", persona);
+      console.log(data)
+    } catch (err) {
+      console.log(err)
     }
-    dispatch(userRegisterAction(usuario))
+
+    // dispatch(userRegisterAction(usuario));
+  };
+
+  const handleChangeTypePerson = (e) => {
+    setFormValues({ ...formValues, tipo_persona: e.value });
+    if (e.value === "J") {
+      setIsUser(false);
+    } else {
+      setIsUser(true);
+    }
+  };
+
+  const handleYesOrNo = (e) => {
+    if (e.value) {
+      setYesOrNo(true);
+    } else {
+      setYesOrNo(false);
+    }
   };
 
   return (
@@ -77,20 +174,21 @@ const RegisterScreen = () => {
           <div className="col-12 col-md-7 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               {isUser ? (
-                <h3 className="mt-3 mb-0 text-center mb-6">
-                  Registro de usuario
-                </h3>
+                <>
+                  <h3 className="mt-3 mb-0 text-center mb-6">
+                    Registro de usuario
+                  </h3>
+
+                  <h4 className="font-weight-bolder mt-2">
+                    Registro de Persona
+                  </h4>
+                </>
               ) : (
                 <h3 className="mt-3 mb-0 text-center mb-6">
                   Registro de empresa
                 </h3>
               )}
-              <button
-                className="btn bg-gradient-primary"
-                onClick={() => setIsUser(!isUser)}
-              >
-                Usuario / Empresa
-              </button>
+
               {isUser ? (
                 <h5 className="font-weight-bolder mt-2">Datos personales</h5>
               ) : (
@@ -101,19 +199,11 @@ const RegisterScreen = () => {
                   <label className="form-label">
                     Tipo de persona: <span className="text-danger">*</span>
                   </label>
-                  <Controller
-                    name="optionTipoPersona"
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionsTipoPersona}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                  <Select
+                    options={optionsTipoPersona}
+                    defaultValue={optionsTipoPersona[0]}
+                    placeholder="Seleccionar"
+                    onChange={handleChangeTypePerson}
                   />
                 </div>
                 <div className="col-12 col-md-6">
@@ -131,6 +221,12 @@ const RegisterScreen = () => {
                         {...field}
                         options={optionsTipoDocumento}
                         placeholder="Seleccionar"
+                        // onChange={(e) =>
+                        //   setFormValues({
+                        //     ...formValues,
+                        //     tipo_documento: e.value,
+                        //   })
+                        // }
                       />
                     )}
                   />
@@ -143,7 +239,7 @@ const RegisterScreen = () => {
                         type="number"
                         required
                         placeholder="Número de documento"
-                        {...register("documento")}
+                        {...register("numero_documento")}
                       />
                       <label className="ms-2">
                         Número de documento:{" "}
@@ -155,13 +251,10 @@ const RegisterScreen = () => {
                       <input
                         className="form-control"
                         type="number"
-                        required
                         placeholder="DV"
                         {...register("dv")}
                       />
-                      <label className="ms-2">
-                        DV: <span className="text-danger">*</span>
-                      </label>
+                      <label className="ms-2">DV:</label>
                     </div>
                   </div>
                 </div>
@@ -170,17 +263,15 @@ const RegisterScreen = () => {
                     {isUser && (
                       <div>
                         <label className="form-label">
-                          Si/No: <span className="text-danger">*</span>
+                          ¿Requiere nombre comercial?
                         </label>
                         <Controller
                           name="yesOrNo"
                           control={control}
-                          rules={{
-                            required: true,
-                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
+                              onChange={handleYesOrNo}
                               options={optionsYorNo}
                               placeholder="Seleccionar"
                             />
@@ -201,17 +292,22 @@ const RegisterScreen = () => {
                         </label>
                       </div>
                     )}
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre comercial"
-                        {...register("nombreComercial")}
-                      />
-                      <label className="ms-2">
-                        Nombre comercial: <span className="text-danger">*</span>
-                      </label>
-                    </div>
+
+                    {yesOrNo && (
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          required
+                          placeholder="Nombre comercial"
+                          {...register("nombreComercial")}
+                        />
+                        <label className="ms-2">
+                          Nombre comercial:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {isUser && (
@@ -277,9 +373,7 @@ const RegisterScreen = () => {
                       placeholder="Nombre de usuario"
                       {...register("nombreDeUsuario")}
                     />
-                    <label className="ms-2">
-                      Nombre de usuario: <span className="text-danger">*</span>
-                    </label>
+                    <label className="ms-2">Nombre de usuario:</label>
                   </div>
                 </div>
                 <div className="col-12 col-md-6">
@@ -290,14 +384,12 @@ const RegisterScreen = () => {
                       placeholder="Contraseña"
                       {...register("password")}
                     />
-                    <label className="ms-2">
-                      Contraseña: <span className="text-danger">*</span>
-                    </label>
+                    <label className="ms-2">Contraseña:</label>
                   </div>
                 </div>
                 <div className="input-group input-group-dynamic flex-column col-6 mt-4">
                   <label htmlFor="exampleFormControlInput1">
-                    Fecha de nacimiento <span className="text-danger">*</span>
+                    Fecha de nacimiento
                   </label>
                   <Controller
                     name="fechaNacimiento"
@@ -306,7 +398,6 @@ const RegisterScreen = () => {
                       <DatePicker
                         {...field}
                         locale="es"
-                        required
                         selected={formValues.fechaNacimiento}
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaNacimiento: e })
@@ -352,10 +443,10 @@ const RegisterScreen = () => {
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
+                      required
                       placeholder="Celular"
                       type="tel"
-                      required
-                      {...register("cell")}
+                      {...register("celular")}
                     />
                     <label className="ms-2">
                       Celular: <span className="text-danger">*</span>

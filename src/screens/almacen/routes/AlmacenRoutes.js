@@ -3,7 +3,6 @@ import { Navigate } from "react-router-dom/dist";
 
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
-import InspeccionDiariaDeVehiculo from "../gestionDeVehiculos/InspeccionDiariaDeVehiculo";
 import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
 import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
