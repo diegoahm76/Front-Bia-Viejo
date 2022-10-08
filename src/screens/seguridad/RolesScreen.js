@@ -202,11 +202,13 @@ const RolesScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Consultar rol</h3>
+      <div className="col-12 mx-auto">
+        <h3 className="mt-3 mb-0 text-center mb-6">
+          Actualizar datos de persona
+        </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row" onSubmit={handleSubmit(searchByName)}>
-            <div className="col-12 col-lg-8">
+            <div className="col-12 col-md-8">
               <div className="form-floating input-group input-group-dynamic">
                 <input
                   className="form-control"
@@ -217,12 +219,16 @@ const RolesScreen = () => {
                 <label className="ms-2">Nombre</label>
               </div>
             </div>
-            <button
-              type="submit"
-              className="btn bg-gradient-primary text-capitalize col-4 mt-3"
-            >
-              Buscar
-            </button>
+            <div>
+              <div className="col-12 d-flex justify-content-end">
+                <button
+                  type="submit"
+                  className="btn bg-gradient-primary text-capitalize mt-3"
+                >
+                  Buscar
+                </button>
+              </div>
+            </div>
             <div id="myGrid" className="ag-theme-alpine mt-3">
               <div
                 className="container ag-theme-alpine"
@@ -252,7 +258,7 @@ const RolesScreen = () => {
               <h3 className="mt-3 mb-0 text-center mb-6">
                 {isCreate ? "Crear rol" : "Editar rol"}
               </h3>
-              <div className="col-6 col-lg-4">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -284,7 +290,7 @@ const RolesScreen = () => {
                       </h2>
                       <div
                         id={`R${data.subsistema}`}
-                        class="accordion-collapse collapse show"
+                        class="accordion-collapse collapse"
                       >
                         <div class="accordion-body">
                           <div class="accordion">
@@ -316,7 +322,7 @@ const RolesScreen = () => {
                                 </h2>
                                 <div
                                   id={`R${data.subsistema}${tipoSubsistema.tipo}`}
-                                  class="accordion-collapse collapse show"
+                                  class="accordion-collapse collapse"
                                 >
                                   <div class="accordion-body">
                                     <div class="form-check mt-4">

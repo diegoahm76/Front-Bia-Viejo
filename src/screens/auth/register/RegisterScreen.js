@@ -1,7 +1,9 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import Select from "react-select";
+import { userRegisterAction } from "../../../actions/userActions";
 import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 
 const optionsTipoPersona = [
@@ -10,7 +12,7 @@ const optionsTipoPersona = [
 ];
 
 const optionsTipoDocumento = [
-  { label: "C.C.", value: "CC" },
+  { label: "C.C.", value: "cc" },
   { label: "T.I", value: "TI" },
 ];
 
@@ -34,6 +36,7 @@ const municipiosOptions = [
 ];
 
 const RegisterScreen = () => {
+  const dispatch = useDispatch()
   const [isUser, setIsUser] = useState(true);
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
@@ -48,6 +51,17 @@ const RegisterScreen = () => {
 
   const submitForm = (data) => {
     console.log(data);
+    const usuario = {
+      nombre_de_usuario: "Prueba con info quemada",
+      password: "1234561231j",
+      activated_at: "2022-10-10",
+      password2: "1234561231j",
+      email: "tengosueno@gmail.com",
+      persona: 6,
+      id_usuario_creador: null,
+      tipo_usuario: "E"
+    }
+    dispatch(userRegisterAction(usuario))
   };
 
   return (
@@ -265,6 +279,19 @@ const RegisterScreen = () => {
                     />
                     <label className="ms-2">
                       Nombre de usuario: <span className="text-danger">*</span>
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-6">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="password"
+                      placeholder="Contraseña"
+                      {...register("password")}
+                    />
+                    <label className="ms-2">
+                      Contraseña: <span className="text-danger">*</span>
                     </label>
                   </div>
                 </div>

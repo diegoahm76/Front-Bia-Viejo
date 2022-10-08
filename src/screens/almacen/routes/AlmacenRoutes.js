@@ -3,6 +3,11 @@ import { Navigate } from "react-router-dom/dist";
 
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
+import InspeccionDiariaDeVehiculo from "../gestionDeVehiculos/InspeccionDiariaDeVehiculo";
+import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
+import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
+import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
+import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
 import AutorizarSolicitudActivoPrestamoScreen from "./solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
 import AutorizarSolicitudAsignacionArticuloActivoScreen from "./solicitudesArticulos/AutorizarSolicitudAsignacionArticuloActivoScreen";
@@ -19,7 +24,6 @@ import SolicitudVehiculoScreen from "./solicitudesArticulos/SolicitudVehiculoScr
 const AlmacenRoutes = () => {
   return (
     <Routes>
-
       <Route index element={<Almacen />} />
 
       <Route path="creacion-articulo" element={<CreacionArticulo />} />
@@ -59,9 +63,26 @@ const AlmacenRoutes = () => {
       <Route path="solicitudesarticulos">
         <Route path="solicitudesautorizadaspendientes" element={<SolicitudesAutorizadasPendientesScreen/>}/>
       </Route>
+      
+      <Route
+        path="inspecciondiariadevehiculo"
+        element={<InspeccionDiariaDeVehiculoScreen />}
+      />
+
+      <Route path="registrodemantenimientodevehiculo" element={<RegistroDeMantenimientoDeVehiculo />} />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
+      <Route
+        path="consultarsolicitudesdevehiculos"
+        element={<ConsultarSolicitudesDeVehiculosScreen />}
+      />
 
+      <Route
+        path="solicitudesencoladeespera"
+        element={<SolicitudesEnColaDeEsperaScreen />}
+      />
+
+      <Route path="/*" element={<Navigate to="/dashboard" />} />
     </Routes>
   );
 };
