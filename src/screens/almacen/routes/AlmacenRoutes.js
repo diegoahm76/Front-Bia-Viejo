@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom/dist";
 
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
+import InspeccionDiariaDeVehiculo from "../gestionDeVehiculos/InspeccionDiariaDeVehiculo";
+import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
 import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
@@ -22,6 +24,9 @@ const AlmacenRoutes = () => {
         element={<InspeccionDiariaDeVehiculoScreen />}
       />
 
+      <Route path="registrodemantenimientodevehiculo" element={<RegistroDeMantenimientoDeVehiculo />} />
+
+      <Route path="/*" element={<Navigate to="/dashboard" />} />
       <Route
         path="consultarsolicitudesdevehiculos"
         element={<ConsultarSolicitudesDeVehiculosScreen />}

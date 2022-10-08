@@ -51,7 +51,17 @@ const RegisterScreen = () => {
 
   const submitForm = (data) => {
     console.log(data);
-    dispatch(userRegisterAction(data.nombreDeUsuario, data.eMail, data.password))
+    const usuario = {
+      nombre_de_usuario: "Prueba con info quemada",
+      password: "1234561231j",
+      activated_at: "2022-10-10",
+      password2: "1234561231j",
+      email: "tengosueno@gmail.com",
+      persona: 6,
+      id_usuario_creador: null,
+      tipo_usuario: "E"
+    }
+    dispatch(userRegisterAction(usuario))
   };
 
   return (
