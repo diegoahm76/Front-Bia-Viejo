@@ -7,8 +7,7 @@ import es from "date-fns/locale/es";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-
-const SolicitudesPendientesAutorizarScreen = () => {
+const SolicitudesAutorizadasPendientesScreen = () => {
     const [formValues, setFormValues] = useState({
         fechaInicio: "",
       });
@@ -30,40 +29,58 @@ const SolicitudesPendientesAutorizarScreen = () => {
     
       const [rowData] = useState([
         {
-            fecha: "",
-            dependencia: " ",
-            grupo: "",
-            dirigido: "",
-          },
+          nombre: "Palo cruz",
+          especie: " ",
+          vivero: "",
+          lote_siembra: "",
+          cantidad: "",
+          cantidad_sembrada: "",
+          total: "",
+        },
         {
-            fecha: "",
-            dependencia: " ",
-            grupo: "",
-            dirigido: "",
-          },
+          nombre: "Palo cruz",
+          especie: " ",
+          vivero: "",
+          lote_siembra: "",
+          cantidad: "",
+          cantidad_sembrada: "",
+          total: "",
+        },
         {
-            fecha: "",
-            dependencia: " ",
-            grupo: "",
-            dirigido: "",
-          },
+          nombre: "Palo cruz",
+          especie: " ",
+          vivero: "",
+          lote_siembra: "",
+          cantidad: "",
+          cantidad_sembrada: "",
+          total: "",
+        },
         {
-            fecha: "",
-            dependencia: " ",
-            grupo: "",
-            dirigido: "",
-          },
+          nombre: "Palo cruz",
+          especie: " ",
+          vivero: "",
+          lote_siembra: "",
+          cantidad: "",
+          cantidad_sembrada: "",
+          total: "",
+        },
         {
-            fecha: "",
-            dependencia: " ",
-            grupo: "",
-            dirigido: "",
-          },
+          nombre: "Palo cruz",
+          especie: " ",
+          vivero: "",
+          lote_siembra: "",
+          cantidad: "",
+          cantidad_sembrada: "",
+          total: "",
+        },
         {
-          fecha: "",
-          dependencia: " ",
-          grupo: "",
-          dirigido: "",
+          nombre: "Palo cruz",
+          especie: " ",
+          vivero: "",
+          lote_siembra: "",
+          cantidad: "",
+          cantidad_sembrada: "",
+          total: "",
         },
       ]);
     
@@ -71,7 +88,9 @@ const SolicitudesPendientesAutorizarScreen = () => {
         { headerName: "Fecha de solicitud", field: "fecha", minWidth: 150 },
         { headerName: "Dependencia", field: "dependencia", minWidth: 150 },
         { headerName: "Grupo", field: "grupo", minWidth: 150 },
+        {headerName: "Responsable", field: "fechaEntrega", minWidth: 150, },
         { headerName: "Dirigido a", field: "dirigido", minWidth: 150 },
+        { headerName: "Tipo", field: "tipo", minWidth: 150 },
       ];
     
       const optionsTipoDocumento = [
@@ -98,9 +117,9 @@ const SolicitudesPendientesAutorizarScreen = () => {
       };
       return (
         <div className="row min-vh-100 ">
-          <div className="col-12 mx-auto">
+          <div className="col-lg-10 col-md-10 col-12 mx-auto">
             <h3 className="mt-3 mb-0 text-center mb-6">
-              Solicitudes pendientes por autorizar
+              Solicitudes pendientes por despachar
             </h3>
             <form
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -126,4 +145,5 @@ const SolicitudesPendientesAutorizarScreen = () => {
         </div>
       );
     };
-export default SolicitudesPendientesAutorizarScreen
+
+export default SolicitudesAutorizadasPendientesScreen

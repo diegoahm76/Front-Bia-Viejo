@@ -105,7 +105,7 @@ const SolicitudesAsignacionPendientesScreen = () => {
       };
       return (
         <div className="row min-vh-100 ">
-          <div className="col-lg-10 col-md-10 col-12 mx-auto">
+          <div className="col-12 mx-auto">
             <h3 className="mt-3 mb-0 text-center mb-6">
               Autorizar o rechazar solicitudes
             </h3>

@@ -13,8 +13,13 @@ import {
 import CalendarModal from "../../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
 import { Calendar } from "react-big-calendar";
+import ModalLocal from "../../../../components/ModalLocal";
+import BusquedaDePersonalModal from "../../../../components/BusquedaDePersonalModal";
+import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
 
-const AutorizarSolicitudActivoPrestamoScreen = () => {
+const SolicitudActivoPrestamoScreen = () => {
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isModalArticulo, setIsModalArticulo] = useState(false);
   const [formValues, setFormValues] = useState({
     fechaInicio: "",
   });
@@ -36,58 +41,28 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
 
   const [rowData] = useState([
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: "",
+      nombre: " ",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      fechaentrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: "",
+      nombre: " ",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      fechaentrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: "",
+      nombre: " ",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      fechaentrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: "",
+      nombre: " ",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
-    },
-    {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
-    },
-    {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      fechaentrega: "",
     },
   ]);
 
@@ -101,6 +76,62 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
       minWidth: 150,
     },
   ];
+  const [rowBuscar] = useState([
+    {
+      nombre: " ",
+      tipoDocumento: " ",
+      documento: "",
+      dependencia: "",
+      grupo: "",
+    },
+    {
+      nombre: " ",
+      tipoDocumento: " ",
+      documento: "",
+      dependencia: "",
+      grupo: "",
+    },
+    {
+      nombre: " ",
+      tipoDocumento: " ",
+      documento: "",
+      dependencia: "",
+      grupo: "",
+    },
+    {
+      nombre: " ",
+      tipoDocumento: " ",
+      documento: "",
+      dependencia: "",
+      grupo: "",
+    },
+    {
+      nombre: " ",
+      tipoDocumento: " ",
+      documento: "",
+      dependencia: "",
+      grupo: "",
+    },
+    {
+      nombre: " ",
+      tipoDocumento: " ",
+      documento: "",
+      dependencia: "",
+      grupo: "",
+    },
+  ]);
+
+  const columnBuscar = [
+    { headerName: "Nombre", field: "nombre", minWidth: 150 },
+    { headerName: "Tipo documento", field: "tipoDocumento", minWidth: 150 },
+    { headerName: "Documento", field: "documento", minWidth: 150 },
+    {
+      headerName: "Dependecia",
+      field: "dependencia",
+      minWidth: 150,
+    },
+    { headerName: "Grupo", field: "grupo", minWidth: 150 },
+  ];
 
   const optionsTipoDocumento = [
     { label: "C.C", value: "CC" },
@@ -108,6 +139,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
   ];
 
   let gridApi;
+
   const defaultColDef = {
     sortable: true,
     editable: true,
@@ -125,21 +157,32 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
     gridApi = params.api;
   };
 
+  const optionsDependencia = [
+    { label: "Dependencia 1", value: "D1" },
+    { label: "Dependencia 2", value: "D2" },
+    { label: "Dependencia 3", value: "D3" },
+  ];
+
+  const optionsGrupo = [
+    { label: "Grupo 1", value: "G1" },
+    { label: "Grupo 2", value: "G2" },
+    { label: "Grupo 3", value: "G3" },
+  ];
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(activeModalAction());
+    setIsModalActive(true);
   };
 
-  const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+  const handleOpenAgregarProducto = () => {
+    setIsModalArticulo(true);
   };
 
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar una solicitud de activo en prestamo
+          Solicitar un elemento activo en prestamo
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -159,7 +202,6 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero consecutivo"
-                    disabled
                     {...register("numeroConsecutivo")}
                   />
                   <label className="ms-2">Numero consecutivo</label>
@@ -211,7 +253,6 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          isDisabled
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
@@ -226,7 +267,6 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
-                    disabled
                     {...register("numeroCedula")}
                   />
                   <label className="ms-2">Número de cedula</label>
@@ -238,7 +278,6 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="nombre completo"
-                    disabled
                     {...register("nombreCompleto")}
                   />
                   <label className="ms-2">Nombre completo</label>
@@ -246,13 +285,18 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
               </div>
               <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button
-                  type="submit"
+                  type="button"
                   className="mt-4 btn btn-primary flex-center text-capitalize"
+                  onClick={handleOpenModal}
                 >
                   Buscar
                 </button>
               </div>
             </div>
+            <BusquedaDePersonalModal
+              isModalActive={isModalActive}
+              setIsModalActive={setIsModalActive}
+            />
           </form>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -305,7 +349,8 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
           <form>
             <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
               <button
-                type="submit"
+                type="button"
+                onClick={handleOpenAgregarProducto}
                 className="mt-4 btn btn-primary flex-center text-capitalize"
               >
                 Agregar Producto
@@ -329,88 +374,27 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                 type="text"
                 placeholder="Observaciones"
                 rows="3"
-                disabled
                 name="Observaciones"
               />
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
-                className="btn bg-secondary me-md-2 text-white text-capitalize"
+                className="btn bg-primary text-white text-capitalize"
                 type="submit"
                 title="Send"
               >
-                Autorizar
-              </button>
-              <button
-                className="btn bg-danger text-white text-capitalize"
-                type="button"
-                onClick={handleOpenModal}
-                title="Send"
-              >
-                Rechazar
+                Guardar
               </button>
             </div>
           </form>
-          <CalendarModal>
-            <div className="row min-vh-100 ">
-              <div className="col-lg-10 col-md-10 col-12 mx-auto">
-                <h3 className="mt-3 mb-0 text-center mb-6">
-                  Rechazar solicitud de activo en prestamo
-                </h3>
-                <form
-                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                  data-animation="FadeIn"
-                  onSubmit={handleSubmit(onSubmit)}
-                  id="configForm"
-                >
-                  <form
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                    onSubmit={handleSubmit(onSubmit)}
-                  >
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="input-group input-group-dynamic flex-column mt-3">
-                          <label htmlFor="exampleFormControlInput1 ">
-                            Motivo de Rechazo
-                          </label>
-                          <textarea
-                            className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                            type="text"
-                            placeholder="Observaciones"
-                            rows="5"
-                            name="Observaciones"
-                          />
-                        </div>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                          <button
-                            className="btn bg-secondary me-md-2 text-white text-capitalize"
-                            type="submit"
-                            onClick={handleCloseModal}
-                            title="Send"
-                          >
-                            Salir
-                          </button>
-                          <button
-                            className="btn bg-danger text-white text-capitalize"
-                            type="button"
-                            onClick={handleCloseModal}
-                            title="Send"
-                          >
-                            Rechazar
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </form>
-              </div>
-            </div>
-          </CalendarModal>
+          <BusquedaArticuloModal
+            isModalActive={isModalArticulo}
+            setIsModalActive={setIsModalArticulo}
+          />
         </form>
       </div>
     </div>
   );
 };
 
-export default AutorizarSolicitudActivoPrestamoScreen;
+export default SolicitudActivoPrestamoScreen;

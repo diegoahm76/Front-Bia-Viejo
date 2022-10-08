@@ -35,59 +35,36 @@ const AutorizarSolicitudesConsumoScreen = () => {
   const onSubmit = (data) => {};
 
   const [rowData] = useState([
+   
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      codigo: " ",
+      nombre: " ",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      codigo: " ",
+      nombre: " ",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      codigo: " ",
+      nombre: " ",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      codigo: " ",
+      nombre: " ",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
-    },
-    {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
-      cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
+      codigo: " ",
+      nombre: " ",
+      cantida: "",
+      fechaEntrega: "",
     },
   ]);
 
@@ -137,7 +114,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
 
   return (
     <div className="row min-vh-100 ">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Autorizar solicitudes de consumo
         </h3>
@@ -153,7 +130,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -165,7 +142,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   <label className="ms-2">Numero consecutivo</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de solicitud
                   <Controller
@@ -197,7 +174,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
               <label className="form-control ms-0 fw-bolder text-center">
                 <n>Datos del coordinador</n>
               </label>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento{" "}
                   <div className="col-12 ">
@@ -205,13 +182,13 @@ const AutorizarSolicitudesConsumoScreen = () => {
                       name="tipoDocumento"
                       control={control}
                       defaultValue={optionsTipoDocumento[0]}
-                      disabled
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
+                          isDisabled
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
@@ -220,7 +197,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   </div>
                 </label>
               </div>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic ">
                   <input
                     className="form-control"
@@ -232,7 +209,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   <label className="ms-2">Número de cedula</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -255,7 +232,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
               <label className="form-control ms-0 fw-bolder text-center">
                 <n>Datos del solicitante</n>
               </label>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -268,7 +245,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   <label className="ms-2">Tipo de documento</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -280,7 +257,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   <label className="ms-2">Número de cedula</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"

@@ -29,58 +29,34 @@ const SolicitarArticulosConsumoScreen = () => {
     
       const [rowData] = useState([
         {
-          nombre: "Palo cruz",
-          especie: " ",
-          vivero: "",
-          lote_siembra: "",
+          codigo: " ",
+          nombre: " ",
+          observaciones: "",
           cantidad: "",
-          cantidad_sembrada: "",
-          total: "",
         },
         {
-          nombre: "Palo cruz",
-          especie: " ",
-          vivero: "",
-          lote_siembra: "",
+          codigo: " ",
+          nombre: " ",
+          observaciones: "",
           cantidad: "",
-          cantidad_sembrada: "",
-          total: "",
         },
         {
-          nombre: "Palo cruz",
-          especie: " ",
-          vivero: "",
-          lote_siembra: "",
+          codigo: " ",
+          nombre: " ",
+          observaciones: "",
           cantidad: "",
-          cantidad_sembrada: "",
-          total: "",
         },
         {
-          nombre: "Palo cruz",
-          especie: " ",
-          vivero: "",
-          lote_siembra: "",
+          codigo: " ",
+          nombre: " ",
+          observaciones: "",
           cantidad: "",
-          cantidad_sembrada: "",
-          total: "",
         },
         {
-          nombre: "Palo cruz",
-          especie: " ",
-          vivero: "",
-          lote_siembra: "",
+          codigo: " ",
+          nombre: " ",
+          observaciones: "",
           cantidad: "",
-          cantidad_sembrada: "",
-          total: "",
-        },
-        {
-          nombre: "Palo cruz",
-          especie: " ",
-          vivero: "",
-          lote_siembra: "",
-          cantidad: "",
-          cantidad_sembrada: "",
-          total: "",
         },
       ]);
     
@@ -120,7 +96,7 @@ const SolicitarArticulosConsumoScreen = () => {
     
       return (
         <div className="row min-vh-100 ">
-          <div className="col-lg-10 col-md-10 col-12 mx-auto">
+          <div className="col-12 mx-auto">
             <h3 className="mt-3 mb-0 text-center mb-6">
               Solicitar un elemento de consumo
             </h3>
@@ -136,7 +112,7 @@ const SolicitarArticulosConsumoScreen = () => {
                 onSubmit={handleSubmit(onSubmit)}
               >
                 <div className="row">
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <div className="form-floating input-group input-group-dynamic">
                       <input
                         className="form-control"
@@ -147,7 +123,7 @@ const SolicitarArticulosConsumoScreen = () => {
                       <label className="ms-2">Numero consecutivo</label>
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <label htmlFor="exampleFormControlInput1 mt-4">
                       Fecha de solicitud
                       <Controller
@@ -179,7 +155,7 @@ const SolicitarArticulosConsumoScreen = () => {
                   <label className="form-control ms-0 fw-bolder text-center">
                     <n>Datos del responsable</n>
                   </label>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <label className="form-floating input-group input-group-dynamic ms-2">
                       Tipo de documento{" "}
                       <div className="col-12 ">
@@ -201,7 +177,7 @@ const SolicitarArticulosConsumoScreen = () => {
                     </label>
                     
                   </div>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <div className="form-floating input-group input-group-dynamic ">
                       <input
                         className="form-control"
@@ -212,7 +188,7 @@ const SolicitarArticulosConsumoScreen = () => {
                       <label className="ms-2">Número de cedula</label>
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <div className="form-floating input-group input-group-dynamic">
                       <input
                         className="form-control"
@@ -223,7 +199,7 @@ const SolicitarArticulosConsumoScreen = () => {
                       <label className="ms-2">Nombre completo</label>
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6 d-grid gap-2 d-md-flex justify-content-md-end">
+                  <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
                       type="submit"
                       className="mt-4 btn btn-primary flex-center text-capitalize"
@@ -242,7 +218,7 @@ const SolicitarArticulosConsumoScreen = () => {
                   <label className="form-control ms-0 fw-bolder text-center">
                     <n>Datos del solicitante</n>
                   </label>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <div className="form-floating input-group input-group-dynamic">
                       <input
                         className="form-control"
@@ -255,7 +231,7 @@ const SolicitarArticulosConsumoScreen = () => {
                       <label className="ms-2">Tipo de documento</label>
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <div className="form-floating input-group input-group-dynamic">
                       <input
                         className="form-control"
@@ -267,7 +243,7 @@ const SolicitarArticulosConsumoScreen = () => {
                       <label className="ms-2">Número de cedula</label>
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-sm-4">
                     <div className="form-floating input-group input-group-dynamic">
                       <input
                         className="form-control"
