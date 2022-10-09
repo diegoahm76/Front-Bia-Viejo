@@ -12,10 +12,7 @@ const optionsTipoPersona = [
   { label: "Jurídica", value: "J" },
 ];
 
-const optionsTipoDocumento = [
-  { label: "C.C.", value: "cc" },
-  { label: "T.I", value: "ti" },
-];
+const optionsTipoDocumento = [{ label: "C.C.", value: "cc" }];
 
 const optionsYorNo = [
   { label: "No", value: false },
@@ -23,21 +20,27 @@ const optionsYorNo = [
 ];
 
 const departamentosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Meta", value: "Meta" },
-  { label: "Santander", value: "Santander" },
-  { label: "Norte de Santander", value: "Norte de Santander" },
+  { label: "Arauca", value: "05" },
+  { label: "Meta", value: "08" },
+  { label: "Santander", value: "11" },
+  { label: "Norte de Santander", value: "13" },
 ];
 
 const municipiosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Villavicencio", value: "Villavicencio" },
-  { label: "Bucaramanga", value: "Bucaramanga" },
-  { label: "San Jose de Cucuta", value: "San Jose de Cucuta" },
+  { label: "Arauca", value: "91263" },
+  { label: "Villavicencio", value: "91405" },
+  { label: "Bucaramanga", value: "91407" },
+  { label: "San Jose de Cucuta", value: "91430" },
 ];
+
+const defaultErrors = {
+  confirmacionEmail: false,
+  confirmacionCelular: false,
+};
 
 const RegisterScreen = () => {
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState(defaultErrors);
   const [yesOrNo, setYesOrNo] = useState(false);
   const [isUser, setIsUser] = useState(true);
   const [formValues, setFormValues] = useState({
@@ -46,7 +49,13 @@ const RegisterScreen = () => {
     tipo_documento: "cc",
   });
 
-  const { register, control, handleSubmit } = useForm();
+  const {
+    register,
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors: errorsForm },
+  } = useForm();
 
   const objTest = {
     persona: {
@@ -97,7 +106,26 @@ const RegisterScreen = () => {
   };
 
   const submitForm = async (data) => {
-    console.log(data);
+    if (data.eMail !== data.cEmail || data.celular !== data.cCelular) {
+      const dataResponse = {
+        ...defaultErrors,
+      };
+
+      if (data.eMail !== data.cEmail) {
+        dataResponse.confirmacionEmail = true;
+      }
+
+      if (data.celular !== data.cCelular) {
+        dataResponse.confirmacionCelular = true;
+      }
+
+      setErrors({ ...errors, ...dataResponse });
+      setTimeout(() => {
+        setErrors({ ...errors, ...defaultErrors });
+      }, 1200);
+
+      return;
+    }
 
     // Falta hacer confirmación de datos correo
 
@@ -105,20 +133,26 @@ const RegisterScreen = () => {
       tipo_persona: formValues.tipo_persona,
       tipo_documento: data.tipoDocumento.value,
       numero_documento: data.numero_documento,
+      razon_social: data.razonSocial || null,
       digito_verificacion: data.dv || null,
       primer_nombre: data.primerNombre,
       segundo_nombre: data.segundoNombre || null,
       primer_apellido: data.primerApellido,
       segundo_apellido: data.segundoApellido || null,
-      ubicacion_georeferenciada: "12", //Este valor queda pendiente por revisar porque sale obligatorio según el mockup
-      pais_residencia: "AG", // Este campo debería no ser obligatorio según el mockup
-      departamento_residencia: "05", // Este campo debería no ser obligatorio según el mockup
-      pais_nacimiento: "AL", // Este campo debería no ser obligatorio según el mockup
-      sexo: "I", //Este campo debería no ser obligatorio según el mockup
+      fecha_nacimiento: data.fechaNacimiento, //! Este dato queda por socializar para ver si es requerido o no
+      ubicacion_georeferenciada: "12", //! Este valor queda pendiente por revisar porque sale obligatorio según el mockup
+      pais_residencia: "AG", //! Este campo debería no ser obligatorio según el mockup
+      departamento_residencia: data.departamento || null, //! Este campo debería no ser obligatorio según el mockup
+      municipio_residencia: data.municipio || null, //! Tanto municipio como departamento reciben codigos que necesitamos se nos expliquen o nos envien clave/valor
+      pais_nacimiento: "AL", //TODO Este campo debería no ser obligatorio según el mockup
+      sexo: "I", //! Este campo debería no ser obligatorio según el mockup
       email: data.eMail,
-      cod_pais_nacionalidad_empresa: "AS", //Este campo debería no ser obligatorio según el mockup
+      cod_pais_nacionalidad_empresa: "AS", //! Este campo debería no ser obligatorio según el mockup
       telefono_celular: data.celular,
       nombre_comercial: data.nombreComercial || null,
+      acepta_notificacion_sms: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
+      acepta_notificacion_email: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
+      acepta_tratamiento_datos: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
     };
 
     console.log(persona);
@@ -135,10 +169,13 @@ const RegisterScreen = () => {
     };
 
     try {
-      const { data } = await clienteAxios.post("personas/registerpersona/", persona);
-      console.log(data)
+      const { data } = await clienteAxios.post(
+        "personas/registerpersona/",
+        persona
+      );
+      console.log(data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
 
     // dispatch(userRegisterAction(usuario));
@@ -175,16 +212,12 @@ const RegisterScreen = () => {
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               {isUser ? (
                 <>
-                  <h3 className="mt-3 mb-0 text-center mb-6">
-                    Registro de usuario
-                  </h3>
-
-                  <h4 className="font-weight-bolder mt-2">
+                  <h3 className="mt-3 mb-0 text-center mb-4">
                     Registro de Persona
-                  </h4>
+                  </h3>
                 </>
               ) : (
-                <h3 className="mt-3 mb-0 text-center mb-6">
+                <h3 className="mt-3 mb-0 text-center mb-4">
                   Registro de empresa
                 </h3>
               )}
@@ -219,14 +252,9 @@ const RegisterScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
+                        defaultValue={optionsTipoDocumento[0]}
                         options={optionsTipoDocumento}
                         placeholder="Seleccionar"
-                        // onChange={(e) =>
-                        //   setFormValues({
-                        //     ...formValues,
-                        //     tipo_documento: e.value,
-                        //   })
-                        // }
                       />
                     )}
                   />
@@ -239,7 +267,7 @@ const RegisterScreen = () => {
                         type="number"
                         required
                         placeholder="Número de documento"
-                        {...register("numero_documento")}
+                        {...register("numero_documento", { required: true })}
                       />
                       <label className="ms-2">
                         Número de documento:{" "}
@@ -256,6 +284,13 @@ const RegisterScreen = () => {
                       />
                       <label className="ms-2">DV:</label>
                     </div>
+                  </div>
+                  <div className="col-12">
+                    {errorsForm.numero_documento && (
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    )}
                   </div>
                 </div>
                 <div className="col-12 row">
@@ -285,7 +320,7 @@ const RegisterScreen = () => {
                           className="form-control"
                           type="text"
                           placeholder="Razón social"
-                          {...register("razonSocial")}
+                          {...register("razonSocial", { required: true })}
                         />
                         <label className="ms-2">
                           Razón social: <span className="text-danger">*</span>
@@ -294,19 +329,27 @@ const RegisterScreen = () => {
                     )}
 
                     {yesOrNo && (
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          required
-                          placeholder="Nombre comercial"
-                          {...register("nombreComercial")}
-                        />
-                        <label className="ms-2">
-                          Nombre comercial:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                      </div>
+                      <>
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Nombre comercial"
+                            {...register("nombreComercial", { required: true })}
+                          />
+                          <label className="ms-2">
+                            Nombre comercial:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                        <div className="col-12">
+                          {errorsForm.nombreComercial && (
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          )}
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
@@ -317,14 +360,20 @@ const RegisterScreen = () => {
                         <input
                           className="form-control"
                           type="text"
-                          required
                           placeholder="Primer nombre"
-                          {...register("primerNombre")}
+                          {...register("primerNombre", { required: true })}
                         />
                         <label className="ms-2">
                           Primer nombre: <span className="text-danger">*</span>
                         </label>
                       </div>
+                    </div>
+                    <div className="col-12">
+                      {errorsForm.primerNombre && (
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
                     </div>
                     <div className="col-12 col-md-6">
                       <div className="form-floating input-group input-group-dynamic">
@@ -343,14 +392,20 @@ const RegisterScreen = () => {
                           className="form-control"
                           placeholder="Primer apellido"
                           type="text"
-                          required
-                          {...register("primerApellido")}
+                          {...register("primerApellido", { required: true })}
                         />
                         <label className="ms-2">
                           Primer apellido:{" "}
                           <span className="text-danger">*</span>
                         </label>
                       </div>
+                    </div>
+                    <div className="col-12">
+                      {errorsForm.primerApellido && (
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
                     </div>
                     <div className="col-12 col-md-6">
                       <div className="form-floating input-group input-group-dynamic">
@@ -365,7 +420,7 @@ const RegisterScreen = () => {
                     </div>
                   </>
                 )}
-                <div className="col-12 col-md-6">
+                {/* <div className="col-12 col-md-6">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -386,14 +441,15 @@ const RegisterScreen = () => {
                     />
                     <label className="ms-2">Contraseña:</label>
                   </div>
-                </div>
+                </div> */}
                 <div className="input-group input-group-dynamic flex-column col-6 mt-4">
                   <label htmlFor="exampleFormControlInput1">
-                    Fecha de nacimiento
+                    Fecha de nacimiento: <span className="text-danger">*</span>
                   </label>
                   <Controller
                     name="fechaNacimiento"
                     control={control}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -408,6 +464,13 @@ const RegisterScreen = () => {
                     )}
                   />
                 </div>
+                <div className="col-12">
+                  {errorsForm.fechaNacimiento && (
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
+                </div>
                 {/* DATOS DE NOTIFICACION */}
                 <h5 className="font-weight-bolder mt-3">
                   Datos de notificación
@@ -417,14 +480,20 @@ const RegisterScreen = () => {
                     <input
                       className="form-control"
                       type="email"
-                      required
                       placeholder="E-mail"
-                      {...register("eMail")}
+                      {...register("eMail", { required: true })}
                     />
                     <label className="ms-2">
                       E-mail: <span className="text-danger">*</span>
                     </label>
                   </div>
+                </div>
+                <div className="col-12">
+                  {errorsForm.eMail && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
                 </div>
                 <div className="col-12 col-md-6">
                   <div className="form-floating input-group input-group-dynamic">
@@ -432,26 +501,46 @@ const RegisterScreen = () => {
                       className="form-control"
                       type="email"
                       placeholder="Confirme su e-mail"
-                      {...register("cEmail")}
+                      {...register("cEmail", { required: true })}
                     />
                     <label className="ms-2">
                       Confirme su e-mail: <span className="text-danger">*</span>
                     </label>
                   </div>
                 </div>
+                <div className="col-12">
+                  {errorsForm.cEmail && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
+                </div>
+                <div className="col-12">
+                  {errors.confirmacionEmail && (
+                    <small className="text-center text-danger">
+                      Los emails no coinciden
+                    </small>
+                  )}
+                </div>
                 <div className="col-12 col-md-6">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
-                      required
                       placeholder="Celular"
                       type="tel"
-                      {...register("celular")}
+                      {...register("celular", { required: true })}
                     />
                     <label className="ms-2">
                       Celular: <span className="text-danger">*</span>
                     </label>
                   </div>
+                </div>
+                <div className="col-12">
+                  {errorsForm.celular && (
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
                 </div>
                 <div className="col-12 col-md-6">
                   <div className="form-floating input-group input-group-dynamic">
@@ -459,13 +548,27 @@ const RegisterScreen = () => {
                       className="form-control"
                       type="tel"
                       placeholder="Confirme su celular"
-                      {...register("confirmCell")}
+                      {...register("cCelular", { required: true })}
                     />
                     <label className="ms-2">
                       Confirme su celular:{" "}
                       <span className="text-danger">*</span>
                     </label>
                   </div>
+                </div>
+                <div className="col-12">
+                  {errorsForm.cCelular && (
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
+                </div>
+                <div className="col-12">
+                  {errors.confirmacionCelular && (
+                    <small className="text-center text-danger">
+                      Los números no coinciden
+                    </small>
+                  )}
                 </div>
                 {!isUser && (
                   <>
@@ -486,10 +589,13 @@ const RegisterScreen = () => {
                       </button>
                     </div>
                     <div className="col-12 col-md-6">
-                      <label className="form-label">Departamento:</label>
+                      <label className="form-label">
+                        Departamento: <span className="text-danger">*</span>
+                      </label>
                       <Controller
                         name="departamento"
                         control={control}
+                        rules={{ required: true }}
                         render={({ field }) => (
                           <Select
                             {...field}
@@ -498,6 +604,13 @@ const RegisterScreen = () => {
                           />
                         )}
                       />
+                    </div>
+                    <div className="col-12">
+                      {errorsForm.departamento && (
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
                     </div>
                     <div className="col-12 col-md-6">
                       <label className="form-label">
@@ -517,6 +630,13 @@ const RegisterScreen = () => {
                           />
                         )}
                       />
+                    </div>
+                    <div className="col-12">
+                      {errorsForm.municipio && (
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
                     </div>
                   </>
                 )}
