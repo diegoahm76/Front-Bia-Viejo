@@ -24,6 +24,7 @@ const paisOptions = [
 ];
 
 const ActualizarDatosEmpresaScreen = () => {
+  const [completeAddress, setCompleteAddress] = useState("");
   const [isOpenGenerator, setIsOpenGenerator] = useState(false);
   const {
     register,
@@ -259,6 +260,8 @@ const ActualizarDatosEmpresaScreen = () => {
             <GeneradorDeDirecciones
               isOpenGenerator={isOpenGenerator}
               setIsOpenGenerator={setIsOpenGenerator}
+              completeAddress={completeAddress}
+              setCompleteAddress={setCompleteAddress}
             />
           </form>
         </div>
