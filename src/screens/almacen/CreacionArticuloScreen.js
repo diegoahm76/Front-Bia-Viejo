@@ -210,7 +210,7 @@ const CreacionArticulo = () => {
                 </div> */}
                 <div className="button-row d-flex mt-4">
                   <button
-                    className="btn bg-gradient-primary ms-auto mb-0"
+                    className="btn bg-gradient-secondary ms-auto mb-0"
                     type="button"
                     title="Send"
                   >
