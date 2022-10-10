@@ -102,23 +102,42 @@ const dataAddressFieldsDefault = {
 
 Modal.setAppElement("#root");
 
-const GeneradorDeDirecciones = ({ isOpenGenerator, setIsOpenGenerator }) => {
-  const [completeAddress, setCompleteAddress] = useState("");
+const GeneradorDeDirecciones = ({
+  isOpenGenerator,
+  setIsOpenGenerator,
+  completeAddress,
+  setCompleteAddress,
+}) => {
   const [numberFields, setNumberFields] = useState(1);
   const [isReset, setIsReset] = useState(false);
   const [dataAddressFields, setDataAddressFields] = useState(
     dataAddressFieldsDefault
   );
 
-  const { control, register, reset } = useForm();
+  const { control } = useForm();
 
   const handleSaveAddress = () => {
+    const completeAddressWitoutWhiteSpaces = completeAddress
+      .trim()
+      .split("")
+      .filter((letter, index, arrFilter) => {
+        if (index > 0) {
+          if (arrFilter[index] === " " && arrFilter[index - 1] === " ") {
+            return false;
+          } else {
+            return true;
+          }
+        } else {
+          return true;
+        }
+      })
+      .join("");
+    setCompleteAddress(completeAddressWitoutWhiteSpaces);
     setIsOpenGenerator(false);
   };
 
   const handleNext = () => {
     setNumberFields(numberFields + 1);
-    console.log("Next");
   };
 
   const handleEmpty = () => {
@@ -128,6 +147,10 @@ const GeneradorDeDirecciones = ({ isOpenGenerator, setIsOpenGenerator }) => {
     setTimeout(() => {
       setIsReset(false);
     }, 50);
+  };
+
+  const handleCloseGenerator = () => {
+    setIsOpenGenerator(false);
   };
 
   useEffect(() => {
@@ -289,7 +312,8 @@ const GeneradorDeDirecciones = ({ isOpenGenerator, setIsOpenGenerator }) => {
                   onChange={(e) =>
                     setDataAddressFields({
                       ...dataAddressFields,
-                      [e.target.name]: e.target.value && `No. ${e.target.value}`,
+                      [e.target.name]:
+                        e.target.value && `No. ${e.target.value}`,
                     })
                   }
                 />
@@ -573,7 +597,7 @@ const GeneradorDeDirecciones = ({ isOpenGenerator, setIsOpenGenerator }) => {
         <div className="mt-3 d-flex justify-content-end gap-2">
           <button
             type="button"
-            onClick={() => setIsOpenGenerator(false)}
+            onClick={handleCloseGenerator}
             className="btn bg-gradient-light text-capitalize"
           >
             Cancelar
