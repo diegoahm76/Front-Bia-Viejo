@@ -10,8 +10,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-function DespachoElementosSinSolicitudScreen() {
-  {/*  DECLARAR VARIABLES  */}
+function DevolverElementosSubasignadosResponsableScreen() {
+
+    {/*  DECLARAR VARIABLES  */}
   const [selecOpciones, setSelecOpciones] = useState({
     vivero: "",
   });
@@ -23,10 +24,6 @@ function DespachoElementosSinSolicitudScreen() {
       vivero: data.vivero,
     });
   };
-  const [startDate, setStartDate] = useState(new Date());
-  const CustomPlaceholder = ({ date, value, onChange }) => (
-    <input style={{ border: "solid 1px black" }} />
-  );
 
   const actionButton = (params) => {
     console.log(params);
@@ -39,23 +36,38 @@ function DespachoElementosSinSolicitudScreen() {
   ];
 
   let gridApi;
-  const columnDefs = [
+
+  const columnDefsContratistas = [
+    
     {
-        headerName: "Buscar",
-        field: "buscar",
-        width: 100,
-        minWidth: 100,
-        maxWidth: 200,
-        cellRendererFramework: (params) => (
-          <div>
-            <button
-              className="btn btn-primary mx-auto my-1 d-flex btn-sm text-xxs text-capitalize"
-              onClick={() => actionButton(params)}>
-              Buscar
-            </button>
-          </div>
-        ),
-      },
+      headerName: "C.C. Identificación",
+      field: "cedula",     
+      minWidth: 100,
+      wrapText: true,
+    },
+    {
+      headerName: "Nombre del contratista",
+      field: "nombreContratista",    
+      minWidth: 100,
+      wrapText: true,
+    },
+    {
+      headerName: "Grupo",
+      field: "grupo",
+      minWidth: 100,
+      wrapText: true,
+    },
+  ];
+
+  const rowDataContratistas = [
+    {cedula: "1.102.555", nombreContratista: "Pepito", grupo: "Aire y Urbano",},
+    {cedula: "129.856", nombreContratista: "Ana Maria", grupo: "Rentas",},
+    {cedula: "100.256.125", nombreContratista: "Julian Santiago", grupo: "Aire y Urbano",},
+    {cedula: "11.025.256", nombreContratista: "Esteban", grupo: "Contabilidad"},
+    ];
+
+  const columnDefsArticulos = [
+    
     {
       headerName: "Código artículo",
       field: "codigoArticulo",     
@@ -63,34 +75,54 @@ function DespachoElementosSinSolicitudScreen() {
       wrapText: true,
     },
     {
-      headerName: "Nombre del artículo",
+      headerName: "Nombre artículo",
       field: "nombreArticulo",    
       minWidth: 100,
       wrapText: true,
     },
     {
-      headerName: "Cantidad",
-      field: "cantidad",
-      minWidth: 100,
-      wrapText: true,
-    },
+        headerName: "ID Unico",
+        field: "idUnico",
+        minWidth: 100,
+        wrapText: true,
+      },
+      {
+        headerName: "Marca",
+        field: "marca",
+        minWidth: 100,
+        wrapText: true,
+      },  
+      {
+        headerName: "Serial",
+        field: "serial",
+        minWidth: 100,
+        wrapText: true,
+      }, 
+      {
+        headerName: "Fecha de Subasignación",
+        field: "fechaSubasignacion",
+        minWidth: 100,
+        wrapText: true,
+      },
+    
+    {
+        headerName: "Devuelto",
+        field: "devuelto",
+        width: 100,
+        minWidth: 100,
+        maxWidth: 200,
+        headerCheckboxSelection: true,
+        checkboxSelection: true,
+        showDisabledCheckboxes: true,
+      },
+
   ];
 
-  const dispatch = useDispatch();
-
-  const handleOpenModal = () => {
-    dispatch(activeModalAction());
-  };
-
-  const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
-  };
-
-  const rowData = [
-    {codigoArticulo: "1025", nombreArticulo: "Canoa", cantidad: 95,},
-    {codigoArticulo: "9856", nombreArticulo: "Pala", cantidad: 10,},
-    {codigoArticulo: "10256", nombreArticulo: "Amarillea", cantidad: 25,},
-    {codigoArticulo: "98563", nombreArticulo: "Biche", cantidad: 8,},
+  const rowDataArticulos = [
+    {codigoArticulo: "1025", nombreArticulo: "Canoa", idUnico: "0000586", marca: "Lenovo", serial: "ndg589", fechaSubasignacion: "10/20/2022", cantidad: 95,},
+    {codigoArticulo: "9856", nombreArticulo: "Pala", idUnico: "0000586", marca: "Lenovo", serial: "ndg589", fechaSubasignacion: "10/20/2022", cantidad: 10,},
+    {codigoArticulo: "10256", nombreArticulo: "Amarillea", idUnico: "0000586", marca: "Lenovo", serial: "ndg589", fechaSubasignacion: "10/20/2022", cantidad: 25,},
+    {codigoArticulo: "98563", nombreArticulo: "Biche", idUnico: "0000586", marca: "Lenovo", serial: "ndg589", fechaSubasignacion: "10/20/2022", cantidad: 8,},
     ];
 
     const defaultColDef = {
@@ -102,16 +134,22 @@ function DespachoElementosSinSolicitudScreen() {
       resizable: true,
       wrapHeaderText: true,
       autoHeaderHeight: true,
+      rowSelection: 'multiple',
+      suppressRowClickSelection: true,
     };
+
+    
 
     const onGridReady = (params) => {
       gridApi = params.api;
     };
 
+    
   return (
+    
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Despachar de Elementos sin Solicitud</h3>
+        <h3 className="mt-3 mb-0 text-center mb-6">Devolver Elementos Subasignados al Responsable</h3>
 
         {/*  CUERPO DEL FORMULARIO  */}
 
@@ -125,56 +163,15 @@ function DespachoElementosSinSolicitudScreen() {
             <div className="row my-3">
               <div className="col-12 col-sm-6">
                 <h5 className="font-weight-bolder border-radius-xl my-2">
-                  Datos Generales
+                  Devolucion de Activos Subasignados
                 </h5>
               </div>
             </div>
-            {/*  PRIMERA FILA  */}
-            <div className="row justify-content-between">
-              <div className="col col-6 col-md-6">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="number"
-                    placeholder="Consecutivo"
-                    {...register("consecutivoAsignarActivo", {
-                      required: true,
-                    })}
-                  />
-                  {errors.mortalidad?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
-                  )}
-                  <label className="ms-2">Consecutivo</label>
-                </div>
-              </div>
-              {/*  FECHA  */}
-              <div className="col col-6 col-md-6 d-flex flex-row">
-                <label className="w-25 align-center-stretch my-auto">
-                  {" "}
-                  Fecha de respuesta:{" "}
-                </label>
-                <div className="form-floating input-group input-group-dynamic">
-                  <DatePicker
-                    className="border border-1 my-3 text-center align-center-stretch"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    isClearable
-                    peekNextMonth
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                    placeholderText="Fecha de respuesta"
-                  />
-                </div>
-              </div>
-            </div>
             
-            {/*  SEGUNDA FILA  */}
+            {/*  PRIMERA FILA  */}
             <div className="row">
               <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                Operario almacén
+                Responsable
               </label>
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
@@ -225,10 +222,10 @@ function DespachoElementosSinSolicitudScreen() {
                 </div>
               </div>
             </div>
-            {/*  CUARTA FILA  */}
+            {/*  SEGUNDA FILA  */}
             <div className="row">
               <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                Responsable
+                Operario
               </label>
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
@@ -253,7 +250,7 @@ function DespachoElementosSinSolicitudScreen() {
                 </label>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic disabled">
+                <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
                     type="number"
@@ -264,13 +261,13 @@ function DespachoElementosSinSolicitudScreen() {
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic disabled">
+                <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Nombre Completo"
                     value="Jhon Alejandro Lopez Ramos"
-                    disabled
+                    id="nombreOperario"
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
@@ -278,85 +275,64 @@ function DespachoElementosSinSolicitudScreen() {
             </div>
            
             <div className="row">
-              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
+              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
                 <button
                   type="submit"
                   className="mt-4 btn btn-primary flex-center text-capitalize"
                 >
-                  Guardar
+                  Buscar
                 </button>
-                <button
-                  type="submit"
-                  className="mt-4 mx-4 btn btn-light flex-center text-capitalize"
-                >
-                  Cancelar
-                </button>
-              </div>
+                </div>
             </div>
 
-            <div className="row my-3">
-              <div className="col-12 col-sm-6">
-                <h5 className="font-weight-bolder border-radius-xl my-2">
-                  Despacho de Solicitud
-                </h5>
-
-              </div>
-            </div>
-            <div id="myGrid" className="ag-theme-alpine mt-4">
+            <label className="mt-4 form-control ms-0 fw-bolder text-center">
+                Contratistas
+              </label>
+            <div id="myGrid" className="ag-theme-alpine mt-2">
             <div className="ag-theme-alpine my-1" style={{ height: "300px" }}>
               <AgGridReact
-                columnDefs={columnDefs}
-                rowData={rowData}
+                columnDefs={columnDefsContratistas}
+                rowData={rowDataContratistas}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
                 onGridReady={onGridReady}
               ></AgGridReact>
             </div>
             </div>
-            <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                    <label htmlFor="exampleFormControlInput1">Observaciones</label>
-                    <textarea
-                      className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                      type="text"
-                      placeholder="Incluya observacion"
-                      rows="3"
-                      name="observaciones"
-                      
-                    />
-                  </div>
-                  <div className="row">
+
+            <label className="mt-4 form-control ms-0 fw-bolder text-center">
+                Artículos Subasignados
+              </label>
+            <div id="myGrid" className="ag-theme-alpine mt-2">
+            <div className="ag-theme-alpine my-1" style={{ height: "300px" }}>
+              <AgGridReact
+                columnDefs={columnDefsArticulos}
+                rowData={rowDataArticulos}
+                debounceVerticalScrollbar={true}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+            </div>
+
+            <div className="row">
                     <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
-                      <button type="button" className="mt-4 btn btn-primary flex-center text-capitalize">
+                      <button type="button" className="mt-4 btn btn-light flex-center text-capitalize">
+                        Limpiar
+                      </button>
+                      <button type="button" className="mt-4 mx-4 btn btn-primary flex-center text-capitalize" onClick={"null"}>
                         Guardar
                       </button>
-                      <button type="button" className="mt-4 mx-4 btn btn-light flex-center text-capitalize" onClick={handleOpenModal}>
-                        Salir
-                      </button>
                       </div>
-                  </div>       
-          </div>
+                  </div>  
+
+
+            </div>
         </form>
-
-        <CalendarModal>
-          <div>
-          <h3>Modal de prueba</h3>
-          </div>
-
-          <button
-                      className="btn bg-gradient-danger mb-0"
-                      onClick={handleCloseModal}
-                      type="submit"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
-
-        </CalendarModal>
-
-      </div>
+            </div>
     </div>
-  );
+  )
 }
 
-export default DespachoElementosSinSolicitudScreen
+
+export default DevolverElementosSubasignadosResponsableScreen

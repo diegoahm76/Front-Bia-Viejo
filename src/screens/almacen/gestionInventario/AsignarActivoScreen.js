@@ -3,14 +3,15 @@ import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
+import { activeModalAction, desactiveModalAction } from '../../../actions/modalActions';
+import CalendarModal from '../../../components/CalendarModal';
+import { useDispatch } from 'react-redux'
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 function AsignarActivoScreen() {
-  {
-    /*  DECLARAR VARIABLES  */
-  }
+  {/*  DECLARAR VARIABLES  */}
   const [selecOpciones, setSelecOpciones] = useState({
     vivero: "",
   });
@@ -57,6 +58,16 @@ function AsignarActivoScreen() {
       wrapText: true,
     },
   ];
+
+  const dispatch = useDispatch();
+
+  const handleOpenModal = () => {
+    dispatch(activeModalAction());
+  };
+
+  const handleCloseModal = () => {
+    dispatch(desactiveModalAction());
+  };
 
   const rowData = [
     {codigoArticulo: "1025", nombreArticulo: "Canoa", cantidad: 95,},
@@ -376,20 +387,37 @@ function AsignarActivoScreen() {
                     />
                   </div>
                   <div className="row">
-
-                  </div>
-
-            <div className="col-12 col-sm-6 d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="submit"
-                className="mt-4 btn btn-primary flex-center text-capitalize"
-              >
-                Buscar
-              </button>
-            </div>
-
+                    <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+                      <button type="button" className="mt-4 btn btn-secondary flex-center text-capitalize">
+                        Despachar
+                      </button>
+                      <button type="button" className="mt-4 mx-4 btn btn-danger flex-center text-capitalize" onClick={handleOpenModal}>
+                        Rechazar
+                      </button>
+                      <button type="submit" className="mt-4 btn btn-danger flex-center text-capitalize">
+                        Elementos no disponibles
+                      </button>
+                    </div>
+                  </div>       
           </div>
         </form>
+
+        <CalendarModal>
+          <div>
+          <h3>Modal de prueba</h3>
+          </div>
+
+          <button
+            className="btn bg-gradient-danger mb-0"
+            onClick={handleCloseModal}
+            type="submit"
+            title="Send"
+            form="configForm"
+          >
+            Salir
+          </button>
+        </CalendarModal>
+
       </div>
     </div>
   );
