@@ -8,6 +8,7 @@ import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/Consult
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
+import SolicitudesAutorizadasPorEjecutraScreen from "../gestionDeVehiculos/SolicitudesAutorizadasPorEjecutraScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -23,9 +24,10 @@ const AlmacenRoutes = () => {
         element={<InspeccionDiariaDeVehiculoScreen />}
       />
 
-      <Route path="registrodemantenimientodevehiculo" element={<RegistroDeMantenimientoDeVehiculo />} />
-
-      <Route path="/*" element={<Navigate to="/dashboard" />} />
+      <Route
+        path="registrodemantenimientodevehiculo"
+        element={<RegistroDeMantenimientoDeVehiculo />}
+      />
       <Route
         path="consultarsolicitudesdevehiculos"
         element={<ConsultarSolicitudesDeVehiculosScreen />}
@@ -34,6 +36,11 @@ const AlmacenRoutes = () => {
       <Route
         path="solicitudesencoladeespera"
         element={<SolicitudesEnColaDeEsperaScreen />}
+      />
+
+      <Route
+        path="solicitudesautorizadasporejecutar"
+        element={<SolicitudesAutorizadasPorEjecutraScreen />}
       />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
