@@ -5,6 +5,11 @@ import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
 import ReportesScreen from "../ReportesScreen";
 import { EntradaDeArticuloScreen } from "../EntradaDeArticuloScreen";
+import CrearArticuloConsumoScreen from "../CrearArticuloConsumoScreen";
+import  ProcesoApropiacionArticulosScreen  from "../ProcesoApropiacionArticulosScreen";
+import { VisualizarArticulosScreen } from "../VisualizarArticulosScreen";
+import SalidaArticulosScreen from "../SalidaArticulosScreen";
+
 
 const AlmacenRoutes = () => {
   return (
@@ -13,6 +18,14 @@ const AlmacenRoutes = () => {
       <Route index element={<Almacen />} />
 
       <Route path="creacion-articulo" element={<CreacionArticulo />} />
+
+      <Route path="creacion-articulo-consumo" element={<CrearArticuloConsumoScreen />} />
+
+      <Route path="apropiacion-articulo" element={<ProcesoApropiacionArticulosScreen />} />
+
+      <Route path="visualizar-articulos" element={<VisualizarArticulosScreen/>}/>
+
+      <Route path="salida-articulos" element={<SalidaArticulosScreen/>}/>
 
       <Route path="reportes" element={<ReportesScreen />} />
 
