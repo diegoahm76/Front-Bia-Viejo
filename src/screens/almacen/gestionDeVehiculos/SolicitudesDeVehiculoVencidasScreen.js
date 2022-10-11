@@ -1,13 +1,11 @@
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
-import Select from "react-select";
 
 const defaultColDef = {
   sortable: true,
@@ -18,18 +16,6 @@ const defaultColDef = {
   initialWidth: 200,
   suppressMovable: true,
 };
-
-const optionRazonDeCierre = [
-  { label: "Solicitud cumplida", value: "S" },
-  { label: "Solicitud incumplida por el usuario", value: "IU" },
-  { label: "Solicitud incumplida por otras razones", value: "IPOR" },
-];
-
-const optionsEstadoVehiculo = [
-  { label: "Bueno", value: "B" },
-  { label: "Malo", value: "M" },
-  { label: "Defectuoso", value: "D" },
-];
 
 const rowData = [
   {
@@ -72,7 +58,6 @@ const rowData = [
 const SolicitudesDeVehiculoVencidasScreen = () => {
   const [viewData, setViewData] = useState(false);
   const dispatch = useDispatch();
-  const { control } = useForm();
 
   const columnDefs = [
     { headerName: "Consecutivo", field: "Consecutivo" },

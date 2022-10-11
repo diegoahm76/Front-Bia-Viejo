@@ -356,72 +356,123 @@ const SolicitudesAutorizadasPorEjecutraScreen = () => {
               )}
             </form>
             <CalendarModal>
-              <h5 className="font-weight-bolder mt-4 text-center">
-                {tipoAccion}
-              </h5>
+              <div className="row">
+                <h5 className="font-weight-bolder mt-4 text-center">
+                  {tipoAccion}
+                </h5>
 
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    value="Junior Pacheco"
-                    placeholder="fechaDeSalida"
-                  />
-                  <label className="ms-2">Fecha de salida</label>
+                <div className="d-flex justify-content-between flex-column flex-md-row">
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior Pacheco"
+                        placeholder="fechaDeSalida"
+                      />
+                      <label className="ms-2">Fecha de salida</label>
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="03/08/2022"
+                        placeholder="fechaDeSalida"
+                      />
+                      <label className="ms-2">Fecha de salida</label>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
+                {tipoAccion === "Cambio de conductor" && (
+                  <>
+                    <h5 className="font-weight-bolder mt-4">Coordinador</h5>
+
+                    <div className="col-12 col-lg-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Tipo de documento"
+                          disabled
+                          value="C.C."
+                        />
+                        <label className="ms-2">Tipo de documento:</label>
+                      </div>
+                    </div>
+
+                    <div className="col-6 col-lg-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Número de documento"
+                          disabled
+                          value="1151231231"
+                        />
+                        <label className="ms-2">Número de documento:</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="Junior"
+                          placeholder="nombre"
+                        />
+                        <label className="ms-2">Nombre</label>
+                      </div>
+                    </div>
+                  </>
+                )}
+
+                <div className="input-group input-group-dynamic flex-column mt-3">
+                  <label htmlFor="exampleFormControlInput1 ">
+                    Observaciones
+                  </label>
+                  <textarea
+                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
                     type="text"
+                    rows="6"
                     disabled
-                    value="03/08/2022"
-                    placeholder="fechaDeSalida"
+                    name="Observaciones"
+                    value={
+                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                    }
                   />
-                  <label className="ms-2">Fecha de salida</label>
                 </div>
-              </div>
 
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  rows="6"
-                  disabled
-                  name="Observaciones"
-                  value={
-                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                  }
-                />
-              </div>
+                <div className="d-flex justify-content-end gap-2 mt-3">
+                  <button
+                    className="btn bg-gradient-light text-capitalize"
+                    type="button"
+                    onClick={() => {
+                      setTipoAccion("");
+                      dispatch(desactiveModalAction());
+                    }}
+                  >
+                    Guardar
+                  </button>
 
-              <div className="d-flex justify-content-end gap-2 mt-3">
-                <button
-                  className="btn bg-gradient-light text-capitalize"
-                  type="button"
-                  onClick={() => {
-                    setTipoAccion("");
-                    dispatch(desactiveModalAction());
-                  }}
-                >
-                  Guardar
-                </button>
-
-                <button
-                  className="btn bg-gradient-danger text-capitalize"
-                  type="button"
-                  onClick={() => {
-                    setTipoAccion("");
-                    dispatch(desactiveModalAction());
-                  }}
-                >
-                  Salir
-                </button>
+                  <button
+                    className="btn bg-gradient-danger text-capitalize"
+                    type="button"
+                    onClick={() => {
+                      setTipoAccion("");
+                      dispatch(desactiveModalAction());
+                    }}
+                  >
+                    Salir
+                  </button>
+                </div>
               </div>
             </CalendarModal>
           </div>
