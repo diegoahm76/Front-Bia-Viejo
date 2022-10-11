@@ -7,10 +7,9 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import { da } from "date-fns/locale";
 
-const ReporteSolicitudDeAsignacionScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
-
+const ReporteDeSolicitudDeVehiculosCompletadaScreen = () => {
   const {
     register,
     handleSubmit,
@@ -18,61 +17,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     formState: { errors },
   } = useForm();
 
-  let gridApi;
-
-  const columnDefs = [
-    {
-      headerName: "Codigo de articulo",
-      field: "Codigo de articulo",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "Nombre",
-      field: "Nombre",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "Cantidad",
-      field: "Cantidad",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-  ];
-
-  const rowData = [
-    {
-      "Codigo de articulo": "12345",
-      Nombre: "Computador",
-      Cantidad: "3",
-      
-    },
-  ];
-
-  const defaultColDef = {
-    sortable: true,
-    editable: false,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  const onExportClick = () => {
-    gridApi.exportDataAsCsv();
-  };
-
-  const onSubmit = (data) => {
-    setMostrarTabla(true);
-  };
+  const onSubmit = (data) => {};
 
   const [startDate, setStartDate] = useState(new Date());
 
@@ -80,9 +25,8 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de la solicitud de asignacion de activo
+          Reporte de solicitud de vehiculos completada
         </h3>
-
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -101,63 +45,12 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                 <label className="ms-2">Numero consecutivo</label>
               </div>
             </div>
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de Asignacion
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                    />
-                  )}
-                />
-              </label>
-            </div>
           </div>
 
           <div className="multisteps-form__content">
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="Administrativa y finaciera"
-                    disabled
-                  />
-                  <label className="ms-2">Dependencia</label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="Almacen"
-                    disabled
-                  />
-                  <label className="ms-2">Grupo</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="row">
+            <div className="mt-4 row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Responsable</n>
+                <n>Solicitante</n>
               </label>
             </div>
           </div>
@@ -208,7 +101,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           <div className="multisteps-form__content">
             <div className="mt-4 row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Solicitante</n>
+                <n>Vehiculo</n>
               </label>
             </div>
           </div>
@@ -220,11 +113,11 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="nombre completo"
-                    value="C.C"
+                    placeholder="Placa"
+                    value="OPL-246"
                     disabled
                   />
-                  <label className="ms-2">Tipo de documento </label>
+                  <label className="ms-2">Placa </label>
                 </div>
               </div>
 
@@ -233,11 +126,11 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="nombre completo"
-                    value="1.745.847.444"
+                    placeholder="Marca"
+                    value="Toyota"
                     disabled
                   />
-                  <label className="ms-2">Numero de documento</label>
+                  <label className="ms-2">Marca</label>
                 </div>
               </div>
 
@@ -246,11 +139,11 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="nombre completo"
-                    value="Jusus Cruz"
+                    placeholder="Linea"
+                    value="Prado"
                     disabled
                   />
-                  <label className="ms-2">Nombre</label>
+                  <label className="ms-2">Linea</label>
                 </div>
               </div>
             </div>
@@ -259,7 +152,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           <div className="multisteps-form__content">
             <div className="mt-4 row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Operario</n>
+                <n>Conductor</n>
               </label>
             </div>
           </div>
@@ -271,7 +164,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="nombre completo"
+                    placeholder="tipo de documento"
                     value="C.C"
                     disabled
                   />
@@ -284,8 +177,8 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="nombre completo"
-                    value="1.435.984.111"
+                    placeholder="numero de documento"
+                    value="1.243.675.654"
                     disabled
                   />
                   <label className="ms-2">Numero de documento</label>
@@ -298,55 +191,156 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="nombre completo"
-                    value="Estevan Lopez"
+                    value="Julian Castillo"
                     disabled
                   />
                   <label className="ms-2">Nombre</label>
                 </div>
               </div>
+
+              <div className="mt-3 row">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="dependencia"
+                      value="Administrativa"
+                      disabled
+                    />
+                    <label className="ms-2">Dependencia</label>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="grupo"
+                      value="Almacen"
+                      disabled
+                    />
+                    <label className="ms-2">Grupo</label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 row">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="pasajeros"
+                      value="3"
+                      disabled
+                    />
+                    <label className="ms-2">Pasajeros</label>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="carga"
+                      value="No"
+                      disabled
+                    />
+                    <label className="ms-2">Carga</label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="input-group input-group-dynamic flex-column mt-3">
-            <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-            <textarea
-              className="multisteps-form__input form-control p-2 mw-100 w-auto"
-              type="text"
-              placeholder="Observaciones"
-              rows="3"
-              name="Observaciones"
-              value="eeLorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
-              disabled
-            />
+          <div className="mt-3 row">
+            <div className="col-12 col-md-4">
+              <label htmlFor="exampleFormControlInput1 mt-4">
+                Fecha de salida
+                <Controller
+                  name="fechaSolicitud"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      includeDates={[new Date()]}
+                      onChange={(date) => setStartDate(date)}
+                      className="multisteps-form__input form-control p-2"
+                      placeholderText="dd/mm/aaaa"
+                    />
+                  )}
+                />
+              </label>
+            </div>
+
+            <div className="col-12 col-md-4">
+              <label htmlFor="exampleFormControlInput1 mt-4">
+                Fecha de llegada
+                <Controller
+                  name="fechaSolicitud"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      includeDates={[new Date()]}
+                      onChange={(date) => setStartDate(date)}
+                      className="multisteps-form__input form-control p-2"
+                      placeholderText="dd/mm/aaaa"
+                    />
+                  )}
+                />
+              </label>
+            </div>
           </div>
 
-          <div className="row">
-            <div className="d-flex mt-4 px-4 justify-content-end">
-              <div>
-                <label type="number"> cantidad de articulos |</label>
+          <div className="multisteps-form__content">
+            <div className="row mt-3">
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Departamento"
+                    value="Meta"
+                    disabled
+                  />
+                  <label className="ms-2">Departamento </label>
+                </div>
               </div>
-              <div>
-                <label type="number" align="right">
-                  3 |
-                </label>
+
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Municipio"
+                    value="Villavicencio"
+                    disabled
+                  />
+                  <label className="ms-2">Municipio</label>
+                </div>
               </div>
-              <div>
-                <label type="number"> Valor total |</label>
-              </div>
-              <div>
-                <label type="number" align="right">
-                  8.700.000 |
-                </label>
-              </div>
-            </div>
-            <div id="myGrid" className="ag-theme-alpine">
-              <div className="ag-theme-alpine" style={{ height: "400px" }}>
-                <AgGridReact
-                  columnDefs={columnDefs}
-                  rowData={rowData}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-                ></AgGridReact>
+
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Predio"
+                    value="Comuna 8"
+                    disabled
+                  />
+                  <label className="ms-2">Predio</label>
+                </div>
               </div>
             </div>
           </div>
@@ -354,44 +348,10 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           <div className="d-flex flex-column justify-content-end align-items-start mt-5">
             <label> _____________________________________________</label>
             <div className="d-flex justify-content-center align-items-center">
-              <label>Firma del almacenista</label>
+              <label>Firma del solicitante</label>
             </div>
             <div className="d-flex justify-content-start align-items-center">
               <label>Nombre:</label>
-            </div>
-          </div>
-
-          <div className="d-flex flex-column justify-content-end align-items-end">
-            <div className="row">
-              <div className="col-12 col-md-12">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    name="nombreQuienImprime"
-                    className="form-control"
-                    type="text"
-                    placeholder="Nombre del articulo"
-                    value="Julian Castillo"
-                    disabled
-                  />
-                  <label className="ms-2">Nombre quien imprime</label>
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-12 col-md-12">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    name="fechaDeImpresion"
-                    className="form-control"
-                    type="text"
-                    placeholder="fecha de impresion"
-                    value="05/10/2022"
-                    disabled
-                  />
-                  <label className="ms-2">Fecha de impresion</label>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -415,9 +375,10 @@ const ReporteSolicitudDeAsignacionScreen = () => {
               </button>
             </div>
           </div>
+          
         </form>
       </div>
     </div>
   );
 };
-export default ReporteSolicitudDeAsignacionScreen;
+export default ReporteDeSolicitudDeVehiculosCompletadaScreen;

@@ -7,14 +7,16 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import { da } from "date-fns/locale";
 
-const ReporteDeInventarioPorPersonaScreen = () => {
+const ReporteSolicitudDeVehiculosScreen = () => {
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const [selecOpciones, setSelecOpciones] = useState({
     tipoDocumento: "",
     dependencia: "",
     grupo: "",
+    estadoDeSolicitudes: "",
   });
 
   const {
@@ -28,9 +30,10 @@ const ReporteDeInventarioPorPersonaScreen = () => {
     setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      dependencia: data.dependencia.value,
       tipoDocumento: data.tipoDocumento.value,
+      dependencia: data.dependencia.value,
       grupo: data.grupo.value,
+      estadoDeSolicitudes: data.estadoDeSolicitudes.value,
     });
   };
 
@@ -54,54 +57,56 @@ const ReporteDeInventarioPorPersonaScreen = () => {
     { label: "Calidad", value: "Calidad" },
   ];
 
+  const opcionEstado = [
+    { label: "En cola de espera", value: "En cola de espera" },
+    { label: "Asigando no autorizado", value: "Asigando no autorizado" },
+    { label: "Asigando y autorizado", value: "Asigando y autorizado" },
+    { label: "Cancelado", value: "Cancelado" },
+    { label: "Rechazado", value: "Rechazado" },
+  ];
+
   let gridApi;
 
   const columnDefs = [
     {
-      headerName: "Codigo de articulo",
-      field: "Codigo de articulo",
+      headerName: "Consecutivo",
+      field: "Consecutivo",
       minWidth: 150,
       maxWidth: 200,
     },
     {
-      headerName: "Nombre",
-      field: "Nombre",
+      headerName: "Solicitante",
+      field: "Solicitante",
       minWidth: 150,
       maxWidth: 200,
     },
     {
-      headerName: "ID",
-      field: "ID",
+      headerName: "Dependencia",
+      field: "Dependencia",
       minWidth: 150,
       maxWidth: 200,
     },
     {
-      headerName: "Marca",
-      field: "Marca",
+      headerName: "Grupo",
+      field: "Grupo",
       minWidth: 150,
       maxWidth: 200,
     },
     {
-      headerName: "Serial",
-      field: "Serial",
+      headerName: "Fecha de solicitud",
+      field: "Fecha de solicitud",
       minWidth: 150,
       maxWidth: 200,
     },
     {
-      headerName: "Fecha de entrada",
-      field: "Fecha de entrada",
+      headerName: "Destino",
+      field: "Destino",
       minWidth: 150,
       maxWidth: 200,
     },
     {
-      headerName: "Consecutivo de asignacion o prestamo",
-      field: "Consecutivo de asignacion o prestamo",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "Valor de compra",
-      field: "Valor de compra",
+      headerName: "Estado",
+      field: "Estado",
       minWidth: 150,
       maxWidth: 200,
     },
@@ -109,14 +114,13 @@ const ReporteDeInventarioPorPersonaScreen = () => {
 
   const rowData = [
     {
-      "Codigo de articulo": "12345",
-      Nombre: "Computador",
-      ID: "12346",
-      Marca: "Lenovo",
-      Serial: "72h634",
-      "Fecha de entrada": "10/10/2022",
-      "Consecutivo de asignacion o prestamo": "Villavicencio",
-      "Valor de compra": "1.120.000",
+      Consecutivo: "12345",
+      Solicitante: "Julian castillo",
+      Dependencia: "Administrativa",
+      Grupo: "Almacen",
+      "Fecha de solicitud": "07/10/2022",
+      Destino: "Granada",
+      Estado: "Asigando y autorizado",
     },
   ];
 
@@ -140,11 +144,13 @@ const ReporteDeInventarioPorPersonaScreen = () => {
     gridApi.exportDataAsCsv();
   };
 
+  const [startDate, setStartDate] = useState(new Date());
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de inventario por persona o grupo
+          Reporte de solicitudes de vehiculo
         </h3>
 
         <form
@@ -156,13 +162,13 @@ const ReporteDeInventarioPorPersonaScreen = () => {
           <div className="multisteps-form__content">
             <div className="row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Persona</n>
+                <n>Solicitante</n>
               </label>
             </div>
           </div>
 
           <div className="multisteps-form__content">
-            <div className="row">
+            <div className="mt-4 row">
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento
@@ -228,7 +234,7 @@ const ReporteDeInventarioPorPersonaScreen = () => {
             </div>
           </div>
 
-          <div className="row">
+          <div className="mt-4 row">
             <div className="col-12 col-md-4">
               <label className="form-floating input-group input-group-dynamic ms-2">
                 Dependencia
@@ -279,145 +285,176 @@ const ReporteDeInventarioPorPersonaScreen = () => {
               </label>
             </div>
           </div>
+          <div className="mt-4 row">
+            <div className="col-12 col-md-4">
+              <label htmlFor="exampleFormControlInput1 mt-4">
+                Fecha inicial
+                <Controller
+                  name="fechaSolicitud"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      includeDates={[new Date()]}
+                      onChange={(date) => setStartDate(date)}
+                      className="multisteps-form__input form-control p-2"
+                      placeholderText="dd/mm/aaaa"
+                    />
+                  )}
+                />
+              </label>
+            </div>
 
-          <div className="multisteps-form__content">
-            <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Tipo de articulo</n>
+            <div className="col-12 col-md-4">
+              <label htmlFor="exampleFormControlInput1 mt-4">
+                Fecha final
+                <Controller
+                  name="fechaSolicitud"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      includeDates={[new Date()]}
+                      onChange={(date) => setStartDate(date)}
+                      className="multisteps-form__input form-control p-2"
+                      placeholderText="dd/mm/aaaa"
+                    />
+                  )}
+                />
               </label>
             </div>
           </div>
 
-          <div className="row">
+          <div className="mt-4 row">
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="codigoArticulo"
-                  className="multisteps-form__input form-control"
-                  type="text"
-                  placeholder="Codigo de articulo"
-                />
-                <label className="ms-2">Codigo del articulo</label>
+              <label className="form-floating input-group input-group-dynamic ms-2">
+                Estado de la solicitud
+                <div className="col-12 ">
+                  <Controller
+                    name="estado de solicitud"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        onChange={(e) =>
+                          setSelecOpciones({
+                            ...selecOpciones,
+                            estadoDeSolicitudes: e.value,
+                          })
+                        }
+                        options={opcionEstado}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              </label>
+            </div>
+
+            <div className="col-4 col-md-5">
+              <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" value="" />
+                <label class="form-check-label">Todas la solicitudes </label>
               </div>
             </div>
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="nombreArticulo"
-                  className="form-control"
-                  type="text"
-                  placeholder="Nombre del articulo"
-                  value="Computador"
-                  disabled
-                />
-                <label className="ms-2">Nombre del articulo</label>
-              </div>
-            </div>
-            <div className="col-12 col-md-4">
+
+            <div className="col-12 col-md-3">
               <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                 <button
                   className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="button"
+                  type="submit"
                   title="Send"
                   form="configForm"
                 >
-                  Buscar articulo
+                  Buscar
                 </button>
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-              <button
-                className="btn bg-gradient-primary mb-0 text-capitalize"
-                type="submit"
-                title="Send"
-                form="configForm"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-
-          {(selecOpciones.dependencia && selecOpciones.grupo) ||
-          mostrarTabla ? (
+          {mostrarTabla ||
+          (selecOpciones.tipoDocumento &&
+            selecOpciones.dependencia &&
+            selecOpciones.grupo &&
+            selecOpciones.estadoDeSolicitudes) ? (
             <div>
-              <div className="multisteps-form__content">
+
+              <div className="row">
+                <label className="form-control ms-0 fw-bolder text-center mt-4">
+                  <n>Reporte de solicitudes de vehiculo</n>
+                </label>
+              </div>
+
+              <div className="mt-1 row">
+                <div id="myGrid" className="ag-theme-alpine mt-4">
+                  <div className="ag-theme-alpine" style={{ height: "400px" }}>
+                    <AgGridReact
+                      columnDefs={columnDefs}
+                      rowData={rowData}
+                      defaultColDef={defaultColDef}
+                      onGridReady={onGridReady}
+                    ></AgGridReact>
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-flex flex-column justify-content-end align-items-end">
                 <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>Reporte de inventario porpersona o grupo</n>
-                  </label>
-                </div>
-
-                <div className="mt-1 row">
-                  <div id="myGrid" className="ag-theme-alpine mt-4">
-                    <div
-                      className="ag-theme-alpine"
-                      style={{ height: "400px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="d-flex flex-column justify-content-end align-items-end">
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="nombreQuienImprime"
-                          className="form-control"
-                          type="text"
-                          placeholder="Nombre del articulo"
-                          value="Julian Castillo"
-                          disabled
-                        />
-                        <label className="ms-2">Nombre quien imprime</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="fechaDeImpresion"
-                          className="form-control"
-                          type="text"
-                          placeholder="fecha de impresion"
-                          value="05/10/2022"
-                          disabled
-                        />
-                        <label className="ms-2">Fecha de impresion</label>
-                      </div>
+                  <div className="col-12 col-md-12">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="nombreQuienImprime"
+                        className="form-control"
+                        type="text"
+                        placeholder="Nombre del articulo"
+                        value="Julian Castillo"
+                        disabled
+                      />
+                      <label className="ms-2">Nombre quien imprime</label>
                     </div>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-primary mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Imprimir
-                    </button>
-                    <button
-                      className="btn bg-gradient-danger mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
+                  <div className="col-12 col-md-12">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="fechaDeImpresion"
+                        className="form-control"
+                        type="text"
+                        placeholder="fecha de impresion"
+                        value="05/10/2022"
+                        disabled
+                      />
+                      <label className="ms-2">Fecha de impresion</label>
+                    </div>
                   </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <button
+                    className="btn bg-gradient-primary mb-0"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Imprimir
+                  </button>
+                  <button
+                    className="btn bg-gradient-danger mb-0"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Salir
+                  </button>
                 </div>
               </div>
             </div>
@@ -429,4 +466,4 @@ const ReporteDeInventarioPorPersonaScreen = () => {
     </div>
   );
 };
-export default ReporteDeInventarioPorPersonaScreen;
+export default ReporteSolicitudDeVehiculosScreen;

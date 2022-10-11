@@ -109,7 +109,7 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-secondary text-capitalize "
+            className="btn btn-2 btn-secondary text-capitalize "
             type="button"
           >
             Gestionar
@@ -125,7 +125,7 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-secondary text-capitalize"
+            className="btn btn-2 btn-secondary text-capitalize"
             onClick={handleOpenModal}
             type="button"
           >
@@ -597,6 +597,7 @@ const SolicitudesRealizadasViveroScreen = () => {
             ""
           )}
         </form>
+
         <CalendarModal>
           <div className="row min-vh-100">
            

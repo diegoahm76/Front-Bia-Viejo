@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
-const ReporteSolicitudDeAsignacionScreen = () => {
+const ReporteDeReasignacionFuncionariosScreen = () => {
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const {
@@ -34,19 +34,53 @@ const ReporteSolicitudDeAsignacionScreen = () => {
       maxWidth: 200,
     },
     {
-      headerName: "Cantidad",
-      field: "Cantidad",
+      headerName: "ID",
+      field: "ID",
       minWidth: 150,
       maxWidth: 200,
     },
+    {
+        headerName: "Marca",
+        field: "Marca",
+        minWidth: 150,
+        maxWidth: 200,
+      },
+      {
+        headerName: "Serial",
+        field: "Serial",
+        minWidth: 150,
+        maxWidth: 200,
+      },
+      {
+        headerName: "Valor unitario",
+        field: "Valor unitario",
+        minWidth: 150,
+        maxWidth: 200,
+      },
+      {
+        headerName: "Estado",
+        field: "Estado",
+        minWidth: 150,
+        maxWidth: 200,
+      },
+      {
+        headerName: "Justificacion",
+        field: "Justificacion",
+        minWidth: 150,
+        maxWidth: 200,
+      },
   ];
 
   const rowData = [
     {
       "Codigo de articulo": "12345",
       Nombre: "Computador",
-      Cantidad: "3",
-      
+      ID: "3356",
+      Marca: "Lenovo",
+      Serial: "lkd123jj4",
+      "Valor unitario": "1.300.000",
+      Estado: "Bueno",
+      Justificacion: "Articulo en buen estado para ser manejado para todos los funcionarios de la corporacion ",
     },
   ];
 
@@ -80,7 +114,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de la solicitud de asignacion de activo
+          Reporte de reasiganacion entre funcionarios
         </h3>
 
         <form
@@ -103,7 +137,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
             </div>
             <div className="col-12 col-md-4">
               <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de Asignacion
+                Fecha de reasiganacion
                 <Controller
                   name="fechaSolicitud"
                   control={control}
@@ -126,38 +160,8 @@ const ReporteSolicitudDeAsignacionScreen = () => {
 
           <div className="multisteps-form__content">
             <div className="row">
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="Administrativa y finaciera"
-                    disabled
-                  />
-                  <label className="ms-2">Dependencia</label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="Almacen"
-                    disabled
-                  />
-                  <label className="ms-2">Grupo</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Responsable</n>
+                <n>Quien entrega</n>
               </label>
             </div>
           </div>
@@ -208,7 +212,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           <div className="multisteps-form__content">
             <div className="mt-4 row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Solicitante</n>
+                <n>Quien recibe</n>
               </label>
             </div>
           </div>
@@ -256,57 +260,6 @@ const ReporteSolicitudDeAsignacionScreen = () => {
             </div>
           </div>
 
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Operario</n>
-              </label>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="C.C"
-                    disabled
-                  />
-                  <label className="ms-2">Tipo de documento </label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="1.435.984.111"
-                    disabled
-                  />
-                  <label className="ms-2">Numero de documento</label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="Estevan Lopez"
-                    disabled
-                  />
-                  <label className="ms-2">Nombre</label>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="input-group input-group-dynamic flex-column mt-3">
             <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
             <textarea
@@ -320,25 +273,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
             />
           </div>
 
-          <div className="row">
-            <div className="d-flex mt-4 px-4 justify-content-end">
-              <div>
-                <label type="number"> cantidad de articulos |</label>
-              </div>
-              <div>
-                <label type="number" align="right">
-                  3 |
-                </label>
-              </div>
-              <div>
-                <label type="number"> Valor total |</label>
-              </div>
-              <div>
-                <label type="number" align="right">
-                  8.700.000 |
-                </label>
-              </div>
-            </div>
+          <div className="mt-4 row">
             <div id="myGrid" className="ag-theme-alpine">
               <div className="ag-theme-alpine" style={{ height: "400px" }}>
                 <AgGridReact
@@ -351,15 +286,35 @@ const ReporteSolicitudDeAsignacionScreen = () => {
             </div>
           </div>
 
-          <div className="d-flex flex-column justify-content-end align-items-start mt-5">
-            <label> _____________________________________________</label>
-            <div className="d-flex justify-content-center align-items-center">
-              <label>Firma del almacenista</label>
+          <div className="row">
+            <div className="col-12 col-md-4">
+              <div className="d-flex flex-column justify-content-end align-items-start mt-5">
+                <label> _____________________________________________</label>
+                <div className="d-flex justify-content-center align-items-center">
+                  <label>Firma del almacenista</label>
+                </div>
+                <div className="d-flex justify-content-start align-items-center">
+                  <label>Nombre:</label>
+                </div>
+              </div>
             </div>
-            <div className="d-flex justify-content-start align-items-center">
-              <label>Nombre:</label>
+            <div className="col-12 col-md-2">
+
+            </div>
+            <div className="col-12 col-md-4">
+              <div className="d-flex flex-column justify-content-end align-items-start mt-5">
+                <label> _____________________________________________</label>
+                <div className="d-flex justify-content-center align-items-center">
+                  <label>Firma del funcionario</label>
+                </div>
+                <div className="d-flex justify-content-start align-items-center">
+                  <label>Nombre:</label>
+                </div>
+              </div>
             </div>
           </div>
+
+          
 
           <div className="d-flex flex-column justify-content-end align-items-end">
             <div className="row">
@@ -420,4 +375,4 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     </div>
   );
 };
-export default ReporteSolicitudDeAsignacionScreen;
+export default ReporteDeReasignacionFuncionariosScreen;

@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
-const ReporteSolicitudDeAsignacionScreen = () => {
+const ReporteDeSolicitudDeConsumoScreen = () => {
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const {
@@ -44,8 +44,8 @@ const ReporteSolicitudDeAsignacionScreen = () => {
   const rowData = [
     {
       "Codigo de articulo": "12345",
-      Nombre: "Computador",
-      Cantidad: "3",
+      Nombre: "Papel rexma ",
+      Cantidad: "50",
       
     },
   ];
@@ -80,7 +80,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de la solicitud de asignacion de activo
+          Reporte de la solicitud de consumo
         </h3>
 
         <form
@@ -256,56 +256,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
             </div>
           </div>
 
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Operario</n>
-              </label>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="C.C"
-                    disabled
-                  />
-                  <label className="ms-2">Tipo de documento </label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="1.435.984.111"
-                    disabled
-                  />
-                  <label className="ms-2">Numero de documento</label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    value="Estevan Lopez"
-                    disabled
-                  />
-                  <label className="ms-2">Nombre</label>
-                </div>
-              </div>
-            </div>
-          </div>
+          
 
           <div className="input-group input-group-dynamic flex-column mt-3">
             <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
@@ -420,4 +371,4 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     </div>
   );
 };
-export default ReporteSolicitudDeAsignacionScreen;
+export default ReporteDeSolicitudDeConsumoScreen;

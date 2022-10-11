@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
-const ReporteSolicitudDeAsignacionScreen = () => {
+const ReporteAsignacionDeActivoScreen = () => {
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const {
@@ -34,8 +34,37 @@ const ReporteSolicitudDeAsignacionScreen = () => {
       maxWidth: 200,
     },
     {
-      headerName: "Cantidad",
-      field: "Cantidad",
+      headerName: "Cantidad solcitada",
+      field: "Cantidad solicitada",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+    {
+      headerName: "ID",
+      field: "ID",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+    {
+      headerName: "Marca",
+      field: "Marca",
+      minWidth: 150,
+      maxWidth: 200,
+    },{
+      headerName: "Serial",
+      field: "Serial",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+    {
+      headerName: "Cantidad entregada",
+      field: "Cantidad entregada",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+    {
+      headerName: "Valor del elemento",
+      field: "Valor del elemento",
       minWidth: 150,
       maxWidth: 200,
     },
@@ -45,8 +74,12 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     {
       "Codigo de articulo": "12345",
       Nombre: "Computador",
-      Cantidad: "3",
-      
+      "Cantidad solicitada": "3",
+      ID: "1234",
+      Marca: "Lenovo",
+      Serial: "1k3ie6s",
+      "Cantidad entregada" : "2",
+      "Valor del elemento" : "2.000.000",
     },
   ];
 
@@ -80,7 +113,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de la solicitud de asignacion de activo
+          Reporte de asignacion de activo
         </h3>
 
         <form
@@ -323,19 +356,19 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           <div className="row">
             <div className="d-flex mt-4 px-4 justify-content-end">
               <div>
-                <label type="number"> cantidad de articulos |</label>
+                <label type="number"> cantidad de articulos asignados |</label>
               </div>
               <div>
                 <label type="number" align="right">
-                  3 |
+                  2 |
                 </label>
               </div>
               <div>
-                <label type="number"> Valor total |</label>
+                <label type="number"> Valor total asigando|</label>
               </div>
               <div>
                 <label type="number" align="right">
-                  8.700.000 |
+                  2.000.000 |
                 </label>
               </div>
             </div>
@@ -354,7 +387,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           <div className="d-flex flex-column justify-content-end align-items-start mt-5">
             <label> _____________________________________________</label>
             <div className="d-flex justify-content-center align-items-center">
-              <label>Firma del almacenista</label>
+              <label>Firma de quien solicita</label>
             </div>
             <div className="d-flex justify-content-start align-items-center">
               <label>Nombre:</label>
@@ -415,9 +448,10 @@ const ReporteSolicitudDeAsignacionScreen = () => {
               </button>
             </div>
           </div>
+          <div></div>
         </form>
       </div>
     </div>
   );
 };
-export default ReporteSolicitudDeAsignacionScreen;
+export default ReporteAsignacionDeActivoScreen;

@@ -137,7 +137,7 @@ const ConsultaPazYSalvoScreen = () => {
 
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento <small className="text-danger">*</small>
                   <div className="col-12 ">
@@ -162,27 +162,21 @@ const ConsultaPazYSalvoScreen = () => {
                 </label>
               </div>
 
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic ">
                   <input
                     name="numeroCedula"
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
-                    {...register("numeroCedula", { required: true })}
                   />
                   <label className="ms-2">
                     Número de cedula<small className="text-danger">*</small>
                   </label>
                 </div>
-                {errors.numeroCedula && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
-                )}
               </div>
 
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
@@ -203,7 +197,7 @@ const ConsultaPazYSalvoScreen = () => {
             </div>
           </div>
 
-          <div className="mt-4 row">
+          <div className=" row">
             <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               <button
                 className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -216,7 +210,7 @@ const ConsultaPazYSalvoScreen = () => {
             </div>
           </div>
 
-          <div className="mt-4 row">
+          <div className="row">
             <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               <button
                 className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -302,7 +296,7 @@ const ConsultaPazYSalvoScreen = () => {
 
                   <div className="d-flex flex-column justify-content-end align-items-end">
                     <div className="row">
-                      <div className="col-12 col-sm-12">
+                      <div className="col-12 col-md-12">
                         <div className="form-floating input-group input-group-dynamic">
                           <input
                             name="nombreQuienImprime"
@@ -318,7 +312,7 @@ const ConsultaPazYSalvoScreen = () => {
                     </div>
 
                     <div className="row">
-                      <div className="col-12 col-sm-12">
+                      <div className="col-12 col-md-12">
                         <div className="form-floating input-group input-group-dynamic">
                           <input
                             name="fechaDeImpresion"

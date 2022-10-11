@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
-const ReporteDeEntradaScreen = () => {
+const ReporteDeEntradaDeConsumoScreen = () => {
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const {
@@ -33,13 +33,7 @@ const ReporteDeEntradaScreen = () => {
       minWidth: 150,
       maxWidth: 200,
     },
-    {
-      headerName: "Marca",
-      field: "Marca",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-
+    
     {
       headerName: "Cantidad",
       field: "Cantidad",
@@ -69,12 +63,11 @@ const ReporteDeEntradaScreen = () => {
   const rowData = [
     {
       "Codigo de articulo": "12345",
-      Nombre: "Computador",
-      Marca: "Lenovo",
-      Cantidad: "3",
-      "Valor unitario": "2.700.000",
-      "Valor IVA": "200.000",
-      "Valor de compra": "8.700.000",
+      Nombre: "Papel rexma",
+      Cantidad: "60",
+      "Valor unitario": "20.000",
+      "Valor IVA": "5.000",
+      "Valor de compra": "300.000",
     },
   ];
 
@@ -108,7 +101,7 @@ const ReporteDeEntradaScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de Entrada de Almacen de activos fijos
+          Reporte de Entrada de consumo
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -214,18 +207,7 @@ const ReporteDeEntradaScreen = () => {
               </div>
 
               <div className="mt-3 row">
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      value="Compras"
-                      disabled
-                    />
-                    <label className="ms-2">Origen</label>
-                  </div>
-                </div>
+                
 
                 <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
@@ -343,4 +325,4 @@ const ReporteDeEntradaScreen = () => {
     </div>
   );
 };
-export default ReporteDeEntradaScreen;
+export default ReporteDeEntradaDeConsumoScreen;

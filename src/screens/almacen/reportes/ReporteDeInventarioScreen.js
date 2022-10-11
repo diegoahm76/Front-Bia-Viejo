@@ -172,7 +172,7 @@ const ReporteDeInventarioScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Ubicacion
                   <div className="col-12 ">
@@ -197,7 +197,7 @@ const ReporteDeInventarioScreen = () => {
                 </label>
               </div>
 
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Bodega
                   <div className="col-12 ">
@@ -222,7 +222,7 @@ const ReporteDeInventarioScreen = () => {
                 </label>
               </div>
 
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de entrada
                   <div className="col-12 ">
@@ -256,7 +256,7 @@ const ReporteDeInventarioScreen = () => {
               </div>
 
               <div className="row">
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -267,7 +267,7 @@ const ReporteDeInventarioScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -288,7 +288,7 @@ const ReporteDeInventarioScreen = () => {
               </div>
 
               <div className="row">
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -299,7 +299,7 @@ const ReporteDeInventarioScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -320,7 +320,7 @@ const ReporteDeInventarioScreen = () => {
               </div>
 
               <div className="row">
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-md-4">
                   <label htmlFor="exampleFormControlInput1 mt-4">
                     Fecha inicial
                     <Controller
@@ -342,7 +342,7 @@ const ReporteDeInventarioScreen = () => {
                   </label>
                 </div>
 
-                <div className="col-12 col-sm-4">
+                <div className="col-12 col-md-4">
                   <label htmlFor="exampleFormControlInput1 mt-4">
                     Fecha final
                     <Controller
@@ -407,7 +407,7 @@ const ReporteDeInventarioScreen = () => {
 
                     <div className="d-flex flex-column justify-content-end align-items-end">
                       <div className="row">
-                        <div className="col-12 col-sm-12">
+                        <div className="col-12 col-md-12">
                           <div className="form-floating input-group input-group-dynamic">
                             <input
                               name="nombreQuienImprime"
@@ -423,7 +423,7 @@ const ReporteDeInventarioScreen = () => {
                       </div>
 
                       <div className="row">
-                        <div className="col-12 col-sm-12">
+                        <div className="col-12 col-md-12">
                           <div className="form-floating input-group input-group-dynamic">
                             <input
                               name="fechaDeImpresion"
