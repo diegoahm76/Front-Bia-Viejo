@@ -17,29 +17,25 @@ const RegistroDeMantenimientoDeVehiculo = () => {
         </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row">
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-md-4 ">
               <div className="form-floating input-group input-group-dynamic">
                 <input
                   className="form-control"
                   type="text"
                   //required
-                  placeholder="Numero de documento"
+                  placeholder="Consecutivo"
                   //{...register("numeroDocumento")}
                 />
                 <label className="ms-2">
-                  Número de documento: <span className="text-danger">*</span>
+                  Consecutivo: <span className="text-danger">*</span>
                 </label>
               </div>
-              <div className="input-group input-group-dynamic flex-column col-12 col-md-4 mt-4">
-                <label htmlFor="exampleFormControlInput1">
-                  Fecha de nacimiento <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="fechaNacimiento"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
+            </div>
+            <div className="col-12 col-md-4">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha de solicitud
+                  <DatePicker
+                      //{...field}
                       locale="es"
                       //required
                       selected={formValues.fechaNacimiento}
@@ -49,10 +45,8 @@ const RegistroDeMantenimientoDeVehiculo = () => {
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
                     />
-                  )}
-                />
+                </label>
               </div>
-            </div>
           </form>
         </div>
       </div>
