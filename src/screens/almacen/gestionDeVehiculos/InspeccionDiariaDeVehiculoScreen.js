@@ -262,7 +262,7 @@ const InspeccionDiariaDeVehiculoScreen = () => {
                       id={estados.name}
                     />
                     <label>Bueno</label>
-                    <label for={estados.name}>{estados.name}</label>
+                    <label htmlFor={estados.name}>{estados.name}</label>
                   </div>
                 ))}
               </div>
