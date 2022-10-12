@@ -254,7 +254,48 @@ const RegisterPersonaScreen = () => {
           }
         });
       } catch (err) {
-        console.log(err);
+        if (err.response?.data?.email && err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: "Este documento y correo ya estan relacionados",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: "Este documento ya existe",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.email) {
+          Swal.fire({
+            title: "Este correo electronico ya existe",
+            text: "Verifica tus datos",
+            icon: "info",
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Aceptar",
+          });
+        } else {
+          console.log(err);
+        }
       }
     }
   };
