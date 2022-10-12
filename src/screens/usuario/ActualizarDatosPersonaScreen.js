@@ -115,9 +115,9 @@ const ActualizarDatosPersonaScreen = () => {
                 </div>
               </div>
               <div className="col-4 col-md-6">
-                <div class="form-check mt-4">
-                  <input class="form-check-input" type="checkbox" value="" />
-                  <label class="form-check-label">Si/No</label>
+                <div className="form-check mt-4">
+                  <input className="form-check-input" type="checkbox" value="" />
+                  <label className="form-check-label">Si/No</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">

@@ -7,16 +7,12 @@ import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import clienteAxios from "../../../config/clienteAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
-const optionsTipoDocumento = [
-  { label: "C.C.", value: "cc" },
-  { label: "T.I", value: "TI" },
-];
+import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 
 const RegisterUserScreen = () => {
   const navigate = useNavigate();
   const [errorPassword, setErrorPassword] = useState(null);
-  const [dataValidation, setDataValidation] = useState({});
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [isHandleSubmit, setIsHandleSubmit] = useState(false);
   const {
     register,
@@ -26,20 +22,36 @@ const RegisterUserScreen = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+        const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+          "choices/tipo-documento/"
+        );
+        const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+
+        setTipoDocumentoOptions(documentosFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
+
   const onSubmit = async (data) => {
-    console.log(data);
+    //console.log(data);
 
     try {
-      /* 
-        Petición para verificación existencia de persona
-      */
-      const { data: datePersonas } = await clienteAxios.get(
-        "personas/getpersonas"
+      /*
+       *Petición para verificación existencia de persona
+       */
+      const { data: dataPersona } = await clienteAxios.get(
+        `personas/getpersonabydocument/${data?.numeroDocumento}`
       );
-      const dataPersona = datePersonas.filter(
-        (persona) => persona.numero_documento === data.numeroDocumento
-      );
-      if (!dataPersona.length) {
+
+      //console.log("dataPersona", dataPersona.id_persona)
+
+      if (!dataPersona.id_persona) {
         Swal.fire({
           title: "No exite un persona con estos datos",
           text: "¿Desea registrarse como persona o empresa?",
@@ -55,22 +67,27 @@ const RegisterUserScreen = () => {
           }
         });
       }
-
+ 
       const config = {
         headers: {
           "Content-type": "application/json",
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MDI2MDE3LCJpYXQiOjE2NjU0MzQwMTcsImp0aSI6ImQ4M2MyOTZlZWEyMzQ3ZjM5MTU5MzEyNTUzMzZmZWYyIiwidXNlcl9pZCI6MX0.S_5c2K5pYYNWc_LtvaZ75NaP57KoQ5L_tCY8YbIILaI",
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MTE5OTMzLCJpYXQiOjE2NjU1Mjc5MzMsImp0aSI6ImQ2NjI3NmM2MDE2YzRmZGRhMzRkMGZhNTRkMGIwMWJjIiwidXNlcl9pZCI6MX0.2Pc3XAJ-03TKHePTW7etUHa-ICpzTSaT2Brz8ibVqkE",
         },
       };
 
       /*
        *Petición para verificar si la persona ya tiene usuario
        */
-      const { data: dataUsers } = await clienteAxios.get("users", config);
-      const dataUser = dataUsers.filter(
-        (user) => user.persona.numero_documento === data.numeroDocumento
-      );
+      const { data: dataUsers } = await clienteAxios.get("users/get", config);
+      console.log("estos son los usuarios de la peticion", dataUsers);
+      const dataUser = dataUsers.filter((user) => {
+        console.log(
+          "esta es la validacion de cada documento",
+          user.persona?.numero_documento
+        );
+        return user.persona?.numero_documento === data.numeroDocumento;
+      });
       if (dataUser.length) {
         Swal.fire({
           title: "Este usuario ya existe",
@@ -99,11 +116,11 @@ const RegisterUserScreen = () => {
       const user = {
         password: data.password,
         password2: data.password2,
-        persona: dataPersona[0].id_persona,
+        persona: dataPersona.id_persona,
         id_usuario_creador: null,
         activated_at: "2022-10-10T17:15:00Z", // Hablar con el back para revisar este dato que probablemente no sea obligatorio
         tipo_usuario: "E", // Debería ser por defecto que se creara en E
-        email: dataPersona[0].email,
+        email: dataPersona.email,
         nombre_de_usuario: data.nombreDeUsuario,
       };
 
@@ -180,7 +197,7 @@ const RegisterUserScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionsTipoDocumento}
+                        options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
                     )}

@@ -77,10 +77,31 @@ const Aside = ({showAside}) => {
                     >
                       <span className="sidenav-mini-icon"> L </span>
                       <span className="sidenav-normal  ms-3  ps-1">
-                        {" "}
-                        Logout{" "}
+                        Logout
                       </span>
                     </div>
+                  </li>
+                  <li className="nav-item active">
+                    <Link
+                      to="usuario/actualizar-datos-persona"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> P </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Actualizar Datos
+                      </span>
+                    </Link>
+                  </li>
+                  <li className="nav-item active">
+                    <Link
+                      to="usuario/actualizar-datos-empresa"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> E </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Actualizar Datos
+                      </span>
+                    </Link>
                   </li>
                 </ul>
               </div>

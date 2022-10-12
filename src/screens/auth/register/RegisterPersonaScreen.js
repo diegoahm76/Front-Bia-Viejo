@@ -1,20 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
 import Select from "react-select";
-import { userRegisterAction } from "../../../actions/userActions";
 import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import GeneradorDeDirecciones from "../../../components/GeneradorDeDirecciones";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
-const optionsTipoPersona = [
-  { label: "Natural", value: "N" },
-  { label: "Jurídica", value: "J" },
-];
+import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 
 const defaultValues = {
   tipo_persona: "",
@@ -26,42 +20,28 @@ const defaultValues = {
   segundoNombre: "",
   primerApellido: "",
   segundoApellido: "",
-  fechaNacimiento: "", //! Este dato queda por socializar para ver si es requerido o no y también revisar si el formato YYYYMMDD es el correcto
-  ubicacion_georeferenciada: "12", //! Este valor queda pendiente por revisar porque sale obligatorio según el mockup
-  pais_residencia: "AG", //! Este campo debería no ser obligatorio según el mockup
-  departamento_residencia: "05", //! Este campo debería no ser obligatorio según el mockup
-  municipio: "", //! Tanto municipio como departamento reciben codigos que necesitamos se nos expliquen o nos envien clave/valor
-  pais_nacimiento: "AL", //TODO Este campo debería no ser obligatorio según el mockup
-  sexo: "I", //! Este campo debería no ser obligatorio según el mockup
+  fechaNacimiento: "",
+  ubicacion_georeferenciada: "",
+  pais_residencia: "",
+  departamento_residencia: "",
+  municipio: "",
+  pais_nacimiento: "",
+  sexo: "",
   eMail: "",
-  cod_pais_nacionalidad_empresa: "AS", //! Este campo debería no ser obligatorio según el mockup
+  cEmail: "",
+  cod_pais_nacionalidad_empresa: "",
   celular: "",
+  cCelular: "",
   nombreComercial: "",
-  acepta_notificacion_sms: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
-  acepta_notificacion_email: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
-  acepta_tratamiento_datos: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
+  acepta_notificacion_sms: true,
+  acepta_notificacion_email: true,
+  acepta_tratamiento_datos: true,
   direccionNotificacion: "",
 };
-
-const optionsTipoDocumento = [{ label: "C.C.", value: "cc" }];
 
 const optionsYorNo = [
   { label: "No", value: false },
   { label: "Si", value: true },
-];
-
-const departamentosOptions = [
-  { label: "Arauca", value: "05" },
-  { label: "Meta", value: "08" },
-  { label: "Santander", value: "11" },
-  { label: "Norte de Santander", value: "13" },
-];
-
-const municipiosOptions = [
-  { label: "Arauca", value: "91263" },
-  { label: "Villavicencio", value: "91405" },
-  { label: "Bucaramanga", value: "91407" },
-  { label: "San Jose de Cucuta", value: "91430" },
 ];
 
 const defaultErrors = {
@@ -69,20 +49,54 @@ const defaultErrors = {
   confirmacionCelular: false,
 };
 
-const RegisterScreen = () => {
+const RegisterPersonaScreen = () => {
   const [isOpenGenerator, setIsOpenGenerator] = useState(false);
   const [completeAddress, setCompleteAddress] = useState("");
   const [errors, setErrors] = useState(defaultErrors);
   const [yesOrNo, setYesOrNo] = useState(false);
   const [isUser, setIsUser] = useState(true);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
+  const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [tipoPersonaOptions, setTipoPersonaOptions] = useState([]);
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
-    tipo_persona: "N",
-    tipo_documento: "cc",
+    tipo_persona: { label: "Natural", value: "N" },
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+        const { data: tipoPersonaNoFormat } = await clienteAxios.get(
+          "choices/tipo-persona/"
+        );
+        const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+          "choices/tipo-documento/"
+        );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
+        const { data: municipiosNoFormat } = await clienteAxios.get(
+          "choices/municipios/"
+        );
+
+        const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+        const tipoPersonaFormat = textChoiseAdapter(tipoPersonaNoFormat);
+
+        setTipoDocumentoOptions(documentosFormat);
+        setDepartamentosOptions(departamentosFormat);
+        setMunicipiosOptions(municipiosFormat);
+        setTipoPersonaOptions(tipoPersonaFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
 
   const {
     register,
@@ -92,56 +106,8 @@ const RegisterScreen = () => {
     formState: { errors: errorsForm },
   } = useForm();
 
-  const objTest = {
-    persona: {
-      id_persona: 3,
-      tipo_documento: {
-        cod_tipo_documento: "cc",
-        nombre: "Cedula de ciudadania",
-      },
-      estado_civil: {
-        cod_estado_civil: "1",
-        nombre: "Soltero",
-      },
-      representante_legal: null,
-      tipo_persona: "N",
-      numero_documento: "1121952532",
-      digito_verificacion: null,
-      primer_nombre: null,
-      segundo_nombre: null,
-      primer_apellido: null,
-      segundo_apellido: null,
-      nombre_comercial: null,
-      razon_social: null,
-      pais_residencia: "AF",
-      departamento_residencia: "05",
-      municipio_residencia: "17388",
-      direccion_residencia: null,
-      direccion_residencia_ref: null,
-      ubicacion_georeferenciada: "12",
-      direccion_laboral: null,
-      direccion_notificaciones: null,
-      pais_nacimiento: "AL",
-      fecha_nacimiento: null,
-      sexo: "I",
-      email: "user2@user.com",
-      email_empresarial: null,
-      telefono_fijo_residencial: null,
-      telefono_celular: null,
-      telefono_empresa: null,
-      cod_municipio_laboral_nal: null,
-      cod_municipio_notificacion_nal: null,
-      telefono_celular_empresa: null,
-      telefono_empresa_2: null,
-      cod_pais_nacionalidad_empresa: "AS",
-      acepta_notificacion_sms: false,
-      acepta_notificacion_email: false,
-      acepta_tratamiento_datos: false,
-    },
-  };
-
   const submitForm = async (data) => {
-    console.log(data);
+    //console.log(data);
     if (data.eMail !== data.cEmail || data.celular !== data.cCelular) {
       const dataResponse = {
         ...defaultErrors,
@@ -166,7 +132,7 @@ const RegisterScreen = () => {
     // Falta hacer confirmación de datos correo
 
     const persona = {
-      tipo_persona: formValues.tipo_persona,
+      tipo_persona: formValues.tipo_persona.value,
       tipo_documento: data.tipoDocumento.value,
       numero_documento: data.numero_documento,
       razon_social: data.razonSocial || null,
@@ -175,10 +141,11 @@ const RegisterScreen = () => {
       segundo_nombre: data.segundoNombre || null,
       primer_apellido: data.primerApellido,
       segundo_apellido: data.segundoApellido || null,
-      fecha_nacimiento: formatISO(data.fechaNacimiento, {
-        representation: "date",
-      }), //! Este dato queda por socializar para ver si es requerido o no y también revisar si el formato YYYYMMDD es el correcto
-      ubicacion_georeferenciada: "12", //! Este valor queda pendiente por revisar porque sale obligatorio según el mockup
+      fecha_nacimiento:
+        formatISO(data.fechaNacimiento, {
+          representation: "date",
+        }) || null, //! Este dato queda por socializar para ver si es requerido o no y también revisar si el formato YYYYMMDD es el correcto
+      ubicacion_georeferenciada: "Casa", //! Este valor queda pendiente por revisar porque sale obligatorio según el mockup
       pais_residencia: "AG", //! Este campo debería no ser obligatorio según el mockup
       departamento_residencia: "05", //! Este campo debería no ser obligatorio según el mockup
       municipio_residencia: data.municipio?.value || null, //! Tanto municipio como departamento reciben codigos que necesitamos se nos expliquen o nos envien clave/valor
@@ -194,38 +161,94 @@ const RegisterScreen = () => {
       direccion_notificaciones: data.direccionNotificacion,
     };
 
-    console.log(persona);
+    console.log("Persona", persona);
+
+    // try {
+    //   const { data: dataGetPersona } = await clienteAxios.get(
+    //     `personas/getpersonabydocument/${data?.numero_documento}`
+    //   );
+
+    //   Swal.fire({
+    //     title: "Esta persona ya existe",
+    //     text: "¿Desea registrarse como usuario?",
+    //     icon: "info",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3BA9E0",
+    //     cancelButtonColor: "#6c757d",
+    //     confirmButtonText: "Si",
+    //     cancelButtonText: "No",
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       navigate("/registeruser");
+    //     }
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
+
+    // try {
+    //   const { data: dataGetPersonaByEmail } = await clienteAxios.get(
+    //     `personas/getpersonabyemail/${persona.email}`
+    //   );
+
+    //   Swal.fire({
+    //     title: "Este correo ya esta en uso",
+    //     text: "Digite otro correo electronico",
+    //     icon: "info",
+    //     confirmButtonColor: "#3BA9E0",
+    //     cancelButtonColor: "#6c757d",
+    //     confirmButtonText: "Aceptar",
+    //   });
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
     try {
-      const { data } = await clienteAxios.post(
+      const { data: dataRegisterPersona } = await clienteAxios.post(
         "personas/registerpersona/",
         persona
       );
-      console.log(data);
+      console.log(dataRegisterPersona);
       Swal.fire({
-        title: `Registrado como ${formValues.tipo_persona === "N" ? "Persona" : "Empresa"}`,
+        title: `Registrado como ${
+          formValues.tipo_persona === "N" ? "Persona" : "Empresa"
+        }`,
         text: "¿Desea registrarse como usuario?",
         icon: "success",
         showCancelButton: true,
         confirmButtonColor: "#3BA9E0",
         cancelButtonColor: "#6c757d",
         confirmButtonText: "Si",
-        cancelButtonText: "No"
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/registeruser");
+        } else {
+          reset(defaultValues);
+        }
+      });
+    } catch (err) {
+      Swal.fire({
+        title: "Errores",
+        text: `- ${err.response?.data?.numero_documento && "Ya existe una persona con este número de documento"} \n - ${err.response?.data?.email && "Ya existe una persona con este email"} \n ¿Quiere registrarse como usuario?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/registeruser");
         }
       });
-    } catch (err) {
       console.log(err);
     }
-
-    // dispatch(userRegisterAction(usuario));
   };
 
   const handleChangeTypePerson = (e) => {
-    reset(defaultValues)
-    setFormValues({ ...formValues, tipo_persona: e.value });
+    reset(defaultValues);
+    setFormValues({ ...formValues, tipo_persona: e });
     if (e.value === "J") {
       setIsUser(false);
     } else {
@@ -249,9 +272,9 @@ const RegisterScreen = () => {
       }}
     >
       <span className="mask bg-gradient-dark opacity-6"></span>
-      <div className="container my-auto mt-2 mb-2">
-        <div className="row">
-          <div className="col-12 col-md-7 mx-auto">
+      <div className="container my-auto">
+        <div className="row my-4">
+          <div className="col-12 col-md-8 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               {isUser ? (
                 <>
@@ -276,8 +299,8 @@ const RegisterScreen = () => {
                     Tipo de persona: <span className="text-danger">*</span>
                   </label>
                   <Select
-                    options={optionsTipoPersona}
-                    defaultValue={optionsTipoPersona[0]}
+                    options={tipoPersonaOptions}
+                    defaultValue={formValues.tipo_persona}
                     placeholder="Seleccionar"
                     onChange={handleChangeTypePerson}
                   />
@@ -295,8 +318,8 @@ const RegisterScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        defaultValue={optionsTipoDocumento[0]}
-                        options={optionsTipoDocumento}
+                        // defaultValue={tipoDocumentoOptions[0]}
+                        options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -471,41 +494,44 @@ const RegisterScreen = () => {
                     </div>
                   </>
                 )}
-                <div className="input-group input-group-dynamic flex-column col-6 mt-4">
-                  <label htmlFor="exampleFormControlInput1">
-                    Fecha de nacimiento: <span className="text-danger">*</span>
-                  </label>
-                  <Controller
-                    name="fechaNacimiento"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        showYearDropdown
-                        peekNextMonth
-                        showMonthDropdown
-                        dropdownMode="select"
-                        scrollableYearDropdown
-                        autoComplete="off"
-                        selected={formValues.fechaNacimiento}
-                        onSelect={(e) =>
-                          setFormValues({ ...formValues, fechaNacimiento: e })
-                        }
-                        className="multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
-                      />
+                {isUser && (
+                  <div className="input-group input-group-dynamic flex-column col-6 mt-4">
+                    <label htmlFor="exampleFormControlInput1">
+                      Fecha de nacimiento:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="fechaNacimiento"
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          showYearDropdown
+                          peekNextMonth
+                          showMonthDropdown
+                          dropdownMode="select"
+                          scrollableYearDropdown
+                          autoComplete="off"
+                          selected={formValues.fechaNacimiento}
+                          onSelect={(e) =>
+                            setFormValues({ ...formValues, fechaNacimiento: e })
+                          }
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                        />
+                      )}
+                    />
+                    {errorsForm.fechaNacimiento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
                     )}
-                  />
-                  {errorsForm.fechaNacimiento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
                 {/* DATOS DE NOTIFICACION */}
                 <h5 className="font-weight-bolder mt-3">
                   Datos de notificación
@@ -639,7 +665,7 @@ const RegisterScreen = () => {
                       </label>
                       <button
                         type="button"
-                        className="btn bg-gradient-primary"
+                        className="btn bg-gradient-primary text-capitalize"
                         onClick={() => setIsOpenGenerator(true)}
                       >
                         Generar
@@ -730,4 +756,4 @@ const RegisterScreen = () => {
     </div>
   );
 };
-export default RegisterScreen;
+export default RegisterPersonaScreen;
