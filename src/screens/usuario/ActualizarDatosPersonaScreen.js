@@ -1,42 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-
-const sexoOptions = [
-  { label: "Masculino", value: "Masculino" },
-  { label: "Femenino", value: "Femenino" },
-  { label: "Todos los demas", value: "Todos los demas" },
-];
-
-const estadoCivilOptions = [
-  { label: "Soltero", value: "Soltero" },
-  { label: "Casado", value: "Casado" },
-  { label: "Viudo", value: "Viudo" },
-];
-
-const paisNacimientoOptions = [
-  { label: "Colombia", value: "COL" },
-  { label: "Mexico", value: "MX" },
-  { label: "Venezuela", value: "VEN" },
-];
-
-const departamentosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Meta", value: "Meta" },
-  { label: "Santander", value: "Santander" },
-  { label: "Norte de Santander", value: "Norte de Santander" },
-];
-
-const municipiosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Villavicencio", value: "Villavicencio" },
-  { label: "Bucaramanga", value: "Bucaramanga" },
-  { label: "San Jose de Cucuta", value: "San Jose de Cucuta" },
-];
+import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import clienteAxios from "../../config/clienteAxios";
 
 const ActualizarDatosPersonaScreen = () => {
   const [page, setPage] = useState(1);
+  const [paisesOptions, setPaisesOptions] = useState([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
+  const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [sexoOptions, setSexoOptions] = useState([]);
+  const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
 
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
@@ -48,6 +23,53 @@ const ActualizarDatosPersonaScreen = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+
+        const dataLogin = await JSON.parse(localStorage.getItem("userInfo"))
+        //Peticion para buscar la persona por email
+
+        const { data: dataPersona} = await clienteAxios.get(`personas/getpersonabyemail/${dataLogin.email}`)
+
+        //personas/updatepersonajuridica/${id_persona}
+        //personas/updatepersonanatural/${id_persona}
+
+        //Peticion para las opciones de los selects
+        const { data: sexoNoFormat } = await clienteAxios.get("choices/sexo/");
+
+        const { data: estadoCivilNoFormat } = await clienteAxios.get(
+          "choices/estado-civil/"
+        );
+
+        const { data: paisesNoFormat } = await clienteAxios.get(
+          "choices/paises/"
+        );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
+        const { data: municipiosNoFormat } = await clienteAxios.get(
+          "choices/municipios/"
+        );
+
+        const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
+        const sexoFormat = textChoiseAdapter(sexoNoFormat);
+        const paisesFormat = textChoiseAdapter(paisesNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+
+        setEstadoCivilOptions(estadoCivilFormat);
+        setSexoOptions(sexoFormat);
+        setPaisesOptions(paisesFormat);
+        setDepartamentosOptions(departamentosFormat);
+        setMunicipiosOptions(municipiosFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
 
   const submit = (data) => {
     if (page === 1) setPage(2);
@@ -116,7 +138,11 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-4 col-md-6">
                 <div className="form-check mt-4">
-                  <input className="form-check-input" type="checkbox" value="" />
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value=""
+                  />
                   <label className="form-check-label">Si/No</label>
                 </div>
               </div>
@@ -236,7 +262,7 @@ const ActualizarDatosPersonaScreen = () => {
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={paisNacimientoOptions}
+                      options={paisesOptions}
                       placeholder="Seleccionar"
                     />
                   )}
@@ -252,7 +278,7 @@ const ActualizarDatosPersonaScreen = () => {
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={paisNacimientoOptions}
+                      options={paisesOptions}
                       placeholder="Seleccionar"
                     />
                   )}

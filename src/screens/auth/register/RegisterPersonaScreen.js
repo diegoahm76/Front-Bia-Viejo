@@ -147,6 +147,7 @@ const RegisterPersonaScreen = () => {
       });
       persona.email = data.eMail;
       persona.telefono_celular = data.celular;
+      persona.ubicacion_georeferenciada = "mi casita";
     } else {
       persona.tipo_persona = formValues.tipo_persona.value;
       persona.tipo_documento = data.tipoDocumento.value;
@@ -158,6 +159,7 @@ const RegisterPersonaScreen = () => {
       persona.direccion_notificaciones = data.direccionNotificacion;
       persona.departamento_residencia = data.departamento?.value;
       persona.municipio_residencia = data.municipio?.value;
+      persona.ubicacion_georeferenciada = "mi casita";
     }
 
     //* Peticion de registro condicional dependiendo de si es natural o juridica
@@ -167,7 +169,6 @@ const RegisterPersonaScreen = () => {
           "personas/registerpersonanatural/",
           persona
         );
-        console.log(dataRegisterPersona);
         Swal.fire({
           title: "Registrado como persona natural",
           text: "¿Desea registrarse como usuario?",

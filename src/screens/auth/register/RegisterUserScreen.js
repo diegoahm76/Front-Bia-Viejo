@@ -39,8 +39,6 @@ const RegisterUserScreen = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    //console.log(data);
-
     try {
       /*
        *Petición para verificación existencia de persona
@@ -67,64 +65,15 @@ const RegisterUserScreen = () => {
           }
         });
       }
- 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MTE5OTMzLCJpYXQiOjE2NjU1Mjc5MzMsImp0aSI6ImQ2NjI3NmM2MDE2YzRmZGRhMzRkMGZhNTRkMGIwMWJjIiwidXNlcl9pZCI6MX0.2Pc3XAJ-03TKHePTW7etUHa-ICpzTSaT2Brz8ibVqkE",
-        },
-      };
-
-      /*
-       *Petición para verificar si la persona ya tiene usuario
-       */
-      const { data: dataUsers } = await clienteAxios.get("users/get", config);
-      console.log("estos son los usuarios de la peticion", dataUsers);
-      const dataUser = dataUsers.filter((user) => {
-        console.log(
-          "esta es la validacion de cada documento",
-          user.persona?.numero_documento
-        );
-        return user.persona?.numero_documento === data.numeroDocumento;
-      });
-      if (dataUser.length) {
-        Swal.fire({
-          title: "Este usuario ya existe",
-          text: "¿Desea recuperar su contraseña?",
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/recuperarcontrasena");
-          } else {
-            navigate("/login");
-          }
-        });
-      }
-
-      /*
-       *Petición de registro de usuario
-       */
-
-      console.log("dataPersona", dataPersona);
 
       const user = {
-        password: data.password,
-        password2: data.password2,
-        persona: dataPersona.id_persona,
-        id_usuario_creador: null,
-        activated_at: "2022-10-10T17:15:00Z", // Hablar con el back para revisar este dato que probablemente no sea obligatorio
-        tipo_usuario: "E", // Debería ser por defecto que se creara en E
         email: dataPersona.email,
         nombre_de_usuario: data.nombreDeUsuario,
+        persona: dataPersona.id_persona,
+        password: data.password,
+        id_usuario_creador: null,
+        tipo_usuario: "E", // Debería ser por defecto que se creara en E
       };
-
-      console.log("user", user);
 
       const config2 = {
         headers: {
@@ -151,7 +100,24 @@ const RegisterUserScreen = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error.response?.data?.errors?.persona) {
+        Swal.fire({
+          title: "Estos datos ya estan relacionados a una persona",
+          text: "¿Desea registrar una nueva persona?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/register");
+          }
+        });
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -178,7 +144,7 @@ const RegisterUserScreen = () => {
     >
       <div className="container my-auto">
         <div className="row">
-          <div className="col-lg-4 col-md-8 col-12 mx-auto">
+          <div className="col-lg-6 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               <h3 className="mt-3 mb-0 text-center mb-6">
                 Registro de usuario
