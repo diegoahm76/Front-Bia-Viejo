@@ -8,6 +8,11 @@ import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/Consult
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
+import SolicitudesAutorizadasPorEjecutraScreen from "../gestionDeVehiculos/SolicitudesAutorizadasPorEjecutraScreen";
+import MarcarVehiculoComoEntregadoScreen from "../gestionDeVehiculos/MarcarVehiculoComoEntregadoScreen";
+import SolicitudesDeVehiculoEnEjecucionScreen from "../gestionDeVehiculos/SolicitudesDeVehiculoEnEjecucionScreen";
+import SolicitudesPendientesPorAutorizarScreen from "../gestionDeVehiculos/SolicitudesPendientesPorAutorizarScreen";
+import SolicitudesDeVehiculoVencidasScreen from "../gestionDeVehiculos/SolicitudesDeVehiculoVencidasScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -23,9 +28,10 @@ const AlmacenRoutes = () => {
         element={<InspeccionDiariaDeVehiculoScreen />}
       />
 
-      <Route path="registrodemantenimientodevehiculo" element={<RegistroDeMantenimientoDeVehiculo />} />
-
-      <Route path="/*" element={<Navigate to="/dashboard" />} />
+      <Route
+        path="registrodemantenimientodevehiculo"
+        element={<RegistroDeMantenimientoDeVehiculo />}
+      />
       <Route
         path="consultarsolicitudesdevehiculos"
         element={<ConsultarSolicitudesDeVehiculosScreen />}
@@ -34,6 +40,31 @@ const AlmacenRoutes = () => {
       <Route
         path="solicitudesencoladeespera"
         element={<SolicitudesEnColaDeEsperaScreen />}
+      />
+
+      <Route
+        path="solicitudesautorizadasporejecutar"
+        element={<SolicitudesAutorizadasPorEjecutraScreen />}
+      />
+
+      <Route
+        path="marcarvehiculocomoentregado"
+        element={<MarcarVehiculoComoEntregadoScreen />}
+      />
+
+      <Route
+        path="solicitudesdevehiculoenejecucion"
+        element={<SolicitudesDeVehiculoEnEjecucionScreen />}
+      />
+
+      <Route
+        path="solicitudespendientesporautorizar"
+        element={<SolicitudesPendientesPorAutorizarScreen />}
+      />
+
+      <Route
+        path="solicitudesdevehiculovencidas"
+        element={<SolicitudesDeVehiculoVencidasScreen />}
       />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />

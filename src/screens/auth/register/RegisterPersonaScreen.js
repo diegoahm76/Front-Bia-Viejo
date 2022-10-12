@@ -23,7 +23,7 @@ const defaultValues = {
   fechaNacimiento: "",
   ubicacion_georeferenciada: "",
   pais_residencia: "",
-  departamento_residencia: "",
+  departamento: "",
   municipio: "",
   pais_nacimiento: "",
   sexo: "",
@@ -107,7 +107,7 @@ const RegisterPersonaScreen = () => {
   } = useForm();
 
   const submitForm = async (data) => {
-    //console.log(data);
+    //* Validación duplicidad de emails y celular
     if (data.eMail !== data.cEmail || data.celular !== data.cCelular) {
       const dataResponse = {
         ...defaultErrors,
@@ -129,125 +129,184 @@ const RegisterPersonaScreen = () => {
       return;
     }
 
-    // Falta hacer confirmación de datos correo
+    const persona = {};
 
-    const persona = {
-      tipo_persona: formValues.tipo_persona.value,
-      tipo_documento: data.tipoDocumento.value,
-      numero_documento: data.numero_documento,
-      razon_social: data.razonSocial || null,
-      digito_verificacion: data.dv || null,
-      primer_nombre: data.primerNombre,
-      segundo_nombre: data.segundoNombre || null,
-      primer_apellido: data.primerApellido,
-      segundo_apellido: data.segundoApellido || null,
-      fecha_nacimiento:
-        formatISO(data.fechaNacimiento, {
-          representation: "date",
-        }) || null, //! Este dato queda por socializar para ver si es requerido o no y también revisar si el formato YYYYMMDD es el correcto
-      ubicacion_georeferenciada: "Casa", //! Este valor queda pendiente por revisar porque sale obligatorio según el mockup
-      pais_residencia: "AG", //! Este campo debería no ser obligatorio según el mockup
-      departamento_residencia: "05", //! Este campo debería no ser obligatorio según el mockup
-      municipio_residencia: data.municipio?.value || null, //! Tanto municipio como departamento reciben codigos que necesitamos se nos expliquen o nos envien clave/valor
-      pais_nacimiento: "AL", //TODO Este campo debería no ser obligatorio según el mockup
-      sexo: "I", //! Este campo debería no ser obligatorio según el mockup
-      email: data.eMail,
-      cod_pais_nacionalidad_empresa: "AS", //! Este campo debería no ser obligatorio según el mockup
-      telefono_celular: data.celular,
-      nombre_comercial: data.nombreComercial || null,
-      acepta_notificacion_sms: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
-      acepta_notificacion_email: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
-      acepta_tratamiento_datos: true, //! Dato que debe ser obligatorio estar en true, creo mejor que sea por defecto en true en el back
-      direccion_notificaciones: data.direccionNotificacion,
-    };
+    //* Ingresado los datos al objeto persona dependiento de si es Natural o Juridica
+    if (formValues.tipo_persona.value === "N") {
+      persona.tipo_persona = formValues.tipo_persona.value;
+      persona.tipo_documento = data.tipoDocumento.value;
+      persona.numero_documento = data.numero_documento;
+      persona.digito_verificacion = data.dv || null;
+      persona.nombre_comercial = data.nombreComercial || null;
+      persona.primer_nombre = data.primerNombre;
+      persona.segundo_nombre = data.segundoNombre || null;
+      persona.primer_apellido = data.primerApellido;
+      persona.segundo_apellido = data.segundoApellido || null;
+      persona.fecha_nacimiento = formatISO(data.fechaNacimiento, {
+        representation: "date",
+      });
+      persona.email = data.eMail;
+      persona.telefono_celular = data.celular;
+    } else {
+      persona.tipo_persona = formValues.tipo_persona.value;
+      persona.tipo_documento = data.tipoDocumento.value;
+      persona.numero_documento = data.numero_documento;
+      persona.digito_verificacion = data.dv || null;
+      persona.razon_social = data.razonSocial;
+      persona.email = data.eMail;
+      persona.telefono_celular = data.celular;
+      persona.direccion_notificaciones = data.direccionNotificacion;
+      persona.departamento_residencia = data.departamento?.value;
+      persona.municipio_residencia = data.municipio?.value;
+    }
 
-    console.log("Persona", persona);
+    //* Peticion de registro condicional dependiendo de si es natural o juridica
+    if (formValues.tipo_persona.value === "N") {
+      try {
+        const { data: dataRegisterPersona } = await clienteAxios.post(
+          "personas/registerpersonanatural/",
+          persona
+        );
+        console.log(dataRegisterPersona);
+        Swal.fire({
+          title: "Registrado como persona natural",
+          text: "¿Desea registrarse como usuario?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/registeruser");
+          } else {
+            resetValues();
+          }
+        });
 
-    // try {
-    //   const { data: dataGetPersona } = await clienteAxios.get(
-    //     `personas/getpersonabydocument/${data?.numero_documento}`
-    //   );
-
-    //   Swal.fire({
-    //     title: "Esta persona ya existe",
-    //     text: "¿Desea registrarse como usuario?",
-    //     icon: "info",
-    //     showCancelButton: true,
-    //     confirmButtonColor: "#3BA9E0",
-    //     cancelButtonColor: "#6c757d",
-    //     confirmButtonText: "Si",
-    //     cancelButtonText: "No",
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       navigate("/registeruser");
-    //     }
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
-    // try {
-    //   const { data: dataGetPersonaByEmail } = await clienteAxios.get(
-    //     `personas/getpersonabyemail/${persona.email}`
-    //   );
-
-    //   Swal.fire({
-    //     title: "Este correo ya esta en uso",
-    //     text: "Digite otro correo electronico",
-    //     icon: "info",
-    //     confirmButtonColor: "#3BA9E0",
-    //     cancelButtonColor: "#6c757d",
-    //     confirmButtonText: "Aceptar",
-    //   });
-    // } catch (err) {
-    //   console.log(err);
-    // }
-
-    try {
-      const { data: dataRegisterPersona } = await clienteAxios.post(
-        "personas/registerpersona/",
-        persona
-      );
-      console.log(dataRegisterPersona);
-      Swal.fire({
-        title: `Registrado como ${
-          formValues.tipo_persona === "N" ? "Persona" : "Empresa"
-        }`,
-        text: "¿Desea registrarse como usuario?",
-        icon: "success",
-        showCancelButton: true,
-        confirmButtonColor: "#3BA9E0",
-        cancelButtonColor: "#6c757d",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/registeruser");
+        //* Manejo de errores por datos repetidos en la DB (email y numero documento)
+      } catch (err) {
+        if (err.response?.data?.email && err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: "Este documento y correo ya estan relacionados",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: "Este documento ya existe",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.email) {
+          Swal.fire({
+            title: "Este correo electronico ya existe",
+            text: "Verifica tus datos",
+            icon: "info",
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Aceptar",
+          });
         } else {
-          reset(defaultValues);
+          console.log(err);
         }
-      });
-    } catch (err) {
-      Swal.fire({
-        title: "Errores",
-        text: `- ${err.response?.data?.numero_documento && "Ya existe una persona con este número de documento"} \n - ${err.response?.data?.email && "Ya existe una persona con este email"} \n ¿Quiere registrarse como usuario?`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3BA9E0",
-        cancelButtonColor: "#6c757d",
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/registeruser");
+      }
+    } else {
+      try {
+        const { data: dataRegisterPersona } = await clienteAxios.post(
+          "personas/registerpersonajuridica/",
+          persona
+        );
+
+        Swal.fire({
+          title: "Registrado como persona juridica",
+          text: "¿Desea registrarse como usuario?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/registeruser");
+          } else {
+            resetValues();
+          }
+        });
+      } catch (err) {
+        if (err.response?.data?.email && err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: "Este documento y correo ya estan relacionados",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: "Este documento ya existe",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.email) {
+          Swal.fire({
+            title: "Este correo electronico ya existe",
+            text: "Verifica tus datos",
+            icon: "info",
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Aceptar",
+          });
+        } else {
+          console.log(err);
         }
-      });
-      console.log(err);
+      }
     }
   };
 
-  const handleChangeTypePerson = (e) => {
+  const resetValues = () => {
     reset(defaultValues);
+    setCompleteAddress("");
+  };
+
+  const handleChangeTypePerson = (e) => {
+    resetValues();
     setFormValues({ ...formValues, tipo_persona: e });
     if (e.value === "J") {
       setIsUser(false);
