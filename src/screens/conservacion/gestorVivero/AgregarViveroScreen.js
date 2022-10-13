@@ -55,7 +55,7 @@ function AgregarViveroScreen() {
             >
               <h5 className="font-weight-bolder">Datos generales</h5>
               <div className="multisteps-form__content">
-                <div class="row">
+                <div className="row">
                   <div className="col-12 col-sm-6">
                     <div className="input-group input-group-dynamic">
                       <input
