@@ -1,38 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-
-const optionsTipoDocumento = [
-  { label: "C.C", value: "CC" },
-  { label: "T.I", value: "TI" },
-];
-
-const estadoCivilOptions = [
-  { label: "Soltero", value: "Soltero" },
-  { label: "Casado", value: "Casado" },
-  { label: "Viudo", value: "Viudo" },
-];
-
-const paisesOptions = [
-  { label: "Colombia", value: "COL" },
-  { label: "Mexico", value: "MX" },
-  { label: "Venezuela", value: "VEN" },
-];
-
-const departamentosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Meta", value: "Meta" },
-  { label: "Santander", value: "Santander" },
-  { label: "Norte de Santander", value: "Norte de Santander" },
-];
-
-const municipiosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Villavicencio", value: "Villavicencio" },
-  { label: "Bucaramanga", value: "Bucaramanga" },
-  { label: "San Jose de Cucuta", value: "San Jose de Cucuta" },
-];
+import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import clienteAxios from "../../config/clienteAxios";
 
 const AdministradorDeEmpresasScreen = () => {
   const { register, handleSubmit, control } = useForm();
@@ -40,6 +11,11 @@ const AdministradorDeEmpresasScreen = () => {
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
   });
+
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+  const [paisesOptions, setPaisesOptions] = useState([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
+  const [municipiosOptions, setMunicipiosOptions] = useState([]);
 
   const [page, setPage] = useState(1);
 
@@ -51,6 +27,38 @@ const AdministradorDeEmpresasScreen = () => {
   const handlePreviousPage = () => {
     setPage(1);
   };
+
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+        const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+          "choices/tipo-documento/"
+        );
+        const { data: paisesNoFormat } = await clienteAxios.get(
+          "choices/paises/"
+        );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
+        const { data: municipiosNoFormat } = await clienteAxios.get(
+          "choices/municipios/"
+        );
+
+        const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+        const paisesFormat = textChoiseAdapter(paisesNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+
+        setTipoDocumentoOptions(documentosFormat);
+        setPaisesOptions(paisesFormat);
+        setDepartamentosOptions(departamentosFormat);
+        setMunicipiosOptions(municipiosFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
 
   return (
     <div className="row min-vh-100">
@@ -80,7 +88,7 @@ const AdministradorDeEmpresasScreen = () => {
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={optionsTipoDocumento}
+                      options={tipoDocumentoOptions}
                       placeholder="Seleccionar"
                     />
                   )}
@@ -126,7 +134,7 @@ const AdministradorDeEmpresasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionsTipoDocumento}
+                        options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -429,23 +437,23 @@ const AdministradorDeEmpresasScreen = () => {
               </div>
             </div>
             <div className="row flex-column mt-3">
-              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexCheckDefault">
+              <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
                   Bloqueado
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   value=""
                   id="flexCheckDefault"
                 />
               </div>
-              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexCheckDefault">
+              <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
                   Activo
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   value=""
                   id="flexCheckDefault"
@@ -470,12 +478,12 @@ const AdministradorDeEmpresasScreen = () => {
             </div>
             <p className="font-weight-bolder mt-4">Tipo de usuario</p>
             <div className="row flex-column">
-              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexRadioDefault2">
+              <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexRadioDefault2">
                   Externo
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
@@ -518,36 +526,36 @@ const AdministradorDeEmpresasScreen = () => {
                 )}
               />
             </div>
-            <div class="form-check mt-5">
+            <div className="form-check mt-5">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" htmlFor="flexCheckDefault">
                 Acepta envio de mensaje de texto SMS.
               </label>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" htmlFor="flexCheckDefault">
                 Acepta envio de mensaje de correo.
               </label>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" htmlFor="flexCheckDefault">
                 Acepta que la corporacion administre sus datos personales.
               </label>
             </div>

@@ -1,11 +1,13 @@
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
+import Select from "react-select";
 
 const defaultColDef = {
   sortable: true,
@@ -16,6 +18,18 @@ const defaultColDef = {
   initialWidth: 200,
   suppressMovable: true,
 };
+
+const optionRazonDeCierre = [
+  { label: "Solicitud cumplida", value: "S" },
+  { label: "Solicitud incumplida por el usuario", value: "IU" },
+  { label: "Solicitud incumplida por otras razones", value: "IPOR" },
+];
+
+const optionsEstadoVehiculo = [
+  { label: "Bueno", value: "B" },
+  { label: "Malo", value: "M" },
+  { label: "Defectuoso", value: "D" },
+];
 
 const rowData = [
   {
@@ -55,10 +69,10 @@ const rowData = [
   },
 ];
 
-const ConsultarSolicitudesDeVehiculosScreen = () => {
+const SolicitudesDeVehiculoEnEjecucionScreen = () => {
   const [viewData, setViewData] = useState(false);
-  const [tipoAccion, setTipoAccion] = useState("");
   const dispatch = useDispatch();
+  const { control } = useForm();
 
   const columnDefs = [
     { headerName: "Consecutivo", field: "Consecutivo" },
@@ -83,12 +97,11 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
       ),
     },
   ];
-
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Consultar solicitudes de vehículos
+          Solicitudes de vehículo en ejecución
         </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <div id="myGrid" className="ag-theme-alpine mt-3">
@@ -198,7 +211,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="Administrativa"
                         placeholder="dependencia"
                       />
                       <label className="ms-2">Dependencia</label>
@@ -211,7 +224,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="Rentas"
                         placeholder="grupo"
                       />
                       <label className="ms-2">Grupo</label>
@@ -224,7 +237,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="3"
                         placeholder="capacidadPasajeros"
                       />
                       <label className="ms-2">Capacidad pasajeros</label>
@@ -237,7 +250,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="No"
                         placeholder="transporteCarga"
                       />
                       <label className="ms-2">Transporte carga</label>
@@ -250,7 +263,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="6:30 AM"
                         placeholder="horaDeSalida"
                       />
                       <label className="ms-2">Hora de salida</label>
@@ -263,7 +276,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="8:00 PM"
                         placeholder="horaDeLlegada"
                       />
                       <label className="ms-2">Hora de llegada</label>
@@ -276,7 +289,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="15/05/2022"
                         placeholder="fechaDeSalida"
                       />
                       <label className="ms-2">Fecha de salida</label>
@@ -289,7 +302,7 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                         className="form-control"
                         type="text"
                         disabled
-                        value="Junior"
+                        value="22/05/2022"
                         placeholder="fechaDeLlegada"
                       />
                       <label className="ms-2">Fecha de llegada</label>
@@ -312,117 +325,15 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                     />
                   </div>
 
-                  <h5 className="font-weight-bolder mt-4 text-center">
-                    Última actilización
-                  </h5>
-
-                  <div className="d-flex justify-content-start align-items-center">
-                    <label className="mx-4">15/05/2022</label>
-                    <p className="flex-grow-1 m-0 bg-light p-1">
-                      Sed dui diam, pellentesque et elit eget, lacinia congue
-                      libero. Cras volutpat nec mi ac molestie. Lorem ipsum
-                      dolor sit amet, consectetur adipiscing elit. Nam suscipit
-                      felis non quam vestibulum ullamcorper. Suspendisse leo
-                      odio, convallis vel felis at, auctor ultrices nulla.
-                    </p>
-                  </div>
-
-                  <div className="accordion mt-3" id="accordionExample">
-                    <div className="accordion-item">
-                      <h2
-                        className="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1"
-                        id="headingOne"
-                      >
-                        <button
-                          className="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseOne"
-                          aria-expanded="true"
-                          aria-controls="collapseOne"
-                        >
-                          Historial
-                        </button>
-                      </h2>
-                      <div
-                        id="collapseOne"
-                        className="accordion-collapse collapse"
-                        aria-labelledby="headingOne"
-                        data-bs-parent="#accordionExample"
-                      >
-                        <div className="accordion-body">
-                          <div className="d-flex justify-content-start align-items-center">
-                            <label className="mx-4">13/05/2022</label>
-                            <p className="flex-grow-1 m-0 bg-light p-1">
-                              Sed dui diam, pellentesque et elit eget, lacinia
-                              congue libero. Cras volutpat nec mi ac molestie.
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit. Nam suscipit felis non quam vestibulum
-                              ullamcorper. Suspendisse leo odio, convallis vel
-                              felis at, auctor ultrices nulla.
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="d-flex justify-content-start align-items-center">
-                          <label className="mx-4">14/05/2022</label>
-                          <p className="flex-grow-1 m-0 bg-light p-1">
-                            Sed dui diam, pellentesque et elit eget, lacinia
-                            congue libero. Cras volutpat nec mi ac molestie.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Nam suscipit felis non quam vestibulum
-                            ullamcorper. Suspendisse leo odio, convallis vel
-                            felis at, auctor ultrices nulla.
-                          </p>
-                        </div>
-
-                        <div className="d-flex justify-content-start align-items-center">
-                          <label className="mx-4">15/05/2022</label>
-                          <p className="flex-grow-1 m-0 bg-light p-1">
-                            Sed dui diam, pellentesque et elit eget, lacinia
-                            congue libero. Cras volutpat nec mi ac molestie.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Nam suscipit felis non quam vestibulum
-                            ullamcorper. Suspendisse leo odio, convallis vel
-                            felis at, auctor ultrices nulla.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
                   <div className="d-flex justify-content-end gap-2 mt-3">
                     <button
-                      className="btn bg-gradient-danger text-capitalize"
+                      className="btn bg-gradient-primary text-capitalize"
                       type="button"
                       onClick={() => {
-                        setTipoAccion("Rechazo de solicitud");
                         dispatch(activeModalAction());
                       }}
                     >
-                      Rechazar asignación
-                    </button>
-
-                    <button
-                      className="btn bg-gradient-light text-capitalize"
-                      type="button"
-                      onClick={() => {
-                        setTipoAccion("Cancelar solicitud");
-                        dispatch(activeModalAction());
-                      }}
-                    >
-                      Cancelar solicitud
-                    </button>
-
-                    <button
-                      className="btn bg-gradient-danger text-capitalize"
-                      type="button"
-                      onClick={() => {
-                        setTipoAccion("Rechazar autorización");
-                        dispatch(activeModalAction());
-                      }}
-                    >
-                      Rechazar Autorización
+                      Cierre de solicitud
                     </button>
                   </div>
                 </>
@@ -430,47 +341,98 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
             </form>
             <CalendarModal>
               <h5 className="font-weight-bolder mt-4 text-center">
-                {tipoAccion}
+                Cierre solicitud
               </h5>
 
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    value="Junior Pacheco"
-                    placeholder="fechaDeSalida"
-                  />
-                  <label className="ms-2">Fecha de salida</label>
-                </div>
-              </div>
+              <div className="row">
+                <div className="d-flex justify-content-between flex-column flex-md-row">
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior Pacheco"
+                        placeholder="fechaDeSalida"
+                      />
+                      <label className="ms-2">Fecha de salida</label>
+                    </div>
+                  </div>
 
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    value="03/08/2022"
-                    placeholder="fechaDeSalida"
-                  />
-                  <label className="ms-2">Fecha de salida</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="03/08/2022"
+                        placeholder="fechaDeSalida"
+                      />
+                      <label className="ms-2">Fecha de salida</label>
+                    </div>
+                  </div>
                 </div>
-              </div>
 
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  rows="6"
-                  disabled
-                  name="Observaciones"
-                  value={
-                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                  }
-                />
+                <div className="d-flex justify-content-center">
+                  <div className="col-12 col-md-6">
+                    <label className="form-label">
+                      Razón de cierre: <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="razonDeCierre"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionRazonDeCierre}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-center">
+                  <div className="col-12 col-md-6">
+                    <label className="form-label">
+                      Estado del vehículo:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="estadoVehiculo"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionsEstadoVehiculo}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <div className="input-group input-group-dynamic flex-column mt-3">
+                  <label htmlFor="exampleFormControlInput1 ">
+                    Observaciones
+                  </label>
+                  <textarea
+                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                    type="text"
+                    rows="6"
+                    disabled
+                    name="Observaciones"
+                    value={
+                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                    }
+                  />
+                </div>
               </div>
 
               <div className="d-flex justify-content-end gap-2 mt-3">
@@ -478,7 +440,6 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                   className="btn bg-gradient-light text-capitalize"
                   type="button"
                   onClick={() => {
-                    setTipoAccion("");
                     dispatch(desactiveModalAction());
                   }}
                 >
@@ -489,7 +450,6 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
                   className="btn bg-gradient-danger text-capitalize"
                   type="button"
                   onClick={() => {
-                    setTipoAccion("");
                     dispatch(desactiveModalAction());
                   }}
                 >
@@ -503,4 +463,5 @@ const ConsultarSolicitudesDeVehiculosScreen = () => {
     </div>
   );
 };
-export default ConsultarSolicitudesDeVehiculosScreen;
+
+export default SolicitudesDeVehiculoEnEjecucionScreen;

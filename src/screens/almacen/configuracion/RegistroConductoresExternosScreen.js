@@ -6,9 +6,8 @@ import Select from "react-select";
 
 
 const optionsDocumentSelection = [
-    { label: "Seleccione opción"},
-    { label: "C.C."},
-    { label: "C.E."},
+    { label: "Cédula de Ciudadanía"},
+    { label: "Cédula de Extranjería"},
     { label: "Pasaporte"},
     { label: "NIT"}
 ]
@@ -68,14 +67,14 @@ const RegistroConductoresExternosScreen = () => {
                                 <Controller
                                 name="tipoDocumento"
                                 control={control}
-                                rules={{
-                                required: true,
-                                }}
+                                //rules={{
+                                //required: true,
+                                //}}
                                 render={({ field }) => (
                                 <Select 
                                 {...field}
                                 {...register("documento")}
-                                className="col-8 mt-2"
+                                className="col-12 mt-2"
                                 defaultValue={selectedIdDocument}
                                 onChange={setSelectedIdDocument}
                                 options={optionsDocumentSelection}

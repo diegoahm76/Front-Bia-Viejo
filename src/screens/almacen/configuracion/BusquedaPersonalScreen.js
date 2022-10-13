@@ -16,7 +16,7 @@ const rowDataInicial=[
     { name: "Carlos", documento: "Pasaporte", number:3, time: "9:00", numberFrecuency: 1,  password:"********", dniNumber: 111111111, dependency:"Gestión Ambiental", groups: "Bióticos"}, 
     { name: "Luis", documento: "Pasaporte", number:4, time: "9:00", numberFrecuency: 2,  password:"********", dniNumber: 111111111, dependency:"Gestión Ambiental", groups: "Aguas"}, 
     { name: "Fernando", documento: "Cédula de Ciudadanía", number:4, time: "9:00", numberFrecuency: 2,  password:"********", dniNumber: 111111111, dependency:"Archivo", groups: "Bióticos"},
-    { name: "Antonio", documento: "Cédula de Ciudadanía", number:2, time: "9:00", numberFrecuency: 1,  password:"********", dniNumber: 111111111, dependency: "Administración Financiera", groups: "Bióticos" }, 
+    { name: "Andrés", documento: "Cédula de Ciudadanía", number:2, time: "9:00", numberFrecuency: 1,  password:"********", dniNumber: 111111111, dependency: "Dirección", groups: "Dirección" }, 
     { name: "Ivan", documento: "Cédula de Ciudadanía", number:1, time: "9:00", numberFrecuency: 1,  password:"********", dniNumber: 111111111, dependency: "Administración Financiera", groups: "Aire y Urbano"}, 
 ]
 
@@ -29,12 +29,15 @@ const optionsDniDocuments = [
 ]
 
 const optionsDependencies =[
+    {label: "Seleccionar"},
     {label: "Gestión Ambiental"},
     {label: "Administración Financiera"},
     {label: "Dirección"},
+    {label: "Archivo"},
 ]
 
  const optionsGroups=[
+    {label: "Seleccionar"},
     {label: "Suelos"},
     {label: "Bióticos"},
     {label: "Aguas"},
@@ -78,6 +81,20 @@ const BusquedaPersonalScreen = () => {
     
 
     ]
+
+    const handleSearch = () => {
+        const dataFilter = rowDataInicial.filter((data) => {
+          if(selectedDependencies === "Seleccionar"){
+          return true
+          }
+          if (selectedDependencies === data.dependency){
+          return true
+          } 
+          return false
+        })
+        setRowData(dataFilter)
+      }
+      
 
     const submit = (data) => {
 
@@ -123,9 +140,9 @@ const BusquedaPersonalScreen = () => {
                             <Controller
                             name="tipoDocumento"
                             control={control}
-                            rules={{
-                            required: true,
-                            }}
+                            //rules={{
+                            //required: true,
+                            //}}
                             render={({ field }) => (
                             <Select
                             {...field}
@@ -139,27 +156,27 @@ const BusquedaPersonalScreen = () => {
                             />
                         </div>
 
-                        <div className="col-12 col-md-4 mt-3">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className="input-group input-group-dynamic">
                                 <label className="form-floating input-group input-group-dynamic ms-2"> Número de documento: <span className="text-danger">*</span></label>
                                 <input className="multisteps-form__input form-control" type="number" {...register("numberDocument")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mt-4">
+                        <div className="col-12 col-md-4 mt-5">
                             <label className="form-floating input-group input-group-dynamic ms-2">Dependencia: <span className="text-danger">*</span></label>
                             <Controller
                             name="dependencies"
                             control={control}
-                            rules={{
-                            required: true,
-                            }}
+                            //rules={{
+                            //required: true,
+                            //}}
                             render={({ field }) => (
                             <Select
                             {...field}
                             className="col-11 mx-1 mt-3"
                             defaultValue={selectedDependencies}
-                            onChange={setSelectedDependencies}
+                            onChange={(e) => setSelectedDependencies(e.label)}
                             options={optionsDependencies}
                             placeholder="Seleccionar"
                             />
@@ -167,15 +184,15 @@ const BusquedaPersonalScreen = () => {
                             />
                         </div>
 
-                        <div className="col-12 col-md-4 mt-4">
+                        <div className="col-12 col-md-4 mt-5">
                             
                             <label className="form-floating input-group input-group-dynamic ms-2">Grupos: <span className="text-danger">*</span></label>
                             <Controller
                             name="dependencies"
                             control={control}
-                            rules={{
-                            required: true,
-                            }}
+                            //rules={{
+                            //required: true,
+                            //}}
                             render={({ field }) => (
                             <Select
                             {...field}
@@ -189,14 +206,14 @@ const BusquedaPersonalScreen = () => {
                             />
                         </div>
 
-                        <div className="col-12 col-md-4 mt-3 d-flex justify-content-start my-2 p-5">
-                            <button type="button" className="btn btn-primary mx-2">Buscar</button>
+                        <div className="col-12 col-md-4 d-flex justify-content-start my-4 ">
+                            <button type="button" className="btn btn-primary mt-6 text-capitalize" onClick={handleSearch}>Buscar</button>
                         </div>
 
                     </div>
 
 
-                    <div className="ag-theme-alpine mt-5" style={ {height: '400px',} }>    
+                    <div className="ag-theme-alpine mt-7" style={ {height: '400px',} }>    
                         <AgGridReact
                         columnDefs={columnDefs}
                         rowData={rowData}
@@ -210,9 +227,9 @@ const BusquedaPersonalScreen = () => {
 
 
                     <div className="d-flex justify-content-end mt-5">
-                        <button type="button" className="btn btn-primary mx-2">Limpiar</button>
-                        <button type="button" className="btn btn-secondary mx-2 p-2">Aceptar</button>
-                        <button type="button" className="btn btn-danger mx-2">Salir</button>
+                        <button type="button" className="btn btn-primary mx-2 text-capitalize">Limpiar</button>
+                        <button type="submit" className="btn btn-secondary mx-2 p-2 text-capitalize" title="Send" id="configForm">Aceptar</button>
+                        <button type="button" className="btn btn-danger mx-2 text-capitalize">Salir</button>
                     </div>
      
                 </form>

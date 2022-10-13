@@ -55,14 +55,16 @@ const AlertasMantenimientoVehiculosScreen = () => {
     return (
         <div className='row min-vh-100'>
             <div className="col-lg-12 col-md-10 col-12 mx-auto">
-                <h3 className ="text-center"> Configuración de alertas para el Mantenimiento de Vehículos </h3>
+                <h3 className ="mt-3 mb-0 text-center mb-6"> Configuración de alertas para el Mantenimiento de Vehículos </h3>
             
-            <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)} id="configForm"> 
+            <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" 
+                onSubmit={handleSubmit(submit)} 
+                id="configForm"> 
                 <div className= "row">
                     <div className="col-12 col-md-4 mt-4">   
                         <div className="input-group input-group-dynamic">
                             <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
-                            <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroDias")}/>
+                            <input className="multisteps-form__input form-control" type="number" {...register("numeroDias")}/>
                         </div>
                     </div>
 
@@ -93,7 +95,7 @@ const AlertasMantenimientoVehiculosScreen = () => {
                     <div className="col-12 col-md-4 mt-4">
                         <div className="col-6 input-group input-group-dynamic">
                             <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia: <span className="text-danger">*</span> (Hora/as) </label>
-                            <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroFrecuencia")}/>
+                            <input className="multisteps-form__input form-control" type="number" {...register("numeroFrecuencia")}/>
                         </div>
 
                         <div class="form-check">
@@ -106,21 +108,22 @@ const AlertasMantenimientoVehiculosScreen = () => {
                     
 
                     <div className ="col-12 d-flex justify-content-center mt-7 mb-4"> 
-                        <label className="form-floating input-group input-group-dynamic ms-2"> Notificar a: <span className="text-danger">*</span> </label>
+                        <label className="form-floating input-group input-group-dynamic ms-5 my-2"> Notificar a: <span className="text-danger">*</span> </label>
                           
                         <Controller
                         name="tipoDocumento"
                         control={control}
-                        rules={{
-                        required: true,
-                        }}
+                        //rules={{
+                        //required: true,
+                        //}}
                         render={({ field }) => (
                         <Select
                         {...field}
                         className="col-3 mx-1"
                         defaultValue={selectedIdDocument}
                         onChange={setSelectedIdDocument}
-                        options={optionsDocumentSelection} 
+                        options={optionsDocumentSelection}
+                        placeholder="Seleccionar"
                         />
                         )}
                         />
@@ -128,9 +131,9 @@ const AlertasMantenimientoVehiculosScreen = () => {
                         <Controller
                         name="tipoDocumento2"
                         control={control}
-                        rules={{
-                        required: true,
-                        }}
+                        //rules={{
+                        //required: true,
+                        //}}
                         render={({ field}) => (
 
                         <Select
@@ -147,9 +150,9 @@ const AlertasMantenimientoVehiculosScreen = () => {
                         <Controller
                         name="tipoDocumento"
                         control={control}
-                        rules={{
-                        required: true,
-                        }}
+                        //rules={{
+                        //required: true,
+                        //}}
                         render={({ field }) => (
                             
                         <Select
@@ -158,12 +161,13 @@ const AlertasMantenimientoVehiculosScreen = () => {
                         defaultValue={selectProfessional}
                         onChange={setSelectedProfessional}
                         options={optionsProfessionalSelection}
+                        placeholder="Seleccionar"
                         />
                         )}
                         />
 
                         <div>
-                            <button type="button" className="btn btn-primary mx-2">Buscar</button>
+                            <button type="button" className="btn btn-primary mx-2 text-capitalize">Buscar</button>
                         </div>
                     </div>
 
@@ -176,7 +180,7 @@ const AlertasMantenimientoVehiculosScreen = () => {
             </form>
             <CalendarModal>
                     <div className="d-flex justify-content-center mt-10" >
-                        <p > El vehículo  "seguro de póliza", vencerán el día 05/05/2022 </p> 
+                        <p > El vehículo  VGH897, vencerán el día 05/05/2022 </p> 
                     </div>
                     
                     <div className="d-flex justify-content-center mt-5">

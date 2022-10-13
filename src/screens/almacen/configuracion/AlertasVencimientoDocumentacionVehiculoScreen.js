@@ -23,7 +23,6 @@ const rowDataInicial=[
 ]
 
 const optionsDocumentSelection = [
-    { label: "Seleccione opción"},
     { label: "Seguro obligatorio"},
     { label: "Certificado ATM"},
     { label: "Póliza de seguro"},
@@ -102,7 +101,8 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
                         className="col-11 mx-1"
                         defaultValue={selectedIdDocument}
                         onChange={setSelectedIdDocument}
-                        options={optionsDocumentSelection} 
+                        options={optionsDocumentSelection}
+                        placeholder="Seleccionar"
                         />
                         )}
                         />
@@ -131,7 +131,7 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
                             onSelect={(e) =>
                             setFormValues({ ...formValues, fechaRecordatorio: e })
                             }
-                            className="multisteps-form__input form-control  p-2"
+                            className="multisteps-form__input form-control p-2"
                             placeholderText="dd/mm/aaaa"
                             />
                             )}
@@ -149,14 +149,11 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
                         <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
                                 <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia (Hora/as): <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroFrecuencia")}/>
+                                <input className="multisteps-form__input form-control" type="number" {...register("numeroFrecuencia")}/>
                             </div>
                         </div>
-                
-                            
-
-                       
-                    <div className="ag-theme-alpine mt-6" style={ {height: '300px',} }>    
+            
+                    <div className="ag-theme-alpine mt-8" style={ {height: '300px',} }>    
 
                         <AgGridReact
                         columnDefs={columnDefs}

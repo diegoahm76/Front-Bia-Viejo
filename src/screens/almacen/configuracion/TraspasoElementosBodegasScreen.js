@@ -106,7 +106,7 @@ const TraspasoElementosBodegasScreen = () => {
             )}
             />
         </div>,
-        minWidth: 200
+        minWidth: 180
     },
 
         { headerName: "Valor unitario", 
@@ -122,6 +122,7 @@ const TraspasoElementosBodegasScreen = () => {
     const defaultColDef={
         sortable:true,
         flex:1,
+        editable: true,
         wrapHeaderText:true,
         autoHeaderHeight: true,
         floatingFilter: false,
@@ -194,7 +195,7 @@ const TraspasoElementosBodegasScreen = () => {
                     </div>
 
                     <div className ="col-12 d-flex justify-content-center mt-6 mb-5">  
-                        <label className="form-floating input-group input-group-dynamic ms-2 my-2"> Quien traslada: </label> 
+                        <label className="form-floating input-group input-group-dynamic ms-4 my-2"> Quien traslada: </label> 
                         <Controller
                         name="tipoDocumento"
                         control={control}
@@ -253,7 +254,7 @@ const TraspasoElementosBodegasScreen = () => {
                         />
                         
                         <div>
-                            <button type="button" className="btn btn-primary mx-2">Buscar</button>
+                            <button type="button" className="btn btn-primary mx-2 text-capitalize">Buscar</button>
                         </div>
                     </div>
 
@@ -287,7 +288,7 @@ const TraspasoElementosBodegasScreen = () => {
                             <label className="form-floating input-group input-group-dynamic ms-2"> Concepto de: </label>            
                         </div>
 
-                        <div className="d-flex justify-content-center mt-3">
+                        <div className="d-flex justify-content-center mt-2">
                         <textarea  style={{height:"100px", width:"80%"}} type="text" placeholder="Por favor agregue concepto"/>
                         </div>
                     </div>
@@ -300,12 +301,12 @@ const TraspasoElementosBodegasScreen = () => {
 
                 
                 <div className="row col-12" hidden={page === 1}>
-                    <div className ="d-flex justify-content-end">
+                    <div className ="d-flex justify-content-end mt-5">
                         <label> Valor total del traspaso: </label>
                         <input className="w-10 mb-1 mx-2" ></input>
                     </div>
                     
-                    <div className="ag-theme-alpine" style={ {height: '400px',} }>    
+                    <div className="ag-theme-alpine mt-3" style={ {height: '400px',} }>    
                         <AgGridReact
                         columnDefs={columnDefs}
                         rowData={rowData}

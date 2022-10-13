@@ -9,7 +9,6 @@ import DatePicker, { registerLocale } from "react-datepicker";
 
 
 const optionsDocumentSelection = [
-    { label: "Seleccione opción"},
     { label: "Cédula de ciudadanía"},
     { label: "Cédula de extranjería"},
     { label: "Pasaporte"},
@@ -67,14 +66,14 @@ const AlertasLlegadaVehiculosScreen = () => {
                 <div className= "row">
                     <div className="col-12 col-md-4 mt-4">
                         <div className="input-group input-group-dynamic">
-                            <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días) </label>
-                            <input className="multisteps-form__input form-control mt-2" type="number"{...register("numeroDias")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
+                            <input className="multisteps-form__input form-control" type="number"{...register("numeroDias")}/>
                         </div>
                     </div>
 
                     <div className="col-12 col-md-4 mt-4">
                         <div className=" input-group input-group-dynamic">
-                            <label className="form-floating input-group input-group-dynamic ms-2"> Recordatorio </label>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Recordatorio: <span className="text-danger">*</span> </label>
                             <Controller
                             name="fechaRecordatorio"
                             control={control}
@@ -98,8 +97,8 @@ const AlertasLlegadaVehiculosScreen = () => {
                     
                     <div className="col-12 col-md-4 mt-4">
                         <div className="col-6 input-group input-group-dynamic">
-                            <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia (Hora/as) </label>
-                            <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroFrecuencia")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia (Hora/as): <span className="text-danger">*</span> </label>
+                            <input className="multisteps-form__input form-control" type="number" {...register("numeroFrecuencia")}/>
                         
                         </div>
                             
@@ -113,7 +112,7 @@ const AlertasLlegadaVehiculosScreen = () => {
 
                     <div className ="col-12 d-flex justify-content-center mt-7 mb-5">
                             
-                        <label htmlFor="exampleFormControlInput1" className="form-label mt-2"> Notificar a: </label>
+                        <label className="form-floating input-group input-group-dynamic ms-5 my-2"> Notificar a: <span className="text-danger">*</span> </label>
                         
                         <Controller
                         name="tipoDocumento"
@@ -127,7 +126,8 @@ const AlertasLlegadaVehiculosScreen = () => {
                         className="col-3 mx-1"
                         defaultValue={selectedIdDocument}
                         onChange={setSelectedIdDocument}
-                        options={optionsDocumentSelection} 
+                        options={optionsDocumentSelection}
+                        placeholder="Seleccionar"
                         />
                         )}
                         />
@@ -144,7 +144,8 @@ const AlertasLlegadaVehiculosScreen = () => {
                         className="col-3 mx-1"
                         defaultValue={selectItem}
                         onChange={setSelectedItem}
-                        options={optionsItemSelection} 
+                        options={optionsItemSelection}
+                        placeholder="Seleccionar" 
                         />
                         )}
                         />
@@ -155,27 +156,27 @@ const AlertasLlegadaVehiculosScreen = () => {
                         rules={{
                         required: true,
                         }}
-                        render={({ field }) => (
-                            
+                        render={({ field }) => (    
                         <Select
                         {...field}
                         className="col-3 mx-1"
                         defaultValue={selectProfessional}
                         onChange={setSelectedProfessional}
                         options={optionsProfessionalSelection}
+                        placeholder="Seleccionar"
                         />
                         )}
                         />
 
                         <div>
-                            <button type="button" className="btn btn-primary mx-2">Buscar</button>
+                            <button type="button" className="btn btn-primary mx-2 text-capitalize" >Buscar</button>
                         </div>
                     </div>
 
                     <div className="d-flex justify-content-end mt-5">
-                        <button type="button" className="btn btn-primary mx-2">Editar</button>
-                        <button type="button" onClick={handleOpenModal} className="btn btn-secondary mx-2 p-2"> Guardar </button>
-                        <button type="button" className="btn btn-danger mx-2">Salir </button>
+                        <button type="button" className="btn btn-primary mx-2 text-capitalize">Editar</button>
+                        <button type="button" onClick={handleOpenModal} className="btn btn-secondary mx-2 p-2 text-capitalize"> Guardar </button>
+                        <button type="button" className="btn btn-danger mx-2 text-capitalize" >Salir </button>
                     </div>
                     
                 </div>   

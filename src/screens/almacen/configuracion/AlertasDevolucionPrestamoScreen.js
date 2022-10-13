@@ -68,7 +68,7 @@ const AlertasDevolucionPrestamoScreen = () => {
                             <div className="col-12 col-md-4 mt-4">
                                 <div className="input-group input-group-dynamic">
                                     <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
-                                    <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroDias")}/>
+                                    <input className="multisteps-form__input form-control" type="number" {...register("numeroDias")}/>
                                 </div>
                             </div>
 
@@ -99,7 +99,7 @@ const AlertasDevolucionPrestamoScreen = () => {
                             <div className="col-12 col-md-4 mt-4">
                                 <div className="col-6 input-group input-group-dynamic">
                                     <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia (Hora/as): <span className="text-danger">*</span> </label>
-                                    <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroFrecuencia")}/>
+                                    <input className="multisteps-form__input form-control" type="number" {...register("numeroFrecuencia")}/>
                                 </div>
 
                                 <div className="row mt-2">
@@ -167,7 +167,7 @@ const AlertasDevolucionPrestamoScreen = () => {
                                  />
                                
                                 <div>
-                                    <button type="button" className="btn btn-primary mx-2">Buscar</button>
+                                    <button type="button" className="btn btn-primary mx-2 text-capitalize">Buscar</button>
                                 </div>
                             </div>
                         </div>

@@ -83,7 +83,7 @@ const CreacionBodegaScreen = () => {
                                 <Select 
                                 {...field}
                                 {...register("departamento")}
-                                className="col-12 mt-3"
+                                className="col-12 mt-2"
                                 defaultValue={selectDepartament}
                                 onChange={setSelectedDepartament}
                                 options={optionsDepartamentos}
@@ -107,7 +107,7 @@ const CreacionBodegaScreen = () => {
                                 <Select 
                                 {...field}
                                 {...register("municipio")}
-                                className="col-12 mt-3"
+                                className="col-12 mt-2"
                                 defaultValue={selectMunicipios}
                                 onChange={setSelectedMunicipios}
                                 options={optionsMunicipios}
@@ -127,13 +127,13 @@ const CreacionBodegaScreen = () => {
 
                         <div className ="col-12 d-flex justify-content-center mt-7 mb-5">
                             
-                            <label className="form-floating input-group input-group-dynamic ms-2"> Notificar a: <span className="text-danger">*</span> </label>
+                            <label className="form-floating input-group input-group-dynamic ms-5 my-2"> Notificar a: <span className="text-danger">*</span> </label>
                             <Controller
                             name="tipoDocumento"
                             control={control}
-                            rules={{
-                            required: true,
-                            }}
+                            //rules={{
+                            //required: true,
+                            //}}
                             render={({ field }) => (
                             <Select 
                             {...field}
@@ -149,9 +149,9 @@ const CreacionBodegaScreen = () => {
                             <Controller
                             name="numeroDocumento"
                             control={control}
-                            rules={{
-                            required: true,
-                            }}
+                            //rules={{
+                            //required: true,
+                            //}}
                             render={({ field }) => (
                             <Select 
                             {...field}
@@ -167,9 +167,9 @@ const CreacionBodegaScreen = () => {
                             <Controller 
                             name="Professional"
                             control={control}
-                            rules={{
-                            required: true,
-                            }}
+                            //rules={{
+                            //required: true,
+                            //}}
                             render={({ field }) => (
                             <Select 
                             {...field}

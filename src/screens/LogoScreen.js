@@ -9,7 +9,7 @@ import Logo from "../assets/logos/eps/LogoHorizontalByMacarenia.svg";
 function LogoScreen() {
   return (
     <div className="container">
-      <div class="pt-3 pb-5">
+      <div className="pt-3 pb-5">
         <img src={Logo} alt="logo"/>
       </div>
       <div className="row mt-5">

@@ -61,10 +61,10 @@ const AlertasMantenimientoActivoScreen = () => {
             <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)} id="configForm">
                   
                 <div className= "row">
-                    <div className="col-12 col-md-4 mb-2">
+                    <div className="col-12 col-md-4">
                         <div className="input-group input-group-dynamic">
                             <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
-                            <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroDias")}/>
+                            <input className="multisteps-form__input form-control" type="number" {...register("numeroDias")}/>
                         </div>
                     </div>
 
@@ -95,7 +95,7 @@ const AlertasMantenimientoActivoScreen = () => {
                     <div className="col-12 col-md-4">
                         <div className="input-group input-group-dynamic">
                             <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia: (Hora/as) </label>
-                             <input className="multisteps-form__input form-control mt-2" type="number" {...register("horasFrecuencia")}/>
+                             <input className="multisteps-form__input form-control" type="number" {...register("horasFrecuencia")}/>
                         </div>
 
                         <div className="row mt-2">
@@ -164,14 +164,14 @@ const AlertasMantenimientoActivoScreen = () => {
                         />
 
                         <div>
-                            <button type="button" className="btn btn-primary mx-2">Buscar</button>
+                            <button type="button" className="btn btn-primary mx-2 text-capitalize">Buscar</button>
                         </div>
                     </div>
 
                     <div className="d-flex justify-content-end mt-3">
-                        <button type="button" className="btn btn-primary mx-2">Editar</button>
-                        <button type="button" onClick={handleOpenModal} className="btn btn-secondary mx-2 p-2"> Guardar </button>
-                        <button type="button" className="btn btn-danger mx-2">Salir </button>
+                        <button type="button" className="btn btn-primary mx-2 text-capitalize">Editar</button>
+                        <button type="button" onClick={handleOpenModal} className="btn btn-secondary mx-2 p-2 text-capitalize"> Guardar </button>
+                        <button type="button" className="btn btn-danger mx-2 text-capitalize">Salir </button>
                     </div>
                     
                 </div>   
@@ -183,7 +183,7 @@ const AlertasMantenimientoActivoScreen = () => {
                     </div>
                     
                     <div className="d-flex justify-content-center mt-5">
-                        <button className=" btn bg-gradient-danger" onClick={handleCloseModal} type="submit" title="Send" form="configForm"> Salir </button>
+                        <button className=" btn bg-gradient-danger text-capitalize" onClick={handleCloseModal} type="submit" title="Send" form="configForm"> Salir </button>
                     </div>
         </CalendarModal> 
     </div>
