@@ -725,7 +725,7 @@ const RegisterPersonaScreen = () => {
                       </label>
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize"
+                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setIsOpenGenerator(true)}
                       >
                         Generar
