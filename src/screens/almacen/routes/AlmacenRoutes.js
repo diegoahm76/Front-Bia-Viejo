@@ -21,6 +21,11 @@ import SolicitarElementoConsumoViveroScreen from "../solicitudesArticulos/Solici
 import SolicitudesAutorizadasPendientesScreen from "../solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
 import ReprogramarSolicitudVehiculoScreen from "../gestionDeVehiculos/ReprogramarSolicitudVehiculoScreen";
 import AsignacionVehiculoScreen from "../gestionDeVehiculos/AsignacionVehiculoScreen";
+import SolicitudesAutorizadasPorEjecutraScreen from "../gestionDeVehiculos/SolicitudesAutorizadasPorEjecutraScreen";
+import MarcarVehiculoComoEntregadoScreen from "../gestionDeVehiculos/MarcarVehiculoComoEntregadoScreen";
+import SolicitudesDeVehiculoEnEjecucionScreen from "../gestionDeVehiculos/SolicitudesDeVehiculoEnEjecucionScreen";
+import SolicitudesPendientesPorAutorizarScreen from "../gestionDeVehiculos/SolicitudesPendientesPorAutorizarScreen";
+import SolicitudesDeVehiculoVencidasScreen from "../gestionDeVehiculos/SolicitudesDeVehiculoVencidasScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -104,6 +109,31 @@ const AlmacenRoutes = () => {
           path="solicitudes-en-cola-de-espera"
           element={<SolicitudesEnColaDeEsperaScreen />}
         />
+        
+        <Route
+        path="solicitudesautorizadasporejecutar"
+        element={<SolicitudesAutorizadasPorEjecutraScreen />}
+      />
+
+      <Route
+        path="marcarvehiculocomoentregado"
+        element={<MarcarVehiculoComoEntregadoScreen />}
+      />
+
+      <Route
+        path="solicitudesdevehiculoenejecucion"
+        element={<SolicitudesDeVehiculoEnEjecucionScreen />}
+      />
+
+      <Route
+        path="solicitudespendientesporautorizar"
+        element={<SolicitudesPendientesPorAutorizarScreen />}
+      />
+
+      <Route
+        path="solicitudesdevehiculovencidas"
+        element={<SolicitudesDeVehiculoVencidasScreen />}
+      />
       </Route>
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />

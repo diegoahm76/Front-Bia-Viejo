@@ -26,6 +26,7 @@ import IconoGestionVehiculo from "../assets/iconosAlmacen/volskwagen-van-svgrepo
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
 import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
+import IconoUser from "../assets/user-svgrepo-com.svg";
 
 const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
@@ -74,6 +75,8 @@ const Aside = ({ showAside }) => {
                 <span className="nav-link-text ms-2 ps-1">
                   {userInfo.nombre_de_usuario}
                 </span>
+                <img src={IconoUser} alt="user" />
+                <span className="nav-link-text ms-2 ps-1">{userInfo.nombre_de_usuario}</span>
               </a>
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
@@ -84,10 +87,31 @@ const Aside = ({ showAside }) => {
                     >
                       <span className="sidenav-mini-icon"> L </span>
                       <span className="sidenav-normal  ms-3  ps-1">
-                        {" "}
-                        Logout{" "}
+                        Logout
                       </span>
                     </div>
+                  </li>
+                  <li className="nav-item active">
+                    <Link
+                      to="usuario/actualizar-datos-persona"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> P </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Actualizar Datos
+                      </span>
+                    </Link>
+                  </li>
+                  <li className="nav-item active">
+                    <Link
+                      to="usuario/actualizar-datos-empresa"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> E </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Actualizar Datos
+                      </span>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -1267,11 +1291,11 @@ const Aside = ({ showAside }) => {
                   <li className="nav-item ">
                     <Link
                       className="nav-link text-white "
-                      to="seguridad/administradordeusuarios"
+                      to="seguridad/administradordepersonas"
                     >
                       <span className="sidenav-mini-icon"> A </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        Administrador de <br /> usuarios
+                        Administrador de <br /> personas
                       </span>
                     </Link>
                   </li>
@@ -1287,18 +1311,15 @@ const Aside = ({ showAside }) => {
                     </Link>
                   </li>
                   <li className="nav-item ">
-                    <a
+                    <Link
                       className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
+                      to="seguridad/roles"
                     >
                       <span className="sidenav-mini-icon"> B </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Buttons{" "}
+                        Administrador de <br /> roles
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
