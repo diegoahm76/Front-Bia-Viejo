@@ -12,12 +12,14 @@ const ActualizarDatosPersonaScreen = () => {
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
+  const [dataUpdate, setdataUpdate] = useState({});
 
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
   });
 
   const {
+    reset,
     register,
     control,
     handleSubmit,
@@ -27,15 +29,8 @@ const ActualizarDatosPersonaScreen = () => {
   useEffect(() => {
     const getSelectsOptions = async () => {
       try {
-
-        const dataLogin = await JSON.parse(localStorage.getItem("userInfo"))
-        //Peticion para buscar la persona por email
-
-        const { data: dataPersona} = await clienteAxios.get(`personas/getpersonabyemail/${dataLogin.email}`)
-
         //personas/updatepersonajuridica/${id_persona}
         //personas/updatepersonanatural/${id_persona}
-
         //Peticion para las opciones de los selects
         const { data: sexoNoFormat } = await clienteAxios.get("choices/sexo/");
 
@@ -52,6 +47,16 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
+
+        const dataLogin = await JSON.parse(localStorage.getItem("userInfo"));
+        //Peticion para buscar la persona por email
+          console.log(dataLogin.email)
+        const { data: dataPersona } = await clienteAxios.get(
+          `personas/getpersonabyemail/${dataLogin.email}`
+        );
+        reset(dataPersona)
+        setdataUpdate(dataPersona);
+        console.log(dataPersona);
 
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
@@ -96,7 +101,7 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     placeholder="Tipo de documento"
                     disabled
-                    value="C.C."
+                    value={dataUpdate.tipo_documento?.nombre}
                   />
                   <label className="ms-2">Tipo de documento:</label>
                 </div>
@@ -108,7 +113,7 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     placeholder="Número de documento"
                     disabled
-                    value="1151231231"
+                    value={dataUpdate.numero_documento}
                   />
                   <label className="ms-2">Número de documento:</label>
                 </div>
@@ -120,7 +125,7 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     placeholder="Nombre Codigo de verificación"
                     disabled
-                    value="423"
+                    value={dataUpdate.digito_verificacion}
                   />
                   <label className="ms-2">Codigo de verificación:</label>
                 </div>
@@ -153,9 +158,8 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     required
                     disabled
-                    value="Junior"
                     placeholder="Primer nombre"
-                    {...register("primerNombre")}
+                    {...register("primer_nombre")}
                   />
                   <label className="ms-2">
                     Primer nombre: <span className="text-danger">*</span>
@@ -168,7 +172,7 @@ const ActualizarDatosPersonaScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="Segundo nombre"
-                    {...register("segundoNombre")}
+                    {...register("segundo_nombre")}
                   />
                   <label className="ms-2">Segundo nombre:</label>
                 </div>
