@@ -23,6 +23,7 @@ import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-sv
 import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
 import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
+import IconoUser from "../assets/user-svgrepo-com.svg";
 
 const Aside = ({showAside}) => {
   const userInfo = useSelector((state) => state.user.user);
@@ -66,6 +67,7 @@ const Aside = ({showAside}) => {
                 role="button"
                 aria-expanded="false"
               >
+                <img src={IconoUser} alt="user" />
                 <span className="nav-link-text ms-2 ps-1">{userInfo.nombre_de_usuario}</span>
               </a>
               <div className="collapse" id="ProfileNav">
@@ -1125,11 +1127,11 @@ const Aside = ({showAside}) => {
                   <li className="nav-item ">
                     <Link
                       className="nav-link text-white "
-                      to="seguridad/administradordeusuarios"
+                      to="seguridad/administradordepersonas"
                     >
                       <span className="sidenav-mini-icon"> A </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        Administrador de <br /> usuarios
+                        Administrador de <br /> personas
                       </span>
                     </Link>
                   </li>
@@ -1145,18 +1147,15 @@ const Aside = ({showAside}) => {
                     </Link>
                   </li>
                   <li className="nav-item ">
-                    <a
+                    <Link
                       className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
+                      to="seguridad/roles"
                     >
                       <span className="sidenav-mini-icon"> B </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Buttons{" "}
+                        Administrador de <br /> roles
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

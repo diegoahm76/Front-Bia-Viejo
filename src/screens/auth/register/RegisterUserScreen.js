@@ -51,7 +51,7 @@ const RegisterUserScreen = () => {
 
       if (!dataPersona.id_persona) {
         Swal.fire({
-          title: "No exite un persona con estos datos",
+          title: "No existe un persona con estos datos",
           text: "¿Desea registrarse como persona o empresa?",
           icon: "warning",
           showCancelButton: true,
@@ -142,9 +142,10 @@ const RegisterUserScreen = () => {
         backgroundImage: `url(${LogBackground})`,
       }}
     >
+      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row">
-          <div className="col-lg-6 col-md-8 col-12 mx-auto">
+          <div className="col-lg-5 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               <h3 className="mt-3 mb-0 text-center mb-6">
                 Registro de usuario
