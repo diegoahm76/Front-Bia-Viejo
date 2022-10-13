@@ -23,6 +23,8 @@ const AdministradorDePersonasScreen = () => {
     departamento: "",
     municipio: "",
     municipioDondeLabora: "",
+    id_persona: "",
+    tipoPersona: "",
   });
 
   const {
@@ -187,20 +189,61 @@ const AdministradorDePersonasScreen = () => {
         municipiosOptions
       ),
       fechaNacimiento: new Date(dataPersona.fecha_nacimiento),
+      id_persona: dataPersona.id_persona,
+      tipoPersona: dataPersona.tipo_persona,
     });
-    console.log(
-      "Valor estado civil",
-      getIndexBySelectOptions(
-        dataPersona.estado_civil?.cod_estado_civil,
-        estadoCivilOptions
-      )
-    );
     resetPersona(defaultValuesOverrite);
-    console.log("DataPersona", dataPersona);
   };
 
-  const onSubmitPersona = (data) => {
-    console.log(data);
+  const onSubmitPersona = async (data) => {
+    console.log("data estado componentes", formValues);
+    console.log("data hook form", data);
+    const updatedPersona = {
+      tipo_persona: formValues.tipoPersona,
+      id_persona: formValues.id_persona,
+      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
+      numero_documento: data.numeroDocumento2,
+      primer_nombre: data.primerNombre,
+      segundo_nombre: data.segundoNombre,
+      primer_apellido: data.primerApellido,
+      segundo_apellido: data.segundoApellido,
+      sexo: formValues.sexo.value,
+      estado_civil: estadoCivilOptions[formValues.estadoCivil]?.value,
+      pais_nacimiento: paisesOptions[formValues.paisNacimiento]?.value,
+      fecha_nacimiento: formatISO(formValues.fechaNacimiento, {
+        representation: "date",
+      }),
+      email: data.eMail,
+      email_empresarial: data.emailEmpresarial,
+      telefono_celular: data.celular,
+      telefono_fijo_residencial: data.telefonoFijo,
+      telefono_empresa: data.telefonoEmpresa,
+      telefono_empresa_2: data.telefonoEmpresa2,
+      pais_residencia: paisesOptions[formValues.paisResidencia]?.value,
+      departamento_residencia: departamentosOptions[formValues.departamento]?.value,
+      municipio_residencia: municipiosOptions[formValues.municipio]?.value,
+      direccion_notificaciones: data.direccionDeNotificacion,
+      direccion_residencia_ref: data.referenciaAdicional,
+      direccion_laboral: data.direccionLaboral,
+      cod_municipio_laboral_nal:
+        municipiosOptions[formValues.municipioDondeLabora]?.value,
+      ubicacion_georeferenciada: data.ubicacionGeografica,
+    };
+    // const config = {
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    // };
+    console.log("updated persona", updatedPersona);
+    try {
+      const { data: dataPersona } = await clienteAxios.put(
+        `personas/updatepersonanatural/${formValues?.id_persona}/`,
+        updatedPersona
+      );
+      console.log(dataPersona);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const getIndexBySelectOptions = (valueSelect, selectOptions) => {
@@ -279,7 +322,7 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-3 mt-md-0">
                   <button
                     type="submit"
                     form="buscarPersonaForm"
@@ -312,9 +355,9 @@ const AdministradorDePersonasScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          inputValue={
-                            tipoDocumentoOptions[formValues.tipoDocumento]
-                              ?.label
+                          value={tipoDocumentoOptions[formValues.tipoDocumento]}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, tipoDocumento: e })
                           }
                           options={tipoDocumentoOptions}
                           placeholder="Seleccionar"
@@ -398,7 +441,10 @@ const AdministradorDePersonasScreen = () => {
                         <Select
                           {...field}
                           options={sexoOptions}
-                          inputValue={sexoOptions[formValues.sexo]?.label}
+                          value={sexoOptions[formValues.sexo]}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, sexo: e })
+                          }
                           placeholder="Seleccionar"
                         />
                       )}
@@ -412,9 +458,13 @@ const AdministradorDePersonasScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          inputValue={
-                            estadoCivilOptions[formValues.estadoCivil]?.label
+                          value={estadoCivilOptions[formValues.estadoCivil]}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, estadoCivil: e })
                           }
+                          // inputValue={
+                          //   estadoCivilOptions[formValues.estadoCivil]?.label
+                          // }
                           options={estadoCivilOptions}
                           placeholder="Seleccionar"
                         />
@@ -429,8 +479,9 @@ const AdministradorDePersonasScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          inputValue={
-                            paisesOptions[formValues.paisNacimiento]?.label
+                          value={paisesOptions[formValues.paisNacimiento]}
+                          onChange={(e) =>
+                            setFormValues({ ...formValues, paisNacimiento: e })
                           }
                           options={paisesOptions}
                           placeholder="Seleccionar"
@@ -450,7 +501,7 @@ const AdministradorDePersonasScreen = () => {
                       <DatePicker
                         {...field}
                         locale="es"
-                        //required
+                        dateFormat="yyyy/MM/dd"
                         selected={formValues.fechaNacimiento}
                         value={formValues.fechaNacimiento}
                         onSelect={(e) => {
@@ -458,7 +509,7 @@ const AdministradorDePersonasScreen = () => {
                           setFormValues({ ...formValues, fechaNacimiento: e });
                         }}
                         className="multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
+                        placeholderText="aaaa/mm/dd"
                       />
                     )}
                   />
@@ -509,7 +560,7 @@ const AdministradorDePersonasScreen = () => {
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
-                      type="email"
+                      type="tel"
                       //required
                       placeholder="Telefono"
                       {...registerPersona("telefonoFijo")}
@@ -556,8 +607,9 @@ const AdministradorDePersonasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        inputValue={
-                          paisesOptions[formValues.paisResidencia]?.label
+                        value={paisesOptions[formValues.paisResidencia]}
+                        onChange={(e) =>
+                          setFormValues({ ...formValues, paisResidencia: e })
                         }
                         options={paisesOptions}
                         placeholder="Seleccionar"
@@ -573,10 +625,11 @@ const AdministradorDePersonasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={departamentosOptions}
-                        inputValue={
-                          departamentosOptions[formValues.departamento]?.label
+                        value={departamentosOptions[formValues.departamento]}
+                        onChange={(e) =>
+                          setFormValues({ ...formValues, departamento: e })
                         }
+                        options={departamentosOptions}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -592,8 +645,9 @@ const AdministradorDePersonasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        inputValue={
-                          municipiosOptions[formValues.municipio]?.label
+                        value={municipiosOptions[formValues.municipio]}
+                        onChange={(e) =>
+                          setFormValues({ ...formValues, municipio: e })
                         }
                         options={municipiosOptions}
                         placeholder="Seleccionar"
@@ -664,10 +718,15 @@ const AdministradorDePersonasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={paisesOptions}
-                        inputValue={
+                        options={municipiosOptions}
+                        value={
                           municipiosOptions[formValues.municipioDondeLabora]
-                            ?.label
+                        }
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            municipioDondeLabora: e,
+                          })
                         }
                         placeholder="Seleccionar"
                       />
