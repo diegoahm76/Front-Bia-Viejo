@@ -50,6 +50,7 @@ const defaultErrors = {
 };
 
 const RegisterPersonaScreen = () => {
+  const [loading, setLoading] = useState(false);
   const [isOpenGenerator, setIsOpenGenerator] = useState(false);
   const [completeAddress, setCompleteAddress] = useState("");
   const [errors, setErrors] = useState(defaultErrors);
@@ -163,6 +164,7 @@ const RegisterPersonaScreen = () => {
     }
 
     //* Peticion de registro condicional dependiendo de si es natural o juridica
+    setLoading(true);
     if (formValues.tipo_persona.value === "N") {
       try {
         const { data: dataRegisterPersona } = await clienteAxios.post(
@@ -231,6 +233,7 @@ const RegisterPersonaScreen = () => {
           console.log(err);
         }
       }
+      setLoading(false);
     } else {
       try {
         const { data: dataRegisterPersona } = await clienteAxios.post(
@@ -298,6 +301,7 @@ const RegisterPersonaScreen = () => {
           console.log(err);
         }
       }
+      setLoading(false);
     }
   };
 
@@ -799,8 +803,20 @@ const RegisterPersonaScreen = () => {
                 <button
                   type="submit"
                   className="btn bg-gradient-primary text-capitalize d-block ms-auto col-12 col-md-6"
+                  disabled={loading}
                 >
-                  Registrarse
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-1"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Cargando...
+                    </>
+                  ) : (
+                    "Registrarse"
+                  )}
                 </button>
               </form>
               <GeneradorDeDirecciones
