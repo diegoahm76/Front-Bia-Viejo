@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import AdministradorDeUsuariosScreen from "../AdministradorDeUsuariosScreen";
+import AdministradorDePersonasScreen from "../AdministradorDePersonasScreen";
 import AuditoriaScreen from "../AuditoriaScreen";
 import RolesScreen from "../RolesScreen";
 import AdministradorDeEmpresasScreen from "../AdministradorDeEmpresasScreen";
@@ -12,7 +12,7 @@ const SeguridadRoutes = () => {
 
       <Route path="roles" element={<RolesScreen />} />
 
-      <Route path="administradordeusuarios" element={<AdministradorDeUsuariosScreen />} />
+      <Route path="administradordepersonas" element={<AdministradorDePersonasScreen />} />
 
       <Route path="administradordeempresas" element={<AdministradorDeEmpresasScreen />} />
 
