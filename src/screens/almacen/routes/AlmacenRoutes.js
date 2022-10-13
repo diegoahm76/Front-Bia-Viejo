@@ -3,23 +3,24 @@ import { Navigate } from "react-router-dom/dist";
 
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
-import InspeccionDiariaDeVehiculo from "../gestionDeVehiculos/InspeccionDiariaDeVehiculo";
 import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
 import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
-import AutorizarSolicitudActivoPrestamoScreen from "./solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
-import AutorizarSolicitudAsignacionArticuloActivoScreen from "./solicitudesArticulos/AutorizarSolicitudAsignacionArticuloActivoScreen";
-import AutorizarSolicitudesConsumoScreen from "./solicitudesArticulos/AutorizarSolicitudesConsumoScreen";
-import SolicitarArticulosConsumoScreen from "./solicitudesArticulos/SolicitarArticulosConsumoScreen";
-import SolicitarElementoConsumoViveroScreen from "./solicitudesArticulos/SolicitarElementoConsumoViveroScreen";
-import SolicitudActivoPrestamoScreen from "./solicitudesArticulos/SolicitudActivoPrestamoScreen";
-import SolicitudAsignacionArticuloActivoScreen from "./solicitudesArticulos/SolicitudAsignacionArticuloActivoScreen";
-import SolicitudesAsignacionPendientesScreen from "./solicitudesArticulos/SolicitudesAsignacionPendientesScreen";
-import SolicitudesAutorizadasPendientesScreen from "./solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
-import SolicitudesPendientesAutorizarScreen from "./solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
-import SolicitudVehiculoScreen from "./solicitudesArticulos/SolicitudVehiculoScreen";
+import AutorizarSolicitudActivoPrestamoScreen from "../solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
+import SolicitudesPendientesAutorizarScreen from "../solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
+import SolicitarArticulosConsumoScreen from "../solicitudesArticulos/SolicitarArticulosConsumoScreen";
+import AutorizarSolicitudesConsumoScreen from "../solicitudesArticulos/AutorizarSolicitudesConsumoScreen";
+import SolicitudesAsignacionPendientesScreen from "../solicitudesArticulos/SolicitudesAsignacionPendientesScreen";
+import SolicitudAsignacionArticuloActivoScreen from "../solicitudesArticulos/SolicitudAsignacionArticuloActivoScreen";
+import AutorizarSolicitudAsignacionArticuloActivoScreen from "../solicitudesArticulos/AutorizarSolicitudAsignacionArticuloActivoScreen";
+import SolicitudActivoPrestamoScreen from "../solicitudesArticulos/SolicitudActivoPrestamoScreen";
+import SolicitudVehiculoScreen from "../solicitudesArticulos/SolicitudVehiculoScreen";
+import SolicitarElementoConsumoViveroScreen from "../solicitudesArticulos/SolicitarElementoConsumoViveroScreen";
+import SolicitudesAutorizadasPendientesScreen from "../solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
+import ReprogramarSolicitudVehiculoScreen from "../gestionDeVehiculos/ReprogramarSolicitudVehiculoScreen";
+import AsignacionVehiculoScreen from "../gestionDeVehiculos/AsignacionVehiculoScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -30,57 +31,80 @@ const AlmacenRoutes = () => {
 
       <Route path="reportes" element={<ReportesScreen />} />
 
-      <Route path="solicitudesarticulos">
-        <Route path="autorizarsolicitudactivoprestamo" element={<AutorizarSolicitudActivoPrestamoScreen/>}/>
+      <Route path="solicitudes-articulos">
+        <Route
+          path="autorizar-solicitud-activo-prestamo"
+          element={<AutorizarSolicitudActivoPrestamoScreen />}
+        />
+        <Route
+          path="solicitudes-pendientes-autorizar"
+          element={<SolicitudesPendientesAutorizarScreen />}
+        />
+        <Route
+          path="solicitar-articulos-consumo"
+          element={<SolicitarArticulosConsumoScreen />}
+        />
+        <Route
+          path="autorizar-solicitudes-consumo"
+          element={<AutorizarSolicitudesConsumoScreen />}
+        />
+        <Route
+          path="solicitudes-asignacion-pendientes"
+          element={<SolicitudesAsignacionPendientesScreen />}
+        />
+        <Route
+          path="solicitud-asignacion-articulo-activo"
+          element={<SolicitudAsignacionArticuloActivoScreen />}
+        />
+        <Route
+          path="autorizar-solicitud-asignacion-articulo-activo"
+          element={<AutorizarSolicitudAsignacionArticuloActivoScreen />}
+        />
+        <Route
+          path="solicitud-activo-prestamo"
+          element={<SolicitudActivoPrestamoScreen />}
+        />
+        <Route path="solicitud-vehiculo" element={<SolicitudVehiculoScreen />} />
+        <Route
+          path="solicitar-elemento-consumo-vivero"
+          element={<SolicitarElementoConsumoViveroScreen />}
+        />
+        <Route
+          path="solicitudes-autorizadas-pendientes"
+          element={<SolicitudesAutorizadasPendientesScreen />}
+        />
       </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitudespendientesautorizar" element={<SolicitudesPendientesAutorizarScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitararticulosconsumo" element={<SolicitarArticulosConsumoScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="autorizarsolicitudesconsumo" element={<AutorizarSolicitudesConsumoScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitudesasignacionpendientes" element={<SolicitudesAsignacionPendientesScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitudasignacionarticuloactivo" element={<SolicitudAsignacionArticuloActivoScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="autorizarsolicitudasignacionarticuloactivo" element={<AutorizarSolicitudAsignacionArticuloActivoScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitudactivoprestamo" element={<SolicitudActivoPrestamoScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitudvehiculo" element={<SolicitudVehiculoScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitarelementoconsumovivero" element={<SolicitarElementoConsumoViveroScreen/>}/>
-      </Route>
-      <Route path="solicitudesarticulos">
-        <Route path="solicitudesautorizadaspendientes" element={<SolicitudesAutorizadasPendientesScreen/>}/>
-      </Route>
-      
-      <Route
-        path="inspecciondiariadevehiculo"
-        element={<InspeccionDiariaDeVehiculoScreen />}
-      />
 
-      <Route path="registrodemantenimientodevehiculo" element={<RegistroDeMantenimientoDeVehiculo />} />
+      <Route path="gestion-de-vehiculos">
+        <Route
+          path="reprogramar-solicitud-vehiculo"
+          element={<ReprogramarSolicitudVehiculoScreen />}
+        />
+        <Route
+          path="asignacion-vehiculo"
+          element={<AsignacionVehiculoScreen />}
+        />
 
-      <Route path="/*" element={<Navigate to="/dashboard" />} />
-      <Route
-        path="consultarsolicitudesdevehiculos"
-        element={<ConsultarSolicitudesDeVehiculosScreen />}
-      />
+        <Route
+          path="inspeccion-diaria-de-vehiculo"
+          element={<InspeccionDiariaDeVehiculoScreen />}
+        />
 
-      <Route
-        path="solicitudesencoladeespera"
-        element={<SolicitudesEnColaDeEsperaScreen />}
-      />
+        <Route
+          path="registro-de-mantenimiento-de-vehiculo"
+          element={<RegistroDeMantenimientoDeVehiculo />}
+        />
+
+        <Route
+          path="consultar-solicitudes-de-vehiculos"
+          element={<ConsultarSolicitudesDeVehiculosScreen />}
+        />
+
+        <Route
+          path="solicitudes-en-cola-de-espera"
+          element={<SolicitudesEnColaDeEsperaScreen />}
+        />
+      </Route>
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
     </Routes>

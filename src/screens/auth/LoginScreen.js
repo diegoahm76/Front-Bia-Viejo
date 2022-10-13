@@ -5,7 +5,6 @@ import LogoCormacarena from "../../assets/logos/eps/LogoHorizontal_mod.svg";
 import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-
 function LoginScreen() {
   const captchaRef = useRef(null);
 

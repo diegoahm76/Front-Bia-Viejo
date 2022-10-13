@@ -2,16 +2,15 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
-import DatePicker, { registerLocale } from "react-datepicker";
-import es from "date-fns/locale/es";
+import DatePicker from "react-datepicker";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import {
   activeModalAction,
   desactiveModalAction,
-} from "../../../../actions/modalActions";
-import CalendarModal from "../../../../components/CalendarModal";
+} from "../../../actions/modalActions";
+import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
 
 const SolicitudVehiculoScreen = () => {
