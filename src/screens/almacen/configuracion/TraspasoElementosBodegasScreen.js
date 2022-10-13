@@ -66,39 +66,23 @@ const TraspasoElementosBodegasScreen = () => {
 
         { headerName: "Nombre", 
         field: "item",
-        
-    
         },
     
         { headerName: "Marca", 
         field: "item2", 
-    
         },
     
         {headerName: "Serial",
         field: "number",
-    
         },
     
         { headerName: "Id único", 
           field: "number",
-    
         },
 
         { headerName: "Cantidad", 
           field: "numberFrecuency",
-    
         },
-
-        { headerName: "Valor unitario", 
-          field: "precio",
-    
-        }, 
-
-        { headerName: "Valor total", 
-          field: "precio",
-        }, 
-        
 
         {headerName: "Bodega", field:"acción",
         cellRendererFramework:(params)=>
@@ -125,8 +109,14 @@ const TraspasoElementosBodegasScreen = () => {
         minWidth: 200
     },
 
+        { headerName: "Valor unitario", 
+          field: "precio",
+    
+        }, 
 
-
+        { headerName: "Valor total", 
+          field: "precio",
+        }, 
     ]
 
     const defaultColDef={
@@ -146,14 +136,11 @@ const TraspasoElementosBodegasScreen = () => {
         gridApi = params.api
     }
     
-    
-    
     const [formValues, setFormValues] = useState({
         fechaTraspaso: "",
       
     });
     
-
     const [page, setPage] = useState(1);
 
     const submit = (data) => {
@@ -166,7 +153,6 @@ const TraspasoElementosBodegasScreen = () => {
       };
   
   
-  
     return (
     <div className='row min-vh-100'>
           <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -177,14 +163,14 @@ const TraspasoElementosBodegasScreen = () => {
                 <div className= "row" hidden={page === 2}>
                     <div className="col-12 col-md-4 mt-2">
                         <div className="input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Código: <span className="text-danger"{...register("code")}>*</span> </label>
-                            <input className="multisteps-form__input form-control mt-4" type="number"/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Código: <span className="text-danger"{...register("code")}>*</span> </label>
+                            <input className="multisteps-form__input form-control" type="number"/>
                         </div>
                     </div>
 
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-4 mt-2 mb-4">
                         <div className="input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Fecha: <span className="text-danger">*</span> </label>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Fecha: <span className="text-danger">*</span> </label>
                                 
                             <Controller
                             name="fechaTraspaso"
@@ -199,7 +185,7 @@ const TraspasoElementosBodegasScreen = () => {
                             onSelect={(e) =>
                             setFormValues({ ...formValues, fechaTraspaso: e })
                             }
-                            className="multisteps-form__input form-control mt-4 p-2"
+                            className="multisteps-form__input form-control  p-2"
                             placeholderText="dd/mm/aaaa"
                             />
                             )}
@@ -208,7 +194,7 @@ const TraspasoElementosBodegasScreen = () => {
                     </div>
 
                     <div className ="col-12 d-flex justify-content-center mt-6 mb-5">  
-                        <label htmlFor="exampleFormControlInput1" className="form-label mt-2"> Quien traslada: </label> 
+                        <label className="form-floating input-group input-group-dynamic ms-2 my-2"> Quien traslada: </label> 
                         <Controller
                         name="tipoDocumento"
                         control={control}
@@ -272,9 +258,9 @@ const TraspasoElementosBodegasScreen = () => {
                     </div>
 
 
-                    <div className="col-12 col-md-4 mt-0">
+                    <div className="col-12 col-md-4 mt-2">
                         <div className=" input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Bodegas de salida <span className="text-danger">*</span> </label>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Bodegas de salida <span className="text-danger">*</span> </label>
                             <Controller
                             name="bodega"
                             control={control}
@@ -285,7 +271,7 @@ const TraspasoElementosBodegasScreen = () => {
                             <Select 
                             {...field}
                             {...register("cellar")}
-                            className="col-12 mt-5"
+                            className="col-12 mt-3"
                             defaultValue={selectCellar}
                             onChange={setSelectedCellar}
                             options={optionsCellar}
@@ -298,10 +284,10 @@ const TraspasoElementosBodegasScreen = () => {
 
                     <div className="row mt-5">            
                         <div className=" input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label mx-3"> Concepto de: </label>            
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Concepto de: </label>            
                         </div>
 
-                        <div className="d-flex justify-content-center mt-5">
+                        <div className="d-flex justify-content-center mt-3">
                         <textarea  style={{height:"100px", width:"80%"}} type="text" placeholder="Por favor agregue concepto"/>
                         </div>
                     </div>
@@ -311,8 +297,6 @@ const TraspasoElementosBodegasScreen = () => {
                         <button className="btn bg-gradient-primary mb-0 text-capitalize" type="submit" title="Send" form="configForm">{page === 1 ? "Siguiente >>" : "Actualizar"} </button>
                     </div>
                 </div>
-
-                
 
                 
                 <div className="row col-12" hidden={page === 1}>
@@ -334,14 +318,10 @@ const TraspasoElementosBodegasScreen = () => {
                     </div>
 
 
-                    <div className="d-flex justify-content-end mt-3">
-                        <button type="button" className="btn btn-secondary mx-2 p-2 w-7 text-capitalize"> Guardar </button>
-                        <button type="button" className="btn btn-danger mx-2 text-capitalize">Salir </button>
-                    </div>
-
-                    <div className="d-flex justify-content-end gap-4 mt-6">
-                        <button className={`btn bg-gradient-danger mb-0 text-capitalize ${page === 1 && "d-none"}`} type="button" title="Send" onClick={handlePreviousPage}> {"<< Atrás"} </button>
-                        <button className="btn bg-gradient-primary mb-0 text-capitalize" type="submit" title="Send" form="configForm">{page === 1 ? "Siguiente >>" : "Actualizar"} </button>
+                    <div className="d-flex justify-content-end gap-4 mt-5">
+                        <button className={`btn bg-gradient-secondary text-capitalize ${page === 1 && "d-none"}`} type="button" title="Send" onClick={handlePreviousPage}> {"<< Atrás"} </button>
+                        <button className="btn bg-gradient-primary text-capitalize" type="submit" title="Send" form="configForm">{page === 1 ? "Siguiente >>" : "Guardar"} </button>
+                        <button type="button" className="btn btn-danger text-capitalize" >Salir </button>
                     </div>
                 </div>
             </form>

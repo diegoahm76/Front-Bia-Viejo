@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
 import Modal from "react-modal";
 
 const customStyles = {
-  
   content: {
     top: "50%",
     left: "50%",
@@ -16,12 +14,10 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const CalendarModal = ({ children }) => {
-  const isModalActive = useSelector((state) => state.modal.isModalActive);
-
+const ModalLocal = ({ children, localState }) => {
   return (
     <Modal
-      isOpen={isModalActive}
+      isOpen={localState}
       //onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"
@@ -32,7 +28,8 @@ const CalendarModal = ({ children }) => {
     </Modal>
   );
 };
-export default CalendarModal;
+
+export default ModalLocal;
 
 
 

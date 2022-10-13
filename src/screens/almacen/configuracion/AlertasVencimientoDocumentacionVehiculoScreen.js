@@ -8,6 +8,7 @@ import CalendarModal from "../../../components/CalendarModal";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import DatePicker from "react-datepicker";
 
 
 const rowDataInicial=[
@@ -34,6 +35,8 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
     const [selectedIdDocument, setSelectedIdDocument] = useState(null);
     const [rowData, setRowData] = useState(rowDataInicial)
     const { register, handleSubmit, control } = useForm();
+    const [formValues, setFormValues] = useState({
+        fechaRecordatorio: "",});
 
     const submit = (data) => {
 
@@ -75,6 +78,8 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
     const onGridReady=(params)=>{
         gridApi = params.api
     }
+
+   
       
      return (
         <div className='row min-vh-100'>
@@ -83,8 +88,8 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
             
             <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)} id="configForm">          
                 <div className="row">
-                    <div className="col-12 col-md-4 mt-3">
-                        <label htmlFor="exampleFormControlInput1" className="form-label mt-2"> Tipo de documento</label>        
+                    <div className="col-12 col-md-4 mt-4">
+                        <label className="form-floating input-group input-group-dynamic mb-3" > Tipo de documento</label>        
                         <Controller
                         name="tipoDocumento"
                         control={control}
@@ -105,15 +110,32 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
                                 
                     <div className="col-12 col-md-4 mt-4">
                         <div className="input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
-                            <input className="multisteps-form__input form-control mt-4" type="text" {...register("numeroDias")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
+                            <input className="multisteps-form__input form-control" type="number" {...register("numeroDias")}/>
                         </div>
                     </div>
     
                     <div className="col-12 col-md-4 mt-4">
                         <div className=" input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Recordatorio: <span className="text-danger">*</span> </label>
-                            <input className="multisteps-form__input form-control mt-4" type="time" {...register("numeroRecordatorio")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Recordatorio: <span className="text-danger">*</span> </label>
+                            <Controller
+                            name="fechaRecordatorio"
+                            control={control}
+                            render={({ field }) => (
+                            <DatePicker
+                            {...field}
+                            {...register("fecha")}
+                            locale="es"
+                            //required
+                            selected={formValues.fechaRecordatorio}
+                            onSelect={(e) =>
+                            setFormValues({ ...formValues, fechaRecordatorio: e })
+                            }
+                            className="multisteps-form__input form-control  p-2"
+                            placeholderText="dd/mm/aaaa"
+                            />
+                            )}
+                            />
                         </div>
                         
                         <div class="form-check mx-auto">
@@ -126,8 +148,8 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
                         
                         <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Frecuencia (Hora/as): <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="number" {...register("numeroFrecuencia")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia (Hora/as): <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroFrecuencia")}/>
                             </div>
                         </div>
                 
@@ -156,14 +178,18 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
    
             </form>
             <CalendarModal>
-                    <div> 
-                        <p>Los documentos: "seguro de póliza", vencerán el día 05/05/2022 </p>
-                        <button className="btn bg-gradient-danger mb-0" onClick={handleCloseModal} type="submit" title="Send" form="configForm"> Salir </button>
+                    <div className="d-flex justify-content-center mt-10" >
+                        <p >Los documentos: "seguro de póliza", vencerán el día 05/05/2022 </p> 
+                    </div>
+                    
+                    <div className="d-flex justify-content-center mt-5">
+                        <button className=" btn bg-gradient-danger" onClick={handleCloseModal} type="submit" title="Send" form="configForm"> Salir </button>
                     </div>
                 
             </CalendarModal>
         </div>
     </div>
+
 
   )
 }

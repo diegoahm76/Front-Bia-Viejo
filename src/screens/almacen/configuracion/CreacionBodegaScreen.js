@@ -65,14 +65,14 @@ const CreacionBodegaScreen = () => {
                     <div className= "row">
                         <div className="col-12 col-md-4 mt-2">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Nombre de bodega: <span className="text-danger" {...register("cellarName")}>*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="text"/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Nombre de bodega: <span className="text-danger" {...register("cellarName")}>*</span> </label>
+                                <input className="multisteps-form__input form-control mt-1" type="text"/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mt-0">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className=" input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Departamento <span className="text-danger">*</span> </label>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Departamento <span className="text-danger">*</span> </label>
                                 <Controller
                                 name="tipoDocumento"
                                 control={control}
@@ -83,7 +83,7 @@ const CreacionBodegaScreen = () => {
                                 <Select 
                                 {...field}
                                 {...register("departamento")}
-                                className="col-12 mt-5"
+                                className="col-12 mt-3"
                                 defaultValue={selectDepartament}
                                 onChange={setSelectedDepartament}
                                 options={optionsDepartamentos}
@@ -94,9 +94,9 @@ const CreacionBodegaScreen = () => {
                             </div>
                         </div>
                     
-                        <div className="col-12 col-md-4 mt-0">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className=" input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Municipio: <span className="text-danger">*</span> </label>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Municipio: <span className="text-danger">*</span> </label>
                                 <Controller
                                 name="municipio"
                                 control={control}
@@ -107,7 +107,7 @@ const CreacionBodegaScreen = () => {
                                 <Select 
                                 {...field}
                                 {...register("municipio")}
-                                className="col-12 mt-5"
+                                className="col-12 mt-3"
                                 defaultValue={selectMunicipios}
                                 onChange={setSelectedMunicipios}
                                 options={optionsMunicipios}
@@ -118,16 +118,16 @@ const CreacionBodegaScreen = () => {
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2 mt-2">
+                        <div className="col-12 col-md-4 mb-2 mt-4">
                                 <div className="input-group input-group-dynamic">
-                                    <label htmlFor="exampleFormControlInput1" className="form-label"> Dirección de bodega: <span className="text-danger">*</span> </label>
-                                    <input className="multisteps-form__input form-control mt-4" type="text" {...register("cellarAddress")}/>
+                                    <label className="form-floating input-group input-group-dynamic ms-2"> Dirección de bodega: <span className="text-danger">*</span> </label>
+                                    <input className="multisteps-form__input form-control" type="text" {...register("cellarAddress")}/>
                                 </div>  
                         </div>
 
                         <div className ="col-12 d-flex justify-content-center mt-7 mb-5">
                             
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Notificar a: <span className="text-danger">*</span> </label>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Notificar a: <span className="text-danger">*</span> </label>
                             <Controller
                             name="tipoDocumento"
                             control={control}
@@ -192,7 +192,6 @@ const CreacionBodegaScreen = () => {
                             <button type="button" className="btn btn-secondary mx-2 p-2 w-7 text-capitalize"> Guardar </button>
                             <button type="button" className="btn btn-danger mx-2 text-capitalize">Salir </button>
                         </div>
-
                 
                     
                     </div>

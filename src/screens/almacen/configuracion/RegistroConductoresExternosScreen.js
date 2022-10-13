@@ -33,37 +33,37 @@ const RegistroConductoresExternosScreen = () => {
               
                   
                     <div className= "row">
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Primer Nombre: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="text" {...register("primerNombre")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Primer Nombre: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" type="text" {...register("primerNombre")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Segundo Nombre: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="text" {...register("segundoNombre")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Segundo Nombre: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" type="text" {...register("segundoNombre")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label">Primer Apellido: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="text" {...register("primerApellido")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2">Primer Apellido: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" type="text" {...register("primerApellido")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Segundo Apellido: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="text" {...register("segundoNombre")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Segundo Apellido: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" type="text" {...register("segundoNombre")}/>
                             </div>
                         </div>
                     
-                        <div className="col-12 col-md-4 mb-3">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Tipo de documento: <span className="text-danger">*</span> </label>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Tipo de documento: <span className="text-danger">*</span> </label>
                                 
                                 <Controller
                                 name="tipoDocumento"
@@ -75,7 +75,7 @@ const RegistroConductoresExternosScreen = () => {
                                 <Select 
                                 {...field}
                                 {...register("documento")}
-                                className="col-8 mt-5"
+                                className="col-8 mt-2"
                                 defaultValue={selectedIdDocument}
                                 onChange={setSelectedIdDocument}
                                 options={optionsDocumentSelection}
@@ -87,45 +87,45 @@ const RegistroConductoresExternosScreen = () => {
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Número de documento: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="number" {...register("numeroDocumento")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Número de documento: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" type="number" {...register("numeroDocumento")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Celular: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" type="number" {...register("numeroCelular")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Celular: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" type="number" {...register("numeroCelular")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Teléfono: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" {...register("numeroTelefono")} type="number"/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Teléfono: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" {...register("numeroTelefono")} type="number"/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Dirección: <span className="text-danger" >*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" {...register("direccion")} type="text"/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Dirección: <span className="text-danger" >*</span> </label>
+                                <input className="multisteps-form__input form-control" {...register("direccion")} type="text"/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Barrio: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" {...register("direccion")} type="text"/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Barrio: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" {...register("direccion")} type="text"/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mb-2">
+                        <div className="col-12 col-md-4 mt-4">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Correo electrónico: <span className="text-danger">*</span> </label>
-                                <input className="multisteps-form__input form-control mt-4" {...register("email")} type="email"/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Correo electrónico: <span className="text-danger">*</span> </label>
+                                <input className="multisteps-form__input form-control" {...register("email")} type="email"/>
                             </div>
                         </div>
 

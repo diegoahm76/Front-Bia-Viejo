@@ -32,9 +32,10 @@ const optionsSeleccioneVivero = [
 
 
 const MedidasDeRearciminetoScreen = () => {
+  
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [rowData, setRowData] = useState(rowDataInicial)
-  const {control, formState: { errors },} = useForm();
+  const {control, handleSubmit, formState: { errors },} = useForm();
 
   //función del botón
   const handleSearch = () => {
@@ -48,6 +49,10 @@ const MedidasDeRearciminetoScreen = () => {
       return false
     })
     setRowData(dataFilter)
+  }
+
+  const submit = (data) => {
+
   }
 
 
@@ -132,10 +137,12 @@ const MedidasDeRearciminetoScreen = () => {
     <div className="col-lg-12 col-md-10 col-12 mx-auto">
       <h1 className ="mt-3 mb-0 text-center mb-6">Medidas de resarcimiento</h1>
 
-      <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" >
+      <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)}
+      id="configForm" >
+
         <div className= "row">
           <div className ="col-12 col-md-4">
-            <label htmlFor="exampleFormControlInput1" className="form-label"> Seleccionar Vivero: <span className="text-danger">*</span></label>
+            <label className="form-floating input-group input-group-dynamic ms-2"> Seleccionar Vivero: <span className="text-danger">*</span></label>
             <Controller
             name="seleccioneVivero"
             control={control}
@@ -158,7 +165,7 @@ const MedidasDeRearciminetoScreen = () => {
                         
           </div>
                       
-          <div className="col-6 mt-4">
+          <div className="col-6 mt-4 p-1">
             <button type="button" onClick={handleSearch} className="btn btn-primary">Buscar</button>
           </div>
 

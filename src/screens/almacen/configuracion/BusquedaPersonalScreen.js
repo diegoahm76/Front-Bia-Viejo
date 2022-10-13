@@ -111,15 +111,15 @@ const BusquedaPersonalScreen = () => {
                 <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)} id="configForm">
 
                     <div className= "row">
-                        <div className="col-12 col-md-4 mt-3">
+                        <div className="col-12 col-md-4 mt-2">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Nombre: <span className="text-danger">*</span></label>
-                                 <input className="multisteps-form__input form-control mt-4" type="text"{...register("name")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Nombre: <span className="text-danger">*</span></label>
+                                 <input className="multisteps-form__input form-control" type="text"{...register("name")}/>
                             </div>
                         </div>
                                                         
-                        <div className="col-12 col-md-4 mt-0">
-                            <label htmlFor="exampleFormControlInput1" className="form-label mt-4"> Tipo de documento: <span className="text-danger">*</span></label>
+                        <div className="col-12 col-md-4 mt-2">
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Tipo de documento: <span className="text-danger">*</span></label>
                             <Controller
                             name="tipoDocumento"
                             control={control}
@@ -129,7 +129,7 @@ const BusquedaPersonalScreen = () => {
                             render={({ field }) => (
                             <Select
                             {...field}
-                            className="col-11 mx-1"
+                            className="col-11 mx-1 mt-3"
                             defaultValue={selectedDniDocuments}
                             onChange={setSelectedDniDocuments}
                             options={optionsDniDocuments}
@@ -141,13 +141,13 @@ const BusquedaPersonalScreen = () => {
 
                         <div className="col-12 col-md-4 mt-3">
                             <div className="input-group input-group-dynamic">
-                                <label htmlFor="exampleFormControlInput1" className="form-label"> Número de documento: <span className="text-danger">*</span></label>
-                                <input className="multisteps-form__input form-control mt-4" type="number" {...register("numberDocument")}/>
+                                <label className="form-floating input-group input-group-dynamic ms-2"> Número de documento: <span className="text-danger">*</span></label>
+                                <input className="multisteps-form__input form-control" type="number" {...register("numberDocument")}/>
                             </div>
                         </div>
 
-                        <div className="col-12 col-md-4 mt-3">
-                            <label htmlFor="exampleFormControlInput1" className="form-label mt-4">Dependencia: <span className="text-danger">*</span></label>
+                        <div className="col-12 col-md-4 mt-4">
+                            <label className="form-floating input-group input-group-dynamic ms-2">Dependencia: <span className="text-danger">*</span></label>
                             <Controller
                             name="dependencies"
                             control={control}
@@ -157,19 +157,19 @@ const BusquedaPersonalScreen = () => {
                             render={({ field }) => (
                             <Select
                             {...field}
-                            className="col-11 mx-1"
-                            defaultValue={selectedGroups}
-                            onChange={setSelectedGroups}
-                            options={optionsGroups}
+                            className="col-11 mx-1 mt-3"
+                            defaultValue={selectedDependencies}
+                            onChange={setSelectedDependencies}
+                            options={optionsDependencies}
                             placeholder="Seleccionar"
                             />
                              )}
                             />
                         </div>
 
-                        <div className="col-12 col-md-4 mt-3">
+                        <div className="col-12 col-md-4 mt-4">
                             
-                            <label htmlFor="exampleFormControlInput1" className="form-label mt-4">Grupos: <span className="text-danger">*</span></label>
+                            <label className="form-floating input-group input-group-dynamic ms-2">Grupos: <span className="text-danger">*</span></label>
                             <Controller
                             name="dependencies"
                             control={control}
@@ -179,10 +179,10 @@ const BusquedaPersonalScreen = () => {
                             render={({ field }) => (
                             <Select
                             {...field}
-                            className="col-11 mx-1"
-                            defaultValue={selectedDependencies}
-                            onChange={setSelectedDependencies}
-                            options={optionsDependencies}
+                            className="col-11 mx-1 mt-3"
+                            defaultValue={selectedGroups}
+                            onChange={setSelectedGroups}
+                            options={optionsGroups}
                             placeholder ="Seleccionar"
                             />
                              )}

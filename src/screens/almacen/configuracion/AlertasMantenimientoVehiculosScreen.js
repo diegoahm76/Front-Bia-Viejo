@@ -5,7 +5,7 @@ import {activeModalAction, desactiveModalAction } from '../../../actions/modalAc
 import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
-
+import DatePicker from "react-datepicker";
 
 
 const optionsDocumentSelection = [
@@ -34,6 +34,8 @@ const AlertasMantenimientoVehiculosScreen = () => {
     const [selectItem, setSelectedItem] = useState(null);
     const [selectedIdDocument, setSelectedIdDocument] = useState(null);
     const [selectProfessional, setSelectedProfessional ] = useState(null);
+    const [formValues, setFormValues] = useState({
+        fechaRecordatorio: "",});
     
 
     const submit = (data) => {
@@ -57,24 +59,41 @@ const AlertasMantenimientoVehiculosScreen = () => {
             
             <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)} id="configForm"> 
                 <div className= "row">
-                    <div className="col-12 col-md-4 mt-5">   
+                    <div className="col-12 col-md-4 mt-4">   
                         <div className="input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
-                            <input className="multisteps-form__input form-control mt-" type="text" {...register("numeroDias")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Días de anticipación (Días): <span className="text-danger">*</span> </label>
+                            <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroDias")}/>
                         </div>
                     </div>
 
-                    <div className="col-12 col-md-4 mt-5">
+                    <div className="col-12 col-md-4 mt-4">
                         <div className=" input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Recordatorio: <span className="text-danger">*</span> </label>
-                            <input className="multisteps-form__input form-control mt-4" type="time" {...register("numeroRecordatorio")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Recordatorio: <span className="text-danger">*</span> </label>
+                            <Controller
+                                    name="fechaRecordatorio"
+                                    control={control}
+                                    render={({ field }) => (
+                                     <DatePicker
+                                    {...field}
+                                    {...register("fecha")}
+                                    locale="es"
+                                    //required
+                                    selected={formValues.fechaRecordatorio}
+                                    onSelect={(e) =>
+                                    setFormValues({ ...formValues, fechaRecordatorio: e })
+                                    }
+                                    className="multisteps-form__input form-control  p-2"
+                                    placeholderText="dd/mm/aaaa"
+                                    />
+                                    )}
+                                    />
                         </div>
                     </div>
                   
-                    <div className="col-12 col-md-4 mt-5">
+                    <div className="col-12 col-md-4 mt-4">
                         <div className="col-6 input-group input-group-dynamic">
-                            <label htmlFor="exampleFormControlInput1" className="form-label"> Frecuencia: <span className="text-danger">*</span> (Hora/as) </label>
-                            <input className="multisteps-form__input form-control mt-4" type="number" {...register("numeroFrecuencia")}/>
+                            <label className="form-floating input-group input-group-dynamic ms-2"> Frecuencia: <span className="text-danger">*</span> (Hora/as) </label>
+                            <input className="multisteps-form__input form-control mt-2" type="number" {...register("numeroFrecuencia")}/>
                         </div>
 
                         <div class="form-check">
@@ -86,8 +105,8 @@ const AlertasMantenimientoVehiculosScreen = () => {
                     </div>
                     
 
-                    <div className ="col-12 d-flex justify-content-center mt-7 mb-5"> 
-                        <label htmlFor="exampleFormControlInput1" className="form-label mt-2"> Notificar a: <span className="text-danger">*</span> </label>
+                    <div className ="col-12 d-flex justify-content-center mt-7 mb-4"> 
+                        <label className="form-floating input-group input-group-dynamic ms-2"> Notificar a: <span className="text-danger">*</span> </label>
                           
                         <Controller
                         name="tipoDocumento"
@@ -156,11 +175,13 @@ const AlertasMantenimientoVehiculosScreen = () => {
                 </div>
             </form>
             <CalendarModal>
-                <div> 
-                    <p>El activo identificado con el código 1212121, tiene programado un mantenimiento el día 05/05/2022 </p>
-                    <button className="btn bg-gradient-danger mb-0" onClick={handleCloseModal} type="submit" title="Send" form="configForm"> Salir </button>
-                </div>
-                
+                    <div className="d-flex justify-content-center mt-10" >
+                        <p > El vehículo  "seguro de póliza", vencerán el día 05/05/2022 </p> 
+                    </div>
+                    
+                    <div className="d-flex justify-content-center mt-5">
+                        <button className=" btn bg-gradient-danger" onClick={handleCloseModal} type="submit" title="Send" form="configForm"> Salir </button>
+                    </div>
             </CalendarModal>                   
 
         </div>
