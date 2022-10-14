@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import Modal from "react-modal";
 
 const customStyles = {
+  
   content: {
     top: "50%",
     left: "50%",
@@ -32,3 +33,6 @@ const CalendarModal = ({ children }) => {
   );
 };
 export default CalendarModal;
+
+
+

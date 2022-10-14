@@ -1,6 +1,5 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom/dist";
-
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
 import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
@@ -9,16 +8,25 @@ import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDi
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
 import AutorizarSolicitudActivoPrestamoScreen from "../solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
-import SolicitudesPendientesAutorizarScreen from "../solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
-import SolicitarArticulosConsumoScreen from "../solicitudesArticulos/SolicitarArticulosConsumoScreen";
-import AutorizarSolicitudesConsumoScreen from "../solicitudesArticulos/AutorizarSolicitudesConsumoScreen";
-import SolicitudesAsignacionPendientesScreen from "../solicitudesArticulos/SolicitudesAsignacionPendientesScreen";
-import SolicitudAsignacionArticuloActivoScreen from "../solicitudesArticulos/SolicitudAsignacionArticuloActivoScreen";
 import AutorizarSolicitudAsignacionArticuloActivoScreen from "../solicitudesArticulos/AutorizarSolicitudAsignacionArticuloActivoScreen";
-import SolicitudActivoPrestamoScreen from "../solicitudesArticulos/SolicitudActivoPrestamoScreen";
-import SolicitudVehiculoScreen from "../solicitudesArticulos/SolicitudVehiculoScreen";
+import AutorizarSolicitudesConsumoScreen from "../solicitudesArticulos/AutorizarSolicitudesConsumoScreen";
+import SolicitarArticulosConsumoScreen from "../solicitudesArticulos/SolicitarArticulosConsumoScreen";
 import SolicitarElementoConsumoViveroScreen from "../solicitudesArticulos/SolicitarElementoConsumoViveroScreen";
+import SolicitudActivoPrestamoScreen from "../solicitudesArticulos/SolicitudActivoPrestamoScreen";
+import SolicitudAsignacionArticuloActivoScreen from "../solicitudesArticulos/SolicitudAsignacionArticuloActivoScreen";
+import SolicitudesAsignacionPendientesScreen from "../solicitudesArticulos/SolicitudesAsignacionPendientesScreen";
 import SolicitudesAutorizadasPendientesScreen from "../solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
+import SolicitudesPendientesAutorizarScreen from "../solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
+import SolicitudVehiculoScreen from "../solicitudesArticulos/SolicitudVehiculoScreen";
+import AlertasMantenimientoActivoScreen from "../configuracion/AlertasMantenimientoActivoScreen";
+import AlertasMantenimientoVehiculosScreen from "../configuracion/AlertasMantenimientoVehiculosScreen";
+import AlertasLlegadaVehiculosScreen from "../configuracion/AlertasLlegadaVehiculosScreen";
+import AlertasVencimientoDocumentacionVehiculosScreen from"../configuracion/AlertasVencimientoDocumentacionVehiculoScreen";
+import AlertasDevolucionPrestamoScreen from"../configuracion/AlertasDevolucionPrestamoScreen";
+import BusquedaPersonalScreen from "../configuracion/BusquedaPersonalScreen";
+import CreacionBodegaScreen from"../configuracion/CreacionBodegaScreen";
+import RegistroConductoresExternosScreen from"../configuracion/RegistroConductoresExternosScreen";
+import TraspasoElementosBodegasScreen from "../configuracion/TraspasoElementosBodegasScreen"
 import ReprogramarSolicitudVehiculoScreen from "../gestionDeVehiculos/ReprogramarSolicitudVehiculoScreen";
 import AsignacionVehiculoScreen from "../gestionDeVehiculos/AsignacionVehiculoScreen";
 import SolicitudesAutorizadasPorEjecutraScreen from "../gestionDeVehiculos/SolicitudesAutorizadasPorEjecutraScreen";
@@ -31,11 +39,24 @@ const AlmacenRoutes = () => {
   return (
     <Routes>
       <Route index element={<Almacen />} />
+     
 
       <Route path="creacion-articulo" element={<CreacionArticulo />} />
 
       <Route path="reportes" element={<ReportesScreen />} />
-
+      
+      <Route path ="configuracion">
+        <Route path="alertasmantenimientoactivo" element={<AlertasMantenimientoActivoScreen/>} />
+        <Route path="alertasmantenimientovehiculo" element={<AlertasMantenimientoVehiculosScreen/>} />
+        <Route path="alertasllegadavehiculos" element={<AlertasLlegadaVehiculosScreen/>} />
+        <Route path="alertasvencimientodocumentacionvehiculos" element={<AlertasVencimientoDocumentacionVehiculosScreen/>} />
+        <Route path="alertasdevolucionprestamo" element={<AlertasDevolucionPrestamoScreen/>} />
+        <Route path="busquedapersonal" element={<BusquedaPersonalScreen/>} />
+        <Route path="creacionbodega" element={<CreacionBodegaScreen/>} />
+        <Route path="registroconductoresexternos" element={<RegistroConductoresExternosScreen/>} />
+        <Route path="traspasoelementosbodegas" element={<TraspasoElementosBodegasScreen/>} />
+      </Route>
+      
       <Route path="solicitudes-articulos">
         <Route
           path="autorizar-solicitud-activo-prestamo"
