@@ -1,12 +1,18 @@
 import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Almacen from "../";
-import CreacionArticulo from "../CreacionArticuloScreen";
 import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
 import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
-import ReportesScreen from "../ReportesScreen";
+
+import { EntradaDeArticuloScreen } from "../entradaYSalidaDeArticulos/EntradaDeArticuloScreen";
+import CrearArticuloConsumoScreen from "../entradaYSalidaDeArticulos/CrearArticuloConsumoScreen";
+import ProcesoApropiacionArticulosScreen from "../entradaYSalidaDeArticulos/ProcesoApropiacionArticulosScreen";
+import { VisualizarArticulosScreen } from "../entradaYSalidaDeArticulos/VisualizarArticulosScreen";
+import SalidaArticulosScreen from "../entradaYSalidaDeArticulos/SalidaArticulosScreen";
+import { RegistroDeBajaScreen } from "../entradaYSalidaDeArticulos/RegistroDeBajaScreen";
+import CreacionArticuloScreen from "../entradaYSalidaDeArticulos/CreacionArticuloScreen";
 
 import HojaDeVidaActivoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaActivoScreen";
 import HojaDeVidaVehiculoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoScreen";
@@ -73,6 +79,7 @@ import ReporteDeFuncionarioPorConsumoScreen from "../reportes/ReporteDeFuncionar
 import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasConsumoScreen";
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 
+
 const AlmacenRoutes = () => {
   return (
     <Routes>
@@ -106,6 +113,25 @@ const AlmacenRoutes = () => {
         <Route path="reasignacion-elementos" element={<ReasignacionElementosSubAsignadosScreen />} />
 
         <Route path="subasignar-elementos" element={<SubasignarElementosScreen />} />
+      </Route>
+
+      <Route path="entrada-y-salida-de-articulos">
+        <Route path="entrada-articulo" element={<EntradaDeArticuloScreen />} />
+        <Route path="creacion-articulo-devolutivo" element={<CreacionArticuloScreen/>}/>
+        <Route
+          path="creacion-articulo-consumo"
+          element={<CrearArticuloConsumoScreen/>}
+        />
+        <Route
+          path="apropiacion-articulo"
+          element={<ProcesoApropiacionArticulosScreen />}
+        />
+        <Route
+          path="visualizar-articulos"
+          element={<VisualizarArticulosScreen/>}
+        />
+        <Route path="salida-articulos" element={<SalidaArticulosScreen />} />
+        <Route path="registro-baja" element={<RegistroDeBajaScreen />} />
       </Route>
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />

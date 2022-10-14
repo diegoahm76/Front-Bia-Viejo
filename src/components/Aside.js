@@ -209,17 +209,101 @@ const Aside = ({ showAside }) => {
               </a>
               <div className="collapse" id="almacen">
                 <ul className="nav ">
-                  <li className="nav-item active">
-                    <Link
-                      to="almacen/creacion-articulo"
-                      className="nav-link text-white"
+                <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#entradaYSalidaDeArticulos"
                     >
-                      <span className="sidenav-mini-icon"> C </span>
+                      <img
+                        src={IconoConfiguracion}
+                        alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Creación de Artículo{" "}
+                        Entrada y salida de articulos
                       </span>
-                    </Link>
+                    </a>
+                    <div className="collapse " id="entradaYSalidaDeArticulos">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/entrada-articulo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Entrada de Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/entrada-y-salida-de-articulos/apropiacion-articulo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Apropiación de Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/creacion-articulo-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Creación de Articulos Consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/creacion-articulo-devolutivo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Creación de Articulos Devolutivo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/visualizar-articulos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Visualizar Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/salida-articulos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                            Salida de Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/registro-baja"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                             Registro de Baja
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                   <li className="nav-item ">
                     <a
