@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 
+//Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
   { label: "Colombia", value: "COL" },
   { label: "Mexico", value: "MX" },
@@ -107,7 +108,7 @@ const AdministradosDeUsuario = () => {
         setActionForm("editar");
       } else {
         Swal.fire({
-          title: "Este usuario ya existe",
+          title: "Este numero de documento no tiene un usuario asignado",
           text: "¿Desea registrar un nuevo usuario?",
           icon: "warning",
           showCancelButton: true,
