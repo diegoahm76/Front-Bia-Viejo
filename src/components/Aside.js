@@ -21,7 +21,7 @@ import IconoCronograma from "../assets/iconosConservacion/calendar-svgrepo-com.s
 import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-com.svg";
 import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
 import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
-import IconoSolicitudesArticulo from "../assets/iconosAlmacen/reception-hotel-svgrepo-com.svg"; 
+import IconoSolicitudesArticulo from "../assets/iconosAlmacen/reception-hotel-svgrepo-com.svg";
 import IconoGestionVehiculo from "../assets/iconosAlmacen/volskwagen-van-svgrepo-com.svg";
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
@@ -39,9 +39,8 @@ const Aside = ({ showAside }) => {
 
   return (
     <aside
-      className={`collapse sidenav navbar navbar-vertical ${
-        showAside && "navbar-expand-xs"
-      } border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark`}
+      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"
+        } border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark`}
       id="sidenav-main"
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
@@ -141,6 +140,56 @@ const Aside = ({ showAside }) => {
                       </span>
                     </Link>
                   </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#Gestor-vivero"
+                    >
+                      <span className="sidenav-mini-icon"> A </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Almacen
+                      </span>
+                    </a>
+                    <div className="collapse " id="Gestor-vivero">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/tablero-de-control/stock"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Stock
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/tablero-de-control/busqueda-articulos-prestados"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Busqueda de articulos prestados
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/tablero-de-control/tabla-inventario"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Tabla inventario
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </li>
@@ -179,9 +228,9 @@ const Aside = ({ showAside }) => {
                       aria-expanded="false"
                       href="#configuracionAlmacen"
                     >
-                      <img 
-                      src={IconoConfiguracion} 
-                      alt="Configuracion" />
+                      <img
+                        src={IconoConfiguracion}
+                        alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         Configuracion
                       </span>
@@ -262,7 +311,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Creación de Bodegas 
+                              Creación de Bodegas
                             </span>
                           </Link>
                         </li>
@@ -284,8 +333,127 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Traspaso de Elementos <br />en  Bodegas 
-                            
+                              Traspaso de Elementos <br />en  Bodegas
+
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#gestionDeInventario"
+                    >
+                      <img
+                        src={IconoConfiguracion}
+                        alt="Configuracion" />
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Gestion de inventario
+                      </span>
+                    </a>
+                    <div className="collapse " id="gestionDeInventario">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/busqueda-activos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Busqueda de activos a <br /> subdelegados
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/gestion-de-inventario/reasignacion-elementos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                             Reasignacion elementos <br /> subasignados
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/subasignar-elementos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Subasignar elementos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-vehiculo-externo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida <br /> vehiculo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-otros-activos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida de <br /> otros activos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-vehiculo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida de  <br /> vehiculos externos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida de <br /> activos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/programacion-mantenimiento"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Programacion de mantenimiento
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/traspasoelementosbodegas"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Transpaso de Elementos <br />en  Bodegas
+
                             </span>
                           </Link>
                         </li>
@@ -476,7 +644,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Consultar paz y salvo
+                              Consultar paz y salvo
                             </span>
                           </Link>
                         </li>
@@ -498,7 +666,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de inventario <br/> por persona o grupo
+                              Reporte de inventario <br /> por persona o grupo
                             </span>
                           </Link>
                         </li>
@@ -542,7 +710,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de devolucion <br/> de activo
+                              Reporte de devolucion <br /> de activo
                             </span>
                           </Link>
                         </li>
@@ -564,7 +732,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de reasigancion <br/> entre funcionarios
+                              Reporte de reasigancion <br /> entre funcionarios
                             </span>
                           </Link>
                         </li>
@@ -575,7 +743,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte segun el estado <br/> de activo
+                              Reporte segun el estado <br /> de activo
                             </span>
                           </Link>
                         </li>
@@ -586,7 +754,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de prestamos <br/> pendiente por devolucion
+                              Reporte de prestamos <br /> pendiente por devolucion
                             </span>
                           </Link>
                         </li>
@@ -597,7 +765,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de solicitud <br/> de vehiculo
+                              Reporte de solicitud <br /> de vehiculo
                             </span>
                           </Link>
                         </li>
@@ -608,7 +776,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Reporte de solicitud <br/> de vehiculo ejecutada
+                              Reporte de solicitud <br /> de vehiculo ejecutada
                             </span>
                           </Link>
                         </li>
@@ -619,7 +787,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Registro de mantenimiento <br/> de computo
+                              Registro de mantenimiento <br /> de computo
                             </span>
                           </Link>
                         </li>
@@ -630,7 +798,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de estado de <br/> mantenimiento de un activo
+                              Reporte de estado de <br /> mantenimiento de un activo
                             </span>
                           </Link>
                         </li>
@@ -641,7 +809,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de solicitud <br/> de prestamo
+                              Reporte de solicitud <br /> de prestamo
                             </span>
                           </Link>
                         </li>
@@ -652,7 +820,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de despacho de <br/>activo en  
+                              Reporte de despacho de <br />activo en
                               calidad de prestamo
                             </span>
                           </Link>
@@ -664,7 +832,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de devolucion de <br/>activo en  
+                              Reporte de devolucion de <br />activo en
                               calidad de prestamo
                             </span>
                           </Link>
@@ -676,7 +844,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de entrada <br/>
+                              Reporte de entrada <br />
                               de consumo
                             </span>
                           </Link>
@@ -688,7 +856,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reporte de solicitud <br/> de consumo
+                              Reporte de solicitud <br /> de consumo
                             </span>
                           </Link>
                         </li>
@@ -699,7 +867,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Reporte de despacho <br/> de consumo
+                              Reporte de despacho <br /> de consumo
                             </span>
                           </Link>
                         </li>
@@ -710,7 +878,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Reporte de consumo <br/> por funcionario
+                              Reporte de consumo <br /> por funcionario
                             </span>
                           </Link>
                         </li>
@@ -721,7 +889,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Reporte de existencias <br/> de consumo
+                              Reporte de existencias <br /> de consumo
                             </span>
                           </Link>
                         </li>
@@ -732,7 +900,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Reporte de stock <br/> maximo y minimo
+                              Reporte de stock <br /> maximo y minimo
                             </span>
                           </Link>
                         </li>
@@ -763,7 +931,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Solicitud de asignación 
+                              Solicitud de asignación
                             </span>
                           </Link>
                         </li>
@@ -774,7 +942,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                              Reprogramar solicitud<br/> de vehiculo
+                              Reprogramar solicitud<br /> de vehiculo
                             </span>
                           </Link>
                         </li>
@@ -795,7 +963,7 @@ const Aside = ({ showAside }) => {
                   </li>
                 </ul>
               </div>
-              
+
             </li>
             <li className="nav-item">
               <a
