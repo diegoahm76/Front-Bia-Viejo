@@ -40,6 +40,7 @@ const AdministradorDePersonasScreen = () => {
   } = useForm();
 
   const {
+    reset: resetBuscar,
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
@@ -108,6 +109,8 @@ const AdministradorDePersonasScreen = () => {
             navigate("/dashboard/seguridad/administradordeempresas");
           }
         });
+        setActionForm(null);
+        return;
       } else if (!dataPersona.id_persona) {
         Swal.fire({
           title: "No existe un persona con estos datos",
@@ -236,22 +239,46 @@ const AdministradorDePersonasScreen = () => {
 
     if (actionForm === "editar") {
       try {
-        const { data: dataPersona } = await clienteAxios.put(
+        await clienteAxios.put(
           `personas/updatepersonanatural/${formValues?.id_persona}/`,
           updatedPersona
         );
-        console.log(dataPersona);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Datos actualizados",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        resetBuscar({ numeroDocumento: "" });
+        setActionForm(null);
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
     } else {
       try {
         updatedPersona.tipo_persona = "N";
-        const { data: dataRegisterPersona } = await clienteAxios.post(
+        await clienteAxios.post(
           "personas/registerpersonanatural/",
           updatedPersona
         );
-        console.log(dataRegisterPersona);
+        Swal.fire({
+          title: "Persona creada",
+          text: "¿Desea registrar un usuario?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/dashboard/seguridad/administradordeusuario");
+          } else {
+            resetBuscar({ numeroDocumento: "" });
+            setActionForm(null);
+          }
+        });
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
