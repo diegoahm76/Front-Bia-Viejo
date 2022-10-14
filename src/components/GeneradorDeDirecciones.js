@@ -107,6 +107,8 @@ const GeneradorDeDirecciones = ({
   setIsOpenGenerator,
   completeAddress,
   setCompleteAddress,
+  reset,
+  keyReset,
 }) => {
   const [numberFields, setNumberFields] = useState(1);
   const [isReset, setIsReset] = useState(false);
@@ -133,6 +135,7 @@ const GeneradorDeDirecciones = ({
       })
       .join("");
     setCompleteAddress(completeAddressWitoutWhiteSpaces);
+    reset({ [keyReset]: completeAddressWitoutWhiteSpaces });
     setIsOpenGenerator(false);
   };
 
