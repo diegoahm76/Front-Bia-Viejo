@@ -4,36 +4,35 @@ import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { activeModalAction, desactiveModalAction } from '../../../actions/modalActions';
-import CalendarModal from '../../../components/CalendarModal';
+import BusquedaDePersonalModal from '../../../components/BusquedaDePersonalModal';
 import { useDispatch } from 'react-redux'
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
+const optionsTipoDocumento = [
+  { label: "C.C.", value: "CC" },
+  { label: "T.I.", value: "TI" },
+];
+
 function DevolverElementosSubasignadosResponsableScreen() {
 
     {/*  DECLARAR VARIABLES  */}
-  const [selecOpciones, setSelecOpciones] = useState({
-    vivero: "",
+    const [selecOpciones, setSelecOpciones] = useState({
+      vivero:"",
   });
-
-  const {
-    register, handleSubmit, control, formState: { errors },} = useForm();
+  const {register, handleSubmit, control, formState: { errors }} = useForm();
   const onSubmit = (data) => {
     setSelecOpciones({
-      vivero: data.vivero,
+      vivero : data.vivero,
     });
   };
+    
 
   const actionButton = (params) => {
     console.log(params);
     alert(`${params.data.nombreComun} ${params.data.disponibleVivero}`);
   };
-
-  const optionsTipoDocumento = [
-    { label: "C.C.", value: "CC" },
-    { label: "T.I.", value: "TI" },
-  ];
 
   let gridApi;
 
@@ -138,12 +137,17 @@ function DevolverElementosSubasignadosResponsableScreen() {
       suppressRowClickSelection: true,
     };
 
-    
-
     const onGridReady = (params) => {
       gridApi = params.api;
     };
 
+     // MODAL BUSQUEDA PERSONA
+
+const [modalPersonal, setModalPersonal] = useState(false)
+
+const handleOpenModalBusquedaPersonal = () => {
+  setModalPersonal(true);
+};
     
   return (
     
@@ -178,7 +182,7 @@ function DevolverElementosSubasignadosResponsableScreen() {
                   Tipo de documento{" "}
                   <div className="col-12">
                     <Controller
-                      name="tipoDocumento"
+                      name="tipoDocumentoResponsable"
                       control={control}
                       defaultValue={optionsTipoDocumento[0]}
                       rules={{
@@ -201,6 +205,7 @@ function DevolverElementosSubasignadosResponsableScreen() {
                   <input
                     className="form-control"
                     type="number"
+                    {...register("numeroDocumentoResponsable")}
                     placeholder="numero documento"
                     value="1121919374"
                     disabled
@@ -213,6 +218,7 @@ function DevolverElementosSubasignadosResponsableScreen() {
                   <input
                     className="form-control"
                     type="text"
+                    {...register("nombreResponsable")}
                     placeholder="Nombre Completo"
                     value="Jhon Alejandro Lopez Ramos"
                     disabled
@@ -230,9 +236,10 @@ function DevolverElementosSubasignadosResponsableScreen() {
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento{" "}
+                  <span className="text-danger">*</span>    
                   <div className="col-12">
                     <Controller
-                      name="tipoDocumento"
+                      name="tipoDocumentoOperario"
                       control={control}
                       defaultValue={optionsTipoDocumento[0]}
                       rules={{
@@ -250,41 +257,70 @@ function DevolverElementosSubasignadosResponsableScreen() {
                 </label>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="form-floating input-group input-group-dynamic disabled">
                   <input
                     className="form-control"
                     type="number"
+                    {...register("numeroDocumentoOperario", {
+                      required: true,
+                    })}
                     placeholder="numero documento"
-                    value="1121919374"
-                    />
-                  <label className="ms-2">Número de documento</label>
+                    defaultValue={"1121919374"}
+                  />
+                  <label className="ms-2">Número de documento
+                  <span className="text-danger">*</span>
+                  </label>
                 </div>
+                {errors.numeroDocumentoOperario?.type === "required" && (
+                    <small className="text-danger">
+                      El campo es requerido*
+                    </small>
+                  )}
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="form-floating input-group input-group-dynamic disabled">
                   <input
                     className="form-control"
                     type="text"
+                    {...register("nombreOperario")}
                     placeholder="Nombre Completo"
                     value="Jhon Alejandro Lopez Ramos"
+                    disabled
                     id="nombreOperario"
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
               </div>
             </div>
-           
             <div className="row">
-              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
                 <button
                   type="submit"
-                  className="mt-4 btn btn-primary flex-center text-capitalize"
+                  onClick={handleOpenModalBusquedaPersonal}
+                  className="mt-0 btn btn-primary flex-center text-capitalize"
                 >
                   Buscar
                 </button>
                 </div>
             </div>
+           
+            <div className="row">
+              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+                <button
+                  type="submit"
+                  title= "Send" form= "configForm" Value="buscar"
+                  id="almacen"
+         
+                  className="mt-4 btn btn-primary flex-center text-capitalize"
+                >
+                  Buscar Activos
+                </button>
+                </div>
+            </div>
 
+
+              
+              <div>
             <label className="mt-4 form-control ms-0 fw-bolder text-center">
                 Contratistas
               </label>
@@ -314,25 +350,33 @@ function DevolverElementosSubasignadosResponsableScreen() {
               ></AgGridReact>
             </div>
             </div>
-
+   
             <div className="row">
                     <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
-                      <button type="button" className="mt-4 btn btn-light flex-center text-capitalize">
-                        Limpiar
-                      </button>
+                      
                       <button type="button" className="mt-4 mx-4 btn btn-primary flex-center text-capitalize" onClick={"null"}>
                         Guardar
                       </button>
+                      <button type="submit"
+                              title="Send"
+                              form="configForm"
+                              className="mt-4 btn btn-light flex-center text-capitalize">
+                        Limpiar
+                      </button>
                       </div>
                   </div>  
-
-
+                  </div>
+            
             </div>
         </form>
+        <BusquedaDePersonalModal
+      isModalActive={modalPersonal}
+      setIsModalActive={setModalPersonal}
+      />
             </div>
     </div>
   )
 }
 
 
-export default DevolverElementosSubasignadosResponsableScreen
+export default DevolverElementosSubasignadosResponsableScreen;

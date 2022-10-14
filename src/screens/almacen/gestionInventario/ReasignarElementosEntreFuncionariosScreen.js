@@ -3,14 +3,19 @@ import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
+import BusquedaArticuloModal from '../../../components/BusquedaArticuloModal';
+import BusquedaDePersonalModal from '../../../components/BusquedaDePersonalModal';
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
+const optionsTipoDocumento = [
+  { label: "C.C.", value: "CC" },
+  { label: "T.I.", value: "TI" },
+];
+
 function ReasignarElementosEntreFuncionariosScreen() {
-  {
-    /*  DECLARAR VARIABLES  */
-  }
+  {/*  DECLARAR VARIABLES  */}
   const [selecOpciones, setSelecOpciones] = useState({
     vivero: "",
   });
@@ -33,11 +38,6 @@ function ReasignarElementosEntreFuncionariosScreen() {
     <input style={{ border: "solid 1px black" }} />
   );
 
-  const optionsTipoDocumento = [
-    { label: "C.C.", value: "CC" },
-    { label: "T.I.", value: "TI" },
-  ];
-
   const optionsEstado = [
     { label: "Bueno", value: "B" },
     { label: "Malo", value: "M" },
@@ -47,25 +47,11 @@ function ReasignarElementosEntreFuncionariosScreen() {
   let gridApi;
   const columnDefs = [
     {
-      headerName: "Buscar",
-      field: "buscar",
-      width: 100,
-      minWidth: 100,
-      maxWidth: 200,
-      cellRendererFramework: (params) => (
-        <div>
-          <button
-            className="btn btn-primary mx-auto my-1 d-flex btn-sm text-xxs text-capitalize"
-            onClick={() => actionButton(params)}>
-            Buscar
-          </button>
-        </div>
-      ),
-    },
-    {
       headerName: "Código",
       field: "codigo",
-      minWidth: 100,
+      minWidth: 20,
+      maxWidth: 100,
+      width: 30,
       wrapText: true,
      },
     {
@@ -140,6 +126,22 @@ function ReasignarElementosEntreFuncionariosScreen() {
         </div>
       ),
     },
+    {
+      headerName: "Buscar",
+      field: "buscar",
+      width: 100,
+      minWidth: 100,
+      maxWidth: 200,
+      cellRendererFramework: (params) => (
+        <div>
+          <button
+            className="btn btn-primary mx-auto my-1 d-flex btn-sm text-xxs text-capitalize"
+            onClick={handleOpenModalArticulos}>
+            Buscar
+          </button>
+        </div>
+      ),
+    },
   ];
 
   const rowData = [
@@ -163,6 +165,18 @@ function ReasignarElementosEntreFuncionariosScreen() {
   const onGridReady = (params) => {
     gridApi = params.api;
   };
+
+// MODAL BUSQUEDA ARTICULO Y PERSONA
+const [modalArticulos, setModalArticulos] = useState(false)
+const [modalPersonal, setModalPersonal] = useState(false) 
+
+const handleOpenModalArticulos = () => {
+  setModalArticulos(true);
+};
+
+const handleOpenModalBusquedaPersonal = () => {
+  setModalPersonal(true);
+};
 
   return (
     <div className="row min-vh-100">
@@ -194,41 +208,52 @@ function ReasignarElementosEntreFuncionariosScreen() {
                   <input
                     className="form-control"
                     type="number"
+                    defaultValue={"25225"}
                     placeholder="Consecutivo"
                     {...register("consecutivoAsignarActivo", {
                       required: true,
                     })}
                   />
-                  {errors.mortalidad?.type === "required" && (
+                  
+                  <label className="ms-2">Consecutivo
+                  <span className="text-danger">*</span>
+                  </label>
+                </div>
+                {errors.consecutivoAsignarActivo?.type === "required" && (
                     <small className="text-danger">
                       El campo es requerido*
                     </small>
                   )}
-                  <label className="ms-2">Consecutivo</label>
-                </div>
+
               </div>
               {/*  FECHA  */}
-              <div className="col col-6 col-md-6 d-flex flex-row">
-                <label className="w-25 align-center-stretch my-auto">
-                  {" "}
-                  Fecha:{" "}
-                </label>
-                <div className="form-floating input-group input-group-dynamic">
-                  <DatePicker
-                    className="border border-1 my-3 text-center align-center-stretch"
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    isClearable
-                    peekNextMonth
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                    placeholderText="Fecha de respuesta"
+              <div className="col-12 col-md-4">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha
+                  <Controller
+                    name="fecha"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="multisteps-form__input form-control p-2 border border-1"
+                        placeholderText="Fecha"
+                        peekNextMonth
+                        disabled
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
                   />
-                </div>
+                </label>
               </div>
             </div>
-
             {/*  SEGUNDA FILA  */}
             <div className="row">
               <label className="mt-4 form-control ms-0 fw-bolder text-center">
@@ -237,9 +262,10 @@ function ReasignarElementosEntreFuncionariosScreen() {
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento{" "}
+                  <span className="text-danger">*</span>    
                   <div className="col-12">
                     <Controller
-                      name="tipoDocumento"
+                      name="tipoDocumentoQuienEntrega"
                       control={control}
                       defaultValue={optionsTipoDocumento[0]}
                       rules={{
@@ -261,25 +287,47 @@ function ReasignarElementosEntreFuncionariosScreen() {
                   <input
                     className="form-control"
                     type="number"
+                    {...register("numeroDocumentoQuienEntrega", {
+                      required: true,
+                    })}
                     placeholder="numero documento"
-                    value="1121919374"
+                    defaultValue={"1121919374"}
                   />
-                  <label className="ms-2">Número de documento</label>
+                  <label className="ms-2">Número de documento
+                  <span className="text-danger">*</span>
+                  </label>
                 </div>
+                {errors.numeroDocumentoQuienEntrega?.type === "required" && (
+                    <small className="text-danger">
+                      El campo es requerido*
+                    </small>
+                  )}
               </div>
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic disabled">
                   <input
                     className="form-control"
                     type="text"
+                    {...register("nombreQuienEntrega")}
                     placeholder="Nombre Completo"
                     value="Jhon Alejandro Lopez Ramos"
                     disabled
-                    id="nombreResponsable"
+                    id="nombreQuienEntrega"
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
               </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
+                <button
+                  type="submit"
+                  onClick={handleOpenModalBusquedaPersonal}
+                  className="mt-0 btn btn-primary flex-center text-capitalize"
+                >
+                  Buscar
+                </button>
+                </div>
             </div>
             {/*  TERCERA FILA  */}
             <div className="row">
@@ -289,9 +337,10 @@ function ReasignarElementosEntreFuncionariosScreen() {
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento{" "}
+                  <span className="text-danger">*</span>    
                   <div className="col-12">
                     <Controller
-                      name="tipoDocumento"
+                      name="tipoDocumentoQuienRecibe"
                       control={control}
                       defaultValue={optionsTipoDocumento[0]}
                       rules={{
@@ -313,35 +362,68 @@ function ReasignarElementosEntreFuncionariosScreen() {
                   <input
                     className="form-control"
                     type="number"
+                    {...register("numeroDocumentoQuienRecibe", {
+                      required: true,
+                    })}
                     placeholder="numero documento"
-                    value="1121919374"
+                    defaultValue={"1121919374"}
                   />
-                  <label className="ms-2">Número de documento</label>
+                  <label className="ms-2">Número de documento
+                  <span className="text-danger">*</span>
+                  </label>
                 </div>
+                {errors.numeroDocumentoQuienRecibe?.type === "required" && (
+                    <small className="text-danger">
+                      El campo es requerido*
+                    </small>
+                  )}
               </div>
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic disabled">
                   <input
                     className="form-control"
                     type="text"
+                    {...register("nombreQuienRecibe")}
                     placeholder="Nombre Completo"
-                    value="Cesar Camacho"
+                    value="Jhon Alejandro Lopez Ramos"
                     disabled
+                    id="nombreQuienRecibe"
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
               </div>
             </div>
+            <div className="row">
+              <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
+                <button
+                  type="submit"
+                  onClick={handleOpenModalBusquedaPersonal}
+                  className="mt-0 btn btn-primary flex-center text-capitalize"
+                >
+                  Buscar
+                </button>
+                </div>
+            </div>
 
             <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-              <label htmlFor="exampleFormControlInput1">Concepto</label>
+              <label htmlFor="exampleFormControlInput1">Concepto
+              <span className="text-danger">*</span>
+              </label>
               <textarea
                 className="multisteps-form__input form-control p-2 mw-100 w-auto"
                 type="text"
+                {...register("concepto" ,{
+                  required: true,
+                })}
                 placeholder="Incluya concepto"
                 rows="3"
                 name="concepto"
               />
+              {errors.concepto?.type === "required" && (
+                    <small className="text-danger">
+                      El campo es requerido*
+                    </small>
+                  )}
             </div>
 
             <div className="row">
@@ -397,6 +479,17 @@ function ReasignarElementosEntreFuncionariosScreen() {
             </div>
           </div>
         </form>
+        
+        <BusquedaDePersonalModal
+      isModalActive={modalPersonal}
+      setIsModalActive={setModalPersonal}
+      />
+
+        <BusquedaArticuloModal
+      isModalActive={modalArticulos}
+      setIsModalActive={setModalArticulos}
+      />
+
       </div>
     </div>
   );
