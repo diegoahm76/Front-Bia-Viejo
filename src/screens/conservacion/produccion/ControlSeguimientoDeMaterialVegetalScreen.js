@@ -10,7 +10,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 registerLocale("es", es);
 
 const ControlSeguimientoDeMaterialVegetalScreen = () => {
-  const [selectores, setSelectores] = useState ();
+  const [selectores, setSelectores] = useState();
   const {
     register,
     handleSubmit,
@@ -79,7 +79,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
       ),
     },
   ];
-  const [rowData2] = useState ([
+  const [rowData2] = useState([
     {
       componentes: "tierra",
       cantidad: " ",
@@ -280,22 +280,22 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
               <div className="col-12 col-sm-6">
                 <label className="form-control ms-0">Rango de fechas</label>
                 <Controller
-                    name="fechaInicio"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        selected={formValues.fechaInicio}
-                        onSelect={(e) =>
-                          setFormValues({ ...formValues, fechaInicio: e })
-                        }
-                        className="multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
-                      />
-                    )}
-                  />
-                  {errors.fechaInicio && (
+                  name="fechaInicio"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      selected={formValues.fechaInicio}
+                      onSelect={(e) =>
+                        setFormValues({ ...formValues, fechaInicio: e })
+                      }
+                      className="multisteps-form__input form-control p-2"
+                      placeholderText="dd/mm/aaaa"
+                    />
+                  )}
+                />
+                {errors.fechaInicio && (
                   <small className="text-danger">
                     Este campo es obligatorio
                   </small>
@@ -432,4 +432,4 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
     </div>
   );
 };
-export default ControlSeguimientoDeMaterialVegetalScreen
+export default ControlSeguimientoDeMaterialVegetalScreen;

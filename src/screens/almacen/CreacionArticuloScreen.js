@@ -133,27 +133,27 @@ const CreacionArticulo = () => {
                   </div>
                   <div className="row">
                     <div className="col-sm-6 mt-sm-3 mt-5">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Visible en solicitudes
                         </label>
                       </div>
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Crear hoja de vida
@@ -161,14 +161,14 @@ const CreacionArticulo = () => {
                       </div>
                     </div>
                     <div className="col-sm-6 mt-sm-3 mt-5">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Control por unidad
@@ -210,7 +210,7 @@ const CreacionArticulo = () => {
                 </div> */}
                 <div className="button-row d-flex mt-4">
                   <button
-                    className="btn bg-gradient-primary ms-auto mb-0"
+                    className="btn bg-gradient-secondary ms-auto mb-0"
                     type="button"
                     title="Send"
                   >
