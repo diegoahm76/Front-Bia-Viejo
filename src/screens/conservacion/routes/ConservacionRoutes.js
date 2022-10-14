@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Conservacion from "../";
+import CentroNotificacionesScreen from "../gestorVivero/CentroNotificacionesScreen"
+import EditarViveroScreen from "../gestorVivero/EditarViveroScreen"
 import AgregarViveroScreen from "../gestorVivero/AgregarViveroScreen";
 import PropagacionScreen from "../gestorVivero/inventario/PropagacionScreen";
 import ProduccionPropiaScreen from "../gestorVivero/inventario/ProduccionPropiaScreen";
@@ -39,6 +41,12 @@ const ConservacionRoutes = () => {
         <Route index element={<Navigate to="/dashboard/conservacion" />} />
 
         <Route path="agregarvivero" element={<AgregarViveroScreen />} />
+
+        <Route path="editarvivero" element={<EditarViveroScreen />} />
+
+        <Route path="centronotificaciones" element={<CentroNotificacionesScreen />} />
+
+        
 
         <Route path="inventario">
           <Route index element={<Navigate to="/dashboard/conservacion" />} />
@@ -114,6 +122,8 @@ const ConservacionRoutes = () => {
       </Route>
 
       <Route path="solicitudes">
+
+
         <Route
           path="solicitudesrealizadasavivero"
           element={<SolicitudesRealizadasViveroScreen />}

@@ -21,10 +21,14 @@ import IconoCronograma from "../assets/iconosConservacion/calendar-svgrepo-com.s
 import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-com.svg";
 import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
 import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
+import IconoSolicitudesArticulo from "../assets/iconosAlmacen/reception-hotel-svgrepo-com.svg";
+import IconoGestionVehiculo from "../assets/iconosAlmacen/volskwagen-van-svgrepo-com.svg";
+import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
 import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
+import IconoUser from "../assets/user-svgrepo-com.svg";
 
-const Aside = ({showAside}) => {
+const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
 
   const dispatch = useDispatch();
@@ -35,7 +39,8 @@ const Aside = ({showAside}) => {
 
   return (
     <aside
-      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"} border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark`}
+      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"
+        } border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark`}
       id="sidenav-main"
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
@@ -66,6 +71,7 @@ const Aside = ({showAside}) => {
                 role="button"
                 aria-expanded="false"
               >
+                <img src={IconoUser} alt="user" />
                 <span className="nav-link-text ms-2 ps-1">{userInfo.nombre_de_usuario}</span>
               </a>
               <div className="collapse" id="ProfileNav">
@@ -77,10 +83,31 @@ const Aside = ({showAside}) => {
                     >
                       <span className="sidenav-mini-icon"> L </span>
                       <span className="sidenav-normal  ms-3  ps-1">
-                        {" "}
-                        Logout{" "}
+                        Logout
                       </span>
                     </div>
+                  </li>
+                  <li className="nav-item active">
+                    <Link
+                      to="usuario/actualizar-datos-persona"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> P </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Actualizar Datos
+                      </span>
+                    </Link>
+                  </li>
+                  <li className="nav-item active">
+                    <Link
+                      to="usuario/actualizar-datos-empresa"
+                      className="nav-link text-white"
+                    >
+                      <span className="sidenav-mini-icon"> E </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Actualizar Datos
+                      </span>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -113,6 +140,56 @@ const Aside = ({showAside}) => {
                       </span>
                     </Link>
                   </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#Gestor-vivero"
+                    >
+                      <span className="sidenav-mini-icon"> A </span>
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Almacen
+                      </span>
+                    </a>
+                    <div className="collapse " id="Gestor-vivero">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/tablero-de-control/stock"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Stock
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/tablero-de-control/busqueda-articulos-prestados"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Busqueda de articulos prestados
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/tablero-de-control/tabla-inventario"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Tabla inventario
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </li>
@@ -132,53 +209,829 @@ const Aside = ({showAside}) => {
               </a>
               <div className="collapse" id="almacen">
                 <ul className="nav ">
-                  <li className="nav-item active">
-                    <Link
-                      to="almacen/creacion-articulo"
-                      className="nav-link text-white"
+                <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#entradaYSalidaDeArticulos"
                     >
-                      <span className="sidenav-mini-icon"> C </span>
+                      <img
+                        src={IconoConfiguracion}
+                        alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Creación de Artículo{" "}
+                        Entrada y salida de articulos
                       </span>
-                    </Link>
+                    </a>
+                    <div className="collapse " id="entradaYSalidaDeArticulos">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/entrada-articulo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Entrada de Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/entrada-y-salida-de-articulos/apropiacion-articulo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Apropiación de Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/creacion-articulo-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Creación de Articulos Consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/creacion-articulo-devolutivo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Creación de Articulos Devolutivo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/visualizar-articulos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Visualizar Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/salida-articulos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                            Salida de Articulos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/entrada-y-salida-de-articulos/registro-baja"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                             Registro de Baja
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                   <li className="nav-item ">
                     <a
                       className="nav-link text-white "
-                      href="../../pages/dashboards/discover.html"
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#configuracionAlmacen"
                     >
-                      <span className="sidenav-mini-icon"> I </span>
+                      <img
+                        src={IconoConfiguracion}
+                        alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Ingreso de Artículos{" "}
+                        Configuracion
                       </span>
                     </a>
+                    <div className="collapse " id="configuracionAlmacen">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/alertasmantenimientoactivo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Alertas para mantenimiento <br /> de activos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/configuracion/alertasdevolucionprestamo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Alertas para devolución <br /> de préstamos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/alertasmantenimientovehiculo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Alertas para mantenimiento  <br /> de vehículos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/alertasvencimientodocumentacionvehiculos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Alertas para vencimiento <br /> de documentación <br />
+                              de vehículos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/alertasllegadavehiculos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Alertas para la llegada <br /> de vehículos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/busquedapersonal"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Búsqueda de Personal  <br /> de la corporación
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/creacionbodega"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Creación de Bodegas
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/registroconductoresexternos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Registro de conductores <br /> Externos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/traspasoelementosbodegas"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Traspaso de Elementos <br />en  Bodegas
+
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                   <li className="nav-item ">
                     <a
                       className="nav-link text-white "
-                      href="../../pages/dashboards/sales.html"
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#gestionDeInventario"
                     >
-                      <span className="sidenav-mini-icon"> S </span>
+                      <img
+                        src={IconoConfiguracion}
+                        alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Solicitud de Asignación{" "}
+                        Gestion de inventario
                       </span>
                     </a>
+                    <div className="collapse " id="gestionDeInventario">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/busqueda-activos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Busqueda de activos a <br /> subdelegados
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/gestion-de-inventario/reasignacion-elementos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                             Reasignacion elementos <br /> subasignados
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/subasignar-elementos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Subasignar elementos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-vehiculo-externo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida <br /> vehiculo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-otros-activos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida de <br /> otros activos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-vehiculo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida de  <br /> vehiculos externos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/cv-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Hoja de vida de <br /> activos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/programacion-mantenimiento"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Programacion de mantenimiento
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/configuracion/traspasoelementosbodegas"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Transpaso de Elementos <br />en  Bodegas
+
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                   <li className="nav-item ">
                     <a
                       className="nav-link text-white "
-                      href="../../pages/dashboards/automotive.html"
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#solicitudesArticulos"
                     >
-                      <span className="sidenav-mini-icon"> A </span>
+                      <img
+                        src={IconoSolicitudesArticulo}
+                        alt="solicitudesArticulos"
+                      />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Asignación de Activos{" "}
+                        Solicitudes de articulos
                       </span>
                     </a>
+                    <div className="collapse " id="solicitudesArticulos">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitud-asignacion-articulo-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitud de asignación <br /> un artículo activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/solicitudes-articulos/autorizar-solicitud-asignacion-articulo-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Autorizar solicitud de <br /> asignación de un
+                              artículo <br /> activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitar-articulos-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitud de artículo <br />
+                              de consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitar-elemento-consumo-vivero"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitud de artículo <br />
+                              de consumo para vivero
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/autorizar-solicitudes-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Autorización de solicitud <br /> de consumo por
+                              jefe
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitud-activo-prestamo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitud de Activo <br />
+                              en Préstamo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/autorizar-solicitud-activo-prestamo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Autorización de solicitud <br />
+                              de activo en préstamo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitud-vehiculo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitud de vehiculo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitudes-asignacion-pendientes"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitudes de asignación
+                              <br /> pendientes
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitudes-pendientes-autorizar"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitudes de prestamo <br /> pendientes
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/solicitudes-articulos/solicitudes-autorizadas-pendientes"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitudes autorizadas <br />
+                              pendientes
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#reportesAlmacen"
+                    >
+                      <img
+                        src={IconoReportes}
+                        alt="solicitudesArticulos"
+                      />
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Reportes
+                      </span>
+                    </a>
+                    <div className="collapse " id="reportesAlmacen">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-historico-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte historico de un activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/reportes/consulta-paz-y-salvo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Consultar paz y salvo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-inventario"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de inventario
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-inventario-por-persona-o-grupo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de inventario <br /> por persona o grupo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-entrada-de-almacen"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de entrada de activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-solicitud-de-asiganacion"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de solicitud de<br /> asignacion de activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-asignacion-de-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de asignacion <br />de activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-devolucion-de-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de devolucion <br /> de activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-baja"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de baja
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-reasigancion-funcionarios"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de reasigancion <br /> entre funcionarios
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-estado-de-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte segun el estado <br /> de activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-prestamos-pendientes-por-devolucion"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de prestamos <br /> pendiente por devolucion
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-solicitudes-de-vehiculos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de solicitud <br /> de vehiculo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-solicitudes-de-vehiculos-completada"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de solicitud <br /> de vehiculo ejecutada
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/registro-de-mantenimiento-de-computo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Registro de mantenimiento <br /> de computo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-estado-de-mantenimiento-de-un-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de estado de <br /> mantenimiento de un activo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-solicitud-de-prestamo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de solicitud <br /> de prestamo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-despacho-de-prestamo-de-activo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de despacho de <br />activo en
+                              calidad de prestamo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-devolucion-de-prestamo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de devolucion de <br />activo en
+                              calidad de prestamo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-entrada-de-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de entrada <br />
+                              de consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-solicitud-de-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de solicitud <br /> de consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-despacho-de-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de despacho <br /> de consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-de-consumo-por-funcionario"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de consumo <br /> por funcionario
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-existencias-de-consumo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de existencias <br /> de consumo
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/reportes/reporte-stock-de-articulos"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reporte de stock <br /> maximo y minimo
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li className="nav-item ">
+                    <a
+                      className="nav-link text-white "
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#gestionVehiculos"
+                    >
+                      <img
+                        src={IconoGestionVehiculo}
+                        alt="gestionVehiculos"
+                      />
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Gestión de vehículo
+                      </span>
+                    </a>
+                    <div className="collapse " id="gestionVehiculos">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="almacen/gestion-de-vehiculos/asignacion-vehiculo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Solicitud de asignación
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white"
+                            to="almacen/gestion-de-vehiculos/reprogramar-solicitud-vehiculo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reprogramar solicitud<br /> de vehiculo
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                   <li className="nav-item ">
                     <Link
@@ -194,6 +1047,7 @@ const Aside = ({showAside}) => {
                   </li>
                 </ul>
               </div>
+
             </li>
             <li className="nav-item">
               <a
@@ -548,7 +1402,7 @@ const Aside = ({showAside}) => {
                     >
                       <img
                         src={IconoGMaterialVegetal}
-                        alt="G. Material vegetal"
+                        alt="vineta"
                       />
                       <span className="sidenav-normal  ms-2  ps-1">
                         G. material vegetal
@@ -1104,11 +1958,11 @@ const Aside = ({showAside}) => {
                   <li className="nav-item ">
                     <Link
                       className="nav-link text-white "
-                      to="seguridad/administradordeusuarios"
+                      to="seguridad/administradordepersonas"
                     >
                       <span className="sidenav-mini-icon"> A </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        Administrador de <br /> usuarios
+                        Administrador de <br /> personas
                       </span>
                     </Link>
                   </li>
@@ -1124,18 +1978,15 @@ const Aside = ({showAside}) => {
                     </Link>
                   </li>
                   <li className="nav-item ">
-                    <a
+                    <Link
                       className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
+                      to="seguridad/roles"
                     >
                       <span className="sidenav-mini-icon"> B </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Buttons{" "}
+                        Administrador de <br /> roles
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
