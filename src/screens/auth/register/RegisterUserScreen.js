@@ -7,16 +7,12 @@ import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import clienteAxios from "../../../config/clienteAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-
-const optionsTipoDocumento = [
-  { label: "C.C.", value: "cc" },
-  { label: "T.I", value: "TI" },
-];
+import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 
 const RegisterUserScreen = () => {
   const navigate = useNavigate();
   const [errorPassword, setErrorPassword] = useState(null);
-  const [dataValidation, setDataValidation] = useState({});
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [isHandleSubmit, setIsHandleSubmit] = useState(false);
   const {
     register,
@@ -26,22 +22,36 @@ const RegisterUserScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+        const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+          "choices/tipo-documento/"
+        );
+        const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
+        setTipoDocumentoOptions(documentosFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
+
+  const onSubmit = async (data) => {
     try {
-      /* 
-        Petición para verificación existencia de persona
-      */
-      const { data: datePersonas } = await clienteAxios.get(
-        "personas/getpersonas"
+      /*
+       *Petición para verificación existencia de persona
+       */
+      const { data: dataPersona } = await clienteAxios.get(
+        `personas/getpersonabydocument/${data?.numeroDocumento}`
       );
-      const dataPersona = datePersonas.filter(
-        (persona) => persona.numero_documento === data.numeroDocumento
-      );
-      if (!dataPersona.length) {
+
+      //console.log("dataPersona", dataPersona.id_persona)
+
+      if (!dataPersona.id_persona) {
         Swal.fire({
-          title: "No exite un persona con estos datos",
+          title: "No existe un persona con estos datos",
           text: "¿Desea registrarse como persona o empresa?",
           icon: "warning",
           showCancelButton: true,
@@ -56,58 +66,14 @@ const RegisterUserScreen = () => {
         });
       }
 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MDI2MDE3LCJpYXQiOjE2NjU0MzQwMTcsImp0aSI6ImQ4M2MyOTZlZWEyMzQ3ZjM5MTU5MzEyNTUzMzZmZWYyIiwidXNlcl9pZCI6MX0.S_5c2K5pYYNWc_LtvaZ75NaP57KoQ5L_tCY8YbIILaI",
-        },
-      };
-
-      /*
-       *Petición para verificar si la persona ya tiene usuario
-       */
-      const { data: dataUsers } = await clienteAxios.get("users", config);
-      const dataUser = dataUsers.filter(
-        (user) => user.persona.numero_documento === data.numeroDocumento
-      );
-      if (dataUser.length) {
-        Swal.fire({
-          title: "Este usuario ya existe",
-          text: "¿Desea recuperar su contraseña?",
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/recuperarcontrasena");
-          } else {
-            navigate("/login");
-          }
-        });
-      }
-
-      /*
-       *Petición de registro de usuario
-       */
-
-      console.log("dataPersona", dataPersona);
-
       const user = {
-        password: data.password,
-        password2: data.password2,
-        persona: dataPersona[0].id_persona,
-        id_usuario_creador: null,
-        activated_at: "2022-10-10T17:15:00Z", // Hablar con el back para revisar este dato que probablemente no sea obligatorio
-        tipo_usuario: "E", // Debería ser por defecto que se creara en E
-        email: dataPersona[0].email,
+        email: dataPersona.email,
         nombre_de_usuario: data.nombreDeUsuario,
+        persona: dataPersona.id_persona,
+        password: data.password,
+        id_usuario_creador: null,
+        tipo_usuario: "E", // Debería ser por defecto que se creara en E
       };
-
-      console.log("user", user);
 
       const config2 = {
         headers: {
@@ -134,7 +100,24 @@ const RegisterUserScreen = () => {
         }
       });
     } catch (error) {
-      console.log(error);
+      if (error.response?.data?.errors?.persona) {
+        Swal.fire({
+          title: "Estos datos ya estan relacionados a una persona",
+          text: "¿Desea registrar una nueva persona?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/register");
+          }
+        });
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -159,9 +142,10 @@ const RegisterUserScreen = () => {
         backgroundImage: `url(${LogBackground})`,
       }}
     >
+      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row">
-          <div className="col-lg-4 col-md-8 col-12 mx-auto">
+          <div className="col-lg-5 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               <h3 className="mt-3 mb-0 text-center mb-6">
                 Registro de usuario
@@ -180,7 +164,7 @@ const RegisterUserScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionsTipoDocumento}
+                        options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
                     )}

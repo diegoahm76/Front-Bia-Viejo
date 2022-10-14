@@ -47,7 +47,7 @@ const userLoginSuccess = (user) => ({
 const userLoginFail = (error) => ({
   type: USER_LOGIN_FAIL,
   payload:
-    error.response && error.response.data.detail
+    error.response && error.response.data
       ? error.response.data.detail
       : error.message,
 });

@@ -5,6 +5,7 @@ import LogoCormacarena from "../../assets/logos/eps/LogoHorizontal_mod.svg";
 import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
@@ -92,6 +93,15 @@ function LoginScreen() {
                     </button>
                   </div>
                 </form>
+                <nav className="mt-3 d-flex flex-column text-center">
+                  <small>
+                    Registrarse como <Link to="/register">Persona</Link> o{" "}
+                    <Link to="/registeruser">Usuario</Link>
+                  </small>
+                  <Link to="/recuperarcontrasena">
+                    <small>Olvide mi contraseña</small>
+                  </Link>
+                </nav>
               </div>
             </div>
           </div>
