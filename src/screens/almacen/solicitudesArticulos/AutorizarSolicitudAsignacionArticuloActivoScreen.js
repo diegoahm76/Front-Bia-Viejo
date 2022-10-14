@@ -9,12 +9,11 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
   activeModalAction,
   desactiveModalAction,
-} from "../../../../actions/modalActions";
-import CalendarModal from "../../../../components/CalendarModal";
+} from "../../../actions/modalActions";
+import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
-import { Calendar } from "react-big-calendar";
 
-const AutorizarSolicitudActivoPrestamoScreen = () => {
+const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
   const [formValues, setFormValues] = useState({
     fechaInicio: "",
   });
@@ -36,68 +35,50 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
 
   const [rowData] = useState([
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: " ",
+      nombre: " ",
+      observaciones: "",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: " ",
+      nombre: " ",
+      observaciones: "",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: " ",
+      nombre: " ",
+      observaciones: "",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: " ",
+      nombre: " ",
+      observaciones: "",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: " ",
+      nombre: " ",
+      observaciones: "",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
     },
     {
-      nombre: "Palo cruz",
-      especie: " ",
-      vivero: "",
-      lote_siembra: "",
+      codigo: " ",
+      nombre: " ",
+      observaciones: "",
       cantidad: "",
-      cantidad_sembrada: "",
-      total: "",
     },
   ]);
 
   const columnDefs = [
-    { headerName: "Código Artículo", field: "codigo", minWidth: 150 },
+    { headerName: "Código del artículo", field: "codigo", minWidth: 150 },
     { headerName: "Nombre del artículo", field: "nombre", minWidth: 150 },
-    { headerName: "Cantidad", field: "cantidad", minWidth: 150 },
+    { headerName: "Observaciones", field: "observaciones", minWidth: 150 },
     {
-      headerName: "Fecha entrega",
-      field: "fechaEntrega",
+      headerName: "Cantidad",
+      field: "cantidad",
       minWidth: 150,
     },
   ];
@@ -134,12 +115,11 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
   const handleCloseModal = () => {
     dispatch(desactiveModalAction());
   };
-
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar una solicitud de activo en prestamo
+        <h3 className="mt-3 mb-0 text-center mb-4">
+          Autorizar solicitud de asignación de artículo activo
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -195,7 +175,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
           >
             <div className="row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Datos del coordinador</n>
+                <n>Datos del responsable</n>
               </label>
               <div className="col-12 col-sm-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
@@ -244,14 +224,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                   <label className="ms-2">Nombre completo</label>
                 </div>
               </div>
-              <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button
-                  type="submit"
-                  className="mt-4 btn btn-primary flex-center text-capitalize"
-                >
-                  Buscar
-                </button>
-              </div>
+              
             </div>
           </form>
           <form
@@ -302,15 +275,67 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
               </div>
             </div>
           </form>
-          <form>
-            <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="submit"
-                className="mt-4 btn btn-primary flex-center text-capitalize"
-              >
-                Agregar Producto
-              </button>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <label className="form-control ms-0 fw-bolder text-center">
+                <n>Datos del operario</n>
+              </label>
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Tipo de documento{" "}
+                  <div className="col-12 ">
+                    <Controller
+                      name="tipoDocumento"
+                      control={control}
+                      defaultValue={optionsTipoDocumento[0]}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          isDisabled
+                          options={optionsTipoDocumento}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                </label>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div className="form-floating input-group input-group-dynamic ">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="numero cedula"
+                    disabled
+                    {...register("numeroCedula")}
+                  />
+                  <label className="ms-2">Número de cedula</label>
+                </div>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="nombre completo"
+                    disabled
+                    {...register("nombreCompleto")}
+                  />
+                  <label className="ms-2">Nombre completo</label>
+                </div>
+              </div>
+              
             </div>
+          </form>
+
+          <form>
             <div
               className="ag-theme-alpine mt-2 mb-4"
               style={{ height: "300px" }}
@@ -319,17 +344,20 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
                 columnDefs={columnDefs}
                 rowData={rowData}
                 defaultColDef={defaultColDef}
+                
                 onGridReady={onGridReady}
               ></AgGridReact>
             </div>
             <div className="input-group input-group-dynamic flex-column mt-3">
-              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
+              <label htmlFor="exampleFormControlInput1 ">
+                Observaciones generales
+              </label>
               <textarea
                 className="multisteps-form__input form-control p-2 mw-100 w-auto"
                 type="text"
-                placeholder="Observaciones"
-                rows="3"
+                placeholder="Observaciones generales"
                 disabled
+                rows="3"
                 name="Observaciones"
               />
             </div>
@@ -355,7 +383,7 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
             <div className="row min-vh-100 ">
               <div className="col-lg-10 col-md-10 col-12 mx-auto">
                 <h3 className="mt-3 mb-0 text-center mb-6">
-                  Rechazar solicitud de activo en prestamo
+                  Rechazar solicitud de consumo
                 </h3>
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -412,5 +440,4 @@ const AutorizarSolicitudActivoPrestamoScreen = () => {
     </div>
   );
 };
-
-export default AutorizarSolicitudActivoPrestamoScreen;
+export default AutorizarSolicitudAsignacionArticuloActivoScreen;

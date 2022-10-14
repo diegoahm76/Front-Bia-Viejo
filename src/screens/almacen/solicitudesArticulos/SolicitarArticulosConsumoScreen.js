@@ -6,18 +6,24 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import {
-  activeModalAction,
-  desactiveModalAction,
-} from "../../../../actions/modalActions";
-import CalendarModal from "../../../../components/CalendarModal";
-import { useDispatch } from "react-redux";
-import { Calendar } from "react-big-calendar";
 
-const AutorizarSolicitudesConsumoScreen = () => {
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+
+const SolicitarArticulosConsumoScreen = () => {
   const [formValues, setFormValues] = useState({
     fechaInicio: "",
   });
+
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isModalArticulo, setIsModalArticulo] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalActive(true);
+  };
+  const handleOpenAgregarProducto = () => {
+    setIsModalArticulo(true);
+  };
 
   const [native, setNative] = useState("");
   const onNativeChange = (e) => {
@@ -35,46 +41,45 @@ const AutorizarSolicitudesConsumoScreen = () => {
   const onSubmit = (data) => {};
 
   const [rowData] = useState([
-   
     {
       codigo: " ",
       nombre: " ",
-      cantida: "",
-      fechaEntrega: "",
+      observaciones: "",
+      cantidad: "",
     },
     {
       codigo: " ",
       nombre: " ",
-      cantida: "",
-      fechaEntrega: "",
+      observaciones: "",
+      cantidad: "",
     },
     {
       codigo: " ",
       nombre: " ",
-      cantida: "",
-      fechaEntrega: "",
+      observaciones: "",
+      cantidad: "",
     },
     {
       codigo: " ",
       nombre: " ",
-      cantida: "",
-      fechaEntrega: "",
+      observaciones: "",
+      cantidad: "",
     },
     {
       codigo: " ",
       nombre: " ",
-      cantida: "",
-      fechaEntrega: "",
+      observaciones: "",
+      cantidad: "",
     },
   ]);
 
   const columnDefs = [
-    { headerName: "Código Artículo", field: "codigo", minWidth: 150 },
+    { headerName: "Código del artículo", field: "codigo", minWidth: 150 },
     { headerName: "Nombre del artículo", field: "nombre", minWidth: 150 },
-    { headerName: "Cantidad", field: "cantidad", minWidth: 150 },
+    { headerName: "Observaciones", field: "observaciones", minWidth: 150 },
     {
-      headerName: "Fecha entrega",
-      field: "fechaEntrega",
+      headerName: "Cantidad",
+      field: "cantidad",
       minWidth: 150,
     },
   ];
@@ -102,21 +107,11 @@ const AutorizarSolicitudesConsumoScreen = () => {
     gridApi = params.api;
   };
 
-  const dispatch = useDispatch();
-
-  const handleOpenModal = () => {
-    dispatch(activeModalAction());
-  };
-
-  const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
-  };
-
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar solicitudes de consumo
+          Solicitar un elemento de consumo
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -136,7 +131,6 @@ const AutorizarSolicitudesConsumoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero consecutivo"
-                    disabled
                     {...register("numeroConsecutivo")}
                   />
                   <label className="ms-2">Numero consecutivo</label>
@@ -172,7 +166,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
           >
             <div className="row">
               <label className="form-control ms-0 fw-bolder text-center">
-                <n>Datos del coordinador</n>
+                <n>Datos del responsable</n>
               </label>
               <div className="col-12 col-sm-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
@@ -188,7 +182,6 @@ const AutorizarSolicitudesConsumoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          isDisabled
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
@@ -203,7 +196,6 @@ const AutorizarSolicitudesConsumoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
-                    disabled
                     {...register("numeroCedula")}
                   />
                   <label className="ms-2">Número de cedula</label>
@@ -215,12 +207,24 @@ const AutorizarSolicitudesConsumoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="nombre completo"
-                    disabled
                     {...register("nombreCompleto")}
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
               </div>
+              <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                <button
+                  type="button"
+                  className="mt-4 btn btn-primary flex-center text-capitalize"
+                  onClick={handleOpenModal}
+                >
+                  Buscar
+                </button>
+              </div>
+              <BusquedaDePersonalModal
+              isModalActive={isModalActive}
+              setIsModalActive={setIsModalActive}
+            />
             </div>
           </form>
           <form
@@ -272,6 +276,19 @@ const AutorizarSolicitudesConsumoScreen = () => {
             </div>
           </form>
           <form>
+            <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
+              <button
+                type="button"
+                className="mt-4 btn btn-primary flex-center text-capitalize"
+                onClick={handleOpenAgregarProducto}
+              >
+                Agregar Producto
+              </button>
+            </div>
+            <BusquedaArticuloModal
+              isModalActive={isModalArticulo}
+              setIsModalActive={setIsModalArticulo}
+            />
             <div
               className="ag-theme-alpine mt-2 mb-4"
               style={{ height: "300px" }}
@@ -284,94 +301,31 @@ const AutorizarSolicitudesConsumoScreen = () => {
               ></AgGridReact>
             </div>
             <div className="input-group input-group-dynamic flex-column mt-3">
-              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
+              <label htmlFor="exampleFormControlInput1 ">
+                Observaciones generales
+              </label>
               <textarea
                 className="multisteps-form__input form-control p-2 mw-100 w-auto"
                 type="text"
-                placeholder="Observaciones"
-                disabled
+                placeholder="Observaciones generales"
                 rows="3"
                 name="Observaciones"
               />
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
-                className="btn bg-secondary me-md-2 text-white text-capitalize"
+                className="btn bg-primary text-white text-capitalize"
                 type="submit"
                 title="Send"
               >
-                Autorizar
-              </button>
-              <button
-                className="btn bg-danger text-white text-capitalize"
-                type="button"
-                onClick={handleOpenModal}
-                title="Send"
-              >
-                Rechazar
+                Guardar
               </button>
             </div>
           </form>
-          <CalendarModal>
-            <div className="row min-vh-100 ">
-              <div className="col-lg-10 col-md-10 col-12 mx-auto">
-                <h3 className="mt-3 mb-0 text-center mb-6">
-                  Rechazar solicitud de consumo
-                </h3>
-                <form
-                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                  data-animation="FadeIn"
-                  onSubmit={handleSubmit(onSubmit)}
-                  id="configForm"
-                >
-                  <form
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                    onSubmit={handleSubmit(onSubmit)}
-                  >
-                    <div className="row">
-                      <div className="col-12">
-                        <div className="input-group input-group-dynamic flex-column mt-3">
-                          <label htmlFor="exampleFormControlInput1 ">
-                            Motivo de Rechazo
-                          </label>
-                          <textarea
-                            className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                            type="text"
-                            placeholder="Observaciones"
-                            rows="5"
-                            name="Observaciones"
-                          />
-                        </div>
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                          <button
-                            className="btn bg-secondary me-md-2 text-white text-capitalize"
-                            type="submit"
-                            onClick={handleCloseModal}
-                            title="Send"
-                          >
-                            Salir
-                          </button>
-                          <button
-                            className="btn bg-danger text-white text-capitalize"
-                            type="button"
-                            onClick={handleCloseModal}
-                            title="Send"
-                          >
-                            Rechazar
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </form>
-              </div>
-            </div>
-          </CalendarModal>
         </form>
       </div>
     </div>
   );
 };
 
-export default AutorizarSolicitudesConsumoScreen;
+export default SolicitarArticulosConsumoScreen;

@@ -30,6 +30,10 @@ import SolicitudesDeMaterialSreen from "../distribucion/SolicitudesDeMaterialSre
 import HistorialDeMovimientosScreen from "../distribucion/HistorialDeMovimientosScreen";
 import ReportesScreen from "../reportes/ReportesScreen";
 
+
+
+
+
 const ConservacionRoutes = () => {
   return (
     <Routes>
@@ -114,6 +118,8 @@ const ConservacionRoutes = () => {
       </Route>
 
       <Route path="solicitudes">
+
+
         <Route
           path="solicitudesrealizadasavivero"
           element={<SolicitudesRealizadasViveroScreen />}
