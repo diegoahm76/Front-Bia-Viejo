@@ -218,7 +218,7 @@ const CrearProduccionPropiaScreen = () => {
                     Información del producto a ingresar{" "}
                     <span className="text-danger">*</span>
                   </label>
-                  <div class="row">
+                  <div className="row">
                     <div className="col-6 col-sm-6 ">
                       <label
                         className="form-control ms-0"
@@ -286,7 +286,7 @@ const CrearProduccionPropiaScreen = () => {
                     </div>
                   </div>
 
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <button
                       className="btn bg-gradient-light me-md-2 text-capitalize text-dark"
                       type="submit"

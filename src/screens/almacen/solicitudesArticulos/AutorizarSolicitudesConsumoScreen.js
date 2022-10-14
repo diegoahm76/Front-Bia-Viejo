@@ -9,17 +9,11 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import {
   activeModalAction,
   desactiveModalAction,
-} from "../../../../actions/modalActions";
-import CalendarModal from "../../../../components/CalendarModal";
+} from "../../../actions/modalActions";
+import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
-import { Calendar } from "react-big-calendar";
-import ModalLocal from "../../../../components/ModalLocal";
-import BusquedaDePersonalModal from "../../../../components/BusquedaDePersonalModal";
-import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
 
-const SolicitudActivoPrestamoScreen = () => {
-  const [isModalActive, setIsModalActive] = useState(false);
-  const [isModalArticulo, setIsModalArticulo] = useState(false);
+const AutorizarSolicitudesConsumoScreen = () => {
   const [formValues, setFormValues] = useState({
     fechaInicio: "",
   });
@@ -40,29 +34,36 @@ const SolicitudActivoPrestamoScreen = () => {
   const onSubmit = (data) => {};
 
   const [rowData] = useState([
+   
     {
-      codigo: "",
+      codigo: " ",
       nombre: " ",
-      cantidad: "",
-      fechaentrega: "",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      codigo: "",
+      codigo: " ",
       nombre: " ",
-      cantidad: "",
-      fechaentrega: "",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      codigo: "",
+      codigo: " ",
       nombre: " ",
-      cantidad: "",
-      fechaentrega: "",
+      cantida: "",
+      fechaEntrega: "",
     },
     {
-      codigo: "",
+      codigo: " ",
       nombre: " ",
-      cantidad: "",
-      fechaentrega: "",
+      cantida: "",
+      fechaEntrega: "",
+    },
+    {
+      codigo: " ",
+      nombre: " ",
+      cantida: "",
+      fechaEntrega: "",
     },
   ]);
 
@@ -76,62 +77,6 @@ const SolicitudActivoPrestamoScreen = () => {
       minWidth: 150,
     },
   ];
-  const [rowBuscar] = useState([
-    {
-      nombre: " ",
-      tipoDocumento: " ",
-      documento: "",
-      dependencia: "",
-      grupo: "",
-    },
-    {
-      nombre: " ",
-      tipoDocumento: " ",
-      documento: "",
-      dependencia: "",
-      grupo: "",
-    },
-    {
-      nombre: " ",
-      tipoDocumento: " ",
-      documento: "",
-      dependencia: "",
-      grupo: "",
-    },
-    {
-      nombre: " ",
-      tipoDocumento: " ",
-      documento: "",
-      dependencia: "",
-      grupo: "",
-    },
-    {
-      nombre: " ",
-      tipoDocumento: " ",
-      documento: "",
-      dependencia: "",
-      grupo: "",
-    },
-    {
-      nombre: " ",
-      tipoDocumento: " ",
-      documento: "",
-      dependencia: "",
-      grupo: "",
-    },
-  ]);
-
-  const columnBuscar = [
-    { headerName: "Nombre", field: "nombre", minWidth: 150 },
-    { headerName: "Tipo documento", field: "tipoDocumento", minWidth: 150 },
-    { headerName: "Documento", field: "documento", minWidth: 150 },
-    {
-      headerName: "Dependecia",
-      field: "dependencia",
-      minWidth: 150,
-    },
-    { headerName: "Grupo", field: "grupo", minWidth: 150 },
-  ];
 
   const optionsTipoDocumento = [
     { label: "C.C", value: "CC" },
@@ -139,7 +84,6 @@ const SolicitudActivoPrestamoScreen = () => {
   ];
 
   let gridApi;
-
   const defaultColDef = {
     sortable: true,
     editable: true,
@@ -157,32 +101,21 @@ const SolicitudActivoPrestamoScreen = () => {
     gridApi = params.api;
   };
 
-  const optionsDependencia = [
-    { label: "Dependencia 1", value: "D1" },
-    { label: "Dependencia 2", value: "D2" },
-    { label: "Dependencia 3", value: "D3" },
-  ];
-
-  const optionsGrupo = [
-    { label: "Grupo 1", value: "G1" },
-    { label: "Grupo 2", value: "G2" },
-    { label: "Grupo 3", value: "G3" },
-  ];
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    setIsModalActive(true);
+    dispatch(activeModalAction());
   };
 
-  const handleOpenAgregarProducto = () => {
-    setIsModalArticulo(true);
+  const handleCloseModal = () => {
+    dispatch(desactiveModalAction());
   };
 
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Solicitar un elemento activo en prestamo
+          Autorizar solicitudes de consumo
         </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -202,6 +135,7 @@ const SolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero consecutivo"
+                    disabled
                     {...register("numeroConsecutivo")}
                   />
                   <label className="ms-2">Numero consecutivo</label>
@@ -253,6 +187,7 @@ const SolicitudActivoPrestamoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
+                          isDisabled
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
@@ -267,6 +202,7 @@ const SolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
+                    disabled
                     {...register("numeroCedula")}
                   />
                   <label className="ms-2">Número de cedula</label>
@@ -278,25 +214,13 @@ const SolicitudActivoPrestamoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="nombre completo"
+                    disabled
                     {...register("nombreCompleto")}
                   />
                   <label className="ms-2">Nombre completo</label>
                 </div>
               </div>
-              <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button
-                  type="button"
-                  className="mt-4 btn btn-primary flex-center text-capitalize"
-                  onClick={handleOpenModal}
-                >
-                  Buscar
-                </button>
-              </div>
             </div>
-            <BusquedaDePersonalModal
-              isModalActive={isModalActive}
-              setIsModalActive={setIsModalActive}
-            />
           </form>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -347,15 +271,6 @@ const SolicitudActivoPrestamoScreen = () => {
             </div>
           </form>
           <form>
-            <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="button"
-                onClick={handleOpenAgregarProducto}
-                className="mt-4 btn btn-primary flex-center text-capitalize"
-              >
-                Agregar Producto
-              </button>
-            </div>
             <div
               className="ag-theme-alpine mt-2 mb-4"
               style={{ height: "300px" }}
@@ -373,28 +288,89 @@ const SolicitudActivoPrestamoScreen = () => {
                 className="multisteps-form__input form-control p-2 mw-100 w-auto"
                 type="text"
                 placeholder="Observaciones"
+                disabled
                 rows="3"
                 name="Observaciones"
               />
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
-                className="btn bg-primary text-white text-capitalize"
+                className="btn bg-secondary me-md-2 text-white text-capitalize"
                 type="submit"
                 title="Send"
               >
-                Guardar
+                Autorizar
+              </button>
+              <button
+                className="btn bg-danger text-white text-capitalize"
+                type="button"
+                onClick={handleOpenModal}
+                title="Send"
+              >
+                Rechazar
               </button>
             </div>
           </form>
-          <BusquedaArticuloModal
-            isModalActive={isModalArticulo}
-            setIsModalActive={setIsModalArticulo}
-          />
+          <CalendarModal>
+            <div className="row min-vh-100 ">
+              <div className="col-lg-10 col-md-10 col-12 mx-auto">
+                <h3 className="mt-3 mb-0 text-center mb-6">
+                  Rechazar solicitud de consumo
+                </h3>
+                <form
+                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                  data-animation="FadeIn"
+                  onSubmit={handleSubmit(onSubmit)}
+                  id="configForm"
+                >
+                  <form
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <div className="row">
+                      <div className="col-12">
+                        <div className="input-group input-group-dynamic flex-column mt-3">
+                          <label htmlFor="exampleFormControlInput1 ">
+                            Motivo de Rechazo
+                          </label>
+                          <textarea
+                            className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                            type="text"
+                            placeholder="Observaciones"
+                            rows="5"
+                            name="Observaciones"
+                          />
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                          <button
+                            className="btn bg-secondary me-md-2 text-white text-capitalize"
+                            type="submit"
+                            onClick={handleCloseModal}
+                            title="Send"
+                          >
+                            Salir
+                          </button>
+                          <button
+                            className="btn bg-danger text-white text-capitalize"
+                            type="button"
+                            onClick={handleCloseModal}
+                            title="Send"
+                          >
+                            Rechazar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </form>
+              </div>
+            </div>
+          </CalendarModal>
         </form>
       </div>
     </div>
   );
 };
 
-export default SolicitudActivoPrestamoScreen;
+export default AutorizarSolicitudesConsumoScreen;

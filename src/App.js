@@ -14,11 +14,12 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 
 import { getDataFromLocalStorage } from "./actions/userActions";
 import TablerosDeControlRoutes from "./screens/tablerosDeControl/routes/TablerosDeControlRoutes";
-import RegisterScreen from "./screens/auth/register/RegisterScreen";
+import RegisterPersonaScreen from "./screens/auth/register/RegisterPersonaScreen";
 import SeguridadRoutes from "./screens/seguridad/routes/SeguridadRoutes";
 import RecuperacionDeContrasenaScreen from "./screens/auth/recuperarContrasena/RecuperacionDeContrasenaScreen";
 import ActualizarContrasenaScreen from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreen";
 import RegisterUserScreen from "./screens/auth/register/RegisterUserScreen";
+import UsuarioRoutes from "./screens/usuario/routes/UsuarioRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ function App() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
-        <Route path="/dashboard" element={<HomeScreen />}>
+        <Route path="/dashboard" element={<HomeScreen />}> 
           <Route index element={<LogoScreen />} />
 
           <Route
@@ -43,6 +44,8 @@ function App() {
           <Route path="conservacion/*" element={<ConservacionRoutes />} />
 
           <Route path="seguridad/*" element={<SeguridadRoutes />} />
+
+          <Route path="usuario/*" element={<UsuarioRoutes />} />
 
           <Route
             path="gestordocumental/*"
@@ -63,13 +66,14 @@ function App() {
       >
         <Route path="/login" element={<LoginScreen />} />
 
-        <Route path="/register" element={<RegisterScreen />} />
+        <Route path="/register" element={<RegisterPersonaScreen />} />
 
         <Route path="/registeruser" element={<RegisterUserScreen />} />
 
         <Route path="/recuperarcontrasena" element={<RecuperacionDeContrasenaScreen />} />
 
         <Route path="/actualizarcontrasena" element={<ActualizarContrasenaScreen />} />
+
       </Route>
     </Routes>
   );
