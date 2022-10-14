@@ -19,6 +19,17 @@ import SolicitudesAsignacionPendientesScreen from "./solicitudesArticulos/Solici
 import SolicitudesAutorizadasPendientesScreen from "./solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
 import SolicitudesPendientesAutorizarScreen from "./solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
 import SolicitudVehiculoScreen from "./solicitudesArticulos/SolicitudVehiculoScreen";
+import HojaDeVidaActivoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaActivoScreen";
+import HojaDeVidaVehiculoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoScreen";
+import HojaDeVidaOtrosActivosScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaOtrosActivosScreen";
+import HojaDeVidaVehiculoExternoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoExternoScreen";
+import BusquedaActivosSubdelegadosScreen from "../gestionDeInventario/subdelegacion/BusquedaActivosSubdelegadosScreen";
+import ReasignacionElementosSubAsignadosScreen from "../gestionDeInventario/subdelegacion/ReasignacionElementosSubAsignadosScreen";
+import SubasignarElementosScreen from "../gestionDeInventario/subdelegacion/SubasignarElementosScreen"
+import BusquedaArticuloPrestadoScreen from "../tableroDeControl/BusquedaArticuloPrestadoScreen"
+import StockMaximoMinimoScreen from "../tableroDeControl/StockMaximoMinimoScreen"
+import TablaInventarioScreen from "../tableroDeControl/TablaInventarioScreen"
+import ProgamacionDeMantenimientoScreen from "../gestionDeInventario/gestionDeHojaDeVida/mantenimiento/ProgamacionDeMantenimiento"
 
 const AlmacenRoutes = () => {
   return (
@@ -63,6 +74,32 @@ const AlmacenRoutes = () => {
         <Route path="solicitudesautorizadaspendientes" element={<SolicitudesAutorizadasPendientesScreen/>}/>
       </Route>
       
+      <Route path="programacion-mantenimiento" element={<ProgamacionDeMantenimientoScreen />} />
+
+      <Route path="busqueda-articulos-prestados" element={<BusquedaArticuloPrestadoScreen />} />
+
+      <Route path="Stock" element={<StockMaximoMinimoScreen />} />
+
+      <Route path="tabla-inventario" element={<TablaInventarioScreen /> } />
+
+      <Route path="tabla-inventario" element={<TablaInventarioScreen /> } />
+
+      <Route path="cv-activo" element={<HojaDeVidaActivoScreen />} />
+      
+      <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} />
+
+      <Route path="cv-otros-activos" element={<HojaDeVidaOtrosActivosScreen />} />
+
+      <Route path="cv-vehiculo-externo" element={<HojaDeVidaVehiculoExternoScreen />} />
+
+      <Route path="busqueda-activos" element={<BusquedaActivosSubdelegadosScreen />} />
+
+      <Route path="reasignacion-elementos" element={<ReasignacionElementosSubAsignadosScreen />} />
+
+      <Route path="subasignar-elementos" element={<SubasignarElementosScreen />} />
+
+
+
       <Route
         path="inspecciondiariadevehiculo"
         element={<InspeccionDiariaDeVehiculoScreen />}
