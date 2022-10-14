@@ -16,6 +16,7 @@ import { VisualizarArticulosScreen } from "../VisualizarArticulosScreen";
 import SalidaArticulosScreen from "../SalidaArticulosScreen";
 
 
+
 import AutorizarSolicitudActivoPrestamoScreen from "./solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
 import AutorizarSolicitudAsignacionArticuloActivoScreen from "./solicitudesArticulos/AutorizarSolicitudAsignacionArticuloActivoScreen";
 import AutorizarSolicitudesConsumoScreen from "./solicitudesArticulos/AutorizarSolicitudesConsumoScreen";
@@ -27,6 +28,7 @@ import SolicitudesAsignacionPendientesScreen from "./solicitudesArticulos/Solici
 import SolicitudesAutorizadasPendientesScreen from "./solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
 import SolicitudesPendientesAutorizarScreen from "./solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
 import SolicitudVehiculoScreen from "./solicitudesArticulos/SolicitudVehiculoScreen";
+import { RegistroDeBajaScreen } from "../RegistroDeBajaScreen";
 
 
 const AlmacenRoutes = () => {
@@ -43,6 +45,8 @@ const AlmacenRoutes = () => {
       <Route path="visualizar-articulos" element={<VisualizarArticulosScreen/>}/>
 
       <Route path="salida-articulos" element={<SalidaArticulosScreen/>}/>
+
+      <Route path="registro-baja" element={<RegistroDeBajaScreen />}/>
 
       <Route path="reportes" element={<ReportesScreen />} />
 

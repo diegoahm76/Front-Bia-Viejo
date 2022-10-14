@@ -1,8 +1,15 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useState } from "react";
+import { ListGroup, ListGroupItem } from "react-bootstrap";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
+import Collapse from "react-bootstrap";
+
+
+
+
+
 
 export const VisualizarArticulosScreen = () => {
 
@@ -163,6 +170,10 @@ const opcMarca = [
                 <label className="form-control ms-0 fw-bolder text-center">
                 Articulos
               </label>
+                </div>
+                <div>
+
+                
                 </div>
             
       </form>
