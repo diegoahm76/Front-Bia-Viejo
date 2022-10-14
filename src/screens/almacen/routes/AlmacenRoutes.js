@@ -3,8 +3,22 @@ import { Navigate } from "react-router-dom/dist";
 
 import Almacen from "../";
 import CreacionArticulo from "../CreacionArticuloScreen";
+import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
+import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
+import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
+import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
 import ReportesScreen from "../ReportesScreen";
-
+import AutorizarSolicitudActivoPrestamoScreen from "./solicitudesArticulos/AutorizarSolicitudActivoPrestamoScreen";
+import AutorizarSolicitudAsignacionArticuloActivoScreen from "./solicitudesArticulos/AutorizarSolicitudAsignacionArticuloActivoScreen";
+import AutorizarSolicitudesConsumoScreen from "./solicitudesArticulos/AutorizarSolicitudesConsumoScreen";
+import SolicitarArticulosConsumoScreen from "./solicitudesArticulos/SolicitarArticulosConsumoScreen";
+import SolicitarElementoConsumoViveroScreen from "./solicitudesArticulos/SolicitarElementoConsumoViveroScreen";
+import SolicitudActivoPrestamoScreen from "./solicitudesArticulos/SolicitudActivoPrestamoScreen";
+import SolicitudAsignacionArticuloActivoScreen from "./solicitudesArticulos/SolicitudAsignacionArticuloActivoScreen";
+import SolicitudesAsignacionPendientesScreen from "./solicitudesArticulos/SolicitudesAsignacionPendientesScreen";
+import SolicitudesAutorizadasPendientesScreen from "./solicitudesArticulos/SolicitudesAutorizadasPendientesScreen";
+import SolicitudesPendientesAutorizarScreen from "./solicitudesArticulos/SolicitudesPendientesAutorizarScreen";
+import SolicitudVehiculoScreen from "./solicitudesArticulos/SolicitudVehiculoScreen";
 
 import ReporteHistoricoDeActivoScreen from "../reportes/ReporteHistoricoDeActivoScreen";
 import ConsultaPazYSalvoScreen from "../reportes/ConsultaPazYSalvoScreen";
@@ -33,15 +47,9 @@ import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasC
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 
 
-import PracticaScreen from "../reportes/PracticaScreen"; 
-
-
-
-
 const AlmacenRoutes = () => {
   return (
     <Routes>
-
       <Route index element={<Almacen />} />
 
       <Route path="creacion-articulo" element={<CreacionArticulo />} />
@@ -49,68 +57,213 @@ const AlmacenRoutes = () => {
       <Route path="/*" element={<Navigate to="/dashboard" />} />
 
       <Route path="reportes">
+        <Route
+          path="reportehistoricoactivo"
+          element={<ReporteHistoricoDeActivoScreen />}
+        />
 
-        <Route path="reportehistoricoactivo" element= {<ReporteHistoricoDeActivoScreen/>}/>
+        <Route path="consultapazysalvo" element={<ConsultaPazYSalvoScreen />} />
 
-        <Route path="consultapazysalvo" element= {<ConsultaPazYSalvoScreen/>}/>
+        <Route
+          path="reportedeinventario"
+          element={<ReporteDeInventarioScreen />}
+        />
 
-        <Route path="reportedeinventario" element= {<ReporteDeInventarioScreen/>}/>
-        
-        <Route path="reportedeinventarioporpersonaogrupo" element= {<ReporteDeInventarioPorPersonaScreen/>}/>
+        <Route
+          path="reportedeinventarioporpersonaogrupo"
+          element={<ReporteDeInventarioPorPersonaScreen />}
+        />
 
-        <Route path="reporteentradadealmacen" element= {<ReporteDeEntradaScreen/>}/>
+        <Route
+          path="reporteentradadealmacen"
+          element={<ReporteDeEntradaScreen />}
+        />
 
-        <Route path="reportesolicituddeasiganacion" element= {<ReporteSolicitudDeAsignacionScreen/>}/>
+        <Route
+          path="reportesolicituddeasiganacion"
+          element={<ReporteSolicitudDeAsignacionScreen />}
+        />
 
-        <Route path="reporteasignaciondeactivo" element= {<ReporteAsignacionDeActivoScreen/>}/>
+        <Route
+          path="reporteasignaciondeactivo"
+          element={<ReporteAsignacionDeActivoScreen />}
+        />
 
-        <Route path="reportededevoluciondeactivo" element= {<ReporteDeDevolucionDeActivoScreen/>}/>
+        <Route
+          path="reportededevoluciondeactivo"
+          element={<ReporteDeDevolucionDeActivoScreen />}
+        />
 
-        <Route path="reportedebaja" element= {<ReporteDeBajaScreen/>}/>
+        <Route path="reportedebaja" element={<ReporteDeBajaScreen />} />
 
-        <Route path="reportedereasigancionfuncionarios" element= {<ReporteDeReasignacionFuncionariosScreen/>}/>
+        <Route
+          path="reportedereasigancionfuncionarios"
+          element={<ReporteDeReasignacionFuncionariosScreen />}
+        />
 
-        <Route path="reportedeestadodeactivo" element= {<ReporteDeEstadoDeActivosScreen/>}/>
+        <Route
+          path="reportedeestadodeactivo"
+          element={<ReporteDeEstadoDeActivosScreen />}
+        />
 
-        <Route path="reportedeprestamospendientespordevolucion" element= {<ReportePrestamosPendientesScreen/>}/>
+        <Route
+          path="reportedeprestamospendientespordevolucion"
+          element={<ReportePrestamosPendientesScreen />}
+        />
 
-        <Route path="reportededesolicitudesdevehiculos" element= {<ReporteSolicitudDeVehiculosScreen/>}/>
+        <Route
+          path="reportededesolicitudesdevehiculos"
+          element={<ReporteSolicitudDeVehiculosScreen />}
+        />
 
-        <Route path="reportededesolicitudesdevehiculoscompletada" element= {<ReporteSolicitudDeVehiculosCompletadaScreen/>}/>
-        
-        <Route path="registrodemantenimientodecomputo" element= {<RegistroDeMantenimientoDeComputoScreen/>}/>
+        <Route
+          path="reportededesolicitudesdevehiculoscompletada"
+          element={<ReporteSolicitudDeVehiculosCompletadaScreen />}
+        />
 
-        <Route path="reportedeestadodemantenimientodeunactivo" element= {<ReporteEstadoMantenimientoActivoScreen/>}/>
+        <Route
+          path="registrodemantenimientodecomputo"
+          element={<RegistroDeMantenimientoDeComputoScreen />}
+        />
 
-        <Route path="reportedesolicitudeprestamo" element= {<ReporteDeSolicitudDePrestamoScreen/>}/>
+        <Route
+          path="reportedeestadodemantenimientodeunactivo"
+          element={<ReporteEstadoMantenimientoActivoScreen />}
+        />
 
-        <Route path="reportededespachodeprestamodeactivo" element= {<ReporteDespachoPrestamoScreen/>}/>
+        <Route
+          path="reportedesolicitudeprestamo"
+          element={<ReporteDeSolicitudDePrestamoScreen />}
+        />
 
-        <Route path="reportededevoluciondeprestamo" element= {<ReporteDeDevolucionPrestamoScreen/>}/>
+        <Route
+          path="reportededespachodeprestamodeactivo"
+          element={<ReporteDespachoPrestamoScreen />}
+        />
 
-        <Route path="reportedeentradadeconsumo" element= {<ReporteDeEntradaDeConsumoScreen/>}/>
+        <Route
+          path="reportededevoluciondeprestamo"
+          element={<ReporteDeDevolucionPrestamoScreen />}
+        />
 
-        <Route path="reportedesolicituddeconsumo" element= {<ReporteDeSolicitudDeConsumoScreen/>}/>
+        <Route
+          path="reportedeentradadeconsumo"
+          element={<ReporteDeEntradaDeConsumoScreen />}
+        />
 
-        <Route path="reportededespachodeconsumo" element= {<ReporteDeDespachoDeConsumoScreen/>}/>
+        <Route
+          path="reportedesolicituddeconsumo"
+          element={<ReporteDeSolicitudDeConsumoScreen />}
+        />
 
-        <Route path="reportedeconsumoporfuncionario" element= {<ReporteDeFuncionarioPorConsumoScreen/>}/>
+        <Route
+          path="reportededespachodeconsumo"
+          element={<ReporteDeDespachoDeConsumoScreen />}
+        />
 
-        <Route path="reporteexistenciasdeconsumo" element= {<ReporteDeExistenciasConsumoScreen/>}/>
+        <Route
+          path="reportedeconsumoporfuncionario"
+          element={<ReporteDeFuncionarioPorConsumoScreen />}
+        />
 
-        <Route path="reportestockdearticulos" element= {<ReporteStockScreen/>}/>
+        <Route
+          path="reporteexistenciasdeconsumo"
+          element={<ReporteDeExistenciasConsumoScreen />}
+        />
 
-        <Route path="practica" element= {<PracticaScreen/>}/>
-
+        <Route
+          path="reportestockdearticulos"
+          element={<ReporteStockScreen />}
+        />
       </Route>
 
+      <Route path="solicitudesarticulos">
+        <Route
+          path="autorizarsolicitudactivoprestamo"
+          element={<AutorizarSolicitudActivoPrestamoScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitudespendientesautorizar"
+          element={<SolicitudesPendientesAutorizarScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitararticulosconsumo"
+          element={<SolicitarArticulosConsumoScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="autorizarsolicitudesconsumo"
+          element={<AutorizarSolicitudesConsumoScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitudesasignacionpendientes"
+          element={<SolicitudesAsignacionPendientesScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitudasignacionarticuloactivo"
+          element={<SolicitudAsignacionArticuloActivoScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="autorizarsolicitudasignacionarticuloactivo"
+          element={<AutorizarSolicitudAsignacionArticuloActivoScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitudactivoprestamo"
+          element={<SolicitudActivoPrestamoScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route path="solicitudvehiculo" element={<SolicitudVehiculoScreen />} />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitarelementoconsumovivero"
+          element={<SolicitarElementoConsumoViveroScreen />}
+        />
+      </Route>
+      <Route path="solicitudesarticulos">
+        <Route
+          path="solicitudesautorizadaspendientes"
+          element={<SolicitudesAutorizadasPendientesScreen />}
+        />
+      </Route>
+
+      <Route
+        path="inspecciondiariadevehiculo"
+        element={<InspeccionDiariaDeVehiculoScreen />}
+      />
+
+      <Route
+        path="registrodemantenimientodevehiculo"
+        element={<RegistroDeMantenimientoDeVehiculo />}
+      />
+
+      <Route path="/*" element={<Navigate to="/dashboard" />} />
+      <Route
+        path="consultarsolicitudesdevehiculos"
+        element={<ConsultarSolicitudesDeVehiculosScreen />}
+      />
+
+      <Route
+        path="solicitudesencoladeespera"
+        element={<SolicitudesEnColaDeEsperaScreen />}
+      />
+
+      <Route path="/*" element={<Navigate to="/dashboard" />} />
     </Routes>
-
-      
-
-
-
-    
   );
 };
 

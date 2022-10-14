@@ -13,6 +13,8 @@ const ReporteDeEstadoDeActivosScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
     estado: "",
     bodega: "",
+    valorInicial: "",
+    valorFinal: "",
   });
 
   const {
@@ -26,8 +28,10 @@ const ReporteDeEstadoDeActivosScreen = () => {
     setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      estado: data.estado.value,
-      bodega: data.bodega.value,
+      estado: data.estado?.value,
+      bodega: data.bodega?.value,
+      valorInicial: data.valorInicial,
+      valorFinal: data.valorFinal,
     });
   };
 
@@ -149,17 +153,11 @@ const ReporteDeEstadoDeActivosScreen = () => {
                   Estado
                   <div className="col-12 ">
                     <Controller
-                      name="Estado"
+                      name="estado"
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              estado: e.value,
-                            })
-                          }
                           options={optionsEstado}
                           placeholder="Seleccionar"
                         />
@@ -174,17 +172,11 @@ const ReporteDeEstadoDeActivosScreen = () => {
                   Bodega
                   <div className="col-12 ">
                     <Controller
-                      name="Bodega"
+                      name="bodega"
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              bodega: e.value,
-                            })
-                          }
                           options={optionsBodega}
                           placeholder="Seleccionar"
                         />
@@ -201,21 +193,24 @@ const ReporteDeEstadoDeActivosScreen = () => {
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic ">
                   <input
-                    name="Valor inicial"
+                    name="valorInicial"
                     className="form-control"
                     type="text"
                     placeholder="Vaalor inicial"
+                    {...register("valorInicial")}
                   />
                   <label className="ms-2">Valor inicial</label>
                 </div>
               </div>
+
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic ">
                   <input
-                    name="Valor final"
+                    name="ValorFinal"
                     className="form-control"
                     type="text"
                     placeholder="Vaalor final"
+                    {...register("valorFinal")}
                   />
                   <label className="ms-2">Valor final</label>
                 </div>
@@ -233,8 +228,7 @@ const ReporteDeEstadoDeActivosScreen = () => {
                   </button>
                 </div>
               </div>
-              {mostrarTabla ||
-              (selecOpciones.estado && selecOpciones.bodega) ? (
+              {selecOpciones.estado || selecOpciones.bodega || selecOpciones.valorInicial && selecOpciones.valorFinal? (
                 <div>
                   <div className="row">
                     <label className="form-control ms-0 fw-bolder text-center mt-4">

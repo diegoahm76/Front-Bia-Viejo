@@ -9,7 +9,10 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
 const ReporteSolicitudDeAsignacionScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
+
+  const [selecOpciones, setSelecOpciones] = useState({
+    consecutivo: "",
+  });
 
   const {
     register,
@@ -17,6 +20,13 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     control,
     formState: { errors },
   } = useForm();
+
+  const onSubmit = (data) => {
+    setSelecOpciones({
+      ...selecOpciones,
+      consecutivo: data.consecutivo,
+    });
+  };
 
   let gridApi;
 
@@ -70,9 +80,6 @@ const ReporteSolicitudDeAsignacionScreen = () => {
     gridApi.exportDataAsCsv();
   };
 
-  const onSubmit = (data) => {
-    setMostrarTabla(true);
-  };
 
   const [startDate, setStartDate] = useState(new Date());
 
@@ -90,16 +97,20 @@ const ReporteSolicitudDeAsignacionScreen = () => {
           id="configForm"
         >
           <div className="row">
-            <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
+                  name="consecutivo"
                   className="form-control"
                   type="text"
                   placeholder="numero consecutivo"
-                  {...register("numeroConsecutivo")}
+                  {...register("consecutivo", { required: true })}
                 />
                 <label className="ms-2">Numero consecutivo</label>
               </div>
+              {errors.consecutivo && (
+                <small className="text-danger">Este campo es obligatorio</small>
+              )}
             </div>
             <div className="col-12 col-md-4">
               <label htmlFor="exampleFormControlInput1 mt-4">
@@ -122,9 +133,29 @@ const ReporteSolicitudDeAsignacionScreen = () => {
                 />
               </label>
             </div>
-          </div>
 
-          <div className="multisteps-form__content">
+            <div className="col-12 col-md-4">
+              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                <button
+                  className="btn bg-gradient-primary mb-0 text-capitalize"
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                >
+                  Buscar
+                </button>
+              </div>
+            </div>
+          </div>
+          {selecOpciones.consecutivo ? (
+          <div>
+            <div className="multisteps-form__content">
+                <div className="row">
+                  <label className="form-control ms-0 fw-bolder text-center mt-4">
+                    <n>Reporte de solicitud de asigancion</n>
+                  </label>
+                </div>
+                <div className="multisteps-form__content">
             <div className="row">
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
@@ -313,7 +344,7 @@ const ReporteSolicitudDeAsignacionScreen = () => {
               className="multisteps-form__input form-control p-2 mw-100 w-auto"
               type="text"
               placeholder="Observaciones"
-              rows="3"
+              rows="5"
               name="Observaciones"
               value="eeLorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
               disabled
@@ -415,6 +446,8 @@ const ReporteSolicitudDeAsignacionScreen = () => {
               </button>
             </div>
           </div>
+              </div>
+          </div>):("")}
         </form>
       </div>
     </div>

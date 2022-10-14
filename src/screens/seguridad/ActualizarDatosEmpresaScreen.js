@@ -1,5 +1,4 @@
 import { Controller, useForm } from "react-hook-form";
-import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import Select from "react-select";
 import { useState } from "react";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";

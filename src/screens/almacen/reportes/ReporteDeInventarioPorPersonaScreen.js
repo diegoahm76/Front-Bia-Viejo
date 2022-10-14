@@ -7,14 +7,21 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const ReporteDeInventarioPorPersonaScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
-
+  const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
+    useState(false);
+  const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
+    useState(false);
   const [selecOpciones, setSelecOpciones] = useState({
     tipoDocumento: "",
+    numeroCedula: "",
     dependencia: "",
     grupo: "",
+    codigoArticulo: "",
+    nombreArticulo: "",
   });
 
   const {
@@ -25,12 +32,14 @@ const ReporteDeInventarioPorPersonaScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      dependencia: data.dependencia.value,
-      tipoDocumento: data.tipoDocumento.value,
-      grupo: data.grupo.value,
+      dependencia: data.dependencia?.value,
+      tipoDocumento: data.tipoDocumento?.value,
+      grupo: data.grupo?.value,
+      numeroCedula: data.numeroCedula,
+      codigoArticulo: data.codigoArticulo,
+      nombreArticulo: data.nombreArticulo,
     });
   };
 
@@ -168,17 +177,11 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                   Tipo de documento
                   <div className="col-12 ">
                     <Controller
-                      name="tipoConsulta"
+                      name="tipoDocumento"
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              tipoDocumento: e.value,
-                            })
-                          }
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
@@ -194,7 +197,8 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                     name="numeroCedula"
                     className="form-control"
                     type="text"
-                    placeholder="numero cedula"
+                    placeholder="numero de cedula"
+                    {...register("numeroCedula")}
                   />
                   <label className="ms-2">Número de cedula</label>
                 </div>
@@ -222,6 +226,7 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                 type="button"
                 title="Send"
                 form="configForm"
+                onClick={() => setBusquedaPersonalIsActive(true)}
               >
                 Buscar personal
               </button>
@@ -239,12 +244,6 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        onChange={(e) =>
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            dependencia: e.value,
-                          })
-                        }
                         options={opcionDependecia}
                         placeholder="Seleccionar"
                       />
@@ -264,12 +263,6 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        onChange={(e) =>
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            grupo: e.value,
-                          })
-                        }
                         options={opcionGrupo}
                         placeholder="Seleccionar"
                       />
@@ -296,10 +289,12 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                   className="multisteps-form__input form-control"
                   type="text"
                   placeholder="Codigo de articulo"
+                  {...register("codigoArticulo")}
                 />
                 <label className="ms-2">Codigo del articulo</label>
               </div>
             </div>
+            
             <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
@@ -320,6 +315,7 @@ const ReporteDeInventarioPorPersonaScreen = () => {
                   type="button"
                   title="Send"
                   form="configForm"
+                  onClick={() => setBusquedaArticuloIsActive(true)}
                 >
                   Buscar articulo
                 </button>
@@ -340,7 +336,8 @@ const ReporteDeInventarioPorPersonaScreen = () => {
           </div>
 
           {(selecOpciones.dependencia && selecOpciones.grupo) ||
-          mostrarTabla ? (
+          (selecOpciones.numeroCedula && selecOpciones.tipoDocumento) ||
+          selecOpciones.codigoArticulo ? (
             <div>
               <div className="multisteps-form__content">
                 <div className="row">
@@ -425,6 +422,15 @@ const ReporteDeInventarioPorPersonaScreen = () => {
             ""
           )}
         </form>
+        <BusquedaDePersonalModal
+          isModalActive={busquedaPersonalIsActive}
+          setIsModalActive={setBusquedaPersonalIsActive}
+        />
+
+        <BusquedaArticuloModal
+          isModalActive={busquedaArticuloIsActive}
+          setIsModalActive={setBusquedaArticuloIsActive}
+        />
       </div>
     </div>
   );

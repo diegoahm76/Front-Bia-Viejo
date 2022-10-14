@@ -18,6 +18,7 @@ import RegisterScreen from "./screens/auth/register/RegisterScreen";
 import SeguridadRoutes from "./screens/seguridad/routes/SeguridadRoutes";
 import RecuperacionDeContrasenaScreen from "./screens/auth/recuperarContrasena/RecuperacionDeContrasenaScreen";
 import ActualizarContrasenaScreen from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreen";
+import RegisterUserScreen from "./screens/auth/register/RegisterUserScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +64,8 @@ function App() {
         <Route path="/login" element={<LoginScreen />} />
 
         <Route path="/register" element={<RegisterScreen />} />
+
+        <Route path="/registeruser" element={<RegisterUserScreen />} />
 
         <Route path="/recuperarcontrasena" element={<RecuperacionDeContrasenaScreen />} />
 

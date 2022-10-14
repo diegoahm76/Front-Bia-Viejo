@@ -8,15 +8,24 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { da } from "date-fns/locale";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 
 const ReporteSolicitudDeVehiculosScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
+  const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
+    useState(false);
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const [selecOpciones, setSelecOpciones] = useState({
     tipoDocumento: "",
+    numeroCedula:"",
     dependencia: "",
     grupo: "",
+    fechaInicial:"",
+    fechaFinal:"",
     estadoDeSolicitudes: "",
+
   });
 
   const {
@@ -27,13 +36,15 @@ const ReporteSolicitudDeVehiculosScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      tipoDocumento: data.tipoDocumento.value,
-      dependencia: data.dependencia.value,
-      grupo: data.grupo.value,
-      estadoDeSolicitudes: data.estadoDeSolicitudes.value,
+      tipoDocumento: data.tipoDocumento?.value,
+      numeroCedula: data.numeroCedula,
+      dependencia: data.dependencia?.value,
+      grupo: data.grupo?.value,
+      fechaInicial : data.fechaInicial,
+      fechaFinal : data.fechaFinal,
+      estadoDeSolicitudes: data.estadoDeSolicitudes?.value,
     });
   };
 
@@ -143,9 +154,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
   const onExportClick = () => {
     gridApi.exportDataAsCsv();
   };
-
-  const [startDate, setStartDate] = useState(new Date());
-
+  
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -174,17 +183,11 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                   Tipo de documento
                   <div className="col-12 ">
                     <Controller
-                      name="tipoConsulta"
+                      name="tipoDocumento"
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              tipoDocumento: e.value,
-                            })
-                          }
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
@@ -201,6 +204,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
+                    {...register("numeroCedula")}
                   />
                   <label className="ms-2">Número de cedula</label>
                 </div>
@@ -228,6 +232,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                 type="button"
                 title="Send"
                 form="configForm"
+                onClick={() => setBusquedaPersonalIsActive(true)}
               >
                 Buscar personal
               </button>
@@ -245,12 +250,6 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        onChange={(e) =>
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            dependencia: e.value,
-                          })
-                        }
                         options={opcionDependecia}
                         placeholder="Seleccionar"
                       />
@@ -270,12 +269,6 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        onChange={(e) =>
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            grupo: e.value,
-                          })
-                        }
                         options={opcionGrupo}
                         placeholder="Seleccionar"
                       />
@@ -286,22 +279,30 @@ const ReporteSolicitudDeVehiculosScreen = () => {
             </div>
           </div>
           <div className="mt-4 row">
-            <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4">
               <label htmlFor="exampleFormControlInput1 mt-4">
                 Fecha inicial
                 <Controller
-                  name="fechaSolicitud"
+                  name="fechaInicial"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       locale="es"
-                      selected={startDate}
                       dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
+                      selected={startDate}
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaInicial: date,
+                        });
+                        setStartDate(date);
+                      }}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
                     />
                   )}
                 />
@@ -312,18 +313,27 @@ const ReporteSolicitudDeVehiculosScreen = () => {
               <label htmlFor="exampleFormControlInput1 mt-4">
                 Fecha final
                 <Controller
-                  name="fechaSolicitud"
+                  name="fechaFinal"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       locale="es"
-                      selected={startDate}
                       dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
+                      selected={endDate}
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaFinal: date,
+                        });
+                        setEndDate(date);
+                      }}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
                     />
                   )}
                 />
@@ -337,17 +347,11 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                 Estado de la solicitud
                 <div className="col-12 ">
                   <Controller
-                    name="estado de solicitud"
+                    name="estadoDeSolicitudes"
                     control={control}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        onChange={(e) =>
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            estadoDeSolicitudes: e.value,
-                          })
-                        }
                         options={opcionEstado}
                         placeholder="Seleccionar"
                       />
@@ -377,11 +381,11 @@ const ReporteSolicitudDeVehiculosScreen = () => {
               </div>
             </div>
           </div>
-          {mostrarTabla ||
-          (selecOpciones.tipoDocumento &&
+          {
+          selecOpciones.tipoDocumento && selecOpciones.numeroCedula ||
             selecOpciones.dependencia &&
-            selecOpciones.grupo &&
-            selecOpciones.estadoDeSolicitudes) ? (
+            selecOpciones.grupo || selecOpciones.fechaFinal && selecOpciones. fechaInicial ||
+            selecOpciones.estadoDeSolicitudes ? (
             <div>
 
               <div className="row">
@@ -462,6 +466,10 @@ const ReporteSolicitudDeVehiculosScreen = () => {
             ""
           )}
         </form>
+        <BusquedaDePersonalModal
+          isModalActive={busquedaPersonalIsActive}
+          setIsModalActive={setBusquedaPersonalIsActive}
+        />
       </div>
     </div>
   );

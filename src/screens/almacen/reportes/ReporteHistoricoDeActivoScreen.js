@@ -5,8 +5,12 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const ReporteHistoricoDeActivoScreen = () => {
+  const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
+    useState(false);
+
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const {
@@ -132,7 +136,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                     disabled
                   />
                   <label className="ms-2">
-                    Nombre del articulo <small className="text-danger">*</small>
+                    Nombre del articulo
                   </label>
                 </div>
               </div>
@@ -144,6 +148,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                     type="button"
                     title="Send"
                     form="configForm"
+                    onClick={() => setBusquedaArticuloIsActive(true)}
                   >
                     Buscar articulo
                   </button>
@@ -290,6 +295,10 @@ const ReporteHistoricoDeActivoScreen = () => {
             </div>
           </div>
         </form>
+        <BusquedaArticuloModal
+          isModalActive={busquedaArticuloIsActive}
+          setIsModalActive={setBusquedaArticuloIsActive}
+        />
       </div>
     </div>
   );

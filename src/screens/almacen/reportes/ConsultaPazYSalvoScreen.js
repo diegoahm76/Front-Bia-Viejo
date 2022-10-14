@@ -13,12 +13,17 @@ import {
 } from "../../../actions/modalActions";
 
 import CalendarModal from "../../../components/CalendarModal";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 
 const ConsultaPazYSalvoScreen = () => {
+  const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
+    useState(false);
+
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const [selecDocumento, setSelecDocumento] = useState({
     tipoDocumento: "",
+    numeroCedula: "",
   });
 
   const {
@@ -33,6 +38,7 @@ const ConsultaPazYSalvoScreen = () => {
     setSelecDocumento({
       ...selecDocumento,
       tipoDocumento: data.tipoDocumento.value,
+      numeroCedula: data.numeroCedula,
     });
   };
 
@@ -142,23 +148,23 @@ const ConsultaPazYSalvoScreen = () => {
                   Tipo de documento <small className="text-danger">*</small>
                   <div className="col-12 ">
                     <Controller
-                      name="tipoConsulta"
+                      name="tipoDocumento"
                       control={control}
+                      rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecDocumento({
-                              ...selecDocumento,
-                              tipoDocumento: e.value,
-                            })
-                          }
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
                   </div>
+                  {errors.tipoDocumento && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
                 </label>
               </div>
 
@@ -169,11 +175,17 @@ const ConsultaPazYSalvoScreen = () => {
                     className="form-control"
                     type="text"
                     placeholder="numero cedula"
+                    {...register("numeroCedula", { required: true })}
                   />
                   <label className="ms-2">
                     Número de cedula<small className="text-danger">*</small>
                   </label>
                 </div>
+                {errors.numeroCedula && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </div>
 
               <div className="col-12 col-md-4">
@@ -204,6 +216,7 @@ const ConsultaPazYSalvoScreen = () => {
                 type="button"
                 title="Send"
                 form="configForm"
+                onClick={() => setBusquedaPersonalIsActive(true)}
               >
                 Buscar personal
               </button>
@@ -223,7 +236,7 @@ const ConsultaPazYSalvoScreen = () => {
             </div>
           </div>
 
-          {mostrarTabla && selecDocumento.tipoDocumento ? (
+          {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
             <div>
               <div className="multisteps-form__content">
                 <div className="row">
@@ -265,7 +278,11 @@ const ConsultaPazYSalvoScreen = () => {
           ) : (
             ""
           )}
-        </form>
+        </form>ç
+        <BusquedaDePersonalModal
+          isModalActive={busquedaPersonalIsActive}
+          setIsModalActive={setBusquedaPersonalIsActive}
+        />
         <CalendarModal>
           <div className="row min-vh-100">
             <div className="col-lg-10 col-md-10 col-12 mx-auto"></div>
@@ -352,6 +369,7 @@ const ConsultaPazYSalvoScreen = () => {
             </div>
           </div>
         </CalendarModal>
+
       </div>
     </div>
   );

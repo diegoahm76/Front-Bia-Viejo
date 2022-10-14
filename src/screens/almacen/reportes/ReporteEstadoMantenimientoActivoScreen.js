@@ -8,8 +8,12 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { da } from "date-fns/locale";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const ReporteEstadoMantenimientoActivoScreen = () => {
+
+  const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
+    useState(false);
 
   const [mostrarTabla, setMostrarTabla] = useState(false);
 
@@ -197,6 +201,7 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                     type="button"
                     title="Send"
                     form="configForm"
+                    onClick={() => setBusquedaArticuloIsActive(true)}
                   >
                     Buscar articulo
                   </button>
@@ -298,7 +303,6 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                       locale="es"
                       selected={startDate}
                       dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
                       onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
@@ -415,6 +419,10 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
             ""
           )}
         </form>
+        <BusquedaArticuloModal
+          isModalActive={busquedaArticuloIsActive}
+          setIsModalActive={setBusquedaArticuloIsActive}
+        />
       </div>
     </div>
   );

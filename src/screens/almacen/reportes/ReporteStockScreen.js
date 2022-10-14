@@ -8,10 +8,16 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 import { da } from "date-fns/locale";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const ReporteStockScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
+  const [selecOpciones, setSelecOpciones] = useState({
+    codigoArtico: "",
+  });
 
+  const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
+  useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -20,8 +26,13 @@ const ReporteStockScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
+    setSelecOpciones({
+      ...selecOpciones,
+      codigoArticulo: data.codigoArticulo,
+    });
   };
+
+ 
 
   let gridApi;
 
@@ -149,6 +160,7 @@ const ReporteStockScreen = () => {
                     type="button"
                     title="Send"
                     form="configForm"
+                    onClick={() => setBusquedaArticuloIsActive(true)}
                   >
                     Buscar articulo
                   </button>
@@ -169,7 +181,7 @@ const ReporteStockScreen = () => {
               </button>
             </div>
           </div>
-          { mostrarTabla ? (
+          { selecOpciones.codigoArticulo? (
                 <div>
                   <div className="multisteps-form__content">
                     <div className="row">
@@ -253,6 +265,10 @@ const ReporteStockScreen = () => {
                 ""
               )}
         </form>
+        <BusquedaArticuloModal
+          isModalActive={busquedaArticuloIsActive}
+          setIsModalActive={setBusquedaArticuloIsActive}
+        />
       </div>
     </div>
   );

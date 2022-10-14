@@ -7,13 +7,22 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const ReportePrestamosPendientesScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
+
+  const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
+    useState(false);
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const [selecOpciones, setSelecOpciones] = useState({
     dependencia: "",
     grupo: "",
+    codigoArticulo: "",
+    fechaInicial: "",
+    fechaFinal: "",
   });
 
   const {
@@ -24,11 +33,13 @@ const ReportePrestamosPendientesScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      dependencia: data.dependencia.value,
-      grupo: data.grupo.value,
+      dependencia: data.dependencia?.value,
+      grupo: data.grupo?.value,
+      codigoArticulo: data.codigoArticulo,
+      fechaInicial: data.fechaInicial,
+      fechaFinal: data.fechaFinal,
     });
   };
 
@@ -147,8 +158,6 @@ const ReportePrestamosPendientesScreen = () => {
     gridApi.exportDataAsCsv();
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -167,18 +176,26 @@ const ReportePrestamosPendientesScreen = () => {
               <label htmlFor="exampleFormControlInput1 mt-4">
                 Fecha inicial
                 <Controller
-                  name="fechaSolicitud"
+                  name="fechaInicial"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       locale="es"
-                      selected={startDate}
                       dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
+                      selected={startDate}
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaInicial: date,
+                        });
+                        setStartDate(date);
+                      }}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
                     />
                   )}
                 />
@@ -189,18 +206,27 @@ const ReportePrestamosPendientesScreen = () => {
               <label htmlFor="exampleFormControlInput1 mt-4">
                 Fecha final
                 <Controller
-                  name="fechaSolicitud"
+                  name="fechaFinal"
                   control={control}
                   render={({ field }) => (
                     <DatePicker
                       {...field}
                       locale="es"
-                      selected={startDate}
                       dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
+                      selected={endDate}
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaFinal: date,
+                        });
+                        setEndDate(date);
+                      }}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
                     />
                   )}
                 />
@@ -225,6 +251,7 @@ const ReportePrestamosPendientesScreen = () => {
                     className="multisteps-form__input form-control"
                     type="text"
                     placeholder="Codigo de articulo"
+                    {...register("codigoArticulo")}
                   />
                   <label className="ms-2">Codigo del articulo </label>
                 </div>
@@ -251,6 +278,7 @@ const ReportePrestamosPendientesScreen = () => {
                     type="button"
                     title="Send"
                     form="configForm"
+                    onClick={() => setBusquedaArticuloIsActive(true)}
                   >
                     Buscar articulo
                   </button>
@@ -271,12 +299,6 @@ const ReportePrestamosPendientesScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              dependencia: e.value,
-                            })
-                          }
                           options={opcionDependecia}
                           placeholder="Seleccionar"
                         />
@@ -296,12 +318,6 @@ const ReportePrestamosPendientesScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              grupo: e.value,
-                            })
-                          }
                           options={opcionGrupo}
                           placeholder="Seleccionar"
                         />
@@ -325,10 +341,10 @@ const ReportePrestamosPendientesScreen = () => {
               </div>
             </div>
           </div>
-          {(selecOpciones.dependencia && selecOpciones.grupo) ||
-          mostrarTabla ? (
+          {(selecOpciones.fechaInicial && selecOpciones.fechaFinal) ||
+          (selecOpciones.dependencia && selecOpciones.grupo) ||
+          selecOpciones.codigoArticulo ? (
             <div>
-
               <div className="row">
                 <label className="form-control ms-0 fw-bolder text-center mt-4">
                   <n>Reporte prestamos pendientes por devolucion</n>
@@ -407,6 +423,10 @@ const ReportePrestamosPendientesScreen = () => {
             ""
           )}
         </form>
+        <BusquedaArticuloModal
+          isModalActive={busquedaArticuloIsActive}
+          setIsModalActive={setBusquedaArticuloIsActive}
+        />
       </div>
     </div>
   );

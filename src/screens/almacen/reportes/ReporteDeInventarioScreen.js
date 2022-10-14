@@ -9,12 +9,19 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
 const ReporteDeInventarioScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const [selecOpciones, setSelecOpciones] = useState({
     ubicacion: "",
     bodega: "",
     tipoDeEntrada: "",
+    codigoInicial: "",
+    codigoFinal: "",
+    fechaInicial: "",
+    fechaFinal: "",
+    valorInicial: "",
+    valorFinal: "",
   });
 
   const {
@@ -25,10 +32,16 @@ const ReporteDeInventarioScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
+
     setSelecOpciones({
       ...selecOpciones,
-      tipoDocumento: data.tipoDocumento.value,
+      ubicacion: data.ubicacion?.value,
+      bodega: data.bodega?.value,
+      tipoDeEntrada: data.tipoDeEntrada?.value,
+      codigoFinal: data.codigoFinal,
+      codigoInicial: data.codigoInicial,
+      valorInicial: data.valorInicial,
+      valorFinal: data.valorFinal,
     });
   };
 
@@ -121,6 +134,14 @@ const ReporteDeInventarioScreen = () => {
     },
   ];
 
+  const onGridReady = (params) => {
+    gridApi = params.api;
+  };
+
+  const onExportClick = () => {
+    gridApi.exportDataAsCsv();
+  };
+
   const rowData = [
     {
       "Codigo de articulo": "12345",
@@ -149,16 +170,6 @@ const ReporteDeInventarioScreen = () => {
     suppressMovable: true,
   };
 
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  const onExportClick = () => {
-    gridApi.exportDataAsCsv();
-  };
-
-  const [startDate, setStartDate] = useState(new Date());
-
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -182,12 +193,6 @@ const ReporteDeInventarioScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              ubicacion: e.value,
-                            })
-                          }
                           options={opcionUbicacion}
                           placeholder="Seleccionar"
                         />
@@ -207,12 +212,6 @@ const ReporteDeInventarioScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              bodega: e.value,
-                            })
-                          }
                           options={opcionBodega}
                           placeholder="Seleccionar"
                         />
@@ -227,17 +226,11 @@ const ReporteDeInventarioScreen = () => {
                   Tipo de entrada
                   <div className="col-12 ">
                     <Controller
-                      name="tipodeentrada"
+                      name="tipoDeEntrada"
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              tipoDeEntrada: e.value,
-                            })
-                          }
                           options={opcionTipoDeEntrada}
                           placeholder="Seleccionar"
                         />
@@ -257,11 +250,13 @@ const ReporteDeInventarioScreen = () => {
 
               <div className="row">
                 <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
+                  <div className="form-floating input-group input-group-dynamic ">
                     <input
+                      name="codigoInicial"
                       className="form-control"
                       type="text"
-                      placeholder="nombre completo"
+                      placeholder="Codigo inicial"
+                      {...register("codigoInicial")}
                     />
                     <label className="ms-2">Codigo inicial</label>
                   </div>
@@ -270,9 +265,11 @@ const ReporteDeInventarioScreen = () => {
                 <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
+                      name="codigoFinal"
                       className="form-control"
                       type="text"
-                      placeholder="nombre completo"
+                      placeholder="Codigo final"
+                      {...register("codigoFinal")}
                     />
                     <label className="ms-2">Codigo final</label>
                   </div>
@@ -291,9 +288,11 @@ const ReporteDeInventarioScreen = () => {
                 <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
+                      name="valorInicial"
                       className="form-control"
                       type="text"
                       placeholder="nombre completo"
+                      {...register("valorInicial")}
                     />
                     <label className="ms-2">Valor inicial</label>
                   </div>
@@ -302,9 +301,11 @@ const ReporteDeInventarioScreen = () => {
                 <div className="col-12 col-md-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
+                      name="valorFinal"
                       className="form-control"
                       type="text"
                       placeholder="nombre completo"
+                      {...register("valorFinal")}
                     />
                     <label className="ms-2">Valor final</label>
                   </div>
@@ -324,18 +325,26 @@ const ReporteDeInventarioScreen = () => {
                   <label htmlFor="exampleFormControlInput1 mt-4">
                     Fecha inicial
                     <Controller
-                      name="fechaSolicitud"
+                      name="fechaInicial"
                       control={control}
                       render={({ field }) => (
                         <DatePicker
                           {...field}
                           locale="es"
-                          selected={startDate}
                           dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
                           className="multisteps-form__input form-control p-2"
                           placeholderText="dd/mm/aaaa"
+                          selected={startDate}
+                          onChange={(date) => {
+                            setSelecOpciones({
+                              ...selecOpciones,
+                              fechaInicial: date,
+                            });
+                            setStartDate(date);
+                          }}
+                          selectsStart
+                          startDate={startDate}
+                          endDate={endDate}
                         />
                       )}
                     />
@@ -346,42 +355,53 @@ const ReporteDeInventarioScreen = () => {
                   <label htmlFor="exampleFormControlInput1 mt-4">
                     Fecha final
                     <Controller
-                      name="fechaSolicitud"
+                      name="fechaFinal"
                       control={control}
                       render={({ field }) => (
                         <DatePicker
                           {...field}
                           locale="es"
-                          selected={startDate}
                           dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
                           className="multisteps-form__input form-control p-2"
                           placeholderText="dd/mm/aaaa"
+                          selected={endDate}
+                          onChange={(date) => {
+                            setSelecOpciones({
+                              ...selecOpciones,
+                              fechaFinal: date,
+                            });
+                            setEndDate(date);
+                          }}
+                          selectsEnd
+                          startDate={startDate}
+                          endDate={endDate}
+                          minDate={startDate}
                         />
                       )}
                     />
                   </label>
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
-                    type="submit"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Buscar
-                  </button>
+                <div className="col-12 col-md-4">
+                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <button
+                      className="btn bg-gradient-primary mb-0 text-capitalize"
+                      type="submit"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Buscar
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {selecOpciones.ubicacion &&
-                selecOpciones.bodega &&
-                selecOpciones.tipoDeEntrada ||
-              mostrarTabla ? (
+              {selecOpciones.ubicacion ||
+              selecOpciones.bodega ||
+              selecOpciones.tipoDeEntrada ||
+              (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||
+              (selecOpciones.valorInicial && selecOpciones.valorFinal) ||
+              (selecOpciones.fechaInicial && selecOpciones.fechaFinal) ? (
                 <div>
                   <div className="multisteps-form__content">
                     <div className="row">

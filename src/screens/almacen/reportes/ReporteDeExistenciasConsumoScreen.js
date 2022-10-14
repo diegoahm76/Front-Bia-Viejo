@@ -13,6 +13,9 @@ const ReporteDeExistenciasConsumoScreen = () => {
 
   const [selecOpciones, setSelecOpciones] = useState({
     bodega: "",
+    codigoInicial: "",
+    codigoFinal: "",
+    fechaCorte: "",
   });
 
   const {
@@ -26,7 +29,9 @@ const ReporteDeExistenciasConsumoScreen = () => {
     setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      bodega: data.bodega.value,
+      bodega: data.bodega?.value,
+      codigoInicial: data.codigoInicial,
+      codigoFinal: data.codigoFinal,
     });
   };
 
@@ -133,85 +138,92 @@ const ReporteDeExistenciasConsumoScreen = () => {
             <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
-                  name="CodigoiniciaL"
+                  name="codigoiniciaL"
                   className="form-control"
                   type="text"
-                  placeholder="nombre completo"
-                  {...register("Codigoinicial", { required: true })}
+                  placeholder="Codigo Inicial"
+                  {...register("codigoInicial", { required: true })}
                 />
-                <label className="ms-2">Codigo inicial</label>
+                <label className="ms-2">
+                  Codigo inicial<small className="text-danger">*</small>
+                </label>
               </div>
-              {errors.Codigoinicial && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
-                )}
+              {errors.codigoinicial && (
+                <small className="text-danger">Este campo es obligatorio</small>
+              )}
             </div>
 
             <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
-                  name="Codigofinal"
+                  name="codigoFinal"
                   className="form-control"
                   type="text"
-                  placeholder="nombre completo"
-                  {...register("Codigofinal", { required: true })}
+                  placeholder="Codigo final"
+                  {...register("codigoFinal", { required: true })}
                 />
-                <label className="ms-2">Codigo final</label>
+                <label className="ms-2">
+                  Codigo final<small className="text-danger">*</small>
+                </label>
               </div>
-              {errors.Codigofinal && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
-                )}
+              {errors.codigofinal && (
+                <small className="text-danger">Este campo es obligatorio</small>
+              )}
             </div>
           </div>
 
           <div className="mt-4 row">
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de corte
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
+          <div className="col-12 col-md-4">
+                  <label htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha inicial
+                    <Controller
+                      name="fechaCorte"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          dateFormat="dd/MM/yyyy"
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                          selected={startDate}
+                          onChange={(date) => {
+                            setSelecOpciones({
+                              ...selecOpciones,
+                              fechaCorte: date,
+                            });
+                            setStartDate(date);
+                          }}
+                          selectsStart
+                          startDate={startDate}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </label>
-            </div>
+                  </label>
+                </div>
 
             <div className="col-12 col-md-4">
               <label className="form-floating input-group input-group-dynamic ms-2">
-                Tipo de documento <small className="text-danger">*</small>
+                Bodega <small className="text-danger">*</small>
                 <div className="col-12 ">
                   <Controller
-                    name="tipoConsulta"
+                    name="bodega"
                     control={control}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        onChange={(e) =>
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            bodega: e.value,
-                          })
-                        }
                         options={optionsBodega}
                         placeholder="Seleccionar"
                       />
                     )}
                   />
                 </div>
+                {errors.bodega && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </label>
             </div>
 
@@ -229,7 +241,9 @@ const ReporteDeExistenciasConsumoScreen = () => {
             </div>
           </div>
 
-          {selecOpciones.bodega? (
+          {selecOpciones.bodega &&
+          selecOpciones.codigoInicial &&
+          selecOpciones.codigoFinal && selecOpciones.fechaCorte? (
             <div>
               <div className="multisteps-form__content">
                 <div className="row">

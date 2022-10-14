@@ -7,12 +7,22 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 
 const ReporteDeFuncionarioPorConsumoScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
+  const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
+  useState(false);
+
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const [selecOpciones, setSelecOpciones] = useState({
     tipoDocumento: "",
+    numeroCedula:"",
+    codigoInicial:"",
+    codigoFinal:"",
+    fechaInicial:"",
+    fechaFinal:"",
   });
 
   const {
@@ -23,10 +33,12 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      tipoDocumento: data.tipoDocumento.value,
+      tipoDocumento: data.tipoDocumento?.value,
+      numeroCedula: data.numeroCedula,
+      codigoInicial: data.codigoInicial,
+      codigoFinal: data.codigoFinal,
     });
   };
 
@@ -100,8 +112,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
     gridApi.exportDataAsCsv();
   };
 
-  const [startDate, setStartDate] = useState(new Date());
-
+  
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -132,6 +143,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                       onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
+                      disabled
                     />
                   )}
                 />
@@ -149,28 +161,28 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
 
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-              <div className="col-12 col-md-4">
+            <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento <small className="text-danger">*</small>
                   <div className="col-12 ">
                     <Controller
-                      name="tipoConsulta"
+                      name="tipoDocumento"
                       control={control}
+                      rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              tipoDocumento: e.value,
-                            })
-                          }
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
                   </div>
+                  {errors.tipoDocumento && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
                 </label>
               </div>
 
@@ -223,6 +235,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                 type="button"
                 title="Send"
                 form="configForm"
+                onClick={() => setBusquedaPersonalIsActive(true)}
               >
                 Buscar personal
               </button>
@@ -271,9 +284,11 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
             <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
+                name="codigoInicial"
                   className="form-control"
                   type="text"
                   placeholder="nombre completo"
+                  {...register("codigoInicial")}
                 />
                 <label className="ms-2">Codigo inicial</label>
               </div>
@@ -282,9 +297,11 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
             <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
                 <input
+                name="codigoFinal"
                   className="form-control"
                   type="text"
                   placeholder="nombre completo"
+                  {...register("codigoFinal")}
                 />
                 <label className="ms-2">Codigo final</label>
               </div>
@@ -300,49 +317,66 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
           </div>
 
           <div className="row">
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha inicial
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
+                <div className="col-12 col-md-4">
+                  <label htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha inicial
+                    <Controller
+                      name="fechaInicial"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          dateFormat="dd/MM/yyyy"
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                          selected={startDate}
+                          onChange={(date) => {
+                            setSelecOpciones({
+                              ...selecOpciones,
+                              fechaInicial: date,
+                            });
+                            setStartDate(date);
+                          }}
+                          selectsStart
+                          startDate={startDate}
+                          endDate={endDate}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </label>
-            </div>
+                  </label>
+                </div>
 
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha final
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
+                <div className="col-12 col-md-4">
+                  <label htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha final
+                    <Controller
+                      name="fechaFinal"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          dateFormat="dd/MM/yyyy"
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                          selected={endDate}
+                          onChange={(date) => {
+                            setSelecOpciones({
+                              ...selecOpciones,
+                              fechaFinal: date,
+                            });
+                            setEndDate(date);
+                          }}
+                          selectsEnd
+                          startDate={startDate}
+                          endDate={endDate}
+                          minDate={startDate}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </label>
-            </div>
+                  </label>
+                </div>
 
             <div className="col-12 col-md-4">
               <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
@@ -358,7 +392,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
             </div>
           </div>
 
-          {selecOpciones.tipoDocumento || mostrarTabla? (
+          {selecOpciones.tipoDocumento && selecOpciones.numeroCedula && (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||( selecOpciones.fechaInicial && selecOpciones.codigoFinal)?(
                 <div>
                   <div className="multisteps-form__content">
                     <div className="row">
@@ -485,8 +519,11 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
               ) : (
                 ""
               )}
-            
         </form>
+        <BusquedaDePersonalModal
+          isModalActive={busquedaPersonalIsActive}
+          setIsModalActive={setBusquedaPersonalIsActive}
+        />
       </div>
     </div>
   );
