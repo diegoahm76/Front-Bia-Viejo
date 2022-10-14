@@ -272,13 +272,13 @@ const RolesScreen = () => {
                 <textarea className="form-control" placeholder="Descripción" />
                 <label className="ms-3">Descripción:</label>
               </div>
-              <div class="accordion mt-4">
+              <div className="accordion mt-4">
                 {dataAccordion.map((data) => (
                   <>
-                    <div class="accordion-item">
-                      <h2 class="accordion-header text-sm mt-1">
+                    <div className="accordion-item">
+                      <h2 className="accordion-header text-sm mt-1">
                         <button
-                          class="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
+                          className="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
                           type="button"
                           data-bs-toggle="collapse"
                           data-bs-target={`#R${data.subsistema}`}
@@ -290,15 +290,15 @@ const RolesScreen = () => {
                       </h2>
                       <div
                         id={`R${data.subsistema}`}
-                        class="accordion-collapse collapse"
+                        className="accordion-collapse collapse"
                       >
-                        <div class="accordion-body">
-                          <div class="accordion">
+                        <div className="accordion-body">
+                          <div className="accordion">
                             {data.tipos.map((tipoSubsistema) => (
-                              <div class="accordion-item">
-                                <h2 class="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1">
+                              <div className="accordion-item">
+                                <h2 className="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1">
                                   <button
-                                    class="accordion-button bg-gradient-primary text-white ps-4 text-capitalize"
+                                    className="accordion-button bg-gradient-primary text-white ps-4 text-capitalize"
                                     type="button"
                                     data-bs-toggle="collapse"
                                     data-bs-target={`#R${data.subsistema}${tipoSubsistema.tipo}`}
@@ -308,11 +308,11 @@ const RolesScreen = () => {
                                     {tipoSubsistema.tipo}
                                   </button>
                                   <div>
-                                    <div class="form-check">
+                                    <div className="form-check">
                                       <input
                                         data-subsistema={data.subsistema}
                                         data-tipo={tipoSubsistema.tipo}
-                                        class="form-check-input"
+                                        className="form-check-input"
                                         type="checkbox"
                                         onClick={handleClickAllActions}
                                         value=""
@@ -322,10 +322,10 @@ const RolesScreen = () => {
                                 </h2>
                                 <div
                                   id={`R${data.subsistema}${tipoSubsistema.tipo}`}
-                                  class="accordion-collapse collapse"
+                                  className="accordion-collapse collapse"
                                 >
-                                  <div class="accordion-body">
-                                    <div class="form-check mt-4">
+                                  <div className="accordion-body">
+                                    <div className="form-check mt-4">
                                       {Object.keys(tipoSubsistema.acciones).map(
                                         (accion) => (
                                           <label className="form-check-label d-flex text-capitalize">
@@ -334,7 +334,7 @@ const RolesScreen = () => {
                                               data-subsistema={`${data.subsistema}`}
                                               data-tipo={tipoSubsistema.tipo}
                                               data-accion={accion}
-                                              class="form-check-input"
+                                              className="form-check-input"
                                               checked={
                                                 tipoSubsistema.acciones[accion]
                                               }

@@ -327,14 +327,14 @@ const SolicitudesEnColaDeEsperaScreen = () => {
                   </p>
                 </div>
 
-                <div class="accordion mt-3" id="accordionExample">
-                  <div class="accordion-item">
+                <div className="accordion mt-3" id="accordionExample">
+                  <div className="accordion-item">
                     <h2
-                      class="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1"
+                      className="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1"
                       id="headingOne"
                     >
                       <button
-                        class="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
+                        className="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapseOne"
@@ -346,11 +346,11 @@ const SolicitudesEnColaDeEsperaScreen = () => {
                     </h2>
                     <div
                       id="collapseOne"
-                      class="accordion-collapse collapse"
+                      className="accordion-collapse collapse"
                       aria-labelledby="headingOne"
                       data-bs-parent="#accordionExample"
                     >
-                      <div class="accordion-body">
+                      <div className="accordion-body">
                         <div className="d-flex justify-content-start align-items-center">
                           <label className="mx-4">13/05/2022</label>
                           <p className="flex-grow-1 m-0 bg-light p-1">
