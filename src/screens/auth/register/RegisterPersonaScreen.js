@@ -820,6 +820,8 @@ const RegisterPersonaScreen = () => {
                 </button>
               </form>
               <GeneradorDeDirecciones
+                keyReset="direccionNotificacion"
+                reset={reset}
                 isOpenGenerator={isOpenGenerator}
                 setIsOpenGenerator={setIsOpenGenerator}
                 completeAddress={completeAddress}

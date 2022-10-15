@@ -100,6 +100,7 @@ const RegisterUserScreen = () => {
         }
       });
     } catch (error) {
+      console.log(error)
       if (error.response?.data?.errors?.persona) {
         Swal.fire({
           title: "Estos datos ya estan relacionados a una persona",
