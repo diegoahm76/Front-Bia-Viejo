@@ -719,7 +719,10 @@ const AdministradorDeEmpresasScreen = () => {
                               resetEmpresa({ municipioNotificacion: e.value });
                               setFormValues({
                                 ...formValues,
-                                municipioNotificacion: e,
+                                municipioNotificacion: getIndexBySelectOptions(
+                                  e.value,
+                                  municipiosOptions
+                                ),
                               });
                             }}
                             options={municipiosOptions}

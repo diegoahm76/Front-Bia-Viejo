@@ -7,9 +7,16 @@ import clienteAxios from "../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
+  const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
+    useState(false);
+  const [direccionNotificacionText, setDireccionNotificacionText] =
+    useState("");
+  const [direccionLaboralIsOpen, setDireccionLaboralIsOpen] = useState(false);
+  const [direccionLaboralText, setDireccionLaboralText] = useState("");
   const [actionForm, setActionForm] = useState(null);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -186,7 +193,7 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.cod_municipio_laboral_nal,
           municipiosOptions
         ),
-        fechaNacimiento: dataPersona.fechaNacimiento
+        fechaNacimiento: dataPersona.fecha_nacimiento
           ? new Date(dataPersona.fecha_nacimiento)
           : "",
         id_persona: dataPersona.id_persona,
@@ -205,7 +212,7 @@ const AdministradorDePersonasScreen = () => {
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
-      tipo_documento: data.tipoDocumento2,
+      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
       numero_documento: data.numeroDocumento2,
       primer_nombre: data.primerNombre,
       segundo_nombre: data.segundoNombre,
@@ -332,7 +339,7 @@ const AdministradorDePersonasScreen = () => {
 
   const getIndexBySelectOptions = (valueSelect, selectOptions) => {
     let indexValue = null;
-    const valueSelected = selectOptions.filter((selectOption, index) => {
+    selectOptions.filter((selectOption, index) => {
       if (selectOption.value === valueSelect) {
         indexValue = index;
         return true;
@@ -435,9 +442,6 @@ const AdministradorDePersonasScreen = () => {
                       <Controller
                         name="tipoDocumento2"
                         control={controlPersona}
-                        rules={{
-                          required: true,
-                        }}
                         render={({ field }) => (
                           <Select
                             {...field}
@@ -445,10 +449,13 @@ const AdministradorDePersonasScreen = () => {
                               tipoDocumentoOptions[formValues.tipoDocumento]
                             }
                             onChange={(e) => {
-                              resetPersona({ tipoDocumento2: e.value });
+                              //resetPersona({ tipoDocumento2: e.value });
                               setFormValues({
                                 ...formValues,
-                                tipoDocumento: e,
+                                tipoDocumento: getIndexBySelectOptions(
+                                  e.value,
+                                  tipoDocumentoOptions
+                                ),
                               });
                             }}
                             options={tipoDocumentoOptions}
@@ -583,7 +590,13 @@ const AdministradorDePersonasScreen = () => {
                             {...field}
                             value={estadoCivilOptions[formValues.estadoCivil]}
                             onChange={(e) =>
-                              setFormValues({ ...formValues, estadoCivil: e })
+                              setFormValues({
+                                ...formValues,
+                                estadoCivil: getIndexBySelectOptions(
+                                  e.value,
+                                  estadoCivilOptions
+                                ),
+                              })
                             }
                             options={estadoCivilOptions}
                             placeholder="Seleccionar"
@@ -603,7 +616,10 @@ const AdministradorDePersonasScreen = () => {
                             onChange={(e) =>
                               setFormValues({
                                 ...formValues,
-                                paisNacimiento: e,
+                                paisNacimiento: getIndexBySelectOptions(
+                                  e.value,
+                                  paisesOptions
+                                ),
                               })
                             }
                             options={paisesOptions}
@@ -748,7 +764,13 @@ const AdministradorDePersonasScreen = () => {
                           {...field}
                           value={paisesOptions[formValues.paisResidencia]}
                           onChange={(e) =>
-                            setFormValues({ ...formValues, paisResidencia: e })
+                            setFormValues({
+                              ...formValues,
+                              paisResidencia: getIndexBySelectOptions(
+                                e.value,
+                                paisesOptions
+                              ),
+                            })
                           }
                           options={paisesOptions}
                           placeholder="Seleccionar"
@@ -766,7 +788,13 @@ const AdministradorDePersonasScreen = () => {
                           {...field}
                           value={departamentosOptions[formValues.departamento]}
                           onChange={(e) =>
-                            setFormValues({ ...formValues, departamento: e })
+                            setFormValues({
+                              ...formValues,
+                              departamento: getIndexBySelectOptions(
+                                e.value,
+                                departamentosOptions
+                              ),
+                            })
                           }
                           options={departamentosOptions}
                           placeholder="Seleccionar"
@@ -784,7 +812,13 @@ const AdministradorDePersonasScreen = () => {
                           {...field}
                           value={municipiosOptions[formValues.municipio]}
                           onChange={(e) =>
-                            setFormValues({ ...formValues, municipio: e })
+                            setFormValues({
+                              ...formValues,
+                              municipio: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            })
                           }
                           options={municipiosOptions}
                           placeholder="Seleccionar"
@@ -807,6 +841,7 @@ const AdministradorDePersonasScreen = () => {
                       <button
                         type="button"
                         className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        onClick={() => setDireccionNotificacionIsOpen(true)}
                       >
                         Generar
                       </button>
@@ -837,6 +872,7 @@ const AdministradorDePersonasScreen = () => {
                       <button
                         type="button"
                         className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        onClick={() => setDireccionLaboralIsOpen(true)}
                       >
                         Generar
                       </button>
@@ -859,7 +895,10 @@ const AdministradorDePersonasScreen = () => {
                           onChange={(e) =>
                             setFormValues({
                               ...formValues,
-                              municipioDondeLabora: e,
+                              municipioDondeLabora: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
                             })
                           }
                           placeholder="Seleccionar"
@@ -901,6 +940,23 @@ const AdministradorDePersonasScreen = () => {
               </form>
             )}
           </div>
+          <GeneradorDeDirecciones
+            isOpenGenerator={direccionNotificacionIsOpen}
+            setIsOpenGenerator={setDireccionNotificacionIsOpen}
+            completeAddress={direccionNotificacionText}
+            setCompleteAddress={setDireccionNotificacionText}
+            reset={resetPersona}
+            keyReset="direccionDeNotificacion"
+          />
+
+          <GeneradorDeDirecciones
+            isOpenGenerator={direccionLaboralIsOpen}
+            setIsOpenGenerator={setDireccionLaboralIsOpen}
+            completeAddress={direccionLaboralText}
+            setCompleteAddress={setDireccionLaboralText}
+            reset={resetPersona}
+            keyReset="direccionLaboral"
+          />
         </div>
       </div>
     </div>

@@ -27,6 +27,9 @@ import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
 import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
 import IconoUser from "../assets/user-svgrepo-com.svg";
+import IconoEntradaYSalida from "../assets/iconosAlmacen/logistics-delivery-warehouse-svgrepo-com.svg";
+import IconoGestioDeInventario from "../assets/iconosAlmacen/logistics-delivery-express-svgrepo-com.svg";
+
 
 const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
@@ -217,10 +220,10 @@ const Aside = ({ showAside }) => {
                       href="#entradaYSalidaDeArticulos"
                     >
                       <img
-                        src={IconoConfiguracion}
+                        src={IconoEntradaYSalida}
                         alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
-                        Entrada y salida de articulos
+                        Entrada y salida de <br /> articulos
                       </span>
                     </a>
                     <div className="collapse " id="entradaYSalidaDeArticulos">
@@ -433,7 +436,7 @@ const Aside = ({ showAside }) => {
                       href="#gestionDeInventario"
                     >
                       <img
-                        src={IconoConfiguracion}
+                        src={IconoGestioDeInventario}
                         alt="Configuracion" />
                       <span className="sidenav-normal  ms-2  ps-1">
                         Gestion de inventario
@@ -1120,18 +1123,6 @@ const Aside = ({ showAside }) => {
                         </li>
                       </ul>
                     </div>
-                  </li>
-                  <li className="nav-item ">
-                    <Link
-                      className="nav-link text-white "
-                      to="almacen/reportes"
-                    >
-                      <span className="sidenav-mini-icon"> R </span>
-                      <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Reportes{" "}
-                      </span>
-                    </Link>
                   </li>
                 </ul>
               </div>
