@@ -86,7 +86,7 @@ const RegisterUserScreen = () => {
         user,
         config2
       );
-
+      console.log("Estoy despues del registro", userRegister);
       Swal.fire({
         title: "Usuario registrado correctamente",
         text: "Revise su bandeja de correo electronico para confirmar el registro",
@@ -100,7 +100,7 @@ const RegisterUserScreen = () => {
         }
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.response?.data?.errors?.persona) {
         Swal.fire({
           title: "Estos datos ya estan relacionados a una persona",
@@ -115,6 +115,23 @@ const RegisterUserScreen = () => {
           if (result.isConfirmed) {
             navigate("/register");
           }
+        });
+      } else if (error.response?.data?.errors?.non_field_errors) {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: error.response?.data?.errors?.non_field_errors[0],
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else if (error.response?.data?.errors?.password) {
+        console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "La contraseña debe tener almenos 6 caracteres",
+          showConfirmButton: false,
+          timer: 1500,
         });
       } else {
         console.log(error);
