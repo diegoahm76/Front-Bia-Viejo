@@ -20,6 +20,7 @@ import RecuperacionDeContrasenaScreen from "./screens/auth/recuperarContrasena/R
 import ActualizarContrasenaScreen from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreen";
 import RegisterUserScreen from "./screens/auth/register/RegisterUserScreen";
 import UsuarioRoutes from "./screens/usuario/routes/UsuarioRoutes";
+import EstacionesRoutes from "./screens/estaciones/routes/EstacionesRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ function App() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
-        <Route path="/dashboard" element={<HomeScreen />}> 
+        <Route path="/dashboard" element={<HomeScreen />}>
           <Route index element={<LogoScreen />} />
 
           <Route
@@ -46,6 +47,8 @@ function App() {
           <Route path="seguridad/*" element={<SeguridadRoutes />} />
 
           <Route path="usuario/*" element={<UsuarioRoutes />} />
+
+          <Route path="estaciones/*" element={<EstacionesRoutes />} />
 
           <Route
             path="gestordocumental/*"
@@ -70,10 +73,15 @@ function App() {
 
         <Route path="/registeruser" element={<RegisterUserScreen />} />
 
-        <Route path="/recuperarcontrasena" element={<RecuperacionDeContrasenaScreen />} />
+        <Route
+          path="/recuperarcontrasena"
+          element={<RecuperacionDeContrasenaScreen />}
+        />
 
-        <Route path="/actualizarcontrasena" element={<ActualizarContrasenaScreen />} />
-
+        <Route
+          path="/actualizarcontrasena"
+          element={<ActualizarContrasenaScreen />}
+        />
       </Route>
     </Routes>
   );

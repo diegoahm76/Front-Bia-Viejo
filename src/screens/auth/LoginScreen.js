@@ -82,6 +82,7 @@ function LoginScreen() {
                     <ReCaptcha
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
+                      hl="es"
                     />
                   </div>
                   <div className="text-center">

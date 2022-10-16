@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import {
   USER_LOGIN_FAIL,
@@ -31,6 +32,16 @@ export const userLoginAction = (email, password) => async (dispatch) => {
     dispatch(userLoginSuccess(data));
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+    if (error.response?.data?.detail) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: error.response?.data?.detail,
+        showConfirmButton: false,
+        timer: 2000,
+        is_active: true,
+      });
+    }
     dispatch(userLoginFail(error));
   }
 };
@@ -87,33 +98,28 @@ const getDataLocalStorageNotFound = () => ({
   type: USER_LOCALSTORAGE_NOT_FOUND,
 });
 
-export const userRegisterAction =
-  (user) => async (dispatch) => {
-    try {
-      dispatch(userRegisterRequest());
+export const userRegisterAction = (user) => async (dispatch) => {
+  try {
+    dispatch(userRegisterRequest());
 
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
 
-      const { data } = await clienteAxios.post(
-        "users/register/",
-        user,
-        config
-      );
+    const { data } = await clienteAxios.post("users/register/", user, config);
 
-      dispatch(userRegisterSuccess(data));
+    dispatch(userRegisterSuccess(data));
 
-      //dispatch(userLoginSuccess(data));
+    //dispatch(userLoginSuccess(data));
 
-      //localStorage.setItem("userInfo", JSON.stringify(data));
-    } catch (error) {
-      console.log(error)
-      dispatch(userRegisterFail(error));
-    }
-  };
+    //localStorage.setItem("userInfo", JSON.stringify(data));
+  } catch (error) {
+    console.log(error);
+    dispatch(userRegisterFail(error));
+  }
+};
 
 const userRegisterRequest = () => ({
   type: USER_REGISTER_REQUEST,
