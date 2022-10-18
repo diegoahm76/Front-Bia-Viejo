@@ -109,7 +109,7 @@ const ReportesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">Reportes</h3>
+        <h3 className="mt-3 mb-0 text-center mb-4">Reportes estaciones meteorologicas</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
