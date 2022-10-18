@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import ModalLocal from "../../components/ModalLocal";
 import clienteEstaciones from "../../config/clienteAxiosEstaciones";
 import Select from "react-select";
+import { useSelector } from "react-redux";
 
 const defaultValuesResetConfiguration = {
   t003frecuencia: "",
@@ -43,14 +44,10 @@ const ConfiguracionesScreen = () => {
   const [typeAction, setTypeAction] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [dataOnChange, setDataOnChange] = useState(null);
   const [estacionesOptions, setEstacionesOptions] = useState([]);
   const [dataConfiguraciones, setDataConfiguraciones] = useState([]);
-  const {
-    handleSubmit: handleSubmitBuscar,
-    control: controlBuscar,
-    formState: { errors: errorsBuscar },
-  } = useForm();
+  const { nombre_de_usuario } = useSelector((state) => state.user.user);
+  const { handleSubmit: handleSubmitBuscar } = useForm();
   const {
     register: registerConfiguracion,
     reset: resetConfiguracion,
@@ -63,8 +60,23 @@ const ConfiguracionesScreen = () => {
     console.log(data);
   };
 
-  const deleteAction = (params) => {
-    console.log(params.data.objectid);
+  const deleteAction = async (params) => {
+    try {
+      setLoading(true);
+      await clienteEstaciones.delete(`Configuraciones/${params.data.objectid}`);
+      setLoading(false);
+      updateConfigs();
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Hubo un error, intenta de nuevo",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
   const editAction = async (params) => {
@@ -79,7 +91,6 @@ const ConfiguracionesScreen = () => {
         `Estaciones/${params.data.objectid}`
       );
       dataConfig.t001nombre = dataEstacion.t001nombre;
-      setDataOnChange(dataConfig);
       resetConfiguracion(dataConfig);
       setLoading(false);
     } catch (err) {
@@ -96,9 +107,6 @@ const ConfiguracionesScreen = () => {
   };
 
   const onSubmitConfiguracion = async (data) => {
-    // data.t001nombre = "string";
-    // data.t003fechaMod = "2022-10-17T06:56:51.996Z";
-    // data.objectid = 3;
     if (typeAction === "editar") {
       try {
         setLoading(true);
@@ -113,6 +121,7 @@ const ConfiguracionesScreen = () => {
         setLoading(false);
         setIsModalOpen(false);
         resetConfiguracion(defaultValuesResetConfiguration);
+        updateConfigs();
       } catch (err) {
         console.log(err);
         setLoading(false);
@@ -127,7 +136,9 @@ const ConfiguracionesScreen = () => {
     } else {
       try {
         setLoading(true);
-        // data.t001Estaciones = data.t001Estaciones.value.objectid;
+        data.idConfiguracion = 0;
+        data.objectid = data.objectid.value.objectid;
+        data.t003userMod = nombre_de_usuario;
         console.log("data para ver", data);
         const { data: dataConfig } = await clienteEstaciones.post(
           "Configuraciones",
@@ -144,6 +155,7 @@ const ConfiguracionesScreen = () => {
         setLoading(false);
         setIsModalOpen(false);
         resetConfiguracion(defaultValuesResetConfiguration);
+        updateConfigs();
       } catch (err) {
         setIsModalOpen(false);
         console.log(err);
@@ -277,6 +289,29 @@ const ConfiguracionesScreen = () => {
     },
   ];
 
+  const updateConfigs = async () => {
+    try {
+      setLoading(true);
+
+      const { data: allConfig } = await clienteEstaciones.get(
+        "Configuraciones"
+      );
+      setDataConfiguraciones(allConfig);
+
+      const { data } = await clienteEstaciones.get("Estaciones");
+      const estacionesMaped = data.map((estacion) => ({
+        label: estacion.t001nombre,
+        value: estacion,
+      }));
+      setEstacionesOptions(estacionesMaped);
+
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const getDataInitial = async () => {
       try {
@@ -355,7 +390,7 @@ const ConfiguracionesScreen = () => {
           {isModalOpen && (
             <ModalLocal localState={isModalOpen}>
               <form
-                className="row"
+                className="row p-3"
                 onSubmit={handleSubmitConfiguracion(onSubmitConfiguracion)}
               >
                 <h3 className="mt-3 mb-0 text-center mb-4">
@@ -380,12 +415,12 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="col-12 col-md-4">
+                  <div className="d-flex justify-content-center align-items-center gap-2">
                     <label className="form-label">
                       Estación: <span className="text-danger">*</span>
                     </label>
                     <Controller
-                      name="cosaRandom"
+                      name="objectid"
                       control={controlConfiguracion}
                       rules={{
                         required: true,
@@ -398,7 +433,7 @@ const ConfiguracionesScreen = () => {
                         />
                       )}
                     />
-                    {errorsConfiguracion.cosaRandom && (
+                    {errorsConfiguracion.objectid && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
@@ -407,8 +442,8 @@ const ConfiguracionesScreen = () => {
                     )}
                   </div>
                 )}
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Frecuencia</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">Frecuencia</label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -436,8 +471,10 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>Minutos</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Temperatura ambiente</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">
+                    Temperatura ambiente
+                  </label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -496,8 +533,8 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>°C</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Humedad ambiente</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">Humedad ambiente</label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -550,8 +587,10 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>%</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Presión barométrica</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">
+                    Presión barométrica
+                  </label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -604,8 +643,10 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>hPa</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Velocidad del viento</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">
+                    Velocidad del viento
+                  </label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -658,8 +699,10 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>m/s</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Dirección del viento</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">
+                    Dirección del viento
+                  </label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -712,8 +755,8 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>°</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Precipitación</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">Precipitación</label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -766,8 +809,8 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>mm</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Luminosidad</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3  w-50 text-end">Luminosidad</label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
@@ -820,8 +863,8 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>Lux</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3  w-50 text-end">
                     Nivel de agua del rio por sensor radar
                   </label>
                   <div className="col-2">
@@ -876,8 +919,10 @@ const ConfiguracionesScreen = () => {
                   </div>
                   <label>m</label>
                 </div>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Velocidad del agua por radar</label>
+                <div className="d-flex justify-content-start align-items-center gap-2">
+                  <label className="mt-3 w-50 text-end">
+                    Velocidad del agua por radar
+                  </label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
