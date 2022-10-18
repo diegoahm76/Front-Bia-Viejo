@@ -1,8 +1,32 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import ModalLocal from "../../components/ModalLocal";
 import clienteEstaciones from "../../config/clienteAxiosEstaciones";
+import Select from "react-select";
+
+const defaultValuesResetConfiguration = {
+  t003frecuencia: "",
+  t003temperaturaAmbienteMax: "",
+  t003temperaturaAmbienteMin: "",
+  t003humedadAmbienteMax: "",
+  t003humedadAmbienteMin: "",
+  t003presionBarometricaMax: "",
+  t003presionBarometricaMin: "",
+  t003velocidadVientoMax: "",
+  t003velocidadVientoMin: "",
+  t003direccionVientoMax: "",
+  t003direccionVientoMin: "",
+  t003precipitacionMax: "",
+  t003precipitacionMin: "",
+  t003luminocidadMax: "",
+  t003luminocidadMin: "",
+  t003nivelAguaMax: "",
+  t003nivelAguaMin: "",
+  t003velocidadAguaMax: "",
+  t003velocidadAguaMin: "",
+};
 
 const defaultColDef = {
   sortable: true,
@@ -51,36 +75,88 @@ const ConfiguracionesScreen = () => {
       const { data: dataConfig } = await clienteEstaciones.get(
         `Configuraciones/${params.data.objectid}`
       );
-      console.log(dataConfig);
+      const { data: dataEstacion } = await clienteEstaciones.get(
+        `Estaciones/${params.data.objectid}`
+      );
+      dataConfig.t001nombre = dataEstacion.t001nombre;
       setDataOnChange(dataConfig);
       resetConfiguracion(dataConfig);
       setLoading(false);
     } catch (err) {
       console.log(err);
       setLoading(false);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Hubo un error, intenta de nuevo",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
   const onSubmitConfiguracion = async (data) => {
-    data.t001nombre = "string";
-    data.t003fechaMod = "2022-10-17T06:56:51.996Z";
-    data.t003userMod = "string000";
+    // data.t001nombre = "string";
+    // data.t003fechaMod = "2022-10-17T06:56:51.996Z";
+    // data.objectid = 3;
     if (typeAction === "editar") {
       try {
         setLoading(true);
-        const { data: dataConfig } = await clienteEstaciones.put(
+        await clienteEstaciones.put("Configuraciones", data);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Configuración de estación actualizada",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setLoading(false);
+        setIsModalOpen(false);
+        resetConfiguracion(defaultValuesResetConfiguration);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Hubo un error, intenta de nuevo",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } else {
+      try {
+        setLoading(true);
+        // data.t001Estaciones = data.t001Estaciones.value.objectid;
+        console.log("data para ver", data);
+        const { data: dataConfig } = await clienteEstaciones.post(
           "Configuraciones",
           data
         );
         console.log(dataConfig);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Configuración creada correctamente",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setLoading(false);
+        setIsModalOpen(false);
+        resetConfiguracion(defaultValuesResetConfiguration);
       } catch (err) {
+        setIsModalOpen(false);
         console.log(err);
         setLoading(false);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Hubo un error, intenta de nuevo",
+          showConfirmButton: false,
+          timer: 2000,
+        });
       }
-    } else {
     }
-    console.log(data);
   };
 
   const columnDefs = [
@@ -205,10 +281,19 @@ const ConfiguracionesScreen = () => {
     const getDataInitial = async () => {
       try {
         setLoading(true);
+
         const { data: allConfig } = await clienteEstaciones.get(
           "Configuraciones"
         );
         setDataConfiguraciones(allConfig);
+
+        const { data } = await clienteEstaciones.get("Estaciones");
+        const estacionesMaped = data.map((estacion) => ({
+          label: estacion.t001nombre,
+          value: estacion,
+        }));
+        setEstacionesOptions(estacionesMaped);
+
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -230,6 +315,30 @@ const ConfiguracionesScreen = () => {
           <form className="row" onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
             <div className="multisteps-form__content">
               <div>
+                <button
+                  type="submit"
+                  className="btn bg-gradient-primary text-capitalize d-block ms-auto"
+                  disabled={loading}
+                  onClick={() => {
+                    setIsModalOpen(true);
+                    setTypeAction("crear");
+                  }}
+                >
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-1"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Cargando...
+                    </>
+                  ) : (
+                    "Crear configuración"
+                  )}
+                </button>
+              </div>
+              <div>
                 <div
                   className="ag-theme-alpine mt-auto mb-8 px-4"
                   style={{ height: "470px" }}
@@ -242,30 +351,6 @@ const ConfiguracionesScreen = () => {
                 </div>
               </div>
             </div>
-            <div>
-              <button
-                type="submit"
-                className="btn bg-gradient-primary text-capitalize d-block ms-auto"
-                disabled={loading}
-                onClick={() => {
-                  setIsModalOpen(true);
-                  setTypeAction("crear");
-                }}
-              >
-                {loading ? (
-                  <>
-                    <span
-                      className="spinner-border spinner-border-sm me-1"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    Cargando...
-                  </>
-                ) : (
-                  "Crear configuración"
-                )}
-              </button>
-            </div>
           </form>
           {isModalOpen && (
             <ModalLocal localState={isModalOpen}>
@@ -274,46 +359,60 @@ const ConfiguracionesScreen = () => {
                 onSubmit={handleSubmitConfiguracion(onSubmitConfiguracion)}
               >
                 <h3 className="mt-3 mb-0 text-center mb-4">
-                  Crear/Editar configuracion
+                  {typeAction === "editar" ? "Editar" : "Crear"} configuración
                 </h3>
-                <div className="d-flex justify-content-center align-items-center gap-2">
-                  <label className="mt-3">Estación</label>
-                  <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="t003frecuencia"
-                        readOnly={typeAction !== "crear"}
-                        {...registerConfiguracion("t003frecuencia", {
-                          required: typeAction === "crear",
-                        })}
-                      />
-                      <label className="ms-2">
-                        Nombre:{" "}
-                        {typeAction === "crear" && (
-                          <span className="text-danger">*</span>
-                        )}
-                      </label>
-                      {errorsConfiguracion.t003frecuencia && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
+                {typeAction === "editar" ? (
+                  <div className="d-flex justify-content-center align-items-center gap-2">
+                    <label className="mt-3">Estación</label>
+                    <div className="col-2">
+                      <div className="form-floating input-group input-group-dynamic ms-2">
+                        <input
+                          className="form-control text-center"
+                          type="text"
+                          placeholder="t001nombre"
+                          readOnly
+                          {...registerConfiguracion("t001nombre", {
+                            required: typeAction === "crear",
+                          })}
+                        />
+                        <label className="ms-2">Nombre: </label>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="col-12 col-md-4">
+                    <label className="form-label">
+                      Estación: <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="cosaRandom"
+                      control={controlConfiguracion}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={estacionesOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                    {errorsConfiguracion.cosaRandom && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                )}
                 <div className="d-flex justify-content-center align-items-center gap-2">
                   <label className="mt-3">Frecuencia</label>
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003frecuencia"
                         {...registerConfiguracion("t003frecuencia", {
@@ -342,7 +441,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003temperaturaAmbienteMax"
                         {...registerConfiguracion(
@@ -370,7 +469,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003temperaturaAmbienteMin"
                         {...registerConfiguracion(
@@ -402,7 +501,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003humedadAmbienteMax"
                         {...registerConfiguracion("t003humedadAmbienteMax", {
@@ -427,7 +526,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003humedadAmbienteMin"
                         {...registerConfiguracion("t003humedadAmbienteMin", {
@@ -456,7 +555,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003presionBarometricaMax"
                         {...registerConfiguracion("t003presionBarometricaMax", {
@@ -481,7 +580,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003presionBarometricaMin"
                         {...registerConfiguracion("t003presionBarometricaMin", {
@@ -510,7 +609,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003velocidadVientoMax"
                         {...registerConfiguracion("t003velocidadVientoMax", {
@@ -535,7 +634,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003velocidadVientoMin"
                         {...registerConfiguracion("t003velocidadVientoMin", {
@@ -564,7 +663,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003direccionVientoMax"
                         {...registerConfiguracion("t003direccionVientoMax", {
@@ -589,7 +688,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003direccionVientoMin"
                         {...registerConfiguracion("t003direccionVientoMin", {
@@ -618,7 +717,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003precipitacionMax"
                         {...registerConfiguracion("t003precipitacionMax", {
@@ -643,7 +742,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003precipitacionMin"
                         {...registerConfiguracion("t003precipitacionMin", {
@@ -672,7 +771,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003luminocidadMax"
                         {...registerConfiguracion("t003luminocidadMax", {
@@ -697,7 +796,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003luminocidadMin"
                         {...registerConfiguracion("t003luminocidadMin", {
@@ -728,7 +827,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003nivelAguaMax"
                         {...registerConfiguracion("t003nivelAguaMax", {
@@ -753,7 +852,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003nivelAguaMin"
                         {...registerConfiguracion("t003nivelAguaMin", {
@@ -782,7 +881,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003velocidadAguaMax"
                         {...registerConfiguracion("t003velocidadAguaMax", {
@@ -807,7 +906,7 @@ const ConfiguracionesScreen = () => {
                   <div className="col-2">
                     <div className="form-floating input-group input-group-dynamic ms-2">
                       <input
-                        className="form-control"
+                        className="form-control text-center"
                         type="number"
                         placeholder="t003velocidadAguaMin"
                         {...registerConfiguracion("t003velocidadAguaMin", {
@@ -836,7 +935,10 @@ const ConfiguracionesScreen = () => {
                     type="button"
                     className="btn bg-gradient-light text-capitalize"
                     disabled={loading}
-                    onClick={() => setIsModalOpen(false)}
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      resetConfiguracion(defaultValuesResetConfiguration);
+                    }}
                   >
                     {loading ? (
                       <>
