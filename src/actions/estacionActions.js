@@ -15,6 +15,7 @@ import {
   OBTENER_ESTACION_ELIMINAR,
 } from "../types/estacionesTypes";
 import Swal from "sweetalert2";
+import { formatISO } from "date-fns";
 
 export const obtenerEstacionesAction = () => {
   return async (dispatch) => {
@@ -25,7 +26,13 @@ export const obtenerEstacionesAction = () => {
         "Estaciones"
       );
       //console.log("dataGetEstaciones", dataGetEstaciones);
-      dispatch(descargarEstacionesExito(dataGetEstaciones));
+      const formatFechaEstaciones = dataGetEstaciones.map((estacion) => ({
+        ...estacion,
+        t001fechaMod: formatISO(new Date(estacion.t001fechaMod), {
+          representation: "date",
+        }),
+      }));
+      dispatch(descargarEstacionesExito(formatFechaEstaciones));
     } catch (error) {
       console.log(error);
       dispatch(descargarEstacionesError(true));
@@ -53,12 +60,13 @@ export const crearNuevaEstacionAction = (estacion) => {
     dispatch(agregarEstacion());
 
     try {
-      await clienteEstaciones.post(
-        "estaciones",
-        estacion
-      );
+      await clienteEstaciones.post("estaciones", estacion);
 
       //console.log("Creacion de estacion", dataCreate);
+      estacion.t001fechaMod = formatISO(new Date(estacion.t001fechaMod), {
+        representation: "date",
+      });
+
       dispatch(agregarEstacionExito(estacion));
 
       Swal.fire("Correcto", "La estación se agrego correctamente", "success");
@@ -92,68 +100,77 @@ const agregarEstacionError = (estado) => ({
 
 export const eliminarEstacionAction = (id) => {
   return async (dispatch) => {
-    dispatch(obtenerEstacionEliminar(id))
+    dispatch(obtenerEstacionEliminar(id));
 
     try {
-      await clienteEstaciones.delete(`Estaciones/${id}`)
-      dispatch( estacionEliminadaExito())
+      await clienteEstaciones.delete(`Estaciones/${id}`);
+      dispatch(estacionEliminadaExito());
     } catch (error) {
-      console.log(error)
-      dispatch(estacionEliminarError(true))
+      console.log(error);
+      dispatch(estacionEliminarError(true));
     }
-  }
-}
+  };
+};
 
 const obtenerEstacionEliminar = (id) => ({
   type: OBTENER_ESTACION_ELIMINAR,
-  payload: id
-})
+  payload: id,
+});
 
 const estacionEliminadaExito = () => ({
-  type: ESTACION_ELIMINADO_EXITO
-})
+  type: ESTACION_ELIMINADO_EXITO,
+});
 
 const estacionEliminarError = (estado) => ({
   type: ESTACION_ELIMINADO_ERROR,
-  payload: estado
-})
+  payload: estado,
+});
 
 export const obtenerEstacionEditarAction = (estacion) => {
   return (dispatch) => {
-    dispatch(obtenerEstacionEditar(estacion))
-  }
-}
+    dispatch(obtenerEstacionEditar(estacion));
+  };
+};
 
 const obtenerEstacionEditar = (estacion) => ({
   type: OBTENER_ESTACION_EDITAR,
-  payload: estacion
-})
+  payload: estacion,
+});
 
 export const editarEstacionAction = (estacion) => {
   return async (dispatch) => {
-    dispatch(editarEstacion())
+    dispatch(editarEstacion());
 
     try {
-      await clienteEstaciones.put("Estaciones", estacion)
-      dispatch(editarEstacionExito(estacion))
-      Swal.fire("Correcto", "La estación se actualizo correctamente", "success");
+      await clienteEstaciones.put("Estaciones", estacion);
+
+      estacion.t001fechaMod = formatISO(new Date(estacion.t001fechaMod), {
+        representation: "date",
+      });
+
+      dispatch(editarEstacionExito(estacion));
+      Swal.fire(
+        "Correcto",
+        "La estación se actualizo correctamente",
+        "success"
+      );
     } catch (error) {
-      console.log(error)
-      dispatch(estacionEditadaError(true))
+      console.log(error);
+      dispatch(estacionEditadaError(true));
     }
-  }
-}
+  };
+};
 
 const editarEstacion = () => ({
-  type: COMENZAR_EDICION_ESTACION
-})
+  type: COMENZAR_EDICION_ESTACION,
+});
 
 const editarEstacionExito = (estacion) => ({
   type: ESTACION_EDITADO_EXITO,
-  payload: estacion
-})
+  payload: estacion,
+});
 
 const estacionEditadaError = (estado) => ({
   type: ESTACION_EDITADO_ERROR,
-  payload: estado
-})
+  payload: estado,
+});

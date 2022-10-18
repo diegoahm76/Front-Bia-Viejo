@@ -1,16 +1,16 @@
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
-import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import NuevaEstacionModal from "../../components/NuevaEstacionModal";
+import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import NuevaEstacionModal from "../../../components/NuevaEstacionModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   eliminarEstacionAction,
   obtenerEstacionEditarAction,
   obtenerEstacionesAction,
-} from "../../actions/estacionActions";
+} from "../../../actions/estacionActions";
 import Swal from "sweetalert2";
-import EditarEstacionModal from "../../components/EditarEstacionModal";
+import EditarEstacionModal from "../../../components/EditarEstacionModal";
 
 const AdministradorDeEstaciones = () => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const AdministradorDeEstaciones = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            class="btn btn-sm btn-outline-warning "
+            className="btn btn-sm btn-outline-warning "
             type="button"
             onClick={() => {
               dispatch(obtenerEstacionEditarAction(params.data))
@@ -56,7 +56,7 @@ const AdministradorDeEstaciones = () => {
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            class="btn btn-sm btn-outline-danger"
+            className="btn btn-sm btn-outline-danger"
             type="button"
             onClick={() => confirmarEliminarEstacion(params.data.objectid)}
           >

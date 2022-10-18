@@ -320,11 +320,11 @@ const handleOpenModalBusquedaPersonal = () => {
                   </div>
                   {/*  TERCER FILA  */}
                   <div className="row flex-column">
-              <div class="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex my-3">
-                <label class="form-check-label form-floating input-group form-control" for="flexRadioDefault2">
+              <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex my-3">
+                <label className="form-check-label form-floating input-group form-control" for="flexRadioDefault2">
                   En Producción
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"

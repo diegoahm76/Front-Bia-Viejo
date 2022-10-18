@@ -70,7 +70,7 @@ const ActivarMaterialCuarentenaScreen = () => {
       maxWidth: 2050,
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize" type="button">
+          <button className="btn btn-2 btn-secondary text-capitalize" type="button">
             Salir De cuarentena
           </button>
         </div>
@@ -83,7 +83,7 @@ const ActivarMaterialCuarentenaScreen = () => {
       maxWidth: 200,
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize" type="button">
+          <button className="btn btn-2 btn-secondary text-capitalize" type="button">
             Dar de baja
           </button>
         </div>
@@ -280,7 +280,7 @@ const ActivarMaterialCuarentenaScreen = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               <button
                 className="btn bg-gradient-danger mb-0"
                 type="submit"

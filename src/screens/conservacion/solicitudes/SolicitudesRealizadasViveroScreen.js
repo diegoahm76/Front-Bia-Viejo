@@ -469,7 +469,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                       <button
                         className="btn bg-gradient-danger mb-0"
                         type="submit"
@@ -575,7 +575,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                       {" "}
                       {/*  BOTONES DE ABAJO  */}
                       <button
@@ -661,7 +661,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                     </div>
                   </div>
 
-                  <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                     
                     <button
                       className="btn bg-gradient-danger mb-0"

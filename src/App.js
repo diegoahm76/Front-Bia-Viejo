@@ -20,7 +20,7 @@ import RecuperacionDeContrasenaScreen from "./screens/auth/recuperarContrasena/R
 import ActualizarContrasenaScreen from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreen";
 import RegisterUserScreen from "./screens/auth/register/RegisterUserScreen";
 import UsuarioRoutes from "./screens/usuario/routes/UsuarioRoutes";
-import EstacionesRoutes from "./screens/estaciones/routes/EstacionesRoutes";
+import RecursoHidricoRoutes from "./screens/recursoHidrico/routes/RecursoHidricoRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ function App() {
 
           <Route path="usuario/*" element={<UsuarioRoutes />} />
 
-          <Route path="estaciones/*" element={<EstacionesRoutes />} />
+          <Route path="recurso-hidrico/*" element={<RecursoHidricoRoutes />} />
 
           <Route
             path="gestordocumental/*"

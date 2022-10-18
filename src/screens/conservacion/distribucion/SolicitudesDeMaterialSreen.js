@@ -142,7 +142,7 @@ const SolicitudesDeMaterialSreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-primary" type="button">
+          <button className="btn btn-2 btn-primary" type="button">
             Remover
           </button>
         </div>
@@ -367,9 +367,9 @@ const SolicitudesDeMaterialSreen = () => {
                           </p>
                         )}
                         <div>
-                          <label for="formFileLg" class="form-label"></label>
+                          <label htmlFor="formFileLg" className="form-label"></label>
                           <input
-                            class="form-control form-control-lg mt-6"
+                            className="form-control form-control-lg mt-6"
                             id="formFileLg"
                             type="file"
                           />

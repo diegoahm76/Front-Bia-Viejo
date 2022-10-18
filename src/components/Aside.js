@@ -1992,7 +1992,7 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                            to=""
+                            to="recurso-hidrico/estaciones/administrador-de-estaciones"
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
@@ -2003,7 +2003,7 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                            to="almacen/tablero-de-control/busqueda-articulos-prestados"
+                            to="recurso-hidrico/estaciones/configuraciones"
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
@@ -2014,7 +2014,7 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                            to="almacen/tablero-de-control/tabla-inventario"
+                            to="recurso-hidrico/estaciones/reportes"
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
@@ -2025,7 +2025,7 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                            to="almacen/tablero-de-control/tabla-inventario"
+                            to="recurso-hidrico/estaciones/alertas"
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">

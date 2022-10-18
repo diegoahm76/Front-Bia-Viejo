@@ -76,7 +76,7 @@ export const RegistroDeBajaScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-primary text-capitalize" type="button">
+          <button className="btn btn-2 btn-primary text-capitalize" type="button">
             Buscar
           </button>
         </div>

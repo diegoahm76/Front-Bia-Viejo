@@ -125,10 +125,10 @@ function AgregarViveroScreen() {
           >
 
             <div className="multisteps-form__content">
-              <div class="row">
+              <div className="row">
                 <div className="row my-3">
                   <div className="form-group mt-3 col-12 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
+                    <label className="font-weight" htmlFor="cantidadKg">
                       Nombre:
                     </label>
                     <div className="input-group input-group-dynamic ">
@@ -147,7 +147,7 @@ function AgregarViveroScreen() {
                 </div>
                 <div className="row my-2">
                   <div className="form-group mt-3 col-12 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
+                    <label className="font-weight" htmlFor="cantidadKg">
                       Municipio:
                     </label>
 
@@ -173,7 +173,7 @@ function AgregarViveroScreen() {
 
               <div className="row my-3">
                 <div className="form-group mt-3 col-12 col-sm-6">
-                  <label className="font-weight" for="cantidadKg">
+                  <label className="font-weight" htmlFor="cantidadKg">
                     Dirección de:
                   </label>
                   <div className="input-group input-group-dynamic ">
@@ -194,7 +194,7 @@ function AgregarViveroScreen() {
 
               <div className="row my-3">
                 <div className="form-group mt-3 col-12 col-sm-6">
-                  <label className="font-weight" for="cantidadKg">
+                  <label className="font-weight" htmlFor="cantidadKg">
                     Área:
                   </label>
                   <div className="input-group input-group-dynamic ms-1">
@@ -213,7 +213,7 @@ function AgregarViveroScreen() {
               </div>
               <div className="row my-3">
                 <div className="form-group mt-3 col-12 col-sm-6">
-                  <label className="font-weight" for="cantidadKg">
+                  <label className="font-weight" htmlFor="cantidadKg">
                     Área de propagación:
                   </label>
                   <div className="input-group input-group-dynamic ms-1">
@@ -233,7 +233,7 @@ function AgregarViveroScreen() {
 
               <div className="row mt-3">
                 <div className="form-group mt-3 col-4 col-sm-4">
-                  <label className="font-weight" for="cantidadKg">
+                  <label className="font-weight" htmlFor="cantidadKg">
                     Georreferenciación:
                     <span className="text-danger mt-0 ms-1">*</span>
                   </label>
@@ -254,7 +254,7 @@ function AgregarViveroScreen() {
                     />
                   </div>
                 </div>
-                <div class="col-4 col-sm-4 mt-5">
+                <div className="col-4 col-sm-4 mt-5">
                   <button
                     className="btn bg-gradient-primary "
                     type="button"
@@ -294,7 +294,7 @@ function AgregarViveroScreen() {
                       <div className="form-check">
                         <label
                           className="form-check-label mb-2"
-                          for="radioBotonSi"
+                          htmlFor="radioBotonSi"
                         >
                           Si
                         </label>
@@ -310,7 +310,7 @@ function AgregarViveroScreen() {
                       <div className="form-check">
                         <label
                           className="form-check-label mb-2"
-                          for="radioBotonNo"
+                          htmlFor="radioBotonNo"
                         >
                           No
                         </label>
@@ -341,7 +341,7 @@ function AgregarViveroScreen() {
                       <div className="form-check">
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          htmlFor="flexRadioDefault1"
                         >
                           Si
                         </label>
@@ -357,7 +357,7 @@ function AgregarViveroScreen() {
                       <div className="form-check">
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          htmlFor="flexRadioDefault1"
                         >
                           No
                         </label>
@@ -435,7 +435,7 @@ function AgregarViveroScreen() {
                         ></input>
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          htmlFor="flexRadioDefault1"
                         >
                           mega vivero
                         </label>
@@ -451,7 +451,7 @@ function AgregarViveroScreen() {
                         ></input>
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          htmlFor="flexRadioDefault1"
                         >
                           vivero saliente
                         </label>
@@ -539,11 +539,11 @@ function AgregarViveroScreen() {
                 </div> */}
               <div className="row">
                 <div className=" mb-3 col-8 col-sm-6">
-                  <label for="formFileMultiple" class="form-label">
+                  <label htmlFor="formFileMultiple" className="form-label">
                     Anexar archivos
                   </label>
                   <input
-                    class="form-control"
+                    className="form-control"
                     type="file"
                     id="formFileMultiple"
                     multiple
