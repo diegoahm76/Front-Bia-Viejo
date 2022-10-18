@@ -499,23 +499,23 @@ const AdministradorDeUsuariosScreen = () => {
               </div>
             </div>
             <div className="row flex-column mt-3">
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexCheckDefault">
+              <div className="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
                   Bloqueado
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   value=""
                   id="flexCheckDefault"
                 />
               </div>
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexCheckDefault">
+              <div className="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexCheckDefault">
                   Activo
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="checkbox"
                   value=""
                   id="flexCheckDefault"
@@ -540,23 +540,23 @@ const AdministradorDeUsuariosScreen = () => {
             </div>
             <p className="font-weight-bolder mt-4">Tipo de usuario</p>
             <div className="row flex-column">
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexRadioDefault1">
+              <div className="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexRadioDefault1">
                   Interno
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault1"
                 />
               </div>
-              <div class="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
-                <label class="form-check-label" for="flexRadioDefault2">
+              <div className="form-check col-md-6 col-12 ps-0 pe-10 ms-3 d-flex">
+                <label className="form-check-label" htmlFor="flexRadioDefault2">
                   Externo
                 </label>
                 <input
-                  class="form-check-input"
+                  className="form-check-input"
                   type="radio"
                   name="flexRadioDefault"
                   id="flexRadioDefault2"
@@ -615,36 +615,36 @@ const AdministradorDeUsuariosScreen = () => {
                 )}
               />
             </div>
-            <div class="form-check mt-5">
+            <div className="form-check mt-5">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" htmlFor="flexCheckDefault">
                 Acepta envio de mensaje de texto SMS.
               </label>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" htmlFor="flexCheckDefault">
                 Acepta envio de mensaje de correo.
               </label>
             </div>
-            <div class="form-check">
+            <div className="form-check">
               <input
-                class="form-check-input"
+                className="form-check-input"
                 type="checkbox"
                 value=""
                 id="flexCheckDefault"
               />
-              <label class="form-check-label" for="flexCheckDefault">
+              <label className="form-check-label" htmlFor="flexCheckDefault">
                 Acepta que la corporacion administre sus datos personales.
               </label>
             </div>

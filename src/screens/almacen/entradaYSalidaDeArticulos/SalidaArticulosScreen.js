@@ -130,7 +130,7 @@ const SalidaArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-primary text-capitalize" type="button">
+          <button className="btn btn-2 btn-primary text-capitalize" type="button">
             Agregar
           </button>
         </div>
@@ -244,7 +244,7 @@ const SalidaArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-danger text-capitalize" type="button">
+          <button className="btn btn-2 btn-danger text-capitalize" type="button">
             Borrar
           </button>
         </div>
@@ -462,9 +462,9 @@ const SalidaArticulosScreen = () => {
             <div className="row">
               <label>Anexar documentos</label>
               <div className="d-flex justify-content-end gap-2 mt-4">
-                <label for="formFileLg" class="form-label"></label>
+                <label htmlFor="formFileLg" className="form-label"></label>
                 <input
-                  class="form-control form-control-lg mt-1"
+                  className="form-control form-control-lg mt-1"
                   id="formFileLg"
                   type="file"
                 />

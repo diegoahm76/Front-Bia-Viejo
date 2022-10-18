@@ -125,7 +125,7 @@ export const EntradaDeArticuloScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-danger text-capitalize" type="button">
+          <button className="btn btn-2 btn-danger text-capitalize" type="button">
             Borrar
           </button>
         </div>
@@ -186,7 +186,7 @@ export const EntradaDeArticuloScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-danger text-capitalize" type="button">
+          <button className="btn btn-2 btn-danger text-capitalize" type="button">
             Borrar
           </button>
         </div>
@@ -489,9 +489,9 @@ export const EntradaDeArticuloScreen = () => {
             <div className="row mt-3">
               <label>Anexar documentos: <span className="text-danger">*</span> </label>
               <div>
-                <label for="formFileLg" class="form-label"></label>
+                <label htmlFor="formFileLg" className="form-label"></label>
                 <input
-                  class="form-control form-control-lg mt-1"
+                  className="form-control form-control-lg mt-1"
                   id="formFileLg"
                   type="file"
                   rules={{required:true}}

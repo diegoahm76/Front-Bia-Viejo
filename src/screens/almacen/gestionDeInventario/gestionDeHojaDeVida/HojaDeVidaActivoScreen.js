@@ -326,7 +326,7 @@ const HojaDeVidaActivoScreen = () => {
                     </AgGridReact>
                   </div>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
                     className="btn bg-gradient-primary me-md-2"
                     type="button"
@@ -350,7 +350,7 @@ const HojaDeVidaActivoScreen = () => {
                     </AgGridReact>
                   </div>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
                     className="btn bg-gradient-primary me-md-2"
                     type="button"
@@ -360,7 +360,7 @@ const HojaDeVidaActivoScreen = () => {
                   </button>
                 </div>
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
                     className="btn bg-gradient-primary me-md-2"
                     type="button"

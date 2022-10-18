@@ -313,9 +313,9 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
             </div>
 
             <div className="col-4 col-md-4">
-              <div class="form-check mt-4">
-                <input class="form-check-input" type="checkbox" value="" />
-                <label class="form-check-label">Todas</label>
+              <div className="form-check mt-4">
+                <input className="form-check-input" type="checkbox" value="" />
+                <label className="form-check-label">Todas</label>
               </div>
             </div>
 
@@ -395,7 +395,7 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
               </div>
 
               <div className="row">
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-primary mb-0"
                     type="button"

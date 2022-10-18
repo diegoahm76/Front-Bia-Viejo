@@ -25,7 +25,7 @@ const InventarioViveroCompensacion = () => {
                         type="checkbox"
                         id="rememberMe"
                     />
-                    <label class="form-check-label mt-1" >Activo</label>
+                    <label className="form-check-label mt-1" >Activo</label>
                 </div>
         }
 

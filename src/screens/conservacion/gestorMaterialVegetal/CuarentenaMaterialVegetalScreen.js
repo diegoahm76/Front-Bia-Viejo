@@ -66,7 +66,7 @@ const InventarioViveroCompensacion = () => {
                     >
                         <div className="row my-2  align-items-center  ">
                             <div className="form-group mt-3 col-6 col-sm-6">
-                                <label className="font-weight" for="cantidadKg">
+                                <label className="font-weight" htmlFor="cantidadKg">
                                     Etapa de material vegetal:
                                 </label>
 
@@ -87,7 +87,7 @@ const InventarioViveroCompensacion = () => {
                                 )}
 
                             </div>
-                            <div class="col-6 mt-5">
+                            <div className="col-6 mt-5">
                                 <button
                                     className="btn bg-gradient-primary mb-0 text-capitalize"
                                     type="submit"
@@ -119,7 +119,7 @@ const InventarioViveroCompensacion = () => {
 
 
                                     <div className="form-group mt-3 col-12 col-sm-4">
-                                        <label className="font-weight" for="cantidadKg">Cantidad del material vegetal</label>
+                                        <label className="font-weight" htmlFor="cantidadKg">Cantidad del material vegetal</label>
                                         <div className="input-group input-group-dynamic ">
                                             <input
                                                 className="multisteps-form__input form-control "
@@ -135,7 +135,7 @@ const InventarioViveroCompensacion = () => {
                                     {/* Primera configuracion select */}
 
                                     <div className="form-group mt-3 col-12 col-sm-4">
-                                        <label className="font-weight" for="cantidadKg">Ubicación de material vegetal</label>
+                                        <label className="font-weight" htmlFor="cantidadKg">Ubicación de material vegetal</label>
                                         <div className="input-group input-group-dynamic ">
                                             <input
                                                 className="multisteps-form__input form-control "
@@ -169,7 +169,7 @@ const InventarioViveroCompensacion = () => {
                                     {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
 
 
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                    <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                                         <button
                                             className="btn bg-gradient-danger me-md-2"
                                             type="button"

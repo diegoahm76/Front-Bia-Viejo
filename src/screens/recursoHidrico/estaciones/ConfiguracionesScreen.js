@@ -2,10 +2,13 @@ import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import ModalLocal from "../../components/ModalLocal";
-import clienteEstaciones from "../../config/clienteAxiosEstaciones";
+import ModalLocal from "../../../components/ModalLocal";
+import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import Select from "react-select";
 import { useSelector } from "react-redux";
+import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import { formatISO } from "date-fns";
 
 const defaultValuesResetConfiguration = {
   t003frecuencia: "",
@@ -61,6 +64,23 @@ const ConfiguracionesScreen = () => {
   };
 
   const deleteAction = async (params) => {
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Una configuración que se elimina no se puede recuperar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, elminar!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteConfiguration(params);
+      }
+    });
+  };
+
+  const deleteConfiguration = async (params) => {
     try {
       setLoading(true);
       await clienteEstaciones.delete(`Configuraciones/${params.data.objectid}`);
@@ -136,6 +156,7 @@ const ConfiguracionesScreen = () => {
     } else {
       try {
         setLoading(true);
+
         data.idConfiguracion = 0;
         data.objectid = data.objectid.value.objectid;
         data.t003userMod = nombre_de_usuario;
@@ -265,22 +286,22 @@ const ConfiguracionesScreen = () => {
         <div className="d-flex justify-content-center align-items-center gap-2">
           <div>
             <button
-              className="btn bg-gradient-danger btn-sm text-capitalize"
-              type="button"
-              title="Send"
-              onClick={() => deleteAction(params)}
-            >
-              Eliminar
-            </button>
-          </div>
-          <div>
-            <button
-              className="btn bg-gradient-primary btn-sm text-capitalize"
+              className="btn btn-sm btn-outline-warning "
               type="button"
               title="Send"
               onClick={() => editAction(params)}
             >
-              Editar
+              <img src={IconoEditar} alt="editar" />
+            </button>
+          </div>
+          <div>
+            <button
+              className="btn btn-sm btn-outline-danger"
+              type="button"
+              title="Send"
+              onClick={() => deleteAction(params)}
+            >
+              <img src={IconoEliminar} alt="eliminar" />
             </button>
           </div>
         </div>
@@ -296,14 +317,15 @@ const ConfiguracionesScreen = () => {
       const { data: allConfig } = await clienteEstaciones.get(
         "Configuraciones"
       );
-      setDataConfiguraciones(allConfig);
 
-      const { data } = await clienteEstaciones.get("Estaciones");
-      const estacionesMaped = data.map((estacion) => ({
-        label: estacion.t001nombre,
-        value: estacion,
+      const formatFechaConfiguraciones = allConfig.map((config) => ({
+        ...config,
+        t003fechaMod: formatISO(new Date(config.t003fechaMod), {
+          representation: "date",
+        }),
       }));
-      setEstacionesOptions(estacionesMaped);
+
+      setDataConfiguraciones(formatFechaConfiguraciones);
 
       setLoading(false);
     } catch (err) {
@@ -320,7 +342,15 @@ const ConfiguracionesScreen = () => {
         const { data: allConfig } = await clienteEstaciones.get(
           "Configuraciones"
         );
-        setDataConfiguraciones(allConfig);
+
+        const formatFechaConfiguraciones = allConfig.map((config) => ({
+          ...config,
+          t003fechaMod: formatISO(new Date(config.t003fechaMod), {
+            representation: "date",
+          }),
+        }));
+
+        setDataConfiguraciones(formatFechaConfiguraciones);
 
         const { data } = await clienteEstaciones.get("Estaciones");
         const estacionesMaped = data.map((estacion) => ({
@@ -341,7 +371,7 @@ const ConfiguracionesScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-4">
-          Configuraciones de estaciones
+          Configuracion de estaciones
         </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -352,7 +382,7 @@ const ConfiguracionesScreen = () => {
               <div>
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize d-block ms-auto"
+                  className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                   disabled={loading}
                   onClick={() => {
                     setIsModalOpen(true);
@@ -861,7 +891,7 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>Lux</label>
+                  <label>KLux</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
                   <label className="mt-3  w-50 text-end">

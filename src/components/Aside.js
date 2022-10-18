@@ -148,14 +148,14 @@ const Aside = ({ showAside }) => {
                       className="nav-link text-white "
                       data-bs-toggle="collapse"
                       aria-expanded="false"
-                      href="#Gestor-vivero"
+                      href="#panelAlmacen"
                     >
                       <span className="sidenav-mini-icon"> A </span>
                       <span className="sidenav-normal  ms-2  ps-1">
                         Almacen
                       </span>
                     </a>
-                    <div className="collapse " id="Gestor-vivero">
+                    <div className="collapse " id="panelAlmacen">
                       <ul className="nav nav-sm flex-column">
                         <li className="nav-item">
                           <Link
@@ -1975,47 +1975,66 @@ const Aside = ({ showAside }) => {
               </a>
               <div className="collapse " id="componentsExamples">
                 <ul className="nav ">
-                  <li className="nav-item ">
+                <li className="nav-item ">
                     <a
                       className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/alerts/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
+                      data-bs-toggle="collapse"
+                      aria-expanded="false"
+                      href="#estaciones"
                     >
-                      <span className="sidenav-mini-icon"> A </span>
+                      <span className="sidenav-mini-icon"> E </span>
                       <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Alerts{" "}
+                        Estaciones <br /> meteorologicas
                       </span>
                     </a>
-                  </li>
-                  <li className="nav-item ">
-                    <a
-                      className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/badge/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className="sidenav-mini-icon"> B </span>
-                      <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Badge{" "}
-                      </span>
-                    </a>
-                  </li>
-                  <li className="nav-item ">
-                    <a
-                      className="nav-link text-white "
-                      href="https://www.creative-tim.com/learning-lab/bootstrap/buttons/material-dashboard"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className="sidenav-mini-icon"> B </span>
-                      <span className="sidenav-normal  ms-2  ps-1">
-                        {" "}
-                        Buttons{" "}
-                      </span>
-                    </a>
+                    <div className="collapse " id="estaciones">
+                      <ul className="nav nav-sm flex-column">
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="recurso-hidrico/estaciones/administrador-de-estaciones"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Administrador de estaciones
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="recurso-hidrico/estaciones/configuraciones"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Configuraciones
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="recurso-hidrico/estaciones/reportes"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Reportes
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
+                            to="recurso-hidrico/estaciones/alertas"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Alertas
+                            </span>
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                 </ul>
               </div>

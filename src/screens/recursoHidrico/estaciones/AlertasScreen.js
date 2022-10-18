@@ -4,9 +4,10 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import clienteEstaciones from "../../config/clienteAxiosEstaciones";
+import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import { formatISO9075 } from "date-fns";
 import { AgGridReact } from "ag-grid-react";
+import { formatISO } from "date-fns";
 
 const columnDefs = [
   {
@@ -15,22 +16,10 @@ const columnDefs = [
     minWidth: 140,
   },
   {
-    headerName: "Temperatura",
-    field: "temperaturaAmbiente",
-    minWidth: 140,
+    headerName: "Descripción",
+    field: "descripcion",
+    minWidth: 500,
   },
-  { headerName: "Humedad", field: "humedadAmbiente", minWidth: 140 },
-  {
-    headerName: "Presión",
-    field: "presionBarometrica",
-    minWidth: 140,
-  },
-  { headerName: "Velocidad viento", field: "velocidadViento", minWidth: 140 },
-  { headerName: "Dirección viento", field: "direccionViento", minWidth: 140 },
-  { headerName: "Precipitación", field: "precipitacion", minWidth: 140 },
-  { headerName: "Luminocidad", field: "luminocidad", minWidth: 140 },
-  { headerName: "Nivel de agua", field: "nivelDeAgua", minWidth: 140 },
-  { headerName: "Velocidad agua", field: "velocidadAgua", minWidth: 140 },
   { headerName: "Fecha", field: "fecha", minWidth: 170 },
 ];
 
@@ -45,19 +34,17 @@ const defaultColDef = {
   suppressMovable: true,
 };
 
-const ReportesScreen = () => {
+const AlertasScreen = () => {
   const [loading, setLoading] = useState(false);
   const [estacionesOptions, setEstacionesOptions] = useState([]);
-  const [dataReportes, setDataReportes] = useState(null);
+  const [dataAlertas, setDataAlertas] = useState(null);
   const [formValues, setFormValues] = useState({
     fechaIni: "",
     fechaEnd: "",
   });
   const {
-    // register: registerFiltrar,
     handleSubmit: handleSubmitFiltrar,
     control: controlFiltrar,
-    // reset: resetFiltrar,
     formState: { errors: errorsFiltrar },
   } = useForm();
 
@@ -85,23 +72,17 @@ const ReportesScreen = () => {
       setLoading(true);
       const fechaIni = changeDateFormat(formValues.fechaIni);
       const fechaEnd = changeDateFormat(formValues.fechaEnd);
-      const { data: reportesData } = await clienteEstaciones.get(
-        `Datos/filtro/${data.estacion?.value},${fechaIni},${fechaEnd}`
+      const { data: alertasData } = await clienteEstaciones.get(
+        `Alertas/filtro/${data.estacion?.value},${fechaIni},${fechaEnd}`
       );
-      const reportesDataMaped = reportesData.map((reporteData) => ({
-        objectId: reporteData.objectid,
-        temperaturaAmbiente: reporteData.t002temperaturaAmbiente,
-        humedadAmbiente: reporteData.t002humedadAmbiente,
-        presionBarometrica: reporteData.t002presionBarometrica,
-        velocidadViento: reporteData.t002velocidadViento,
-        direccionViento: reporteData.t002direccionViento,
-        precipitacion: reporteData.t002precipitacion,
-        luminocidad: reporteData.t002luminocidad,
-        nivelDeAgua: reporteData.t002nivelAgua,
-        velocidadAgua: reporteData.t002velocidadAgua,
-        fecha: reporteData.t002fecha,
+      const reportesDataMaped = alertasData.map((alertaData) => ({
+        objectId: alertaData.objectid,
+        descripcion: alertaData.t004descripcion,
+        fecha: formatISO(new Date(alertaData.t004fecha), {
+          representation: "date",
+        }),
       }));
-      setDataReportes(reportesDataMaped);
+      setDataAlertas(reportesDataMaped);
       setLoading(false);
     } catch (err) {
       console.log(err);
@@ -115,7 +96,7 @@ const ReportesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">Reportes estaciones meteorologicas</h3>
+        <h3 className="mt-3 mb-0 text-center mb-4">Alertas estaciones</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -226,7 +207,7 @@ const ReportesScreen = () => {
             <div>
               <button
                 type="submit"
-                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3"
+                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 disabled={loading}
               >
                 {loading ? (
@@ -239,12 +220,12 @@ const ReportesScreen = () => {
                     Cargando...
                   </>
                 ) : (
-                  "Generar reporte"
+                  "Consultar"
                 )}
               </button>
             </div>
           </form>
-          {dataReportes && (
+          {dataAlertas && (
             <div className="multisteps-form__content">
               <div>
                 <div
@@ -253,7 +234,7 @@ const ReportesScreen = () => {
                 >
                   <AgGridReact
                     columnDefs={columnDefs}
-                    rowData={dataReportes}
+                    rowData={dataAlertas}
                     defaultColDef={defaultColDef}
                   ></AgGridReact>
                 </div>
@@ -266,4 +247,4 @@ const ReportesScreen = () => {
   );
 };
 
-export default ReportesScreen;
+export default AlertasScreen;

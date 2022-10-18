@@ -125,14 +125,14 @@ const CrearArticuloConsumoScreen = () => {
                   </div>
                   <div className="row">
                     <div className="col-12 col-md-4 mt-4">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Visible en solicitudes
@@ -140,14 +140,14 @@ const CrearArticuloConsumoScreen = () => {
                       </div>
 </div>
                       <div className="col-12 col-md-4 mt-4">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Articulo para Vivero
@@ -155,14 +155,14 @@ const CrearArticuloConsumoScreen = () => {
                       </div>
                     </div>
                     <div className="col-12 col-md-4 mt-4">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Control por unidad

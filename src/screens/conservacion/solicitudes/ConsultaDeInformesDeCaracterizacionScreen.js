@@ -86,7 +86,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
       maxWidth: 200,
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize">Ver</button>
+          <button className="btn btn-2 btn-secondary text-capitalize">Ver</button>
         </div>
       ),
     },
@@ -301,7 +301,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                       </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                       <button
                         className="btn bg-gradient-danger mb-0"
                         type="submit"
@@ -375,7 +375,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                     </div>
                   </div>
 
-                  <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                     <button
                       className="btn bg-gradient-danger mb-0"
                       type="submit"

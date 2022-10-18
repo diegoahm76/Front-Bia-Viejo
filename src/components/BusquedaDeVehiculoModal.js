@@ -142,23 +142,23 @@ const BusquedaDeVehiculoModal = ({ isModalActive, setIsModalActive }) => {
           >
             <div className="row">
               <div className="col-12">
-                <div class="form-check mx-auto">
-                  <label class="form-check-label mx-2" for="flexCheckDefault">
+                <div className="form-check mx-auto">
+                  <label className="form-check-label mx-2" htmlFor="flexCheckDefault">
                     {" "}
                     Cumplen requerimientos
                   </label>
                   <input
-                    class="form-check-input mx-2"
+                    className="form-check-input mx-2"
                     type="checkbox"
                     value=""
                     id="flexCheckDefault"
                   />
-                  <label class="form-check-label mx-2" for="flexCheckDefault">
+                  <label className="form-check-label mx-2" htmlFor="flexCheckDefault">
                     {" "}
                     Ordenar mas apropiado
                   </label>
                   <input
-                    class="form-check-input mx-2"
+                    className="form-check-input mx-2"
                     type="checkbox"
                     value=""
                     id="flexCheckDefault"
@@ -176,7 +176,7 @@ const BusquedaDeVehiculoModal = ({ isModalActive, setIsModalActive }) => {
                   onGridReady={onGridReady}
                 ></AgGridReact>
               </div>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
                   className="btn bg-primary me-md-2 text-white text-capitalize"
                   type="submit"
