@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import AdministradorDeEstaciones from "../AdministradorDeEstaciones";
 import AlertasScreen from "../AlertasScreen";
 import ConfiguracionesScreen from "../ConfiguracionesScreen";
 import ReportesScreen from "../ReportesScreen";
@@ -7,6 +8,8 @@ const EstacionesRoutes = () => {
   return (
     <Routes>
       <Route path="/reportes" element={<ReportesScreen />} />
+
+      <Route path="/administrador-de-estaciones" element={<AdministradorDeEstaciones />} />
 
       <Route path="/alertas" element={<AlertasScreen />} />
 
