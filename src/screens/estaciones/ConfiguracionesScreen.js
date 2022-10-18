@@ -127,7 +127,7 @@ const ConfiguracionesScreen = () => {
     } else {
       try {
         setLoading(true);
-        // data.t001Estaciones = data.t001Estaciones.value.objectid;
+        data.objectid = data.T001Estaciones.value.objectid;
         console.log("data para ver", data);
         const { data: dataConfig } = await clienteEstaciones.post(
           "Configuraciones",
@@ -317,7 +317,7 @@ const ConfiguracionesScreen = () => {
               <div>
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize d-block ms-auto"
+                  className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                   disabled={loading}
                   onClick={() => {
                     setIsModalOpen(true);
@@ -385,7 +385,7 @@ const ConfiguracionesScreen = () => {
                       Estación: <span className="text-danger">*</span>
                     </label>
                     <Controller
-                      name="cosaRandom"
+                      name="T001Estaciones"
                       control={controlConfiguracion}
                       rules={{
                         required: true,
@@ -398,7 +398,7 @@ const ConfiguracionesScreen = () => {
                         />
                       )}
                     />
-                    {errorsConfiguracion.cosaRandom && (
+                    {errorsConfiguracion.T001Estaciones && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
