@@ -44,7 +44,7 @@ const RegisterUserScreen = () => {
        *Petición para verificación existencia de persona
        */
       const { data: dataPersona } = await clienteAxios.get(
-        `personas/getpersonabydocument/${data?.numeroDocumento}`
+        `personas/get-by-document/${data?.numeroDocumento}`
       );
 
       //console.log("dataPersona", dataPersona.id_persona)
