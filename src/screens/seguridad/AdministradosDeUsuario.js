@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Swal from "sweetalert2";
@@ -14,6 +15,8 @@ const paisesOptions = [
 ];
 
 const AdministradosDeUsuario = () => {
+  //const { tokens } = useSelector(state => state.user.user)
+
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [userData, setUserData] = useState(null);
   const [actionForm, setActionForm] = useState(null);
@@ -54,83 +57,90 @@ const AdministradosDeUsuario = () => {
   const onSubmitBuscar = async (data) => {
     console.log(data);
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MzA4OTU2LCJpYXQiOjE2NjU3MTY5NTYsImp0aSI6ImZhNTdmYzM1ZjI1MzQyNzk5ZjE1NjU5Yjg5YTRjOGMyIiwidXNlcl9pZCI6MX0.K1aGseNPIlSbOyIZVTOGzb316mt-dZgHy31tIt5o7Dg",
-        },
-      };
 
-      const { data: dataPersona } = await clienteAxios.get(
-        `personas/getpersonabydocument/${data?.numeroDocumento}`
-      );
 
-      const { data: getUsers } = await clienteAxios.get("users/get", config);
+       const config = {
+         headers: {
+           "Content-type": "application/json",
+           Authorization:
+             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4NzgzNzc2LCJpYXQiOjE2NjYxOTE3NzYsImp0aSI6ImFmNTQ3NWMxMTEwMjRmZGVhYjJlZThjNWNiZTI2YjBjIiwidXNlcl9pZCI6MX0.VX5SVNcTijS-aVU58x2xT1it3MLpUFOLDFzHtvc5hTU",
+         },
+       };
 
-      console.log(getUsers);
-      const userFiltered = getUsers.filter(
-        (user) => user.persona?.numero_documento === data.numeroDocumento
-      );
+       const { data: dataPersona } = await clienteAxios.get(
+         `users/get-by-numero-documento/${data?.numeroDocumento}`, config
+       );
 
-      if (!dataPersona.id_persona) {
-        Swal.fire({
-          title: "No existe una persona con este documento",
-          text: "¿Desea registrar una nueva persona?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Elegir tipo persona",
-              text: "¿Que tipo de persona desea crear?",
-              icon: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#3BA9E0",
-              cancelButtonColor: "#6c757d",
-              confirmButtonText: "Natural",
-              cancelButtonText: "Juridica",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate("/dashboard/seguridad/administradordepersonas");
-              } else {
-                navigate("/dashboard/seguridad/administradordeempresas");
-              }
-            });
-          }
-        });
-      } else if (userFiltered.length) {
-        setUserData(userFiltered[0]);
-        setActionForm("editar");
-      } else {
-        Swal.fire({
-          title: "Este numero de documento no tiene un usuario asignado",
-          text: "¿Desea registrar un nuevo usuario?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            setActionForm("crear");
-          }
-        });
-      }
-      const usuarioOverrideData = {
-        nombreUsuario: userFiltered[0].nombre_de_usuario,
-        bloqueado: userFiltered[0].is_blocked,
-        activo: userFiltered[0].is_active,
-        tipoUsuario: userFiltered[0].tipo_usuario === "E" ? false : true,
-      };
-      resetUsuario(usuarioOverrideData);
-      console.log(userFiltered);
-    } catch (err) {}
+       console.log("userGetByNumeroDocumento", dataPersona)
+
+      // const { data: getUsers } = await clienteAxios.get("users/get", config);
+
+      // console.log(getUsers);
+      // const userFiltered = getUsers.filter(
+      //   (user) => user.persona?.numero_documento === data.numeroDocumento
+      // );
+      
+
+      // if (!dataPersona.id_persona) {
+      //   Swal.fire({
+      //     title: "No existe una persona con este documento",
+      //     text: "¿Desea registrar una nueva persona?",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Si",
+      //     cancelButtonText: "No",
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       Swal.fire({
+      //         title: "Elegir tipo persona",
+      //         text: "¿Que tipo de persona desea crear?",
+      //         icon: "info",
+      //         showCancelButton: true,
+      //         confirmButtonColor: "#3BA9E0",
+      //         cancelButtonColor: "#6c757d",
+      //         confirmButtonText: "Natural",
+      //         cancelButtonText: "Juridica",
+      //       }).then((result) => {
+      //         if (result.isConfirmed) {
+      //           navigate("/dashboard/seguridad/administradordepersonas");
+      //         } else {
+      //           navigate("/dashboard/seguridad/administradordeempresas");
+      //         }
+      //       });
+      //     }
+      //   });
+      // } else if (userFiltered.length) {
+      //   setUserData(userFiltered[0]);
+      //   setActionForm("editar");
+      // } else {
+      //   Swal.fire({
+      //     title: "Este numero de documento no tiene un usuario asignado",
+      //     text: "¿Desea registrar un nuevo usuario?",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Si",
+      //     cancelButtonText: "No",
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       setActionForm("crear");
+      //     }
+      //   });
+      // }
+      // const usuarioOverrideData = {
+      //   nombreUsuario: userFiltered[0].nombre_de_usuario,
+      //   bloqueado: userFiltered[0].is_blocked,
+      //   activo: userFiltered[0].is_active,
+      //   tipoUsuario: userFiltered[0].tipo_usuario === "E" ? false : true,
+      // };
+      // resetUsuario(usuarioOverrideData);
+      // console.log(userFiltered);
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   const onSubmitUsuario = async (data) => {
