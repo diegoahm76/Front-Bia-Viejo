@@ -98,7 +98,7 @@ const AdministradorDePersonasScreen = () => {
     console.log(data);
     try {
       const { data: dataPersona } = await clienteAxios.get(
-        `personas/getpersonabydocument/${data?.numeroDocumento}`
+        `personas/get-by-document/${data?.numeroDocumento}`
       );
 
       if (dataPersona.tipo_persona !== "N" && dataPersona.id_persona) {
@@ -266,7 +266,7 @@ const AdministradorDePersonasScreen = () => {
       try {
         updatedPersona.tipo_persona = "N";
         await clienteAxios.post(
-          "personas/registerpersonanatural/",
+          "personas/persona-natural/create/",
           updatedPersona
         );
         Swal.fire({
