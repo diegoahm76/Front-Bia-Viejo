@@ -11,6 +11,7 @@ import {
   USER_REGISTER_FAIL,
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
+  USER_LOGIN_INVALID,
 } from "../types/userTypes";
 
 export const userLoginAction = (email, password) => async (dispatch) => {
@@ -29,8 +30,16 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       config
     );
 
-    dispatch(userLoginSuccess(data));
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    if (data.login_erroneo?.contador) {
+      dispatch(userLoginInvalid(data));
+    } else if (data.detail) {
+      dispatch(userLoginInvalid(data));
+    } else if (data.email) {
+      dispatch(userLoginSuccess(data));
+      localStorage.setItem("userInfo", JSON.stringify(data));
+    } else {
+      console.log(data);
+    }
   } catch (error) {
     if (error.response?.data?.detail) {
       Swal.fire({
@@ -42,6 +51,7 @@ export const userLoginAction = (email, password) => async (dispatch) => {
         is_active: true,
       });
     }
+    console.log(error)
     dispatch(userLoginFail(error));
   }
 };
@@ -53,6 +63,11 @@ const userLoginRequest = () => ({
 const userLoginSuccess = (user) => ({
   type: USER_LOGIN_SUCCESS,
   payload: user,
+});
+
+const userLoginInvalid = (dataError) => ({
+  type: USER_LOGIN_INVALID,
+  payload: dataError,
 });
 
 const userLoginFail = (error) => ({

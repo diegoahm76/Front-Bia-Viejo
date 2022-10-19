@@ -98,7 +98,7 @@ const AdministradorDePersonasScreen = () => {
     console.log(data);
     try {
       const { data: dataPersona } = await clienteAxios.get(
-        `personas/getpersonabydocument/${data?.numeroDocumento}`
+        `personas/get-by-document/${data?.numeroDocumento}`
       );
 
       if (dataPersona.tipo_persona !== "N" && dataPersona.id_persona) {
@@ -218,7 +218,7 @@ const AdministradorDePersonasScreen = () => {
       segundo_nombre: data.segundoNombre,
       primer_apellido: data.primerApellido,
       segundo_apellido: data.segundoApellido,
-      sexo: formValues.sexo.value,
+      sexo: formValues.sexo?.value,
       estado_civil: estadoCivilOptions[formValues.estadoCivil]?.value,
       pais_nacimiento: paisesOptions[formValues.paisNacimiento]?.value,
       fecha_nacimiento: formatISO(formValues.fechaNacimiento, {
@@ -247,7 +247,7 @@ const AdministradorDePersonasScreen = () => {
     if (actionForm === "editar") {
       try {
         await clienteAxios.put(
-          `personas/updatepersonanatural/${formValues?.id_persona}/`,
+          `personas/persona-natural/update/${formValues?.id_persona}/`,
           updatedPersona
         );
         Swal.fire({
@@ -266,7 +266,7 @@ const AdministradorDePersonasScreen = () => {
       try {
         updatedPersona.tipo_persona = "N";
         await clienteAxios.post(
-          "personas/registerpersonanatural/",
+          "personas/persona-natural/create/",
           updatedPersona
         );
         Swal.fire({
@@ -349,6 +349,10 @@ const AdministradorDePersonasScreen = () => {
     return indexValue;
   };
 
+  const handleCancelAction = () => {
+    setActionForm(null);
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -360,10 +364,7 @@ const AdministradorDePersonasScreen = () => {
           data-animation="FadeIn"
         >
           <div className="row">
-            <form
-              onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}
-              id="buscarPersonaForm"
-            >
+            <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
               <h5 className="font-weight-bolder">Buscar persona</h5>
               <div className="mt-4 row align-items-center">
                 <div className="col-12 col-md-4">
@@ -416,12 +417,14 @@ const AdministradorDePersonasScreen = () => {
                 <div className="col-12 col-md-4 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    form="buscarPersonaForm"
                     className="btn bg-gradient-primary mb-0 text-capitalize"
                   >
                     Buscar
                   </button>
-                  <button className="ms-3 btn bg-gradient-primary mb-0 text-capitalize">
+                  <button
+                    type="button"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                  >
                     Busqueda avanzada
                   </button>
                 </div>
@@ -931,12 +934,22 @@ const AdministradorDePersonasScreen = () => {
                   )}
                 </div>
 
-                <button
-                  className="btn bg-gradient-primary mb-0 d-block ms-auto mt-4 text-capitalize"
-                  type="submit"
-                >
-                  {actionForm === "editar" ? "Actualizar" : "Crear"}
-                </button>
+                <div className="d-flex justify-content-end gap-2 mt-4">
+                  <button
+                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    type="button"
+                    onClick={handleCancelAction}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                    type="submit"
+                  >
+                    {actionForm === "editar" ? "Actualizar" : "Crear"}
+                  </button>
+                </div>
               </form>
             )}
           </div>
