@@ -124,7 +124,7 @@ function LoginScreen() {
                     Registrarse como <Link to="/register">Persona</Link> o{" "}
                     <Link to="/registeruser">Usuario</Link>
                   </small>
-                  <Link to="/recuperarcontrasena">
+                  <Link to="/recuperar-contrasena">
                     <small>Olvide mi contraseña</small>
                   </Link>
                 </nav>

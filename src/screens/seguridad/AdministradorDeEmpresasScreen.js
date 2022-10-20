@@ -49,7 +49,7 @@ const AdministradorDeEmpresasScreen = () => {
   const onSubmitBuscar = async (data) => {
     try {
       const { data: dataEmpresa } = await clienteAxios.get(
-        `personas/getpersonabydocument/${data?.numeroDocumento}`
+        `personas/get-by-document/${data?.numeroDocumento}`
       );
       console.log("data empresa", dataEmpresa);
       if (dataEmpresa.tipo_persona !== "J" && dataEmpresa.id_persona) {
@@ -177,7 +177,7 @@ const AdministradorDeEmpresasScreen = () => {
     if (actionForm === "editar") {
       try {
         await clienteAxios.put(
-          `personas/updatepersonajuridica/${formValues?.id_persona}/`,
+          `personas/persona-juridica/update/${formValues?.id_persona}/`,
           updateEmpresa
         );
         Swal.fire({
@@ -301,6 +301,10 @@ const AdministradorDeEmpresasScreen = () => {
       return false;
     });
     return indexValue;
+  };
+
+  const handleCancelAction = () => {
+    setActionForm(null);
   };
 
   return (
@@ -734,12 +738,22 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                 </div>
 
-                <button
-                  className="btn bg-gradient-primary mb-0 d-block ms-auto mt-4 text-capitalize"
-                  type="submit"
-                >
-                  {actionForm === "editar" ? "Actualizar" : "Crear"}
-                </button>
+                <div className="d-flex justify-content-end gap-2 mt-3">
+                  <button
+                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    type="button"
+                    onClick={handleCancelAction}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                    type="submit"
+                  >
+                    {actionForm === "editar" ? "Actualizar" : "Crear"}
+                  </button>
+                </div>
               </form>
             )}
           </div>
