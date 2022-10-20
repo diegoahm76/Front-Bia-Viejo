@@ -1,31 +1,16 @@
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
-
-const departamentosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Meta", value: "Meta" },
-  { label: "Santander", value: "Santander" },
-  { label: "Norte de Santander", value: "Norte de Santander" },
-];
-
-const municipiosOptions = [
-  { label: "Arauca", value: "Arauca" },
-  { label: "Villavicencio", value: "Villavicencio" },
-  { label: "Bucaramanga", value: "Bucaramanga" },
-  { label: "San Jose de Cucuta", value: "San Jose de Cucuta" },
-];
-
-const paisOptions = [
-  { label: "Colombia", value: "COL" },
-  { label: "Mexico", value: "MX" },
-  { label: "Venezuela", value: "VEN" },
-];
+import clienteAxios from "../../config/clienteAxios";
+import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 
 const ActualizarDatosEmpresaScreen = () => {
   const [completeAddress, setCompleteAddress] = useState("");
   const [isOpenGenerator, setIsOpenGenerator] = useState(false);
+  const [paisesOptions, setPaisesOptions] = useState([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
+  const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const {
     register,
     control,
@@ -36,6 +21,33 @@ const ActualizarDatosEmpresaScreen = () => {
   const submit = (data) => {
     console.log(data);
   };
+
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+        const { data: paisesNoFormat } = await clienteAxios.get(
+          "choices/paises/"
+        );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
+        const { data: municipiosNoFormat } = await clienteAxios.get(
+          "choices/municipios/"
+        );
+
+        const paisesFormat = textChoiseAdapter(paisesNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+
+        setPaisesOptions(paisesFormat);
+        setDepartamentosOptions(departamentosFormat);
+        setMunicipiosOptions(municipiosFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
 
   return (
     <div className="row min-vh-100">
@@ -113,7 +125,7 @@ const ActualizarDatosEmpresaScreen = () => {
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={paisOptions}
+                      options={paisesOptions}
                       placeholder="Seleccionar"
                     />
                   )}

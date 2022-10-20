@@ -1,22 +1,67 @@
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import Select from "react-select";
+import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import LogBackground from "../../../assets/logos/Macareniaa.jpg";
-
-const optionsTipoRecuperacion = [
-  { label: "Correo electronico", value: "email" },
-  { label: "Numero celular", value: "cel" },
-];
+import clienteAxios from "../../../config/clienteAxios";
 
 const ActualizarContrasenaScreen = () => {
-  const [tipoDeRecuperacion, setTipoDeRecuperacion] = useState("");
+  const navigate = useNavigate();
+  const { token, uidb64 } = useParams();
+  const [isDiferentPasswords, setIsDiferentPasswords] = useState(false);
 
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const onSubmitNewPassword = async (data) => {
+    if (data.password !== data.password2) return setIsDiferentPasswords(true);
+    setIsDiferentPasswords(false);
+    const axiosBody = {
+      password: data.password,
+      token,
+      uidb64,
+    };
+    try {
+      const { data: dataResetPassword } = await clienteAxios.patch(
+        "users/pasword-reset-complete",
+        axiosBody
+      );
+      console.log(dataResetPassword);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Contraseña cambiada correctamente",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
+    } catch (err) {
+      console.log(err);
+      if (err?.response.data.detail) {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: err?.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Algo pasó intente de nuevo",
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
+      }
+    }
+  };
 
   return (
     <div
@@ -30,41 +75,69 @@ const ActualizarContrasenaScreen = () => {
         <div className="row">
           <div className="col-lg-4 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom">
-              <h3 className="mt-4 text-center">
-                Actualizar
-              </h3>
-              <p className="text-center mb-0">Ingrese sus credenciales para iniciar sesion</p>
+              <h3 className="mt-4 text-center">Actualizar</h3>
               <div className="card-body">
-                <form className="text-start">
-                  <div className="form-floating input-group input-group-dynamic mt-3">
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Emaill"
-                      //{...register("documento")}
-                    />
-                    <label className="ms-2">Usuario</label>
-                  </div>
-
+                <form
+                  className="text-start"
+                  onSubmit={handleSubmit(onSubmitNewPassword)}
+                >
+                  <p className="text-center mb-0">
+                    Ingrese sus nuevas credenciales para iniciar sesión
+                  </p>
+                  {isDiferentPasswords && (
+                    <small className="text-danger">
+                      Las contraseñas deben coincidir
+                    </small>
+                  )}
                   <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
                       type="password"
                       className="form-control"
                       placeholder="Password"
-                      //{...register("documento")}
+                      {...register("password", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                        minLength: {
+                          value: 6,
+                          message:
+                            "La contraseña debe tener 6 carácteres mínimio",
+                        },
+                      })}
                     />
                     <label className="ms-2">Nueva contraseña</label>
                   </div>
+                  {errors.password && (
+                    <small className="text-danger">
+                      {errors.password?.message}
+                    </small>
+                  )}
 
                   <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
                       type="password"
                       className="form-control"
-                      placeholder="Password"
-                      //{...register("documento")}
+                      placeholder="Password2"
+                      {...register("password2", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                        minLength: {
+                          value: 6,
+                          message:
+                            "La contraseña debe tener 6 carácteres mínimio",
+                        },
+                      })}
                     />
                     <label className="ms-2">Confirme su contraseña</label>
                   </div>
+                  {errors.password2 && (
+                    <small className="text-danger">
+                      {errors.password2?.message}
+                    </small>
+                  )}
 
                   <div className="text-center">
                     <button

@@ -74,14 +74,17 @@ function App() {
         <Route path="/registeruser" element={<RegisterUserScreen />} />
 
         <Route
-          path="/recuperarcontrasena"
+          path="/recuperar-contrasena"
           element={<RecuperacionDeContrasenaScreen />}
         />
 
-        <Route
-          path="/actualizarcontrasena"
-          element={<ActualizarContrasenaScreen />}
-        />
+        <Route path="/actualizar-contrasena/:uidb64">
+          <Route index element={<Navigate to="/login" />} />
+
+          <Route path=":token" element={<ActualizarContrasenaScreen />} />
+        </Route>
+
+        <Route index element={<Navigate to="/login" />} />
       </Route>
     </Routes>
   );
