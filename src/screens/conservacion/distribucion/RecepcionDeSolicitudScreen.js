@@ -11,7 +11,7 @@ import CalendarModal from "../../../components/CalendarModal";
 import ModalLocal from "../../../components/ModalLocal";
 
 
-export const RecepcionDeSolicitudScreen = () => {
+const RecepcionDeSolicitudScreen = () => {
   const [selectedEstadoSolicitud, setSelectedEstadoSolicitud] = useState({});
   const opcEstado = [
     { label: "Pendientes", value: "PEND" },
@@ -110,7 +110,7 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-primary"
+            class="btn btn-primary text-capitalize"
             type="button"
             onClick={handleOpenModalGes}
           >
@@ -133,7 +133,7 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-primary"
+            class="btn btn-primary text-capitalize"
             type="button"
             onClick={handleOpenModalVer}
           >
@@ -237,7 +237,7 @@ const [modal2, setModal2] = useState(false)
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Gestion de solicitudes de material vegetal
         </h3>
@@ -248,8 +248,8 @@ const [modal2, setModal2] = useState(false)
           id="configForm"
         >
           <div className="row mt-3 mb-5">
-            <div className="col-12 col-sm-6">
-              <label className="form-control ms-6">
+            <div className="col-12 col-md-4">
+              <label className="form-control ms-2">
                 Estado de la solicitud:{" "}
               </label>
               <Controller
@@ -270,7 +270,7 @@ const [modal2, setModal2] = useState(false)
                 </p>
               )}
             </div>
-            <div className="col-12 col-sm-6 ">
+            <div className="col-12 col-md-4">
               <button
                 className="mt-5 btn btn-primary text-capitalize "
                 type="submit"
@@ -286,10 +286,10 @@ const [modal2, setModal2] = useState(false)
                 <h4 className="mt-1 mb-2 text-center mb-1   ">
                   Solicitudes pendientes
                 </h4>
-                <div>
-                  <div className="row mt-1">
-                    <div className="col-4 ms-6 me-6">
-                      <label className="px-6">Seleccionar vivero: </label>
+                
+                  <div className="row mt-3">
+                    <div className="col-12 col-md-4">
+                      <label >Seleccionar vivero: </label>
                       <Controller
                         name="optionsvi"
                         control={control}
@@ -308,13 +308,9 @@ const [modal2, setModal2] = useState(false)
                         </p>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                <div className="row mt-4">
-                  <div className="row mt-1">
-                    <div className="col-4 ms-6 me-6">
-                      <label className="px-6">Seleccionar profesional</label>
+                  
+                    <div className="col-12 col-md-4">
+                      <label>Seleccionar profesional</label>
                       <Controller
                         name="optionspro"
                         control={control}
@@ -333,22 +329,24 @@ const [modal2, setModal2] = useState(false)
                         </p>
                       )}
                     </div>
+
+                    <div className="col-12 col-md-4">
+              <button
+                className="mt-4 btn btn-primary text-capitalize "
+                type="submit"
+              >
+                Buscar
+              </button>
+            </div>
                   </div>
-                </div>
-                <div className="col-12 col-sm-6 ">
-                  <button
-                    className="mt-5 ms-6 btn btn-primary text-capitalize "
-                    type="submit"
-                  >
-                    Buscar
-                  </button>
-                </div>
+                
+               
               </div>
 
               <div className="row mt-6">
                 <label className="px-6">Solicitudes relacionadas</label>
                 <div
-                  className="ag-theme-alpine mt-1 mb-6 mb-2 px-6"
+                  className="ag-theme-alpine mt-1 mb-6 px-6"
                   style={{ height: "250px" }}
                 >
                   <AgGridReact
@@ -372,9 +370,8 @@ const [modal2, setModal2] = useState(false)
                 <h4 className="mt-1 mb-2 text-center mb-1   ">
                   Solicitudes pendientes
                 </h4>
-                <div>
-                  <div className="row mt-1">
-                    <div className="col-4 ms-6 me-6">
+                <div className="row mt-1">
+                    <div className="col-12 col-md-4">
                       <label className="px-6">Seleccionar vivero: </label>
                       <Controller
                         name="optionsvi2"
@@ -394,13 +391,9 @@ const [modal2, setModal2] = useState(false)
                         </p>
                       )}
                     </div>
-                  </div>
-                </div>
-
-                <div className="row mt-4">
-                  <div className="row mt-1">
-                    <div className="col-4 ms-6 me-6">
-                      <label className="px-6">Seleccionar profesional</label>
+                  
+                    <div className="col-12 col-md-4 ">
+                      <label>Seleccionar profesional</label>
                       <Controller
                         name="optionspro2"
                         control={control}
@@ -419,16 +412,16 @@ const [modal2, setModal2] = useState(false)
                         </p>
                       )}
                     </div>
+
+                        <div className="col-12 col-md-4 mt-4">
+                      <button
+                        className="btn btn-primary text-capitalize "
+                        type="submit"
+                      >
+                        Buscar
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="col-12 col-sm-6 ">
-                  <button
-                    className="mt-5 ms-5 btn btn-primary text-capitalize "
-                    type="submit"
-                  >
-                    Buscar
-                  </button>
-                </div>
               </div>
 
               <div className="row mt-6">
@@ -454,7 +447,7 @@ const [modal2, setModal2] = useState(false)
         </form>
           <ModalLocal localState={modal2}>
           <div className="row min-vh-100">
-            <div className="col-lg-8 col-md-10 col-sm-12 mx-auto">
+            <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
               <h5 className="mt-3 mb-0 text-center mb-3">
                 Gestion de solicitudes de material vegetal
               </h5>
@@ -472,9 +465,12 @@ const [modal2, setModal2] = useState(false)
                   </div>
                   <div className="row mt-3 ms-5">
                     <label>Listado de la solicitud: </label>
+                    
+                    <div className="row">
+                    
                     <div
-                      className="ag-theme-alpine mt-1 mb-6 mb-2 px-5"
-                      style={{ height: "250px", width:"600" }}
+                      className="ag-theme-alpine mt-1 mb-6 mb-2 px-1"
+                      style={{ height: "250px" }}
                     >
                       <AgGridReact
                         columnDefs={columnasHeader}
@@ -485,33 +481,28 @@ const [modal2, setModal2] = useState(false)
                         onGridReady={onGridReady}
                       ></AgGridReact>
                     </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
 
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                      }}
-                    >
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="justify-content-end"
+                    style={{display:"flex"}}>
                       <button
-                        className="col btn btn-2 btn-primary ms-2 me-2  mb-5"
+                        className="btn btn-primary text-capitalize"
                         type="button"
                         onClick={handleCloseModalGes}
                       >
                         Regresar
                       </button>
                       <button
-                        className="col btn btn-2 btn-danger ms-2 me-2  mb-5"
+                        className="ms-2 btn btn-danger text-capitalize"
                         type="button"
                       >
                         Rechazar
                       </button>
 
                       <button
-                        className="col btn btn-2 btn-secondary ms-2 me-2 mb-5 "
+                        className="ms-2 btn btn-secondary text-capitalize "
                         type="submit"
                       >
                         Aceptar
@@ -525,7 +516,7 @@ const [modal2, setModal2] = useState(false)
         </ModalLocal>
         <CalendarModal>
         <div className="row min-vh-100">
-            <div className="col-lg-8 col-md-10 col-sm-12 mx-auto">
+            <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
               <h5 className="mt-3 mb-0 text-center mb-3">
                 Ver Solicitudes de Material Vegetal
               </h5>
@@ -545,7 +536,7 @@ const [modal2, setModal2] = useState(false)
                   <div className="row mt-3 ms-5">
                     <label>Listado de la solicitud: </label>
                     <div
-                      className="ag-theme-alpine mt-1 mb-6 mb-2 px-5"
+                      className="ag-theme-alpine mt-1 mb-6 mb-2"
                       style={{ height: "250px" }}
                     >
                       <AgGridReact
@@ -558,11 +549,12 @@ const [modal2, setModal2] = useState(false)
                       ></AgGridReact>
                     </div>
                   </div>
-                  <div className="row mt-2">
+                  <div className="row mt-2" style={{    display: "flex",
+    justifyContent: "flex-end"}}>
                     <button
-                      className="col-6 btn btn-2 btn-primary ms-8 me-8  mb-5"
+                      className="me-3 btn btn-primary text-capitalize justify-content-end"
                       type="button"
-                      style={{ width: "150px" }}
+                      style={{ display:"flex",width:"80px" }}
                       onClick={handleCloseModalVer}
                     >
                       Volver
@@ -577,3 +569,4 @@ const [modal2, setModal2] = useState(false)
     </div>
   );
 };
+export default RecepcionDeSolicitudScreen;

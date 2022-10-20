@@ -290,7 +290,7 @@ export const EntradaDeArticuloScreen = () => {
               <label className="form-control ms-0 fw-bolder text-center">
                 Datos generales
               </label>
-              <div className="row">
+              <div className="row mt-2">
                 <div className="col-12 col-md-4 mt-4">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
@@ -334,7 +334,7 @@ export const EntradaDeArticuloScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mb-2">
                   <label className="form-control ms-0">
                     Origen del articulo:{" "}<span className="text-danger">*</span>
                   </label>
@@ -413,7 +413,7 @@ export const EntradaDeArticuloScreen = () => {
                     </p>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-3">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -424,7 +424,7 @@ export const EntradaDeArticuloScreen = () => {
                     <label className="ms-2">Numero de identificacion: <span className="text-danger">*</span>  </label>
                   </div>
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-4">
                   <label>Nombre: </label>
                   <label>Profesional de cormacarena</label>
                 </div>
