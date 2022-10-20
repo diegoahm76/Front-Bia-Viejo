@@ -21,6 +21,7 @@ import ActualizarContrasenaScreen from "./screens/auth/recuperarContrasena/Actua
 import RegisterUserScreen from "./screens/auth/register/RegisterUserScreen";
 import UsuarioRoutes from "./screens/usuario/routes/UsuarioRoutes";
 import RecursoHidricoRoutes from "./screens/recursoHidrico/routes/RecursoHidricoRoutes";
+import ConfirmarCuentaScreen from "./screens/auth/ConfirmarCuentaScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -72,6 +73,8 @@ function App() {
         <Route path="/register" element={<RegisterPersonaScreen />} />
 
         <Route path="/registeruser" element={<RegisterUserScreen />} />
+
+        <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuentaScreen />} />
 
         <Route
           path="/recuperarcontrasena"

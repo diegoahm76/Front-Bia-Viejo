@@ -15,17 +15,19 @@ const paisesOptions = [
 ];
 
 const AdministradosDeUsuario = () => {
-  //const { tokens } = useSelector(state => state.user.user)
-
+  const { email: emailLogin, tokens } = useSelector((state) => state.user.user);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [userData, setUserData] = useState(null);
+  const [isHandleSubmit, setIsHandleSubmit] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(null);
+  const [personaData, setPersonaData] = useState({});
   const [actionForm, setActionForm] = useState(null);
   const navigate = useNavigate();
   const {
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
-    reset: resetBuscar,
+    //reset: resetBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -34,6 +36,7 @@ const AdministradosDeUsuario = () => {
     handleSubmit: handleSubmitUsuario,
     control: controlUsuario,
     reset: resetUsuario,
+    watch,
     formState: { errors: errorsUsuario },
   } = useForm();
 
@@ -55,116 +58,142 @@ const AdministradosDeUsuario = () => {
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    console.log(data);
     try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${tokens.access}`,
+        },
+      };
 
+      const { data: dataPersona } = await clienteAxios.get(
+        `users/get-by-numero-documento/${data?.numeroDocumento}`,
+        config
+      );
 
-       const config = {
-         headers: {
-           "Content-type": "application/json",
-           Authorization:
-             "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4NzgzNzc2LCJpYXQiOjE2NjYxOTE3NzYsImp0aSI6ImFmNTQ3NWMxMTEwMjRmZGVhYjJlZThjNWNiZTI2YjBjIiwidXNlcl9pZCI6MX0.VX5SVNcTijS-aVU58x2xT1it3MLpUFOLDFzHtvc5hTU",
-         },
-       };
-
-       const { data: dataPersona } = await clienteAxios.get(
-         `users/get-by-numero-documento/${data?.numeroDocumento}`, config
-       );
-
-       console.log("userGetByNumeroDocumento", dataPersona)
-
-      // const { data: getUsers } = await clienteAxios.get("users/get", config);
-
-      // console.log(getUsers);
-      // const userFiltered = getUsers.filter(
-      //   (user) => user.persona?.numero_documento === data.numeroDocumento
-      // );
-      
-
-      // if (!dataPersona.id_persona) {
-      //   Swal.fire({
-      //     title: "No existe una persona con este documento",
-      //     text: "¿Desea registrar una nueva persona?",
-      //     icon: "warning",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Si",
-      //     cancelButtonText: "No",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       Swal.fire({
-      //         title: "Elegir tipo persona",
-      //         text: "¿Que tipo de persona desea crear?",
-      //         icon: "info",
-      //         showCancelButton: true,
-      //         confirmButtonColor: "#3BA9E0",
-      //         cancelButtonColor: "#6c757d",
-      //         confirmButtonText: "Natural",
-      //         cancelButtonText: "Juridica",
-      //       }).then((result) => {
-      //         if (result.isConfirmed) {
-      //           navigate("/dashboard/seguridad/administradordepersonas");
-      //         } else {
-      //           navigate("/dashboard/seguridad/administradordeempresas");
-      //         }
-      //       });
-      //     }
-      //   });
-      // } else if (userFiltered.length) {
-      //   setUserData(userFiltered[0]);
-      //   setActionForm("editar");
-      // } else {
-      //   Swal.fire({
-      //     title: "Este numero de documento no tiene un usuario asignado",
-      //     text: "¿Desea registrar un nuevo usuario?",
-      //     icon: "warning",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Si",
-      //     cancelButtonText: "No",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       setActionForm("crear");
-      //     }
-      //   });
-      // }
-      // const usuarioOverrideData = {
-      //   nombreUsuario: userFiltered[0].nombre_de_usuario,
-      //   bloqueado: userFiltered[0].is_blocked,
-      //   activo: userFiltered[0].is_active,
-      //   tipoUsuario: userFiltered[0].tipo_usuario === "E" ? false : true,
-      // };
-      // resetUsuario(usuarioOverrideData);
-      // console.log(userFiltered);
+      if (dataPersona[1]?.persona) {
+        Swal.fire({
+          title: "Este numero de documento no tiene un usuario asignado",
+          text: "¿Desea registrar un nuevo usuario?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setActionForm("crear");
+            setPersonaData(dataPersona[0]);
+          }
+        });
+      } else if (!dataPersona?.persona) {
+        Swal.fire({
+          title: "No existe una persona con este documento",
+          text: "¿Desea registrar una nueva persona?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              title: "Elegir tipo persona",
+              text: "¿Que tipo de persona desea crear?",
+              icon: "info",
+              showCancelButton: true,
+              confirmButtonColor: "#3BA9E0",
+              cancelButtonColor: "#6c757d",
+              confirmButtonText: "Natural",
+              cancelButtonText: "Juridica",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/dashboard/seguridad/administradordepersonas");
+              } else {
+                navigate("/dashboard/seguridad/administradordeempresas");
+              }
+            });
+          }
+        });
+      } else if (dataPersona?.id_usuario) {
+        setUserData(dataPersona);
+        setActionForm("editar");
+        const usuarioOverrideData = {
+          nombreUsuario: dataPersona.nombre_de_usuario,
+          bloqueado: dataPersona.is_blocked,
+          activo: dataPersona.is_active,
+          tipoUsuario: dataPersona.tipo_usuario === "I" ? true : false,
+        };
+        resetUsuario(usuarioOverrideData);
+      }
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   };
 
+  const handleClickSubmit = () => {
+    setIsHandleSubmit(true);
+  };
+
+  useEffect(() => {
+    if (isHandleSubmit) {
+      if (watch("password") !== watch("password2")) {
+        setErrorPassword(true);
+      } else {
+        setErrorPassword(false);
+      }
+    }
+  }, [watch("password"), watch("password2")]);
+
   const onSubmitUsuario = async (data) => {
-    console.log(data);
-    const user = {
-      email: userData.email,
-      nombre_de_usuario: data.nombreDeUsuario,
-      persona: userData.id_persona,
-      password: data.password,
-      id_usuario_creador: null,
-      tipo_usuario: "E", // Debería ser por defecto que se creara en E
-    };
+    if (actionForm === "crear") {
+      try {
+        const { data: personaLogin } = await clienteAxios.get(
+          `personas/get-by-email/${emailLogin}`
+        );
 
-    const config2 = {
-      headers: {
-        "Content-type": "application/json",
-      },
-    };
+        const configLogin = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${tokens.access}`,
+          },
+        };
 
-    const { data: userRegister } = await clienteAxios.post(
-      "users/register/",
-      user,
-      config2
-    );
+        const { data: userLogin } = await clienteAxios.get(
+          `users/get-by-numero-documento/${personaLogin.numero_documento}`,
+          configLogin
+        );
+
+        const nuevoUsuario = {
+          email: personaData.email,
+          nombre_de_usuario: data.nombreUsuario,
+          persona: personaData.id_persona,
+          password: data.password,
+          id_usuario_creador: userLogin.id_usuario,
+          tipo_usuario: data.tipoUsuario ? "I" : "E",
+        };
+
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+          },
+        };
+
+        await clienteAxios.post("users/register/", nuevoUsuario, config);
+
+        Swal.fire({
+          title: "Usuario registrado correctamente",
+          text: "Revise su bandeja de correo electronico para confirmar el registro",
+          icon: "success",
+          confirmButtonColor: "#3BA9E0",
+          confirmButtonText: "Continuar",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -218,7 +247,7 @@ const AdministradosDeUsuario = () => {
                       placeholder="Numero de documento"
                       {...registerBuscar("numeroDocumento", { required: true })}
                     />
-                    <label className="ms-2">
+                    <label>
                       Número de documento:{" "}
                       <span className="text-danger">*</span>
                     </label>
@@ -248,21 +277,75 @@ const AdministradosDeUsuario = () => {
 
             {actionForm && (
               <form onSubmit={handleSubmitUsuario(onSubmitUsuario)}>
-                <h5 className="font-weight-bolder mt-3">Datos de usuario</h5>
+                <h5 className="font-weight-bolder mt-4">Datos de usuario</h5>
                 <hr className="dark horizontal my-0" />
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      disabled
-                      placeholder="Telefono"
-                      {...registerUsuario("nombreUsuario", {
-                        required: true,
-                      })}
-                    />
-                    <label className="ms-2">Nombre de usuario:</label>
+                <div className="row mt-1">
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="tel"
+                        disabled={actionForm === "editar"}
+                        placeholder="Nombre de usuario:"
+                        {...registerUsuario("nombreUsuario", {
+                          required: true,
+                        })}
+                      />
+                      <label>
+                        Nombre de usuario:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                    </div>
                   </div>
+                  {actionForm === "crear" && (
+                    <>
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            className="form-control"
+                            type="password"
+                            placeholder="Contraseña"
+                            {...registerUsuario("password", { required: true })}
+                          />
+                          <label>
+                            Contraseña: <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                        {errorsUsuario.password && (
+                          <small className="text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        )}
+                      </div>
+
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            className="form-control"
+                            type="password"
+                            placeholder="Contraseña"
+                            {...registerUsuario("password2", {
+                              required: true,
+                            })}
+                          />
+                          <label>
+                            Confirmar contraseña:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                        {errorsUsuario.password && (
+                          <small className="text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        )}
+                        {errorPassword === true && (
+                          <small className="text-danger">
+                            Las contraseñas no coinciden
+                          </small>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="row flex-column mt-3">
                   <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
@@ -305,7 +388,7 @@ const AdministradosDeUsuario = () => {
                         placeholder="Ubicacion geografica"
                         {...registerUsuario("ubicacionGeografica")}
                       />
-                      <label className="ms-2">Motivo de la accion:</label>
+                      <label>Motivo de la accion:</label>
                     </div>
                   </div>
                   <button className="btn btn-primary text-capitalize col-12 col-md-2 mb-0 mt-3 ms-3">
@@ -321,6 +404,7 @@ const AdministradosDeUsuario = () => {
                         className="form-check-input mt-1"
                         type="checkbox"
                         role="switch"
+                        value=""
                         {...registerUsuario("tipoUsuario")}
                       />
                       <label>Interno</label>
@@ -336,7 +420,7 @@ const AdministradosDeUsuario = () => {
                         placeholder="Ubicacion geografica"
                         {...registerUsuario("ubicacionGeografica")}
                       />
-                      <label className="ms-2">Motivo de la accion:</label>
+                      <label>Motivo de la accion:</label>
                     </div>
                   </div>
                   <button className="btn bg-gradient-primary text-capitalize col-12 col-md-2 mb-0 mt-3 ms-3">
@@ -350,7 +434,7 @@ const AdministradosDeUsuario = () => {
                 <div className="col-12 col-md-4">
                   <label className="form-label">Roles:</label>
                   <Controller
-                    name="paisResidencia"
+                    name="roles"
                     control={controlUsuario}
                     render={({ field }) => (
                       <Select
@@ -366,7 +450,7 @@ const AdministradosDeUsuario = () => {
                 <div className="col-12 col-md-4">
                   <label className="form-label">Tipo de tercero:</label>
                   <Controller
-                    name="paisResidencia"
+                    name="tipoTercero"
                     control={controlUsuario}
                     render={({ field }) => (
                       <Select
@@ -379,7 +463,7 @@ const AdministradosDeUsuario = () => {
                     )}
                   />
                 </div>
-                <div className="form-check mt-5">
+                {/* <div className="form-check mt-5">
                   <input
                     className="form-check-input"
                     type="checkbox"
@@ -420,12 +504,13 @@ const AdministradosDeUsuario = () => {
                   >
                     Acepta que la corporacion administre sus datos personales.
                   </label>
-                </div>
+                </div> */}
                 <button
                   className="btn bg-gradient-primary mb-0 d-block ms-auto mt-4 text-capitalize"
                   type="submit"
+                  onClick={handleClickSubmit}
                 >
-                  {actionForm === "editar" ? "Actualizar" : "Crear"}
+                  {actionForm === "editar" ? "Actualizar" : "Registrar"}
                 </button>
               </form>
             )}
