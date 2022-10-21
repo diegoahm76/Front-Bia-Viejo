@@ -35,6 +35,7 @@ const AdministradorDeEmpresasScreen = () => {
     handleSubmit: handleSubmitEmpresa,
     control: controlEmpresa,
     reset: resetEmpresa,
+    watch: watchEmpresa,
     formState: { errors: errorsEmpresa },
   } = useForm();
 
@@ -118,7 +119,7 @@ const AdministradorDeEmpresasScreen = () => {
           tipoDocumentoOptions
         ),
         paisResidencia: getIndexBySelectOptions(
-          dataEmpresa.pais_residencia,
+          dataEmpresa.cod_pais_nacionalidad_empresa,
           paisesOptions
         ),
         departamento: getIndexBySelectOptions(
@@ -161,7 +162,7 @@ const AdministradorDeEmpresasScreen = () => {
       telefono_celular: data.celular,
       telefono_empresa: data.telefonoEmpresa,
       telefono_empresa_2: data.telefonoAlterno,
-      pais_residencia: formValues.paisResidencia?.value,
+      cod_pais_nacionalidad_empresa: formValues.paisResidencia?.value,
       departamento_residencia:
         departamentosOptions[formValues.departamento]?.value,
       municipio_residencia: municipiosOptions[formValues.municipio]?.value,
@@ -450,14 +451,10 @@ const AdministradorDeEmpresasScreen = () => {
                           type="number"
                           placeholder="codigo de verificacion"
                           {...registerEmpresa("codVerificacion", {
-                            required: true,
                             maxLength: 1,
                           })}
                         />
-                        <label className="ms-2">
-                          Cod. verificacion:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
+                        <label className="ms-2">Cod. verificacion:</label>
                         {errorsEmpresa.codVerificacion && (
                           <div className="col-12">
                             <small className="text-center text-danger">
@@ -508,10 +505,12 @@ const AdministradorDeEmpresasScreen = () => {
                           {...field}
                           value={paisesOptions[formValues.paisResidencia]}
                           onChange={(e) => {
-                            resetEmpresa({ paisResidencia: e.value });
                             setFormValues({
                               ...formValues,
-                              paisResidencia: e,
+                              paisResidencia: getIndexBySelectOptions(
+                                e.value,
+                                paisesOptions
+                              ),
                             });
                           }}
                           options={paisesOptions}
@@ -764,6 +763,7 @@ const AdministradorDeEmpresasScreen = () => {
             setCompleteAddress={setDireccionNotificacionText}
             reset={resetEmpresa}
             keyReset="direccionDeNotificacion"
+            totalValuesForm={watchEmpresa()}
           />
 
           <GeneradorDeDirecciones
@@ -773,6 +773,7 @@ const AdministradorDeEmpresasScreen = () => {
             setCompleteAddress={setDireccionEmpresaText}
             reset={resetEmpresa}
             keyReset="direccionEmpresa"
+            totalValuesForm={watchEmpresa()}
           />
         </div>
       </div>
