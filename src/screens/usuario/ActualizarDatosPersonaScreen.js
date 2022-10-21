@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 
 const ActualizarDatosPersonaScreen = () => {
+  const { email: emailLogin } = useSelector((state) => state.user.user);
   const [page, setPage] = useState(1);
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
@@ -13,7 +15,6 @@ const ActualizarDatosPersonaScreen = () => {
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
   const [dataUpdate, setdataUpdate] = useState({});
-
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
   });
@@ -37,7 +38,6 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: estadoCivilNoFormat } = await clienteAxios.get(
           "choices/estado-civil/"
         );
-
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
         );
@@ -47,16 +47,12 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
-
-        const dataLogin = await JSON.parse(localStorage.getItem("userInfo"));
-        //Peticion para buscar la persona por email
-          console.log(dataLogin.email)
         const { data: dataPersona } = await clienteAxios.get(
-          `personas/getpersonabyemail/${dataLogin.email}`
+          `personas/get-by-email/${emailLogin}`
         );
-        reset(dataPersona)
+        reset(dataPersona);
         setdataUpdate(dataPersona);
-        console.log(dataPersona);
+        console.log("dataPersona", dataPersona);
 
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
@@ -101,9 +97,8 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     placeholder="Tipo de documento"
                     disabled
-                    value={dataUpdate.tipo_documento?.nombre}
                   />
-                  <label className="ms-2">Tipo de documento:</label>
+                  <label>Tipo de documento:</label>
                 </div>
               </div>
               <div className="col-6 col-lg-4">
@@ -113,9 +108,8 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     placeholder="Número de documento"
                     disabled
-                    value={dataUpdate.numero_documento}
                   />
-                  <label className="ms-2">Número de documento:</label>
+                  <label>Número de documento:</label>
                 </div>
               </div>
               <div className="col-6 col-lg-4">
@@ -125,9 +119,8 @@ const ActualizarDatosPersonaScreen = () => {
                     type="text"
                     placeholder="Nombre Codigo de verificación"
                     disabled
-                    value={dataUpdate.digito_verificacion}
                   />
-                  <label className="ms-2">Codigo de verificación:</label>
+                  <label>Codigo de verificación:</label>
                 </div>
               </div>
               <div className="col-8 col-md-4">
@@ -138,7 +131,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Nombre comercial"
                     {...register("nombreComercial", { required: true })}
                   />
-                  <label className="ms-2">Nombre Comercial:</label>
+                  <label>Nombre Comercial:</label>
                 </div>
               </div>
               <div className="col-4 col-md-6">
@@ -146,7 +139,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
+                    value="" 
                   />
                   <label className="form-check-label">Si/No</label>
                 </div>
@@ -156,12 +149,11 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control"
                     type="text"
-                    required
                     disabled
                     placeholder="Primer nombre"
                     {...register("primer_nombre")}
                   />
-                  <label className="ms-2">
+                  <label>
                     Primer nombre: <span className="text-danger">*</span>
                   </label>
                 </div>
@@ -174,7 +166,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Segundo nombre"
                     {...register("segundo_nombre")}
                   />
-                  <label className="ms-2">Segundo nombre:</label>
+                  <label>Segundo nombre:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -184,11 +176,9 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Primer apellido"
                     type="text"
                     disabled
-                    value="Pacheco"
-                    required
                     {...register("primerApellido")}
                   />
-                  <label className="ms-2">
+                  <label>
                     Primer apellido: <span className="text-danger">*</span>
                   </label>
                 </div>
@@ -201,7 +191,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Segundo apellido"
                     {...register("segundoApellido")}
                   />
-                  <label className="ms-2">Segundo apellido:</label>
+                  <label>Segundo apellido:</label>
                 </div>
               </div>
               <div className="row">
@@ -325,11 +315,10 @@ const ActualizarDatosPersonaScreen = () => {
                 <input
                   className="form-control"
                   type="text"
-                  disabled
-                  value="Carrera 28 # 15-53"
+                  readOnly
                   {...register("direccionResidencial")}
                 />
-                <label className="ms-2">
+                <label>
                   Dirección residencial: <span className="text-danger">*</span>
                 </label>
                 <button className="btn bg-gradient-primary" type="button">
@@ -344,7 +333,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="referenciaAdicionalDireccion"
                     {...register("referenciaAdicionalDireccion")}
                   />
-                  <label className="ms-2">
+                  <label>
                     Ingrese una referencia adicional para su dirección:
                   </label>
                 </div>
@@ -374,11 +363,10 @@ const ActualizarDatosPersonaScreen = () => {
                 <input
                   className="form-control"
                   type="text"
-                  disabled
-                  value="Carrera 28 # 15-53"
+                  readOnly
                   {...register("direccionLaboral")}
                 />
-                <label className="ms-2">
+                <label>
                   Dirección laboral: <span className="text-danger">*</span>
                 </label>
                 <button
@@ -399,7 +387,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="E-mail"
                     {...register("email")}
                   />
-                  <label className="ms-2">E-mail:</label>
+                  <label>E-mail:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -410,7 +398,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Confirme su e-mail"
                     {...register("emailSecundario")}
                   />
-                  <label className="ms-2">E-mail secundario:</label>
+                  <label>E-mail secundario:</label>
                 </div>
               </div>
               <div className="form-floating input-group input-group-dynamic mt-2">
@@ -421,7 +409,7 @@ const ActualizarDatosPersonaScreen = () => {
                   value="Carrera 28 # 15-53"
                   {...register("direccionNotificacion")}
                 />
-                <label className="ms-2">
+                <label>
                   Dirección de notificación:{" "}
                   <span className="text-danger">*</span>
                 </label>
@@ -459,7 +447,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Direccion geografica"
                     {...register("direcciongeografica")}
                   />
-                  <label className="ms-2">Dirección geográfica:</label>
+                  <label>Dirección geográfica:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -470,7 +458,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Celular notificación"
                     {...register("celularNotificacion")}
                   />
-                  <label className="ms-2">Celular notificación:</label>
+                  <label>Celular notificación:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -481,7 +469,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Télefono fijo"
                     {...register("telefonoFijo")}
                   />
-                  <label className="ms-2">Teléfono fijo:</label>
+                  <label>Teléfono fijo:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -492,7 +480,7 @@ const ActualizarDatosPersonaScreen = () => {
                     placeholder="Télefono laboral"
                     {...register("telefonoLaboral")}
                   />
-                  <label className="ms-2">Teléfono laboral:</label>
+                  <label>Teléfono laboral:</label>
                 </div>
               </div>
             </div>
