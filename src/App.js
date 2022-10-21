@@ -64,10 +64,10 @@ function App() {
               element={<TramitesYServiciosRoutes />}
             />
           </Route>
-        </Route>
 
-        <Route element={<AdminProtectedRoutes />}>
-          <Route path="seguridad/*" element={<SeguridadRoutes />} />
+          <Route element={<AdminProtectedRoutes />}>
+            <Route path="seguridad/*" element={<SeguridadRoutes />} />
+          </Route>
         </Route>
 
         <Route path="/*" element={<Navigate to="/dashboard" />} />
