@@ -43,6 +43,7 @@ const AdministradorDePersonasScreen = () => {
     register: registerPersona,
     handleSubmit: handleSumbitPersona,
     control: controlPersona,
+    watch: watchPersona,
     formState: { errors: errorsPersona },
   } = useForm();
 
@@ -960,6 +961,7 @@ const AdministradorDePersonasScreen = () => {
             setCompleteAddress={setDireccionNotificacionText}
             reset={resetPersona}
             keyReset="direccionDeNotificacion"
+            totalValuesForm={watchPersona()}
           />
 
           <GeneradorDeDirecciones
@@ -969,6 +971,7 @@ const AdministradorDePersonasScreen = () => {
             setCompleteAddress={setDireccionLaboralText}
             reset={resetPersona}
             keyReset="direccionLaboral"
+            totalValuesForm={watchPersona()}
           />
         </div>
       </div>
