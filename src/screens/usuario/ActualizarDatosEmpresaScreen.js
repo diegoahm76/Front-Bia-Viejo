@@ -58,11 +58,11 @@ const ActualizarDatosEmpresaScreen = () => {
       digito_verificacion,
       nombre_comercial,
       razon_social,
-      pais_residencia: paisesOptions[formValues.index_pais_residencia].value,
+      pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value,
       departamento_residencia:
-        departamentosOptions[formValues.index_departamento_residencia].value,
+        departamentosOptions[formValues.index_departamento_residencia]?.value,
       municipio_residencia:
-        municipiosOptions[formValues.index_municipio_residencia].value,
+        municipiosOptions[formValues.index_municipio_residencia]?.value,
       direccion_laboral,
       direccion_notificaciones,
       email,
