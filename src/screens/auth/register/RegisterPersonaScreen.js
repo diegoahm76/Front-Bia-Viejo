@@ -81,7 +81,7 @@ const RegisterPersonaScreen = () => {
         );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
-        );
+      );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);

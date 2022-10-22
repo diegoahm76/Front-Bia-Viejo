@@ -8,6 +8,7 @@ import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
+import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -361,137 +362,163 @@ const AdministradorDePersonasScreen = () => {
           Administrador de personas
         </h3>
         <div
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative logo-marca-agua1"
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <div className="opacity-logos">
-          <div className="row">
-            <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
-              <h5 className="font-weight-bolder">Buscar persona</h5>
-              <div className="mt-4 row align-items-center">
-                <div className="col-12 col-md-4">
-                  <label className="form-label">
-                    Tipo de documento: <span className="text-danger">*</span>
-                  </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={controlBuscar}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errorsBuscar.tipoDocumento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Numero de documento"
-                      {...registerBuscar("numeroDocumento", { required: true })}
-                    />
-                    <label className="ms-2">
-                      Número de documento:{" "}
-                      <span className="text-danger">*</span>
+          <MarcaDeAgua1>
+            <div className="row">
+              <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
+                <h5 className="font-weight-bolder">Buscar persona</h5>
+                <div className="mt-4 row align-items-center">
+                  <div className="col-12 col-md-4">
+                    <label className="form-label">
+                      Tipo de documento: <span className="text-danger">*</span>
                     </label>
+                    <Controller
+                      name="tipoDocumento"
+                      control={controlBuscar}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={tipoDocumentoOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                    {errorsBuscar.tipoDocumento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
-                  {errorsBuscar.numeroDocumento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-4 mt-3 mt-md-0">
-                  <button
-                    type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
-                  >
-                    Buscar
-                  </button>
-                  <button
-                    type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
-                  >
-                    Busqueda avanzada
-                  </button>
-                </div>
-              </div>
-            </form>
-
-            {actionForm && (
-              <form onSubmit={handleSumbitPersona(onSubmitPersona)}>
-                <h5 className="font-weight-bolder mt-4">Datos personales</h5>
-                <hr className="dark horizontal my-0" />
-                <div className="mt-4 row">
-                  <div className="row col-12 justify-content-center align-items-center">
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">
-                        Tipo de documento:{" "}
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Numero de documento"
+                        {...registerBuscar("numeroDocumento", {
+                          required: true,
+                        })}
+                      />
+                      <label className="ms-2">
+                        Número de documento:{" "}
                         <span className="text-danger">*</span>
                       </label>
-                      <Controller
-                        name="tipoDocumento2"
-                        control={controlPersona}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={
-                              tipoDocumentoOptions[formValues.tipoDocumento]
-                            }
-                            onChange={(e) => {
-                              //resetPersona({ tipoDocumento2: e.value });
-                              setFormValues({
-                                ...formValues,
-                                tipoDocumento: getIndexBySelectOptions(
-                                  e.value,
-                                  tipoDocumentoOptions
-                                ),
-                              });
-                            }}
-                            options={tipoDocumentoOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                      {errorsPersona.tipoDocumento2 && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Numero de documento"
-                          {...registerPersona("numeroDocumento2", {
-                            required: true,
-                          })}
-                        />
-                        <label className="ms-2">
-                          Número de documento:{" "}
+                    {errorsBuscar.numeroDocumento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-4 mt-3 mt-md-0">
+                    <button
+                      type="submit"
+                      className="btn bg-gradient-primary mb-0 text-capitalize"
+                    >
+                      Buscar
+                    </button>
+                    <button
+                      type="button"
+                      className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    >
+                      Busqueda avanzada
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              {actionForm && (
+                <form onSubmit={handleSumbitPersona(onSubmitPersona)}>
+                  <h5 className="font-weight-bolder mt-4">Datos personales</h5>
+                  <hr className="dark horizontal my-0" />
+                  <div className="mt-4 row">
+                    <div className="row col-12 justify-content-center align-items-center">
+                      <div className="col-12 col-md-4">
+                        <label className="form-label">
+                          Tipo de documento:{" "}
                           <span className="text-danger">*</span>
                         </label>
+                        <Controller
+                          name="tipoDocumento2"
+                          control={controlPersona}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={
+                                tipoDocumentoOptions[formValues.tipoDocumento]
+                              }
+                              onChange={(e) => {
+                                //resetPersona({ tipoDocumento2: e.value });
+                                setFormValues({
+                                  ...formValues,
+                                  tipoDocumento: getIndexBySelectOptions(
+                                    e.value,
+                                    tipoDocumentoOptions
+                                  ),
+                                });
+                              }}
+                              options={tipoDocumentoOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                        {errorsPersona.tipoDocumento2 && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
                       </div>
-                      {errorsPersona.numeroDocumento2 && (
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic ms-2">
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Numero de documento"
+                            {...registerPersona("numeroDocumento2", {
+                              required: true,
+                            })}
+                          />
+                          <label className="ms-2">
+                            Número de documento:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                        {errorsPersona.numeroDocumento2 && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Primer nombre"
+                            {...registerPersona("primerNombre", {
+                              required: true,
+                            })}
+                          />
+                          <label className="ms-2">
+                            Primer nombre:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                      </div>
+                      {errorsPersona.primerNombre && (
                         <div className="col-12">
                           <small className="text-center text-danger">
                             Este campo es obligatorio
@@ -504,124 +531,257 @@ const AdministradorDePersonasScreen = () => {
                         <input
                           className="form-control"
                           type="text"
-                          placeholder="Primer nombre"
-                          {...registerPersona("primerNombre", {
+                          placeholder="Segundo nombre"
+                          {...registerPersona("segundoNombre")}
+                        />
+                        <label className="ms-2">Segundo nombre:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          placeholder="Primer apellido"
+                          type="text"
+                          {...registerPersona("primerApellido", {
                             required: true,
                           })}
                         />
                         <label className="ms-2">
-                          Primer nombre: <span className="text-danger">*</span>
+                          Primer apellido:{" "}
+                          <span className="text-danger">*</span>
                         </label>
                       </div>
+                      {errorsPersona.primerApellido && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
                     </div>
-                    {errorsPersona.primerNombre && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Segundo apellido"
+                          {...registerPersona("segundoApellido")}
+                        />
+                        <label className="ms-2">Segundo apellido:</label>
                       </div>
-                    )}
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Segundo nombre"
-                        {...registerPersona("segundoNombre")}
-                      />
-                      <label className="ms-2">Segundo nombre:</label>
                     </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        placeholder="Primer apellido"
-                        type="text"
-                        {...registerPersona("primerApellido", {
-                          required: true,
-                        })}
-                      />
-                      <label className="ms-2">
-                        Primer apellido: <span className="text-danger">*</span>
+                    <div className="row mt-2">
+                      <div className="col-12 col-md-4">
+                        <label className="form-label">Sexo:</label>
+                        <Controller
+                          name="sexo"
+                          control={controlBuscar}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={sexoOptions}
+                              value={sexoOptions[formValues.sexo]}
+                              onChange={(e) =>
+                                setFormValues({ ...formValues, sexo: e })
+                              }
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <label className="form-label">Estado civil:</label>
+                        <Controller
+                          name="estadoCivil"
+                          control={controlBuscar}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={estadoCivilOptions[formValues.estadoCivil]}
+                              onChange={(e) =>
+                                setFormValues({
+                                  ...formValues,
+                                  estadoCivil: getIndexBySelectOptions(
+                                    e.value,
+                                    estadoCivilOptions
+                                  ),
+                                })
+                              }
+                              options={estadoCivilOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <label className="form-label">
+                          País de nacimiento:
+                        </label>
+                        <Controller
+                          name="paisNacimiento"
+                          control={controlBuscar}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={paisesOptions[formValues.paisNacimiento]}
+                              onChange={(e) =>
+                                setFormValues({
+                                  ...formValues,
+                                  paisNacimiento: getIndexBySelectOptions(
+                                    e.value,
+                                    paisesOptions
+                                  ),
+                                })
+                              }
+                              options={paisesOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                    </div>
+                    <div className="input-group input-group-dynamic flex-column col-12 col-md-4 mt-4">
+                      <label htmlFor="exampleFormControlInput1">
+                        Fecha de nacimiento{" "}
+                        <span className="text-danger">*</span>
                       </label>
+                      <Controller
+                        name="fechaNacimiento"
+                        control={controlBuscar}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            locale="es"
+                            dateFormat="yyyy/MM/dd"
+                            selected={formValues.fechaNacimiento}
+                            value={formValues.fechaNacimiento}
+                            onSelect={(e) => {
+                              setFormValues({
+                                ...formValues,
+                                fechaNacimiento: e,
+                              });
+                            }}
+                            className="multisteps-form__input form-control p-2"
+                            placeholderText="aaaa/mm/dd"
+                          />
+                        )}
+                      />
+                      {errorsPersona.fechaNacimiento && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
                     </div>
-                    {errorsPersona.primerApellido && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
+                  </div>
+                  <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
+                  <hr className="dark horizontal my-0" />
+                  <div className="mt-4 row">
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="email"
+                          placeholder="E-mail"
+                          {...registerPersona("eMail", { required: true })}
+                        />
+                        <label className="ms-2">
+                          E-mail: <span className="text-danger">*</span>
+                        </label>
                       </div>
-                    )}
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Segundo apellido"
-                        {...registerPersona("segundoApellido")}
-                      />
-                      <label className="ms-2">Segundo apellido:</label>
+                      {errorsPersona.eMail && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Email empresarial"
+                          {...registerPersona("emailEmpresarial")}
+                        />
+                        <label className="ms-2">Email empresarial:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="Celular"
+                          {...registerPersona("celular", { required: true })}
+                        />
+                        <label className="ms-2">
+                          Celular: <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                      {errorsPersona.celular && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="Telefono"
+                          {...registerPersona("telefonoFijo")}
+                        />
+                        <label className="ms-2">Telefono fijo:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="Telefono"
+                          {...registerPersona("telefonoEmpresa")}
+                        />
+                        <label className="ms-2">Telefono empresa:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="Telefono"
+                          {...registerPersona("telefonoEmpresa2")}
+                        />
+                        <label className="ms-2">Telefono empresa 2:</label>
+                      </div>
                     </div>
                   </div>
-                  <div className="row mt-2">
+                  <h5 className="font-weight-bolder mt-4">
+                    Lugar de residencia
+                  </h5>
+                  <div className="row mb-3">
                     <div className="col-12 col-md-4">
-                      <label className="form-label">Sexo:</label>
+                      <label className="form-label">País de Residencia:</label>
                       <Controller
-                        name="sexo"
+                        name="paisResidencia"
                         control={controlBuscar}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={sexoOptions}
-                            value={sexoOptions[formValues.sexo]}
-                            onChange={(e) =>
-                              setFormValues({ ...formValues, sexo: e })
-                            }
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">Estado civil:</label>
-                      <Controller
-                        name="estadoCivil"
-                        control={controlBuscar}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={estadoCivilOptions[formValues.estadoCivil]}
+                            value={paisesOptions[formValues.paisResidencia]}
                             onChange={(e) =>
                               setFormValues({
                                 ...formValues,
-                                estadoCivil: getIndexBySelectOptions(
-                                  e.value,
-                                  estadoCivilOptions
-                                ),
-                              })
-                            }
-                            options={estadoCivilOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">País de nacimiento:</label>
-                      <Controller
-                        name="paisNacimiento"
-                        control={controlBuscar}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={paisesOptions[formValues.paisNacimiento]}
-                            onChange={(e) =>
-                              setFormValues({
-                                ...formValues,
-                                paisNacimiento: getIndexBySelectOptions(
+                                paisResidencia: getIndexBySelectOptions(
                                   e.value,
                                   paisesOptions
                                 ),
@@ -633,34 +793,155 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
+                    <div className="col-12 col-md-4">
+                      <label className="form-label">Departamento:</label>
+                      <Controller
+                        name="departamento"
+                        control={controlBuscar}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            value={
+                              departamentosOptions[formValues.departamento]
+                            }
+                            onChange={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                departamento: getIndexBySelectOptions(
+                                  e.value,
+                                  departamentosOptions
+                                ),
+                              })
+                            }
+                            options={departamentosOptions}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <label className="form-label">Municipio:</label>
+                      <Controller
+                        name="municipio"
+                        control={controlBuscar}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            value={municipiosOptions[formValues.municipio]}
+                            onChange={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                municipio: getIndexBySelectOptions(
+                                  e.value,
+                                  municipiosOptions
+                                ),
+                              })
+                            }
+                            options={municipiosOptions}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
                   </div>
-                  <div className="input-group input-group-dynamic flex-column col-12 col-md-4 mt-4">
-                    <label htmlFor="exampleFormControlInput1">
-                      Fecha de nacimiento <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="fechaNacimiento"
-                      control={controlBuscar}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="yyyy/MM/dd"
-                          selected={formValues.fechaNacimiento}
-                          value={formValues.fechaNacimiento}
-                          onSelect={(e) => {
-                            setFormValues({
-                              ...formValues,
-                              fechaNacimiento: e,
-                            });
-                          }}
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="aaaa/mm/dd"
+
+                  <div className="row">
+                    <div className="col-md-8 col-12">
+                      <div className="form-floating input-group input-group-dynamic mt-2">
+                        <input
+                          className="form-control"
+                          type="text"
+                          readOnly
+                          {...registerPersona("direccionDeNotificacion")}
                         />
-                      )}
-                    />
-                    {errorsPersona.fechaNacimiento && (
+                        <label className="ms-2">
+                          Dirección de notificación:
+                        </label>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                          onClick={() => setDireccionNotificacionIsOpen(true)}
+                        >
+                          Generar
+                        </button>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="referencia adicional"
+                          {...registerPersona("referenciaAdicional")}
+                        />
+                        <label className="ms-2">Referencia adicional:</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-8 col-12">
+                      <div className="form-floating input-group input-group-dynamic mt-2">
+                        <input
+                          className="form-control"
+                          type="text"
+                          readOnly
+                          {...registerPersona("direccionLaboral")}
+                        />
+                        <label className="ms-2">Dirección laboral:</label>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                          onClick={() => setDireccionLaboralIsOpen(true)}
+                        >
+                          Generar
+                        </button>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <label className="form-label">
+                        Municipio donde labora:
+                      </label>
+                      <Controller
+                        name="municipioDondeLabora"
+                        control={controlBuscar}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={municipiosOptions}
+                            value={
+                              municipiosOptions[formValues.municipioDondeLabora]
+                            }
+                            onChange={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                municipioDondeLabora: getIndexBySelectOptions(
+                                  e.value,
+                                  municipiosOptions
+                                ),
+                              })
+                            }
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Ubicacion geografica"
+                          {...registerPersona("ubicacionGeografica", {
+                            required: true,
+                          })}
+                        />
+                        <label className="ms-2">
+                          Ubicacion geografica:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    {errorsPersona.ubicacionGeografica && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
@@ -668,294 +949,27 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                </div>
-                <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
-                <hr className="dark horizontal my-0" />
-                <div className="mt-4 row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="email"
-                        placeholder="E-mail"
-                        {...registerPersona("eMail", { required: true })}
-                      />
-                      <label className="ms-2">
-                        E-mail: <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    {errorsPersona.eMail && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Email empresarial"
-                        {...registerPersona("emailEmpresarial")}
-                      />
-                      <label className="ms-2">Email empresarial:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="tel"
-                        placeholder="Celular"
-                        {...registerPersona("celular", { required: true })}
-                      />
-                      <label className="ms-2">
-                        Celular: <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                    {errorsPersona.celular && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="tel"
-                        placeholder="Telefono"
-                        {...registerPersona("telefonoFijo")}
-                      />
-                      <label className="ms-2">Telefono fijo:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="tel"
-                        placeholder="Telefono"
-                        {...registerPersona("telefonoEmpresa")}
-                      />
-                      <label className="ms-2">Telefono empresa:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="tel"
-                        placeholder="Telefono"
-                        {...registerPersona("telefonoEmpresa2")}
-                      />
-                      <label className="ms-2">Telefono empresa 2:</label>
-                    </div>
-                  </div>
-                </div>
-                <h5 className="font-weight-bolder mt-4">Lugar de residencia</h5>
-                <div className="row mb-3">
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">País de Residencia:</label>
-                    <Controller
-                      name="paisResidencia"
-                      control={controlBuscar}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={paisesOptions[formValues.paisResidencia]}
-                          onChange={(e) =>
-                            setFormValues({
-                              ...formValues,
-                              paisResidencia: getIndexBySelectOptions(
-                                e.value,
-                                paisesOptions
-                              ),
-                            })
-                          }
-                          options={paisesOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">Departamento:</label>
-                    <Controller
-                      name="departamento"
-                      control={controlBuscar}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={departamentosOptions[formValues.departamento]}
-                          onChange={(e) =>
-                            setFormValues({
-                              ...formValues,
-                              departamento: getIndexBySelectOptions(
-                                e.value,
-                                departamentosOptions
-                              ),
-                            })
-                          }
-                          options={departamentosOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">Municipio:</label>
-                    <Controller
-                      name="municipio"
-                      control={controlBuscar}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={municipiosOptions[formValues.municipio]}
-                          onChange={(e) =>
-                            setFormValues({
-                              ...formValues,
-                              municipio: getIndexBySelectOptions(
-                                e.value,
-                                municipiosOptions
-                              ),
-                            })
-                          }
-                          options={municipiosOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
 
-                <div className="row">
-                  <div className="col-md-8 col-12">
-                    <div className="form-floating input-group input-group-dynamic mt-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        readOnly
-                        {...registerPersona("direccionDeNotificacion")}
-                      />
-                      <label className="ms-2">Dirección de notificación:</label>
-                      <button
-                        type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                        onClick={() => setDireccionNotificacionIsOpen(true)}
-                      >
-                        Generar
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="referencia adicional"
-                        {...registerPersona("referenciaAdicional")}
-                      />
-                      <label className="ms-2">Referencia adicional:</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-8 col-12">
-                    <div className="form-floating input-group input-group-dynamic mt-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        readOnly
-                        {...registerPersona("direccionLaboral")}
-                      />
-                      <label className="ms-2">Dirección laboral:</label>
-                      <button
-                        type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                        onClick={() => setDireccionLaboralIsOpen(true)}
-                      >
-                        Generar
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">
-                      Municipio donde labora:
-                    </label>
-                    <Controller
-                      name="municipioDondeLabora"
-                      control={controlBuscar}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={municipiosOptions}
-                          value={
-                            municipiosOptions[formValues.municipioDondeLabora]
-                          }
-                          onChange={(e) =>
-                            setFormValues({
-                              ...formValues,
-                              municipioDondeLabora: getIndexBySelectOptions(
-                                e.value,
-                                municipiosOptions
-                              ),
-                            })
-                          }
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Ubicacion geografica"
-                        {...registerPersona("ubicacionGeografica", {
-                          required: true,
-                        })}
-                      />
-                      <label className="ms-2">
-                        Ubicacion geografica:{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                  </div>
-                  {errorsPersona.ubicacionGeografica && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
+                  <div className="d-flex justify-content-end gap-2 mt-4">
+                    <button
+                      className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                      type="button"
+                      onClick={handleCancelAction}
+                    >
+                      Cancelar
+                    </button>
 
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <button
-                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
-                    type="button"
-                    onClick={handleCancelAction}
-                  >
-                    Cancelar
-                  </button>
-
-                  <button
-                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
-                    type="submit"
-                  >
-                    {actionForm === "editar" ? "Actualizar" : "Crear"}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
-          </div>
+                    <button
+                      className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                      type="submit"
+                    >
+                      {actionForm === "editar" ? "Actualizar" : "Crear"}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </MarcaDeAgua1>
           <GeneradorDeDirecciones
             isOpenGenerator={direccionNotificacionIsOpen}
             setIsOpenGenerator={setDireccionNotificacionIsOpen}

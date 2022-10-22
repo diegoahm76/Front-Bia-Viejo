@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import Select from "react-select";
+import MarcaDeAgua1 from "./MarcaDeAgua1";
 
 const customStyles = {
   content: {
