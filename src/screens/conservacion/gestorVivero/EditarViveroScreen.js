@@ -3,7 +3,7 @@ import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { Row, Col } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
@@ -26,10 +26,8 @@ const options = [
 
 function AgregarViveroScreen() {
   const { register, control, handleSubmit, formState: { errors }, } = useForm();
-  const [rowData, setRowData] = useState(rowDataInicial)
+  const [rowData] = useState(rowDataInicial)
 
-
-  const [inputList, setInputList] = useState([{ Latitud: "", longitud: "" }]);
   // const gridRef = useRef(); // Optional - for accessing Grid's API
 
   const [selecOpciones, setSelecOpciones] = useState({
@@ -86,6 +84,9 @@ function AgregarViveroScreen() {
   const onGridReady = (params) => {
     gridApi = params.api;
   };
+  const onExportClick = () => {
+    gridApi.exportDataAsCsv();
+  };
   // const onExportClick = () => {
   //   gridApi.exportDataAsCsv();
   // };
@@ -103,8 +104,6 @@ function AgregarViveroScreen() {
   //   list.splice(index, 1);
   //   setInputList(list);
   // };
-
-  // handle click event of the Add button
 
   return (
     <div className="row min-vh-100">
@@ -393,15 +392,15 @@ function AgregarViveroScreen() {
                           <div className="form-check">
                             <label
                               className="form-check-label mb-2"
-                              for="flexRadioDefault1"
+                              for="RadioBotonSustratoSi"
                             >
                               Si
                             </label>
                             <input
                               className="form-check-input ms-2"
                               type="radio"
-                              name="flexRadioDefault"
-                              id="flexRadioDefault1"
+                              name="RadioBotonSustrato"
+                              id="RadioBotonSustratoSi"
                             ></input>
                           </div>
                         </Col>
@@ -409,15 +408,15 @@ function AgregarViveroScreen() {
                           <div className="form-check">
                             <label
                               className="form-check-label mb-2"
-                              for="flexRadioDefault1"
+                              for="RadioBotonSustratoNo"
                             >
                               No
                             </label>
                             <input
                               className="form-check-input ms-2"
                               type="radio"
-                              name="flexRadioDefault"
-                              id="flexRadioDefault1"
+                              name="RadioBotonSustrato"
+                              id="RadioBotonSustratoNo"
                             ></input>
                             <span className="text-danger mt-0 ms-1">*</span>
                           </div>

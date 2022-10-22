@@ -1340,8 +1340,15 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white"
-                            to="conservacion/gestormaterialvegetal/materialvegetalsembrado"
+                            to="conservacion/gestormaterialvegetal/crearmaterialvegetalsembrado"
                           >
+
+
+
+                            {/* MATERIAL VEGETAL SEMBRADO */}
+
+
+
                             <span className="sidenav-mini-icon"> M </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Material vegetal sembrado
@@ -1364,6 +1371,14 @@ const Aside = ({ showAside }) => {
                             className="nav-link text-white "
                             to="conservacion/gestormaterialvegetal/cuarentenadematerialvegetal"
                           >
+
+
+
+                            {/* CUARENTENA MATERIAL VEGETAL */}
+
+
+
+
                             <span className="sidenav-mini-icon"> C </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               Cuarentena material vegetal
@@ -1642,6 +1657,13 @@ const Aside = ({ showAside }) => {
                             <span className="sidenav-normal  ms-2  ps-1">
                               {" "}
                               VR Info{" "}
+
+
+
+{/* CENTRO DE NOTIFICACIONES */}
+
+
+
                             </span>
                           </a>
                         </li>

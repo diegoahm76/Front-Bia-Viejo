@@ -191,7 +191,8 @@ const ProgamacionDeMantenimiento = () => {
                         placeholder="Seleccionar"
                       />
                     )}
-                  /></div>
+                  />
+                </div>
               </label>
             </div>
 

@@ -43,6 +43,7 @@ function ReasignacionElementosSubAsignadosScreen() {
     useState(false);
   const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
     useState(false);
+    
   const [selecOpciones, setSelecOpciones] = useState({
     tipoDocumento: "",
     numeroCedula: "",

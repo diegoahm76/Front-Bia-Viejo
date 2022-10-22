@@ -1,23 +1,19 @@
-
 import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { Row, Col } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 function AgregarViveroScreen() {
   const { register, control, handleSubmit, formState: { errors }, } = useForm();
-  const [inputList, setInputList] = useState([{ Latitud: "", longitud: "" }]);
-  const gridRef = useRef(); // Optional - for accessing Grid's API
 
-  const [vivero, setVivero] = useState("");
-  const [siembra, setSiembra] = useState("");
+  const [setVivero] = useState("");
+  const [setSiembra] = useState("");
 
   const handleAddGrid = (dataAdd) => {
     console.log(dataAdd)
-
   }
 
   const onSubmit = (data) => {
@@ -35,17 +31,16 @@ function AgregarViveroScreen() {
     { label: "Cumaral", value: "Cuma" },
     { label: "El Calvario", value: "Elca" },
   ];
-  const opcionMunicipio = [
-    { label: "Acacías", value: "Acac" },
-    { label: "Barranca de Upía", value: "Barra" },
-    { label: "Cabuyaro", value: "Cabuy" },
-    { label: "Castilla La Nueva", value: "Cast" },
-    { label: "Cubarral", value: "Cuba" },
-    { label: "Cumaral", value: "Cuma" },
-    { label: "El Calvario", value: "Elca" },
-  ];
-
-  // Each Column Definition results in one Column.
+  
+  // const opcionMunicipio = [
+  //   { label: "Acacías", value: "Acac" },
+  //   { label: "Barranca de Upía", value: "Barra" },
+  //   { label: "Cabuyaro", value: "Cabuy" },
+  //   { label: "Castilla La Nueva", value: "Cast" },
+  //   { label: "Cubarral", value: "Cuba" },
+  //   { label: "Cumaral", value: "Cuma" },
+  //   { label: "El Calvario", value: "Elca" },
+  // ];
   let gridApi;
   const columnDefs = [
     { headerName: "Latitud", field: "latitud" },
@@ -73,7 +68,6 @@ function AgregarViveroScreen() {
   const defaultColDef = {
     
     sortable: true,
-    editable: true,
     flex: 1,
     filter: true,
     wrapHeaderText: true,
@@ -89,36 +83,30 @@ function AgregarViveroScreen() {
     gridApi.exportDataAsCsv();
   };
 
-  const handleInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...inputList];
-    list[index][name] = value;
-    setInputList(list);
-  };
+  // const handleInputChange = (e, index) => {
+  //   const { name, value } = e.target;
+  //   const list = [...inputList];
+  //   list[index][name] = value;
+  //   setInputList(list);
+  // };
 
-  // handle click event of the Remove button
-  const handleRemoveClick = (index) => {
-    const list = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
-  };
-
-  // handle click event of the Add button
+  // // handle click event of the Remove button
+  // const handleRemoveClick = (index) => {
+  //   const list = [...inputList];
+  //   list.splice(index, 1);
+  //   setInputList(list);
+  // };
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Agregar Vivero</h3>
-        {/* <p className="lead font-weight-normal opacity-8 mb-7 text-center">
-          This information will let us know more about you.
-        </p> */}
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          {/* <!--single form panel--> */}
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
@@ -168,9 +156,6 @@ function AgregarViveroScreen() {
                   </div>
                 </div>
               </div>
-
-
-
               <div className="row my-3">
                 <div className="form-group mt-3 col-12 col-sm-6">
                   <label className="font-weight" for="cantidadKg">
@@ -191,7 +176,6 @@ function AgregarViveroScreen() {
                   )}
                 </div>
               </div>
-
               <div className="row my-3">
                 <div className="form-group mt-3 col-12 col-sm-6">
                   <label className="font-weight" for="cantidadKg">
@@ -230,7 +214,6 @@ function AgregarViveroScreen() {
                   )}
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="form-group mt-3 col-4 col-sm-4">
                   <label className="font-weight" for="cantidadKg">
@@ -259,8 +242,7 @@ function AgregarViveroScreen() {
                     className="btn bg-gradient-primary "
                     type="button"
                     title="Send"
-                    handleAddGrid={handleAddGrid}
-                    
+                    handleAddGrid={handleAddGrid}   
                   >
                     Guardar
                   </button>
@@ -296,7 +278,7 @@ function AgregarViveroScreen() {
                           className="form-check-label mb-2"
                           for="radioBotonSi"
                         >
-                          Si
+                          Si {""}
                         </label>
                         <input
                           className="form-check-input ms-2"
@@ -337,19 +319,19 @@ function AgregarViveroScreen() {
                 </div>
                 <div className="col-12 col-sm-4 ">
                   <Row>
-                    <Col>
+                  <Col>
                       <div className="form-check">
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          for="radioBotonSiProd"
                         >
-                          Si
+                          Si {""}
                         </label>
                         <input
                           className="form-check-input ms-2"
                           type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
+                          name="radioBoton2"
+                          id="radioBotonSiProd"
                         ></input>
                       </div>
                     </Col>
@@ -357,15 +339,15 @@ function AgregarViveroScreen() {
                       <div className="form-check">
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          for="radioBotonNoProd"
                         >
                           No
                         </label>
                         <input
                           className="form-check-input ms-2"
                           type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
+                          name="radioBoton2"
+                          id="radioBotonNoProd"
                         ></input>
                         <span className="text-danger mt-0 ms-1">*</span>
                       </div>
@@ -374,7 +356,6 @@ function AgregarViveroScreen() {
                 </div>
                 <Col></Col>
               </div>
-
               <Row>
                 <div className="col-6 col-sm-5">
                   <div className="input-group input-group-dynamic flex-column col-6 col-sm-5">
@@ -395,7 +376,6 @@ function AgregarViveroScreen() {
                   )}
                 </div>
               </Row>
-
               <Row>
                 <div className="col-6 col-sm-5">
                   <div className="input-group input-group-dynamic flex-column col-6 col-sm-5 my-3">
@@ -416,7 +396,6 @@ function AgregarViveroScreen() {
                   )}
                 </div>
               </Row>
-
               <div className="row mt-3">
                 <div className="col-12 col-sm-4">
                   <div className="input-group input-group-dynamic">
@@ -430,12 +409,12 @@ function AgregarViveroScreen() {
                         <input
                           className="form-check-input ms-2"
                           type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
+                          name="tipoDeViveroRadio"
+                          id="megaViveroRadio"
                         ></input>
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          for="megaViveroRadio"
                         >
                           mega vivero
                         </label>
@@ -446,12 +425,12 @@ function AgregarViveroScreen() {
                         <input
                           className="form-check-input ms-2"
                           type="radio"
-                          name="flexRadioDefault"
-                          id="flexRadioDefault1"
+                          name="tipoDeViveroRadio"
+                          id="viveroSalienteRadio"
                         ></input>
                         <label
                           className="form-check-label mb-2"
-                          for="flexRadioDefault1"
+                          for="viveroSalienteRadio"
                         >
                           vivero saliente
                         </label>
@@ -462,7 +441,6 @@ function AgregarViveroScreen() {
                 </div>
               </div>
               <Col></Col>
-
               <Row>
                 <div className="col-6 col-sm-5">
                   <div className="input-group input-group-dynamic flex-column col-6 col-sm-5">
@@ -487,7 +465,6 @@ function AgregarViveroScreen() {
                   )}
                 </div>
               </Row>
-
               <div className="col-8 col-sm-5 my-3">
                 <div className="input-group input-group-dynamic flex-column">
                   <label htmlFor="exampleFormControlInput1">
@@ -497,46 +474,14 @@ function AgregarViveroScreen() {
                     className="multisteps-form__input form-control p-0 w-auto"
                     type="number"
                     placeholder="Recursos propios de la corporacion"
-                    name="nombre"
+                    name="nombreVivero"
                     {...register("nombre", { required: true })}
                   />
                 </div>
                 {errors.nombre && (
                   <p className="text-danger">Este campo es obligatorio</p>
                 )}
-              </div>
-
-              {/* <div className="row mt-3">
-                  <div className="col-5 col-sm-3">
-                    <div className="input-group input-group-dynamic">
-                      <label className="font-weight">
-                        Anexar documentación:
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-7 col-sm-8 ">
-                    <Row>
-                      <Col>
-                         <div className="input-group input-group-dynamic">
-                          <label
-                            htmlFor="exampleFormControlInput1"
-                            className="form-label"
-                          >
-
-                          </label>
-                          <input
-                            className="multisteps-form__input form-control"
-                            type="file"
-                            {...register("option5")}
-                          />
-                        </div>
-                        
-
-                      </Col>
-
-                    </Row>
-                  </div>
-                </div> */}
+              </div>     
               <div className="row">
                 <div className=" mb-3 col-8 col-sm-6">
                   <label for="formFileMultiple" class="form-label">
@@ -558,7 +503,6 @@ function AgregarViveroScreen() {
                   </label>
                 </div>
               </div>
-
               <div className="button-row ">
                 <button
                   className="btn bg-gradient-primary ms-auto mb-0"
@@ -569,8 +513,6 @@ function AgregarViveroScreen() {
                 </button>
               </div>
             </div>
-
-
           </div>
         </form>
       </div>

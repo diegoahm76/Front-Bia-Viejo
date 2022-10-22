@@ -19,7 +19,7 @@ import CompensacionScreen from "../gestorVivero/inventario/CompensacionScreen";
 import MedidasDeRearciminetoScreen from "../gestorVivero/inventario/MedidasDeRearciminetoScreen";
 import HerraminetasScreen from "../gestorVivero/inventario/HerraminetasScreen";
 import DisponibleMaterialVegetalScreen from "../gestorVivero/inventario/DisponibleMaterialVegetalScreen";
-import MaterialVegetalSembradoScreen from "../gestorMaterialVegetal/MaterialVegetalSembradoScreen";
+import CrearMaterialVegetalSembradoScreen from "../gestorMaterialVegetal/CrearMaterialVegetalSembradoScreen";
 import EditarMaterialVegetalScreen from "../gestorMaterialVegetal/EditarMaterialVegetalScreen";
 import CuarentenaDeMaterialVegetalScreen from "../gestorMaterialVegetal/CuarentenaDeMaterialVegetalScreen";
 import ActivarMaterialVegetalScreen from "../gestorMaterialVegetal/ActivarMaterialVegetalScreen";
@@ -89,8 +89,8 @@ const ConservacionRoutes = () => {
         />
 
         <Route
-          path="materialvegetalsembrado"
-          element={<MaterialVegetalSembradoScreen />}
+          path="crearmaterialvegetalsembrado"
+          element={<CrearMaterialVegetalSembradoScreen />}
         />
 
         <Route
