@@ -6,6 +6,7 @@ import {
   desactiveModalAction,
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const defaultColDef = {
   sortable: true,
@@ -91,268 +92,294 @@ const SolicitudesEnColaDeEsperaScreen = () => {
           Solicitudes en cola de espera
         </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <div id="myGrid" className="ag-theme-alpine mt-3">
-            <div
-              className="container ag-theme-alpine"
-              style={{ height: "300px", maxWidth: "800px" }}
-            >
-              <AgGridReact
-                className="ag-theme-alpine"
-                animateRows="true"
-                columnDefs={columnDefs}
-                rowData={rowData}
-                defaultColDef={defaultColDef}
-              ></AgGridReact>
+          <MarcaDeAgua1>
+            <div id="myGrid" className="ag-theme-alpine mt-3">
+              <div
+                className="container ag-theme-alpine"
+                style={{ height: "300px", maxWidth: "800px" }}
+              >
+                <AgGridReact
+                  className="ag-theme-alpine"
+                  animateRows="true"
+                  columnDefs={columnDefs}
+                  rowData={rowData}
+                  defaultColDef={defaultColDef}
+                ></AgGridReact>
+              </div>
             </div>
-          </div>
-          <form className="row">
-            {viewData && (
-              <>
-                <h5 className="font-weight-bolder mt-4">Coordinador</h5>
+            <form className="row">
+              {viewData && (
+                <>
+                  <h5 className="font-weight-bolder mt-4">Coordinador</h5>
 
-                <div className="col-12 col-lg-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Tipo de documento"
-                      disabled
-                      value="C.C."
-                    />
-                    <label className="ms-2">Tipo de documento:</label>
+                  <div className="col-12 col-lg-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Tipo de documento"
+                        disabled
+                        value="C.C."
+                      />
+                      <label className="ms-2">Tipo de documento:</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-6 col-lg-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Número de documento"
-                      disabled
-                      value="1151231231"
-                    />
-                    <label className="ms-2">Número de documento:</label>
+                  <div className="col-6 col-lg-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Número de documento"
+                        disabled
+                        value="1151231231"
+                      />
+                      <label className="ms-2">Número de documento:</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="nombre"
-                    />
-                    <label className="ms-2">Nombre</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="nombre"
+                      />
+                      <label className="ms-2">Nombre</label>
+                    </div>
                   </div>
-                </div>
 
-                <h5 className="font-weight-bolder mt-4">Solicitante</h5>
+                  <h5 className="font-weight-bolder mt-4">Solicitante</h5>
 
-                <div className="col-12 col-lg-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Tipo de documento"
-                      disabled
-                      value="C.C."
-                    />
-                    <label className="ms-2">Tipo de documento:</label>
+                  <div className="col-12 col-lg-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Tipo de documento"
+                        disabled
+                        value="C.C."
+                      />
+                      <label className="ms-2">Tipo de documento:</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-6 col-lg-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Número de documento"
-                      disabled
-                      value="1151231231"
-                    />
-                    <label className="ms-2">Número de documento:</label>
+                  <div className="col-6 col-lg-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Número de documento"
+                        disabled
+                        value="1151231231"
+                      />
+                      <label className="ms-2">Número de documento:</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="nombre"
-                    />
-                    <label className="ms-2">Nombre</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="nombre"
+                      />
+                      <label className="ms-2">Nombre</label>
+                    </div>
                   </div>
-                </div>
 
-                <h5 className="font-weight-bolder mt-4">Datos vehículo</h5>
+                  <h5 className="font-weight-bolder mt-4">Datos vehículo</h5>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="dependencia"
-                    />
-                    <label className="ms-2">Dependencia</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="dependencia"
+                      />
+                      <label className="ms-2">Dependencia</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="grupo"
-                    />
-                    <label className="ms-2">Grupo</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="grupo"
+                      />
+                      <label className="ms-2">Grupo</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="capacidadPasajeros"
-                    />
-                    <label className="ms-2">Capacidad pasajeros</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="capacidadPasajeros"
+                      />
+                      <label className="ms-2">Capacidad pasajeros</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="transporteCarga"
-                    />
-                    <label className="ms-2">Transporte carga</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="transporteCarga"
+                      />
+                      <label className="ms-2">Transporte carga</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="horaDeSalida"
-                    />
-                    <label className="ms-2">Hora de salida</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="horaDeSalida"
+                      />
+                      <label className="ms-2">Hora de salida</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="horaDeLlegada"
-                    />
-                    <label className="ms-2">Hora de llegada</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="horaDeLlegada"
+                      />
+                      <label className="ms-2">Hora de llegada</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="fechaDeSalida"
-                    />
-                    <label className="ms-2">Fecha de salida</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="fechaDeSalida"
+                      />
+                      <label className="ms-2">Fecha de salida</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled
-                      value="Junior"
-                      placeholder="fechaDeLlegada"
-                    />
-                    <label className="ms-2">Fecha de llegada</label>
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        className="form-control"
+                        type="text"
+                        disabled
+                        value="Junior"
+                        placeholder="fechaDeLlegada"
+                      />
+                      <label className="ms-2">Fecha de llegada</label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="input-group input-group-dynamic flex-column mt-3">
-                  <label htmlFor="exampleFormControlInput1 ">
-                    Observaciones
-                  </label>
-                  <textarea
-                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                    type="text"
-                    rows="5"
-                    disabled
-                    name="Observaciones"
-                    value={
-                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                    }
-                  />
-                </div>
+                  <div className="input-group input-group-dynamic flex-column mt-3">
+                    <label htmlFor="exampleFormControlInput1 ">
+                      Observaciones
+                    </label>
+                    <textarea
+                      className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                      type="text"
+                      rows="5"
+                      disabled
+                      name="Observaciones"
+                      value={
+                        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                      }
+                    />
+                  </div>
 
-                <h5 className="font-weight-bolder mt-4 text-center">
-                  Última actilización
-                </h5>
+                  <h5 className="font-weight-bolder mt-4 text-center">
+                    Última actilización
+                  </h5>
 
-                <div className="d-flex justify-content-start align-items-center">
-                  <label className="mx-4">15/05/2022</label>
-                  <p className="flex-grow-1 m-0 bg-light p-1">
-                    Sed dui diam, pellentesque et elit eget, lacinia congue
-                    libero. Cras volutpat nec mi ac molestie. Lorem ipsum dolor
-                    sit amet, consectetur adipiscing elit. Nam suscipit felis
-                    non quam vestibulum ullamcorper. Suspendisse leo odio,
-                    convallis vel felis at, auctor ultrices nulla.
-                  </p>
-                </div>
+                  <div className="d-flex justify-content-start align-items-center">
+                    <label className="mx-4">15/05/2022</label>
+                    <p className="flex-grow-1 m-0 bg-light p-1">
+                      Sed dui diam, pellentesque et elit eget, lacinia congue
+                      libero. Cras volutpat nec mi ac molestie. Lorem ipsum
+                      dolor sit amet, consectetur adipiscing elit. Nam suscipit
+                      felis non quam vestibulum ullamcorper. Suspendisse leo
+                      odio, convallis vel felis at, auctor ultrices nulla.
+                    </p>
+                  </div>
 
-                <div className="accordion mt-3" id="accordionExample">
-                  <div className="accordion-item">
-                    <h2
-                      className="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1"
-                      id="headingOne"
-                    >
-                      <button
-                        className="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="true"
-                        aria-controls="collapseOne"
+                  <div className="accordion mt-3" id="accordionExample">
+                    <div className="accordion-item">
+                      <h2
+                        className="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1"
+                        id="headingOne"
                       >
-                        Historial
-                      </button>
-                    </h2>
-                    <div
-                      id="collapseOne"
-                      className="accordion-collapse collapse"
-                      aria-labelledby="headingOne"
-                      data-bs-parent="#accordionExample"
-                    >
-                      <div className="accordion-body">
+                        <button
+                          className="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseOne"
+                          aria-expanded="true"
+                          aria-controls="collapseOne"
+                        >
+                          Historial
+                        </button>
+                      </h2>
+                      <div
+                        id="collapseOne"
+                        className="accordion-collapse collapse"
+                        aria-labelledby="headingOne"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div className="accordion-body">
+                          <div className="d-flex justify-content-start align-items-center">
+                            <label className="mx-4">13/05/2022</label>
+                            <p className="flex-grow-1 m-0 bg-light p-1">
+                              Sed dui diam, pellentesque et elit eget, lacinia
+                              congue libero. Cras volutpat nec mi ac molestie.
+                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit. Nam suscipit felis non quam vestibulum
+                              ullamcorper. Suspendisse leo odio, convallis vel
+                              felis at, auctor ultrices nulla.
+                            </p>
+                          </div>
+                        </div>
+
                         <div className="d-flex justify-content-start align-items-center">
-                          <label className="mx-4">13/05/2022</label>
+                          <label className="mx-4">14/05/2022</label>
+                          <p className="flex-grow-1 m-0 bg-light p-1">
+                            Sed dui diam, pellentesque et elit eget, lacinia
+                            congue libero. Cras volutpat nec mi ac molestie.
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Nam suscipit felis non quam vestibulum
+                            ullamcorper. Suspendisse leo odio, convallis vel
+                            felis at, auctor ultrices nulla.
+                          </p>
+                        </div>
+
+                        <div className="d-flex justify-content-start align-items-center">
+                          <label className="mx-4">15/05/2022</label>
                           <p className="flex-grow-1 m-0 bg-light p-1">
                             Sed dui diam, pellentesque et elit eget, lacinia
                             congue libero. Cras volutpat nec mi ac molestie.
@@ -363,148 +390,127 @@ const SolicitudesEnColaDeEsperaScreen = () => {
                           </p>
                         </div>
                       </div>
-
-                      <div className="d-flex justify-content-start align-items-center">
-                        <label className="mx-4">14/05/2022</label>
-                        <p className="flex-grow-1 m-0 bg-light p-1">
-                          Sed dui diam, pellentesque et elit eget, lacinia
-                          congue libero. Cras volutpat nec mi ac molestie. Lorem
-                          ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                          suscipit felis non quam vestibulum ullamcorper.
-                          Suspendisse leo odio, convallis vel felis at, auctor
-                          ultrices nulla.
-                        </p>
-                      </div>
-
-                      <div className="d-flex justify-content-start align-items-center">
-                        <label className="mx-4">15/05/2022</label>
-                        <p className="flex-grow-1 m-0 bg-light p-1">
-                          Sed dui diam, pellentesque et elit eget, lacinia
-                          congue libero. Cras volutpat nec mi ac molestie. Lorem
-                          ipsum dolor sit amet, consectetur adipiscing elit. Nam
-                          suscipit felis non quam vestibulum ullamcorper.
-                          Suspendisse leo odio, convallis vel felis at, auctor
-                          ultrices nulla.
-                        </p>
-                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="d-flex">
-                  <button
-                    className="btn bg-gradient-primary mt-3 text-capitalize mx-auto"
-                    type="button"
-                    onClick={() => setVerificarCompatibilidad(true)}
-                  >
-                    Verificar compatibilidad con vehículos asignados
-                  </button>
-                </div>
-
-                {verificarCompatibilidad && (
-                  <div className="d-flex gap-2 mt-3">
-                    <p className="m-0 bg-light p-1">
-                      Sed dui diam, pellentesque et elit eget, lacinia congue
-                      libero. Cras volutpat nec mi ac molestie. Lorem ipsum
-                      dolor sit amet, consectetur adipiscing elit. Nam suscipit
-                      felis non quam vestibulum ullamcorper. Suspendisse leo
-                      odio, convallis vel felis at, auctor ultrices nulla.
-                    </p>
+                  <div className="d-flex">
                     <button
-                      className="btn bg-gradient-primary text-capitalize flex-fill"
+                      className="btn bg-gradient-primary mt-3 text-capitalize mx-auto"
                       type="button"
+                      onClick={() => setVerificarCompatibilidad(true)}
                     >
-                      Unir solicitud
+                      Verificar compatibilidad con vehículos asignados
                     </button>
                   </div>
-                )}
 
-                <div className="d-flex justify-content-end gap-2 mt-3">
-                  <button
-                    className="btn bg-gradient-light text-capitalize"
-                    type="button"
-                    onClick={() => {
-                      dispatch(activeModalAction());
-                    }}
-                  >
-                    Rechazar solicitud
-                  </button>
+                  {verificarCompatibilidad && (
+                    <div className="d-flex gap-2 mt-3">
+                      <p className="m-0 bg-light p-1">
+                        Sed dui diam, pellentesque et elit eget, lacinia congue
+                        libero. Cras volutpat nec mi ac molestie. Lorem ipsum
+                        dolor sit amet, consectetur adipiscing elit. Nam
+                        suscipit felis non quam vestibulum ullamcorper.
+                        Suspendisse leo odio, convallis vel felis at, auctor
+                        ultrices nulla.
+                      </p>
+                      <button
+                        className="btn bg-gradient-primary text-capitalize flex-fill"
+                        type="button"
+                      >
+                        Unir solicitud
+                      </button>
+                    </div>
+                  )}
 
-                  <button
-                    className="btn bg-gradient-primary text-capitalize"
-                    type="button"
-                  >
-                    Asignar vehículo
-                  </button>
-                </div>
-              </>
-            )}
-          </form>
+                  <div className="d-flex justify-content-end gap-2 mt-3">
+                    <button
+                      className="btn bg-gradient-light text-capitalize"
+                      type="button"
+                      onClick={() => {
+                        dispatch(activeModalAction());
+                      }}
+                    >
+                      Rechazar solicitud
+                    </button>
+
+                    <button
+                      className="btn bg-gradient-primary text-capitalize"
+                      type="button"
+                    >
+                      Asignar vehículo
+                    </button>
+                  </div>
+                </>
+              )}
+            </form>
+          </MarcaDeAgua1>
           <CalendarModal>
-            <h5 className="font-weight-bolder mt-4 text-center">
-              Rechazar solicitud
-            </h5>
+            <MarcaDeAgua1>
+              <h5 className="font-weight-bolder mt-4 text-center">
+                Rechazar solicitud
+              </h5>
 
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled
-                  value="Junior Pacheco"
-                  placeholder="fechaDeSalida"
-                />
-                <label className="ms-2">Fecha de salida</label>
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled
+                    value="Junior Pacheco"
+                    placeholder="fechaDeSalida"
+                  />
+                  <label className="ms-2">Fecha de salida</label>
+                </div>
               </div>
-            </div>
 
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled
-                  value="03/08/2022"
-                  placeholder="fechaDeSalida"
-                />
-                <label className="ms-2">Fecha de salida</label>
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled
+                    value="03/08/2022"
+                    placeholder="fechaDeSalida"
+                  />
+                  <label className="ms-2">Fecha de salida</label>
+                </div>
               </div>
-            </div>
 
-            <div className="input-group input-group-dynamic flex-column mt-3">
-              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-              <textarea
-                className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                type="text"
-                rows="6"
-                disabled
-                name="Observaciones"
-                value={
-                  "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                }
-              />
-            </div>
+              <div className="input-group input-group-dynamic flex-column mt-3">
+                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
+                <textarea
+                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                  type="text"
+                  rows="6"
+                  disabled
+                  name="Observaciones"
+                  value={
+                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                  }
+                />
+              </div>
 
-            <div className="d-flex justify-content-end gap-2 mt-3">
-              <button
-                className="btn bg-gradient-light text-capitalize"
-                type="button"
-                onClick={() => {
-                  dispatch(desactiveModalAction());
-                }}
-              >
-                Salir
-              </button>
+              <div className="d-flex justify-content-end gap-2 mt-3">
+                <button
+                  className="btn bg-gradient-light text-capitalize"
+                  type="button"
+                  onClick={() => {
+                    dispatch(desactiveModalAction());
+                  }}
+                >
+                  Salir
+                </button>
 
-              <button
-                className="btn bg-gradient-primary text-capitalize"
-                type="button"
-                onClick={() => {
-                  dispatch(desactiveModalAction());
-                }}
-              >
-                Guardar
-              </button>
-            </div>
+                <button
+                  className="btn bg-gradient-primary text-capitalize"
+                  type="button"
+                  onClick={() => {
+                    dispatch(desactiveModalAction());
+                  }}
+                >
+                  Guardar
+                </button>
+              </div>
+            </MarcaDeAgua1>
           </CalendarModal>
         </div>
       </div>

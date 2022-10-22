@@ -10,6 +10,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import { da } from "date-fns/locale";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const RegistroDeMantenimientoDeComputoScreen = () => {
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
@@ -70,137 +71,225 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <div className="row">
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="consecutivo"
-                  className="form-control"
-                  type="text"
-                  placeholder="numero consecutivo"
-                  {...register("consecutivo", { required: true })}
-                />
-                <label className="ms-2">Numero consecutivo</label>
-              </div>
-              {errors.consecutivo && (
-                <small className="text-danger">Este campo es obligatorio</small>
-              )}
-            </div>
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de solicitud
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                      disabled
-                    />
-                  )}
-                />
-              </label>
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {selecOpciones.consecutivo ? (
-            <div>
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Articulo</n>
-                  </label>
+          <MarcaDeAgua1>
+            <div className="row">
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    name="consecutivo"
+                    className="form-control"
+                    type="text"
+                    placeholder="numero consecutivo"
+                    {...register("consecutivo", { required: true })}
+                  />
+                  <label className="ms-2">Numero consecutivo</label>
                 </div>
+                {errors.consecutivo && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </div>
-
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="codigoArticulo"
-                        className="multisteps-form__input form-control"
-                        type="text"
-                        placeholder="Codigo de articulo"
-                        {...register("codigoArticulo", { required: true })}
-                      />
-                      <label className="ms-2">
-                        Codigo del articulo
-                        <small className="text-danger">*</small>
-                      </label>
-                    </div>
-                    {errors.codigoArticulo && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="nombreArticulo"
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre del articulo"
-                        value="Computador"
+              <div className="col-12 col-md-4">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha de solicitud
+                  <Controller
+                    name="fechaSolicitud"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="multisteps-form__input form-control p-2"
+                        placeholderText="dd/mm/aaaa"
                         disabled
                       />
-                      <label className="ms-2">Nombre del articulo </label>
-                    </div>
-                  </div>
+                    )}
+                  />
+                </label>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <button
+                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
 
-                  <div className="col-12 col-md-4">
-                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                      <button
-                        className="btn bg-gradient-primary mb-0 text-capitalize"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                        onClick={() => setBusquedaArticuloIsActive(true)}
-                      >
-                        Buscar articulo
-                      </button>
+            {selecOpciones.consecutivo ? (
+              <div>
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Articulo</n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          name="codigoArticulo"
+                          className="multisteps-form__input form-control"
+                          type="text"
+                          placeholder="Codigo de articulo"
+                          {...register("codigoArticulo", { required: true })}
+                        />
+                        <label className="ms-2">
+                          Codigo del articulo
+                          <small className="text-danger">*</small>
+                        </label>
+                      </div>
+                      {errors.codigoArticulo && (
+                        <small className="text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          name="nombreArticulo"
+                          className="form-control"
+                          type="text"
+                          placeholder="Nombre del articulo"
+                          value="Computador"
+                          disabled
+                        />
+                        <label className="ms-2">Nombre del articulo </label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                        <button
+                          className="btn bg-gradient-primary mb-0 text-capitalize"
+                          type="button"
+                          title="Send"
+                          form="configForm"
+                          onClick={() => setBusquedaArticuloIsActive(true)}
+                        >
+                          Buscar articulo
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="multisteps-form__content">
-                <div className="mt-4 row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Tercero</n>
-                  </label>
+                <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Tercero</n>
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              <div className="multisteps-form__content">
+                <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <div className="col-12 col-md-4">
+                      <label className="form-floating input-group input-group-dynamic ms-2">
+                        Tipo de documento{" "}
+                        <small className="text-danger">*</small>
+                        <div className="col-12 ">
+                          <Controller
+                            name="tipodocumento"
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                onChange={(e) =>
+                                  setSelecOpciones({
+                                    ...selecOpciones,
+                                    tipoDocumento: e.value,
+                                  })
+                                }
+                                options={opcionTipoDocumento}
+                                placeholder="Seleccionar"
+                              />
+                            )}
+                          />
+                        </div>
+                      </label>
+                      {errors.tipodocumento && (
+                        <small className="text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic ">
+                        <input
+                          name="numeroCedula"
+                          className="form-control"
+                          type="text"
+                          placeholder="numero cedula"
+                          {...register("numeroCedula", { required: true })}
+                        />
+                        <label className="ms-2">
+                          Número de cedula
+                          <small className="text-danger">*</small>
+                        </label>
+                      </div>
+                      {errors.numeroCedula && (
+                        <small className="text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      )}
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Julian Castillo"
+                          disabled
+                          {...register("nombreCompleto")}
+                        />
+                        <label className="ms-2">Nombre completo</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className=" row">
+                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <button
+                      className="btn bg-gradient-primary mb-0 text-capitalize"
+                      type="button"
+                      title="Send"
+                      form="configForm"
+                      onClick={() => setBusquedaPersonalIsActive(true)}
+                    >
+                      Buscar Tercero
+                    </button>
+                  </div>
+                </div>
+
                 <div className="mt-4 row">
                   <div className="col-12 col-md-4">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Tipo de documento <small className="text-danger">*</small>
+                      Tipo de mantenimiento
+                      <small className="text-danger">*</small>
                       <div className="col-12 ">
                         <Controller
-                          name="tipodocumento"
+                          name="tipodemantenimiento"
                           control={control}
                           rules={{ required: true }}
                           render={({ field }) => (
@@ -209,17 +298,17 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                               onChange={(e) =>
                                 setSelecOpciones({
                                   ...selecOpciones,
-                                  tipoDocumento: e.value,
+                                  tipoMantenimiento: e.value,
                                 })
                               }
-                              options={opcionTipoDocumento}
+                              options={opcionTipoMantenimiento}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
                       </div>
                     </label>
-                    {errors.tipodocumento && (
+                    {errors.tipodemantenimiento && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
@@ -227,168 +316,88 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                   </div>
 
                   <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic ">
-                      <input
-                        name="numeroCedula"
-                        className="form-control"
-                        type="text"
-                        placeholder="numero cedula"
-                        {...register("numeroCedula", { required: true })}
-                      />
-                      <label className="ms-2">
-                        Número de cedula<small className="text-danger">*</small>
-                      </label>
-                    </div>
-                    {errors.numeroCedula && (
+                    <label className="form-floating input-group input-group-dynamic ms-2">
+                      Estado final<small className="text-danger">*</small>
+                      <div className="col-12 ">
+                        <Controller
+                          name="estado"
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              onChange={(e) =>
+                                setSelecOpciones({
+                                  ...selecOpciones,
+                                  estado: e.value,
+                                })
+                              }
+                              options={opcionEstado}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                    </label>
+                    {errors.estado && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
                     )}
                   </div>
+                </div>
 
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="Julian Castillo"
-                        disabled
-                        {...register("nombreCompleto")}
-                      />
-                      <label className="ms-2">Nombre completo</label>
-                    </div>
+                <div className="input-group input-group-dynamic flex-column mt-3">
+                  <label htmlFor="exampleFormControlInput1 ">
+                    Acciones realizadas
+                  </label>
+                  <textarea
+                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                    type="text"
+                    placeholder="Acciones realizadas"
+                    rows="3"
+                    name="Acciones"
+                  />
+                </div>
+
+                <div className="mt- 4 input-group input-group-dynamic flex-column mt-3">
+                  <label htmlFor="exampleFormControlInput1 ">
+                    Observaciones
+                  </label>
+                  <textarea
+                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                    type="text"
+                    placeholder="Observaciones"
+                    rows="3"
+                    name="Observaciones"
+                  />
+                </div>
+
+                <div className="row">
+                  <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <button
+                      className="btn bg-gradient-primary mb-0"
+                      type="button"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Limpiar
+                    </button>
+                    <button
+                      className="btn bg-gradient-primary mb-0"
+                      type="submit"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Guardar
+                    </button>
                   </div>
                 </div>
               </div>
-
-              <div className=" row">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                    onClick={() => setBusquedaPersonalIsActive(true)}
-                  >
-                    Buscar Tercero
-                  </button>
-                </div>
-              </div>
-
-              <div className="mt-4 row">
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de mantenimiento
-                    <small className="text-danger">*</small>
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipodemantenimiento"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            onChange={(e) =>
-                              setSelecOpciones({
-                                ...selecOpciones,
-                                tipoMantenimiento: e.value,
-                              })
-                            }
-                            options={opcionTipoMantenimiento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                  {errors.tipodemantenimiento && (
-                    <small className="text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  )}
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Estado final<small className="text-danger">*</small>
-                    <div className="col-12 ">
-                      <Controller
-                        name="estado"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            onChange={(e) =>
-                              setSelecOpciones({
-                                ...selecOpciones,
-                                estado: e.value,
-                              })
-                            }
-                            options={opcionEstado}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                  {errors.estado && (
-                    <small className="text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  )}
-                </div>
-              </div>
-
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">
-                  Acciones realizadas
-                </label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="Acciones realizadas"
-                  rows="3"
-                  name="Acciones"
-                />
-              </div>
-
-              <div className="mt- 4 input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="Observaciones"
-                  rows="3"
-                  name="Observaciones"
-                />
-              </div>
-
-              <div className="row">
-                <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Limpiar
-                  </button>
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="submit"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Guardar
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+            )}
+          </MarcaDeAgua1>
         </form>
         <BusquedaDePersonalModal
           isModalActive={busquedaPersonalIsActive}

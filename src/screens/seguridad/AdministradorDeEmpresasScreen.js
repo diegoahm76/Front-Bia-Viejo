@@ -6,6 +6,7 @@ import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import Swal from "sweetalert2";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
+import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -318,411 +319,252 @@ const AdministradorDeEmpresasScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <div className="row">
-            <h5 className="font-weight-bolder">Buscar empresa</h5>
-            <form
-              className="mt-4 row align-items-center"
-              onSubmit={handleSubmitBuscar(onSubmitBuscar)}
-            >
-              <div className="col-12 col-md-4">
-                <label className="form-label">
-                  Tipo de documento: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="tipoDocumento"
-                  control={controlBuscar}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={tipoDocumentoOptions}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errorsBuscar.tipoDocumento && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Numero de documento"
-                    {...registerBuscar("numeroDocumento", { required: true })}
-                  />
-                  <label className="ms-2">
-                    Número de documento: <span className="text-danger">*</span>
+          <MarcaDeAgua1>
+            <div className="row">
+              <h5 className="font-weight-bolder">Buscar empresa</h5>
+              <form
+                className="mt-4 row align-items-center"
+                onSubmit={handleSubmitBuscar(onSubmitBuscar)}
+              >
+                <div className="col-12 col-md-4">
+                  <label className="form-label">
+                    Tipo de documento: <span className="text-danger">*</span>
                   </label>
+                  <Controller
+                    name="tipoDocumento"
+                    control={controlBuscar}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={tipoDocumentoOptions}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errorsBuscar.tipoDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
-                {errorsBuscar.numeroDocumento && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Numero de documento"
+                      {...registerBuscar("numeroDocumento", { required: true })}
+                    />
+                    <label className="ms-2">
+                      Número de documento:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
                   </div>
-                )}
-              </div>
-              <div className="col-12 col-md-4 mt-2 mt-md-0">
-                <button
-                  type="submit"
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                >
-                  Buscar
-                </button>
-                <button
-                  type="button"
-                  className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
-                >
-                  Busqueda avanzada
-                </button>
-              </div>
-            </form>
+                  {errorsBuscar.numeroDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-md-4 mt-2 mt-md-0">
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                  >
+                    Buscar
+                  </button>
+                  <button
+                    type="button"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                  >
+                    Busqueda avanzada
+                  </button>
+                </div>
+              </form>
 
-            {actionForm && (
-              <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
-                <h5 className="font-weight-bolder mt-4">Datos personales</h5>
-                <hr className="dark horizontal my-0" />
-                <div className="mt-4 row">
-                  <div className="row col-12 justify-content-center align-items-center">
+              {actionForm && (
+                <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
+                  <h5 className="font-weight-bolder mt-4">Datos personales</h5>
+                  <hr className="dark horizontal my-0" />
+                  <div className="mt-4 row">
+                    <div className="row col-12 justify-content-center align-items-center">
+                      <div className="col-12 col-md-4">
+                        <label className="form-label">
+                          Tipo de documento:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="tipoDocumento2"
+                          control={controlEmpresa}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={
+                                tipoDocumentoOptions[formValues.tipoDocumento]
+                              }
+                              onChange={(e) => {
+                                setFormValues({
+                                  ...formValues,
+                                  tipoDocumento: getIndexBySelectOptions(
+                                    e.value,
+                                    tipoDocumentoOptions
+                                  ),
+                                });
+                              }}
+                              options={tipoDocumentoOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic ms-2">
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Numero de documento"
+                            {...registerEmpresa("numeroDocumento2", {
+                              required: true,
+                            })}
+                          />
+                          <label className="ms-2">
+                            Número de documento:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          {errorsEmpresa.numeroDocumento2 && (
+                            <div className="col-12">
+                              <small className="text-center text-danger">
+                                Este campo es obligatorio
+                              </small>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            className="form-control"
+                            type="number"
+                            placeholder="codigo de verificacion"
+                            {...registerEmpresa("codVerificacion", {
+                              maxLength: 1,
+                            })}
+                          />
+                          <label className="ms-2">Cod. verificacion:</label>
+                          {errorsEmpresa.codVerificacion && (
+                            <div className="col-12">
+                              <small className="text-center text-danger">
+                                Este campo es obligatorio, con numeros y de un
+                                carácter
+                              </small>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="col-12 col-md-4">
-                      <label className="form-label">
-                        Tipo de documento:{" "}
-                        <span className="text-danger">*</span>
-                      </label>
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Nombre comercial"
+                          {...registerEmpresa("nombreComercial")}
+                        />
+                        <label className="ms-2">Nombre comercial:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          placeholder="Razon social"
+                          type="text"
+                          {...registerEmpresa("razonSocial")}
+                        />
+                        <label className="ms-2">
+                          Razon social: <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
+                  <hr className="dark horizontal my-0" />
+                  <div className="mt-4 row">
+                    <div className="col-12 col-md-4">
+                      <label className="form-label">País:</label>
                       <Controller
-                        name="tipoDocumento2"
+                        name="paisResidencia"
                         control={controlEmpresa}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            value={
-                              tipoDocumentoOptions[formValues.tipoDocumento]
-                            }
+                            value={paisesOptions[formValues.paisResidencia]}
                             onChange={(e) => {
                               setFormValues({
                                 ...formValues,
-                                tipoDocumento: getIndexBySelectOptions(
+                                paisResidencia: getIndexBySelectOptions(
                                   e.value,
-                                  tipoDocumentoOptions
+                                  paisesOptions
                                 ),
                               });
                             }}
-                            options={tipoDocumentoOptions}
+                            options={paisesOptions}
                             placeholder="Seleccionar"
                           />
                         )}
                       />
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Numero de documento"
-                          {...registerEmpresa("numeroDocumento2", {
-                            required: true,
-                          })}
-                        />
-                        <label className="ms-2">
-                          Número de documento:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        {errorsEmpresa.numeroDocumento2 && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="number"
-                          placeholder="codigo de verificacion"
-                          {...registerEmpresa("codVerificacion", {
-                            maxLength: 1,
-                          })}
-                        />
-                        <label className="ms-2">Cod. verificacion:</label>
-                        {errorsEmpresa.codVerificacion && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio, con numeros y de un
-                              carácter
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre comercial"
-                        {...registerEmpresa("nombreComercial")}
-                      />
-                      <label className="ms-2">Nombre comercial:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        placeholder="Razon social"
-                        type="text"
-                        {...registerEmpresa("razonSocial")}
-                      />
-                      <label className="ms-2">
-                        Razon social: <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
-                <hr className="dark horizontal my-0" />
-                <div className="mt-4 row">
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">País:</label>
-                    <Controller
-                      name="paisResidencia"
-                      control={controlEmpresa}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={paisesOptions[formValues.paisResidencia]}
-                          onChange={(e) => {
-                            setFormValues({
-                              ...formValues,
-                              paisResidencia: getIndexBySelectOptions(
-                                e.value,
-                                paisesOptions
-                              ),
-                            });
-                          }}
-                          options={paisesOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">
-                      Departamento: <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="departamento"
-                      control={controlEmpresa}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={departamentosOptions[formValues.departamento]}
-                          onChange={(e) => {
-                            setFormValues({
-                              ...formValues,
-                              departamento: getIndexBySelectOptions(
-                                e.value,
-                                departamentosOptions
-                              ),
-                            });
-                          }}
-                          options={departamentosOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">
-                      Municipio: <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="municipio"
-                      control={controlEmpresa}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={municipiosOptions[formValues.municipio]}
-                          onChange={(e) => {
-                            setFormValues({
-                              ...formValues,
-                              municipio: getIndexBySelectOptions(
-                                e.value,
-                                municipiosOptions
-                              ),
-                            });
-                          }}
-                          options={municipiosOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="row">
-                    <div className="col-md-8 col-12">
-                      <div className="form-floating input-group input-group-dynamic mt-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          readOnly
-                          {...registerEmpresa("direccionEmpresa")}
-                        />
-                        <label className="ms-2">Dirección de empresa:</label>
-                        <button
-                          type="button"
-                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionEmpresaIsOpen(true)}
-                        >
-                          Generar
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="email"
-                          placeholder="E-mail"
-                          {...registerEmpresa("eMail")}
-                        />
-                        <label className="ms-2">
-                          E-mail: <span className="text-danger">*</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="tel"
-                        placeholder="Celular"
-                        {...registerEmpresa("celular")}
-                      />
-                      <label className="ms-2">
-                        Celular: <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Telefono empresa"
-                        {...registerEmpresa("telefonoEmpresa")}
-                      />
-                      <label className="ms-2">Telefono empresa:</label>
-                    </div>
-                  </div>
-                </div>
-
-                <h5 className="font-weight-bolder mt-3">
-                  Datos de notificacion
-                </h5>
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Telefono alterno"
-                        {...registerEmpresa("telefonoAlterno")}
-                      />
-                      <label className="ms-2">Telefono alterno:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="email"
-                        placeholder="E-mail"
-                        {...registerEmpresa("emailNotificacion")}
-                      />
-                      <label className="ms-2">E-mail de notificacion:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Celular de notificacion"
-                        {...registerEmpresa("celularNotificacion")}
-                      />
-                      <label className="ms-2">Celular de notificacion: </label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-8 col-12">
-                      <div className="form-floating input-group input-group-dynamic mt-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          readOnly
-                          {...registerEmpresa("direccionDeNotificacion")}
-                        />
-                        <label className="ms-2">
-                          Dirección de notificación:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <button
-                          type="button"
-                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionNotificacionIsOpen(true)}
-                        >
-                          Generar
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Ubicacion geografica"
-                          {...registerEmpresa("ubicacionGeografica")}
-                        />
-                        <label className="ms-2">
-                          Ubicacion geografica:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
                       <label className="form-label">
-                        Municipio de notificacion:
+                        Departamento: <span className="text-danger">*</span>
                       </label>
                       <Controller
-                        name="municipioNotificacion"
+                        name="departamento"
                         control={controlEmpresa}
                         render={({ field }) => (
                           <Select
                             {...field}
                             value={
-                              municipiosOptions[
-                                formValues.municipioNotificacion
-                              ]
+                              departamentosOptions[formValues.departamento]
                             }
                             onChange={(e) => {
-                              resetEmpresa({ municipioNotificacion: e.value });
                               setFormValues({
                                 ...formValues,
-                                municipioNotificacion: getIndexBySelectOptions(
+                                departamento: getIndexBySelectOptions(
+                                  e.value,
+                                  departamentosOptions
+                                ),
+                              });
+                            }}
+                            options={departamentosOptions}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <label className="form-label">
+                        Municipio: <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="municipio"
+                        control={controlEmpresa}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            value={municipiosOptions[formValues.municipio]}
+                            onChange={(e) => {
+                              setFormValues({
+                                ...formValues,
+                                municipio: getIndexBySelectOptions(
                                   e.value,
                                   municipiosOptions
                                 ),
@@ -734,28 +576,197 @@ const AdministradorDeEmpresasScreen = () => {
                         )}
                       />
                     </div>
+                    <div className="row">
+                      <div className="col-md-8 col-12">
+                        <div className="form-floating input-group input-group-dynamic mt-2">
+                          <input
+                            className="form-control"
+                            type="text"
+                            readOnly
+                            {...registerEmpresa("direccionEmpresa")}
+                          />
+                          <label className="ms-2">Dirección de empresa:</label>
+                          <button
+                            type="button"
+                            className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                            onClick={() => setDireccionEmpresaIsOpen(true)}
+                          >
+                            Generar
+                          </button>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            className="form-control"
+                            type="email"
+                            placeholder="E-mail"
+                            {...registerEmpresa("eMail")}
+                          />
+                          <label className="ms-2">
+                            E-mail: <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="Celular"
+                          {...registerEmpresa("celular")}
+                        />
+                        <label className="ms-2">
+                          Celular: <span className="text-danger">*</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic ms-2">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Telefono empresa"
+                          {...registerEmpresa("telefonoEmpresa")}
+                        />
+                        <label className="ms-2">Telefono empresa:</label>
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                <div className="d-flex justify-content-end gap-2 mt-3">
-                  <button
-                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
-                    type="button"
-                    onClick={handleCancelAction}
-                  >
-                    Cancelar
-                  </button>
+                  <h5 className="font-weight-bolder mt-3">
+                    Datos de notificacion
+                  </h5>
+                  <div className="row">
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic ms-2">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Telefono alterno"
+                          {...registerEmpresa("telefonoAlterno")}
+                        />
+                        <label className="ms-2">Telefono alterno:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="email"
+                          placeholder="E-mail"
+                          {...registerEmpresa("emailNotificacion")}
+                        />
+                        <label className="ms-2">E-mail de notificacion:</label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic ms-2">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Celular de notificacion"
+                          {...registerEmpresa("celularNotificacion")}
+                        />
+                        <label className="ms-2">
+                          Celular de notificacion:{" "}
+                        </label>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-8 col-12">
+                        <div className="form-floating input-group input-group-dynamic mt-2">
+                          <input
+                            className="form-control"
+                            type="text"
+                            readOnly
+                            {...registerEmpresa("direccionDeNotificacion")}
+                          />
+                          <label className="ms-2">
+                            Dirección de notificación:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <button
+                            type="button"
+                            className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                            onClick={() => setDireccionNotificacionIsOpen(true)}
+                          >
+                            Generar
+                          </button>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <div className="form-floating input-group input-group-dynamic ms-2">
+                          <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Ubicacion geografica"
+                            {...registerEmpresa("ubicacionGeografica")}
+                          />
+                          <label className="ms-2">
+                            Ubicacion geografica:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-4">
+                        <label className="form-label">
+                          Municipio de notificacion:
+                        </label>
+                        <Controller
+                          name="municipioNotificacion"
+                          control={controlEmpresa}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={
+                                municipiosOptions[
+                                  formValues.municipioNotificacion
+                                ]
+                              }
+                              onChange={(e) => {
+                                resetEmpresa({
+                                  municipioNotificacion: e.value,
+                                });
+                                setFormValues({
+                                  ...formValues,
+                                  municipioNotificacion:
+                                    getIndexBySelectOptions(
+                                      e.value,
+                                      municipiosOptions
+                                    ),
+                                });
+                              }}
+                              options={municipiosOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                    </div>
+                  </div>
 
-                  <button
-                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
-                    type="submit"
-                  >
-                    {actionForm === "editar" ? "Actualizar" : "Crear"}
-                  </button>
-                </div>
-              </form>
-            )}
-          </div>
+                  <div className="d-flex justify-content-end gap-2 mt-3">
+                    <button
+                      className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                      type="button"
+                      onClick={handleCancelAction}
+                    >
+                      Cancelar
+                    </button>
+
+                    <button
+                      className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                      type="submit"
+                    >
+                      {actionForm === "editar" ? "Actualizar" : "Crear"}
+                    </button>
+                  </div>
+                </form>
+              )}
+            </div>
+          </MarcaDeAgua1>
           <GeneradorDeDirecciones
             isOpenGenerator={direccionNotificacionIsOpen}
             setIsOpenGenerator={setDireccionNotificacionIsOpen}

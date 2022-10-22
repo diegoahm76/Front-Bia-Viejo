@@ -7,6 +7,7 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const ReporteDeInventarioScreen = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -32,7 +33,6 @@ const ReporteDeInventarioScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-
     setSelecOpciones({
       ...selecOpciones,
       ubicacion: data.ubicacion?.value,
@@ -181,311 +181,315 @@ const ReporteDeInventarioScreen = () => {
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Ubicacion
-                  <div className="col-12 ">
-                    <Controller
-                      name="ubicacion"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionUbicacion}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Bodega
-                  <div className="col-12 ">
-                    <Controller
-                      name="bodega"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionBodega}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de entrada
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipoDeEntrada"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionTipoDeEntrada}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-
-              <div className="multisteps-form__content">
-                <div className="row mt-4">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Rango de codigos</n>
-                  </label>
-                </div>
-              </div>
-
-              <div className="row">
+          <MarcaDeAgua1>
+            <div className="multisteps-form__content">
+              <div className="mt-4 row">
                 <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      name="codigoInicial"
-                      className="form-control"
-                      type="text"
-                      placeholder="Codigo inicial"
-                      {...register("codigoInicial")}
-                    />
-                    <label className="ms-2">Codigo inicial</label>
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      name="codigoFinal"
-                      className="form-control"
-                      type="text"
-                      placeholder="Codigo final"
-                      {...register("codigoFinal")}
-                    />
-                    <label className="ms-2">Codigo final</label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="multisteps-form__content">
-                <div className="row mt-4">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Rango de valores</n>
-                  </label>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      name="valorInicial"
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      {...register("valorInicial")}
-                    />
-                    <label className="ms-2">Valor inicial</label>
-                  </div>
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      name="valorFinal"
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      {...register("valorFinal")}
-                    />
-                    <label className="ms-2">Valor final</label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="multisteps-form__content">
-                <div className="mt-4 row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Rango de fechas</n>
-                  </label>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha inicial
-                    <Controller
-                      name="fechaInicial"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={startDate}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaInicial: date,
-                            });
-                            setStartDate(date);
-                          }}
-                          selectsStart
-                          startDate={startDate}
-                          endDate={endDate}
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha final
-                    <Controller
-                      name="fechaFinal"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={endDate}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaFinal: date,
-                            });
-                            setEndDate(date);
-                          }}
-                          selectsEnd
-                          startDate={startDate}
-                          endDate={endDate}
-                          minDate={startDate}
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-primary mb-0 text-capitalize"
-                      type="submit"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Buscar
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {selecOpciones.ubicacion ||
-              selecOpciones.bodega ||
-              selecOpciones.tipoDeEntrada ||
-              (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||
-              (selecOpciones.valorInicial && selecOpciones.valorFinal) ||
-              (selecOpciones.fechaInicial && selecOpciones.fechaFinal) ? (
-                <div>
-                  <div className="multisteps-form__content">
-                    <div className="row">
-                      <label className="form-control ms-0 fw-bolder text-center mt-4">
-                        <n>Reporte de inventario</n>
-                      </label>
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Ubicacion
+                    <div className="col-12 ">
+                      <Controller
+                        name="ubicacion"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={opcionUbicacion}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
                     </div>
-                    <div className="mt-1 row">
-                      <div id="myGrid" className="ag-theme-alpine mt-4">
-                        <div
-                          className="ag-theme-alpine"
-                          style={{ height: "400px" }}
-                        >
-                          <AgGridReact
-                            columnDefs={columnDefs}
-                            rowData={rowData}
-                            defaultColDef={defaultColDef}
-                            onGridReady={onGridReady}
-                          ></AgGridReact>
+                  </label>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Bodega
+                    <div className="col-12 ">
+                      <Controller
+                        name="bodega"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={opcionBodega}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Tipo de entrada
+                    <div className="col-12 ">
+                      <Controller
+                        name="tipoDeEntrada"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={opcionTipoDeEntrada}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="row mt-4">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Rango de codigos</n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic ">
+                      <input
+                        name="codigoInicial"
+                        className="form-control"
+                        type="text"
+                        placeholder="Codigo inicial"
+                        {...register("codigoInicial")}
+                      />
+                      <label className="ms-2">Codigo inicial</label>
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="codigoFinal"
+                        className="form-control"
+                        type="text"
+                        placeholder="Codigo final"
+                        {...register("codigoFinal")}
+                      />
+                      <label className="ms-2">Codigo final</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="row mt-4">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Rango de valores</n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="valorInicial"
+                        className="form-control"
+                        type="text"
+                        placeholder="nombre completo"
+                        {...register("valorInicial")}
+                      />
+                      <label className="ms-2">Valor inicial</label>
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-md-4">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="valorFinal"
+                        className="form-control"
+                        type="text"
+                        placeholder="nombre completo"
+                        {...register("valorFinal")}
+                      />
+                      <label className="ms-2">Valor final</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Rango de fechas</n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 col-md-4">
+                    <label htmlFor="exampleFormControlInput1 mt-4">
+                      Fecha inicial
+                      <Controller
+                        name="fechaInicial"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            locale="es"
+                            dateFormat="dd/MM/yyyy"
+                            className="multisteps-form__input form-control p-2"
+                            placeholderText="dd/mm/aaaa"
+                            selected={startDate}
+                            onChange={(date) => {
+                              setSelecOpciones({
+                                ...selecOpciones,
+                                fechaInicial: date,
+                              });
+                              setStartDate(date);
+                            }}
+                            selectsStart
+                            startDate={startDate}
+                            endDate={endDate}
+                          />
+                        )}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="col-12 col-md-4">
+                    <label htmlFor="exampleFormControlInput1 mt-4">
+                      Fecha final
+                      <Controller
+                        name="fechaFinal"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            locale="es"
+                            dateFormat="dd/MM/yyyy"
+                            className="multisteps-form__input form-control p-2"
+                            placeholderText="dd/mm/aaaa"
+                            selected={endDate}
+                            onChange={(date) => {
+                              setSelecOpciones({
+                                ...selecOpciones,
+                                fechaFinal: date,
+                              });
+                              setEndDate(date);
+                            }}
+                            selectsEnd
+                            startDate={startDate}
+                            endDate={endDate}
+                            minDate={startDate}
+                          />
+                        )}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="col-12 col-md-4">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                      <button
+                        className="btn bg-gradient-primary mb-0 text-capitalize"
+                        type="submit"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Buscar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {selecOpciones.ubicacion ||
+                selecOpciones.bodega ||
+                selecOpciones.tipoDeEntrada ||
+                (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||
+                (selecOpciones.valorInicial && selecOpciones.valorFinal) ||
+                (selecOpciones.fechaInicial && selecOpciones.fechaFinal) ? (
+                  <div>
+                    <div className="multisteps-form__content">
+                      <div className="row">
+                        <label className="form-control ms-0 fw-bolder text-center mt-4">
+                          <n>Reporte de inventario</n>
+                        </label>
+                      </div>
+                      <div className="mt-1 row">
+                        <div id="myGrid" className="ag-theme-alpine mt-4">
+                          <div
+                            className="ag-theme-alpine"
+                            style={{ height: "400px" }}
+                          >
+                            <AgGridReact
+                              columnDefs={columnDefs}
+                              rowData={rowData}
+                              defaultColDef={defaultColDef}
+                              onGridReady={onGridReady}
+                            ></AgGridReact>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    <div className="d-flex flex-column justify-content-end align-items-end">
-                      <div className="row">
-                        <div className="col-12 col-md-12">
-                          <div className="form-floating input-group input-group-dynamic">
-                            <input
-                              name="nombreQuienImprime"
-                              className="form-control"
-                              type="text"
-                              placeholder="Nombre del articulo"
-                              value="Julian Castillo"
-                              disabled
-                            />
-                            <label className="ms-2">Nombre quien imprime</label>
+                      <div className="d-flex flex-column justify-content-end align-items-end">
+                        <div className="row">
+                          <div className="col-12 col-md-12">
+                            <div className="form-floating input-group input-group-dynamic">
+                              <input
+                                name="nombreQuienImprime"
+                                className="form-control"
+                                type="text"
+                                placeholder="Nombre del articulo"
+                                value="Julian Castillo"
+                                disabled
+                              />
+                              <label className="ms-2">
+                                Nombre quien imprime
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-12 col-md-12">
+                            <div className="form-floating input-group input-group-dynamic">
+                              <input
+                                name="fechaDeImpresion"
+                                className="form-control"
+                                type="text"
+                                placeholder="fecha de impresion"
+                                value="05/10/2022"
+                                disabled
+                              />
+                              <label className="ms-2">Fecha de impresion</label>
+                            </div>
                           </div>
                         </div>
                       </div>
 
                       <div className="row">
-                        <div className="col-12 col-md-12">
-                          <div className="form-floating input-group input-group-dynamic">
-                            <input
-                              name="fechaDeImpresion"
-                              className="form-control"
-                              type="text"
-                              placeholder="fecha de impresion"
-                              value="05/10/2022"
-                              disabled
-                            />
-                            <label className="ms-2">Fecha de impresion</label>
-                          </div>
+                        <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                          <button
+                            className="btn bg-gradient-primary mb-0"
+                            type="button"
+                            title="Send"
+                            form="configForm"
+                          >
+                            Imprimir
+                          </button>
+                          <button
+                            className="btn bg-gradient-danger mb-0"
+                            type="button"
+                            title="Send"
+                            form="configForm"
+                          >
+                            Salir
+                          </button>
                         </div>
                       </div>
                     </div>
-
-                    <div className="row">
-                      <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                        <button
-                          className="btn bg-gradient-primary mb-0"
-                          type="button"
-                          title="Send"
-                          form="configForm"
-                        >
-                          Imprimir
-                        </button>
-                        <button
-                          className="btn bg-gradient-danger mb-0"
-                          type="button"
-                          title="Send"
-                          form="configForm"
-                        >
-                          Salir
-                        </button>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              ) : (
-                ""
-              )}
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          </div>
+          </MarcaDeAgua1>
         </form>
       </div>
     </div>

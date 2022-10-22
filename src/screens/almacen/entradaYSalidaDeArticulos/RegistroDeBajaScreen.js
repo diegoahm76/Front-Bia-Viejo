@@ -2,6 +2,7 @@ import { AgGridReact } from "ag-grid-react";
 import React, { useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 export const RegistroDeBajaScreen = () => {
   const {
@@ -76,7 +77,10 @@ export const RegistroDeBajaScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-2 btn-primary text-capitalize" type="button">
+          <button
+            className="btn btn-2 btn-primary text-capitalize"
+            type="button"
+          >
             Buscar
           </button>
         </div>
@@ -113,103 +117,108 @@ export const RegistroDeBajaScreen = () => {
           //onSubmit={handleSubmit(submit)}
           id="configForm"
         >
-          <div className={"row"}>
-            <label className="form-control ms-0 fw-bolder text-center">
-              Datos generales
-            </label>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Consecutivo"
-                    {...register("businessTel")}
-                  />
-                  <label>Consecutivo:</label>
+          <MarcaDeAgua1>
+            <div className={"row"}>
+              <label className="form-control ms-0 fw-bolder text-center">
+                Datos generales
+              </label>
+              <div className="row">
+                <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="tel"
+                      placeholder="Consecutivo"
+                      {...register("businessTel")}
+                    />
+                    <label>Consecutivo:</label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
+                    <label htmlFor="exampleFormControlInput1">
+                      Fecha de Ingreso: <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="fechaNacimiento"
+                      control={control}
+                      render={({ field }) => (
+                        <ReactDatePicker
+                          {...field}
+                          locale="es"
+                          //required
+                          selected={formValues.fechaIngreso}
+                          onSelect={(e) =>
+                            setFormValues({ ...formValues, fechaIngreso: e })
+                          }
+                          className="col-4 multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
               </div>
-              <div className="col-12 col-md-4">
-                <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
-                  <label htmlFor="exampleFormControlInput1">
-                    Fecha de Ingreso: <span className="text-danger">*</span>
-                  </label>
-                  <Controller
-                    name="fechaNacimiento"
-                    control={control}
-                    render={({ field }) => (
-                      <ReactDatePicker
-                        {...field}
-                        locale="es"
-                        //required
-                        selected={formValues.fechaIngreso}
-                        onSelect={(e) =>
-                          setFormValues({ ...formValues, fechaIngreso: e })
-                        }
-                        className="col-4 multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
-                      />
-                    )}
-                  />
+              <div className="row">
+                <div className="col">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <textarea
+                      className="form-control"
+                      type="tel"
+                      placeholder="Concepto"
+                      {...register("businessTel")}
+                    />
+                    <label className="ms-2">Concepto:</label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col">
-                <div className="form-floating input-group input-group-dynamic">
-                  <textarea
-                    className="form-control"
-                    type="tel"
-                    placeholder="Concepto"
-                    {...register("businessTel")}
-                  />
-                  <label className="ms-2">Concepto:</label>
-                </div>
-              </div>
-            </div>
 
-            <div className="row">
-              <div>
-                <label className="mt-6 form-control ms-0 fw-bolder text-center">
-                  Detalles
-                </label>
-              </div>
-              <div id="myGrid" className="ag-theme-alpine ">
-                <div className="ag-theme-alpine" style={{ height: "250px" }}>
-                  <AgGridReact
-                    columnDefs={columnDetalles}
-                    rowData={rowDataDetalles}
-                    defaultColDef={defaultColDef}
-                    onGridReady={onGridReady}
-                  ></AgGridReact>
+              <div className="row">
+                <div>
+                  <label className="mt-6 form-control ms-0 fw-bolder text-center">
+                    Detalles
+                  </label>
+                </div>
+                <div id="myGrid" className="ag-theme-alpine ">
+                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                    <AgGridReact
+                      columnDefs={columnDetalles}
+                      rowData={rowDataDetalles}
+                      defaultColDef={defaultColDef}
+                      onGridReady={onGridReady}
+                    ></AgGridReact>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end gap-2 mt-4">
+                  <button
+                    type="button"
+                    className="btn btn-primary text-capitalize"
+                  >
+                    Revelacion
+                  </button>
                 </div>
               </div>
 
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-danger text-capitalize "
                 >
-                  Revelacion
+                  Salir
+                </button>
+
+                <button
+                  className="btn btn-primary text-capitalize"
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                >
+                  Guardar
                 </button>
               </div>
             </div>
-
-            <div className="d-flex justify-content-end gap-2 mt-4">
-              <button type="button" className="btn btn-danger text-capitalize ">
-                Salir
-              </button>
-
-              <button
-                className="btn btn-primary text-capitalize"
-                type="submit"
-                title="Send"
-                form="configForm"
-              >
-                Guardar
-              </button>
-            </div>
-          </div>
+          </MarcaDeAgua1>
         </form>
       </div>
     </div>

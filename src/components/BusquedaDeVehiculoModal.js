@@ -3,6 +3,7 @@ import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
+import MarcaDeAgua1 from "./MarcaDeAgua1";
 
 const customStyles = {
   content: {
@@ -140,61 +141,69 @@ const BusquedaDeVehiculoModal = ({ isModalActive, setIsModalActive }) => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="row">
-              <div className="col-12">
-                <div className="form-check mx-auto">
-                  <label className="form-check-label mx-2" htmlFor="flexCheckDefault">
-                    {" "}
-                    Cumplen requerimientos
-                  </label>
-                  <input
-                    className="form-check-input mx-2"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckDefault"
-                  />
-                  <label className="form-check-label mx-2" htmlFor="flexCheckDefault">
-                    {" "}
-                    Ordenar mas apropiado
-                  </label>
-                  <input
-                    className="form-check-input mx-2"
-                    type="checkbox"
-                    value=""
-                    id="flexCheckDefault"
-                  />
+            <MarcaDeAgua1>
+              <div className="row">
+                <div className="col-12">
+                  <div className="form-check mx-auto">
+                    <label
+                      className="form-check-label mx-2"
+                      htmlFor="flexCheckDefault"
+                    >
+                      {" "}
+                      Cumplen requerimientos
+                    </label>
+                    <input
+                      className="form-check-input mx-2"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
+                    <label
+                      className="form-check-label mx-2"
+                      htmlFor="flexCheckDefault"
+                    >
+                      {" "}
+                      Ordenar mas apropiado
+                    </label>
+                    <input
+                      className="form-check-input mx-2"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                    />
+                  </div>
+                </div>
+                <div
+                  className="ag-theme-alpine mt-4 mb-4"
+                  style={{ height: "300px" }}
+                >
+                  <AgGridReact
+                    columnDefs={columnBuscarVehiculo}
+                    rowData={rowBuscarVehiculo}
+                    defaultColDef={defaultColDef}
+                    onGridReady={onGridReady}
+                  ></AgGridReact>
+                </div>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <button
+                    className="btn bg-primary me-md-2 text-white text-capitalize"
+                    type="submit"
+                    onClick={handleCloseAgregarVehiculo}
+                    title="Send"
+                  >
+                    Guardar
+                  </button>
+                  <button
+                    className="btn bg-light text-white text-capitalize"
+                    type="button"
+                    onClick={handleCloseAgregarVehiculo}
+                    title="Send"
+                  >
+                    Salir
+                  </button>
                 </div>
               </div>
-              <div
-                className="ag-theme-alpine mt-4 mb-4"
-                style={{ height: "300px" }}
-              >
-                <AgGridReact
-                  columnDefs={columnBuscarVehiculo}
-                  rowData={rowBuscarVehiculo}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-                ></AgGridReact>
-              </div>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize"
-                  type="submit"
-                  onClick={handleCloseAgregarVehiculo}
-                  title="Send"
-                >
-                  Guardar
-                </button>
-                <button
-                  className="btn bg-light text-white text-capitalize"
-                  type="button"
-                  onClick={handleCloseAgregarVehiculo}
-                  title="Send"
-                >
-                  Salir
-                </button>
-              </div>
-            </div>
+            </MarcaDeAgua1>
           </form>
         </div>
       </div>
