@@ -7,7 +7,6 @@ import AdministradorDeEstaciones from "../estaciones/AdministradorDeEstaciones";
 import AlertasScreen from "../estaciones/AlertasScreen";
 import ConfiguracionesScreen from "../estaciones/ConfiguracionesScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
-import Test from "../estaciones/Test";
 
 const RecursoHidricoRoutes = () => {
   return (
@@ -27,8 +26,6 @@ const RecursoHidricoRoutes = () => {
         <Route path="alertas" element={<AlertasScreen />} />
 
         <Route path="configuraciones" element={<ConfiguracionesScreen />} />
-
-        <Route path="test" element={<Test />} />
       </Route>
     </Routes>
   );
