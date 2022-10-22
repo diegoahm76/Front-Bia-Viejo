@@ -11,7 +11,6 @@ import ConservacionRoutes from "./screens/conservacion/routes/ConservacionRoutes
 import GestorDocumentalRoutes from "./screens/gestorDocumental/routes/GestorDocumentalRoutes";
 import TramitesYServiciosRoutes from "./screens/tramitesYServicios/routes/TramitesYServiciosRoutes";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-
 import { getDataFromLocalStorage } from "./actions/userActions";
 import TablerosDeControlRoutes from "./screens/tablerosDeControl/routes/TablerosDeControlRoutes";
 import RegisterPersonaScreen from "./screens/auth/register/RegisterPersonaScreen";
@@ -22,6 +21,8 @@ import RegisterUserScreen from "./screens/auth/register/RegisterUserScreen";
 import UsuarioRoutes from "./screens/usuario/routes/UsuarioRoutes";
 import RecursoHidricoRoutes from "./screens/recursoHidrico/routes/RecursoHidricoRoutes";
 import ConfirmarCuentaScreen from "./screens/auth/ConfirmarCuentaScreen";
+import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
+import UserProtectedRoutes from "./components/UserProtectedRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,32 +35,39 @@ function App() {
         <Route path="/dashboard" element={<HomeScreen />}>
           <Route index element={<LogoScreen />} />
 
-          <Route
-            path="tablerosdecontrol/*"
-            element={<TablerosDeControlRoutes />}
-          />
+          <Route element={<UserProtectedRoutes />}>
+            <Route
+              path="tablerosdecontrol/*"
+              element={<TablerosDeControlRoutes />}
+            />
 
-          <Route path="almacen/*" element={<AlmacenRoutes />} />
+            <Route path="almacen/*" element={<AlmacenRoutes />} />
 
-          <Route path="recaudo/*" element={<RecaudoRoutes />} />
+            <Route path="recaudo/*" element={<RecaudoRoutes />} />
 
-          <Route path="conservacion/*" element={<ConservacionRoutes />} />
+            <Route path="conservacion/*" element={<ConservacionRoutes />} />
 
-          <Route path="seguridad/*" element={<SeguridadRoutes />} />
+            <Route path="usuario/*" element={<UsuarioRoutes />} />
 
-          <Route path="usuario/*" element={<UsuarioRoutes />} />
+            <Route
+              path="recurso-hidrico/*"
+              element={<RecursoHidricoRoutes />}
+            />
 
-          <Route path="recurso-hidrico/*" element={<RecursoHidricoRoutes />} />
+            <Route
+              path="gestordocumental/*"
+              element={<GestorDocumentalRoutes />}
+            />
 
-          <Route
-            path="gestordocumental/*"
-            element={<GestorDocumentalRoutes />}
-          />
+            <Route
+              path="tramitesyservicios/*"
+              element={<TramitesYServiciosRoutes />}
+            />
+          </Route>
 
-          <Route
-            path="tramitesyservicios/*"
-            element={<TramitesYServiciosRoutes />}
-          />
+          <Route element={<AdminProtectedRoutes />}>
+            <Route path="seguridad/*" element={<SeguridadRoutes />} />
+          </Route>
         </Route>
 
         <Route path="/*" element={<Navigate to="/dashboard" />} />
@@ -74,7 +82,10 @@ function App() {
 
         <Route path="/registeruser" element={<RegisterUserScreen />} />
 
-        <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuentaScreen />} />
+        <Route
+          path="/confirmar-cuenta/:token"
+          element={<ConfirmarCuentaScreen />}
+        />
 
         <Route
           path="/recuperar-contrasena"
