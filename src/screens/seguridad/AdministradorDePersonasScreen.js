@@ -361,9 +361,10 @@ const AdministradorDePersonasScreen = () => {
           Administrador de personas
         </h3>
         <div
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative logo-marca-agua1"
           data-animation="FadeIn"
         >
+          <div className="opacity-logos">
           <div className="row">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
               <h5 className="font-weight-bolder">Buscar persona</h5>
@@ -953,6 +954,7 @@ const AdministradorDePersonasScreen = () => {
                 </div>
               </form>
             )}
+          </div>
           </div>
           <GeneradorDeDirecciones
             isOpenGenerator={direccionNotificacionIsOpen}
