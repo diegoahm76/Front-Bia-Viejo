@@ -168,7 +168,7 @@ const BusquedaArticuloPrestadoScreen = () => {
 
                 <div className="row">
                   <div className="form-group mt-3 col-6 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
+                    <label className="font-weight" htmlFor="cantidadKg">
                       Dependencia:
                     </label>
 
@@ -188,7 +188,7 @@ const BusquedaArticuloPrestadoScreen = () => {
                     )}
                   </div>
                   <div className="form-group mt-3 col-6 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
+                    <label className="font-weight" htmlFor="cantidadKg">
                       Grupo:
                     </label>
 
@@ -225,7 +225,7 @@ const BusquedaArticuloPrestadoScreen = () => {
                     <div className="form-check">
                       <label
                         className="form-check-label mb-2"
-                        for="radioBotonSi"
+                        htmlFor="radioBotonSi"
                       >
                         Todos
                       </label>
@@ -241,7 +241,7 @@ const BusquedaArticuloPrestadoScreen = () => {
                     <div className="form-check">
                       <label
                         className="form-check-label mb-2"
-                        for="radioBotonNo"
+                        htmlFor="radioBotonNo"
                       >
                         Prestados
                       </label>
@@ -257,7 +257,7 @@ const BusquedaArticuloPrestadoScreen = () => {
                     <div className="form-check">
                       <label
                         className="form-check-label mb-2"
-                        for="radioBotonAsig"
+                        htmlFor="radioBotonAsig"
                       >
                         Asignados
                       </label>
@@ -270,7 +270,7 @@ const BusquedaArticuloPrestadoScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center ">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-center ">
                   <button
                     className="btn bg-gradient-primary me-md-2"
                     type="button"
@@ -290,7 +290,7 @@ const BusquedaArticuloPrestadoScreen = () => {
 
                   </AgGridReact>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
                   <button
                     className="btn bg-gradient-primary me-md-2"
                     type="button"

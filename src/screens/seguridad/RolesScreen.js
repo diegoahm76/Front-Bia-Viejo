@@ -204,7 +204,7 @@ const RolesScreen = () => {
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Actualizar datos de persona
+          Administrador de roles
         </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row" onSubmit={handleSubmit(searchByName)}>

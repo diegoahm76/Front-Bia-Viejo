@@ -1,11 +1,19 @@
 import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Almacen from "../";
+import AsignarActivosCalidadPrestamoScreen from "../gestionInventario/AsignarActivosCalidadPrestamoScreen";
+import AsignarActivoScreen from "../gestionInventario/AsignarActivoScreen";
+import DespacharElementosConsumoScreen from "../gestionInventario/DespacharElementosConsumoScreen";
+import DespachoElementosSinSolicitudScreen from "../gestionInventario/DespachoElementosSinSolicitudScreen";
+import DevolverActivoAsignadoScreen from "../gestionInventario/DevolverActivoAsignadoScreen";
+import DevolverActivoCalidadPrestamoScreen from "../gestionInventario/DevolverActivoCalidadPrestamoScreen";
+import DevolverElementosSubasignadosResponsableScreen from "../gestionInventario/DevolverElementosSubasignadosResponsableScreen";
+import ReasignarElementosEntreFuncionariosScreen from "../gestionInventario/ReasignarElementosEntreFuncionariosScreen";
 import RegistroDeMantenimientoDeVehiculo from "../gestionDeVehiculos/RegistroDeMantenimientoDeVehiculo";
 import ConsultarSolicitudesDeVehiculosScreen from "../gestionDeVehiculos/ConsultarSolicitudesDeVehiculosScreen";
 import InspeccionDiariaDeVehiculoScreen from "../gestionDeVehiculos/InspeccionDiariaDeVehiculoScreen";
 import SolicitudesEnColaDeEsperaScreen from "../gestionDeVehiculos/SolicitudesEnColaDeEsperaScreen";
-
+import FormularioRevisionInventarioScreen from "../gestionInventario/FormularioRevisionInventarioScreen";
 import { EntradaDeArticuloScreen } from "../entradaYSalidaDeArticulos/EntradaDeArticuloScreen";
 import CrearArticuloConsumoScreen from "../entradaYSalidaDeArticulos/CrearArticuloConsumoScreen";
 import ProcesoApropiacionArticulosScreen from "../entradaYSalidaDeArticulos/ProcesoApropiacionArticulosScreen";
@@ -13,7 +21,6 @@ import { VisualizarArticulosScreen } from "../entradaYSalidaDeArticulos/Visualiz
 import SalidaArticulosScreen from "../entradaYSalidaDeArticulos/SalidaArticulosScreen";
 import { RegistroDeBajaScreen } from "../entradaYSalidaDeArticulos/RegistroDeBajaScreen";
 import CreacionArticuloScreen from "../entradaYSalidaDeArticulos/CreacionArticuloScreen";
-
 import HojaDeVidaActivoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaActivoScreen";
 import HojaDeVidaVehiculoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoScreen";
 import HojaDeVidaOtrosActivosScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaOtrosActivosScreen";
@@ -52,7 +59,6 @@ import MarcarVehiculoComoEntregadoScreen from "../gestionDeVehiculos/MarcarVehic
 import SolicitudesDeVehiculoEnEjecucionScreen from "../gestionDeVehiculos/SolicitudesDeVehiculoEnEjecucionScreen";
 import SolicitudesPendientesPorAutorizarScreen from "../gestionDeVehiculos/SolicitudesPendientesPorAutorizarScreen";
 import SolicitudesDeVehiculoVencidasScreen from "../gestionDeVehiculos/SolicitudesDeVehiculoVencidasScreen";
-
 import ReporteHistoricoDeActivoScreen from "../reportes/ReporteHistoricoDeActivoScreen";
 import ConsultaPazYSalvoScreen from "../reportes/ConsultaPazYSalvoScreen";
 import ReporteDeInventarioScreen from "../reportes/ReporteDeInventarioScreen";
@@ -79,7 +85,6 @@ import ReporteDeFuncionarioPorConsumoScreen from "../reportes/ReporteDeFuncionar
 import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasConsumoScreen";
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 
-
 const AlmacenRoutes = () => {
   return (
     <Routes>
@@ -97,30 +102,76 @@ const AlmacenRoutes = () => {
       </Route>
 
       <Route path="gestion-de-inventario">
-        
-        <Route path="programacion-mantenimiento" element={<ProgamacionDeMantenimientoScreen />} />
-
+        <Route path="asignaractivo" element={<AsignarActivoScreen />} />
+        <Route
+          path="reasignarelementosentrefuncionarios"
+          element={<ReasignarElementosEntreFuncionariosScreen />}
+        />
+        <Route
+          path="despacharelementosconsumo"
+          element={<DespacharElementosConsumoScreen />}
+        />
+        <Route
+          path="asignaractivoscalidadprestamo"
+          element={<AsignarActivosCalidadPrestamoScreen />}
+        />
+        <Route
+          path="despachoelementossinsolicitud"
+          element={<DespachoElementosSinSolicitudScreen />}
+        />
+        <Route
+          path="devolverelementossubasignadosresponsable"
+          element={<DevolverElementosSubasignadosResponsableScreen />}
+        />
+        <Route
+          path="devolveractivoasignado"
+          element={<DevolverActivoAsignadoScreen />}
+        />
+        <Route
+          path="devolveractivocalidadprestamo"
+          element={<DevolverActivoCalidadPrestamoScreen />}
+        />
+        <Route
+          path="formulariorevisioninventario"
+          element={<FormularioRevisionInventarioScreen />}
+        />
+        <Route
+          path="programacion-mantenimiento"
+          element={<ProgamacionDeMantenimientoScreen />}
+        />
         <Route path="cv-activo" element={<HojaDeVidaActivoScreen />} />
-
         <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} />
-
-        <Route path="cv-otros-activos" element={<HojaDeVidaOtrosActivosScreen />} />
-
-        <Route path="cv-vehiculo-externo" element={<HojaDeVidaVehiculoExternoScreen />} />
-
-        <Route path="busqueda-activos" element={<BusquedaActivosSubdelegadosScreen />} />
-
-        <Route path="reasignacion-elementos" element={<ReasignacionElementosSubAsignadosScreen />} />
-
-        <Route path="subasignar-elementos" element={<SubasignarElementosScreen />} />
+        <Route
+          path="cv-otros-activos"
+          element={<HojaDeVidaOtrosActivosScreen />}
+        />
+        <Route
+          path="cv-vehiculo-externo"
+          element={<HojaDeVidaVehiculoExternoScreen />}
+        />
+        <Route
+          path="busqueda-activos"
+          element={<BusquedaActivosSubdelegadosScreen />}
+        />
+        <Route
+          path="reasignacion-elementos"
+          element={<ReasignacionElementosSubAsignadosScreen />}
+        />
+        <Route
+          path="subasignar-elementos"
+          element={<SubasignarElementosScreen />}
+        />
       </Route>
 
       <Route path="entrada-y-salida-de-articulos">
         <Route path="entrada-articulo" element={<EntradaDeArticuloScreen />} />
-        <Route path="creacion-articulo-devolutivo" element={<CreacionArticuloScreen/>}/>
+        <Route
+          path="creacion-articulo-devolutivo"
+          element={<CreacionArticuloScreen />}
+        />
         <Route
           path="creacion-articulo-consumo"
-          element={<CrearArticuloConsumoScreen/>}
+          element={<CrearArticuloConsumoScreen />}
         />
         <Route
           path="apropiacion-articulo"
@@ -128,7 +179,7 @@ const AlmacenRoutes = () => {
         />
         <Route
           path="visualizar-articulos"
-          element={<VisualizarArticulosScreen/>}
+          element={<VisualizarArticulosScreen />}
         />
         <Route path="salida-articulos" element={<SalidaArticulosScreen />} />
         <Route path="registro-baja" element={<RegistroDeBajaScreen />} />

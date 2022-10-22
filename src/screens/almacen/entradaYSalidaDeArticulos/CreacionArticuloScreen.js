@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 //import ReactQuill from "react-quill";
 //import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
@@ -27,6 +28,14 @@ const CreacionArticuloScreen = () => {
     { label: "Hora uso", value: "Hu" },
   ];
 
+  const {
+    register,
+    setError,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
   return (
     <div className="row min-vh-100">
     <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -45,7 +54,7 @@ const CreacionArticuloScreen = () => {
               <h5 className="font-weight-bolder">Datos generales</h5>
               <div className="multisteps-form__content">
                 <div className="row mt-3">
-                   <div className="col-12 col-md-4 mt-4"> 
+                   <div className="col-12 col-md-4"> 
                   <label className="form-control ms-0">Tipo de articulo</label>
                   <Select
                     defaultValue={selectedCategory}
@@ -56,65 +65,65 @@ const CreacionArticuloScreen = () => {
                 </div>
                 
                   <div className="col-12 col-md-4 mt-4">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Nombre
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={true}
+                      placeholder="Nombre de Articulo"
+                      {...register("nombre")}
+                    />
+                    <label >
+                      Nombre: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
                   </div>
                   <div className="col-12 col-md-4 mt-4">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Codigo articulo
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={true}
+                      placeholder="Codigo de Articulo"
+                      {...register("codigo")}
+                    />
+                    <label >
+                      Codigo de articulo: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
                   </div>
                 </div>
                 <div className="row mt-3">
-                  <div className="col-12 col-md-4 mt-2">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Porcentaje de IVA
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={true}
+                      placeholder="Porcentaje de IVA"
+                      {...register("porcenIVA")}
+                    />
+                    <label >
+                      Porcentaje de IVA: <span className="text-danger">*</span>{" "}
+                    </label>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Vida util
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  </div>
+                  <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={true}
+                      placeholder="Vida util"
+                      {...register("vidautil")}
+                    />
+                    <label>
+                      Vida Util: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
                   </div>
                 
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-4">
                     <label className="form-control ms-0">
                       Metodo de valoracion
                     </label>
@@ -125,8 +134,8 @@ const CreacionArticuloScreen = () => {
                     />
                   </div>
 
-                  <div className="row">
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="row mt-2">
+                  <div className="col-12 col-md-4 ">
                     <label className="form-control ms-0">
                       Tipo de depreciacion
                     </label>
@@ -137,7 +146,7 @@ const CreacionArticuloScreen = () => {
                     />
                   </div>
                   
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-4 mt-4">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
                           className="form-check-input"
@@ -165,7 +174,7 @@ const CreacionArticuloScreen = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-4 mt-4">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
                           className="form-check-input"
@@ -215,7 +224,7 @@ const CreacionArticuloScreen = () => {
                 </div> */}
                 <div className="button-row d-flex mt-4">
                   <button
-                    className="btn bg-gradient-secondary ms-auto mb-0"
+                    className="btn bg-gradient-secondary ms-auto mb-0 text-capitalize"
                     type="button"
                     title="Send"
                   >

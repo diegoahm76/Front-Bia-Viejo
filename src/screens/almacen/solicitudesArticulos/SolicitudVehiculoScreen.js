@@ -498,7 +498,7 @@ const SolicitudVehiculoScreen = () => {
                           onGridReady={onGridReady}
                         ></AgGridReact>
                       </div>
-                      <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                      <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                         <button
                           className="btn bg-primary me-md-2 text-white text-capitalize"
                           type="submit"
@@ -747,7 +747,7 @@ const SolicitudVehiculoScreen = () => {
             </div>
           </form>
           <form>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-primary me-md-2 text-white text-capitalize"
                 type="submit"

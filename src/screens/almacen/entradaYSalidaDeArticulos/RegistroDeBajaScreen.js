@@ -76,7 +76,7 @@ export const RegistroDeBajaScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-primary text-capitalize" type="button">
+          <button className="btn btn-2 btn-primary text-capitalize" type="button">
             Buscar
           </button>
         </div>
@@ -163,7 +163,7 @@ export const RegistroDeBajaScreen = () => {
                     placeholder="Concepto"
                     {...register("businessTel")}
                   />
-                  <label className="ms-2">Concepto:</label>
+                  <label >Concepto:</label>
                 </div>
               </div>
             </div>
@@ -185,14 +185,19 @@ export const RegistroDeBajaScreen = () => {
                 </div>
               </div>
 
+              
+              <div className="row mt-3">
+              <label>ANEXAR REVELACION</label>
               <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize"
-                >
-                  Revelacion
-                </button>
+                <label htmlFor="formFileLg" className="form-label"></label>
+                <input
+                  className="form-control form-control-lg mt-1"
+                  id="formFileLg"
+                  type="file"
+                />
               </div>
+            </div>
+              
             </div>
 
             <div className="d-flex justify-content-end gap-2 mt-4">

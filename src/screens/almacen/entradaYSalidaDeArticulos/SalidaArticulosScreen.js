@@ -130,7 +130,7 @@ const SalidaArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-primary text-capitalize" type="button">
+          <button className="btn btn-secondary text-capitalize" type="button">
             Agregar
           </button>
         </div>
@@ -244,7 +244,7 @@ const SalidaArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-danger text-capitalize" type="button">
+          <button className="btn btn-danger text-capitalize" type="button">
             Borrar
           </button>
         </div>
@@ -349,7 +349,7 @@ const SalidaArticulosScreen = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row mt-3">
               <label className="mt-3 form-control ms-0 fw-bolder text-center">
                 Informacion de terceros:
               </label>
@@ -375,7 +375,7 @@ const SalidaArticulosScreen = () => {
                     </p>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-3">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -383,7 +383,7 @@ const SalidaArticulosScreen = () => {
                       placeholder="Numero de identificacion"
                       {...register("businessTel")}
                     />
-                    <label className="ms-2">Numero de identificacion:</label>
+                    <label>Numero de identificacion:</label>
                   </div>
                 </div>
                 <div className="col-12 col-md-4">
@@ -393,25 +393,24 @@ const SalidaArticulosScreen = () => {
 
                   <label>Empresa o persona</label>
                 </div>
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
+                
+              </div>
+              <div className="row mt-2">
+              <div className=" d-flex justify-content-end gap-2 mt-3 ">
+                  <button
                     type="button"
                     className="btn btn-primary text-capitalize "
                   >
                     buscar
                   </button>
-                </div>
-              </div>
-              <div className="row">
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <label>Busqueda de tercero: </label>
                 
+                  
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize "
                     onClick={handleOpenModalBusquedaPersonal}
                   >
-                    buscar
+                    busqueda de tercero
                   </button>
                 </div>
               </div>
@@ -422,8 +421,8 @@ const SalidaArticulosScreen = () => {
                 Entradas Relacionadas:
               </label>
               <div className="row">
-                <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                <div id="myGrid" className="ag-theme-alpine "style={{textAlign:"-webkit-center"}}>
+                  <div className="ag-theme-alpine" style={{ height: "250px",width:"600px" }}>
                     <AgGridReact
                       columnDefs={columnEntradaRela}
                       rowData={rowDataEntradaRela}
@@ -443,7 +442,7 @@ const SalidaArticulosScreen = () => {
                     placeholder="Concepto"
                     {...register("businessTel")}
                   />
-                  <label className="ms-2">Referecnia de Apropiacion:</label>
+                  <label>Referecnia de Apropiacion:</label>
                 </div>
               </div>
               <div className="col">
@@ -454,17 +453,17 @@ const SalidaArticulosScreen = () => {
                     placeholder="Concepto"
                     {...register("businessTel")}
                   />
-                  <label className="ms-2">Concepto:</label>
+                  <label>Concepto:</label>
                 </div>
               </div>
             </div>
 
-            <div className="row">
+            <div className="row mt-5">
               <label>Anexar documentos</label>
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <label for="formFileLg" class="form-label"></label>
+              <div className="d-flex justify-content-end gap-2">
+                <label htmlFor="formFileLg" className="form-label"></label>
                 <input
-                  class="form-control form-control-lg mt-1"
+                  className="form-control form-control-lg mt-1"
                   id="formFileLg"
                   type="file"
                 />
@@ -487,8 +486,8 @@ const SalidaArticulosScreen = () => {
               </div>
             </div>
             <div className="row">
-              <div id="myGrid" className="ag-theme-alpine ">
-                <div className="ag-theme-alpine" style={{ height: "250px" }}>
+              <div id="myGrid" className="ag-theme-alpine " style={{textAlign:"-webkit-center"}}>
+                <div className="ag-theme-alpine" style={{ height: "250px", width:"600px"}}>
                   <AgGridReact
                     columnDefs={columnEntradaRela}
                     rowData={rowDataEntradaRela}
@@ -502,8 +501,8 @@ const SalidaArticulosScreen = () => {
                   Articulos Asociados
                 </label>
               </div>
-              <div id="myGrid" className="ag-theme-alpine ">
-                <div className="ag-theme-alpine" style={{ height: "250px" }}>
+              <div id="myGrid" className="ag-theme-alpine " style={{textAlign:"-webkit-center"}}>
+                <div className="ag-theme-alpine" style={{ height: "250px", width:"800px" }}>
                   <AgGridReact
                     columnDefs={columndevolutivoAso}
                     rowData={rowDataDevolutivoAso}
@@ -516,7 +515,7 @@ const SalidaArticulosScreen = () => {
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize "
+                  className="btn btn-secondary text-capitalize "
                 >
                   Agregar
                 </button>
@@ -526,7 +525,7 @@ const SalidaArticulosScreen = () => {
             <div className="row">
               <div>
                 <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION
+                  ARTICULOS A SALIR
                 </label>
               </div>
 
@@ -549,6 +548,7 @@ const SalidaArticulosScreen = () => {
               </div>
               
             </div>
+          </div>
           </div>
           <div className="row">
             <div className="d-flex justify-content-end gap-2 mt-4">
@@ -582,6 +582,7 @@ const SalidaArticulosScreen = () => {
               </button>
             </div>
           </div>
+          
           <BusquedaDePersonalModal
             isModalActive={modalPersonal}
             setIsModalActive={setModalPersonal}
@@ -590,7 +591,7 @@ const SalidaArticulosScreen = () => {
             isModalActive={modalArticulos}
             setIsModalActive={setModalArticulos}
           />
-          </div>
+         
         </form>
       </div>
     </div>

@@ -146,7 +146,7 @@ const SolicitudesDeMaterialSreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-primary text-capitalize" type="button">
+          <button className="btn btn-2 btn-primary" type="button">
             Remover
           </button>
         </div>
@@ -403,32 +403,15 @@ const SolicitudesDeMaterialSreen = () => {
                             Este campo es obligatorio
                           </p>
                         )}
-                </div>
-                  <div className="col-10 col-md-4">
-                    <div className=" input-group-dynamic flex-column">
-                      <label htmlFor="exampleFormControlInput1">
-                        Fecha de retiro de material vegetal
-                      </label>
-                      <Controller
-                        name="fechaRetiro"
-                        control={control}
-                        render={({ field }) => (
-                          <ReactDatePicker
-                            {...field}
-                            locale="es"
-                            //required
-                            selected={formValues.fechaRetiro}
-                            onSelect={(e) =>
-                              setFormValues({
-                                ...formValues,
-                                fechaRetiro: e,
-                              })
-                            }
-                            className="col-4 multisteps-form__input form-control p-2"
-                            placeholderText="dd/mm/aaaa"
+                        <div>
+                          <label htmlFor="formFileLg" className="form-label"></label>
+                          <input
+                            className="form-control form-control-lg mt-6"
+                            id="formFileLg"
+                            type="file"
                           />
-                        )}
-                      />
+                        
+                      
                     </div>
                   </div>
                   {errors.fechaRetiro && (

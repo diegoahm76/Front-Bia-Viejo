@@ -4,6 +4,8 @@ import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import ModalLocal from "../../../components/ModalLocal";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 export const ProcesoApropiacionArticulosScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -128,7 +130,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize" type="button">
+          <button className="btn btn-2 btn-secondary text-capitalize" type="button">
             Agregar
           </button>
         </div>
@@ -242,7 +244,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-danger text-capitalize" type="button">
+          <button className="btn btn-2 btn-danger text-capitalize" type="button">
             Borrar
           </button>
         </div>
@@ -279,6 +281,24 @@ export const ProcesoApropiacionArticulosScreen = () => {
   const handlePreviousPage = () => {
     setPage(1);
   };
+
+
+  const handleOpenModalArticulos = () => {
+    setModalArticulos(true);
+  };
+
+  const [modalArticulos, setModalArticulos] = useState(false);
+
+  const handleOpenModalBusquedaPersonal = () => {
+    setModalPersonal(true);
+  };
+
+  const [modalPersonal, setModalPersonal] = useState(false);
+
+  const handleCloseModal = () => {
+    setModal(false);
+  };
+  const [modal, setModal] = useState(false);
 
   return (
     <div className="row min-vh-100">
@@ -336,7 +356,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row mt-2">
               <label className="mt-3 form-control ms-0 fw-bolder text-center">
                 Informacion de terceros:
               </label>
@@ -362,7 +382,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     </p>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-3">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
                       className="form-control"
@@ -370,7 +390,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
                       placeholder="Numero de identificacion"
                       {...register("businessTel")}
                     />
-                    <label className="ms-2">Numero de identificacion:</label>
+                    <label >Numero de identificacion:</label>
                   </div>
                 </div>
                 <div className="col-12 col-md-4">
@@ -380,23 +400,25 @@ export const ProcesoApropiacionArticulosScreen = () => {
 
                   <label>Empresa o persona</label>
                 </div>
-                <div className="d-flex justify-content-end gap-2 mt-4">
+                
+              </div>
+              <div className="row">
+
+              <div className=" d-flex justify-content-end gap-2 mt-3 ">
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize "
                   >
                     buscar
                   </button>
-                </div>
-              </div>
-              <div className="row">
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <label>Busqueda de tercero: </label>
+                
+                  
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize "
+                    onClick={handleOpenModalBusquedaPersonal}
                   >
-                    buscar
+                    busqueda de tercero
                   </button>
                 </div>
               </div>
@@ -407,8 +429,8 @@ export const ProcesoApropiacionArticulosScreen = () => {
                 Entradas Relacionadas:
               </label>
               <div className="row">
-                <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                <div id="myGrid" className="ag-theme-alpine "style={{textAlign:"-webkit-center"}}>
+                  <div className="ag-theme-alpine" style={{ height: "250px", width:"600px"}}>
                     <AgGridReact
                       columnDefs={columnEntradaRela}
                       rowData={rowDataEntradaRela}
@@ -428,7 +450,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     placeholder="Concepto"
                     {...register("businessTel")}
                   />
-                  <label className="ms-2">Referecnia de Apropiacion:</label>
+                  <label >Referecnia de Apropiacion:</label>
                 </div>
               </div>
               <div className="col">
@@ -439,17 +461,17 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     placeholder="Concepto"
                     {...register("businessTel")}
                   />
-                  <label className="ms-2">Concepto:</label>
+                  <label >Concepto:</label>
                 </div>
               </div>
             </div>
 
-            <div className="row">
+            <div className="row mt-5">
               <label>Anexar documentos</label>
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <label for="formFileLg" class="form-label"></label>
+              <div className="d-flex justify-content-end gap-2 ">
+                <label htmlFor="formFileLg" className="form-label"></label>
                 <input
-                  class="form-control form-control-lg mt-1"
+                  className="form-control form-control-lg mt-1"
                   id="formFileLg"
                   type="file"
                 />
@@ -459,7 +481,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
 
           <div className={"row"} hidden={page === 1}>
             <div>
-              <label className="mt-3 form-control ms-0 fw-bolder text-center">
+              <label className="form-control ms-0 fw-bolder text-center">
                 Detalles
               </label>
             </div>
@@ -472,8 +494,8 @@ export const ProcesoApropiacionArticulosScreen = () => {
               </div>
             </div>
             <div className="row">
-              <div id="myGrid" className="ag-theme-alpine ">
-                <div className="ag-theme-alpine" style={{ height: "250px" }}>
+              <div id="myGrid" className="ag-theme-alpine "  style={{textAlign:"-webkit-center"}}>
+                <div className="ag-theme-alpine" style={{ height: "250px",width:"600px" }}>
                   <AgGridReact
                     columnDefs={columnEntradaRela}
                     rowData={rowDataEntradaRela}
@@ -487,8 +509,8 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   Articulos Asociados
                 </label>
               </div>
-              <div id="myGrid" className="ag-theme-alpine ">
-                <div className="ag-theme-alpine" style={{ height: "250px" }}>
+              <div id="myGrid" className="ag-theme-alpine "  style={{textAlign:"-webkit-center"}}>
+                <div className="ag-theme-alpine" style={{ height: "250px",width:"800px" }}>
                   <AgGridReact
                     columnDefs={columndevolutivoAso}
                     rowData={rowDataDevolutivoAso}
@@ -506,17 +528,8 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   Agregar
                 </button>
               </div>
-              <div className="col">
-                <label>Tipo de Articulo</label>
-              </div>
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize"
-                >
-                  Buscar articulo
-                </button>
-              </div>
+             
+             
             </div>
             <div className="row">
               <div>
@@ -584,6 +597,15 @@ export const ProcesoApropiacionArticulosScreen = () => {
               </button>
             </div>
           </div>
+
+          <BusquedaDePersonalModal
+            isModalActive={modalPersonal}
+            setIsModalActive={setModalPersonal}
+          />
+           <BusquedaArticuloModal
+            isModalActive={modalArticulos}
+            setIsModalActive={setModalArticulos}
+          />
         </form>
       </div>
     </div>

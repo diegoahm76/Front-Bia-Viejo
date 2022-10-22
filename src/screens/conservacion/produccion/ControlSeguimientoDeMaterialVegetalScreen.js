@@ -394,7 +394,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   ></AgGridReact>
                 </div>
 
-                <div class="row">
+                <div className="row">
                   <div className="col-12 col-sm-6 ">
                     <div className="input-group input-group-dynamic">
                       <label>Observaciones</label>

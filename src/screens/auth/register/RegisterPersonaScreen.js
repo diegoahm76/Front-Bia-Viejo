@@ -168,7 +168,7 @@ const RegisterPersonaScreen = () => {
     if (formValues.tipo_persona.value === "N") {
       try {
         const { data: dataRegisterPersona } = await clienteAxios.post(
-          "personas/registerpersonanatural/",
+          "personas/persona-natural/create/",
           persona
         );
         Swal.fire({
@@ -237,7 +237,7 @@ const RegisterPersonaScreen = () => {
     } else {
       try {
         const { data: dataRegisterPersona } = await clienteAxios.post(
-          "personas/registerpersonajuridica/",
+          "personas/persona-juridica/create/",
           persona
         );
 
@@ -820,6 +820,8 @@ const RegisterPersonaScreen = () => {
                 </button>
               </form>
               <GeneradorDeDirecciones
+                keyReset="direccionNotificacion"
+                reset={reset}
                 isOpenGenerator={isOpenGenerator}
                 setIsOpenGenerator={setIsOpenGenerator}
                 completeAddress={completeAddress}

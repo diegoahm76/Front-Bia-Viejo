@@ -1,8 +1,6 @@
 import Modal from "react-modal";
-import Select from "react-select";
-import { Controller, useForm } from "react-hook-form";
-import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
 
 const customStyles = {
   content: {
@@ -15,11 +13,6 @@ const customStyles = {
     zIndex: "9999",
   },
 };
-
-const optionsTipoDocumento = [
-  { label: "C.C", value: "CC" },
-  { label: "T.I", value: "TI" },
-];
 
 Modal.setAppElement("#root");
 
@@ -125,7 +118,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
                   <label className="ms-2">Cantidad</label>
                 </div>
               </div>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
                   className="btn bg-primary me-md-2 text-white text-capitalize"
                   type="submit"

@@ -89,14 +89,16 @@ const CrearArticuloConsumoScreen = () => {
                       placeholder="Codigo de Articulo"
                       {...register("codigo")}
                     />
-                    <label className="ms-2">
+                    <label >
                       Codigo de articulo: <span className="text-danger">*</span>{" "}
                     </label>
                   </div>
+                 
                 </div>
+                
               </div>
 
-              <div className="row mt-5">
+              <div className="row mt-2">
                 <div className="col-12 col-md-4 mt-5">
                   <div className="form-floating input-group input-group-dynamic">
                     <input
@@ -106,7 +108,7 @@ const CrearArticuloConsumoScreen = () => {
                       placeholder="Porcentaje IVA"
                       {...register("porcenIVA")}
                     />
-                    <label className="ms-2">
+                    <label>
                       Porcentaje IVA: <span className="text-danger">*</span>{" "}
                     </label>
                   </div>

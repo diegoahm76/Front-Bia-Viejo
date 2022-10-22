@@ -138,11 +138,11 @@ const AlertasVencimientoDocumentacionVehiculoScreen = () => {
                             />
                         </div>
                         
-                        <div class="form-check mx-auto">
-                            <label class="form-check-label mx-2" for="flexCheckDefault"> a.m.</label>
-                            <input class="form-check-input mx-2" type="checkbox" value="" id="flexCheckDefault"/>
-                            <label class="form-check-label mx-2" for="flexCheckDefault"> p.m.</label>
-                            <input class="form-check-input mx-2" type="checkbox" value="" id="flexCheckDefault" />
+                        <div className="form-check mx-auto">
+                            <label className="form-check-label mx-2" htmlFor="flexCheckDefault"> a.m.</label>
+                            <input className="form-check-input mx-2" type="checkbox" value="" id="flexCheckDefault"/>
+                            <label className="form-check-label mx-2" htmlFor="flexCheckDefault"> p.m.</label>
+                            <input className="form-check-input mx-2" type="checkbox" value="" id="flexCheckDefault" />
                         </div>
                     </div>
                         
