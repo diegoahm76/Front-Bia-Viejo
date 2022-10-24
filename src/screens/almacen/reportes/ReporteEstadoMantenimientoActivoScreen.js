@@ -351,7 +351,8 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                 </div>
 
                 <div className="mt-1 row">
-                  <div id="myGrid" className="ag-theme-alpine mt-4">
+                  <div i
+                  d="myGrid" className="ag-theme-alpine mt-4">
                     <div
                       className="ag-theme-alpine"
                       style={{ height: "400px" }}
