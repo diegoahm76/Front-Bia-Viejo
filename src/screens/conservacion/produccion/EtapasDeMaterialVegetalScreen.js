@@ -8,8 +8,8 @@ import { useForm, Controller } from "react-hook-form";
 
 const EtapasDeMaterialVegetalScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
-    lote :"",
-    etapa:""
+    lote: "",
+    etapa: "",
   });
 
   const {
@@ -18,11 +18,11 @@ const EtapasDeMaterialVegetalScreen = () => {
     control,
     formState: { errors },
   } = useForm();
-  
+
   const onSubmit = (data) => {
     setSelecOpciones({
       lote: data.lote,
-      etapa : data.etapa
+      etapa: data.etapa,
     });
   };
 
@@ -31,7 +31,7 @@ const EtapasDeMaterialVegetalScreen = () => {
     { label: "2", value: "2" },
     { label: "3", value: "3" },
   ];
-  
+
   const valores2 = [
     { label: "Cama de germinación", value: "cdg" },
     { label: "Era de producción", value: "edp" },
@@ -148,7 +148,6 @@ const EtapasDeMaterialVegetalScreen = () => {
   };
 
   return (
-
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
@@ -163,8 +162,7 @@ const EtapasDeMaterialVegetalScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Lote de siembra: </label>
                 <Controller
                   name="lote"
@@ -179,41 +177,39 @@ const EtapasDeMaterialVegetalScreen = () => {
                   )}
                 />
                 {errors.lote && (
-                <small className="text-danger">Este campo es obligatorio</small>
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
                 )}
               </div>
 
-              <div className="col-12 col-sm-6">
-                  <label className=" form-control ms-0">Seleccionar etapa de la planta: </label>
-                  <Controller
-                    name="etapa"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={valores2}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errors.etapa && (
-                  <small className="text-danger">Este campo es obligatorio</small>
+              <div className="col-12 col-md-4">
+                <label className=" form-control ms-0">
+                  Seleccionar etapa de la planta:{" "}
+                </label>
+                <Controller
+                  name="etapa"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={valores2}
+                      placeholder="Seleccionar"
+                    />
                   )}
+                />
+                {errors.etapa && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </div>
 
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+              <div className="col-12 col-md-4">
                 <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
+                  className="mt-5 btn btn-primary text-capitalize "
                   type="submit"
-                  title="Send"
-                  form="configForm"
                 >
                   Buscar
                 </button>
@@ -221,42 +217,46 @@ const EtapasDeMaterialVegetalScreen = () => {
             </div>
           </div>
 
-        {selecOpciones.lote && selecOpciones.etapa ?(
-        <div>
-          <div div id="myGrid" className="ag-theme-alpine mt-4">
-            <div className="ag-theme-alpine" style={{ height: "400px" }}>
-              <AgGridReact
-                columnDefs={columnDefs}
-                rowData={rowData}
-                defaultColDef={defaultColDef}
-                onGridReady={onGridReady}
-              ></AgGridReact>
+          
+
+          {selecOpciones.lote && selecOpciones.etapa ? (
+            <div>
+              <div div id="myGrid" className="ag-theme-alpine mt-4">
+                <div className="ag-theme-alpine" style={{ height: "400px" }}>
+                  <AgGridReact
+                    columnDefs={columnDefs}
+                    rowData={rowData}
+                    defaultColDef={defaultColDef}
+                    onGridReady={onGridReady}
+                  ></AgGridReact>
+                </div>
+              </div>
+
+              <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                <button
+                  className="btn bg-gradient-primary mb-0"
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                >
+                  Editar estado
+                </button>
+              </div>
+
+              <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                <button
+                  className="btn bg-gradient-danger mb-0"
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                >
+                  Salir
+                </button>
+              </div>
             </div>
-          </div>
-
-          <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
-            <button
-              className="btn bg-gradient-primary mb-0"
-              type="submit"
-              title="Send"
-              form="configForm"            >
-              Editar estado
-            </button>
-          </div>
-
-          <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
-            <button
-              className="btn bg-gradient-danger mb-0"
-              type="submit"
-              title="Send"
-              form="configForm"
-            >
-              Salir
-            </button>
-          </div>
-        </div> )
-        :
-        ("")}  
+          ) : (
+            ""
+          )}
         </form>
       </div>
     </div>

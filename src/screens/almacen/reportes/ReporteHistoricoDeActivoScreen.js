@@ -110,7 +110,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                   <input
                     name="codigoArticulo"
                     className="multisteps-form__input form-control"
-                    type="text"
+                    type="number"
                     placeholder="Codigo de articulo"
                     {...register("codigoArticulo", { required: true })}
                   />
@@ -135,9 +135,7 @@ const ReporteHistoricoDeActivoScreen = () => {
                     value="Computador"
                     disabled
                   />
-                  <label className="ms-2">
-                    Nombre del articulo
-                  </label>
+                  <label className="ms-2">Nombre del articulo</label>
                 </div>
               </div>
 
@@ -154,146 +152,143 @@ const ReporteHistoricoDeActivoScreen = () => {
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-1 row">
+            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+              <button
+                className="btn bg-gradient-primary mb-0 text-capitalize"
+                type="submit"
+                title="Send"
+                form="configForm"
+              >
+                Buscar
+              </button>
+            </div>
+          </div>
+
+          {mostrarTabla && (
+            <div>
+              <div className="row">
+                <label className="form-control ms-0 fw-bolder text-center mt-4">
+                  <n>Reporte historico de un articulo</n>
+                </label>
+              </div>
 
               <div className="mt-4 row">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
-                    type="submit"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Buscar
-                  </button>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      name="Codigo"
+                      className="form-control"
+                      type="text"
+                      placeholder="Codigo del articulo"
+                      value="12345"
+                      disabled
+                    />
+                    <label className="ms-2">Codigo del articulo</label>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      name="nombreResponsable"
+                      className="form-control"
+                      type="text"
+                      placeholder="Nombre del responsable"
+                      value="Julian Castillo"
+                      disabled
+                    />
+                    <label className="ms-2">Nombre del responsable</label>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      name="ID"
+                      className="form-control"
+                      type="text"
+                      placeholder="ID"
+                      value="001912"
+                      disabled
+                    />
+                    <label className="ms-2">ID</label>
+                  </div>
                 </div>
               </div>
 
-              {mostrarTabla && (
-                <div>
-                  <div className="row">
-                    <label className="form-control ms-0 fw-bolder text-center mt-4">
-                      <n>Reporte historico de un articulo</n>
-                    </label>
+              <div className="mt-1 row">
+                <div id="myGrid" className="ag-theme-alpine mt-4">
+                  <div className="ag-theme-alpine" style={{ height: "400px" }}>
+                    <AgGridReact
+                      columnDefs={columnDefs}
+                      rowData={rowData}
+                      defaultColDef={defaultColDef}
+                      onGridReady={onGridReady}
+                    ></AgGridReact>
                   </div>
+                </div>
+              </div>
 
-                  <div className="mt-4 row">
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="Codigo"
-                          className="form-control"
-                          type="text"
-                          placeholder="Codigo del articulo"
-                          value="12345"
-                          disabled
-                        />
-                        <label className="ms-2">Codigo del articulo</label>
-                      </div>
-                    </div>
-
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="nombreResponsable"
-                          className="form-control"
-                          type="text"
-                          placeholder="Nombre del responsable"
-                          value="Julian Castillo"
-                          disabled
-                        />
-                        <label className="ms-2">Nombre del responsable</label>
-                      </div>
-                    </div>
-
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="ID"
-                          className="form-control"
-                          type="text"
-                          placeholder="ID"
-                          value="001912"
-                          disabled
-                        />
-                        <label className="ms-2">ID</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-1 row">
-                    <div id="myGrid" className="ag-theme-alpine mt-4">
-                      <div
-                        className="ag-theme-alpine"
-                        style={{ height: "400px" }}
-                      >
-                        <AgGridReact
-                          columnDefs={columnDefs}
-                          rowData={rowData}
-                          defaultColDef={defaultColDef}
-                          onGridReady={onGridReady}
-                        ></AgGridReact>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-column justify-content-end align-items-end">
-                    <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            name="nombreQuienImprime"
-                            className="form-control"
-                            type="text"
-                            placeholder="Nombre del articulo"
-                            value="Julian Castillo"
-                            disabled
-                          />
-                          <label className="ms-2">Nombre quien imprime</label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            name="fechaDeImpresion"
-                            className="form-control"
-                            type="text"
-                            placeholder="fecha de impresion"
-                            value="05/10/2022"
-                            disabled
-                          />
-                          <label className="ms-2">Fecha de impresion</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                      <button
-                        className="btn bg-gradient-primary mb-0"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Imprimir
-                      </button>
-                      <button
-                        className="btn bg-gradient-danger mb-0"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Salir
-                      </button>
+              <div className="d-flex flex-column justify-content-end align-items-end">
+                <div className="row">
+                  <div className="col-12 col-md-12">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="nombreQuienImprime"
+                        className="form-control"
+                        type="text"
+                        placeholder="Nombre del articulo"
+                        value="Julian Castillo"
+                        disabled
+                      />
+                      <label className="ms-2">Nombre quien imprime</label>
                     </div>
                   </div>
                 </div>
-              )}
+
+                <div className="row">
+                  <div className="col-12 col-md-12">
+                    <div className="form-floating input-group input-group-dynamic">
+                      <input
+                        name="fechaDeImpresion"
+                        className="form-control"
+                        type="text"
+                        placeholder="fecha de impresion"
+                        value="05/10/2022"
+                        disabled
+                      />
+                      <label className="ms-2">Fecha de impresion</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* <div className="row">
+                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <button
+                    className="btn bg-gradient-primary mb-0"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Imprimir
+                  </button>
+                  <button
+                    className="btn bg-gradient-danger mb-0"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Salir
+                  </button>
+                </div>
+              </div> */}
             </div>
-          </div>
+          )}
         </form>
         <BusquedaArticuloModal
           isModalActive={busquedaArticuloIsActive}

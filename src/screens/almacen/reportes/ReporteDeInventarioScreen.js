@@ -134,14 +134,6 @@ const ReporteDeInventarioScreen = () => {
     },
   ];
 
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  const onExportClick = () => {
-    gridApi.exportDataAsCsv();
-  };
-
   const rowData = [
     {
       "Codigo de articulo": "12345",
@@ -156,7 +148,16 @@ const ReporteDeInventarioScreen = () => {
       "Tipo de entrada": "Compra",
       Grupo: "Bioticos",
     },
+    
   ];
+
+  const onGridReady = (params) => {
+    gridApi = params.api;
+  };
+
+  const onExportClick = () => {
+    gridApi.exportDataAsCsv();
+  };
 
   const defaultColDef = {
     sortable: true,
@@ -334,7 +335,7 @@ const ReporteDeInventarioScreen = () => {
                           dateFormat="dd/MM/yyyy"
                           className="multisteps-form__input form-control p-2"
                           placeholderText="dd/mm/aaaa"
-                          selected={startDate}
+                          selected={selecOpciones.fechaInicial}
                           onChange={(date) => {
                             setSelecOpciones({
                               ...selecOpciones,
@@ -364,7 +365,7 @@ const ReporteDeInventarioScreen = () => {
                           dateFormat="dd/MM/yyyy"
                           className="multisteps-form__input form-control p-2"
                           placeholderText="dd/mm/aaaa"
-                          selected={endDate}
+                          selected={selecOpciones.fechaFinal}
                           onChange={(date) => {
                             setSelecOpciones({
                               ...selecOpciones,
@@ -459,7 +460,7 @@ const ReporteDeInventarioScreen = () => {
                       </div>
                     </div>
 
-                    <div className="row">
+                    {/* <div className="row">
                       <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
                         <button
                           className="btn bg-gradient-primary mb-0"
@@ -478,7 +479,7 @@ const ReporteDeInventarioScreen = () => {
                           Salir
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ) : (

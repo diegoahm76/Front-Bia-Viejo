@@ -11,11 +11,10 @@ import { da } from "date-fns/locale";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const ReporteEstadoMantenimientoActivoScreen = () => {
+  
 
   const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
     useState(false);
-
-  const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const {
     register,
@@ -28,15 +27,19 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
     tipoMantenimiento: "",
     estado: "",
     estadoMantenimiento: "",
+    fechaSolicitud:"",
+    codigoArticulo:"",
   });
 
+  
+
   const onSubmit = (data) => {
-    setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
-      tipoMantenimiento: data.tipoMantenimiento.value,
-      estado: data.estado.value,
-      estadoMantenimiento: data.estadoMantenimiento.value,
+      tipoMantenimiento: data.tipoMantenimiento?.value,
+      estado: data.estado?.value,
+      estadoMantenimiento: data.estadoMantenimiento?.value,
+      codigoArticulo: data.codigoArticulo,
     });
   };
 
@@ -222,12 +225,6 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              tipoMantenimiento: e.value,
-                            })
-                          }
                           options={opcionTipoMantenimiento}
                           placeholder="Seleccionar"
                         />
@@ -246,13 +243,6 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                       control={control}
                       render={({ field }) => (
                         <Select
-                          {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              estado: e.value,
-                            })
-                          }
                           options={opcionEstado}
                           placeholder="Seleccionar"
                         />
@@ -271,13 +261,6 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                       control={control}
                       render={({ field }) => (
                         <Select
-                          {...field}
-                          onChange={(e) =>
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              estadoMantenimiento: e.value,
-                            })
-                          }
                           options={opcionEstadoMantenimiento}
                           placeholder="Seleccionar"
                         />
@@ -292,25 +275,33 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
             <div className="mt-4 row">
 
             <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de solicitud
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
+                  <label htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha de solicitud
+                    <Controller
+                      name="fechaSolicitud"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          dateFormat="dd/MM/yyyy"
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                          selected={selecOpciones.fechaSolicitud}
+                          onChange={(date) => {
+                            setSelecOpciones({
+                              ...selecOpciones,
+                              fechaSolicitud: date,
+                            });
+                            setStartDate(date);
+                          }}
+                          selectsStart
+                          startDate={startDate}
+                        />
+                      )}
                     />
-                  )}
-                />
-              </label>
-            </div>
+                  </label>
+                </div>
 
             <div className="col-4 col-md-4">
               <div class="form-check mt-4">
@@ -335,10 +326,7 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
             </div>
           </div>
 
-          {mostrarTabla ||
-          (selecOpciones.tipoMantenimiento &&
-            selecOpciones.estado &&
-            selecOpciones.estadoMantenimiento) ? (
+          {selecOpciones.codigoArticulo ? (
             <div>
 
               <div className="row">
@@ -394,7 +382,7 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
+              {/* <div className="row">
                 <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-primary mb-0"
@@ -413,7 +401,7 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                     Salir
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             ""

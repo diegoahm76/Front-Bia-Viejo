@@ -175,7 +175,7 @@ const ReporteDeExistenciasConsumoScreen = () => {
           <div className="mt-4 row">
           <div className="col-12 col-md-4">
                   <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha inicial
+                    Fecha de corte
                     <Controller
                       name="fechaCorte"
                       control={control}
@@ -186,7 +186,7 @@ const ReporteDeExistenciasConsumoScreen = () => {
                           dateFormat="dd/MM/yyyy"
                           className="multisteps-form__input form-control p-2"
                           placeholderText="dd/mm/aaaa"
-                          selected={startDate}
+                          selected={selecOpciones.fechaCorte}
                           onChange={(date) => {
                             setSelecOpciones({
                               ...selecOpciones,
@@ -344,7 +344,7 @@ const ReporteDeExistenciasConsumoScreen = () => {
                   </div>
                 </div>
 
-                <div className="row">
+                {/* <div className="row">
                   <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
                     <button
                       className="btn bg-gradient-primary mb-0"
@@ -363,7 +363,7 @@ const ReporteDeExistenciasConsumoScreen = () => {
                       Salir
                     </button>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           ) : (

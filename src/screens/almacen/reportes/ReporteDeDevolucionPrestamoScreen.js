@@ -192,7 +192,9 @@ const ReporteDeDevolucionPrestamoScreen = () => {
               <div className="multisteps-form__content">
                 <div className="row">
                   <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>Reporte de devolucion de activo en calidad de prestamo</n>
+                    <n>
+                      Reporte de devolucion de activo en calidad de prestamo
+                    </n>
                   </label>
                 </div>
               </div>
@@ -368,7 +370,7 @@ const ReporteDeDevolucionPrestamoScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
+              {/* <div className="row">
                 <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-primary mb-0"
@@ -387,7 +389,7 @@ const ReporteDeDevolucionPrestamoScreen = () => {
                     Salir
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             ""

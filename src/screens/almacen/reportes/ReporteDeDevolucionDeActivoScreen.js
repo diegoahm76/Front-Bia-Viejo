@@ -147,6 +147,7 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                       onChange={(date) => setStartDate(date)}
                       className="multisteps-form__input form-control p-2"
                       placeholderText="dd/mm/aaaa"
+                      disabled
                     />
                   )}
                 />
@@ -347,7 +348,7 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
+              {/* <div className="row">
                 <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-primary mb-0"
@@ -366,7 +367,7 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                     Salir
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             ""

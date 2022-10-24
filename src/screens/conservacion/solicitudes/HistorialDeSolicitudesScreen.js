@@ -187,7 +187,7 @@ const HistorialDeSolicitudesScreen = () => {
           <div className="multisteps-form__content">
             <div className="mt-4 row">
               
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Tipo de consulta: </label>
                 <Controller
                   name="tipoConsulta"
@@ -215,7 +215,7 @@ const HistorialDeSolicitudesScreen = () => {
           <div className="multisteps-form__content">
             <div className="row">
 
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Vivero: </label>
                 <Controller
                   name="vivero"
@@ -234,7 +234,7 @@ const HistorialDeSolicitudesScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Nombre del profesional:</label>
                 <Controller
                   name="nombreProfesional"
@@ -253,7 +253,7 @@ const HistorialDeSolicitudesScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Estado de la solicitud:</label>
                 <Controller
                   name="estado"
@@ -272,16 +272,20 @@ const HistorialDeSolicitudesScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-sm-6"> 
-                <button
-                  className="mt-5 btn btn-primary text-capitalize "
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
-              </div>
+              <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                      <button
+                        className="btn bg-gradient-primary mb-0 text-capitalize"
+                        type="submit"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Buscar
+                      </button>
+                    </div>
+                  </div>
+                </div>
 
         
 
@@ -323,7 +327,7 @@ const HistorialDeSolicitudesScreen = () => {
               
 
 
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">
                     Nombre del profesional:
                   </label>
@@ -346,7 +350,7 @@ const HistorialDeSolicitudesScreen = () => {
                   )}
                 </div>
 
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">
                     Estado de la solicitud:
                   </label>
@@ -369,21 +373,14 @@ const HistorialDeSolicitudesScreen = () => {
                   )}
                 </div>
 
-                <div className="multisteps-form__content">
-                  <div className="mt-4 row">
-
-                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                      <button
-                        className="btn bg-gradient-primary mb-0 text-capitalize"
-                        type="submit"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Buscar
-                      </button>
-                    </div>
-                  </div>
-              </div>
+                <div className="col-12 col-md-4">
+                  <button
+                    className="mt-5 btn btn-primary text-capitalize "
+                    type="submit"
+                  >
+                    Buscar
+                  </button>
+                </div>
 
                 {selecOpciones.nombreProfesional &&
                 selecOpciones.estado ? (

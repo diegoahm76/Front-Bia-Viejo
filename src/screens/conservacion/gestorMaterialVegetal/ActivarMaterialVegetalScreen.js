@@ -13,7 +13,6 @@ const ActivarMaterialCuarentenaScreen = () => {
   const [selecVivero, setSelecVivero] = useState({
     viveros :"",
   });
-  
   const {
     register,
     handleSubmit,
@@ -238,7 +237,7 @@ const ActivarMaterialCuarentenaScreen = () => {
         <div className="multisteps-form__content">
           <div className="mt-4 row">
 
-            <div className="col-12 col-sm-6">
+            <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Selecione Vivero: </label>
                 <Controller
                   name="viveros"
@@ -257,7 +256,7 @@ const ActivarMaterialCuarentenaScreen = () => {
                 )}
             </div>
 
-            <div className="col-12 col-sm-6">
+            <div className="col-12 col-md-4">
               <button
                 className="mt-5 btn btn-primary text-capitalize "
                 type="submit"

@@ -4,7 +4,15 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
+import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
+
+import {
+  activeModalAction,
+  desactiveModalAction,
+} from "../../../actions/modalActions";
+
+import CalendarModal from "../../../components/CalendarModal";
 
 export const ConsultaDeInformesDeCaracterizacionScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
@@ -86,7 +94,12 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
       maxWidth: 200,
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize">Ver</button>
+          <button
+            class="btn btn-2 btn-secondary text-capitalize"
+            onClick={handleOpenModal}
+          >
+            Ver
+          </button>
         </div>
       ),
     },
@@ -186,6 +199,16 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
     gridApi.exportDataAsCsv();
   };
 
+  const dispatch = useDispatch();
+
+  const handleOpenModal = () => {
+    dispatch(activeModalAction());
+  };
+
+  const handleCloseModal = () => {
+    dispatch(desactiveModalAction());
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -201,8 +224,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Tipo de consulta: </label>
                 <Controller
                   name="tipoConsulta"
@@ -228,7 +250,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
           {selecOpciones.tipoConsulta == "uvv" ? (
             <div className="multisteps-form__content">
               <div className="row">
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">Vivero: </label>
                   <Controller
                     name="vivero"
@@ -249,7 +271,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                   )}
                 </div>
 
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">
                     Nombre del profesional:
                   </label>
@@ -272,17 +294,13 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                   )}
                 </div>
 
-                <div className="mt-4 row">
-                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-primary mb-0 text-capitalize"
-                      type="submit"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Buscar
-                    </button>
-                  </div>
+                <div className="col-12 col-md-4">
+                  <button
+                    className="mt-5 btn btn-primary text-capitalize "
+                    type="submit"
+                  >
+                    Buscar
+                  </button>
                 </div>
 
                 {selecOpciones.vivero && selecOpciones.nombreProfesional ? (
@@ -322,80 +340,140 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
           )}
           {selecOpciones.tipoConsulta === "tlv" ? (
             <div className="multisteps-form__content">
-            <div className="row">
-              
-
-              <div className="col-12 col-sm-6">
-                <label className=" form-control ms-0">
-                  Nombre del profesional:
-                </label>
-                <Controller
-                  name="nombreProfesional"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={valores3}
-                      placeholder="Seleccionar"
-                    />
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <label className=" form-control ms-0">
+                    Nombre del profesional:
+                  </label>
+                  <Controller
+                    name="nombreProfesional"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={valores3}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.nombreProfesional && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
                   )}
-                />
-                {errors.nombreProfesional && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
-                )}
-              </div>
+                </div>
 
-              
-              <div className="col-12 col-sm-6 ">
-                <button
-                  className="mt-5 btn btn-primary text-capitalize"
-                  type="submit"
-                >
-                  Buscar
-                </button>
-              </div>
-    
+                <div className="col-12 col-md-4 ">
+                  <button
+                    className="mt-5 btn btn-primary text-capitalize"
+                    type="submit"
+                  >
+                    Buscar
+                  </button>
+                </div>
 
-              {selecOpciones.nombreProfesional ? (
-                <div>
-                  <div id="myGrid" className="ag-theme-alpine mt-4">
-                    <div
-                      className="ag-theme-alpine"
-                      style={{ height: "400px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
+                {selecOpciones.nombreProfesional ? (
+                  <div>
+                    <div id="myGrid" className="ag-theme-alpine mt-4">
+                      <div
+                        className="ag-theme-alpine"
+                        style={{ height: "400px" }}
+                      >
+                        <AgGridReact
+                          columnDefs={columnDefs}
+                          rowData={rowData}
+                          defaultColDef={defaultColDef}
+                          onGridReady={onGridReady}
+                        ></AgGridReact>
+                      </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                      <button
+                        className="btn bg-gradient-danger mb-0"
+                        type="submit"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Salir
+                      </button>
                     </div>
                   </div>
-
-                  <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-danger mb-0"
-                      type="submit"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+        </form>
+        <CalendarModal>
+          <div className="row mt-2">
+            {" "}
+            {/* primera fila */}
+            <div className="col-12 col-sm-6">
+              {" "}
+              {/* primera columna */}
+              <div className="col-12 col-sm-12">
+                <label>Tipo de documento: </label>
+              </div>
+            </div>
+            <div className="col-12 col-sm-3">
+              {" "}
+              {/* primera columna */}
+              <div className="col-12 col-sm-12">
+                <h2>PDF </h2>
+              </div>
+            </div>
+            <div className="col-12 col-sm-3">
+              {" "}
+              {/* primera columna */}
+              <div className="col-12 col-sm-12">
+                <h2>PDF </h2>
+              </div>
             </div>
           </div>
-        ) : (
-          ""
-          )
-          }
-        </form>
+
+          {/*CREO LAS TRES COLUMNAS - TERCERA FILA*/}
+          <div className="row mt-2">
+            {/*1 COLUMNA*/}
+            <div className="col-12 col-sm-12">
+              <label className="col-12 col-sm-12 font-weight">
+                Listado de solicitud{" "}
+              </label>
+            </div>
+          </div>
+
+          <div id="myGrid" className="ag-theme-alpine">
+            {" "}
+            {/*  Tabla  */}
+            <div className="ag-theme-alpine" style={{ height: "400px" }}>
+              <AgGridReact
+                columnDefs={columnDefs}
+                rowData={rowData}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            {" "}
+            {/*  BOTONES DE ABAJO  */}'
+            <button
+              className="btn bg-gradient-danger mb-0"
+              type="submit"
+              title="Send"
+              form="configForm"
+              onClick={handleCloseModal}
+            >
+              Salir
+            </button>
+            '
+          </div>
+        </CalendarModal>
       </div>
     </div>
   );

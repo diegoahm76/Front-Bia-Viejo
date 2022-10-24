@@ -362,7 +362,7 @@ const ReporteDeSolicitudDePrestamoScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
+              {/* <div className="row">
                 <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-primary mb-0"
@@ -381,7 +381,7 @@ const ReporteDeSolicitudDePrestamoScreen = () => {
                     Salir
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             ""
