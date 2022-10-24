@@ -4,9 +4,12 @@ import { Navigate } from "react-router-dom";
 
 import RecursoHidricoScreen from "..";
 import AdministradorDeEstaciones from "../estaciones/AdministradorDeEstaciones";
+import AlarmasScreen from "../estaciones/AlarmasScreen";
 import AlertasScreen from "../estaciones/AlertasScreen";
 import ConfiguracionesScreen from "../estaciones/ConfiguracionesScreen";
+import NotificacionesEstacionesScreen from "../estaciones/NotificacionesEstacionesScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
+import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
 
 const RecursoHidricoRoutes = () => {
   return (
@@ -23,9 +26,18 @@ const RecursoHidricoRoutes = () => {
           element={<AdministradorDeEstaciones />}
         />
 
+        <Route
+          path="usuarios-estaciones"
+          element={<UsuariosEstacionesScreen />}
+        />
+
         <Route path="alertas" element={<AlertasScreen />} />
 
         <Route path="configuraciones" element={<ConfiguracionesScreen />} />
+
+        <Route path="alarmas-estaciones" element={<AlarmasScreen />} />
+
+        <Route path="notificaciones-estaciones" element={<NotificacionesEstacionesScreen />} />
       </Route>
     </Routes>
   );
