@@ -2036,6 +2036,17 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/usuarios-estaciones"
+                              >
+                                <img src={Vineta} alt="vineta" />
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Administrador de usuarios
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/configuraciones"
                               >
                                 <img src={Vineta} alt="vineta" />
@@ -2063,6 +2074,28 @@ const Aside = ({ showAside }) => {
                                 <img src={Vineta} alt="vineta" />
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/alarmas-estaciones"
+                              >
+                                <img src={Vineta} alt="vineta" />
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Alarmas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/notificaciones-estaciones"
+                              >
+                                <img src={Vineta} alt="vineta" />
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Notificaciones
                                 </span>
                               </Link>
                             </li>
