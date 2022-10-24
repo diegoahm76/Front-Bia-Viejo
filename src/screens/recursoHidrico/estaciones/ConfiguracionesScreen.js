@@ -2,13 +2,13 @@ import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import ModalLocal from "../../../components/ModalLocal";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import Select from "react-select";
 import { useSelector } from "react-redux";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import { formatISO } from "date-fns";
+import ConfiguracionModal from "../../../components/ConfiguracionModal";
 
 const defaultValuesResetConfiguration = {
   t003frecuencia: "",
@@ -418,7 +418,7 @@ const ConfiguracionesScreen = () => {
             </div>
           </form>
           {isModalOpen && (
-            <ModalLocal localState={isModalOpen}>
+            <ConfiguracionModal localState={isModalOpen}>
               <form
                 className="row p-3"
                 onSubmit={handleSubmitConfiguracion(onSubmitConfiguracion)}
@@ -1050,7 +1050,7 @@ const ConfiguracionesScreen = () => {
                   </button>
                 </div>
               </form>
-            </ModalLocal>
+            </ConfiguracionModal>
           )}
         </div>
       </div>
