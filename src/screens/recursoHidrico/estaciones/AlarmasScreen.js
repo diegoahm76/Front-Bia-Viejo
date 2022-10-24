@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import useAlarmas from "../../../hooks/useAlarmas";
 
 const defaultColDef = {
   sortable: true,
@@ -19,7 +20,8 @@ const defaultColDef = {
 const AlarmasScreen = () => {
   const [typeAction, setTypeAction] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [dataAlarmas, setDataAlarmas] = useState([]);
+
+  const { dataAlarmas } = useAlarmas();
 
   const columnDefs = [
     { headerName: "Alarma", field: "idAlarma", minWidth: 140 },
@@ -123,7 +125,7 @@ const AlarmasScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-4">
-          Configuracion de estaciones
+          Configuracion de alarmas
         </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
