@@ -87,8 +87,8 @@ const ActualizarDatosPersonaScreen = () => {
         //TODO Trayendo los datos de la persona
         const personaNatural = "N";
         const { data: dataPersona } = await clienteAxios.get(
-          `personas/get-by-email/${emailLogin}`
-        );
+          `personas/get-by-email/${emailLogin}/`
+        ); 
         reset(dataPersona);
 
         if (dataPersona.tipo_persona !== personaNatural) {
