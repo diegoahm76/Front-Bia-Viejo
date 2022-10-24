@@ -136,54 +136,6 @@ const ReporteDeExistenciasConsumoScreen = () => {
               </div>
             </div>
 
-<<<<<<< HEAD
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="codigoFinal"
-                  className="form-control"
-                  type="text"
-                  placeholder="Codigo final"
-                  {...register("codigoFinal", { required: true })}
-                />
-                <label className="ms-2">
-                  Codigo final<small className="text-danger">*</small>
-                </label>
-              </div>
-              {errors.codigofinal && (
-                <small className="text-danger">Este campo es obligatorio</small>
-              )}
-            </div>
-          </div>
-
-          <div className="mt-4 row">
-          <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de corte
-                    <Controller
-                      name="fechaCorte"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={selecOpciones.fechaCorte}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaCorte: date,
-                            });
-                            setStartDate(date);
-                          }}
-                          selectsStart
-                          startDate={startDate}
-                        />
-                      )}
-                    />
-=======
             <div className="row">
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
@@ -196,7 +148,6 @@ const ReporteDeExistenciasConsumoScreen = () => {
                   />
                   <label className="ms-2">
                     Codigo inicial<small className="text-danger">*</small>
->>>>>>> main
                   </label>
                 </div>
                 {errors.codigoinicial && (
@@ -282,62 +233,6 @@ const ReporteDeExistenciasConsumoScreen = () => {
                 </label>
               </div>
 
-<<<<<<< HEAD
-                <div className="d-flex flex-column justify-content-end align-items-end">
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="nombreQuienImprime"
-                          className="form-control"
-                          type="text"
-                          placeholder="Nombre del articulo"
-                          value="Julian Castillo"
-                          disabled
-                        />
-                        <label className="ms-2">Nombre quien imprime</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="fechaDeImpresion"
-                          className="form-control"
-                          type="text"
-                          placeholder="fecha de impresion"
-                          value="05/10/2022"
-                          disabled
-                        />
-                        <label className="ms-2">Fecha de impresion</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* <div className="row">
-                  <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-primary mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Imprimir
-                    </button>
-                    <button
-                      className="btn bg-gradient-danger mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
-                  </div>
-                </div> */}
-=======
               <div className="col-12 col-md-4">
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
@@ -349,7 +244,6 @@ const ReporteDeExistenciasConsumoScreen = () => {
                     Buscar
                   </button>
                 </div>
->>>>>>> main
               </div>
             </div>
 

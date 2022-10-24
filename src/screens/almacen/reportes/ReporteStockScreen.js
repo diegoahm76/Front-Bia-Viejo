@@ -184,75 +184,6 @@ const ReporteStockScreen = () => {
                 </button>
               </div>
             </div>
-<<<<<<< HEAD
-          </div>
-
-          <div className="row">
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-              <button
-                className="btn bg-gradient-primary mb-0 text-capitalize"
-                type="submit"
-                title="Send"
-                form="configForm"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-          {selecOpciones.codigoArticulo ? (
-            <div>
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>Reporte de Stock de articulos</n>
-                  </label>
-                </div>
-                <div className="mt-1 row">
-                  <div id="myGrid" className="ag-theme-alpine mt-4">
-                    <div
-                      className="ag-theme-alpine"
-                      style={{ height: "400px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="d-flex flex-column justify-content-end align-items-end">
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="nombreQuienImprime"
-                          className="form-control"
-                          type="text"
-                          placeholder="Nombre del articulo"
-                          value="Julian Castillo"
-                          disabled
-                        />
-                        <label className="ms-2">Nombre quien imprime</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="fechaDeImpresion"
-                          className="form-control"
-                          type="text"
-                          placeholder="fecha de impresion"
-                          value="05/10/2022"
-                          disabled
-                        />
-                        <label className="ms-2">Fecha de impresion</label>
-=======
             {selecOpciones.codigoArticulo ? (
               <div>
                 <div className="multisteps-form__content">
@@ -273,7 +204,6 @@ const ReporteStockScreen = () => {
                           defaultColDef={defaultColDef}
                           onGridReady={onGridReady}
                         ></AgGridReact>
->>>>>>> main
                       </div>
                     </div>
                   </div>
@@ -333,40 +263,11 @@ const ReporteStockScreen = () => {
                     </div>
                   </div>
                 </div>
-<<<<<<< HEAD
-
-                {/* <div className="row">
-                  <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-primary mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Imprimir
-                    </button>
-                    <button
-                      className="btn bg-gradient-danger mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
-                  </div>
-                </div> */}
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-=======
               </div>
             ) : (
               ""
             )}
           </MarcaDeAgua1>
->>>>>>> main
         </form>
         <BusquedaArticuloModal
           isModalActive={busquedaArticuloIsActive}

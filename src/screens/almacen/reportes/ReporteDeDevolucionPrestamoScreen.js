@@ -191,17 +191,6 @@ const ReporteDeDevolucionPrestamoScreen = () => {
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-          </div>
-          {selecOpciones.consecutivo ? (
-            <div>
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>
-                      Reporte de devolucion de activo en calidad de prestamo
-                    </n>
-=======
             {selecOpciones.consecutivo ? (
               <div>
                 <div className="multisteps-form__content">
@@ -318,7 +307,6 @@ const ReporteDeDevolucionPrestamoScreen = () => {
                 <div className="input-group input-group-dynamic flex-column mt-3">
                   <label htmlFor="exampleFormControlInput1 ">
                     Observaciones
->>>>>>> main
                   </label>
                   <textarea
                     className="multisteps-form__input form-control p-2 mw-100 w-auto"
@@ -412,38 +400,10 @@ const ReporteDeDevolucionPrestamoScreen = () => {
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
-
-              {/* <div className="row">
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Imprimir
-                  </button>
-                  <button
-                    className="btn bg-gradient-danger mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Salir
-                  </button>
-                </div>
-              </div> */}
-            </div>
-          ) : (
-            ""
-          )}
-=======
             ) : (
               ""
             )}
           </MarcaDeAgua1>
->>>>>>> main
         </form>
       </div>
     </div>

@@ -94,16 +94,12 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
       maxWidth: 200,
       cellRendererFramework: (params) => (
         <div>
-<<<<<<< HEAD
           <button
             class="btn btn-2 btn-secondary text-capitalize"
             onClick={handleOpenModal}
           >
             Ver
           </button>
-=======
-          <button className="btn btn-2 btn-secondary text-capitalize">Ver</button>
->>>>>>> main
         </div>
       ),
     },
@@ -404,7 +400,6 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                       </button>
                     </div>
                   </div>
-<<<<<<< HEAD
                 ) : (
                   ""
                 )}
@@ -438,23 +433,6 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
               <div className="col-12 col-sm-12">
                 <h2>PDF </h2>
               </div>
-=======
-
-                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-danger mb-0"
-                      type="submit"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
->>>>>>> main
             </div>
           </div>
 

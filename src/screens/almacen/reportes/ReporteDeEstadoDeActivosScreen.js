@@ -9,7 +9,6 @@ import { useForm, Controller } from "react-hook-form";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const ReporteDeEstadoDeActivosScreen = () => {
-  const [mostrarTabla, setMostrarTabla] = useState(false);
 
   const [selecOpciones, setSelecOpciones] = useState({
     estado: "",
@@ -26,7 +25,6 @@ const ReporteDeEstadoDeActivosScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    setMostrarTabla(true);
     setSelecOpciones({
       ...selecOpciones,
       estado: data.estado?.value,
@@ -310,38 +308,10 @@ const ReporteDeEstadoDeActivosScreen = () => {
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-
-                  {/* <div className="row">
-                    <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                      <button
-                        className="btn bg-gradient-primary mb-0"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Imprimir
-                      </button>
-                      <button
-                        className="btn bg-gradient-danger mb-0"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Salir
-                      </button>
-                    </div>
-                  </div> */}
-                </div>
-              ) : (
-                ""
-              )}
-=======
                 ) : (
                   ""
                 )}
               </div>
->>>>>>> main
             </div>
           </MarcaDeAgua1>
         </form>

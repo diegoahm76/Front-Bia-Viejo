@@ -135,44 +135,6 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                   </small>
                 )}
               </div>
-<<<<<<< HEAD
-              {errors.consecutivo && (
-                <small className="text-danger">Este campo es obligatorio</small>
-              )}
-            </div>
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de devolucion
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                      disabled
-                    />
-                  )}
-                />
-              </label>
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
-=======
               <div className="col-12 col-md-4">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de devolucion
@@ -205,7 +167,6 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                     Buscar
                   </button>
                 </div>
->>>>>>> main
               </div>
             </div>
 
@@ -416,38 +377,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
-
-              {/* <div className="row">
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Imprimir
-                  </button>
-                  <button
-                    className="btn bg-gradient-danger mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Salir
-                  </button>
-                </div>
-              </div> */}
-            </div>
-          ) : (
-            ""
-          )}
-=======
             ) : (
               ""
             )}
           </MarcaDeAgua1>
->>>>>>> main
         </form>
       </div>
     </div>

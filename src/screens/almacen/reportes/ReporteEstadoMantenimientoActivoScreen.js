@@ -12,11 +12,6 @@ import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const ReporteEstadoMantenimientoActivoScreen = () => {
-<<<<<<< HEAD
-  
-
-=======
->>>>>>> main
   const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
     useState(false);
 
@@ -246,184 +241,6 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                   </label>
                 </div>
 
-<<<<<<< HEAD
-              <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    name="nombreArticulo"
-                    className="form-control"
-                    type="text"
-                    placeholder="Nombre del articulo"
-                    value="Computador"
-                    disabled
-                  />
-                  <label className="ms-2">Nombre del articulo </label>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                    onClick={() => setBusquedaArticuloIsActive(true)}
-                  >
-                    Buscar articulo
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de mantenimiento
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipomantenimiento"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionTipoMantenimiento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Estado del activo
-                  <div className="col-12 ">
-                    <Controller
-                      name="estado del activo"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          options={opcionEstado}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Estado del mantenimiento
-                  <div className="col-12 ">
-                    <Controller
-                      name="estado del mantenimiento"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          options={opcionEstadoMantenimiento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-            </div>
-          </div>
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-
-            <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de solicitud
-                    <Controller
-                      name="fechaSolicitud"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={selecOpciones.fechaSolicitud}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaSolicitud: date,
-                            });
-                            setStartDate(date);
-                          }}
-                          selectsStart
-                          startDate={startDate}
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-
-            <div className="col-4 col-md-4">
-              <div class="form-check mt-4">
-                <input class="form-check-input" type="checkbox" value="" />
-                <label class="form-check-label">Todas</label>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
-              </div>
-            </div>
-
-            </div>
-          </div>
-
-          {selecOpciones.codigoArticulo ? (
-            <div>
-
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center mt-4">
-                  <n>Reporte de estado de mantenimiento</n>
-                </label>
-              </div>
-
-              <div className="mt-1 row">
-                <div id="myGrid" className="ag-theme-alpine mt-4">
-                  <div className="ag-theme-alpine" style={{ height: "400px" }}>
-                    <AgGridReact
-                      columnDefs={columnDefs}
-                      rowData={rowData}
-                      defaultColDef={defaultColDef}
-                      onGridReady={onGridReady}
-                    ></AgGridReact>
-                  </div>
-                </div>
-              </div>
-
-              <div className="d-flex flex-column justify-content-end align-items-end">
-                <div className="row">
-                  <div className="col-12 col-md-12">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="nombreQuienImprime"
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre del articulo"
-                        value="Julian Castillo"
-                        disabled
-=======
                 <div className="col-12 col-md-4">
                   <label className="form-floating input-group input-group-dynamic ms-2">
                     Estado del activo
@@ -444,7 +261,6 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                             placeholder="Seleccionar"
                           />
                         )}
->>>>>>> main
                       />
                     </div>
                   </label>
@@ -525,7 +341,7 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
               </div>
             </div>
 
-            {mostrarTabla ||
+            {
             (selecOpciones.tipoMantenimiento &&
               selecOpciones.estado &&
               selecOpciones.estadoMantenimiento) ? (
@@ -607,38 +423,10 @@ const ReporteEstadoMantenimientoActivoScreen = () => {
                   </div>
                 </div>
               </div>
-<<<<<<< HEAD
-
-              {/* <div className="row">
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Imprimir
-                  </button>
-                  <button
-                    className="btn bg-gradient-danger mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Salir
-                  </button>
-                </div>
-              </div> */}
-            </div>
-          ) : (
-            ""
-          )}
-=======
             ) : (
               ""
             )}
           </MarcaDeAgua1>
->>>>>>> main
         </form>
         <BusquedaArticuloModal
           isModalActive={busquedaArticuloIsActive}

@@ -150,30 +150,6 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                 )}
               </div>
 
-<<<<<<< HEAD
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de reasiganacion
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                      disabled
-                    />
-                  )}
-                />
-              </label>
-            </div>
-=======
               <div className="col-12 col-md-4">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de reasiganacion
@@ -195,7 +171,6 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                   />
                 </label>
               </div>
->>>>>>> main
 
               <div className="col-12 col-md-4">
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
@@ -386,32 +361,6 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                   </div>
                 </div>
 
-<<<<<<< HEAD
-              {/* <div className="row">
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Imprimir
-                  </button>
-                  <button
-                    className="btn bg-gradient-danger mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Salir
-                  </button>
-                </div>
-              </div> */}
-            </div>
-          ) : (
-            ""
-          )}
-=======
                 <div className="d-flex flex-column justify-content-end align-items-end">
                   <div className="row">
                     <div className="col-12 col-md-12">
@@ -471,7 +420,6 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
               ""
             )}
           </MarcaDeAgua1>
->>>>>>> main
         </form>
       </div>
     </div>

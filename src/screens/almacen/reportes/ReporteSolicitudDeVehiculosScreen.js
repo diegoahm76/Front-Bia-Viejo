@@ -307,145 +307,6 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                       />
                     )}
                   />
-<<<<<<< HEAD
-                </div>
-              </label>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <label className="form-floating input-group input-group-dynamic ms-2">
-                Grupo
-                <div className="col-12 ">
-                  <Controller
-                    name="grupo"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcionGrupo}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-              </label>
-            </div>
-          </div>
-          <div className="mt-4 row">
-          <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha inicial
-                <Controller
-                  name="fechaInicial"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      dateFormat="dd/MM/yyyy"
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                      selected={selecOpciones.fechaInicial}
-                      onChange={(date) => {
-                        setSelecOpciones({
-                          ...selecOpciones,
-                          fechaInicial: date,
-                        });
-                        setStartDate(date);
-                      }}
-                      selectsStart
-                      startDate={startDate}
-                      endDate={endDate}
-                    />
-                  )}
-                />
-              </label>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha final
-                <Controller
-                  name="fechaFinal"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      dateFormat="dd/MM/yyyy"
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                      selected={selecOpciones.fechaFinal}
-                      onChange={(date) => {
-                        setSelecOpciones({
-                          ...selecOpciones,
-                          fechaFinal: date,
-                        });
-                        setEndDate(date);
-                      }}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                    />
-                  )}
-                />
-              </label>
-            </div>
-          </div>
-
-          <div className="mt-4 row">
-            <div className="col-12 col-md-4">
-              <label className="form-floating input-group input-group-dynamic ms-2">
-                Estado de la solicitud
-                <div className="col-12 ">
-                  <Controller
-                    name="estadoDeSolicitudes"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcionEstado}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-              </label>
-            </div>
-
-            <div className="col-4 col-md-5">
-              <div class="form-check mt-4">
-                <input class="form-check-input" type="checkbox" value="" />
-                <label class="form-check-label">Todas la solicitudes </label>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-3">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
-              </div>
-            </div>
-          </div>
-          {
-          selecOpciones.tipoDocumento && selecOpciones.numeroCedula ||
-            selecOpciones.dependencia &&
-            selecOpciones.grupo || selecOpciones.fechaFinal && selecOpciones. fechaInicial ||
-            selecOpciones.estadoDeSolicitudes ? (
-            <div>
-
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center mt-4">
-                  <n>Reporte de solicitudes de vehiculo</n>
-=======
->>>>>>> main
                 </label>
               </div>
 
@@ -514,47 +375,8 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                 </div>
               </div>
 
-<<<<<<< HEAD
-              <div className="d-flex flex-column justify-content-end align-items-end">
-                <div className="row">
-                  <div className="col-12 col-md-12">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="nombreQuienImprime"
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre del articulo"
-                        value="Julian Castillo"
-                        disabled
-                      />
-                      <label className="ms-2">Nombre quien imprime</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-12">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="fechaDeImpresion"
-                        className="form-control"
-                        type="text"
-                        placeholder="fecha de impresion"
-                        value="05/10/2022"
-                        disabled
-                      />
-                      <label className="ms-2">Fecha de impresion</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* <div className="row">
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-=======
               <div className="col-12 col-md-3">
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
->>>>>>> main
                   <button
                     className="btn bg-gradient-primary mb-0 text-capitalize"
                     type="submit"
@@ -564,7 +386,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     Buscar
                   </button>
                 </div>
-              </div> */}
+              </div> 
             </div>
             {(selecOpciones.tipoDocumento && selecOpciones.numeroCedula) ||
             (selecOpciones.dependencia && selecOpciones.grupo) ||

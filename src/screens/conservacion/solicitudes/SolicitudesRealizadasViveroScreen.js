@@ -519,16 +519,6 @@ const SolicitudesRealizadasViveroScreen = () => {
           )}
         </form>
         <CalendarModal>
-<<<<<<< HEAD
-          <div className="row mt-2">
-            {" "}
-            {/* primera fila */}
-            <div className="col-12 col-sm-6">
-              {" "}
-              {/* primera columna */}
-              <div className="col-12 col-sm-12">
-                <label>Tipo de documento: </label>
-=======
           <div className="row min-vh-100">
            
             <div className="col-lg-10 col-md-10 col-12 mx-auto">
@@ -583,8 +573,8 @@ const SolicitudesRealizadasViveroScreen = () => {
                       style={{ height: "400px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs2}
-                        rowData={rowData2}
+                        columnDefs={columnDefs}
+                        rowData={rowData}
                         defaultColDef={defaultColDef}
                         onGridReady={onGridReady}
                       ></AgGridReact>
@@ -605,7 +595,6 @@ const SolicitudesRealizadasViveroScreen = () => {
                     
                   </div>
                 </form>
->>>>>>> main
               </div>
             </div>
             <div className="col-12 col-sm-3">

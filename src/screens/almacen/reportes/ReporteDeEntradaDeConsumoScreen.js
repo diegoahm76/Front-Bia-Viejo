@@ -293,26 +293,6 @@ const ReporteDeEntradaDeConsumoScreen = () => {
                       </div>
                     </div>
 
-<<<<<<< HEAD
-                  {/* <div className="row">
-                    <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                      <button
-                        className="btn bg-gradient-primary mb-0"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Imprimir
-                      </button>
-                      <button
-                        className="btn bg-gradient-danger mb-0"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Salir
-                      </button>
-=======
                     <div className="d-flex flex-column justify-content-end align-items-start mt-5">
                       <label>
                         {" "}
@@ -379,9 +359,8 @@ const ReporteDeEntradaDeConsumoScreen = () => {
                           Salir
                         </button>
                       </div>
->>>>>>> main
                     </div>
-                  </div> */}
+                  </div> 
                 </div>
               </div>
             ) : (

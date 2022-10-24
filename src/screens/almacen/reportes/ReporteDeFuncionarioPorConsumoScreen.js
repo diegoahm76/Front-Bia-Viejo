@@ -406,123 +406,6 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                     </label>
                   </div>
 
-<<<<<<< HEAD
-          <div className="row">
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                name="codigoInicial"
-                  className="form-control"
-                  type="text"
-                  placeholder="nombre completo"
-                  {...register("codigoInicial")}
-                />
-                <label className="ms-2">Codigo inicial</label>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                name="codigoFinal"
-                  className="form-control"
-                  type="text"
-                  placeholder="nombre completo"
-                  {...register("codigoFinal")}
-                />
-                <label className="ms-2">Codigo final</label>
-              </div>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Rango de fechas</n>
-              </label>
-            </div>
-          </div>
-
-          <div className="row">
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha inicial
-                    <Controller
-                      name="fechaInicial"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={selecOpciones.fechaInicial}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaInicial: date,
-                            });
-                            setStartDate(date);
-                          }}
-                          selectsStart
-                          startDate={startDate}
-                          endDate={endDate}
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha final
-                    <Controller
-                      name="fechaFinal"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={selecOpciones.fechaFinal}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaFinal: date,
-                            });
-                            setEndDate(date);
-                          }}
-                          selectsEnd
-                          startDate={startDate}
-                          endDate={endDate}
-                          minDate={startDate}
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-
-            <div className="col-12 col-md-4">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {selecOpciones.tipoDocumento && selecOpciones.numeroCedula && (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||( selecOpciones.fechaInicial && selecOpciones.codigoFinal)?(
-                <div>
-=======
->>>>>>> main
                   <div className="multisteps-form__content">
                     <div className="mt-4 row">
                       <div className="col-12 col-md-4">
@@ -551,26 +434,6 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                         </div>
                       </div>
 
-<<<<<<< HEAD
-                    {/* <div className="row">
-                      <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                        <button
-                          className="btn bg-gradient-primary mb-0"
-                          type="button"
-                          title="Send"
-                          form="configForm"
-                        >
-                          Imprimir
-                        </button>
-                        <button
-                          className="btn bg-gradient-danger mb-0"
-                          type="button"
-                          title="Send"
-                          form="configForm"
-                        >
-                          Salir
-                        </button>
-=======
                       <div className="col-12 col-md-4">
                         <div className="form-floating input-group input-group-dynamic">
                           <input
@@ -582,9 +445,8 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                           />
                           <label className="ms-2">Grupo</label>
                         </div>
->>>>>>> main
                       </div>
-                    </div> */}
+                    </div> 
                   </div>
                   <div className="mt-1 row">
                     <div id="myGrid" className="ag-theme-alpine mt-4">
