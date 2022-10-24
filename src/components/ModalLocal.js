@@ -9,6 +9,8 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     zIndex: "9999",
+    width: "999px",
+    height: "auto",
   },
 };
 
@@ -30,6 +32,3 @@ const ModalLocal = ({ children, localState }) => {
 };
 
 export default ModalLocal;
-
-
-

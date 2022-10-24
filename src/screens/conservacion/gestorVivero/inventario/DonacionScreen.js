@@ -239,11 +239,16 @@ const DonacionesScreen = () => {
                   </div>
                 </div>
 
+<<<<<<< HEAD
                 <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
                     className="btn bg-gradient-danger mb-0"
                     type="submit"
                   >
+=======
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <button className="btn bg-gradient-danger mb-0" type="submit">
+>>>>>>> main
                     Salir
                   </button>
                 </div>

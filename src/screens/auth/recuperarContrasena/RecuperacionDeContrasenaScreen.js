@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
+import Swal from "sweetalert2";
 import LogBackground from "../../../assets/logos/Macareniaa.jpg";
+import clienteAxios from "../../../config/clienteAxios";
 
 const optionsTipoRecuperacion = [
   { label: "Correo electronico", value: "email" },
@@ -9,14 +11,29 @@ const optionsTipoRecuperacion = [
 ];
 
 const RecuperacionDeContrasenaScreen = () => {
-  const [tipoDeRecuperacion, setTipoDeRecuperacion] = useState("");
-
   const {
     register,
-    control,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const onSubmitRecoveryPassword = async (data) => {
+    const bodyAxios = { email: data.email };
+    const { data: dataRecoveryPassword } = await clienteAxios.post(
+      "users/request-reset-email/",
+      bodyAxios
+    );
+    const textUpperCase =
+      dataRecoveryPassword.success[0].toUpperCase() +
+      dataRecoveryPassword.success.slice(1);
+    Swal.fire({
+      position: "center",
+      icon: "info",
+      title: textUpperCase,
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar",
+    });
+  };
 
   return (
     <div
@@ -30,41 +47,41 @@ const RecuperacionDeContrasenaScreen = () => {
         <div className="row">
           <div className="col-lg-4 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom">
-              <h3 className="mt-4 mb-0 text-center mb-4">Recuperar contraseña</h3>
+              <h3 className="mt-4 mb-0 text-center mb-2">
+                Recuperar contraseña
+              </h3>
               <div className="card-body">
-                <form className="text-start">
-                  <div>
-                  <label className="form-label">
-                    Recuperar por medio de
+                <form
+                  className="text-start"
+                  onSubmit={handleSubmit(onSubmitRecoveryPassword)}
+                >
+                  <label>
+                    Escriba el correo electronico relacionado a su usuario para
+                    recuperar su contraseña
                   </label>
-                  <Select
-                    options={optionsTipoRecuperacion}
-                    defaultValue={optionsTipoRecuperacion[0]}
-                    placeholder="Seleccionar"
-                    onChange={(e) => setTipoDeRecuperacion(e.value)}
-                  />
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      type="email"
+                      className="form-control"
+                      placeholder="email"
+                      {...register("email", {
+                        required: {
+                          value: true,
+                          message: "El campo es requerido",
+                        },
+                        pattern: {
+                          value:
+                            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                          message: "Escriba un correo válido",
+                        },
+                      })}
+                    />
+                    <label className="ms-2">Correo electronico</label>
                   </div>
-                  
-                  {!tipoDeRecuperacion || tipoDeRecuperacion === "email" ? (
-                    <div className="form-floating input-group input-group-dynamic mt-3">
-                      <input
-                        type="email"
-                        className="form-control"
-                        placeholder="Emaill"
-                        //{...register("documento")}
-                      />
-                      <label className="ms-2">Correo electronico</label>
-                    </div>
-                  ) : (
-                    <div className="form-floating input-group input-group-dynamic mt-3">
-                      <input
-                        type="password"
-                        className="form-control"
-                        placeholder="Password"
-                        //{...register("documento")}
-                      />
-                      <label className="ms-2">Numero celular</label>
-                    </div>
+                  {errors.email && (
+                    <small className="text-danger">
+                      {errors.email?.message}
+                    </small>
                   )}
 
                   <div className="text-center">

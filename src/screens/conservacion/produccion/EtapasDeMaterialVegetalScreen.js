@@ -254,9 +254,37 @@ const EtapasDeMaterialVegetalScreen = () => {
                 </button>
               </div>
             </div>
+<<<<<<< HEAD
           ) : (
             ""
           )}
+=======
+          </div>
+
+          <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <button
+              className="btn bg-gradient-primary mb-0"
+              type="submit"
+              title="Send"
+              form="configForm"            >
+              Editar estado
+            </button>
+          </div>
+
+          <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <button
+              className="btn bg-gradient-danger mb-0"
+              type="submit"
+              title="Send"
+              form="configForm"
+            >
+              Salir
+            </button>
+          </div>
+        </div> )
+        :
+        ("")}  
+>>>>>>> main
         </form>
       </div>
     </div>

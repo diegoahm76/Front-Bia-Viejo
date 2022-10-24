@@ -396,7 +396,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                       <button
                         className="btn bg-gradient-danger mb-0"
                         type="submit"
@@ -496,7 +496,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                       {" "}
                       {/*  BOTONES DE ABAJO  */}
                       <button
@@ -519,6 +519,7 @@ const SolicitudesRealizadasViveroScreen = () => {
           )}
         </form>
         <CalendarModal>
+<<<<<<< HEAD
           <div className="row mt-2">
             {" "}
             {/* primera fila */}
@@ -527,6 +528,84 @@ const SolicitudesRealizadasViveroScreen = () => {
               {/* primera columna */}
               <div className="col-12 col-sm-12">
                 <label>Tipo de documento: </label>
+=======
+          <div className="row min-vh-100">
+           
+            <div className="col-lg-10 col-md-10 col-12 mx-auto">
+              
+            </div>
+
+            <div className="row min-vh-100">
+              
+              <div className="col-lg-8 col-md-10 col-6 mx-auto">
+                
+                <form
+                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                  data-animation="FadeIn"
+                  id="configForm"
+                >
+                  <div className="row mt-2">
+                    
+                    <div className="col-12 col-sm-6">
+                      
+                      <div className="col-12 col-sm-12">
+                        <label>Tipo de documento: </label>
+                      </div>
+                    </div>
+                    <div className="col-12 col-sm-3">
+                    
+                      <div className="col-12 col-sm-12">
+                        <h2>PDF </h2>
+                      </div>
+                    </div>
+                    <div className="col-12 col-sm-3">
+                      
+                      <div className="col-12 col-sm-12">
+                        <h2>PDF </h2>
+                      </div>
+                    </div>
+                  </div>
+
+                
+                  <div className="row mt-2">
+                    
+                    <div className="col-12 col-sm-12">
+                      <label className="col-12 col-sm-12 font-weight">
+                        Listado de solicitud{" "}
+                      </label>
+                    </div>
+                  </div>
+
+                  <div id="myGrid" className="ag-theme-alpine">
+                    
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "400px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnDefs2}
+                        rowData={rowData2}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
+                    </div>
+                  </div>
+
+                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    
+                    <button
+                      className="btn bg-gradient-danger mb-0"
+                      onClick={handleCloseModal}
+                      type="submit"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Salir
+                    </button>
+                    
+                  </div>
+                </form>
+>>>>>>> main
               </div>
             </div>
             <div className="col-12 col-sm-3">

@@ -2,56 +2,66 @@ import { useState } from "react";
 //import ReactQuill from "react-quill";
 //import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
-const CreacionArticulo = () => {
+const CreacionArticuloScreen = () => {
   //const [value, setValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedMV, setSelectedMV] = useState(null);
 
   const options = [
-    { label: "Clothing", value: "CL" },
-    { label: "Real Estate", value: "RL" },
-    { label: "Electronics", value: "EL" },
-    { label: "Others", value: "OT" },
+    { label: "Equipos de Computo", value: "CL" },
+    { label: "Vehiculo", value: "RL" },
+    { label: "GPS", value: "EL" },
+    { label: "Ascensor", value: "OT" },
+  ];
+
+  const opcMV = [
+    { label: "PEPS", value: "PEPS" },
+    { label: "PEUS", value: "PEUS" },
+    { label: "Valoraion por promedio", value: "VP" },
   ];
 
   const optionsSize = [
-    { label: "Large", value: "LG" },
-    { label: "Extra large", value: "ELG" },
-    { label: "Extra small", value: "ESM" },
+    { label: "Lineal", value: "Li" },
+    { label: "Hora uso", value: "Hu" },
   ];
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-8 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
-          Crear Articulos Devolutivos
+          Crear Articulo Devolutivo
         </h3>
-        {/* <p className="lead font-weight-normal opacity-8 mb-7 text-center">
-          This information will let us know more about you.
-        </p> */}
-        <div className="card">
-          {/* <div className="card-body"> */}
-          <form className="multisteps-form__form">
-            {/* <!--single form panel--> */}
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
+        <form
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          data-animation="FadeIn"
+          //onSubmit={handleSubmit(submit)}
+          id="configForm"
+        >
+          {/* <!--single form panel--> */}
+          <div
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+          >
+            <MarcaDeAgua1>
               <h5 className="font-weight-bolder">Datos generales</h5>
               <div className="multisteps-form__content">
                 <div className="row mt-3">
-                  {/* <div className="col-12 col-sm-6"> */}
-                  <label className="form-control ms-0">Tipo de articulo</label>
-                  <Select
-                    defaultValue={selectedCategory}
-                    onChange={setSelectedCategory}
-                    options={options}
-                  />
-                  {/* </div> */}
-                </div>
-                <div className="row mt-3">
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-md-4 mt-4">
+                    <label className="form-control ms-0">
+                      Tipo de articulo
+                    </label>
+                    <Select
+                      defaultValue={selectedCategory}
+                      onChange={setSelectedCategory}
+                      options={options}
+                    />
+                    {/* </div> */}
+                  </div>
+
+                  <div className="col-12 col-md-4 mt-4">
                     <div className="input-group input-group-dynamic">
                       <label
                         htmlFor="exampleFormControlInput1"
@@ -65,7 +75,7 @@ const CreacionArticulo = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <div className="col-12 col-md-4 mt-4">
                     <div className="input-group input-group-dynamic">
                       <label
                         htmlFor="exampleFormControlInput1"
@@ -81,7 +91,7 @@ const CreacionArticulo = () => {
                   </div>
                 </div>
                 <div className="row mt-3">
-                  <div className="col-12 col-sm-6">
+                  <div className="col-12 col-md-4 mt-2">
                     <div className="input-group input-group-dynamic">
                       <label
                         htmlFor="exampleFormControlInput1"
@@ -95,7 +105,7 @@ const CreacionArticulo = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-sm-6 mt-3 mt-sm-0">
+                  <div className="col-12 col-md-4 mt-2">
                     <div className="input-group input-group-dynamic">
                       <label
                         htmlFor="exampleFormControlInput1"
@@ -109,30 +119,31 @@ const CreacionArticulo = () => {
                       />
                     </div>
                   </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-12 col-sm-6">
+
+                  <div className="col-12 col-md-4 mt-2">
                     <label className="form-control ms-0">
                       Metodo de valoracion
                     </label>
                     <Select
                       defaultValue={selectedCategory}
                       onChange={setSelectedCategory}
-                      options={options}
+                      options={opcMV}
                     />
                   </div>
-                  <div className="col-12 col-sm-6">
-                    <label className="form-control ms-0">
-                      Tipo de depreciacion
-                    </label>
-                    <Select
-                      defaultValue={selectedSize}
-                      onChange={setSelectedSize}
-                      options={optionsSize}
-                    />
-                  </div>
+
                   <div className="row">
-                    <div className="col-sm-6 mt-sm-3 mt-5">
+                    <div className="col-12 col-md-4 mt-2">
+                      <label className="form-control ms-0">
+                        Tipo de depreciacion
+                      </label>
+                      <Select
+                        defaultValue={selectedSize}
+                        onChange={setSelectedSize}
+                        options={optionsSize}
+                      />
+                    </div>
+
+                    <div className="col-12 col-md-4 mt-2">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
                           className="form-check-input"
@@ -160,7 +171,7 @@ const CreacionArticulo = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-sm-6 mt-sm-3 mt-5">
+                    <div className="col-12 col-md-4 mt-2">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
                           className="form-check-input"
@@ -218,12 +229,13 @@ const CreacionArticulo = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </MarcaDeAgua1>
+          </div>
+        </form>
       </div>
     </div>
+
     // </div>
   );
 };
-export default CreacionArticulo;
+export default CreacionArticuloScreen;

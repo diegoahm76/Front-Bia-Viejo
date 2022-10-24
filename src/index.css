@@ -1,19 +1,19 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 /* Modal */
-.ReactModalPortal > div{
+.ReactModalPortal > div {
   opacity: 0;
 }
 
@@ -21,7 +21,7 @@ code {
   align-items: center;
   display: flex;
   justify-content: center;
-  transition: opacity .2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
   z-index: 9999;
 }
 
@@ -70,4 +70,17 @@ code {
   height: 65px;
   width: 65px;
   border: none;
+}
+
+/* Marcas de agua logo */
+
+.logo-marca-agua1 {
+  background: url("../src/assets/LogosBIAPNG/manualbia-16.png") no-repeat 0 10%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.opacity-logos {
+  background-color: rgba(255,255,255,0.9) !important;
 }
