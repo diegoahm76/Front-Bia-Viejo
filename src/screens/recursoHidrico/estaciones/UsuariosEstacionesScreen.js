@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { obtenerUsuariosAction } from "../../../actions/estacionActions";
+import { obtenerUsuarioEditarAction, obtenerUsuariosAction, obtenerUsusarioEliminarAction } from "../../../actions/estacionActions";
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
+import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
+import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
 
 const UsuariosEstacionesScreen = () => {
   const dispatch = useDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
+  const [isModalEliminarActive, setIsModalEliminarActive] = useState(false)
 
   useEffect(() => {
     dispatch(obtenerUsuariosAction());
@@ -41,7 +44,7 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-outline-warning "
             type="button"
             onClick={() => {
-              //dispatch(obtenerEstacionEditarAction(params.data))
+              dispatch(obtenerUsuarioEditarAction(params.data))
               setIsModalEditarActivate(!isModalActive);
             }}
           >
@@ -50,7 +53,10 @@ const UsuariosEstacionesScreen = () => {
           <button
             className="btn btn-sm btn-outline-danger"
             type="button"
-            onClick={() => confirmarEliminarEstacion(params.data.objectid)}
+            onClick={() => {
+              dispatch(obtenerUsusarioEliminarAction(params.data))
+              setIsModalEliminarActive(!isModalActive)
+            }}
           >
             <img src={IconoEliminar} alt="eliminar" />
           </button>
@@ -58,24 +64,6 @@ const UsuariosEstacionesScreen = () => {
       ),
     },
   ];
-
-  const confirmarEliminarEstacion = (id) => {
-    Swal.fire({
-      title: "Estas seguro?",
-      text: "Una estacion que se elimina no se puede recuperar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, elminar!",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //Pasarlo al action
-        //dispatch(eliminarEstacionAction(id));
-      }
-    });
-  };
 
   const defaultColDef = {
     sortable: true,
@@ -130,10 +118,14 @@ const UsuariosEstacionesScreen = () => {
         setIsModalActive={setIsModalActive}
         isModalActive={isModalActive}
       />
-      {/* <EditarEstacionModal
-        setIsModalActive={setIsModalEditarActivate}
-        isModalActive={isModalEditarActive}
-      /> */}
+      <EditarUsuarioModal
+        setIsModalActive={setIsModalEliminarActive}
+        isModalActive={isModalEliminarActive}
+      />
+      <EliminarUsuarioModal
+        setIsModalActive={setIsModalEliminarActive}
+        isModalActive={isModalEliminarActive}
+      />
     </div>
   );
 };

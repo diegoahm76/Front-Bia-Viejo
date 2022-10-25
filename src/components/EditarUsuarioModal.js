@@ -22,7 +22,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
+const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useDispatch();
   const [estacionesOptions, setEstacionesOptions] = useState([]);
 
@@ -173,4 +173,4 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     </Modal>
   );
 };
-export default NuevoUsuarioModal;
+export default EditarUsuarioModal;
