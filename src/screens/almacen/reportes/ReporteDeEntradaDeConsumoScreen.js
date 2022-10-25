@@ -360,7 +360,7 @@ const ReporteDeEntradaDeConsumoScreen = () => {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> 
                 </div>
               </div>
             ) : (

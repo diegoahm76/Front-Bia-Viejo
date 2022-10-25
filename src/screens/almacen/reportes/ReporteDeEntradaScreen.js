@@ -380,7 +380,7 @@ const ReporteDeEntradaScreen = () => {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </div> 
                 </div>
               </div>
             ) : (

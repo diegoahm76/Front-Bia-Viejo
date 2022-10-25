@@ -446,7 +446,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                           <label className="ms-2">Grupo</label>
                         </div>
                       </div>
-                    </div>
+                    </div> 
                   </div>
                   <div className="mt-1 row">
                     <div id="myGrid" className="ag-theme-alpine mt-4">

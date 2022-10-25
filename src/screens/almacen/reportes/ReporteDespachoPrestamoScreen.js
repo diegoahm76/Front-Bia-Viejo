@@ -189,7 +189,7 @@ const ReporteDespachoPrestamoScreen = () => {
                     Buscar
                   </button>
                 </div>
-              </div>
+              </div> 
             </div>
 
             {selecOpciones.consecutivo ? (
