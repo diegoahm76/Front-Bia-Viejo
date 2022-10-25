@@ -118,20 +118,17 @@ const AlarmasModal = ({
         <h4>{alarmaAction === "editar" ? "Editar Alarma" : "Nueva Alarma"}</h4>
         <hr />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
-          <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                disabled={alarmaAction === "editar"}
-                readOnly={alarmaAction === "editar"}
-                placeholder="t006nombre"
-                {...register("t006nombre", { required: true })}
-              />
-              <label>
-                Alarma: <span className="text-danger">*</span>
-              </label>
-            </div>
+          <div className="col-12 mb-3">
+            <label>
+              Alarma: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              disabled={alarmaAction === "editar"}
+              readOnly={alarmaAction === "editar"}
+              {...register("t006nombre", { required: true })}
+            />
             {errors.t006nombre && (
               <div className="col-12">
                 <small className="text-center text-danger">
@@ -140,7 +137,7 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
-          <div className="col-12 mt-2">
+          <div className="col-12 mb-3">
             <label className="form-label">
               Estación: <span className="text-danger">*</span>
             </label>
@@ -170,25 +167,22 @@ const AlarmasModal = ({
               )}
             />
             {errors.objectid && (
-              <div className="col-12">
+              <div className="col-12 mb-3">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
                 </small>
               </div>
             )}
           </div>
-          <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="t006color"
-                {...register("t006color", { required: true })}
-              />
-              <label>
-                Color: <span className="text-danger">*</span>
-              </label>
-            </div>
+          <div className="col-12 mb-3">
+            <label>
+              Color: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006color", { required: true })}
+            />
             {errors.t006color && (
               <div className="col-12">
                 <small className="text-center text-danger">
@@ -197,18 +191,15 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
-          <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="t006limite"
-                {...register("t006limite", { required: true })}
-              />
-              <label>
-                Límite: <span className="text-danger">*</span>
-              </label>
-            </div>
+          <div className="col-12 mb-3">
+            <label>
+              Límite: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006limite", { required: true })}
+            />
             {errors.t006limite && (
               <div className="col-12">
                 <small className="text-center text-danger">
