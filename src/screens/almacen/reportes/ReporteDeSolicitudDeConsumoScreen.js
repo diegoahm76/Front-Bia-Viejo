@@ -147,7 +147,7 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                     Buscar
                   </button>
                 </div>
-              </div>
+              </div> 
             </div>
             {selecOpciones.consecutivo ? (
               <div>

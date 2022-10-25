@@ -386,7 +386,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     Buscar
                   </button>
                 </div>
-              </div>
+              </div> 
             </div>
             {(selecOpciones.tipoDocumento && selecOpciones.numeroCedula) ||
             (selecOpciones.dependencia && selecOpciones.grupo) ||

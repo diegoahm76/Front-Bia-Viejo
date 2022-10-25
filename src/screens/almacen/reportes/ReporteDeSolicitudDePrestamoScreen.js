@@ -152,7 +152,7 @@ const ReporteDeSolicitudDePrestamoScreen = () => {
                     Buscar
                   </button>
                 </div>
-              </div>
+              </div> 
             </div>
 
             {selecOpciones.consecutivo ? (
