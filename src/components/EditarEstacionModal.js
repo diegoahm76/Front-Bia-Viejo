@@ -32,7 +32,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   } = useForm();
 
   useEffect(() => {
-    console.log("modal editar effect")
+    //console.log("modal editar effect")
     reset(estacionEditar)
   }, [estacionEditar])
 
@@ -46,7 +46,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
       t001userMod: nombre_de_usuario,
     };
 
-    console.log("Nueva Estacion", updateEstacion);
+    //console.log("Nueva Estacion", updateEstacion);
 
     dispatch(editarEstacionAction(updateEstacion));
 

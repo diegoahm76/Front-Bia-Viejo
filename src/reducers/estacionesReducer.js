@@ -2,9 +2,12 @@ import {
   AGREGAR_ESTACION,
   AGREGAR_ESTACION_ERROR,
   AGREGAR_ESTACION_EXITO,
+  AGREGAR_USUARIO_EXITO,
   COMENZAR_DESCARGA_ESTACIONES,
+  COMENZAR_DESCARGA_USUARIOS,
   DESCARGA_ESTACIONES_ERROR,
   DESCARGA_ESTACIONES_EXITO,
+  DESCARGA_USUARIOS_EXITO,
   ESTACION_EDITADO_ERROR,
   ESTACION_EDITADO_EXITO,
   ESTACION_ELIMINADO_ERROR,
@@ -15,6 +18,7 @@ import {
 
 const initialState = {
   estaciones: [],
+  usuarios: [],
   error: null,
   loading: false,
   estacionEliminar: null,
@@ -24,6 +28,7 @@ const initialState = {
 export const estacionesReducer = (state = initialState, action) => {
   switch (action.type) {
     case COMENZAR_DESCARGA_ESTACIONES:
+    case COMENZAR_DESCARGA_USUARIOS:
     case AGREGAR_ESTACION:
       return {
         ...state,
@@ -36,6 +41,14 @@ export const estacionesReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         estaciones: [...state.estaciones, action.payload],
+      };
+
+    case AGREGAR_USUARIO_EXITO:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        usuarios: [...state.usuarios, action.payload],
       };
 
     case AGREGAR_ESTACION_ERROR:
@@ -58,6 +71,13 @@ export const estacionesReducer = (state = initialState, action) => {
         estaciones: action.payload,
       };
 
+    case DESCARGA_USUARIOS_EXITO:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        usuarios: action.payload,
+      };
     case OBTENER_ESTACION_ELIMINAR:
       return {
         ...state,

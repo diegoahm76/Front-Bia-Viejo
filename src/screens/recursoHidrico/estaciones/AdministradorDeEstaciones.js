@@ -23,15 +23,6 @@ const AdministradorDeEstaciones = () => {
   }, []);
 
   const { estaciones } = useSelector((state) => state.estaciones);
-
-  // const formatFechaEstaciones = estaciones.map((estacion) => ({
-  //   ...estacion,
-  //   t001fechaMod: formatISO(new Date(estacion.t001fechaMod), {
-  //     representation: "date",
-  //   }),
-  // }));
-
-  //setDataEstaciones(formatFechaEstaciones);
   const columnDefs = [
     { headerName: "OBJECTID", field: "objectid", minWidth: 140 },
     { headerName: "Estación", field: "t001nombre", minWidth: 140 },
