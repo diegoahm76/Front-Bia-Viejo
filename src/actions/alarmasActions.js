@@ -56,9 +56,24 @@ export const eliminarAlarmaAction = (idAlarma) => async (dispatch) => {
   dispatch(peticionEliminarAlarma(true));
 
   try {
-    await clienteEstaciones.delete(`Alarmas/${idAlarma}`);
-    dispatch(eliminarAlarmaCompletado(false));
-    dispatch(obternerAlarmasAction());
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Una configuración que se elimina no se puede recuperar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, elminar!",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await clienteEstaciones.delete(`Alarmas/${idAlarma}`);
+        dispatch(eliminarAlarmaCompletado(false));
+        dispatch(obternerAlarmasAction());
+      } else {
+        dispatch(eliminarAlarmaError(false));
+      }
+    });
   } catch (err) {
     dispatch(eliminarAlarmaError(false));
     Swal.fire({
