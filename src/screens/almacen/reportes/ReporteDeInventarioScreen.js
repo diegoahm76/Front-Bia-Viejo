@@ -134,14 +134,6 @@ const ReporteDeInventarioScreen = () => {
     },
   ];
 
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  const onExportClick = () => {
-    gridApi.exportDataAsCsv();
-  };
-
   const rowData = [
     {
       "Codigo de articulo": "12345",
@@ -156,7 +148,16 @@ const ReporteDeInventarioScreen = () => {
       "Tipo de entrada": "Compra",
       Grupo: "Bioticos",
     },
+    
   ];
+
+  const onGridReady = (params) => {
+    gridApi = params.api;
+  };
+
+  const onExportClick = () => {
+    gridApi.exportDataAsCsv();
+  };
 
   const defaultColDef = {
     sortable: true,
