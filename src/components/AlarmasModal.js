@@ -55,7 +55,6 @@ const AlarmasModal = ({
 
   const handleCrearAlarma = async (data) => {
     dispatch(crearAlarmaAction(data));
-    setIsModalActive(false);
     reset(defaultValues);
     setFormValues({ index_objectid: "" });
   };
