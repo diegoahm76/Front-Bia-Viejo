@@ -224,6 +224,7 @@ export const crearNuevoUsuarioAction = (usuario) => {
 
     try {
       await clienteEstaciones.post("Usuarios", usuario);
+      dispatch(obtenerUsuariosAction())
       dispatch(agregarUsuarioExito(usuario));
 
       Swal.fire("Correcto", "El usuario se agrego correctamente", "success");
@@ -316,7 +317,7 @@ export const editarUsuarioAction = (usuario) => {
 
     try {
       await clienteEstaciones.put("Usuarios", usuario);
-
+      dispatch(obtenerUsuariosAction())
       dispatch(editarUsuarioExito(usuario));
       Swal.fire(
         "Correcto",

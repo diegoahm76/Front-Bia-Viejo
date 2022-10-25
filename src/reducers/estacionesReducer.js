@@ -16,7 +16,10 @@ import {
   ESTACION_ELIMINADO_EXITO,
   OBTENER_ESTACION_EDITAR,
   OBTENER_ESTACION_ELIMINAR,
+  OBTENER_USUARIO_EDITAR,
   OBTENER_USUARIO_ELIMINAR,
+  USUARIO_EDITADO_ERROR,
+  USUARIO_EDITADO_EXITO,
   USUARIO_ELIMINADO_ERROR,
   USUARIO_ELIMINADO_EXITO,
 } from "../types/estacionesTypes";
@@ -29,6 +32,7 @@ const initialState = {
   estacionEliminar: null,
   estacionEditar: null,
   usuarioEliminar: null,
+  usuarioEditar: null,
 };
 
 export const estacionesReducer = (state = initialState, action) => {
@@ -64,6 +68,7 @@ export const estacionesReducer = (state = initialState, action) => {
     case ESTACION_ELIMINADO_ERROR:
     case USUARIO_ELIMINADO_ERROR:
     case ESTACION_EDITADO_ERROR:
+    case USUARIO_EDITADO_ERROR:
       return {
         ...state,
         loading: false,
@@ -132,6 +137,23 @@ export const estacionesReducer = (state = initialState, action) => {
           estacion.objectid === action.payload.objectid
             ? (estacion = action.payload)
             : estacion
+        ),
+      };
+
+    case OBTENER_USUARIO_EDITAR:
+      return {
+        ...state,
+        usuarioEditar: action.payload,
+      };
+
+    case USUARIO_EDITADO_EXITO:
+      return {
+        ...state,
+        usuarioEditar: null,
+        usuarios: state.usuarios.map((usuario) =>
+          usuario.idUsuario === action.payload.idUsuario
+            ? (usuario = action.payload)
+            : usuario
         ),
       };
 

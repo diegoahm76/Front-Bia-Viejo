@@ -79,7 +79,7 @@ const EliminarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               type="number"
               disabled
               className="form-control border rounded-pill px-3"
-              {...register("t005Identificacion", { required: true })}
+              {...register("t005Identificacion")}
             />
           </div>
 

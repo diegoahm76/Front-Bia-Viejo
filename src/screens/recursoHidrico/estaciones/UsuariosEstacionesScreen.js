@@ -12,7 +12,7 @@ import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
 const UsuariosEstacionesScreen = () => {
   const dispatch = useDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
-  const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
+  const [isModalEditarActive, setIsModalEditarActive] = useState(false);
   const [isModalEliminarActive, setIsModalEliminarActive] = useState(false)
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const UsuariosEstacionesScreen = () => {
             type="button"
             onClick={() => {
               dispatch(obtenerUsuarioEditarAction(params.data))
-              setIsModalEditarActivate(!isModalActive);
+              setIsModalEditarActive(!isModalEditarActive);
             }}
           >
             <img src={IconoEditar} alt="editar" />
@@ -119,8 +119,8 @@ const UsuariosEstacionesScreen = () => {
         isModalActive={isModalActive}
       />
       <EditarUsuarioModal
-        setIsModalActive={setIsModalEliminarActive}
-        isModalActive={isModalEliminarActive}
+        setIsModalActive={setIsModalEditarActive}
+        isModalActive={isModalEditarActive}
       />
       <EliminarUsuarioModal
         setIsModalActive={setIsModalEliminarActive}
