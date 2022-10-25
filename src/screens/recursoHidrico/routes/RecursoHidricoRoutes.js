@@ -37,7 +37,10 @@ const RecursoHidricoRoutes = () => {
 
         <Route path="alarmas-estaciones" element={<AlarmasScreen />} />
 
-        <Route path="notificaciones-estaciones" element={<NotificacionesEstacionesScreen />} />
+        <Route
+          path="notificaciones-estaciones"
+          element={<NotificacionesEstacionesScreen />}
+        />
       </Route>
     </Routes>
   );
