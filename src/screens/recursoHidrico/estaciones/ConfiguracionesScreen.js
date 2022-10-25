@@ -470,7 +470,7 @@ const ConfiguracionesScreen = () => {
                         </small>
                       </div>
                     )}
-                  </div>
+                  </div> 
                 )}
                 <div className="d-flex justify-content-start align-items-center gap-2">
                   <label className="mt-3 w-50 text-end">Frecuencia</label>

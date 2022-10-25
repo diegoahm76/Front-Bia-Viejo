@@ -1,10 +1,16 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { useState } from "react";
-import Swal from "sweetalert2";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  cambiarModoAction,
+  eliminarAlarmaAction,
+  obtenerAlarmaEditAction,
+  obternerAlarmasAction,
+} from "../../../actions/alarmasActions";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import useAlarmas from "../../../hooks/useAlarmas";
+import AlarmasModal from "../../../components/AlarmasModal";
 
 const defaultColDef = {
   sortable: true,
@@ -18,15 +24,32 @@ const defaultColDef = {
 };
 
 const AlarmasScreen = () => {
-  const [typeAction, setTypeAction] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { alarmas, loading } = useSelector((state) => state.alarmas);
+  const [isModalActive, setIsModalActive] = useState(false);
 
-  const { dataAlarmas } = useAlarmas();
+  const dispatch = useDispatch();
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  useEffect(() => {
+    dispatch(obternerAlarmasAction());
+  }, []);
 
   const columnDefs = [
     { headerName: "Alarma", field: "idAlarma", minWidth: 140 },
     { headerName: "Límite", field: "t006limite", minWidth: 140 },
-    { headerName: "Estación", field: "t001nombre", minWidth: 140 },
+    {
+      headerName: "Estación",
+      field: "t001Estaciones.t001nombre",
+      minWidth: 140,
+    },
     {
       headerName: "Acciones",
       field: "accion",
@@ -37,7 +60,7 @@ const AlarmasScreen = () => {
               className="btn btn-sm btn-outline-warning "
               type="button"
               title="Send"
-              onClick={() => editAction(params)}
+              onClick={() => editarAction(params.data.objectid)}
             >
               <img src={IconoEditar} alt="editar" />
             </button>
@@ -47,7 +70,9 @@ const AlarmasScreen = () => {
               className="btn btn-sm btn-outline-danger"
               type="button"
               title="Send"
-              onClick={() => deleteAction(params)}
+              onClick={() =>
+                dispatch(eliminarAlarmaAction(params.data.idAlarma))
+              }
             >
               <img src={IconoEliminar} alt="eliminar" />
             </button>
@@ -58,75 +83,20 @@ const AlarmasScreen = () => {
     },
   ];
 
-  const deleteAction = async (params) => {
-    Swal.fire({
-      title: "Estas seguro?",
-      text: "Una configuración que se elimina no se puede recuperar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, elminar!",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteConfiguration(params);
-      }
-    });
+  const handleCrearAlarma = () => {
+    setIsModalActive(true);
+    dispatch(cambiarModoAction("crear"));
   };
 
-  const deleteConfiguration = async (params) => {
-    try {
-      setLoading(true);
-      await clienteEstaciones.delete(`Configuraciones/${params.data.objectid}`);
-      setLoading(false);
-      //   updateConfigs();
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Hubo un error, intenta de nuevo",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  };
-
-  const editAction = async (params) => {
-    setTypeAction("editar");
-    // setIsModalOpen(true);
-    try {
-      setLoading(true);
-      const { data: dataConfig } = await clienteEstaciones.get(
-        `Configuraciones/${params.data.objectid}`
-      );
-      const { data: dataEstacion } = await clienteEstaciones.get(
-        `Estaciones/${params.data.objectid}`
-      );
-      dataConfig.t001nombre = dataEstacion.t001nombre;
-      //   resetConfiguracion(dataConfig);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Hubo un error, intenta de nuevo",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
+  const editarAction = (objectid) => {
+    setIsModalActive(true);
+    dispatch(obtenerAlarmaEditAction(objectid, reset));
   };
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">
-          Configuracion de alarmas
-        </h3>
+        <h3 className="mt-3 mb-0 text-center mb-4">Alarmas</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -135,12 +105,10 @@ const AlarmasScreen = () => {
             <div className="multisteps-form__content">
               <div>
                 <button
-                  type="submit"
+                  type="button"
                   className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                   disabled={loading}
-                  onClick={() => {
-                    setTypeAction("crear");
-                  }}
+                  onClick={() => handleCrearAlarma()}
                 >
                   {loading ? (
                     <>
@@ -152,7 +120,7 @@ const AlarmasScreen = () => {
                       Cargando...
                     </>
                   ) : (
-                    "Crear configuración"
+                    "Crear alarma"
                   )}
                 </button>
               </div>
@@ -163,13 +131,23 @@ const AlarmasScreen = () => {
                 >
                   <AgGridReact
                     columnDefs={columnDefs}
-                    rowData={dataAlarmas}
+                    rowData={alarmas}
                     defaultColDef={defaultColDef}
                   ></AgGridReact>
                 </div>
               </div>
             </div>
           </form>
+          <AlarmasModal
+            isModalActive={isModalActive}
+            setIsModalActive={setIsModalActive}
+            handleSubmit={handleSubmit}
+            register={register}
+            control={control}
+            reset={reset}
+            errors={errors}
+            watch={watch}
+          />
         </div>
       </div>
     </div>
