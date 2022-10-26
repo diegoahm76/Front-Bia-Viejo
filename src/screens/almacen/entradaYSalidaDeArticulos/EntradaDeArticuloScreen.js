@@ -26,7 +26,7 @@ export const EntradaDeArticuloScreen = () => {
     { label: "Tarjeta de identidad", value: "TI" },
     { label: "Cedula de extranjeria", value: "CE" },
     { label: "Pasaporte", value: "PP" },
-    { label: "NIT", value:"NIT"}
+    { label: "NIT", value: "NIT" },
   ];
 
   const [estado, setEstado] = useState({});
@@ -125,7 +125,10 @@ export const EntradaDeArticuloScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-2 btn-danger text-capitalize" type="button">
+          <button
+            className="btn btn-2 btn-danger text-capitalize"
+            type="button"
+          >
             Borrar
           </button>
         </div>
@@ -186,7 +189,10 @@ export const EntradaDeArticuloScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-2 btn-danger text-capitalize" type="button">
+          <button
+            className="btn btn-2 btn-danger text-capitalize"
+            type="button"
+          >
             Borrar
           </button>
         </div>
@@ -291,26 +297,26 @@ export const EntradaDeArticuloScreen = () => {
                 Datos generales
               </label>
               <div className="row mt-2">
-                <div className="col-12 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Consecutivo"
-                      rules={{ required: true }}
-                      {...register("Consecutivo")}
-                    />
-                    <label>Consecutivo: <span className="text-danger">*</span></label>
-                  </div>
-                  {errors.Consecutivo && (
-                          <p className="text-danger">
-                            Este campo es obligatorio
-                          </p>
-                        )}
+                <div className="col-12 col-md-4">
+                  <label>
+                    Consecutivo: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("consecutivo", { required: true })}
+                  />
+                  {errors.consecutivo && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
 
                 <div className="col-12 col-md-4">
-                  <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
+                  <div className=" input-group input-group-dynamic flex-column col-12 mt-3">
                     <label htmlFor="exampleFormControlInput1">
                       Fecha de Ingreso: <span className="text-danger">*</span>
                     </label>
@@ -321,12 +327,12 @@ export const EntradaDeArticuloScreen = () => {
                         <ReactDatePicker
                           {...field}
                           locale="es"
-                          //required
                           selected={formValues.fechaIngreso}
+                          dateFormat="dd/MM/yyyy"
                           onSelect={(e) =>
                             setFormValues({ ...formValues, fechaIngreso: e })
                           }
-                          className="col-4 multisteps-form__input form-control p-2"
+                          className="col-4 multisteps-form__input form-control p-2 "
                           placeholderText="dd/mm/aaaa"
                         />
                       )}
@@ -334,9 +340,9 @@ export const EntradaDeArticuloScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-md-4 mb-2">
-                  <label className="form-control ms-0">
-                    Origen del articulo:{" "}<span className="text-danger">*</span>
+                <div className="col-12 col-md-4 mb-2 ">
+                  <label className="form-control ms-0 ">
+                    Origen del articulo: <span className="text-danger">*</span>
                   </label>
                   <Controller
                     name="options"
@@ -359,30 +365,34 @@ export const EntradaDeArticuloScreen = () => {
                 {selectedEntrada.value === "Comp" ? (
                   <div className="col-12 col-md-4">
                     <div className="form-floating input-group input-group-dynamic">
+                     <label>
+                        Numero de factura de compra:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control"
+                         className="form-control border rounded-pill px-3"
                         type="tel"
                         placeholder="Numero de factura de compra"
                         {...register("businessTel")}
                       />
-                      <label>
-                        Numero de factura de compra: <span className="text-danger">*</span>
-                      </label>
+                     
                     </div>
                   </div>
                 ) : (
                   <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                      <label>
+                        Numero de Expediente:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control"
+                        
                         type="tel"
                         placeholder="Numero de Expediente"
+                        className="form-control border rounded-pill px-3"
                         {...register("businessTel")}
                       />
-                      <label>Numero de Expediente: <span className="text-danger">*</span>
-                      </label>
-                    </div>
-                  </div>
+                     
+                     </div>
                 )}
               </div>
             </div>
@@ -393,10 +403,13 @@ export const EntradaDeArticuloScreen = () => {
               </label>
               <div className="row mt-2">
                 <div className="col-12 col-md-4">
-                  <label>Tipo de Documento: <span className="text-danger">*</span> </label>
+                  <label>
+                    Tipo de Documento: <span className="text-danger">*</span>{" "}
+                  </label>
                   <Controller
                     name="options"
                     control={control2}
+                    className="form-control border rounded-pill px-3"
                     rules={{ required: true }}
                     render={({ field }) => (
                       <Select
@@ -414,33 +427,35 @@ export const EntradaDeArticuloScreen = () => {
                   )}
                 </div>
                 <div className="col-12 col-md-4 mt-3">
-                  <div className="form-floating input-group input-group-dynamic">
+                 
+                   <label>
+                      Numero de identificacion:{" "}
+                      <span className="text-danger">*</span>{" "}
+                    </label>
+                   
                     <input
-                      className="form-control"
+                       className="form-control border rounded-pill px-3"
                       type="text"
                       placeholder="Numero de identificacion"
                       {...register("NumeroDoc")}
                     />
-                    <label >Numero de identificacion: <span className="text-danger">*</span>  </label>
-                  </div>
+                    
+                  
                 </div>
                 <div className="col-12 col-md-4 mt-4">
                   <label>Nombre: </label>
                   <label>Profesional de cormacarena</label>
                 </div>
-               
               </div>
               <div className="row">
-
-              <div className=" d-flex justify-content-end gap-2 mt-3 ">
+                <div className=" d-flex justify-content-end gap-2 mt-3 ">
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize "
                   >
                     buscar
                   </button>
-                
-                  
+
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize "
@@ -460,7 +475,9 @@ export const EntradaDeArticuloScreen = () => {
                     placeholder="Concepto"
                     {...register("Concepto")}
                   />
-                  <label >Concepto: <span className="text-danger">*</span>  </label>
+                  <label>
+                    Concepto: <span className="text-danger">*</span>{" "}
+                  </label>
                 </div>
               </div>
             </div>
@@ -488,16 +505,17 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row mt-5">
-              <label>Anexar documentos: <span className="text-danger">*</span> </label>
-              
-                <label htmlFor="formFileLg" className="form-label"></label>
-                <input
-                  className="form-control form-control-lg"
-                  id="formFileLg"
-                  type="file"
-                  rules={{required:true}}
-                />
-              
+              <label>
+                Anexar documentos: <span className="text-danger">*</span>{" "}
+              </label>
+
+              <label htmlFor="formFileLg" className="form-label"></label>
+              <input
+                className="form-control form-control-lg"
+                id="formFileLg"
+                type="file"
+                rules={{ required: true }}
+              />
             </div>
           </div>
 
@@ -525,7 +543,9 @@ export const EntradaDeArticuloScreen = () => {
                     placeholder="Codigo"
                     {...register("Cod")}
                   />
-                  <label>Codigo: <span className="text-danger">*</span> </label>
+                  <label>
+                    Codigo: <span className="text-danger">*</span>{" "}
+                  </label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
@@ -536,33 +556,31 @@ export const EntradaDeArticuloScreen = () => {
                     required={page === 2}
                     placeholder="NombreArt"
                     disabled="true"
-                  
                   />
-                  <label >Nombre de articulo:</label>
+                  <label>Nombre de articulo:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4 d-flex justify-content-end gap-2 ">
-              <div className="d-flex justify-content-end gap-2 mt-4">
-              <button
-                  type="button"
-                  className="btn btn-primary text-capitalize "
-                >
-                  buscar
-                </button>
-              
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize"
-                  onClick={handleOpenModalArticulos}
-                >
-                  Busqueda de articulo
-                </button>
-              </div>
+                <div className="d-flex justify-content-end gap-2 mt-4">
+                  <button
+                    type="button"
+                    className="btn btn-primary text-capitalize "
+                  >
+                    buscar
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary text-capitalize"
+                    onClick={handleOpenModalArticulos}
+                  >
+                    Busqueda de articulo
+                  </button>
+                </div>
               </div>
               <div className="col">
                 <label>Tipo de Articulo</label>
               </div>
-              
             </div>
             <div className="row">
               <div>
@@ -571,363 +589,399 @@ export const EntradaDeArticuloScreen = () => {
                 </label>
               </div>
 
-              
-                <div className="row mt-3">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Unidad de medida"
-                        {...register("UniMe")}
-                      />
-                      <label>Unidad de Medida: <span className="text-danger">*</span> </label>
-
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize"
-                        onClick={handleOpenModalCrearUnidad}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Cantidad"
-                        {...register("Cantidad")}
-                      />
-                      <label>Cantidad: <span className="text-danger">*</span>  </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor unitario"
-                        {...register("ValUni")}
-                      />
-                      <label className="ms-2">Valor unitario: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Porcentaje IVA"
-                        {...register("PorceIVA")}
-                      />
-                      <label >Porcentaje IVA: <span className="text-danger">*</span>  </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor IVA"
-                        {...register("ValorIVA")}
-                        disabled="true"
-                      />
-                      <label>Valor IVA: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor unitario Total"
-                        {...register("ValUni")}
-                        disabled="true"
-                      />
-                      <label>Valor unitario Total:</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-12 col-md-4">
-                    <label className="form-control ms-0">
-                      Estado del articulo:{" "} : <span className="text-danger">*</span> 
-                    </label>
-                    <Controller
-                      name="options"
-                      control={control4}
-                      rules={{ required: page === 2 }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcEstado}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+              <div className="row mt-3">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Unidad de medida"
+                      {...register("UniMe")}
                     />
-                    {errors.options && (
-                      <p className=" form-control ms-0 text-danger">
-                        Este campo es obligatorio
-                      </p>
-                    )}
-                  </div>
-                  <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Nombre Cientifico"
-                        {...register("NombreCient")}
-                      />
-                      <label>
-                        Nombre Cientifico (viveros): <span className="text-danger">*</span> 
-                      </label>
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize"
-                        onClick={handleOpenModalCrearNombreCientifico}
-                      >
-                        Agregar
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <textarea
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Observaciones"
-                        {...register("Observaciones")}
-                      />
-                      <label>Observaciones: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                </div>
-              
-
-              
-                <div className="row mt-3">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Unidad de medida"
-                        {...register("UniMed")}
-                      />
-                      <label>Unidad de Medida: <span className="text-danger">*</span>  </label>
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize"
-                        onClick={handleOpenModalCrearUnidad}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                    
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Marca"
-                        {...register("Marca")}
-                      />
-                      <label className=" me-2 ">Marca: <span className="text-danger">*</span>  </label>
-
-                      <button
-                        type="button"
-                        className=" ms-2 btn btn-primary text-capitalize"
-                        onClick={handleOpenModalCrearMarca}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Modelo"
-                        {...register("Model")}
-                      />
-                      <label>Modelo: <span className="text-danger">*</span>  </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Cantidad"
-                        {...register("Cant")}
-                      />
-                      <label >Cantidad: <span className="text-danger">*</span>  </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Vida util"
-                        {...register("VidaU")}
-                      />
-                      <label>Vida util: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Porcentaje IVA"
-                        {...register("PorcentIVA")}
-                      />
-                      <label>Porcentaje IVA: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor Unitario"
-                        {...register("ValUni")}
-                      />
-                      <label>Valor unitario: <span className="text-danger">*</span>  </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor IVA"
-                        {...register("ValorIVA")}
-                        disabled="true"
-                      />
-                      <label >Valor IVA:</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor unitario Total"
-                        {...register("ValUniTotal")}
-                        disabled="true"
-                      />
-                      <label>Valor unitario Total: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <label className="form-control ms-0">
-                      Estado del articulo:{" "}: <span className="text-danger">*</span> 
+                    <label>
+                      Unidad de Medida: <span className="text-danger">*</span>{" "}
                     </label>
-                    <Controller
-                      name="options"
-                      control={control4}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcEstado}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+
+                    <button
+                      type="button"
+                      className="btn btn-primary text-capitalize"
+                      onClick={handleOpenModalCrearUnidad}
+                    >
+                      Crear
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Cantidad"
+                      {...register("Cantidad")}
                     />
-                    {errors.options && (
-                      <p className=" form-control ms-0 text-danger">
-                        Este campo es obligatorio
-                      </p>
+                    <label>
+                      Cantidad: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor unitario"
+                      {...register("ValUni")}
+                    />
+                    <label className="ms-2">
+                      Valor unitario: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Porcentaje IVA"
+                      {...register("PorceIVA")}
+                    />
+                    <label>
+                      Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor IVA"
+                      {...register("ValorIVA")}
+                      disabled="true"
+                    />
+                    <label>
+                      Valor IVA: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor unitario Total"
+                      {...register("ValUni")}
+                      disabled="true"
+                    />
+                    <label>Valor unitario Total:</label>
+                  </div>
+                </div>
+              </div>
+              <div className="row mt-2">
+                <div className="col-12 col-md-4">
+                  <label className="form-control ms-0">
+                    Estado del articulo: :{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="options"
+                    control={control4}
+                    rules={{ required: page === 2 }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcEstado}
+                        placeholder="Seleccionar"
+                      />
                     )}
-                  </div>
-                  <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor Residual"
-                        {...register("ValorRes")}
-                      />
-                      <label >Valor Residual: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Garantia"
-                        {...register("Garantia")}
-                      />
-                      <label >Garantia: <span className="text-danger">*</span> </label>
-                    </div>
+                  />
+                  {errors.options && (
+                    <p className=" form-control ms-0 text-danger">
+                      Este campo es obligatorio
+                    </p>
+                  )}
+                </div>
+                <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Nombre Cientifico"
+                      {...register("NombreCient")}
+                    />
+                    <label>
+                      Nombre Cientifico (viveros):{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      className="btn btn-primary text-capitalize"
+                      onClick={handleOpenModalCrearNombreCientifico}
+                    >
+                      Agregar
+                    </button>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Dias de uso"
-                        {...register("DiasUso")}
-                      />
-                      <label >Dias de uso: <span className="text-danger">*</span> </label>
-                    </div>
-                  </div>
-                  <div className="col-8 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <textarea
-                        className="form-control"
-                        type="text"
-                        required={page === 2}
-                        placeholder="Observaciones"
-                        {...register("Observ")}
-                      />
-                      <label>Observaciones: <span className="text-danger">*</span> </label>
-                    </div>
+                <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <textarea
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Observaciones"
+                      {...register("Observaciones")}
+                    />
+                    <label>
+                      Observaciones: <span className="text-danger">*</span>{" "}
+                    </label>
                   </div>
                 </div>
-              
+              </div>
+
+              <div className="row mt-3">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Unidad de medida"
+                      {...register("UniMed")}
+                    />
+                    <label>
+                      Unidad de Medida: <span className="text-danger">*</span>{" "}
+                    </label>
+                    <button
+                      type="button"
+                      className="btn btn-primary text-capitalize"
+                      onClick={handleOpenModalCrearUnidad}
+                    >
+                      Crear
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Marca"
+                      {...register("Marca")}
+                    />
+                    <label className=" me-2 ">
+                      Marca: <span className="text-danger">*</span>{" "}
+                    </label>
+
+                    <button
+                      type="button"
+                      className=" ms-2 btn btn-primary text-capitalize"
+                      onClick={handleOpenModalCrearMarca}
+                    >
+                      Crear
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Modelo"
+                      {...register("Model")}
+                    />
+                    <label>
+                      Modelo: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Cantidad"
+                      {...register("Cant")}
+                    />
+                    <label>
+                      Cantidad: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Vida util"
+                      {...register("VidaU")}
+                    />
+                    <label>
+                      Vida util: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Porcentaje IVA"
+                      {...register("PorcentIVA")}
+                    />
+                    <label>
+                      Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor Unitario"
+                      {...register("ValUni")}
+                    />
+                    <label>
+                      Valor unitario: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor IVA"
+                      {...register("ValorIVA")}
+                      disabled="true"
+                    />
+                    <label>Valor IVA:</label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor unitario Total"
+                      {...register("ValUniTotal")}
+                      disabled="true"
+                    />
+                    <label>
+                      Valor unitario Total:{" "}
+                      <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <label className="form-control ms-0">
+                    Estado del articulo: :{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="options"
+                    control={control4}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcEstado}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.options && (
+                    <p className=" form-control ms-0 text-danger">
+                      Este campo es obligatorio
+                    </p>
+                  )}
+                </div>
+                <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Valor Residual"
+                      {...register("ValorRes")}
+                    />
+                    <label>
+                      Valor Residual: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Garantia"
+                      {...register("Garantia")}
+                    />
+                    <label>
+                      Garantia: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="numb"
+                      required={page === 2}
+                      placeholder="Dias de uso"
+                      {...register("DiasUso")}
+                    />
+                    <label>
+                      Dias de uso: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+                <div className="col-8 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <textarea
+                      className="form-control"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Observaciones"
+                      {...register("Observ")}
+                    />
+                    <label>
+                      Observaciones: <span className="text-danger">*</span>{" "}
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               <div className="col-4">
                 <button
                   type="button"
@@ -937,26 +991,24 @@ export const EntradaDeArticuloScreen = () => {
                 </button>
               </div>
               <div className="row">
-          <div className="d-flex justify-content-end gap-4 mt-4">
-          <label className="mt-3 fw-bolder text-center">
-                  Resumen de la entrada: 
-                </label>
-          <button
-                type="button"
-                className={`btn btn-primary text-capitalize ${
-                  page === 1 && "d-none"
-                }`}
-                onClick={handleOpenModal}
-              >
-                Ver
-              </button>
+                <div className="d-flex justify-content-end gap-4 mt-4">
+                  <label className="mt-3 fw-bolder text-center">
+                    Resumen de la entrada:
+                  </label>
+                  <button
+                    type="button"
+                    className={`btn btn-primary text-capitalize ${
+                      page === 1 && "d-none"
+                    }`}
+                    onClick={handleOpenModal}
+                  >
+                    Ver
+                  </button>
+                </div>
               </div>
-
-          </div>
             </div>
-            
           </div>
-         
+
           <div className="row">
             <div className="d-flex justify-content-end gap-4 mt-4">
               <button type="button" className="btn btn-light text-capitalize ">
@@ -968,7 +1020,7 @@ export const EntradaDeArticuloScreen = () => {
               >
                 Limpiar
               </button>
-              
+
               <button
                 className={`btn btn-danger text-capitalize ${
                   page === 1 && "d-none"
@@ -1246,11 +1298,7 @@ export const EntradaDeArticuloScreen = () => {
                   />
                   <label>Nombre:</label>
                 </div>
-                
               </div>
-              
-               
-              
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-1 ms-1">
@@ -1265,14 +1313,14 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
               </div>
               <div className="d-flex justify-content-end">
-                  <button
-                    type="button"
-                    className="btn btn-primary text-capitalize"
-                    onClick={handleOpenModalArticulos}
-                  >
-                    buscar
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className="btn btn-primary text-capitalize"
+                  onClick={handleOpenModalArticulos}
+                >
+                  buscar
+                </button>
+              </div>
             </div>
             <div className="row">
               <div className="d-flex justify-content-end gap-2 mt-4">
