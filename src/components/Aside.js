@@ -544,6 +544,17 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
+                            to="almacen/gestion-de-inventario/asignaractivo"
+                          >
+                            <img src={Vineta} alt="vineta" />
+                            <span className="sidenav-normal  ms-2  ps-1">
+                              Asignación de <br /> activos fijos
+                            </span>
+                          </Link>
+                        </li>
+                        <li className="nav-item">
+                          <Link
+                            className="nav-link text-white "
                             to="almacen/gestion-de-inventario/reasignarelementosentrefuncionarios"
                           >
                             <img src={Vineta} alt="vineta" />

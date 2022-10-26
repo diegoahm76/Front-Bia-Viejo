@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
-import {activeModalAction,desactiveModalAction,} from "../../../actions/modalActions";
-import CalendarModal from "../../../components/CalendarModal";
+// import {activeModalAction,desactiveModalAction,} from "../../../actions/modalActions";
+// import CalendarModal from "../../../components/CalendarModal";
 import ModalLocal from '../../../components/ModalLocal';
 import BusquedaArticuloModal from '../../../components/BusquedaArticuloModal';
 import { useDispatch } from "react-redux";
@@ -23,6 +23,8 @@ function AsignarActivoScreen() {
     vivero: "",
   });
 
+  const detailRowAutoHeight = true;
+  
   const {register, handleSubmit, control, formState: { errors },} = useForm();
   const onSubmit = (data) => {
     setSelecOpciones({
@@ -30,10 +32,10 @@ function AsignarActivoScreen() {
     });
   };
 
-  const actionButton = (params) => {
-    console.log(params);
-    alert(`${params.data.nombreComun} ${params.data.disponibleVivero}`);
-  };
+  // const actionButton = (params) => {
+  //   console.log(params);
+  //   alert(`${params.data.nombreComun} ${params.data.disponibleVivero}`);
+  // };
 
   const [startDate, setStartDate] = useState(new Date());
   const CustomPlaceholder = ({ date, value, onChange }) => (
@@ -231,7 +233,11 @@ function AsignarActivoScreen() {
                 <div className="form-floating input-group input-group-dynamic">
                   <input
                     className="form-control"
-                    type="number"
+                    type="search"
+                    id="consecutivo"
+                    name="consecutivo"
+                    minlength="2"
+                    maxlength="15"
                     defaultValue={"25225"}
                     placeholder="Consecutivo"
                     {...register("consecutivoAsignarActivo", {
@@ -516,6 +522,7 @@ function AsignarActivoScreen() {
                   debounceVerticalScrollbar={true}
                   defaultColDef={defaultColDef}
                   onGridReady={onGridReady}
+                  detailRowAutoHeight={detailRowAutoHeight}
                 ></AgGridReact>
               </div>
             </div>
@@ -579,7 +586,8 @@ function AsignarActivoScreen() {
                   debounceVerticalScrollbar={true}
                   defaultColDef={defaultColDef}
                   onGridReady={onGridReady}
-                ></AgGridReact>
+                  >
+                </AgGridReact>
               </div>
             </div>
             <div className="input-group input-group-dynamic flex-column mt-4 mb-2">

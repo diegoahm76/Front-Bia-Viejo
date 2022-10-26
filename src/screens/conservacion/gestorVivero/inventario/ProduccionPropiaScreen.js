@@ -171,7 +171,7 @@ function ProduccionPropiaScreen() {
         </div>
       </div>
       <div className="card col-lg-10 col-md-10 col-12 mx-auto">
-        <form className="multisteps-form__form">
+        <form onSubmit={handleSubmit(onSubmit)} className="multisteps-form__form" id="configForm">
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
