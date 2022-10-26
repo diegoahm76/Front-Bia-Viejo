@@ -3,6 +3,7 @@ import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
+import MarcaDeAgua1 from "./MarcaDeAgua1";
 
 const customStyles = {
   content: {
@@ -33,7 +34,6 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
   } = useForm();
 
   const onSubmit = (data) => {};
-  
 
   const [rowBuscar] = useState([
     {
@@ -138,131 +138,133 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div className="row">
-              <div className="col-12 col-sm-6">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      defaultValue={optionsTipoDocumento[0]}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsTipoDocumento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+            <MarcaDeAgua1>
+              <div className="row">
+                <div className="col-12 col-sm-6">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Tipo de documento{" "}
+                    <div className="col-12 ">
+                      <Controller
+                        name="tipoDocumento"
+                        control={control}
+                        defaultValue={optionsTipoDocumento[0]}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionsTipoDocumento}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <div className="form-floating input-group input-group-dynamic ">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="numero cedula"
+                      {...register("numeroCedula")}
                     />
+                    <label className="ms-2">Número de cedula</label>
                   </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic ">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="numero cedula"
-                    {...register("numeroCedula")}
-                  />
-                  <label className="ms-2">Número de cedula</label>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="nombre completo"
+                      {...register("nombreCompleto")}
+                    />
+                    <label className="ms-2">Nombre completo</label>
+                  </div>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Dependecia{" "}
+                    <div className="col-12">
+                      <Controller
+                        name="dependencia"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionsDependencia}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div className="col-12 col-sm-6">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Grupo{" "}
+                    <div className="col-12">
+                      <Controller
+                        name="grupo"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionsGrupo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div
+                  className="ag-theme-alpine mt-4 mb-4"
+                  style={{ height: "300px" }}
+                >
+                  <AgGridReact
+                    columnDefs={columnBuscar}
+                    rowData={rowBuscar}
+                    defaultColDef={defaultColDef}
+                    onGridReady={onGridReady}
+                  ></AgGridReact>
+                </div>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <button
+                    className="btn bg-primary me-md-2 text-white text-capitalize"
+                    type="button"
+                    onClick={() => setIsModalActive(false)}
+                    title="Send"
+                  >
+                    Limpiar
+                  </button>
+                  <button
+                    className="btn bg-primary me-md-2 text-white text-capitalize"
+                    type="button"
+                    onClick={() => setIsModalActive(false)}
+                    title="Send"
+                  >
+                    Aceptar
+                  </button>
+                  <button
+                    className="btn bg-light text-white text-capitalize"
+                    type="button"
+                    onClick={() => setIsModalActive(false)}
+                    title="Send"
+                  >
+                    Salir
+                  </button>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="nombre completo"
-                    {...register("nombreCompleto")}
-                  />
-                  <label className="ms-2">Nombre completo</label>
-                </div>
-              </div>
-              <div className="col-12 col-sm-6">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Dependecia{" "}
-                  <div className="col-12">
-                    <Controller
-                      name="dependencia"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsDependencia}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-6">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Grupo{" "}
-                  <div className="col-12">
-                    <Controller
-                      name="grupo"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsGrupo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div
-                className="ag-theme-alpine mt-4 mb-4"
-                style={{ height: "300px" }}
-              >
-                <AgGridReact
-                  columnDefs={columnBuscar}
-                  rowData={rowBuscar}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-                ></AgGridReact>
-              </div>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize"
-                  type="button"
-                  onClick={() => setIsModalActive(false)}
-                  title="Send"
-                >
-                  Limpiar
-                </button>
-                <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize"
-                  type="button"
-                  onClick={() => setIsModalActive(false)}
-                  title="Send"
-                >
-                  Aceptar
-                </button>
-                <button
-                  className="btn bg-light text-white text-capitalize"
-                  type="button"
-                  onClick={() => setIsModalActive(false)}
-                  title="Send"
-                >
-                  Salir
-                </button>
-              </div>
-            </div>
+            </MarcaDeAgua1>
           </form>
         </div>
       </div>

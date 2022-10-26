@@ -249,7 +249,7 @@ function ProduccionPropiaScreen() {
             </div>
             </div>
             
-            <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
             {" "}
             {/*  BOTONES DE ABAJO  */}
             <button

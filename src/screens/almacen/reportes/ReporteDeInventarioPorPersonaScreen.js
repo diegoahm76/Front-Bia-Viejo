@@ -9,6 +9,7 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const ReporteDeInventarioPorPersonaScreen = () => {
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
@@ -162,27 +163,90 @@ const ReporteDeInventarioPorPersonaScreen = () => {
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <div className="multisteps-form__content">
-            <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Persona</n>
-              </label>
+          <MarcaDeAgua1>
+            <div className="multisteps-form__content">
+              <div className="row">
+                <label className="form-control ms-0 fw-bolder text-center">
+                  <n>Persona</n>
+                </label>
+              </div>
             </div>
-          </div>
 
-          <div className="multisteps-form__content">
+            <div className="multisteps-form__content">
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Tipo de documento
+                    <div className="col-12 ">
+                      <Controller
+                        name="tipoDocumento"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionsTipoDocumento}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic ">
+                    <input
+                      name="numeroCedula"
+                      className="form-control"
+                      type="text"
+                      placeholder="numero de cedula"
+                      {...register("numeroCedula")}
+                    />
+                    <label className="ms-2">Número de cedula</label>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="nombre completo"
+                      value="Julian Castillo"
+                      disabled
+                    />
+                    <label className="ms-2">Nombre completo</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                <button
+                  className="btn bg-gradient-primary mb-0 text-capitalize"
+                  type="button"
+                  title="Send"
+                  form="configForm"
+                  onClick={() => setBusquedaPersonalIsActive(true)}
+                >
+                  Buscar personal
+                </button>
+              </div>
+            </div>
+
             <div className="row">
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento
+                  Dependencia
                   <div className="col-12 ">
                     <Controller
-                      name="tipoDocumento"
+                      name="dependencia"
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={optionsTipoDocumento}
+                          options={opcionDependecia}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -192,235 +256,174 @@ const ReporteDeInventarioPorPersonaScreen = () => {
               </div>
 
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic ">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Grupo
+                  <div className="col-12 ">
+                    <Controller
+                      name="grupo"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={opcionGrupo}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div className="multisteps-form__content">
+              <div className="row">
+                <label className="form-control ms-0 fw-bolder text-center">
+                  <n>Tipo de articulo</n>
+                </label>
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
                   <input
-                    name="numeroCedula"
-                    className="form-control"
+                    name="codigoArticulo"
+                    className="multisteps-form__input form-control"
                     type="text"
-                    placeholder="numero de cedula"
-                    {...register("numeroCedula")}
+                    placeholder="Codigo de articulo"
+                    {...register("codigoArticulo")}
                   />
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2">Codigo del articulo</label>
                 </div>
               </div>
 
               <div className="col-12 col-md-4">
                 <div className="form-floating input-group input-group-dynamic">
                   <input
+                    name="nombreArticulo"
                     className="form-control"
                     type="text"
-                    placeholder="nombre completo"
-                    value="Julian Castillo"
+                    placeholder="Nombre del articulo"
+                    value="Computador"
                     disabled
                   />
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="ms-2">Nombre del articulo</label>
+                </div>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <button
+                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                    onClick={() => setBusquedaArticuloIsActive(true)}
+                  >
+                    Buscar articulo
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="row">
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-              <button
-                className="btn bg-gradient-primary mb-0 text-capitalize"
-                type="button"
-                title="Send"
-                form="configForm"
-                onClick={() => setBusquedaPersonalIsActive(true)}
-              >
-                Buscar personal
-              </button>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-12 col-md-4">
-              <label className="form-floating input-group input-group-dynamic ms-2">
-                Dependencia
-                <div className="col-12 ">
-                  <Controller
-                    name="dependencia"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcionDependecia}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-              </label>
-            </div>
-
-            <div className="col-12 col-md-4">
-              <label className="form-floating input-group input-group-dynamic ms-2">
-                Grupo
-                <div className="col-12 ">
-                  <Controller
-                    name="grupo"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcionGrupo}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <div className="multisteps-form__content">
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Tipo de articulo</n>
-              </label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="codigoArticulo"
-                  className="multisteps-form__input form-control"
-                  type="text"
-                  placeholder="Codigo de articulo"
-                  {...register("codigoArticulo")}
-                />
-                <label className="ms-2">Codigo del articulo</label>
-              </div>
-            </div>
-            
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="nombreArticulo"
-                  className="form-control"
-                  type="text"
-                  placeholder="Nombre del articulo"
-                  value="Computador"
-                  disabled
-                />
-                <label className="ms-2">Nombre del articulo</label>
-              </div>
-            </div>
-            <div className="col-12 col-md-4">
               <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                 <button
                   className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="button"
+                  type="submit"
                   title="Send"
                   form="configForm"
-                  onClick={() => setBusquedaArticuloIsActive(true)}
                 >
-                  Buscar articulo
+                  Buscar
                 </button>
               </div>
             </div>
-          </div>
-          <div className="row">
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-              <button
-                className="btn bg-gradient-primary mb-0 text-capitalize"
-                type="submit"
-                title="Send"
-                form="configForm"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
 
-          {(selecOpciones.dependencia && selecOpciones.grupo) ||
-          (selecOpciones.numeroCedula && selecOpciones.tipoDocumento) ||
-          selecOpciones.codigoArticulo ? (
-            <div>
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>Reporte de inventario porpersona o grupo</n>
-                  </label>
-                </div>
+            {(selecOpciones.dependencia && selecOpciones.grupo) ||
+            (selecOpciones.numeroCedula && selecOpciones.tipoDocumento) ||
+            selecOpciones.codigoArticulo ? (
+              <div>
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <label className="form-control ms-0 fw-bolder text-center mt-4">
+                      <n>Reporte de inventario porpersona o grupo</n>
+                    </label>
+                  </div>
 
-                <div className="mt-1 row">
-                  <div id="myGrid" className="ag-theme-alpine mt-4">
-                    <div
-                      className="ag-theme-alpine"
-                      style={{ height: "400px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
+                  <div className="mt-1 row">
+                    <div id="myGrid" className="ag-theme-alpine mt-4">
+                      <div
+                        className="ag-theme-alpine"
+                        style={{ height: "400px" }}
+                      >
+                        <AgGridReact
+                          columnDefs={columnDefs}
+                          rowData={rowData}
+                          defaultColDef={defaultColDef}
+                          onGridReady={onGridReady}
+                        ></AgGridReact>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="d-flex flex-column justify-content-end align-items-end">
-                  <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="nombreQuienImprime"
-                          className="form-control"
-                          type="text"
-                          placeholder="Nombre del articulo"
-                          value="Julian Castillo"
-                          disabled
-                        />
-                        <label className="ms-2">Nombre quien imprime</label>
+                  <div className="d-flex flex-column justify-content-end align-items-end">
+                    <div className="row">
+                      <div className="col-12 col-md-12">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            name="nombreQuienImprime"
+                            className="form-control"
+                            type="text"
+                            placeholder="Nombre del articulo"
+                            value="Julian Castillo"
+                            disabled
+                          />
+                          <label className="ms-2">Nombre quien imprime</label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-12 col-md-12">
+                        <div className="form-floating input-group input-group-dynamic">
+                          <input
+                            name="fechaDeImpresion"
+                            className="form-control"
+                            type="text"
+                            placeholder="fecha de impresion"
+                            value="05/10/2022"
+                            disabled
+                          />
+                          <label className="ms-2">Fecha de impresion</label>
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="fechaDeImpresion"
-                          className="form-control"
-                          type="text"
-                          placeholder="fecha de impresion"
-                          value="05/10/2022"
-                          disabled
-                        />
-                        <label className="ms-2">Fecha de impresion</label>
-                      </div>
+                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                      <button
+                        className="btn bg-gradient-primary mb-0"
+                        type="button"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Imprimir
+                      </button>
+                      <button
+                        className="btn bg-gradient-danger mb-0"
+                        type="button"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Salir
+                      </button>
                     </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                    <button
-                      className="btn bg-gradient-primary mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Imprimir
-                    </button>
-                    <button
-                      className="btn bg-gradient-danger mb-0"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Salir
-                    </button>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+            )}
+          </MarcaDeAgua1>
         </form>
         <BusquedaDePersonalModal
           isModalActive={busquedaPersonalIsActive}

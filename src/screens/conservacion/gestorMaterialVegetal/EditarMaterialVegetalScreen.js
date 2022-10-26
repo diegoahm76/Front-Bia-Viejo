@@ -164,7 +164,7 @@ function EditarMaterialVegetalScreen() {
           <h3 className="text-center my-4">Editar Material Vegetal</h3>
         </div>
       </div>
-      <div class="card col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="card col-lg-10 col-md-10 col-12 mx-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="multisteps-form__form">
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"

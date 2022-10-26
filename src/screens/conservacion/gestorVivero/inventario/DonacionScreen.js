@@ -8,8 +8,9 @@ import { useForm, Controller, appendErrors } from "react-hook-form";
 
 const DonacionesScreen = () => {
   const [selecVivero, setSelecVivero] = useState({
-    viveros: "",
-  });
+    viveros : "",
+  }
+  );
 
   const {
     register,
@@ -20,7 +21,7 @@ const DonacionesScreen = () => {
 
   const onSubmit = (data) => {
     setSelecVivero({
-      viveros: data.viveros,
+      viveros: data.viveros
     });
   };
 
@@ -169,19 +170,21 @@ const DonacionesScreen = () => {
   };
 
   return (
-    <div className="row min-vh-100">
+    <div className="row min-vh-100">    
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Inventario Donaciones</h3>
-
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
+
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-              <div className="col-12 col-sm-6">
+
+              <div className="col-12 col-md-4">
                 <label className="form-control ms-0">Selecione Vivero: </label>
                 <Controller
                   name="viveros"
@@ -196,13 +199,11 @@ const DonacionesScreen = () => {
                   )}
                 />
                 {errors.viveros && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
+                <small className="text-danger">Este campo es obligatorio</small>
                 )}
               </div>
 
-              <div className="col-12 col-sm-6 ">
+              <div className="col-12 col-md-4 ">
                 <button
                   className="mt-5 btn btn-primary text-capitalize"
                   type="submit"
@@ -212,8 +213,9 @@ const DonacionesScreen = () => {
               </div>
             </div>
 
-            {selecVivero.viveros ? (
+            {selecVivero.viveros? (
               <div>
+
                 <div className="d-flex mt-4 px-4 justify-content-end">
                   <div>
                     <label type="number"> Total de plantas |</label>
@@ -224,8 +226,9 @@ const DonacionesScreen = () => {
                     </label>
                   </div>
                 </div>
-
+  
                 <div id="myGrid" className="ag-theme-alpine">
+                  
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnDefs}
@@ -236,15 +239,15 @@ const DonacionesScreen = () => {
                   </div>
                 </div>
 
-                <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button className="btn bg-gradient-danger mb-0" type="submit">
                     Salir
                   </button>
                 </div>
-              </div>
-            ) : (
-              ""
-            )}
+
+              </div>)
+              :
+              ("") }
           </div>
         </form>
       </div>

@@ -148,7 +148,7 @@ function AgregarViveroScreen() {
                 )}
 
               </div>
-              <div class="col-6 mt-5">
+              <div className="col-6 mt-5">
                 <button
                   className="btn bg-gradient-primary mb-0 text-capitalize"
                   type="submit"
@@ -165,7 +165,7 @@ function AgregarViveroScreen() {
               selecOpciones.asignarViverista && (
 
                 <div className="multisteps-form__content">
-                  <div class="row">
+                  <div className="row">
                     <div className="row my-3">
                       <div className="form-group mt-3 col-12 col-sm-6">
                         <label className="font-weight" for="cantidadKg">
@@ -271,7 +271,7 @@ function AgregarViveroScreen() {
                         />
                       </div>
                     </div>
-                    <div class="col-4 col-sm-4 mt-5">
+                    <div className="col-4 col-sm-4 mt-5">
                       <button
                         className="btn btn-primary"
                         type="button"
@@ -298,7 +298,7 @@ function AgregarViveroScreen() {
 
                   <div className="row my-2">
                     <div className="form-group mt-3 col-12 col-sm-6">
-                      <label className="font-weight" for="cantidadKg">
+                      <label className="font-weight" htmlFor="cantidadKg">
                         Área:
                       </label>
                       <div className="input-group input-group-dynamic ms-1">
@@ -317,7 +317,7 @@ function AgregarViveroScreen() {
 
                   <div className="row my-2">
                     <div className="form-group mt-3 col-12 col-sm-6">
-                      <label className="font-weight" for="cantidadKg">
+                      <label className="font-weight" htmlFor="cantidadKg">
                         Área de propagación:
                       </label>
                       <div className="input-group input-group-dynamic ms-1">
@@ -346,7 +346,7 @@ function AgregarViveroScreen() {
                           <div className="form-check">
                             <label
                               className="form-check-label mb-2"
-                              for="radioBotonSi"
+                              htmlFor="radioBotonSi"
                             >
                               Si
                             </label>
@@ -362,7 +362,7 @@ function AgregarViveroScreen() {
                           <div className="form-check">
                             <label
                               className="form-check-label mb-2"
-                              for="radioBotonNo"
+                              htmlFor="radioBotonNo"
                             >
                               No
                             </label>
@@ -393,7 +393,7 @@ function AgregarViveroScreen() {
                           <div className="form-check">
                             <label
                               className="form-check-label mb-2"
-                              for="flexRadioDefault1"
+                              htmlFor="flexRadioDefault1"
                             >
                               Si
                             </label>
@@ -409,7 +409,7 @@ function AgregarViveroScreen() {
                           <div className="form-check">
                             <label
                               className="form-check-label mb-2"
-                              for="flexRadioDefault1"
+                              htmlFor="flexRadioDefault1"
                             >
                               No
                             </label>
@@ -429,7 +429,7 @@ function AgregarViveroScreen() {
 
                   <div className="row my-2">
                     <div className="form-group mt-3 col-12 col-sm-6">
-                      <label className="font-weight" for="cantidadKg">
+                      <label className="font-weight" htmlFor="cantidadKg">
                         Área de embolsado:
                       </label>
                       <div className="input-group input-group-dynamic ms-1">
@@ -448,7 +448,7 @@ function AgregarViveroScreen() {
 
                   <div className="row my-2">
                     <div className="form-group mt-3 col-12 col-sm-6">
-                      <label className="font-weight" for="cantidadKg">
+                      <label className="font-weight" hmtlFor="cantidadKg">
                         Número de bodegas:
                       </label>
                       <div className="input-group input-group-dynamic ms-1">
@@ -467,7 +467,7 @@ function AgregarViveroScreen() {
 
                   <div className="row my-2">
                     <div className="form-group mt-3 col-12 col-sm-6">
-                      <label className="font-weight" for="cantidadKg">
+                      <label className="font-weight" htmlFor="cantidadKg">
                         Número de bodegas:
                       </label>
                       <div className="input-group input-group-dynamic ms-1">
@@ -518,12 +518,12 @@ function AgregarViveroScreen() {
                     </div>
                   </div>
 
-                  <div class="my-3">
-                    <label for="formFileMultiple" class="form-label">
+                  <div className="my-3">
+                    <label htmlFor="formFileMultiple" className="form-label">
                       Anexar archivos
                     </label>
                     <input
-                      class="form-control ms-1"
+                      className="form-control ms-1"
                       type="file"
                       id="formFileMultiple"
                       multiple
@@ -576,7 +576,7 @@ function AgregarViveroScreen() {
                   </div>
                 </div> */}
 
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <button
                       className="btn btn-primary ms-auto mb-0"
                       type="button"

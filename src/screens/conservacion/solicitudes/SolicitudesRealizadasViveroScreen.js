@@ -13,8 +13,6 @@ import {
 } from "../../../actions/modalActions";
 
 import CalendarModal from "../../../components/CalendarModal";
-
-
 const SolicitudesRealizadasViveroScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
     tipoConsulta: "",
@@ -109,8 +107,9 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-secondary text-capitalize "
+            class="btn btn-2 btn-secondary text-capitalize "
             type="button"
+            onClick={handleOpenModal}
           >
             Gestionar
           </button>
@@ -125,9 +124,9 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-secondary text-capitalize"
-            onClick={handleOpenModal}
+            class="btn btn-2 btn-secondary text-capitalize"
             type="button"
+            onClick={handleOpenModal}
           >
             Ver
           </button>
@@ -220,82 +219,6 @@ const SolicitudesRealizadasViveroScreen = () => {
     },
   ];
 
-  const columnDefs2 = [
-    { headerName: "Objeto", field: "Objeto", minWidth: 150, maxWidth: 200 },
-    { headerName: "Vivero", field: "Vivero", minWidth: 150, maxWidth: 200 },
-    { headerName: "Cantidad", field: "Cantidad", minWidth: 150, maxWidth: 200 },
-    {
-      headerName: "Persona que hace la solicitud",
-      field: "Persona que hace la solicitud",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "Fecha de entregra",
-      field: "Fecha de entregra",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-  ];
-  const rowData2 = [
-    {
-      Objeto: "Pala",
-      Vivero: "Mapirípan",
-      Cantidad: 100,
-      "Persona que hace la solicitud": "JuLian Castillo",
-      "Fecha de entregra": "28/02/2022",
-    },
-    {
-      Objeto: "Palin",
-      Vivero: "La Macarena",
-      Cantidad: 10,
-      "Persona que hace la solicitud": "Estevan Lopez",
-      "Fecha de entregra": "09/01/2022",
-    },
-    {
-      Objeto: "Pica",
-      Vivero: "Mapirípan",
-      Cantidad: 23,
-      "Persona que hace la solicitud": "Angelica Leon",
-      "Fecha de entregra": "12/04/2022",
-    },
-    {
-      Objeto: "Carretilla",
-      Vivero: "Villavicencio",
-      Cantidad: 70,
-      "Persona que hace la solicitud": "Wilmer Novoa",
-      "Fecha de entregra": "30/07/2022",
-    },
-    {
-      Objeto: "Pala",
-      Vivero: "Mapirípan",
-      Cantidad: 100,
-      "Persona que hace la solicitud": "JuLian Castillo",
-      "Fecha de entregra": "28/02/2022",
-    },
-    {
-      Objeto: "Palin",
-      Vivero: "La Macarena",
-      Cantidad: 10,
-      "Persona que hace la solicitud": "Estevan Lopez",
-      "Fecha de entregra": "09/01/2022",
-    },
-    {
-      Objeto: "Pica",
-      Vivero: "Mapirípan",
-      Cantidad: 23,
-      "Persona que hace la solicitud": "Angelica Leon",
-      "Fecha de entregra": "12/04/2022",
-    },
-    {
-      Objeto: "Carretilla",
-      Vivero: "Villavicencio",
-      Cantidad: 70,
-      "Persona que hace la solicitud": "Wilmer Novoa",
-      "Fecha de entregra": "30/07/2022",
-    },
-  ];
-
   const defaultColDef = {
     sortable: true,
     editable: false,
@@ -341,7 +264,7 @@ const SolicitudesRealizadasViveroScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="mt-4 row">
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Tipo de consulta: </label>
                 <Controller
                   name="tipoConsulta"
@@ -367,7 +290,7 @@ const SolicitudesRealizadasViveroScreen = () => {
           {selecOpciones.tipoConsulta === "uvv" ? (
             <div className="multisteps-form__content">
               <div className="row">
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">Vivero: </label>
                   <Controller
                     name="vivero"
@@ -388,7 +311,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                   )}
                 </div>
 
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">
                     Nombre del profesional:
                   </label>
@@ -411,111 +334,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                   )}
                 </div>
 
-                <div className="col-12 col-sm-6">
-                  <label className=" form-control ms-0">
-                    Estado de la solicitud:
-                  </label>
-                  <Controller
-                    name="estado"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={valores4}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errors.estado && (
-                    <small className="text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  )}
-                </div>
-
-                <div className="col-12 col-sm-6">
-                  <button
-                    className="mt-5 btn btn-primary text-capitalize "
-                    type="submit"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Buscar
-                  </button>
-                </div>
-
-                {selecOpciones.vivero &&
-                selecOpciones.nombreProfesional &&
-                selecOpciones.estado ? (
-                  <div>
-                    <div id="myGrid" className="ag-theme-alpine mt-4">
-                      <div
-                        className="ag-theme-alpine"
-                        style={{ height: "400px" }}
-                      >
-                        <AgGridReact
-                          columnDefs={
-                            selecOpciones.estado === "ent"
-                              ? columnDefs.filter(
-                                  (item) => item.headerName !== "Gestionar"
-                                )
-                              : columnDefs
-                          }
-                          rowData={rowData}
-                          defaultColDef={defaultColDef}
-                          onGridReady={onGridReady}
-                        ></AgGridReact>
-                      </div>
-                    </div>
-
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
-                      <button
-                        className="btn bg-gradient-danger mb-0"
-                        type="submit"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Salir
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-
-          {selecOpciones.tipoConsulta === "tlv" ? (
-            <div className="multisteps-form__content">
-              <div className="row">
-                <div className="col-12 col-sm-6">
-                  <label className=" form-control ms-0">
-                    Nombre del profesional:
-                  </label>
-                  <Controller
-                    name="nombreProfesional"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={valores3}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errors.nombreProfesional && (
-                    <small className="text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  )}
-                </div>
-
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-md-4">
                   <label className=" form-control ms-0">
                     Estado de la solicitud:
                   </label>
@@ -553,6 +372,108 @@ const SolicitudesRealizadasViveroScreen = () => {
                   </div>
                 </div>
 
+                {selecOpciones.vivero &&
+                selecOpciones.nombreProfesional &&
+                selecOpciones.estado ? (
+                  <div>
+                    <div id="myGrid" className="ag-theme-alpine mt-4">
+                      <div
+                        className="ag-theme-alpine"
+                        style={{ height: "400px" }}
+                      >
+                        <AgGridReact
+                          columnDefs={
+                            selecOpciones.estado === "ent"
+                              ? columnDefs.filter(
+                                  (item) => item.headerName !== "Gestionar"
+                                )
+                              : columnDefs
+                          }
+                          rowData={rowData}
+                          defaultColDef={defaultColDef}
+                          onGridReady={onGridReady}
+                        ></AgGridReact>
+                      </div>
+                    </div>
+
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                      <button
+                        className="btn bg-gradient-danger mb-0"
+                        type="submit"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Salir
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
+
+          {selecOpciones.tipoConsulta === "tlv" ? (
+            <div className="multisteps-form__content">
+              <div className="row">
+                <div className="col-12 col-md-4">
+                  <label className=" form-control ms-0">
+                    Nombre del profesional:
+                  </label>
+                  <Controller
+                    name="nombreProfesional"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={valores3}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.nombreProfesional && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <label className=" form-control ms-0">
+                    Estado de la solicitud:
+                  </label>
+                  <Controller
+                    name="estado"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={valores4}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.estado && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <button
+                    className="mt-5 btn btn-primary text-capitalize "
+                    type="submit"
+                  >
+                    Buscar
+                  </button>
+                </div>
+
                 {selecOpciones.nombreProfesional && selecOpciones.estado ? (
                   <div>
                     <div id="myGrid" className="ag-theme-alpine mt-4">
@@ -575,7 +496,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       </div>
                     </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                       {" "}
                       {/*  BOTONES DE ABAJO  */}
                       <button
@@ -597,7 +518,6 @@ const SolicitudesRealizadasViveroScreen = () => {
             ""
           )}
         </form>
-
         <CalendarModal>
           <div className="row min-vh-100">
            
@@ -653,15 +573,15 @@ const SolicitudesRealizadasViveroScreen = () => {
                       style={{ height: "400px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs2}
-                        rowData={rowData2}
+                        columnDefs={columnDefs}
+                        rowData={rowData}
                         defaultColDef={defaultColDef}
                         onGridReady={onGridReady}
                       ></AgGridReact>
                     </div>
                   </div>
 
-                  <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                     
                     <button
                       className="btn bg-gradient-danger mb-0"
@@ -677,6 +597,58 @@ const SolicitudesRealizadasViveroScreen = () => {
                 </form>
               </div>
             </div>
+            <div className="col-12 col-sm-3">
+              {" "}
+              {/* primera columna */}
+              <div className="col-12 col-sm-12">
+                <h2>PDF </h2>
+              </div>
+            </div>
+            <div className="col-12 col-sm-3">
+              {" "}
+              {/* primera columna */}
+              <div className="col-12 col-sm-12">
+                <h2>PDF </h2>
+              </div>
+            </div>
+          </div>
+
+          {/*CREO LAS TRES COLUMNAS - TERCERA FILA*/}
+          <div className="row mt-2">
+            {/*1 COLUMNA*/}
+            <div className="col-12 col-sm-12">
+              <label className="col-12 col-sm-12 font-weight">
+                Listado de solicitud{" "}
+              </label>
+            </div>
+          </div>
+
+          <div id="myGrid" className="ag-theme-alpine">
+            {" "}
+            {/*  Tabla  */}
+            <div className="ag-theme-alpine" style={{ height: "400px" }}>
+              <AgGridReact
+                columnDefs={columnDefs}
+                rowData={rowData}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            {" "}
+            {/*  BOTONES DE ABAJO  */}'
+            <button
+              className="btn bg-gradient-danger mb-0"
+              type="submit"
+              title="Send"
+              form="configForm"
+              onClick={handleCloseModal}
+            >
+              Salir
+            </button>
+            '
           </div>
         </CalendarModal>
       </div>

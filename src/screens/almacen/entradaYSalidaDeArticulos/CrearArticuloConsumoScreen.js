@@ -2,6 +2,7 @@ import { useState } from "react";
 //import ReactQuill from "react-quill";
 //import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const CrearArticuloConsumoScreen = () => {
   //const [value, setValue] = useState("");
@@ -16,10 +17,10 @@ const CrearArticuloConsumoScreen = () => {
     { label: "Ascensor", value: "OT" },
   ];
 
-  const opcMV=[
-{label:"PEPS",value:"PEPS"},
-{label:"PEUS", value:"PEUS"},
-{label: "Valoraion por promedio",value:"VP"}
+  const opcMV = [
+    { label: "PEPS", value: "PEPS" },
+    { label: "PEUS", value: "PEUS" },
+    { label: "Valoraion por promedio", value: "VP" },
   ];
 
   const optionsSize = [
@@ -31,31 +32,35 @@ const CrearArticuloConsumoScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Crear Articulo de Consumo</h3>
+        <h3 className="mt-3 mb-0 text-center mb-6">
+          Crear Articulo de Consumo
+        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           //onSubmit={handleSubmit(submit)}
           id="configForm"
         >
-          
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
+          <div
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+          >
+            <MarcaDeAgua1>
               <h5 className="font-weight-bolder">Datos generales</h5>
               <div className="multisteps-form__content">
                 <div className="row mt-3">
-                   <div className="col-12 col-md-4 mt-4"> 
-                  <label className="form-control ms-0">Tipo de articulo</label>
-                  <Select
-                    defaultValue={selectedCategory}
-                    onChange={setSelectedCategory}
-                    options={options}
-                  />
-                  {/* </div> */}
-                </div>
-                
+                  <div className="col-12 col-md-4 mt-4">
+                    <label className="form-control ms-0">
+                      Tipo de articulo
+                    </label>
+                    <Select
+                      defaultValue={selectedCategory}
+                      onChange={setSelectedCategory}
+                      options={options}
+                    />
+                    {/* </div> */}
+                  </div>
+
                   <div className="col-12 col-md-4 mt-4">
                     <div className="input-group input-group-dynamic">
                       <label
@@ -85,7 +90,7 @@ const CrearArticuloConsumoScreen = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="row mt-3">
                   <div className="col-12 col-md-4 mt-2">
                     <div className="input-group input-group-dynamic">
@@ -101,8 +106,7 @@ const CrearArticuloConsumoScreen = () => {
                       />
                     </div>
                   </div>
-                  
-                
+
                   <div className="col-12 col-md-4 mt-4">
                     <label className="form-control ms-0">
                       Metodo de valoracion
@@ -125,29 +129,29 @@ const CrearArticuloConsumoScreen = () => {
                   </div>
                   <div className="row">
                     <div className="col-12 col-md-4 mt-4">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Visible en solicitudes
                         </label>
                       </div>
-</div>
-                      <div className="col-12 col-md-4 mt-4">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                    </div>
+                    <div className="col-12 col-md-4 mt-4">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Articulo para Vivero
@@ -155,14 +159,14 @@ const CrearArticuloConsumoScreen = () => {
                       </div>
                     </div>
                     <div className="col-12 col-md-4 mt-4">
-                      <div class="form-check form-switch d-flex align-items-center mb-3">
+                      <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="rememberMe"
                         />
                         <label
-                          class="form-check-label mb-0 ms-3"
+                          className="form-check-label mb-0 ms-3"
                           htmlFor="rememberMe"
                         >
                           Control por unidad
@@ -181,11 +185,11 @@ const CrearArticuloConsumoScreen = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </MarcaDeAgua1>
+          </div>
+        </form>
       </div>
-    
+    </div>
   );
 };
 export default CrearArticuloConsumoScreen;

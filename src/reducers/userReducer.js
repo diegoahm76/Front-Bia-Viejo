@@ -9,6 +9,7 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
+  USER_LOGIN_INVALID,
 } from "../types/userTypes";
 
 const initialState = {
@@ -24,7 +25,9 @@ export const userReducer = (state = initialState, action) => {
     case USER_REGISTER_REQUEST:
       return {
         ...state,
-        loading: true,
+        user: {},
+        loading: false,
+        error: null,
       };
 
     case USER_LOGIN_SUCCESS:
@@ -34,9 +37,11 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         user: action.payload,
+        error: null,
       };
 
     case USER_LOGIN_FAIL:
+    case USER_LOGIN_INVALID:
     case USER_REGISTER_FAIL:
       return {
         ...state,

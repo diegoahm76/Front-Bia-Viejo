@@ -13,7 +13,6 @@ const ActivarMaterialCuarentenaScreen = () => {
   const [selecVivero, setSelecVivero] = useState({
     viveros :"",
   });
-  
   const {
     register,
     handleSubmit,
@@ -70,7 +69,7 @@ const ActivarMaterialCuarentenaScreen = () => {
       maxWidth: 2050,
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize" type="button">
+          <button className="btn btn-2 btn-secondary text-capitalize" type="button">
             Salir De cuarentena
           </button>
         </div>
@@ -83,7 +82,7 @@ const ActivarMaterialCuarentenaScreen = () => {
       maxWidth: 200,
       cellRendererFramework: (params) => (
         <div>
-          <button class="btn btn-2 btn-secondary text-capitalize" type="button">
+          <button className="btn btn-2 btn-secondary text-capitalize" type="button">
             Dar de baja
           </button>
         </div>
@@ -238,7 +237,7 @@ const ActivarMaterialCuarentenaScreen = () => {
         <div className="multisteps-form__content">
           <div className="mt-4 row">
 
-            <div className="col-12 col-sm-6">
+            <div className="col-12 col-md-4">
                 <label className=" form-control ms-0">Selecione Vivero: </label>
                 <Controller
                   name="viveros"
@@ -257,7 +256,7 @@ const ActivarMaterialCuarentenaScreen = () => {
                 )}
             </div>
 
-            <div className="col-12 col-sm-6">
+            <div className="col-12 col-md-4">
               <button
                 className="mt-5 btn btn-primary text-capitalize "
                 type="submit"
@@ -280,7 +279,7 @@ const ActivarMaterialCuarentenaScreen = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               <button
                 className="btn bg-gradient-danger mb-0"
                 type="submit"

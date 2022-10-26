@@ -106,7 +106,7 @@ const InventarioViveroCompensacion = () => {
           >
             <div className="row my-2  align-items-center  ">
               <div className="form-group mt-3 col-6 col-sm-6">
-                <label className="font-weight" for="cantidadKg">
+                <label className="font-weight" htmlFor="cantidadKg">
                   Seleccione vivero:
                 </label>
 
@@ -127,7 +127,7 @@ const InventarioViveroCompensacion = () => {
                 )}
 
               </div>
-              <div class="col-6 mt-5">
+              <div className="col-6 mt-5">
                 <button
                   className="btn bg-gradient-primary mb-0 text-capitalize"
                   type="submit"
@@ -187,7 +187,7 @@ const InventarioViveroCompensacion = () => {
                   </div>
 
                   <div className="form-group mt-3 col-12 col-sm-4">
-                    <label className="font-weight" for="cantidadKg">Cantidad a sembrar</label>
+                    <label className="font-weight" htmlFor="cantidadKg">Cantidad a sembrar</label>
                     <div className="input-group input-group-dynamic ">
                       <input
                         className="multisteps-form__input form-control "
@@ -225,13 +225,13 @@ const InventarioViveroCompensacion = () => {
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
                       <input className="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioLLeno1"></input>
-                      <label className="form-check-label" for="idbotonRadioLLeno1">
+                      <label className="form-check-label" htmlFor="idbotonRadioLLeno1">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input class="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioParcial1" checked></input>
-                      <label class="form-check-label" for="idbotonRadioParcial1">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioParcial1" checked></input>
+                      <label className="form-check-label" htmlFor="idbotonRadioParcial1">
                         Parcial
                       </label>
                     </div>
@@ -258,13 +258,13 @@ const InventarioViveroCompensacion = () => {
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
                       <input className="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioLleno2"></input>
-                      <label className="form-check-label" for="idbotonRadioLleno2">
+                      <label className="form-check-label" htmlFor="idbotonRadioLleno2">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input class="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioParcial2" checked></input>
-                      <label class="form-check-label" for="idbotonRadioParcial2">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioParcial2" checked></input>
+                      <label className="form-check-label" htmlFor="idbotonRadioParcial2">
                         Parcial
                       </label>
                     </div>
@@ -291,13 +291,13 @@ const InventarioViveroCompensacion = () => {
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
                       <input className="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioLleno3"></input>
-                      <label className="form-check-label" for="idbotonRadioLleno3">
+                      <label className="form-check-label" htmlFor="idbotonRadioLleno3">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input class="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioParcial3" checked></input>
-                      <label class="form-check-label" for="idbotonRadioParcial3">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioParcial3" checked></input>
+                      <label className="form-check-label" htmlFor="idbotonRadioParcial3">
                         Parcial
                       </label>
                     </div>
@@ -324,13 +324,13 @@ const InventarioViveroCompensacion = () => {
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
                       <input className="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioLleno4"></input>
-                      <label className="form-check-label" for="idbotonRadioLleno4">
+                      <label className="form-check-label" htmlFor="idbotonRadioLleno4">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input class="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioParcial4" checked></input>
-                      <label class="form-check-label" for="idbotonRadioParcial4">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioParcial4" checked></input>
+                      <label className="form-check-label" htmlFor="idbotonRadioParcial4">
                         Parcial
                       </label>
                     </div>
@@ -350,7 +350,7 @@ const InventarioViveroCompensacion = () => {
                   </div>
 
 
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <button
                       className="btn bg-gradient-danger me-md-2"
                       type="button"

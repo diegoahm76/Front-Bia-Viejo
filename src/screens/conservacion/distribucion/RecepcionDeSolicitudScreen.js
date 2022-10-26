@@ -110,7 +110,7 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-primary"
+            className="btn btn-2 btn-primary"
             type="button"
             onClick={handleOpenModalGes}
           >
@@ -133,7 +133,7 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-primary"
+            className="btn btn-2 btn-primary"
             type="button"
             onClick={handleOpenModalVer}
           >

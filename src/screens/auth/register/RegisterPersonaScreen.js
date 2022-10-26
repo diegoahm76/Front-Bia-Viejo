@@ -81,7 +81,7 @@ const RegisterPersonaScreen = () => {
         );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
-        );
+      );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
@@ -102,6 +102,7 @@ const RegisterPersonaScreen = () => {
   const {
     register,
     control,
+    watch,
     handleSubmit,
     reset,
     formState: { errors: errorsForm },
@@ -168,7 +169,7 @@ const RegisterPersonaScreen = () => {
     if (formValues.tipo_persona.value === "N") {
       try {
         const { data: dataRegisterPersona } = await clienteAxios.post(
-          "personas/registerpersonanatural/",
+          "personas/persona-natural/create/",
           persona
         );
         Swal.fire({
@@ -236,8 +237,9 @@ const RegisterPersonaScreen = () => {
       setLoading(false);
     } else {
       try {
+        console.log(persona);
         const { data: dataRegisterPersona } = await clienteAxios.post(
-          "personas/registerpersonajuridica/",
+          "personas/persona-juridica/create/",
           persona
         );
 
@@ -820,6 +822,9 @@ const RegisterPersonaScreen = () => {
                 </button>
               </form>
               <GeneradorDeDirecciones
+                keyReset="direccionNotificacion"
+                reset={reset}
+                totalValuesForm={watch()}
                 isOpenGenerator={isOpenGenerator}
                 setIsOpenGenerator={setIsOpenGenerator}
                 completeAddress={completeAddress}

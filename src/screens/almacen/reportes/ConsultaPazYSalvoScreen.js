@@ -6,6 +6,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
+import DatePicker, { registerLocale } from "react-datepicker";
 
 import {
   activeModalAction,
@@ -122,11 +123,11 @@ const ConsultaPazYSalvoScreen = () => {
     dispatch(desactiveModalAction());
   };
 
+  const [startDate, setStartDate] = useState(new Date());
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Consultar paz y salvo </h3>
-
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
@@ -173,7 +174,7 @@ const ConsultaPazYSalvoScreen = () => {
                   <input
                     name="numeroCedula"
                     className="form-control"
-                    type="text"
+                    type="number"
                     placeholder="numero cedula"
                     {...register("numeroCedula", { required: true })}
                   />
@@ -231,6 +232,7 @@ const ConsultaPazYSalvoScreen = () => {
                 title="Send"
                 form="configForm"
               >
+                {" "}
                 Buscar
               </button>
             </div>
@@ -278,7 +280,8 @@ const ConsultaPazYSalvoScreen = () => {
           ) : (
             ""
           )}
-        </form>ç
+        </form>
+        ç
         <BusquedaDePersonalModal
           isModalActive={busquedaPersonalIsActive}
           setIsModalActive={setBusquedaPersonalIsActive}
@@ -328,20 +331,27 @@ const ConsultaPazYSalvoScreen = () => {
                       </div>
                     </div>
 
-                    <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            name="fechaDeImpresion"
-                            className="form-control"
-                            type="text"
-                            placeholder="fecha de impresion"
-                            value="05/10/2022"
-                            disabled
-                          />
-                          <label className="ms-2">Fecha de impresion</label>
-                        </div>
-                      </div>
+                    <div className="col-12 col-md-4">
+                      <label htmlFor="exampleFormControlInput1 mt-4">
+                        Fecha de impresion
+                        <Controller
+                          name="fechaSolicitud"
+                          control={control}
+                          render={({ field }) => (
+                            <DatePicker
+                              {...field}
+                              locale="es"
+                              selected={startDate}
+                              dateFormat="dd/MM/yyyy"
+                              includeDates={[new Date()]}
+                              onChange={(date) => setStartDate(date)}
+                              className="multisteps-form__input form-control p-2"
+                              placeholderText="dd/mm/aaaa"
+                              disabled
+                            />
+                          )}
+                        />
+                      </label>
                     </div>
 
                     <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
@@ -369,7 +379,6 @@ const ConsultaPazYSalvoScreen = () => {
             </div>
           </div>
         </CalendarModal>
-
       </div>
     </div>
   );

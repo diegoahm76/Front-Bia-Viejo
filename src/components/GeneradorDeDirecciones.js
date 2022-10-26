@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import Select from "react-select";
+import MarcaDeAgua1 from "./MarcaDeAgua1";
 
 const customStyles = {
   content: {
@@ -107,6 +108,9 @@ const GeneradorDeDirecciones = ({
   setIsOpenGenerator,
   completeAddress,
   setCompleteAddress,
+  reset,
+  keyReset,
+  totalValuesForm,
 }) => {
   const [numberFields, setNumberFields] = useState(1);
   const [isReset, setIsReset] = useState(false);
@@ -133,6 +137,11 @@ const GeneradorDeDirecciones = ({
       })
       .join("");
     setCompleteAddress(completeAddressWitoutWhiteSpaces);
+    const dataReset = {
+      ...totalValuesForm,
+      [keyReset]: completeAddressWitoutWhiteSpaces,
+    };
+    reset(dataReset);
     setIsOpenGenerator(false);
   };
 
