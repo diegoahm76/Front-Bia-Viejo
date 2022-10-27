@@ -33,8 +33,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
 
   useEffect(() => {
     //console.log("modal editar effect")
-    reset(estacionEditar)
-  }, [estacionEditar])
+    reset(estacionEditar);
+  }, [estacionEditar]);
 
   const onSumbitEstacion = async (data) => {
     const updateEstacion = {
@@ -67,17 +67,16 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
         <hr />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="number"
-                placeholder="OBJECTID"
-                disabled
-                {...register("objectid", { required: true })}
-              />
+            <div className="mt-3">
               <label>
                 OBJECTID: <span className="text-danger">*</span>
               </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="number"
+                disabled
+                {...register("objectid", { required: true })}
+              />
             </div>
             {errors.objectId && (
               <div className="col-12">
@@ -88,16 +87,15 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Estación"
-                {...register("t001nombre", { required: true })}
-              />
+            <div className="mt-3">
               <label>
                 Estación: <span className="text-danger">*</span>
               </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="text"
+                {...register("t001nombre", { required: true })}
+              />
             </div>
             {errors.estacion && (
               <div className="col-12">
@@ -108,16 +106,15 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Coordenada 1"
-                {...register("t001coord1", { required: true })}
-              />
+            <div className="mt-3">
               <label>
                 Coordenada 1: <span className="text-danger">*</span>
               </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="text"
+                {...register("t001coord1", { required: true })}
+              />
             </div>
             {errors.coordenada1 && (
               <div className="col-12">
@@ -128,16 +125,15 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Coordenada 2"
-                {...register("t001coord2", { required: true })}
-              />
+            <div className="mt-3">
               <label>
                 Coordenada 2: <span className="text-danger">*</span>
               </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="text"
+                {...register("t001coord2", { required: true })}
+              />
             </div>
             {errors.coordenada2 && (
               <div className="col-12">

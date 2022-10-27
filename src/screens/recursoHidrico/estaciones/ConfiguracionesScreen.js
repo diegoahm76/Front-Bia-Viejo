@@ -149,14 +149,14 @@ const ConfiguracionesScreen = () => {
           position: "center",
           icon: "error",
           title: "Hubo un error, intenta de nuevo",
-          showConfirmButton: false,
-          timer: 1500,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
         });
       }
     } else {
       try {
         setLoading(true);
-
+        console.log("entro a subir config");
         data.idConfiguracion = 0;
         data.objectid = data.objectid.value.objectid;
         data.t003userMod = nombre_de_usuario;
@@ -178,16 +178,30 @@ const ConfiguracionesScreen = () => {
         resetConfiguracion(defaultValuesResetConfiguration);
         updateConfigs();
       } catch (err) {
-        setIsModalOpen(false);
         console.log(err);
         setLoading(false);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Hubo un error, intenta de nuevo",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        setIsModalOpen(false);
+        if (err.response?.data) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `${err.response.data}, intente con una estación sin configuración`,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              setIsModalOpen(true);
+            }
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Hubo un error, intenta de nuevo",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          });
+        }
       }
     }
   };
@@ -430,47 +444,48 @@ const ConfiguracionesScreen = () => {
                   <div className="d-flex justify-content-center align-items-center gap-2">
                     <label className="mt-3">Estación</label>
                     <div className="col-2">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
+                      <div className="ms-2">
+                        <label className="ms-2 mt-1">Nombre: </label>
                         <input
-                          className="form-control text-center"
+                          className="form-control border rounded-pill px-3 text-center"
                           type="text"
-                          placeholder="t001nombre"
                           readOnly
                           {...registerConfiguracion("t001nombre", {
                             required: typeAction === "crear",
                           })}
                         />
-                        <label className="ms-2">Nombre: </label>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="d-flex justify-content-center align-items-center gap-2">
-                    <label className="form-label">
-                      Estación: <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="objectid"
-                      control={controlConfiguracion}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={estacionesOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
+                  <>
+                    <div className="d-flex justify-content-center align-items-center gap-2">
+                      <label className="form-label">
+                        Estación: <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="objectid"
+                        control={controlConfiguracion}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={estacionesOptions}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
                     {errorsConfiguracion.objectid && (
-                      <div className="col-12">
+                      <div className="col-12 text-center">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
                         </small>
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
                 <div className="d-flex justify-content-start align-items-center gap-2">
                   <label className="mt-5 w-50 text-end">Frecuencia</label>
