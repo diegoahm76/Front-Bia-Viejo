@@ -60,16 +60,15 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
         <hr />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="number"
-                placeholder="OBJECTID"
-                {...register("objectId", { required: true })}
-              />
+            <div className="mt-3">
               <label>
                 OBJECTID: <span className="text-danger">*</span>
               </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="number"
+                {...register("objectId", { required: true })}
+              />
             </div>
             {errors.objectId && (
               <div className="col-12">
@@ -80,16 +79,15 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Estación"
-                {...register("estacion", { required: true })}
-              />
+            <div className="mt-3">
               <label>
                 Estación: <span className="text-danger">*</span>
               </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="text"
+                {...register("estacion", { required: true })}
+              />
             </div>
             {errors.estacion && (
               <div className="col-12">
@@ -100,16 +98,16 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
+            <div className="mt-3">
+              <label>
+                Coordenada 1: <span className="text-danger">*</span>
+              </label>
               <input
-                className="form-control"
+                className="form-control border rounded-pill px-3"
                 type="text"
                 placeholder="Coordenada 1"
                 {...register("coordenada1", { required: true })}
               />
-              <label>
-                Coordenada 1: <span className="text-danger">*</span>
-              </label>
             </div>
             {errors.coordenada1 && (
               <div className="col-12">
@@ -120,16 +118,16 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12">
-            <div className="form-floating input-group input-group-dynamic">
+            <div className="mt-3">
+              <label>
+                Coordenada 2: <span className="text-danger">*</span>
+              </label>
               <input
-                className="form-control"
+                className="form-control border rounded-pill px-3"
                 type="text"
                 placeholder="Coordenada 2"
                 {...register("coordenada2", { required: true })}
               />
-              <label>
-                Coordenada 2: <span className="text-danger">*</span>
-              </label>
             </div>
             {errors.coordenada2 && (
               <div className="col-12">
