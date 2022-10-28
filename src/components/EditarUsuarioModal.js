@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
-import { crearNuevoUsuarioAction } from "../actions/estacionActions";
+import { crearNuevoUsuarioAction, editarUsuarioAction } from "../actions/estacionActions";
+import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 
 const customStyles = {
   content: {
@@ -22,14 +23,19 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
+const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useDispatch();
   const [estacionesOptions, setEstacionesOptions] = useState([]);
-
+  const [formValues, setFormValues] = useState({
+    index_objectid: "",
+  });
+  const { usuarioEditar } = useSelector((state) => state.estaciones);
   const {
     register,
     handleSubmit,
     control,
+    reset,
+    watch,
     formState: { errors },
   } = useForm();
 
@@ -47,15 +53,33 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     getEstaciones();
   }, []);
 
+  const handleResetDataEdit = () => {
+    setFormValues({
+      ...formValues,
+      index_objectid: getIndexBySelectOptions(
+        usuarioEditar?.objectid,
+        estacionesOptions
+      ),
+    });
+    reset(usuarioEditar);
+  };
+
+  useEffect(() => {
+    handleResetDataEdit()
+  }, [usuarioEditar])
+
   const onSumbitEstacion = async (data) => {
-    const nuevoUsuario = {
-      t005Identificacion : data.numeroIdentificacion,
-      objectid: data.estacion.value,
-      t005nombre: data.nombreUsuario,
-      t005numero: data.numeroDeTelefono
+    const editarUsuario = {
+      t005Identificacion : data.t005Identificacion,
+      objectid : estacionesOptions[formValues.index_objectid].value,
+      t005nombre: data.t005nombre,
+      t005numero: data.t005numero,
+      idUsuario: usuarioEditar.idUsuario
     };
 
-    dispatch(crearNuevoUsuarioAction(nuevoUsuario));
+    //console.log("editar", editarUsuario)
+
+    dispatch(editarUsuarioAction(editarUsuario));
 
     setIsModalActive(!isModalActive);
   };
@@ -74,13 +98,13 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
         <hr />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12 mb-3">
-            <label>
+          <label>
               Nombre de usuario: <span className="text-danger">*</span>
             </label>
             <input
               type="text"
               className="form-control border rounded-pill px-3"
-              {...register("nombreUsuario", { required: true })}
+              {...register("t005nombre", { required: true })}
             />
             {errors.nombreUsuario && (
               <div className="col-12">
@@ -95,7 +119,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               Estación: <span className="text-danger">*</span>
             </label>
             <Controller
-              name="estacion"
+              name="objectid"
               control={control}
               rules={{
                 required: true,
@@ -103,13 +127,24 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               render={({ field }) => (
                 <Select
                   {...field}
+                  value={estacionesOptions[formValues.index_objectid]}
+                  onChange={(e) => {
+                    reset({ ...watch(), objectid: e.value });
+                    setFormValues({
+                      ...formValues,
+                      index_objectid: getIndexBySelectOptions(
+                        e.value,
+                        estacionesOptions
+                      ),
+                    });
+                  }}
                   options={estacionesOptions}
                   placeholder="Seleccionar"
                 />
               )}
             />
-            {errors.estacion && (
-              <div className="col-12">
+            {errors.objectid && (
+              <div className="col-12 mb-3">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
                 </small>
@@ -117,13 +152,14 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12 mb-3">
-            <label>
+          <label>
               Numero de identificación: <span className="text-danger">*</span>
             </label>
             <input
               type="number"
+              disabled
               className="form-control border rounded-pill px-3"
-              {...register("numeroIdentificacion", { required: true })}
+              {...register("t005Identificacion", { required: true })}
             />
             {errors.numeroIdentificacion && (
               <div className="col-12">
@@ -141,7 +177,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             <input
               type="number"
               className="form-control border rounded-pill px-3"
-              {...register("numeroDeTelefono", { required: true })}
+              {...register("t005numero", { required: true })}
             />
             {errors.numeroDeTelefono && (
               <div className="col-12">
@@ -173,4 +209,4 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     </Modal>
   );
 };
-export default NuevoUsuarioModal;
+export default EditarUsuarioModal;

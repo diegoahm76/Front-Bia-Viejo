@@ -2,13 +2,13 @@ import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import ModalLocal from "../../../components/ModalLocal";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import Select from "react-select";
 import { useSelector } from "react-redux";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import { formatISO } from "date-fns";
+import ConfiguracionModal from "../../../components/ConfiguracionModal";
 
 const defaultValuesResetConfiguration = {
   t003frecuencia: "",
@@ -149,14 +149,14 @@ const ConfiguracionesScreen = () => {
           position: "center",
           icon: "error",
           title: "Hubo un error, intenta de nuevo",
-          showConfirmButton: false,
-          timer: 1500,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
         });
       }
     } else {
       try {
         setLoading(true);
-
+        console.log("entro a subir config");
         data.idConfiguracion = 0;
         data.objectid = data.objectid.value.objectid;
         data.t003userMod = nombre_de_usuario;
@@ -178,16 +178,30 @@ const ConfiguracionesScreen = () => {
         resetConfiguracion(defaultValuesResetConfiguration);
         updateConfigs();
       } catch (err) {
-        setIsModalOpen(false);
         console.log(err);
         setLoading(false);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Hubo un error, intenta de nuevo",
-          showConfirmButton: false,
-          timer: 2000,
-        });
+        setIsModalOpen(false);
+        if (err.response?.data) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `${err.response.data}, intente con una estación sin configuración`,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              setIsModalOpen(true);
+            }
+          });
+        } else {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Hubo un error, intenta de nuevo",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          });
+        }
       }
     }
   };
@@ -418,7 +432,7 @@ const ConfiguracionesScreen = () => {
             </div>
           </form>
           {isModalOpen && (
-            <ModalLocal localState={isModalOpen}>
+            <ConfiguracionModal localState={isModalOpen}>
               <form
                 className="row p-3"
                 onSubmit={handleSubmitConfiguracion(onSubmitConfiguracion)}
@@ -430,63 +444,63 @@ const ConfiguracionesScreen = () => {
                   <div className="d-flex justify-content-center align-items-center gap-2">
                     <label className="mt-3">Estación</label>
                     <div className="col-2">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
+                      <div className="ms-2">
+                        <label className="ms-2 mt-1">Nombre: </label>
                         <input
-                          className="form-control text-center"
+                          className="form-control border rounded-pill px-3 text-center"
                           type="text"
-                          placeholder="t001nombre"
                           readOnly
                           {...registerConfiguracion("t001nombre", {
                             required: typeAction === "crear",
                           })}
                         />
-                        <label className="ms-2">Nombre: </label>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="d-flex justify-content-center align-items-center gap-2">
-                    <label className="form-label">
-                      Estación: <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="objectid"
-                      control={controlConfiguracion}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={estacionesOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
+                  <>
+                    <div className="d-flex justify-content-center align-items-center gap-2">
+                      <label className="form-label">
+                        Estación: <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="objectid"
+                        control={controlConfiguracion}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={estacionesOptions}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
                     {errorsConfiguracion.objectid && (
-                      <div className="col-12">
+                      <div className="col-12 text-center">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
                         </small>
                       </div>
                     )}
-                  </div>
+                  </>
                 )}
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">Frecuencia</label>
+                  <label className="mt-5 w-50 text-end">Frecuencia</label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2 mt-1">
+                        Valor: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003frecuencia"
                         {...registerConfiguracion("t003frecuencia", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Valor: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003frecuencia && (
                         <div className="col-12">
                           <small
@@ -499,18 +513,20 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>Minutos</label>
+                  <label className="mt-5">Minutos</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">
+                  <label className="mt-5 w-50 text-end">
                     Temperatura ambiente
                   </label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2 mt-1">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003temperaturaAmbienteMax"
                         {...registerConfiguracion(
                           "t003temperaturaAmbienteMax",
                           {
@@ -518,9 +534,6 @@ const ConfiguracionesScreen = () => {
                           }
                         )}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003temperaturaAmbienteMax && (
                         <div className="col-12">
                           <small
@@ -534,11 +547,13 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2 mt-1">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003temperaturaAmbienteMin"
                         {...registerConfiguracion(
                           "t003temperaturaAmbienteMin",
                           {
@@ -546,9 +561,6 @@ const ConfiguracionesScreen = () => {
                           }
                         )}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003temperaturaAmbienteMin && (
                         <div className="col-12">
                           <small
@@ -561,23 +573,22 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>°C</label>
+                  <label className="mt-5">°C</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">Humedad ambiente</label>
+                  <label className="mt-5 w-50 text-end">Humedad ambiente</label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2 mt-1">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003humedadAmbienteMax"
                         {...registerConfiguracion("t003humedadAmbienteMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003humedadAmbienteMax && (
                         <div className="col-12">
                           <small
@@ -591,18 +602,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003humedadAmbienteMin"
                         {...registerConfiguracion("t003humedadAmbienteMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003humedadAmbienteMin && (
                         <div className="col-12">
                           <small
@@ -615,25 +625,24 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>%</label>
+                  <label className="mt-5">%</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">
+                  <label className="mt-5 w-50 text-end">
                     Presión barométrica
                   </label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003presionBarometricaMax"
                         {...registerConfiguracion("t003presionBarometricaMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003presionBarometricaMax && (
                         <div className="col-12">
                           <small
@@ -647,18 +656,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003presionBarometricaMin"
                         {...registerConfiguracion("t003presionBarometricaMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003presionBarometricaMin && (
                         <div className="col-12">
                           <small
@@ -671,25 +679,24 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>hPa</label>
+                  <label className="mt-5">hPa</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">
+                  <label className="mt-5 w-50 text-end">
                     Velocidad del viento
                   </label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003velocidadVientoMax"
                         {...registerConfiguracion("t003velocidadVientoMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003velocidadVientoMax && (
                         <div className="col-12">
                           <small
@@ -703,18 +710,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003velocidadVientoMin"
                         {...registerConfiguracion("t003velocidadVientoMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003velocidadVientoMin && (
                         <div className="col-12">
                           <small
@@ -727,25 +733,24 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>m/s</label>
+                  <label className="mt-5">m/s</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">
+                  <label className="mt-5 w-50 text-end">
                     Dirección del viento
                   </label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003direccionVientoMax"
                         {...registerConfiguracion("t003direccionVientoMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003direccionVientoMax && (
                         <div className="col-12">
                           <small
@@ -759,18 +764,18 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
                         placeholder="t003direccionVientoMin"
                         {...registerConfiguracion("t003direccionVientoMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003direccionVientoMin && (
                         <div className="col-12">
                           <small
@@ -783,23 +788,22 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>°</label>
+                  <label className="mt-5">°</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">Precipitación</label>
+                  <label className="mt-5 w-50 text-end">Precipitación</label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003precipitacionMax"
                         {...registerConfiguracion("t003precipitacionMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003precipitacionMax && (
                         <div className="col-12">
                           <small
@@ -813,18 +817,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003precipitacionMin"
                         {...registerConfiguracion("t003precipitacionMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003precipitacionMin && (
                         <div className="col-12">
                           <small
@@ -837,23 +840,22 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>mm</label>
+                  <label className="mt-5">mm</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3  w-50 text-end">Luminosidad</label>
+                  <label className="mt-5  w-50 text-end">Luminosidad</label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003luminocidadMax"
                         {...registerConfiguracion("t003luminocidadMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003luminocidadMax && (
                         <div className="col-12">
                           <small
@@ -867,18 +869,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003luminocidadMin"
                         {...registerConfiguracion("t003luminocidadMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003luminocidadMin && (
                         <div className="col-12">
                           <small
@@ -891,25 +892,24 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>KLux</label>
+                  <label className="mt-5">KLux</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3  w-50 text-end">
+                  <label className="mt-5  w-50 text-end">
                     Nivel de agua del rio por sensor radar
                   </label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003nivelAguaMax"
                         {...registerConfiguracion("t003nivelAguaMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003nivelAguaMax && (
                         <div className="col-12">
                           <small
@@ -923,18 +923,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003nivelAguaMin"
                         {...registerConfiguracion("t003nivelAguaMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003nivelAguaMin && (
                         <div className="col-12">
                           <small
@@ -947,25 +946,24 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>m</label>
+                  <label className="mt-5">m</label>
                 </div>
                 <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-3 w-50 text-end">
+                  <label className="mt-5 w-50 text-end">
                     Velocidad del agua por radar
                   </label>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Min: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003velocidadAguaMax"
                         {...registerConfiguracion("t003velocidadAguaMax", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003velocidadAguaMax && (
                         <div className="col-12">
                           <small
@@ -979,18 +977,17 @@ const ConfiguracionesScreen = () => {
                     </div>
                   </div>
                   <div className="col-2">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
+                    <div className="ms-2">
+                      <label className="ms-2">
+                        Max: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control text-center"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="t003velocidadAguaMin"
                         {...registerConfiguracion("t003velocidadAguaMin", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
                       {errorsConfiguracion.t003velocidadAguaMin && (
                         <div className="col-12">
                           <small
@@ -1003,7 +1000,7 @@ const ConfiguracionesScreen = () => {
                       )}
                     </div>
                   </div>
-                  <label>m/s</label>
+                  <label className="mt-5">m/s</label>
                 </div>
                 <div className="d-flex justify-content-end gap-2 mt-3">
                   <button
@@ -1050,7 +1047,7 @@ const ConfiguracionesScreen = () => {
                   </button>
                 </div>
               </form>
-            </ModalLocal>
+            </ConfiguracionModal>
           )}
         </div>
       </div>
