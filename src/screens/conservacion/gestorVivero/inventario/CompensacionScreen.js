@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-// import "react-quill/dist/quill.snow.css";
-=======
->>>>>>> main
 import Select from "react-select";
 import { AgGridReact } from 'ag-grid-react';
 import React, { useRef, useState, } from 'react';
@@ -85,35 +81,18 @@ const CompensacionScreen = () => {
     <div className="row min-vh-100">
       <div className="col-lg-10 col-md-10 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Inventario conservación</h3>
-<<<<<<< HEAD
-        {/* <p className="lead font-weight-normal opacity-8 mb-7 text-center">
-          This information will let us know more about you.
-        </p> */}
-        <div className="card">
-          {/* <div className="card-body"> */}
-          <form className="multisteps-form__form">
-            {/* <!--single form panel--> */}
-=======
         <div className="card">
           <form className="multisteps-form__form">
->>>>>>> main
             <div
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
             >
 
               <div className="multisteps-form__content">
-<<<<<<< HEAD
-                <div class="row">
-
-                  <div className="col-6 col-sm-4 mt-3">
-                    <label>Seleccione vivero </label>
-=======
                 <div className="row">
 
                   <div className="col-6 col-sm-4 mt-3">
                     <label htmlFor="selectVivero">Seleccione vivero </label>
->>>>>>> main
                     <Select
                       defaultValue={selectedCategory}
                       onChange={(e) => setSelectedCategory(e.label)}
@@ -123,15 +102,9 @@ const CompensacionScreen = () => {
 
                   </div>
                   <div className="col-12 col-sm-4 mt-5">
-<<<<<<< HEAD
-                    <button
-                      onClick={handleClickSearch}
-                      className="btn bg-gradient-primary"
-=======
                     <button 
                       onClick={handleClickSearch}
                       className="border rounded-pill px-3 btn bg-gradient-primary"
->>>>>>> main
                       type="button"
                     >Buscar</button>
                   </div>
@@ -139,18 +112,6 @@ const CompensacionScreen = () => {
                   <div className="col-6 col-sm-4 ms-auto mb-0">
                     <label className="form-control  ms-0">
                       Ver documentación de la compensacion seleccionada
-<<<<<<< HEAD
-                      <div className="button-row d-flex  ">
-
-                        <button
-                          className="btn bg-gradient-info "
-                          type="button"
-                          class="btn btn-info btn-sm mb-0"
-                        >
-                          Ver documento
-                        </button>
-
-=======
                       <div className="button-row d-flex">
                         <button
                           type="button"
@@ -158,52 +119,27 @@ const CompensacionScreen = () => {
                         >
                           Ver documento
                         </button>
->>>>>>> main
                       </div>
                     </label>
                   </div>
                 </div>
                 <div>
-<<<<<<< HEAD
-                  <div className="ag-theme-alpine mt-auto mb-5 px-1" style={{ height: '470px' }}>
-=======
                   <div className="ag-theme-alpine mt-auto mb-3 px-auto" style={{ height: '470px' }}>
->>>>>>> main
                     <AgGridReact
                       columnDefs={columnDefs}
                       rowData={dataRowFilter}
                       defaultColDef={defaultColDef}
                       onGridReady={onGridReady}
                     >
-<<<<<<< HEAD
-
-                    </AgGridReact>
-                    <div className="d-flex justify-content-end px-2">
-                      <label>Total </label>
-=======
                     </AgGridReact>
                     <div className="d-flex justify-content-end px-2">
                       <label htmlFor="totalGrid">Total </label>
->>>>>>> main
                       <input className="text-center" type="text" id="name" name="name" disabled="true" value={totalPlantas()} ></input>
                     </div>
                   </div>
                 </div>
-<<<<<<< HEAD
-
-                <div className="col-4 col-sm-4">
-
-
-
-
-                </div>
-
-
-                {/**Primera Tablas*/}
-=======
                 <div className="col-4 col-sm-4">
                 </div>
->>>>>>> main
               </div>
             </div>
           </form>

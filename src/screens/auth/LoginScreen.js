@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
-import LogoCormacarena from "../../assets/logos/eps/LogoHorizontal_mod.svg";
+import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
 import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
@@ -92,7 +92,7 @@ function LoginScreen() {
                       placeholder="Emaill"
                       {...register("email")}
                     />
-                    <label className="ms-2">Email</label>
+                    <label>Email</label>
                   </div>
                   <div className="form-floating input-group input-group-dynamic mt-3">
                     <input
@@ -101,7 +101,7 @@ function LoginScreen() {
                       placeholder="Password"
                       {...register("password")}
                     />
-                    <label className="ms-2">Contraseña</label>
+                    <label>Contraseña</label>
                   </div>
                   <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const clienteEstaciones = axios.create({
-  baseURL: "http://isamc2022-001-site1.itempurl.com/",
+  baseURL: "https://microserv.net/",
 });
 
 export default clienteEstaciones;

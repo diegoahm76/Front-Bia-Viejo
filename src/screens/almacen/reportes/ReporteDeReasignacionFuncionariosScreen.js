@@ -7,6 +7,7 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const ReporteDeReasignacionFuncionariosScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
@@ -129,287 +130,296 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <div className="row">
-            <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
-                <input
-                  name="consecutivo"
-                  className="form-control"
-                  type="text"
-                  placeholder="numero consecutivo"
-                  {...register("consecutivo", { required: true })}
-                />
-                <label className="ms-2">Numero consecutivo</label>
+          <MarcaDeAgua1>
+            <div className="row">
+              <div className="col-12 col-md-4">
+                <div className="form-floating input-group input-group-dynamic">
+                  <input
+                    name="consecutivo"
+                    className="form-control"
+                    type="text"
+                    placeholder="numero consecutivo"
+                    {...register("consecutivo", { required: true })}
+                  />
+                  <label className="ms-2">Numero consecutivo</label>
+                </div>
+                {errors.consecutivo && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </div>
-              {errors.consecutivo && (
-                <small className="text-danger">Este campo es obligatorio</small>
-              )}
-            </div>
 
-            <div className="col-12 col-md-4">
-              <label htmlFor="exampleFormControlInput1 mt-4">
-                Fecha de reasiganacion
-                <Controller
-                  name="fechaSolicitud"
-                  control={control}
-                  render={({ field }) => (
-                    <DatePicker
-                      {...field}
-                      locale="es"
-                      selected={startDate}
-                      dateFormat="dd/MM/yyyy"
-                      includeDates={[new Date()]}
-                      onChange={(date) => setStartDate(date)}
-                      className="multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
-                    />
-                  )}
-                />
-              </label>
-            </div>
+              <div className="col-12 col-md-4">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha de reasiganacion
+                  <Controller
+                    name="fechaSolicitud"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="multisteps-form__input form-control p-2"
+                        placeholderText="dd/mm/aaaa"
+                      />
+                    )}
+                  />
+                </label>
+              </div>
 
-            <div className="col-12 col-md-4">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                  type="submit"
-                  title="Send"
-                  form="configForm"
-                >
-                  Buscar
-                </button>
+              <div className="col-12 col-md-4">
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <button
+                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          {selecOpciones.consecutivo ? (
-            <div>
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>Reporte de reasignacion de activos </n>
+            {selecOpciones.consecutivo ? (
+              <div>
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <label className="form-control ms-0 fw-bolder text-center mt-4">
+                      <n>Reporte de reasignacion de activos </n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Quien entrega</n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="C.C"
+                          disabled
+                        />
+                        <label className="ms-2">Tipo de documento </label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="1.243.675.654"
+                          disabled
+                        />
+                        <label className="ms-2">Numero de documento</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Julian Castillo"
+                          disabled
+                        />
+                        <label className="ms-2">Nombre</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <label className="form-control ms-0 fw-bolder text-center">
+                      <n>Quien recibe</n>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="multisteps-form__content">
+                  <div className="row">
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="C.C"
+                          disabled
+                        />
+                        <label className="ms-2">Tipo de documento </label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="1.745.847.444"
+                          disabled
+                        />
+                        <label className="ms-2">Numero de documento</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Jusus Cruz"
+                          disabled
+                        />
+                        <label className="ms-2">Nombre</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="input-group input-group-dynamic flex-column mt-3">
+                  <label htmlFor="exampleFormControlInput1 ">
+                    Observaciones
                   </label>
+                  <textarea
+                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                    type="text"
+                    placeholder="Observaciones"
+                    rows="3"
+                    name="Observaciones"
+                    value="eeLorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
+                    disabled
+                  />
                 </div>
-              </div>
 
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Quien entrega</n>
-                  </label>
-                </div>
-              </div>
-
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="C.C"
-                        disabled
-                      />
-                      <label className="ms-2">Tipo de documento </label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="1.243.675.654"
-                        disabled
-                      />
-                      <label className="ms-2">Numero de documento</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="Julian Castillo"
-                        disabled
-                      />
-                      <label className="ms-2">Nombre</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="multisteps-form__content">
                 <div className="mt-4 row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Quien recibe</n>
-                  </label>
-                </div>
-              </div>
-
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="C.C"
-                        disabled
-                      />
-                      <label className="ms-2">Tipo de documento </label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="1.745.847.444"
-                        disabled
-                      />
-                      <label className="ms-2">Numero de documento</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="Jusus Cruz"
-                        disabled
-                      />
-                      <label className="ms-2">Nombre</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="Observaciones"
-                  rows="3"
-                  name="Observaciones"
-                  value="eeLorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
-                  disabled
-                />
-              </div>
-
-              <div className="mt-4 row">
-                <div id="myGrid" className="ag-theme-alpine">
-                  <div className="ag-theme-alpine" style={{ height: "400px" }}>
-                    <AgGridReact
-                      columnDefs={columnDefs}
-                      rowData={rowData}
-                      defaultColDef={defaultColDef}
-                      onGridReady={onGridReady}
-                    ></AgGridReact>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-12 col-md-4">
-                  <div className="d-flex flex-column justify-content-end align-items-start mt-5">
-                    <label>
-                      {" "}
-                      _____________________________________________
-                    </label>
-                    <div className="d-flex justify-content-center align-items-center">
-                      <label>Firma del almacenista</label>
-                    </div>
-                    <div className="d-flex justify-content-start align-items-center">
-                      <label>Nombre:</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-md-2"></div>
-                <div className="col-12 col-md-4">
-                  <div className="d-flex flex-column justify-content-end align-items-start mt-5">
-                    <label>
-                      {" "}
-                      _____________________________________________
-                    </label>
-                    <div className="d-flex justify-content-center align-items-center">
-                      <label>Firma del funcionario</label>
-                    </div>
-                    <div className="d-flex justify-content-start align-items-center">
-                      <label>Nombre:</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="d-flex flex-column justify-content-end align-items-end">
-                <div className="row">
-                  <div className="col-12 col-md-12">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="nombreQuienImprime"
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre del articulo"
-                        value="Julian Castillo"
-                        disabled
-                      />
-                      <label className="ms-2">Nombre quien imprime</label>
+                  <div id="myGrid" className="ag-theme-alpine">
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "400px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnDefs}
+                        rowData={rowData}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
                     </div>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-12 col-md-12">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        name="fechaDeImpresion"
-                        className="form-control"
-                        type="text"
-                        placeholder="fecha de impresion"
-                        value="05/10/2022"
-                        disabled
-                      />
-                      <label className="ms-2">Fecha de impresion</label>
+                  <div className="col-12 col-md-4">
+                    <div className="d-flex flex-column justify-content-end align-items-start mt-5">
+                      <label>
+                        {" "}
+                        _____________________________________________
+                      </label>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <label>Firma del almacenista</label>
+                      </div>
+                      <div className="d-flex justify-content-start align-items-center">
+                        <label>Nombre:</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-2"></div>
+                  <div className="col-12 col-md-4">
+                    <div className="d-flex flex-column justify-content-end align-items-start mt-5">
+                      <label>
+                        {" "}
+                        _____________________________________________
+                      </label>
+                      <div className="d-flex justify-content-center align-items-center">
+                        <label>Firma del funcionario</label>
+                      </div>
+                      <div className="d-flex justify-content-start align-items-center">
+                        <label>Nombre:</label>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="row">
-                <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button
-                    className="btn bg-gradient-primary mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Imprimir
-                  </button>
-                  <button
-                    className="btn bg-gradient-danger mb-0"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Salir
-                  </button>
+                <div className="d-flex flex-column justify-content-end align-items-end">
+                  <div className="row">
+                    <div className="col-12 col-md-12">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          name="nombreQuienImprime"
+                          className="form-control"
+                          type="text"
+                          placeholder="Nombre del articulo"
+                          value="Julian Castillo"
+                          disabled
+                        />
+                        <label className="ms-2">Nombre quien imprime</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-12 col-md-12">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          name="fechaDeImpresion"
+                          className="form-control"
+                          type="text"
+                          placeholder="fecha de impresion"
+                          value="05/10/2022"
+                          disabled
+                        />
+                        <label className="ms-2">Fecha de impresion</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                    <button
+                      className="btn bg-gradient-primary mb-0"
+                      type="button"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Imprimir
+                    </button>
+                    <button
+                      className="btn bg-gradient-danger mb-0"
+                      type="button"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Salir
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+            )}
+          </MarcaDeAgua1>
         </form>
       </div>
     </div>
