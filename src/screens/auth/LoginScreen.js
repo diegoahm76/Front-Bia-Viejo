@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
-import LogBackground from "../../assets/logos/Macareniaa.jpg";
+// import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -52,56 +52,55 @@ function LoginScreen() {
     <div
       className="page-header align-items-start min-vh-100"
       style={{
-        backgroundImage: `url(${LogBackground})`,
+        backgroundColor: "rgb(4,47,74)",
       }}
     >
-      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row">
           <div className="col-lg-4 col-md-8 col-12 mx-auto">
-            <div className="card z-index-0 fadeIn3 fadeInBottom">
-              <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div className="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                  <h4 className="text-white font-weight-bolder text-center mt-2 mb-0">
-                    Cormacarena
-                  </h4>
-                </div>
-              </div>
+            <div
+              className="card fadeIn3 fadeInBottom"
+              style={{
+                backgroundColor: "rgb(4,47,74)",
+                border: "none",
+                boxShadow: "none",
+              }}
+            >
+              <img src={LogoCormacarena} alt="logo cormacarena" />
+            </div>
+            <div
+              className="card z-index-0 fadeIn3 fadeInBottom"
+              style={{
+                borderRadius: "0",
+                borderTopLeftRadius: "40px",
+                borderTopRightRadius: "40px",
+                background:
+                  "linear-gradient(360deg, rgba(4,47,74,1) 0%, rgba(0,178,0,1) 32%, rgba(0,191,235,1) 100%)",
+                boxShadow: "none",
+              }}
+            >
               <div className="card-body">
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    src={LogoCormacarena}
-                    alt="Logo-Cormacarena"
-                    style={{ maxWidth: "40%", maxHeight: "40%" }}
-                  />
-                </div>
                 <form
                   className="text-start"
                   onSubmit={handleSubmit(submitHandler)}
                 >
-                  <div className="form-floating input-group input-group-dynamic mt-3">
+                  <div className="col-12 mb-3 mt-3">
+                    <label className="text-white fw-lighter fs-5">Email</label>
                     <input
                       type="email"
-                      className="form-control"
-                      placeholder="Emaill"
+                      className="form-control border rounded-pill px-3 bg-white border border-0"
                       {...register("email")}
                     />
-                    <label>Email</label>
                   </div>
-                  <div className="form-floating input-group input-group-dynamic mt-3">
+                  <div className="col-12 mb-3 mt-3">
+                    <label className="text-white fw-lighter fs-5">
+                      Contraseña
+                    </label>
                     <input
                       type="password"
-                      className="form-control"
-                      placeholder="Password"
+                      className="form-control border rounded-pill px-3 bg-white border border-0"
                       {...register("password")}
                     />
-                    <label>Contraseña</label>
                   </div>
                   <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha
@@ -110,24 +109,37 @@ function LoginScreen() {
                       hl="es"
                     />
                   </div>
-                  <div className="text-center">
+                  <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn bg-gradient-primary w-100 my-4 mb-2"
+                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal"
                     >
                       Iniciar sesión
                     </button>
                   </div>
                 </form>
-                <nav className="mt-3 d-flex flex-column text-center">
-                  <small>
+                <div className="d-flex justify-content-around my-3 mb-2">
+                  <Link className="text-white" to="/register">
+                    <p>Registro persona</p>
+                  </Link>
+                  <Link className="text-white" to="/registeruser">
+                    <p>Registro usuario</p>
+                  </Link>
+                </div>
+                <div className="d-flex justify-content-center mb-4">
+                  <Link className="text-white" to="/register">
+                    <p>Olvidó su contraseña</p>
+                  </Link>
+                </div>
+                {/* <nav className="mt-3 d-flex flex-column text-center">
+                  <small className="text-white">
                     Registrarse como <Link to="/register">Persona</Link> o{" "}
                     <Link to="/registeruser">Usuario</Link>
                   </small>
                   <Link to="/recuperar-contrasena">
-                    <small>Olvide mi contraseña</small>
+                    <small className="text-white">Olvide mi contraseña</small>
                   </Link>
-                </nav>
+                </nav> */}
               </div>
             </div>
           </div>

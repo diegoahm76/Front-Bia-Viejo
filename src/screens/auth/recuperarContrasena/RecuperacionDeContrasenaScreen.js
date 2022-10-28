@@ -59,11 +59,11 @@ const RecuperacionDeContrasenaScreen = () => {
                     Escriba el correo electronico relacionado a su usuario para
                     recuperar su contraseña
                   </label>
-                  <div className="form-floating input-group input-group-dynamic">
+                  <div className="mt-3">
+                    <label className="ms-2">Correo electronico</label>
                     <input
                       type="email"
-                      className="form-control"
-                      placeholder="email"
+                      className="form-control border rounded-pill px-3"
                       {...register("email", {
                         required: {
                           value: true,
@@ -76,7 +76,6 @@ const RecuperacionDeContrasenaScreen = () => {
                         },
                       })}
                     />
-                    <label className="ms-2">Correo electronico</label>
                   </div>
                   {errors.email && (
                     <small className="text-danger">

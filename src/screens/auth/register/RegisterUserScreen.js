@@ -40,11 +40,19 @@ const RegisterUserScreen = () => {
 
   const onSubmit = async (data) => {
     try {
+      console.log(data);
       /*
        *Petición para verificación existencia de persona
        */
-      const { data: dataPersona } = await clienteAxios.get(
-        `personas/get-by-document/${data?.numeroDocumento}`
+      const { data: dataPersonaObject } = await clienteAxios.get(
+        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
+      );
+
+      const { data: dataPersona } = dataPersonaObject;
+
+      console.log(
+        "Estos son los datos que devuelve la busqueda de la persona",
+        dataPersona
       );
 
       //console.log("dataPersona", dataPersona.id_persona)
@@ -80,6 +88,8 @@ const RegisterUserScreen = () => {
           "Content-type": "application/json",
         },
       };
+
+      console.log("Este es el usuario", user);
 
       const { data: userRegister } = await clienteAxios.post(
         "users/register/",
@@ -194,18 +204,16 @@ const RegisterUserScreen = () => {
                   </small>
                 )}
                 <div className="col-12">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      //required
-                      placeholder="Numero de documento"
-                      {...register("numeroDocumento", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Número de documento:{" "}
                       <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      {...register("numeroDocumento", { required: true })}
+                    />
                   </div>
                 </div>
                 {errors.numeroDocumento && (
@@ -214,16 +222,15 @@ const RegisterUserScreen = () => {
                   </small>
                 )}
                 <div className="col-12">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Nombre de usuario"
-                      {...register("nombreDeUsuario", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Nombre de usuario: <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      {...register("nombreDeUsuario", { required: true })}
+                    />
                   </div>
                   {errors.nombreDeUsuario && (
                     <small className="text-danger">
@@ -233,16 +240,15 @@ const RegisterUserScreen = () => {
                 </div>
 
                 <div className="col-12">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="password"
-                      placeholder="Contraseña"
-                      {...register("password", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Contraseña: <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="password"
+                      {...register("password", { required: true })}
+                    />
                   </div>
                   {errors.password && (
                     <small className="text-danger">
@@ -252,17 +258,16 @@ const RegisterUserScreen = () => {
                 </div>
 
                 <div className="col-12">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="password"
-                      placeholder="Contraseña"
-                      {...register("password2", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Confirmar contraseña:{" "}
                       <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="password"
+                      {...register("password2", { required: true })}
+                    />
                   </div>
                   {errors.password && (
                     <small className="text-danger">

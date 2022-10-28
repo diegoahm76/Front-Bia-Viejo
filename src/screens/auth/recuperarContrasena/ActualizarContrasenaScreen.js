@@ -89,11 +89,11 @@ const ActualizarContrasenaScreen = () => {
                       Las contraseñas deben coincidir
                     </small>
                   )}
-                  <div className="form-floating input-group input-group-dynamic mt-3">
+                  <div className="mt-3">
+                    <label className="ms-2">Nueva contraseña</label>
                     <input
                       type="password"
-                      className="form-control"
-                      placeholder="Password"
+                      className="form-control border rounded-pill px-3"
                       {...register("password", {
                         required: {
                           value: true,
@@ -106,7 +106,6 @@ const ActualizarContrasenaScreen = () => {
                         },
                       })}
                     />
-                    <label className="ms-2">Nueva contraseña</label>
                   </div>
                   {errors.password && (
                     <small className="text-danger">
@@ -114,11 +113,11 @@ const ActualizarContrasenaScreen = () => {
                     </small>
                   )}
 
-                  <div className="form-floating input-group input-group-dynamic mt-3">
+                  <div className="mt-3">
+                    <label className="ms-2">Confirme su contraseña</label>
                     <input
                       type="password"
-                      className="form-control"
-                      placeholder="Password2"
+                      className="form-control border rounded-pill px-3"
                       {...register("password2", {
                         required: {
                           value: true,
@@ -131,7 +130,6 @@ const ActualizarContrasenaScreen = () => {
                         },
                       })}
                     />
-                    <label className="ms-2">Confirme su contraseña</label>
                   </div>
                   {errors.password2 && (
                     <small className="text-danger">
