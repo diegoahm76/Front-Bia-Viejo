@@ -5,182 +5,166 @@ import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import Collapse from "react-bootstrap";
-
-
-
-
-
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 export const VisualizarArticulosScreen = () => {
-
-const [marca, setMarca] = useState({})
-const opcMarca = [
+  const [marca, setMarca] = useState({});
+  const opcMarca = [
     { label: "Lenovo", value: "LE" },
     { label: "ASUS", value: "AS" },
     { label: "Acer", value: "AC" },
     { label: "TOSHIBA", value: "TO" },
-    {label:"HP/Hewlett Packard",value:"HP"},
-];
-    
-    const {
-        register,
-        setError,
-        handleSubmit,
-        control,
-        formState: { errors },
-      } = useForm();
+    { label: "HP/Hewlett Packard", value: "HP" },
+  ];
 
-      
-      const submit = (data) => {
-        setMarca({ options: data.options });
-      };
+  const {
+    register,
+    setError,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
-    return (
-   
-<div className="row min-vh-100">
-        <div className="col-lg-12 col-md-10 col-12 mx-auto">
-          <h3 className="mt-3 mb-0 text-center mb-6">Visualizar articulos</h3>
-          <form
-            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-            data-animation="FadeIn"
-            onSubmit={handleSubmit(submit)}
-            id="configForm"
-          >
+  const submit = (data) => {
+    setMarca({ options: data.options });
+  };
+
+  return (
+    <div className="row min-vh-100">
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
+        <h3 className="mt-3 mb-0 text-center mb-6">Visualizar articulos</h3>
+        <form
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          data-animation="FadeIn"
+          onSubmit={handleSubmit(submit)}
+          id="configForm"
+        >
+          <MarcaDeAgua1>
             <div className="row">
-            <label className="form-control ms-0 fw-bolder text-center">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                 Informacion del Articulo
               </label>
-             </div> 
-             <div className="row">
+            </div>
+            <div className="row">
               <div className="col-12 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Consecutivo"
-                      {...register("businessTel")}
-                    />
-                    <label>Codigo:</label>
-                  </div>
-                </div>
-                <div className="col-12 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Consecutivo"
-                      {...register("businessTel")}
-                    />
-                    <label>Nombre: </label>
-                  </div>
-                </div>
-                <div className=" col-12 col-md-4 mt-4 d-flex justify-content-end gap-4">
-          <button
-                type="button"
-                className="btn btn-primary text-capitalize "
-              >
-            Ver H/V
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary text-capitalize "
-              >
-                Crear H/V
-              </button>
-              <button
-                type="button"
-                className="btn btn-danger text-capitalize "
-              >
-                Borrar
-              </button>
-              </div>
-              
-                </div>
-                <div className="row">
-                <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Consecutivo"
-                      {...register("businessTel")}
-                    />
-                    <label>Codigo de barras / QR: </label>
-                  </div>
-                  </div>
-                  <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Consecutivo"
-                      {...register("businessTel")}
-                    />
-                    <label>Serial / Placa: </label>
-                  </div>
-                  </div>
-                  <div className="col-12 col-md-4">
-                  <label className="form-control ms-0">
-                    Marca:{" "}
-                  </label>
-                  <Controller
-                    name="options"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcMarca}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                <label>Codigo:</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Codigo"
+                    {...register("id")}
                   />
-                  {errors.options && (
-                    <p className=" form-control ms-0 text-danger">
-                      Este campo es obligatorio
-                    </p>
-                  )}
-                </div>
-                </div>
-                <div className="row">
-                <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
-                    <textarea
-                      className="form-control"
-                      type="tel"
-                      placeholder="Consecutivo"
-                      {...register("businessTel")}
+                  
+                
+              </div>
+              <div className="col-12 col-md-4 mt-4">
+                  <label>Nombre: </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Nombre"
+                    {...register("nombre")}
+                  />
+                
+                
+              </div>
+              <div className=" col-12 col-md-4 mt-4 d-flex justify-content-end gap-4">
+                <button
+                  type="button"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
+                >
+                  Ver H/V
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary text-capitalize border rounded-pill px-3"
+                >
+                  Crear H/V
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger text-capitalize border rounded-pill px-3"
+                >
+                  Borrar
+                </button>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-4 mt-4">
+                <label>Codigo de barras / QR: </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="float"
+                    placeholder="Codigo de barras / QR"
+                    {...register("codigoDeBarra")}
+                  />
+                  
+                
+              </div>
+              <div className="col-12 col-md-4 mt-4">
+                <label>Serial / Placa: </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="num"
+                    placeholder="Serial/Placa"
+                    {...register("serial")}
+                  />
+                  
+                
+              </div>
+              <div className="col-12 col-md-4">
+                <label className="form-control ms-0">Marca: </label>
+                <Controller
+                  name="options"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={opcMarca}
+                      placeholder="Seleccionar"
                     />
-                    <label>Observaciones: </label>
-                  </div>
-                  </div>
-                  </div>
-<div className="row">
-                  <div className="d-flex justify-content-end gap-4">
-          <button
-                type="button"
-                className="btn btn-primary text-capitalize "
-              >
-            Guardar
-              </button>
-                  </div>
-                </div>
+                  )}
+                />
+                {errors.options && (
+                  <p className=" form-control ms-0 text-danger">
+                    Este campo es obligatorio
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-4 mt-4">
+                <label >Observaciones: </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Observaciones"
+                    {...register("observaciones")}
+                  />
+                  
+                
+              </div>
+            </div>
+            <div className="row">
+              <div className="d-flex justify-content-end gap-4">
+                <button
+                  type="button"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
 
-                <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
+            <div className="row">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                 Articulos
               </label>
-                </div>
-                <div>
-
-                
-                </div>
-            
-      </form>
+            </div>
+          </MarcaDeAgua1>
+        </form>
       </div>
-      </div>
-
-
-
-  )
-}
+    </div>
+  );
+};

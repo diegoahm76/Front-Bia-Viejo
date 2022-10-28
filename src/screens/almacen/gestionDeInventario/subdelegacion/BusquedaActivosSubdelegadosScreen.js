@@ -9,11 +9,9 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
-
-
+import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
 
 const BusquedaActivosSubdelegadosScreen = () => {
-
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
     useState(false);
   const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
@@ -29,7 +27,12 @@ const BusquedaActivosSubdelegadosScreen = () => {
 
   const gridRef = useRef();
 
-  const { register, control, handleSubmit, formState: { errors }, } = useForm();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     setSelecOpciones({
@@ -61,19 +64,72 @@ const BusquedaActivosSubdelegadosScreen = () => {
     { label: "desplazado", value: "DZ" },
     { label: "Others", value: "OT" },
   ];
-  const defaultColDef = { sortable: true, flex: 1, filter: true, wrapHeaderText: true, resizable: true, initialWidth: 200, autoHeaderHeight: true, suppressMovable: true }
+  const defaultColDef = {
+    sortable: true,
+    flex: 1,
+    filter: true,
+    wrapHeaderText: true,
+    resizable: true,
+    initialWidth: 200,
+    autoHeaderHeight: true,
+    suppressMovable: true,
+  };
   const onGridReady = (params) => {
-    gridApi = params.api
-  }
+    gridApi = params.api;
+  };
 
-  let gridApi
+  let gridApi;
   const rowData = [
-    { CO: 16002, NE: "Computador", MR: "Accer", SL: "g3ub3h", ID: "00022", SUB: "Alejandro Pineda", GRU: "Almacén", FECH: "00/00/0000" },
-    { CO: 16002, NE: "Computador", MR: "Accer", SL: "g3ub3h", ID: "00022", SUB: "Alejandro Pineda", GRU: "Almacén", FECH: "00/00/0000" },
-    { CO: 16002, NE: "Computador", MR: "Accer", SL: "g3ub3h", ID: "00022", SUB: "Alejandro Pineda", GRU: "Almacén", FECH: "00/00/0000" },
-    { CO: 16002, NE: "Computador", MR: "Accer", SL: "g3ub3h", ID: "00022", SUB: "Alejandro Pineda", GRU: "Almacén", FECH: "00/00/0000" },
-    { CO: 16002, NE: "Computador", MR: "Accer", SL: "g3ub3h", ID: "00022", SUB: "Alejandro Pineda", GRU: "Almacén", FECH: "00/00/0000" },
-
+    {
+      CO: 16002,
+      NE: "Computador",
+      MR: "Accer",
+      SL: "g3ub3h",
+      ID: "00022",
+      SUB: "Alejandro Pineda",
+      GRU: "Almacén",
+      FECH: "00/00/0000",
+    },
+    {
+      CO: 16002,
+      NE: "Computador",
+      MR: "Accer",
+      SL: "g3ub3h",
+      ID: "00022",
+      SUB: "Alejandro Pineda",
+      GRU: "Almacén",
+      FECH: "00/00/0000",
+    },
+    {
+      CO: 16002,
+      NE: "Computador",
+      MR: "Accer",
+      SL: "g3ub3h",
+      ID: "00022",
+      SUB: "Alejandro Pineda",
+      GRU: "Almacén",
+      FECH: "00/00/0000",
+    },
+    {
+      CO: 16002,
+      NE: "Computador",
+      MR: "Accer",
+      SL: "g3ub3h",
+      ID: "00022",
+      SUB: "Alejandro Pineda",
+      GRU: "Almacén",
+      FECH: "00/00/0000",
+    },
+    {
+      CO: 16002,
+      NE: "Computador",
+      MR: "Accer",
+      SL: "g3ub3h",
+      ID: "00022",
+      SUB: "Alejandro Pineda",
+      GRU: "Almacén",
+      FECH: "00/00/0000",
+    },
   ];
   const columnDefs = [
     { headerName: "Código", field: "CO", minWidth: 150 },
@@ -84,9 +140,7 @@ const BusquedaActivosSubdelegadosScreen = () => {
     { headerName: "Subdelegado", field: "SUB", minWidth: 150 },
     { headerName: "Grupo", field: "GRU", minWidth: 150 },
     { headerName: "Fecha asignada", field: "FECH", minWidth: 150 },
-
-
-  ]
+  ];
 
   return (
     <div className="row min-vh-100">
@@ -94,12 +148,13 @@ const BusquedaActivosSubdelegadosScreen = () => {
         <h3 className="mt-3 mb-0 text-center mb-6">
           Busqueda de activos a subdelegados
         </h3>
-          <form
-            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-            data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
-            id="configForm"
-          >
+        <form
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          data-animation="FadeIn"
+          onSubmit={handleSubmit(onSubmit)}
+          id="configForm"
+        >
+          <MarcaDeAgua1>
             <h5 className="font-weight-bolder">Activos</h5>
             <div className="multisteps-form__content">
               <div className="row">
@@ -112,7 +167,8 @@ const BusquedaActivosSubdelegadosScreen = () => {
                     <div className="col-12 ">
                       <Controller
                         name="tipoDocumento2"
-                        control={control} rules={{
+                        control={control}
+                        rules={{
                           required: true,
                         }}
                         render={({ field }) => (
@@ -122,9 +178,9 @@ const BusquedaActivosSubdelegadosScreen = () => {
                             placeholder="Seleccionar"
                           />
                         )}
-                      /></div>
+                      />
+                    </div>
                   </label>
-
                 </div>
                 <div className="col-12 col-sm-4">
                   <div className="form-floating input-group input-group-dynamic ">
@@ -162,14 +218,16 @@ const BusquedaActivosSubdelegadosScreen = () => {
               </div>
 
               <div className="row mt-3">
-                <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '275px' }}>
+                <div
+                  className="ag-theme-alpine mt-auto mb-4 px-4"
+                  style={{ height: "275px" }}
+                >
                   <AgGridReact
                     columnDefs={columnDefs}
                     rowData={rowData}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
-                  >
-                  </AgGridReact>
+                  ></AgGridReact>
                 </div>
               </div>
 
@@ -183,19 +241,19 @@ const BusquedaActivosSubdelegadosScreen = () => {
                 </button>
               </div>
             </div>
+          </MarcaDeAgua1>
+        </form>
+        <BusquedaDePersonalModal
+          isModalActive={busquedaPersonalIsActive}
+          setIsModalActive={setBusquedaPersonalIsActive}
+        />
 
-          </form>
-          <BusquedaDePersonalModal
-            isModalActive={busquedaPersonalIsActive}
-            setIsModalActive={setBusquedaPersonalIsActive}
-          />
-
-          <BusquedaArticuloModal
-            isModalActive={busquedaArticuloIsActive}
-            setIsModalActive={setBusquedaArticuloIsActive}
-          />
-        </div >
-      </div >
+        <BusquedaArticuloModal
+          isModalActive={busquedaArticuloIsActive}
+          setIsModalActive={setBusquedaArticuloIsActive}
+        />
+      </div>
+    </div>
   );
 };
 export default BusquedaActivosSubdelegadosScreen;

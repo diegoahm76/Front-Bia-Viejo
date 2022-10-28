@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
-
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const SalidaArticulosScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -130,7 +130,10 @@ const SalidaArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-secondary text-capitalize" type="button">
+          <button
+            className="btn btn-2 btn-primary text-capitalize"
+            type="button"
+          >
             Agregar
           </button>
         </div>
@@ -244,7 +247,10 @@ const SalidaArticulosScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-danger text-capitalize" type="button">
+          <button
+            className="btn btn-2 btn-danger text-capitalize"
+            type="button"
+          >
             Borrar
           </button>
         </div>
@@ -304,122 +310,189 @@ const SalidaArticulosScreen = () => {
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
-          <div className={"row"} hidden={page === 2}>
-            <div className={"row"}>
-              <label className="form-control ms-0 fw-bolder text-center">
-                Datos generales
-              </label>
-              <div className="row">
-                <div className="col-12 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Consecutivo"
-                      {...register("businessTel")}
-                    />
-                    <label>Consecutivo de salida:</label>
+          <MarcaDeAgua1>
+            <div className={"row"} hidden={page === 2}>
+              <div className={"row"}>
+                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                  Datos generales
+                </label>
+                <div className="row">
+                  <div className="col-12 col-md-4 mt-4">
+                     <label>Consecutivo de salida:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        placeholder="Consecutivo"
+                        {...register("businessTel")}
+                      />
+                     
+                    
+                  </div>
+
+                  <div className="col-12 col-md-4 mt-4">
+                    
+                      <label>
+                        Fecha de Salida: <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="fechaNacimiento"
+                        control={control}
+                        render={({ field }) => (
+                          <ReactDatePicker
+                            {...field}
+                            locale="es"
+                            className="form-control border rounded-pill px-3"
+                            dateFormat="dd/MM/yyyy"
+                             placeholderText="dd/mm/aaaa"
+                            selected={formValues.fechaIngreso}
+                            onSelect={(e) =>
+                              setFormValues({ ...formValues, fechaIngreso: e })
+                           
+                            }
+                            
+                            
+                          />
+                        )}
+                      />
+                    
                   </div>
                 </div>
+              </div>
 
-                <div className="col-12 col-md-4">
-                  <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
-                    <label htmlFor="exampleFormControlInput1">
-                      Fecha de Salida: <span className="text-danger">*</span>
-                    </label>
+              <div className="row mt-6">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>                  Informacion de terceros:
+                </label>
+                <div className="row">
+                  <div className="col-12 col-md-4">
+                    <label>Tipo de Documento</label>
                     <Controller
-                      name="fechaIngreso"
-                      control={control}
+                      name="options"
+                      control={control2}
+                      rules={{ required: true }}
                       render={({ field }) => (
-                        <ReactDatePicker
+                        <Select
                           {...field}
-                          locale="es"
-                          //required
-                          selected={formValues.fechaIngreso}
-                          onSelect={(e) =>
-                            setFormValues({ ...formValues, fechaIngreso: e })
-                          }
-                          className="col-4 multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
+                          options={opcDoc}
+                          placeholder="Seleccionar"
                         />
                       )}
                     />
+
+                    {errors.options && (
+                      <p className=" form-control ms-0 text-danger">
+                        Este campo es obligatorio
+                      </p>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-4">
+                     <label className="ms-2">Numero de identificacion:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        placeholder="Numero de identificacion"
+                        {...register("businessTel")}
+                      />
+                     
+                    
+                  </div>
+                  <div className="col-12 col-md-4">
+                    <div>
+                      <label>Nombre: </label>
+                    </div>
+
+                    <label>Empresa o persona</label>
+                  </div>
+                  <div className="d-flex justify-content-end gap-2 mt-4">
+                    <button
+                      type="button"
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 "
+                    >
+                      buscar
+                    </button>
+                      <button
+                      type="button"
+                      className="btn btn-primary text-capitalize border rounded-pill px-3"
+                      onClick={handleOpenModalBusquedaPersonal}
+                    >
+                      busqueda de tercero
+                    </button>
+                  </div>
+                </div>
+                
+              </div>
+
+              <div className="row">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>                  
+              Entradas Relacionadas:
+               </label>
+                <div className="row">
+                  <div id="myGrid" className="ag-theme-alpine ">
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "250px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnEntradaRela}
+                        rowData={rowDataEntradaRela}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div className="row mt-3">
-              <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                Informacion de terceros:
-              </label>
-              <div className="row">
-                <div className="col-12 col-md-4">
-                  <label>Tipo de Documento</label>
-                  <Controller
-                    name="options"
-                    control={control2}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcDoc}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-
-                  {errors.options && (
-                    <p className=" form-control ms-0 text-danger">
-                      Este campo es obligatorio
-                    </p>
-                  )}
-                </div>
-                <div className="col-12 col-md-4 mt-3">
-                  <div className="form-floating input-group input-group-dynamic">
+              <div className="row mt-4">
+                <div className="col">
+                  <label className="ms-2">Referecnia de Apropiacion:</label>
                     <input
-                      className="form-control"
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      placeholder="Referencia de apropiación"
+                      {...register("refApro")}
+                    />
+                    
+                  
+                </div>
+                <div className="col">
+                  <label className="ms-2">Concepto:</label>
+                    <textarea
+                      className="form-control border rounded-pill px-3"
                       type="tel"
-                      placeholder="Numero de identificacion"
+                      placeholder="Concepto"
                       {...register("businessTel")}
                     />
-                    <label>Numero de identificacion:</label>
-                  </div>
-                </div>
-                <div className="col-12 col-md-4">
-                  <div>
-                    <label>Nombre: </label>
-                  </div>
-
-                  <label>Empresa o persona</label>
-                </div>
-                
-              </div>
-              <div className="row mt-2">
-              <div className=" d-flex justify-content-end gap-2 mt-3 ">
-                  <button
-                    type="button"
-                    className="btn btn-primary text-capitalize "
-                  >
-                    buscar
-                  </button>
-                
+                    
                   
-                  <button
-                    type="button"
-                    className="btn btn-primary text-capitalize "
-                    onClick={handleOpenModalBusquedaPersonal}
-                  >
-                    busqueda de tercero
-                  </button>
+                </div>
+              </div>
+
+              <div className="row">
+                <label>Anexar documentos</label>
+                <div className="col-12 col-md-4 d-flex justify-content-end gap-2 mt-4">
+                  <label htmlFor="formFileLg" className="form-label"></label>
+                  <input
+                    className=" form-control form-control-lg mt-1 border rounded-pill px-3"
+                    id="formFileLg"
+                    type="file"
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="row">
-              <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                Entradas Relacionadas:
-              </label>
+            <div className={"row"} hidden={page === 1}>
+              <div>
+                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                  Detalles
+                </label>
+              </div>
+
+              <div className="row">
+                <div className="col">
+                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                    Entradas Especiales
+                  </label>
+                </div>
+              </div>
               <div className="row">
                 <div id="myGrid" className="ag-theme-alpine "style={{textAlign:"-webkit-center"}}>
                   <div className="ag-theme-alpine" style={{ height: "250px",width:"600px" }}>
@@ -431,167 +504,102 @@ const SalidaArticulosScreen = () => {
                     ></AgGridReact>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Concepto"
-                    {...register("businessTel")}
-                  />
-                  <label>Referecnia de Apropiacion:</label>
+                <div className="col">
+                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                    Articulos Asociados
+                  </label>
                 </div>
-              </div>
-              <div className="col">
-                <div className="form-floating input-group input-group-dynamic">
-                  <textarea
-                    className="form-control"
-                    type="tel"
-                    placeholder="Concepto"
-                    {...register("businessTel")}
-                  />
-                  <label>Concepto:</label>
+                <div id="myGrid" className="ag-theme-alpine ">
+                  <div className="ag-theme-alpine" style={{ height: "250px", width:"600px" }}>
+                    <AgGridReact
+                      columnDefs={columndevolutivoAso}
+                      rowData={rowDataDevolutivoAso}
+                      defaultColDef={defaultColDef}
+                      onGridReady={onGridReady}
+                    ></AgGridReact>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="row mt-5">
-              <label>Anexar documentos</label>
-              <div className="d-flex justify-content-end gap-2">
-                <label htmlFor="formFileLg" className="form-label"></label>
-                <input
-                  className="form-control form-control-lg mt-1"
-                  id="formFileLg"
-                  type="file"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className={"row"} hidden={page === 1}>
-            <div>
-              <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                Detalles
-              </label>
-            </div>
-
-            <div className="row">
-              <div className="col">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  Entradas Especiales
-                </label>
-              </div>
-            </div>
-            <div className="row">
-              <div id="myGrid" className="ag-theme-alpine " style={{textAlign:"-webkit-center"}}>
-                <div className="ag-theme-alpine" style={{ height: "250px", width:"600px"}}>
-                  <AgGridReact
-                    columnDefs={columnEntradaRela}
-                    rowData={rowDataEntradaRela}
-                    defaultColDef={defaultColDef}
-                    onGridReady={onGridReady}
-                  ></AgGridReact>
+                <div className="d-flex justify-content-end gap-2 mt-4">
+                  <button
+                    type="button"
+                    className="btn btn-primary text-capitalize "
+                  >
+                    Agregar
+                  </button>
                 </div>
-              </div>
-              <div className="col">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  Articulos Asociados
-                </label>
-              </div>
-              <div id="myGrid" className="ag-theme-alpine " style={{textAlign:"-webkit-center"}}>
-                <div className="ag-theme-alpine" style={{ height: "250px", width:"800px" }}>
-                  <AgGridReact
-                    columnDefs={columndevolutivoAso}
-                    rowData={rowDataDevolutivoAso}
-                    defaultColDef={defaultColDef}
-                    onGridReady={onGridReady}
-                  ></AgGridReact>
-                </div>
-              </div>
 
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-secondary text-capitalize "
-                >
-                  Agregar
-                </button>
-              </div>
-              
-             
-            <div className="row">
-              <div>
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  ARTICULOS A SALIR
-                </label>
-              </div>
-
-              <div>
                 <div className="row">
-                  <div id="myGrid" className="ag-theme-alpine ">
-                    <div
-                      className="ag-theme-alpine"
-                      style={{ height: "250px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDevolutivo}
-                        rowData={rowDataDevolutivo}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
+                  <div>
+                    <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                      ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION
+                    </label>
+                  </div>
+
+                  <div>
+                    <div className="row">
+                      <div id="myGrid" className="ag-theme-alpine ">
+                        <div
+                          className="ag-theme-alpine"
+                          style={{ height: "250px" }}
+                        >
+                          <AgGridReact
+                            columnDefs={columnDevolutivo}
+                            rowData={rowDataDevolutivo}
+                            defaultColDef={defaultColDef}
+                            onGridReady={onGridReady}
+                          ></AgGridReact>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
+              <div className="row">
+                <div className="d-flex justify-content-end gap-2 mt-4">
+                  <button
+                    type="button"
+                    className="btn btn-light text-capitalize "
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary text-capitalize "
+                  >
+                    Limpiar
+                  </button>
+                  <button
+                    className={`btn btn-danger text-capitalize ${
+                      page === 1 && "d-none"
+                    }`}
+                    type="button"
+                    title="Send"
+                    onClick={handlePreviousPage}
+                  >
+                    {" "}
+                    {"<< Atrás"}{" "}
+                  </button>
+                  <button
+                    className="btn btn-primary text-capitalize"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                  >
+                    {page === 1 ? "Siguiente >>" : "Continuar"}{" "}
+                  </button>
+                </div>
+              </div>
+              <BusquedaDePersonalModal
+                isModalActive={modalPersonal}
+                setIsModalActive={setModalPersonal}
+              />
+              <BusquedaArticuloModal
+                isModalActive={modalArticulos}
+                setIsModalActive={setModalArticulos}
+              />
             </div>
-          </div>
-          </div>
-          <div className="row">
-            <div className="d-flex justify-content-end gap-2 mt-4">
-              <button type="button" className="btn btn-light text-capitalize ">
-                Cancelar
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary text-capitalize "
-              >
-                Limpiar
-              </button>
-              <button
-                className={`btn btn-danger text-capitalize ${
-                  page === 1 && "d-none"
-                }`}
-                type="button"
-                title="Send"
-                onClick={handlePreviousPage}
-              >
-                {" "}
-                {"<< Atrás"}{" "}
-              </button>
-              <button
-                className="btn btn-primary text-capitalize"
-                type="submit"
-                title="Send"
-                form="configForm"
-              >
-                {page === 1 ? "Siguiente >>" : "Continuar"}{" "}
-              </button>
-            </div>
-          </div>
-          
-          <BusquedaDePersonalModal
-            isModalActive={modalPersonal}
-            setIsModalActive={setModalPersonal}
-          />
-          <BusquedaArticuloModal
-            isModalActive={modalArticulos}
-            setIsModalActive={setModalArticulos}
-          />
-         
+          </MarcaDeAgua1>
         </form>
       </div>
     </div>

@@ -81,7 +81,7 @@ const RegisterPersonaScreen = () => {
         );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
-        );
+      );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
@@ -102,6 +102,7 @@ const RegisterPersonaScreen = () => {
   const {
     register,
     control,
+    watch,
     handleSubmit,
     reset,
     formState: { errors: errorsForm },
@@ -236,6 +237,7 @@ const RegisterPersonaScreen = () => {
       setLoading(false);
     } else {
       try {
+        console.log(persona);
         const { data: dataRegisterPersona } = await clienteAxios.post(
           "personas/persona-juridica/create/",
           persona
@@ -822,6 +824,7 @@ const RegisterPersonaScreen = () => {
               <GeneradorDeDirecciones
                 keyReset="direccionNotificacion"
                 reset={reset}
+                totalValuesForm={watch()}
                 isOpenGenerator={isOpenGenerator}
                 setIsOpenGenerator={setIsOpenGenerator}
                 completeAddress={completeAddress}
