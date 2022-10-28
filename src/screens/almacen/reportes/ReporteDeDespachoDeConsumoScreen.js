@@ -159,7 +159,8 @@ const ReporteDeDespachoDeConsumoScreen = () => {
               <div>
                 <div className="multisteps-form__content">
                   <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
+                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                       <n>Reporte de despacho de consumo</n>
                     </label>
                   </div>
@@ -193,7 +194,8 @@ const ReporteDeDespachoDeConsumoScreen = () => {
 
                 <div className="multisteps-form__content">
                   <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
+                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                       <n>Responsable</n>
                     </label>
                   </div>
@@ -238,7 +240,8 @@ const ReporteDeDespachoDeConsumoScreen = () => {
 
                 <div className="multisteps-form__content">
                   <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
+                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                       <n>Solicitante</n>
                     </label>
                   </div>

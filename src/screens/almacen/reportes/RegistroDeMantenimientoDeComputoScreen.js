@@ -132,7 +132,8 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
               <div>
                 <div className="multisteps-form__content">
                   <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
+                    <label className="form-control border rounded-pill px-3 mt-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                       <n>Articulo</n>
                     </label>
                   </div>
@@ -190,7 +191,8 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
 
                 <div className="multisteps-form__content">
                   <div className="mt-4 row">
-                    <label className="form-control border rounded-pill px-3 bg-success text-white">
+                    <label className="form-control border rounded-pill px-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                       <n>Tercero</n>
                     </label>
                   </div>
@@ -200,9 +202,9 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                   <div className="mt-4 row">
                     <div className="col-12 col-md-4">
                       <label className="form-floating input-group input-group-dynamic ms-2">
-                        Tipo de documento{" "}
+                        Tipo de documento
                         <small className="text-danger">*</small>
-                        <div className="col-12 ">
+                        <div className="col-12 mt-3 ">
                           <Controller
                             name="tipodocumento"
                             control={control}
@@ -283,7 +285,7 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                     <label className="form-floating input-group input-group-dynamic ms-2">
                       Tipo de mantenimiento
                       <small className="text-danger">*</small>
-                      <div className="col-12 ">
+                      <div className="col-12 mt-3">
                         <Controller
                           name="tipodemantenimiento"
                           control={control}
@@ -314,7 +316,7 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                   <div className="col-12 col-md-4">
                     <label className="form-floating input-group input-group-dynamic ms-2">
                       Estado final<small className="text-danger">*</small>
-                      <div className="col-12 ">
+                      <div className="col-12 mt-3">
                         <Controller
                           name="estado"
                           control={control}
@@ -397,16 +399,13 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
             )}
           </MarcaDeAgua1>
 
-
-
-
-
           <h1>DE ACA PA ABAJAO SE BORARA POR QUE ES DE GUIA </h1>
           {/* div verde */}
           <div>
             <div className="multisteps-form__content">
               <div className="row">
-                <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
+                <label className="form-control border rounded-pill px-3 mt-3 text-white"
+                style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   <n>Articulo</n>
                 </label>
               </div>
@@ -544,6 +543,10 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                     </button>
                   </div>
                 </div>
+
+
+
+          
         </form>
         <BusquedaDePersonalModal
           isModalActive={busquedaPersonalIsActive}

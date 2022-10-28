@@ -136,7 +136,7 @@ const ConsultaPazYSalvoScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="row">
-              <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
+              <label className="form-control border rounded-pill px-3 mt-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                 <n>Consultar persona</n>
               </label>
             </div>
@@ -147,7 +147,7 @@ const ConsultaPazYSalvoScreen = () => {
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento <small className="text-danger">*</small>
-                  <div className="col-12 ">
+                  <div className="col-12 mt-3">
                     <Controller
                       name="tipoDocumento"
                       control={control}
@@ -284,10 +284,10 @@ const ConsultaPazYSalvoScreen = () => {
           setIsModalActive={setBusquedaPersonalIsActive}
         />
         <CalendarModal>
-          <div className="row min-vh-100">
+          <div className="row ">
             <div className="col-lg-10 col-md-10 col-12 mx-auto"></div>
 
-            <div className="row min-vh-100">
+            <div className="row ">
               <div className="col-lg-8 col-md-10 col-6 mx-auto">
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
