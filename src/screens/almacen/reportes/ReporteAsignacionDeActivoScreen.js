@@ -118,7 +118,7 @@ const ReporteAsignacionDeActivoScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Reporte de asignacion de activo
         </h3>
@@ -132,16 +132,17 @@ const ReporteAsignacionDeActivoScreen = () => {
           <MarcaDeAgua1>
             <div className="row">
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    name="consecutivo"
-                    className="form-control"
-                    type="text"
-                    placeholder="numero consecutivo"
-                    {...register("consecutivo", { required: true })}
-                  />
-                  <label className="ms-2">Numero consecutivo</label>
-                </div>
+                <label className="ms-2">
+                  Numero consecutivo<small className="text-danger">*</small>
+                </label>
+                <input
+                  name="consecutivo"
+                  className="form-control border rounded-pill px-3"
+                  type="text"
+                  placeholder="numero consecutivo"
+                  {...register("consecutivo", { required: true })}
+                />
+
                 {errors.consecutivo && (
                   <small className="text-danger">
                     Este campo es obligatorio
@@ -152,27 +153,29 @@ const ReporteAsignacionDeActivoScreen = () => {
               <div className="col-12 col-md-4">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de Asignacion
-                  <Controller
-                    name="fechaSolicitud"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        selected={startDate}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={(date) => setStartDate(date)}
-                        className="multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
-                      />
-                    )}
-                  />
                 </label>
+
+                <Controller
+                  name="fechaSolicitud"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      selected={startDate}
+                      dateFormat="dd/MM/yyyy"
+                      onChange={(date) => setStartDate(date)}
+                      className="form-control border rounded-pill px-3  p-2"
+                      placeholderText="dd/mm/aaaa"
+                      disabled
+                    />
+                  )}
+                />
               </div>
-              <div className="col-12 col-md-4">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+              <div className="col-12 col-md-2">
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-4">
                   <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                     type="submit"
                     title="Send"
                     form="configForm"
@@ -186,43 +189,39 @@ const ReporteAsignacionDeActivoScreen = () => {
               <div>
                 <div className="multisteps-form__content">
                   <div className="row">
-                    <label className="form-control ms-0 fw-bolder text-center mt-4">
+                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
                       <n>Reporte de asigancion de un activo</n>
                     </label>
                   </div>
                   <div className="multisteps-form__content">
                     <div className="row">
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="Administrativa y finaciera"
-                            disabled
-                          />
-                          <label className="ms-2">Dependencia</label>
-                        </div>
+                        <label className="ms-2">Dependencia</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Administrativa y finaciera"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="Almacen"
-                            disabled
-                          />
-                          <label className="ms-2">Grupo</label>
-                        </div>
+                        <label className="ms-2">Grupo</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Almacen"
+                          disabled
+                        />
                       </div>
                     </div>
                   </div>
 
                   <div className="multisteps-form__content">
                     <div className="row">
-                      <label className="form-control ms-0 fw-bolder text-center">
+                      <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
                         <n>Responsable</n>
                       </label>
                     </div>
@@ -231,49 +230,43 @@ const ReporteAsignacionDeActivoScreen = () => {
                   <div className="multisteps-form__content">
                     <div className="row">
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="C.C"
-                            disabled
-                          />
-                          <label className="ms-2">Tipo de documento </label>
-                        </div>
+                        <label className="ms-2">Tipo de documento </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="C.C"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="1.243.675.654"
-                            disabled
-                          />
-                          <label className="ms-2">Numero de documento</label>
-                        </div>
+                        <label className="ms-2">Numero de documento</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="1.243.675.654"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="Julian Castillo"
-                            disabled
-                          />
-                          <label className="ms-2">Nombre</label>
-                        </div>
+                        <label className="ms-2">Nombre</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Julian Castillo"
+                          disabled
+                        />
                       </div>
                     </div>
                   </div>
 
                   <div className="multisteps-form__content">
-                    <div className="mt-4 row">
-                      <label className="form-control ms-0 fw-bolder text-center">
+                    <div className="row">
+                      <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
                         <n>Solicitante</n>
                       </label>
                     </div>
@@ -282,49 +275,43 @@ const ReporteAsignacionDeActivoScreen = () => {
                   <div className="multisteps-form__content">
                     <div className="row">
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="C.C"
-                            disabled
-                          />
-                          <label className="ms-2">Tipo de documento </label>
-                        </div>
+                        <label className="ms-2">Tipo de documento </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="C.C"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="1.745.847.444"
-                            disabled
-                          />
-                          <label className="ms-2">Numero de documento</label>
-                        </div>
+                        <label className="ms-2">Numero de documento</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="1.745.847.444"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="Jusus Cruz"
-                            disabled
-                          />
-                          <label className="ms-2">Nombre</label>
-                        </div>
+                        <label className="ms-2">Nombre</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Jusus Cruz"
+                          disabled
+                        />
                       </div>
                     </div>
                   </div>
 
                   <div className="multisteps-form__content">
-                    <div className="mt-4 row">
-                      <label className="form-control ms-0 fw-bolder text-center">
+                    <div className="row">
+                      <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white">
                         <n>Operario</n>
                       </label>
                     </div>
@@ -333,42 +320,36 @@ const ReporteAsignacionDeActivoScreen = () => {
                   <div className="multisteps-form__content">
                     <div className="row">
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="C.C"
-                            disabled
-                          />
-                          <label className="ms-2">Tipo de documento </label>
-                        </div>
+                        <label className="ms-2">Tipo de documento </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="C.C"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="1.435.984.111"
-                            disabled
-                          />
-                          <label className="ms-2">Numero de documento</label>
-                        </div>
+                        <label className="ms-2">Numero de documento</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="1.435.984.111"
+                          disabled
+                        />
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="nombre completo"
-                            value="Estevan Lopez"
-                            disabled
-                          />
-                          <label className="ms-2">Nombre</label>
-                        </div>
+                        <label className="ms-2">Nombre</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="nombre completo"
+                          value="Estevan Lopez"
+                          disabled
+                        />
                       </div>
                     </div>
                   </div>
@@ -425,10 +406,10 @@ const ReporteAsignacionDeActivoScreen = () => {
                     </div>
                   </div>
 
-                  <div className="d-flex flex-column justify-content-end align-items-start mt-5">
+                  <div className="d-flex flex-column align-items-start mt-6">
                     <label>
-                      {" "}
-                      _____________________________________________
+                      
+                      ____________________________________________________
                     </label>
                     <div className="d-flex justify-content-center align-items-center">
                       <label>Firma de quien solicita</label>
@@ -438,61 +419,70 @@ const ReporteAsignacionDeActivoScreen = () => {
                     </div>
                   </div>
 
-                  <div className="d-flex flex-column justify-content-end align-items-end">
+                  <div className="mt-4 justify-content-end align-items-end">
                     <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            name="nombreQuienImprime"
-                            className="form-control"
-                            type="text"
-                            placeholder="Nombre del articulo"
-                            value="Julian Castillo"
-                            disabled
-                          />
-                          <label className="ms-2">Nombre quien imprime</label>
-                        </div>
+                      <div className="col-12 col-md-4">
+                        <label className="ms-2">Nombre quien imprime</label>
+                        <input
+                          name="nombreQuienImprime"
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="Nombre del articulo"
+                          value="Julian Castillo"
+                          disabled
+                        />
                       </div>
                     </div>
-
+                    </div>
+                    <div className="justify-content-end align-items-end">
                     <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            name="fechaDeImpresion"
-                            className="form-control"
-                            type="text"
-                            placeholder="fecha de impresion"
-                            value="05/10/2022"
-                            disabled
-                          />
-                          <label className="ms-2">Fecha de impresion</label>
-                        </div>
+                      <div className="col-12 col-md-4">
+                        <label htmlFor="exampleFormControlInput1 mt-4">
+                          Fecha de impresion
+                        </label>
+
+                        <Controller
+                          name="fechaSolicitud"
+                          control={control}
+                          render={({ field }) => (
+                            <DatePicker
+                              {...field}
+                              locale="es"
+                              selected={startDate}
+                              dateFormat="dd/MM/yyyy"
+                              includeDates={[new Date()]}
+                              onChange={(date) => setStartDate(date)}
+                              className="form-control border rounded-pill px-3  p-2"
+                              placeholderText="dd/mm/aaaa"
+                            />
+                          )}
+                        />
                       </div>
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <div className="col-12 col-md-3 row">
+                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
                       <button
-                        className="btn bg-gradient-primary mb-0"
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                         type="button"
                         title="Send"
                         form="configForm"
                       >
                         Imprimir
                       </button>
+                      
                       <button
-                        className="btn bg-gradient-danger mb-0"
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
                         type="button"
                         title="Send"
                         form="configForm"
+                        onclik="${}"
                       >
                         Salir
                       </button>
                     </div>
                   </div>
-                  <div></div>
                 </div>
               </div>
             ) : (
