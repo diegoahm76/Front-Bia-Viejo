@@ -19,6 +19,13 @@ import {
   AGREGAR_USUARIO,
   AGREGAR_USUARIO_EXITO,
   AGREGAR_USUARIO_ERROR,
+  OBTENER_USUARIO_ELIMINAR,
+  USUARIO_ELIMINADO_EXITO,
+  USUARIO_ELIMINADO_ERROR,
+  COMENZAR_ELIMINAR_USUARIO,
+  OBTENER_USUARIO_EDITAR,
+  COMENZAR_EDICION_USUARIO,
+  USUARIO_EDITADO_EXITO,
 } from "../types/estacionesTypes";
 import Swal from "sweetalert2";
 import { formatISO } from "date-fns";
@@ -188,13 +195,6 @@ export const obtenerUsuariosAction = () => {
 
     try {
       const { data: dataGetUsuarios } = await clienteEstaciones.get("usuarios");
-      //console.log("dataGetEstaciones", dataGetEstaciones);
-      // const formatFechaEstaciones = dataGetEstaciones.map((estacion) => ({
-      //   ...estacion,
-      //   t001fechaMod: formatISO(new Date(estacion.t001fechaMod), {
-      //     representation: "date",
-      //   }),
-      // }));
       dispatch(descargarUsuariosExito(dataGetUsuarios));
     } catch (error) {
       console.log(error);
@@ -223,16 +223,11 @@ export const crearNuevoUsuarioAction = (usuario) => {
     dispatch(agregarUsuario());
 
     try {
-      await clienteEstaciones.post("usuarios", usuario);
-
-      //console.log("Creacion de estacion", dataCreate);
-      // estacion.t001fechaMod = formatISO(new Date(estacion.t001fechaMod), {
-      //   representation: "date",
-      // });
-
+      await clienteEstaciones.post("Usuarios", usuario);
+      dispatch(obtenerUsuariosAction())
       dispatch(agregarUsuarioExito(usuario));
 
-      Swal.fire("Correcto", "La estación se agrego correctamente", "success");
+      Swal.fire("Correcto", "El usuario se agrego correctamente", "success");
     } catch (error) {
       console.log(error);
 
@@ -241,7 +236,7 @@ export const crearNuevoUsuarioAction = (usuario) => {
       Swal.fire({
         icon: "error",
         title: "Hubo un error",
-        text: "Hubo un error, intenta de nuevo",
+        text: error.response.data,
       });
     }
   };
@@ -258,5 +253,94 @@ const agregarUsuarioExito = (usuario) => ({
 
 const agregarUsuarioError = (estado) => ({
   type: AGREGAR_USUARIO_ERROR,
+  payload: estado,
+});
+
+export const obtenerUsusarioEliminarAction = (usuario) => {
+  return (dispatch) => {
+    dispatch(obtenerUsuarioEliminar(usuario));
+  };
+};
+
+const obtenerUsuarioEliminar = (usuario) => ({
+  type: OBTENER_USUARIO_ELIMINAR,
+  payload: usuario,
+});
+
+
+export const eliminarUsuarioAction = (id) => {
+  return async (dispatch) => {
+    dispatch(comenzarELiminarUsuario());
+
+    try {
+      await clienteEstaciones.delete(`Usuarios/${id}`);
+      dispatch(usuarioEliminadoExito());
+      Swal.fire(
+        "Correcto",
+        "El usuario se elimino correctamente",
+        "success"
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(usuarioEliminarError(true));
+    }
+  };
+};
+
+const comenzarELiminarUsuario = () => ({
+  type: COMENZAR_ELIMINAR_USUARIO
+})
+
+const usuarioEliminadoExito = () => ({
+  type: USUARIO_ELIMINADO_EXITO,
+});
+
+const usuarioEliminarError = (estado) => ({
+  type: USUARIO_ELIMINADO_ERROR,
+  payload: estado,
+});
+
+export const obtenerUsuarioEditarAction = (usuario) => {
+  return (dispatch) => {
+    dispatch(obtenerUsuarioEditar(usuario));
+  };
+};
+
+const obtenerUsuarioEditar = (usuario) => ({
+  type: OBTENER_USUARIO_EDITAR,
+  payload: usuario,
+});
+
+export const editarUsuarioAction = (usuario) => {
+  return async (dispatch) => {
+    dispatch(editarUsuario());
+
+    try {
+      await clienteEstaciones.put("Usuarios", usuario);
+      dispatch(obtenerUsuariosAction())
+      dispatch(editarUsuarioExito(usuario));
+      Swal.fire(
+        "Correcto",
+        "El usuario se actualizo correctamente",
+        "success"
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(usuarioEditadaError(true));
+    }
+  };
+};
+
+const editarUsuario = () => ({
+  type: COMENZAR_EDICION_USUARIO,
+});
+
+const editarUsuarioExito = (usuario) => ({
+  type: USUARIO_EDITADO_EXITO,
+  payload: usuario,
+});
+
+const usuarioEditadaError = (estado) => ({
+  type: ESTACION_EDITADO_ERROR,
   payload: estado,
 });
