@@ -254,61 +254,42 @@ function AsignarActivoScreen() {
         >
           <div className="multisteps-form__content">
             <div className="row my-3">
-              <div className="col-12 col-sm-6">
-                <h5 className="font-weight-bolder border-radius-xl my-2">
+              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <h5 className="font-weight-bolder my-2 text-light">
                   Datos Generales
                 </h5>
               </div>
             </div>
-            {/*  PRIMERA FILA  */}
-            <div className="row justify-content-between">
-              <div className="col col-6 col-md-6">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="search"
-                    id="consecutivo"
-                    name="consecutivo"
-                    minlength="2"
-                    maxlength="15"
-                    defaultValue={"25225"}
-                    placeholder="Consecutivo"
-                    {...register("consecutivoAsignarActivo", {
-                      required: true,
-                    })}
-                  />
-                  <label className="ms-2">Consecutivo
-                  <span className="text-danger">*</span>
-                  </label>
-                </div>
-              </div>
+                         
               {/*  PRIMERA FILA  */}
               <div className="row justify-content-between">
-                <div className="col col-6 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="number"
-                      defaultValue={"25225"}
-                      placeholder="Consecutivo"
-                      {...register("consecutivoAsignarActivo", {
-                        required: true,
-                      })}
-                    />
-                    <label className="ms-2">
-                      Consecutivo
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errors.consecutivoAsignarActivo?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
-                  )}
-                </div>
+              <div className="col col-12 col-md-4">
+              <div className="col-12 mb-3">
+            <label>
+              Consecutivo<span className="text-danger">*</span>
+            </label>
+            <input
+              type="search"
+              id="consecutivoAsignarActivo"
+              name="consecutivo"
+              minlength="2"
+              maxlength="15"
+              defaultValue={"25225"}
+              className="form-control border rounded-pill px-3"
+              {...register("consecutivoAsignarActivo", { required: true })}
+            />
+            {errors.consecutivoAsignarActivo && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+              </div>
                 {/*  FECHA  */}
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
+                <div className="col col-12 col-md-4">
+                  <label htmlFor="exampleFormControlInput1 mt-5">
                     Fecha de Respuesta
                     <Controller
                       name="fechaRespuesta"
@@ -321,7 +302,7 @@ function AsignarActivoScreen() {
                           dateFormat="dd/MM/yyyy"
                           includeDates={[new Date()]}
                           onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2 border border-1"
+                          className="form-control border rounded-pill px-3 mt-2"
                           placeholderText="Fecha de respuesta"
                           peekNextMonth
                           disabled
@@ -336,31 +317,33 @@ function AsignarActivoScreen() {
               </div>
               {/*  SEGUNDA FILA  */}
               <div className="row justify-content-between">
-                <div className="col col-6 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="number"
-                      defaultValue={"25225"}
-                      placeholder="Consecutivo de solicitud"
-                      {...register("consecutivoSolicitud", {
-                        required: true,
-                      })}
-                    />
-                    <label className="ms-2">
-                      Consecutivo de solicitud
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errors.consecutivoSolicitud?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
-                  )}
-                </div>
+              <div className="col col-12 col-md-4">
+              <div className="col-12 mb-3">
+            <label>
+              Consecutivo Solicitud<span className="text-danger">*</span>
+            </label>
+            <input
+              type="number"
+              id="consecutivoSolicitud"
+              name="consecutivo"
+              minlength="2"
+              maxlength="15"
+              defaultValue={"25225"}
+              className="form-control border rounded-pill px-3"
+              {...register("consecutivoSolicitud", { required: true })}
+            />
+            {errors.consecutivoSolicitud && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+              </div>
                 {/*  FECHA  */}
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
+                <div className="col col-12 col-md-4">
+                  <label htmlFor="exampleFormControlInput1 mt-5">
                     Fecha de Solicitud
                     <Controller
                       name="fechaSolicitud"
@@ -373,7 +356,7 @@ function AsignarActivoScreen() {
                           dateFormat="dd/MM/yyyy"
                           includeDates={[new Date()]}
                           onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2 border border-1"
+                          className="form-control border rounded-pill px-3 mt-2"
                           placeholderText="Fecha de solicitud"
                           disabled
                           peekNextMonth
@@ -622,7 +605,7 @@ function AsignarActivoScreen() {
                   </button>
                 </div>
               </div>
-            </div>
+            
             <div id="myGrid" className="ag-theme-alpine mt-1">
               <div className="ag-theme-alpine my-1" style={{ height: "270px" }}>
                 <AgGridReact

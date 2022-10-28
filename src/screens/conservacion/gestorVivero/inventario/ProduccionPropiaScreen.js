@@ -176,17 +176,17 @@ function ProduccionPropiaScreen() {
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
           >
-            <div className="my-3">
-              <h5 className="font-weight-bolder border-radius-xl my-2">
+            <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <h5 className="font-weight-bolder my-2 text-light">
                 Produccion propia por vivero
               </h5>
             </div>
             
     
             <div className="row d-flex align-items-center">
-              <div className="col col-sm-3 text-xxs align-content-end align-items-end">
+              <div className="col col-sm-3 align-content-end align-items-end">
               <label>Seleccione vivero </label>
-              <label className="text-danger">*</label>
+              <span className="text-danger">*</span>
               <Controller
                   name="vivero"
                   control={control}
@@ -206,13 +206,13 @@ function ProduccionPropiaScreen() {
 
               </div>
               <div className="col d-flex align-items-end">
-              <button type="submit" title= "Send" form= "configForm" Value="buscar" className="btn btn-primary btn-sm text-xxs text-capitalize mt-5">
+              <button type="submit" title= "Send" form= "configForm" Value="buscar" className="btn btn-primary border rounded-pill px-3 text-capitalize mt-5">
                   Buscar
                 </button>
               </div>
               <div className="col col-6 mx-auto d-flex justify-content-center flex-column align-items-center">
                 <label>Crear producto nuevo</label>
-                <button className="btn btn-secondary mx-auto btn-sm text-xxs text-capitalize">
+                <button className="btn btn-secondary mx-auto border rounded-pill px-3 text-capitalize">
                   Crear
                 </button>
               </div>
@@ -253,7 +253,7 @@ function ProduccionPropiaScreen() {
             {" "}
             {/*  BOTONES DE ABAJO  */}
             <button
-              className="btn bg-gradient-danger mb-0 btn-sm text-xxs"
+              className="btn bg-gradient-danger mb-0 border rounded-pill px-3 text-capitalize"
               type="submit"
               title="Send"
               form="configForm"
