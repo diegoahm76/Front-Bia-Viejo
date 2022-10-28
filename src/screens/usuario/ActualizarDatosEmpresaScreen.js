@@ -107,12 +107,13 @@ const ActualizarDatosEmpresaScreen = () => {
         setMunicipiosOptions(municipiosFormat);
 
         //TODO Trayendo los datos del usuario y montandolos en los campos
-        const personaJuridica = "J";
+        const COD_PERSONA_JURIDICA = "J";
+        console.log(emailLogin)
         const { data } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
         );
-        console.log(data, data.tipo_persona !== personaJuridica);
-        if (data.tipo_persona !== personaJuridica) {
+        console.log(data, data.tipo_persona !== COD_PERSONA_JURIDICA);
+        if (data.tipo_persona !== COD_PERSONA_JURIDICA) {
           navigate("/dashboard/usuario/actualizar-datos-persona");
         }
 

@@ -99,11 +99,13 @@ const AdministradorDePersonasScreen = () => {
   const onSubmitBuscarPersona = async (data) => {
     console.log(data);
     try {
-      const { data: dataPersona } = await clienteAxios.get(
-        `personas/get-by-document/${data?.numeroDocumento}`
+      const { data: dataPersonaObject } = await clienteAxios.get(
+        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
-      if (dataPersona.tipo_persona !== "N" && dataPersona.id_persona) {
+      const { data: dataPersona } = dataPersonaObject;
+
+      if (dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona) {
         Swal.fire({
           title: "Este documento es de una persona juridica",
           text: "Quiere ir al administrador de empresas?",
@@ -120,8 +122,8 @@ const AdministradorDePersonasScreen = () => {
         });
         setActionForm(null);
         return;
-      } else if (!dataPersona.id_persona) {
-        Swal.fire({
+      } else if (!dataPersona?.id_persona) {
+        const result = await Swal.fire({
           title: "No existe un persona con estos datos",
           text: "Quiere seguir bucando o quiere crear una persona?",
           icon: "warning",
@@ -130,12 +132,23 @@ const AdministradorDePersonasScreen = () => {
           cancelButtonColor: "#6c757d",
           confirmButtonText: "Seguir",
           cancelButtonText: "Crear",
-        }).then((result) => {
-          if (result.isConfirmed) {
-          } else {
-            setActionForm("Crear");
-          }
         });
+        if (result.isConfirmed) {
+        } else {
+          return setActionForm("Crear");
+        }
+        // Swal.fire({
+        //   title: "No existe un persona con estos datos",
+        //   text: "Quiere seguir bucando o quiere crear una persona?",
+        //   icon: "warning",
+        //   showCancelButton: true,
+        //   confirmButtonColor: "#3BA9E0",
+        //   cancelButtonColor: "#6c757d",
+        //   confirmButtonText: "Seguir",
+        //   cancelButtonText: "Crear",
+        // }).then((result) => {
+
+        // });
       } else {
         setActionForm("editar");
       }
@@ -247,10 +260,22 @@ const AdministradorDePersonasScreen = () => {
     console.log("updated persona", updatedPersona);
 
     if (actionForm === "editar") {
+      const {
+        tokens: { access },
+      } = JSON.parse(localStorage.getItem("userInfo"));
+      console.log(access);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${access}`,
+        },
+      };
       try {
+        console.log("HGola", updatedPersona);
         await clienteAxios.put(
           `personas/persona-natural/update/${formValues?.id_persona}/`,
-          updatedPersona
+          updatedPersona,
+          config
         );
         Swal.fire({
           position: "center",
@@ -266,7 +291,9 @@ const AdministradorDePersonasScreen = () => {
       }
     } else {
       try {
-        updatedPersona.tipo_persona = "N";
+        const COD_TIPO_PERSONA_NATURAL = "N";
+
+        updatedPersona.tipo_persona = COD_TIPO_PERSONA_NATURAL;
         await clienteAxios.post(
           "personas/persona-natural/create/",
           updatedPersona
