@@ -1,17 +1,17 @@
-import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
+import React, { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
 
 
 const SubasignarElementosScreen = () => {
+
+  const [startDate, setStartDate] = useState(new Date());
 
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
     useState(false);
@@ -95,7 +95,31 @@ const SubasignarElementosScreen = () => {
           id="configForm"
         >
           <div className="multisteps-form__content">
+          <div className="row">
+                <div className="col-12 col-sm-4 justify-content-end">
+                  <label htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha de solicitud
+                    <Controller
+                      name="fechaSolicitud"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          selected={startDate}
+                          dateFormat="dd/MM/yyyy"
+                          includeDates={[new Date()]}
+                          onChange={(date) => setStartDate(date)}
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                        />
+                      )}
+                    />
+                  </label>
+                </div>
+              </div>
             <div className="row">
+              
               <label className="form-control ms-0 fw-bolder text-center">
                 <n>Responsable</n>
               </label>
@@ -201,10 +225,10 @@ const SubasignarElementosScreen = () => {
               </div>
             </div>
 
-            
+
 
             <div className="row my-3">
-              <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '275px' }}>
+              <div className="ag-theme-alpine my-2 px-auto" style={{ height: '275px' }}>
                 <AgGridReact
                   columnDefs={columnDefs}
                   rowData={rowData}
@@ -215,7 +239,7 @@ const SubasignarElementosScreen = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-gradient-primary me-md-2"
                 type="button"
@@ -224,7 +248,7 @@ const SubasignarElementosScreen = () => {
                 Limpiar
               </button>
               <button
-                className="btn bg-gradient-primary me-md-2"
+                className="btn bg-gradient-success me-md-2"
                 type="button"
                 title="Send"
               >

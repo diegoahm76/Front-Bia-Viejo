@@ -1,15 +1,17 @@
-import React, { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import React, { useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/logos/eps/LogoHorizontal_mod.svg";
 import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
-
+  const { error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const { register, handleSubmit } = useForm();
@@ -22,6 +24,29 @@ function LoginScreen() {
       console.log("Sigue intentando");
     }
   };
+
+  useEffect(() => {
+    if (error?.login_erroneo?.contador) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: `Intento Número ${error?.login_erroneo?.contador} de 3, su cuenta será bloqueada al tercer intento`,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6",
+        is_active: true,
+      });
+    } else if (error?.detail) {
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: error.detail,
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6",
+        is_active: true,
+      });
+    } else {
+    }
+  }, [error]);
 
   return (
     <div
@@ -82,6 +107,7 @@ function LoginScreen() {
                     <ReCaptcha
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
+                      hl="es"
                     />
                   </div>
                   <div className="text-center">
@@ -98,7 +124,7 @@ function LoginScreen() {
                     Registrarse como <Link to="/register">Persona</Link> o{" "}
                     <Link to="/registeruser">Usuario</Link>
                   </small>
-                  <Link to="/recuperarcontrasena">
+                  <Link to="/recuperar-contrasena">
                     <small>Olvide mi contraseña</small>
                   </Link>
                 </nav>

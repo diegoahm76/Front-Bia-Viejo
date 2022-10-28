@@ -4,7 +4,9 @@ import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+import React, { useState } from "react";
 
 const rowData = [
   { CODE: "jobo", NAME: "spondias mombin L.", RES: "Manu", AOP: "El Calvario", DEVO: "3.11.019.131" },
@@ -16,13 +18,20 @@ const rowData = [
 ];
 
 const BusquedaArticuloPrestadoScreen = () => {
-  
+
   const { register, control, formState: { errors }, } = useForm();
+
+  const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
+    useState(false);
+  const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
+    useState(false);
+
+  const [renderParcial, setRenderParcial] = useState(false)
 
   const options = [
     { label: "Cedula de ciudadania", value: "CC" },
     { label: "Tarjeta de identidad", value: "TI" },
-    { label: "desplazado", value: "DZ" },
+    { label: "Registro civil", value: "RC" },
     { label: "Others", value: "OT" },
   ];
   const optionDependencia = [
@@ -63,154 +72,166 @@ const BusquedaArticuloPrestadoScreen = () => {
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
             >
-              <h5 className="font-weight-bolder">Articulos</h5>
               <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Datos del coordinador</n>
+                <div className="row mb-3">
+                  <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
+                    <n>Articulos</n>
                   </label>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-floating input-group input-group-dynamic ms-2">
-                      Tipo de documento{" "}
-                      <div className="col-12 ">
-                        <Controller
-                          name="tipoDocumento1"
-                          control={control} rules={{
-                            required: true,
-                          }}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              options={options}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        /></div>
-                    </label>
 
+                  <div className="col-12 col-sm-4 col-lg-4">
+                    <label>
+                      Código: <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      name="valorCodigo"
+                      type="number"
+                      className="form-control border rounded-pill px-3"
+                      {...register("valorCodigo", { required: true })}
+                    />
+                    {errors.valorCodigo && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="numero cedula"
-                        {...register("numeroCedula")}
-                      />
-                      <label className="ms-2">Número de cedula</label>
-                    </div>
+                  <div className="col-12 col-sm-4 col-lg-4">
+                    <label>
+                      Nombre:
+                    </label>
+                    <input
+                      disabled="true"
+                      name="nombre"
+                      type="text"
+                      placeholder="Equipo de computo"
+                      className="form-control border rounded-pill px-3"
+                    />
                   </div>
-                  <div className="col-12 col-sm-4 d-grid gap-2 d-md-flex justify-content-md-center">
+                  <div className="col-12 col-sm-4 col-lg-4 mt-2">
                     <button
-                      type="submit"
-                      className="mt-4 btn btn-primary flex-center text-capitalize"
+                      className="border rounded-pill px-3 btn bg-gradient-primary mt-4 mb-0 text-capitalize"
+                      type="button"
+                      title="Send"
+                      form="configForm"
+                      onClick={() => setBusquedaArticuloIsActive(true)}
                     >
-                      Buscar
+                      Buscar Articulo
                     </button>
                   </div>
                 </div>
 
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center">
-                    <n>Datos del coordinador</n>
-                  </label>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-floating input-group input-group-dynamic ms-2">
-                      Tipo de documento{" "}
-                      <div className="col-12 ">
-                        <Controller
-                          name="tipoDocumento2"
-                          control={control} rules={{
-                            required: true,
-                          }}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              options={options}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        /></div>
+                <div className="row mb-3">
+                  <div className="multisteps-form__content">
+                    <div className="row mb-3">
+                      <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
+                        <n>Responsable</n>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-12 col-sm-4 col-lg-4">
+                    <label>
+                      Tipo de documento{" "} <span className="text-danger">*</span>
                     </label>
-
+                    <Controller
+                      name="tipoDocumento2"
+                      control={control} rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={options}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
                   </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="numero cedula"
-                        {...register("numeroCedula")}
-                      />
-                      <label className="ms-2">Número de cedula</label>
-                    </div>
+                  <div className="col-12 col-sm-4 col-lg-4">
+                    <label>
+                      Número de documento: <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      name="numeroDocumento"
+                      type="text"
+                      placeholder="Numero de documento"
+                      className="form-control border rounded-pill px-3"
+                    />
                   </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="nombre completo"
-                        {...register("nombreCompleto")}
-                      />
-                      <label className="ms-2">Nombre completo</label>
-                    </div>
+                  <div className="col-12 col-sm-4 col-lg-4">
+                    <label>
+                      Nombre:
+                    </label>
+                    <input
+                      disabled="true"
+                      name="nombre"
+                      type="text"
+                      placeholder="Gina Rodríguez"
+                      className="form-control border rounded-pill px-3"
+                    />
                   </div>
                   <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
                       type="submit"
-                      className="mt-4 btn btn-primary flex-center text-capitalize"
+                      className="border rounded-pill px-3 btn bg-gradient-primary mt-3 mb-0 text-capitalize"
                     >
                       Buscar
                     </button>
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className="form-group mt-3 col-6 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
+                <div className="row mb-3">
+                  <div className="form-group col-12 col-sm-4 col-lg-4">
+                    <label>
                       Dependencia:
                     </label>
-
                     <Controller
                       name="dependencia"
+                      onClick={() => setRenderParcial(true)}
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
                           options={optionDependencia}
                           placeholder="Administrativa y financiera"
-                        />
-                      )}
-                    />
-                    {errors.nombre && (
-                      <p className="text-danger">Este campo es obligatorio</p>
-                    )}
-                  </div>
-                  <div className="form-group mt-3 col-6 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
-                      Grupo:
-                    </label>
 
-                    <Controller
-                      name="grupo"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionGroup}
-                          placeholder="Contaduria"
                         />
                       )}
                     />
-                    {errors.nombre && (
+                    {errors.dependencia && (
                       <p className="text-danger">Este campo es obligatorio</p>
                     )}
                   </div>
+
+                  {
+                    renderParcial &&
+                    (
+
+                      <div className="form-group col-12 col-sm-4 col-lg-4">
+                        <label>
+                          Grupo:
+                        </label>
+                        <Controller
+                          name="grupo"
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={optionGroup}
+                              placeholder="Contaduria"
+                            />
+                          )}
+                        />
+                        {errors.grupo && (
+                          <p className="text-danger">Este campo es obligatorio</p>
+                        )}
+                      </div>
+                    )
+                  }
                 </div>
 
-                <div className="row mt-5">
-                  <div className="col-1 col-sm-1">
+                <div className="row mb-1">
+                  <div className="col-12 col-sm-1">
                     <div className="form">
                       <label>
                         Filtrar:
@@ -221,11 +242,11 @@ const BusquedaArticuloPrestadoScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-3 col-sm-3">
+                  <div className="col-12 col-sm-3 col-lg-3">
                     <div className="form-check">
                       <label
-                        className="form-check-label mb-2"
-                        for="radioBotonSi"
+                        className="form-check-label"
+                        htmlFor="radioBotonSi"
                       >
                         Todos
                       </label>
@@ -237,11 +258,11 @@ const BusquedaArticuloPrestadoScreen = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="col-4 col-sm-4">
+                  <div className="col-12 col-lg-4 col-sm-4">
                     <div className="form-check">
                       <label
-                        className="form-check-label mb-2"
-                        for="radioBotonNo"
+                        className="form-check-label"
+                        htmlFor="radioBotonNo"
                       >
                         Prestados
                       </label>
@@ -253,11 +274,11 @@ const BusquedaArticuloPrestadoScreen = () => {
                       ></input>
                     </div>
                   </div>
-                  <div className="col-4 col-sm-4">
+                  <div className="col-12 col-lg-4 col-sm-4">
                     <div className="form-check">
                       <label
-                        className="form-check-label mb-2"
-                        for="radioBotonAsig"
+                        className="form-check-label"
+                        htmlFor="radioBotonAsig"
                       >
                         Asignados
                       </label>
@@ -270,9 +291,9 @@ const BusquedaArticuloPrestadoScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-center ">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-center ">
                   <button
-                    className="btn bg-gradient-primary me-md-2"
+                    className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
                     type="button"
                     title="Send"
                   >
@@ -280,7 +301,7 @@ const BusquedaArticuloPrestadoScreen = () => {
                   </button>
                 </div>
 
-                <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '260px' }}>
+                <div className="ag-theme-alpine mt-auto mb-4 px-auto" style={{ height: '260px' }}>
                   <AgGridReact
                     columnDefs={columnDefs}
                     rowData={rowData}
@@ -290,16 +311,16 @@ const BusquedaArticuloPrestadoScreen = () => {
 
                   </AgGridReact>
                 </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
                   <button
-                    className="btn bg-gradient-primary me-md-2"
+                    className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
                     type="button"
                     title="Send"
                   >
                     Cancelar
                   </button>
                   <button
-                    className="btn bg-gradient-danger "
+                    className="border rounded-pill px-3 btn bg-gradient-danger mb-3 text-capitalize"
                     type="button"
                     title="Send"
                   >
@@ -309,6 +330,15 @@ const BusquedaArticuloPrestadoScreen = () => {
               </div>
             </div>
           </form>
+          <BusquedaDePersonalModal
+            isModalActive={busquedaPersonalIsActive}
+            setIsModalActive={setBusquedaPersonalIsActive}
+          />
+
+          <BusquedaArticuloModal
+            isModalActive={busquedaArticuloIsActive}
+            setIsModalActive={setBusquedaArticuloIsActive}
+          />
         </div>
       </div>
     </div>

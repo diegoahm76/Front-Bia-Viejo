@@ -55,6 +55,8 @@ const ConservacionRoutes = () => {
 
           <Route path="produccionpropia" element={<ProduccionPropiaScreen />} />
 
+          <Route path="editarmaterialvegetal" element={<EditarMaterialVegetalScreen />} />
+
           <Route
             path="plantasencuarentena"
             element={<PlantasEnCuarentenaScreen />}

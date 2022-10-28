@@ -12,15 +12,23 @@ function AgregarViveroScreen() {
   const [setVivero] = useState("");
   const [setSiembra] = useState("");
 
-  const handleAddGrid = (dataAdd) => {
-    console.log(dataAdd)
-  }
+  // const handleAddGrid = (dataAdd) => {
+  //   console.log(dataAdd)
+  // }
 
   const onSubmit = (data) => {
     console.log(data)
     setVivero(data.seleccioneVivero.value);
     setSiembra(data.periodoSiembra.value);
   };
+
+  const optionViveroCreados = [
+    { label: "Recursos propios de la corporación", value: "RP" },
+    { label: "Compensación", value: "CO" },
+    { label: "Donación", value: "DO" },
+
+  ];
+
 
   const options = [
     { label: "Acacías", value: "Acac" },
@@ -31,7 +39,6 @@ function AgregarViveroScreen() {
     { label: "Cumaral", value: "Cuma" },
     { label: "El Calvario", value: "Elca" },
   ];
-  
   // const opcionMunicipio = [
   //   { label: "Acacías", value: "Acac" },
   //   { label: "Barranca de Upía", value: "Barra" },
@@ -51,7 +58,7 @@ function AgregarViveroScreen() {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn bg-gradient-danger me-md-2"
+            className="form-control border rounded-pill px-3 btn bg-gradient-danger me-md-2"
             type="button"
             title="Send"
           >
@@ -66,7 +73,7 @@ function AgregarViveroScreen() {
     { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
   ];
   const defaultColDef = {
-    
+
     sortable: true,
     flex: 1,
     filter: true,
@@ -99,7 +106,7 @@ function AgregarViveroScreen() {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Agregar Vivero</h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -111,145 +118,170 @@ function AgregarViveroScreen() {
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
           >
-
             <div className="multisteps-form__content">
               <div class="row">
-                <div className="row my-3">
-                  <div className="form-group mt-3 col-12 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
-                      Nombre:
-                    </label>
-                    <div className="input-group input-group-dynamic ">
-                      <input
-                        className="multisteps-form__input form-control ms-1"
-                        type="text"
-                        placeholder="Ingresa el nombre del vivero"
-                        name="nombre"
-                        {...register("nombre", { required: true })}
-                      />
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Nombre: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="nombreVivero"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    placeholder="Escribe el nombre del vivero"
+                    {...register("nombreVivero", { required: true })}
+                  />
+                  {errors.nombreVivero && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
                     </div>
-                    {errors.nombre && (
-                      <p className="text-danger">Este campo es obligatorio</p>
-                    )}
-                  </div>
+                  )}
                 </div>
-                <div className="row my-2">
-                  <div className="form-group mt-3 col-12 col-sm-6">
-                    <label className="font-weight" for="cantidadKg">
-                      Municipio:
-                    </label>
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label htmlFor="municipioOption">
+                    Municipio:<span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="municipioOpcion"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={options}
+                        placeholder="Selecciona municipio"
+                        {...register("municipioOpcion", { required: true })}
 
-                    <Controller
-                      name="asignarViverista"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={options}
-                          placeholder="Selecciona municipio"
-                        />
-                      )}
-                    />
-                    {errors.nombre && (
-                      <p className="text-danger">Este campo es obligatorio</p>
+                      />
                     )}
-                  </div>
-                </div>
-              </div>
-              <div className="row my-3">
-                <div className="form-group mt-3 col-12 col-sm-6">
-                  <label className="font-weight" for="cantidadKg">
-                    Dirección de:
-                  </label>
-                  <div className="input-group input-group-dynamic ">
-                    <input
-                      className="multisteps-form__input form-control ms-1"
-                      type="text"
-                      rules={{ required: true }}
-                      placeholder="Ingresa ubicación de vivero"
-                      name="nombre"
-                      {...register("nombre", { required: true })}
-                    />
-                  </div>
-                  {errors.nombre && (
+                  />
+                  {errors.municipioOpcion && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
-              </div>
-              <div className="row my-3">
-                <div className="form-group mt-3 col-12 col-sm-6">
-                  <label className="font-weight" for="cantidadKg">
-                    Área:
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Direccion de: <span className="text-danger">*</span>
                   </label>
-                  <div className="input-group input-group-dynamic ms-1">
-                    <input
-                      className="multisteps-form__input form-control "
-                      type="text"
-                      placeholder="Ingresa área para el vivero"
-                      name="nombre"
-                      {...register("nombre", { required: true })}
-                    />
-                  </div>
-                  {errors.nombre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
+                  <input
+                    name="ubicacionVivero"
+                    placeholder="Ingresa ubicación del vivero"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("ubicacionVivero", { required: true })}
+                  />
+                  {errors.ubicacionVivero && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
                 </div>
               </div>
-              <div className="row my-3">
-                <div className="form-group mt-3 col-12 col-sm-6">
-                  <label className="font-weight" for="cantidadKg">
-                    Área de propagación:
+
+              <div class="row mb-3">
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Área: <span className="text-danger">*</span>
                   </label>
-                  <div className="input-group input-group-dynamic ms-1">
-                    <input
-                      className="multisteps-form__input form-control "
-                      type="text"
-                      placeholder="Selecciona cantidad de área"
-                      name="nombre"
-                      {...register("nombre", { required: true })}
-                    />
-                  </div>
-                  {errors.nombre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
+                  <input
+                    name="nombreVivero"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    placeholder="Ingresa área para el vivero"
+                    {...register("nombreVivero", { required: true })}
+                  />
+                  {errors.nombreVivero && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Área de preparación: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="ubicacionVivero"
+                    placeholder="Ingresa cantidad de area"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("ubicacionVivero", { required: true })}
+                  />
+                  {errors.ubicacionVivero && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
                 </div>
               </div>
-              <div className="row mt-3">
-                <div className="form-group mt-3 col-4 col-sm-4">
-                  <label className="font-weight" for="cantidadKg">
-                    Georreferenciación:
-                    <span className="text-danger mt-0 ms-1">*</span>
+
+              <div className="multisteps-form__content mb-3">
+                <div className="row">
+                  <label className="form-control border rounded-pill px-3 bg-success mt-3">
+                    <n>Georreferenciación</n>
                   </label>
-                  <div className="input-group input-group-dynamic flex-column">
-                    <label htmlFor="exampleFormControlInput1">Latitud</label>
-                    <input
-                      className="multisteps-form__input form-control w-auto"
-                      type="text"
-                    />
-                  </div>
                 </div>
-                <div className="form-group mt-auto col-4 col-sm-4">
-                  <div className="input-group input-group-dynamic flex-column">
-                    <label htmlFor="exampleFormControlInput1">Longitud</label>
-                    <input
-                      className="multisteps-form__input form-control w-auto"
-                      type="text"
-                    />
-                  </div>
+              </div>
+
+              <div className="row mb-3">
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Latitud: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="latitudTable"
+                    placeholder="Ingresa la latitud"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("latitudTable", { required: true })}
+                  />
+                  {errors.latitudTable && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
-                <div class="col-4 col-sm-4 mt-5">
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Longitud: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="ubicacionVivero"
+                    placeholder="Ingresa la longitud"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("ubicacionVivero", { required: true })}
+                  />
+                  {errors.ubicacionVivero && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div class="col-4 col-sm-4 mt-auto">
                   <button
-                    className="btn bg-gradient-primary "
+                    className="form-control border rounded-pill px-3 btn bg-gradient-primary"
                     type="button"
                     title="Send"
-                    handleAddGrid={handleAddGrid}   
+                  // handleAddGrid={handleAddGrid}
                   >
                     Guardar
                   </button>
                 </div>
 
                 <div
-                  className="ag-theme-alpine mt-3 mb-2 "
+                  className="ag-theme-alpine my-3 "
                   style={{ height: "225px" }}
                 >
                   <AgGridReact
@@ -257,17 +289,16 @@ function AgregarViveroScreen() {
                     rowData={rowData}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
-                    handleAddGrid={handleAddGrid}
-                    
+                  // handleAddGrid={handleAddGrid}
+
                   ></AgGridReact>
-                  <div></div>
                 </div>
               </div>
 
-              <div className="row mt-3">
+              <div class="row mb-3">
                 <div className="col-12 col-sm-4">
                   <div className="input-group input-group-dynamic">
-                    <label className="font-weight">área de produccion</label>
+                    <label className="font-weight">Área de produccion</label>
                   </div>
                 </div>
                 <div className="col-12 col-sm-4 ">
@@ -279,13 +310,14 @@ function AgregarViveroScreen() {
                           for="radioBotonSi"
                         >
                           Si {""}
+                          <input
+                            className="form-check-input ms-2"
+                            type="radio"
+                            name="radioBoton"
+                            id="radioBotonSi"
+                          />
+                          <span className="text-danger">*</span>
                         </label>
-                        <input
-                          className="form-check-input ms-2"
-                          type="radio"
-                          name="radioBoton"
-                          id="radioBotonSi"
-                        ></input>
                       </div>
                     </Col>
                     <Col>
@@ -294,26 +326,33 @@ function AgregarViveroScreen() {
                           className="form-check-label mb-2"
                           for="radioBotonNo"
                         >
-                          No
+                          No {""}
+
+                          <input
+                            className="form-check-input ms-2"
+                            type="radio"
+                            name="radioBoton"
+                            id="radioBotonNo"
+                          />
+                          <span className="text-danger">*</span>
                         </label>
-                        <input
-                          className="form-check-input ms-2"
-                          type="radio"
-                          name="radioBoton"
-                          id="radioBotonNo"
-                        ></input>
-                        <span className="text-danger mt-0 ms-1">*</span>
                       </div>
                     </Col>
+                    {errors.radioBoton && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </Row>
                 </div>
-                <Col></Col>
               </div>
-              <div className="row mt-3">
+              <div className="row mb-3">
                 <div className="col-12 col-sm-4">
                   <div className="input-group input-group-dynamic">
                     <label className="font-weight">
-                      área de preparación de sustrato
+                      Área de preparación de sustrato
                     </label>
                   </div>
                 </div>
@@ -326,13 +365,15 @@ function AgregarViveroScreen() {
                           for="radioBotonSiProd"
                         >
                           Si {""}
+
+                          <input
+                            className="form-check-input ms-2"
+                            type="radio"
+                            name="radioBoton2"
+                            id="radioBotonSiProd"
+                          />
+                          <span className="text-danger">*</span>
                         </label>
-                        <input
-                          className="form-check-input ms-2"
-                          type="radio"
-                          name="radioBoton2"
-                          id="radioBotonSiProd"
-                        ></input>
                       </div>
                     </Col>
                     <Col>
@@ -341,62 +382,71 @@ function AgregarViveroScreen() {
                           className="form-check-label mb-2"
                           for="radioBotonNoProd"
                         >
-                          No
+                          No {""}
+                          <input
+                            className="form-check-input ms-2"
+                            type="radio"
+                            name="radioBoton2"
+                            id="radioBotonNoProd"
+                          />
+                          <span className="text-danger">*</span>
                         </label>
-                        <input
-                          className="form-check-input ms-2"
-                          type="radio"
-                          name="radioBoton2"
-                          id="radioBotonNoProd"
-                        ></input>
-                        <span className="text-danger mt-0 ms-1">*</span>
                       </div>
                     </Col>
+                    {errors.radioBoton2 && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </Row>
                 </div>
-                <Col></Col>
               </div>
-              <Row>
-                <div className="col-6 col-sm-5">
-                  <div className="input-group input-group-dynamic flex-column col-6 col-sm-5">
-                    <label htmlFor="exampleFormControlInput1">
-                      Area de embolsado
-                    </label>
-                    <input
-                      className="multisteps-form__input form-control p-0 w-auto  ms-1"
-                      type="text"
-                      placeholder="Nombre"
-                      name="nombre"
-                      {...register("nombre", { required: true })}
-                    />
-                  </div>
-                  <div className="col-6 col-sm-4"></div>
-                  {errors.nombre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
+
+
+              <div className="row mb-3">
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Área de embolsado: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="embolsado"
+                    placeholder="Selecciona cantidad de embolsado"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("embolsado", { required: true })}
+                  />
+                  {errors.embolsado && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
                 </div>
-              </Row>
-              <Row>
-                <div className="col-6 col-sm-5">
-                  <div className="input-group input-group-dynamic flex-column col-6 col-sm-5 my-3">
-                    <label htmlFor="exampleFormControlInput1">
-                      Numero de bodegas
-                    </label>
-                    <input
-                      className="multisteps-form__input form-control p-0 w-auto ms-1"
-                      type="number"
-                      placeholder="Cantidad de bodegas"
-                      name="nombre"
-                      {...register("nombre", { required: true })}
-                    />
-                  </div>
-                  <div className="col-6 col-sm-4"></div>
-                  {errors.nombre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
+                <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                  <label>
+                    Número de bodegas: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="numeroBodegas"
+                    placeholder="Selecciona cantidad de bodegas"
+                    type="number"
+                    className="form-control border rounded-pill px-3"
+                    {...register("numeroBodegas", { required: true })}
+                  />
+                  {errors.numeroBodegas && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
                 </div>
-              </Row>
-              <div className="row mt-3">
+              </div>
+
+              <div className="row mb-3">
                 <div className="col-12 col-sm-4">
                   <div className="input-group input-group-dynamic">
                     <label className="font-weight">Tipo de vivero</label>
@@ -429,7 +479,7 @@ function AgregarViveroScreen() {
                           id="viveroSalienteRadio"
                         ></input>
                         <label
-                          className="form-check-label mb-2"
+                          className="form-check-label "
                           for="viveroSalienteRadio"
                         >
                           vivero saliente
@@ -442,50 +492,58 @@ function AgregarViveroScreen() {
               </div>
               <Col></Col>
               <Row>
-                <div className="col-6 col-sm-5">
-                  <div className="input-group input-group-dynamic flex-column col-6 col-sm-5">
-                    <label htmlFor="exampleFormControlInput1">
-                      Asignar viverista
-                    </label>
-                    <Controller
-                      name="opcionViverista"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={options}
-                          placeholder="Seleccione"
+                <div className="row mb-3">
+                  <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                    <div className="input-group input-group-dynamic flex-column col-6 col-sm-5">
+                      <label htmlFor="asignarViverista">
+                        Asignar viverista: <span className="text-danger">*</span>
+                        <Controller
+                          name="asignarViverista"
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={options}
+                              placeholder="Selecciona usuario"
+                              {...register("asignarViverista", { required: true })}
+                            />
+                          )}
                         />
+                      </label>
+                      {errors.asignarViverista && (
+                        <p className="text-danger">Este campo es obligatorio</p>
                       )}
-                    />
+                    </div>
                   </div>
-                  <div className="col-6 col-sm-4"></div>
-                  {errors.nombre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
+                  <div className="col-12 col-sm-4 col-lg-4 mb-3">
+                    <div className="input-group input-group-dynamic flex-column col-6 col-sm-5">
+                      <label htmlFor="viveroCreado">
+                        Vivero creado por medio de: <span className="text-danger">*</span>
+                        <Controller
+                          name="viveroCreado"
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={optionViveroCreados}
+                              placeholder="Seleccione"
+                              {...register("viveroCreado", { required: true })}
+
+                            />
+                          )}
+                        />
+                      </label>
+                      {errors.viveroCreado && (
+                        <p className="text-danger">Este campo es obligatorio</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </Row>
-              <div className="col-8 col-sm-5 my-3">
-                <div className="input-group input-group-dynamic flex-column">
-                  <label htmlFor="exampleFormControlInput1">
-                    Vivero creado por medio de:
-                  </label>
-                  <input
-                    className="multisteps-form__input form-control p-0 w-auto"
-                    type="number"
-                    placeholder="Recursos propios de la corporacion"
-                    name="nombreVivero"
-                    {...register("nombre", { required: true })}
-                  />
-                </div>
-                {errors.nombre && (
-                  <p className="text-danger">Este campo es obligatorio</p>
-                )}
-              </div>     
               <div className="row">
                 <div className=" mb-3 col-8 col-sm-6">
                   <label for="formFileMultiple" class="form-label">
-                    Anexar archivos
+                    Anexar Documentación <span className="text-danger">*</span>
                   </label>
                   <input
                     class="form-control"
@@ -505,9 +563,10 @@ function AgregarViveroScreen() {
               </div>
               <div className="button-row ">
                 <button
-                  className="btn bg-gradient-primary ms-auto mb-0"
-                  type="button"
+                  className="form-control border rounded-pill px-3 btn bg-gradient-primary mb-0 text-capitalize"
+                  type="submit"
                   title="Send"
+                  form="configForm"
                 >
                   Crear vivero
                 </button>

@@ -1,7 +1,7 @@
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 
-//import "react-quill/dist/quill.snow.css";
+// import "react-quill/dist/quill.snow.css";
 import { AgGridReact } from 'ag-grid-react';
 import React, { useState } from 'react';
 
@@ -65,8 +65,8 @@ const InventarioViveroCompensacion = () => {
                         data-animation="FadeIn"
                     >
                         <div className="row my-2  align-items-center  ">
-                            <div className="form-group mt-3 col-6 col-sm-6">
-                                <label className="font-weight" for="cantidadKg">
+                            <div className="form-group mt-3 col-12 col-sm-4 col-lg-4 mb-3">
+                                <label className="font-weight" htmlFor="cantidadKg">
                                     Etapa de material vegetal:
                                 </label>
 
@@ -87,24 +87,17 @@ const InventarioViveroCompensacion = () => {
                                 )}
 
                             </div>
-                            <div class="col-6 mt-5">
+                            <div className="col-12 col-sm-4 col-lg-4 mt-5">
                                 <button
-                                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                                    className="border rounded-pill px-3 btn bg-gradient-primary mb-0 text-capitalize"
                                     type="submit"
-                                    title="Send"
-                                    form="configForm"
                                 >
                                     Buscar
                                 </button>
                             </div>
                         </div>
-
                         {
                             selecOpciones.asignarViverista && (
-
-
-
-
                                 <div className="multisteps-form__content">
                                     <div className="ag-theme-alpine mb-2" style={{ height: '225px' }}>
                                         <AgGridReact
@@ -115,60 +108,68 @@ const InventarioViveroCompensacion = () => {
                                         >
                                         </AgGridReact>
                                     </div>
-
-
-
-                                    <div className="form-group mt-3 col-12 col-sm-4">
-                                        <label className="font-weight" for="cantidadMaterialVegetal">Cantidad del material vegetal</label>
-                                        <div className="input-group input-group-dynamic ">
+                                    <div className="row mb-3">
+                                        <div className="col-12 col-lg-4 col-sm-4">
+                                            <label>
+                                                Cantidad de material vegetal: <span className="text-danger">*</span>
+                                            </label>
                                             <input
-                                                className="multisteps-form__input form-control "
+                                                name="cantidadMaterialVegetal"
                                                 type="number"
-                                                placeholder="Cantidad"
-                                                name="cantidaMaterialVegetal"
-                                                {...register("cantidaMaterialVegetal", { required: true })}
+                                                className="form-control border rounded-pill px-3"
+                                                {...register("cantidadMaterialVegetal", { required: true })}
                                             />
-                                            {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+                                            {errors.cantidadMaterialVegetal && (
+                                                <div className="col-12">
+                                                    <small className="text-center text-danger">
+                                                        Este campo es obligatorio
+                                                    </small>
+                                                </div>
+                                            )}
                                         </div>
-                                        
-                                    </div>
-                                    <div className="form-group mt-3 col-12 col-sm-4">
-                                        <label className="font-weight" for="ubicacionMaterialVegetal">Ubicación de material vegetal</label>
-                                        <div className="input-group input-group-dynamic ">
+                                        <div className="col-12 col-lg-4 col-sm-4">
+                                            <label>
+                                                Ubicación de material vegetal: <span className="text-danger">*</span>
+                                            </label>
                                             <input
-                                                className="multisteps-form__input form-control "
-                                                type="text"
-                                                placeholder="Ubicación"
-                                                name="ubicacionMaterialVegetal"
-                                                {...register("ubicacionMaterialVegetal", { required: true })}
+                                                name="ubicaciónMaterialVegetal"
+                                                type="number"
+                                                className="form-control border rounded-pill px-3"
+                                                {...register("ubicaciónMaterialVegetal", { required: true })}
                                             />
-                                            {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+                                            {errors.ubicaciónMaterialVegetal && (
+                                                <div className="col-12">
+                                                    <small className="text-center text-danger">
+                                                        Este campo es obligatorio
+                                                    </small>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
-                                    <div className="input-group flex-column my-3">
+                                    <div className="input-group input-group-dynamic flex-column my-3">
                                         <label htmlFor="exampleFormControlTextArea">Observaciones</label>
-
                                         <textarea
-                                            className="multisteps-form__textarea form-control p-0 w-auto "
-                                            type="number"
+                                            className="form-control borderRadius  px-3 multisteps-form__textarea form-control p-0 w-auto "
+                                            rows="3"
+                                            style={{ borderRadius: "1rem;" }}
+                                            type="text"
                                             placeholder="Nombre"
-                                            name="observacion"
-                                            {...register("observacion", { required: true })}
+                                            name="observaciones"
+                                            {...register("observaciones", { required: true })}
                                         />
-                                        {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
-                                    </div>                                 
-                                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                    </div>
+                                    {errors.observaciones && <p className="text-danger">Este campo es obligatorio</p>}
+                                    <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                                         <button
-                                            className="btn bg-gradient-danger me-md-2"
+                                            className="border rounded-pill px-3 btn bg-gradient-danger me-md-2"
                                             type="button"
                                             title="Send"
                                         >
                                             Cancelar
                                         </button>
                                         <button
-                                            className="btn bg-gradient-primary "
-                                            type="button"
-                                            title="Send"
+                                            className="border rounded-pill px-3 btn bg-gradient-primary "
+                                            type="submit"
                                         >
                                             Guardar
                                         </button>

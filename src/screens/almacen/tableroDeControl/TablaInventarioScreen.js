@@ -89,7 +89,7 @@ const TablaInventarioScreen = () => {
             >
               <div className="multisteps-form__content">
                 <div>
-                  <div className="ag-theme-alpine mt-auto mb-8 px-4" style={{ height: '470px' }}>
+                  <div className="ag-theme-alpine my-auto px-auto" style={{ height: '470px' }}>
                     <AgGridReact
                       columnDefs={columnDefs}
                       rowData={dataRowFilter}

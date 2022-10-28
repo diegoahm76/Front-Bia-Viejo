@@ -64,7 +64,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="row">
-              <label className="form-control ms-0  text-center">
+              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                 <n>Activo</n>
               </label>
 
@@ -76,7 +76,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
 
                     disabled="true"
                   />
-                  <label className="ms-2">160064</label>
+                  <label htmlFor="#!" className="ms-2">160064</label>
                 </div>
               </div>
               <div className="col-12 col-sm-4">
@@ -86,18 +86,18 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     type="text"
                     disabled="true"
                   />
-                  <label className="ms-2">Lenovo Laptop</label>
+                  <label htmlFor="#!" className="ms-2">Lenovo Laptop</label>
                 </div>
               </div>
             </div>
             <div className="row">
               <div className="col-12 col-sm-4">
-                <label className="form-control ms-0 text-center mt-3 ">
+                <label htmlFor="#!" className="form-control ms-0 text-center mt-3 ">
                   <n>Serial</n>
                 </label>
               </div>
               <div className="col-12 col-sm-4">
-                <label className="form-control ms-0 text-center mt-3 ">
+                <label htmlFor="#!" className="form-control ms-0 text-center mt-3 ">
                   <n>Artículo</n>
                 </label>
               </div>
@@ -111,7 +111,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     type="text"
                     disabled="true"
                   />
-                  <label className="ms-2">93rtgd</label>
+                  <label htmlFor="#!" className="ms-2">93rtgd</label>
                 </div>
               </div>
               <div className="col-12 col-sm-4">
@@ -121,19 +121,19 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     type="text"
                     disabled="true"
                   />
-                  <label className="ms-2">Computador</label>
+                  <label htmlFor="#!" className="ms-2">Computador</label>
                 </div>
               </div>
             </div>
 
             <div className="row mb-4">
-              <label className="form-control ms-0 text-center mt-3">
+              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                 <n>Caracteristicas</n>
               </label>
               <div className="input-group input-group-dynamic flex-column my-3">
                 <textarea
                   className="multisteps-form__textarea form-control p-0 w-auto ms-1"
-                  type="number"
+                  type="text"
                   placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                   name="nombre"
                   {...register("nombre", { required: true })}
@@ -141,11 +141,11 @@ const HojaDeVidaOtrosActivosScreen = () => {
               </div>
             </div>
             <div className="row mb-4">
-              <label className="form-control ms-0 text-center mt-2">
+              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                 <n>Especificaciones fisicas</n>
               </label>
               <div className="col-12 col-sm-4">
-                <label className="form-control ms-0 text-center mt-1 ">
+                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                   <n>Color:</n>
                 </label>
                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -154,11 +154,11 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     type="text"
                     disabled="true"
                   />
-                  <label className="ms-2">Amarillo</label>
+                  <label htmlFor="#!" className="ms-2">Amarillo</label>
                 </div>
               </div>
               <div className="col-12 col-sm-4">
-                <label className="form-control ms-0 text-center mt-1 ">
+                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                   <n>Marca:</n>
                 </label>
                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -167,12 +167,12 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     type="text"
                     disabled="true"
                   />
-                  <label className="ms-2">Garmin</label>
+                  <label htmlFor="#!" className="ms-2">Garmin</label>
                 </div>
               </div>
 
               <div className="col-12 col-sm-4">
-                <label className="form-control ms-0 text-center mt-1 ">
+                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                   <n>Estado:</n>
                 </label>
                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -181,12 +181,12 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     type="text"
                     disabled="true"
                   />
-                  <label className="ms-2">Bueno</label>
+                  <label htmlFor="#!" className="ms-2">Bueno</label>
                 </div>
               </div>
               <div className="row">
                 <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
+                  <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                     <n>Modelo:</n>
                   </label>
                   <div className="form-floating input-group input-group-dynamic ms-2">
@@ -195,19 +195,19 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       type="text"
                       disabled="true"
                     />
-                    <label className="ms-2">10px</label>
+                    <label htmlFor="#!" className="ms-2">10px</label>
                   </div>
                 </div>
               </div>
             </div>
             <div className="row mb-4">
-              <label className="form-control ms-0 fw-bolder text-center mt-3">
+              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                 <n>Especificaciones técnicas</n>
               </label>
               <div className="input-group input-group-dynamic flex-column my-3">
                 <textarea
                   className="multisteps-form__textarea form-control p-0 w-auto ms-1"
-                  type="number"
+                  type="text"
                   placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                   name="nombre"
                   {...register("nombre", { required: true })}
@@ -216,7 +216,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
             </div>
 
             <div className="row">
-              <label className="form-control ms-0 text-left mt-auto ms-4">
+              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                 <n>Mantenimientos</n>
               </label>
               <div className="ag-theme-alpine mt-auto mb-3 px-4" style={{ height: '275px' }}>
@@ -229,7 +229,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                 </AgGridReact>
               </div>
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-gradient-primary me-md-2"
                 type="button"
@@ -240,7 +240,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
             </div>
 
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-left mt ms-4">
+              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                 <n>Asignaciones/Préstamos</n>
               </label>
               <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '275px' }}>
@@ -253,7 +253,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                 </AgGridReact>
               </div>
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-gradient-primary me-md-2"
                 type="button"
@@ -263,7 +263,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
               </button>
             </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-gradient-primary me-md-2"
                 type="button"

@@ -1,12 +1,10 @@
-import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
+import React, { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal"
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 
@@ -196,7 +194,7 @@ const ProgamacionDeMantenimiento = () => {
               </label>
             </div>
 
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-12">
                 <label className="form-control ms-0 text-left mt-3">
                   <n>Datos del artículo:</n>
@@ -204,7 +202,7 @@ const ProgamacionDeMantenimiento = () => {
               </div>
             </div>
 
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-4">
                 <label className="form-control ms-0 text-center mt-1 ">
                   <n>Marca:</n>
@@ -259,7 +257,7 @@ const ProgamacionDeMantenimiento = () => {
               </div>
             </div>
 
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-12">
                 <label className="form-control ms-0 text-left mt-3">
                   <n>Detalles:</n>
@@ -267,7 +265,7 @@ const ProgamacionDeMantenimiento = () => {
               </div>
             </div>
 
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de mantenimiento{" "}
@@ -303,14 +301,14 @@ const ProgamacionDeMantenimiento = () => {
               </div>
             </div>
 
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-12">
                 <label className="form-control ms-0 text-left mt-3">
                   <n>Programar por fechas:</n>
                 </label>
               </div>
             </div>
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Programación{" "}
@@ -361,7 +359,7 @@ const ProgamacionDeMantenimiento = () => {
                 </label>
               </div>
             </div>
-            <div class="row">
+            <div className="row">
               <div className="col-12 col-sm-4 ">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de solicitud
@@ -383,7 +381,7 @@ const ProgamacionDeMantenimiento = () => {
                   />
                 </label>
               </div>
-              <div class="row">
+              <div className="row">
                 <div className="col-12 col-sm-5">
                   <div className="form-check form-switch d-flex align-items-center mt-3">
                     <label className="form-check ">Incluir sabados y domingos</label>
@@ -395,7 +393,7 @@ const ProgamacionDeMantenimiento = () => {
                   </div>
                 </div>
               </div>
-              <div class="row">
+              <div className="row">
                 <div className="col-12 col-sm-5">
                   <div className="form-check form-switch d-flex align-items-center mt-3">
                     <label className="form-check">Incluir festivos</label>
@@ -409,7 +407,7 @@ const ProgamacionDeMantenimiento = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-gradient-primary me-md-2"
                 type="button"
@@ -435,7 +433,7 @@ const ProgamacionDeMantenimiento = () => {
                 </AgGridReact>
               </div>
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-gradient-primary me-md-2"
                 type="button"

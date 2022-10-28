@@ -8,7 +8,7 @@ import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
 const InventarioViveroCompensacion = () => {
- // Optional - for accessing Grid's API
+    // Optional - for accessing Grid's API
 
 
     // Each Column Definition results in one Column.
@@ -25,7 +25,7 @@ const InventarioViveroCompensacion = () => {
                         type="checkbox"
                         id="rememberMe"
                     />
-                    <label class="form-check-label mt-1" >Activo</label>
+                    <label className="form-check-label mt-1" >Activo</label>
                 </div>
         }
 
@@ -35,7 +35,7 @@ const InventarioViveroCompensacion = () => {
         { nombre: "jobo", descripcion: "spondias mombin L.", fecha: "Mapiripan", estado: "" },
 
     ]
-    const defaultColDef = { sortable: true, flex: 1, filter: true,  wrapHeaderText: true, resizable: true, initialWidth: 200, autoHeaderHeight: true, suppressMovable: true }
+    const defaultColDef = { sortable: true, flex: 1, filter: true, wrapHeaderText: true, resizable: true, initialWidth: 200, autoHeaderHeight: true, suppressMovable: true }
     const onGridReady = (params) => {
         gridApi = params.api
     }
@@ -45,79 +45,34 @@ const InventarioViveroCompensacion = () => {
 
 
     return (
-        <div className="row min-vh-100">
-            <div className="col-lg-10 col-md-10 col-12 mx-auto">
-                <h3 className="mt-3 mb-0 text-center mb-6">Centro notificaciones</h3>
-                {/* <p className="lead font-weight-normal opacity-8 mb-7 text-center">
-          This information will let us know more about you.
-        </p> */}
 
-                <div className="ag-theme-alpine mt-auto mb-8 px-4" style={{ height: '500px' }}>
-                    <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
+        <div className="min-vh-100">
+            <div className="row">
+                <div className="col col-lg-12 col-md-12 col-12 mx-auto">
+                    <h3 className="text-center my-4">Producción Propia</h3>
+                </div>
+            </div>
+            <div className="card col-lg-12 col-md-12 col-12 mx-auto">
+                <form className="multisteps-form__form">
+                    <div
+                        className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                        data-animation="FadeIn"
                     >
 
-                    </AgGridReact>
-                </div>
+                        <div className="ag-theme-alpine mx-auto my-auto" style={{ height: '500px' }}>
+                            <AgGridReact
+                                columnDefs={columnDefs}
+                                rowData={rowData}
+                                defaultColDef={defaultColDef}
+                                onGridReady={onGridReady}
+                            >
 
-                {/**  
-                <div className="card" style={{ background: "#8bd3f8", width: "max" }}>
-                    <div className="card-body">
-                        <div className="button-row d-flex mt-2 align-items-right ">
-                            <div>
-                                <label className="text-white card-title h4 col-12 col-sm-6">Vivero Villavicencio</label>
-                            </div>
-                            <div >
-                                <label className="text-white ml-auto ml-auto card-title text-right h6 col-12 col-sm-6">Hoy</label>
-                            </div>
+                            </AgGridReact>
                         </div>
-                        <div>
-                            <label className="text-white card-subtitle mb-2 h6 ">Se realizó la tarea Abono vivero</label>
-                        </div>
-                        <div>
-                            <label className="text-white h6">William Pérez</label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div className="card" style={{ background: "gray", width: "max" }}>
-                <div className="card-body">
-                        <div className="button-row d-flex mt-2 align-items-right ">
-                            <label className="text-white card-title h4">Vivero Villavicencio</label>
-                            <div >
-                                <label className="text-white ml-auto ml-auto card-title text-right h6">Hace 3 días</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label className="text-white card-subtitle mb-2 h6 ">No se realizó la tarea fertilización debido a que no habia insumos</label>
-                        </div>
-                        <div>
-                            <label className="text-white h6">María martinez</label>
-                        </div>
-                    </div>
-                    </div>    
 
-                    <div className="card" style={{ width: "max" }}>
-                    <div className="card-body">
-                        <div className="button-row d-flex mt-2 align-items-right ">
-                            <label className="card-title h4">Vivero Villavicencio</label>
-                            <div >
-                                <label className=" ml-auto ml-auto card-title text-right h6">Hace 4 días</label>
-                            </div>
-                        </div>
-                        <div>
-                            <label className="card-subtitle mb-2 h6 ">Solicitud insumos y herramientas</label>
-                        </div>
-                        <div>
-                            <label className=" h6">William Pérez</label>
-                        </div>
-                        </div>
-                    </div>
 
-                    */}
+                    </div>
+                </form>
             </div>
         </div>
     );

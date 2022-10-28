@@ -162,7 +162,7 @@ const BusquedaActivosSubdelegadosScreen = () => {
               </div>
 
               <div className="row mt-3">
-                <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '275px' }}>
+                <div className="ag-theme-alpine my-3 px-auto" style={{ height: '275px' }}>
                   <AgGridReact
                     columnDefs={columnDefs}
                     rowData={rowData}
@@ -173,7 +173,7 @@ const BusquedaActivosSubdelegadosScreen = () => {
                 </div>
               </div>
 
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
                 <button
                   className="btn bg-gradient-danger "
                   type="button"

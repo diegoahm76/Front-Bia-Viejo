@@ -386,7 +386,7 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
                 name="Observaciones"
               />
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
                 className="btn bg-primary text-white text-capitalize"
                 type="submit"

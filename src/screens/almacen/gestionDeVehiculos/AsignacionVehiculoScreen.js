@@ -169,7 +169,7 @@ import BusquedaDeVehiculoModal from "../../../components/BusquedaDeVehiculoModal
                   <label className="ms-2">Linea</label>
                 </div>
               </div>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
                   className="btn bg-primary me-md-2 text-white text-capitalize"
                   type="button"
@@ -242,7 +242,7 @@ import BusquedaDeVehiculoModal from "../../../components/BusquedaDeVehiculoModal
                   />
                 </label>
               </div>
-              <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
                   className="btn bg-primary me-md-2 text-white text-capitalize"
                   type="button"
