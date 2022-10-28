@@ -1,12 +1,10 @@
-import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
+import React, { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal"
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 

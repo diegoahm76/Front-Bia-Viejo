@@ -1,32 +1,35 @@
-import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
+import React, { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
+import ModalLocal from "../../../../components/ModalLocal";
 
 
 const rowDataInicial = [
-  { CO: 9373, NE: "computador", ID: "0003", MR: "Accer", SL: 2342, VO: 1100000, EO: "Bueno", JO: "aa" },
-  { CO: 9373, NE: "computador", ID: "0003", MR: "Accer", SL: 2342, VO: 1100000, EO: "Bueno", JO: "aa" },
-  { CO: 9373, NE: "computador", ID: "0003", MR: "Accer", SL: 2342, VO: 1100000, EO: "Bueno", JO: "aa" },
+  { BU: "", CO: 9373, NE: "computador", ID: "0003", MR: "Accer", SL: 2342, VO: 1100000, JO: "aa" },
+  { BU: "", CO: 9373, NE: "computador", ID: "0003", MR: "Accer", SL: 2342, VO: 1100000, JO: "aa" },
+  { BU: "", CO: 9373, NE: "computador", ID: "0003", MR: "Accer", SL: 2342, VO: 1100000, JO: "aa" },
 
 ];
 
+const optionState = [
+  { label: "Bueno", value: "BU" },
+  { label: "Defectuoso", value: "DE" },
+]
 
 const options = [
-  { label: "Vivero1", value: "Vivero1" },
-  { label: "Vivero2", value: "Vivero2" },
-  { label: "Vivero3", value: "Vivero3" },
-  { label: "Vivero4", value: "Vivero4" },
-  { label: "Vivero5", value: "Vivero5" },
-  { label: "Vivero6", value: "Vivero6" },
-  { label: "Vivero7", value: "Vivero7" },
+  { label: "Vivero 1", value: "Vivero1" },
+  { label: "Vivero 2", value: "Vivero2" },
+  { label: "Vivero 3", value: "Vivero3" },
+  { label: "Vivero 4", value: "Vivero4" },
+  { label: "Vivero 5", value: "Vivero5" },
+  { label: "Vivero 6", value: "Vivero6" },
+  { label: "Vivero 7", value: "Vivero7" },
 ];
 
 const optionIdentify = [
@@ -38,6 +41,8 @@ const optionIdentify = [
 
 
 function ReasignacionElementosSubAsignadosScreen() {
+
+  const [startDate, setStartDate] = useState(new Date());
 
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
     useState(false);
@@ -70,15 +75,43 @@ function ReasignacionElementosSubAsignadosScreen() {
 
   let gridApi
   const columnDefs = [
+    {
+      headerName: "", field: "BU", minWidth: 170, cellRendererFramework: (params) => (
+        <div className="col-12 col-sm-12 justify-content-md-center">
+          <button
+            className="btn bg-gradient-primary text-capitalize "
+            type="button"
+            title="Send"
+            form="configForm"
+            onClick={() => handleOpenModalDespachar(true)}
+          >
+            Buscar personal
+          </button>
+        </div>
+
+      ),
+    },
     { headerName: "Código", field: "CO", minWidth: 150 },
     { headerName: "Nombre", field: "NE", minWidth: 150 },
     { headerName: "ID unico", field: "ID", minWidth: 150 },
     { headerName: "Marca", field: "MR", minWidth: 150 },
     { headerName: "Serial", field: "SL", minWidth: 150 },
     { headerName: "Valor unitario", field: "VO", minWidth: 150 },
-    { headerName: "Estado", field: "EO", minWidth: 150},
-    { headerName: "Justificación", field: "JO", minWidth: 150 },
+    {
+      headerName: "Justificación", field: "JO", minWidth: 150, cellRendererFramework: (params) => (
+        <div className="col-12 col-sm-12 justify-content-md-center">
+          <button
+            type="button"
+            className="btn bg-gradient-info text-capitalize "
+            onClick={handleOpenModalDespachar}
+          >
+            Ver
+          </button>
+        </div>
+      )
+    },
   ]
+
 
   const defaultColDef = { sortable: true, flex: 1, filter: true, wrapHeaderText: true, resizable: true, initialWidth: 200, autoHeaderHeight: false, suppressMovable: true }
   const onGridReady = (params) => {
@@ -96,6 +129,16 @@ function ReasignacionElementosSubAsignadosScreen() {
     setPage(1);
   };
 
+  const [despachar, setDespachar] = useState(false);
+
+  const handleOpenModalDespachar = () => {
+    setDespachar(true);
+  };
+
+  const handleCloseModalDespachar = () => {
+    setDespachar(false);
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -110,6 +153,29 @@ function ReasignacionElementosSubAsignadosScreen() {
             <h5 className="font-weight-bolder">Reasignar</h5>
 
             <div className="row">
+              <div className="row">
+                <div className="col-12 col-sm-4 justify-content-end">
+                  <label htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha de solicitud
+                    <Controller
+                      name="fechaSolicitud"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          selected={startDate}
+                          dateFormat="dd/MM/yyyy"
+                          includeDates={[new Date()]}
+                          onChange={(date) => setStartDate(date)}
+                          className="multisteps-form__input form-control p-2"
+                          placeholderText="dd/mm/aaaa"
+                        />
+                      )}
+                    />
+                  </label>
+                </div>
+              </div>
               <label className="form-control ms-0 fw-bolder text-center">
                 <n>Quien entrega</n>
               </label>
@@ -131,7 +197,6 @@ function ReasignacionElementosSubAsignadosScreen() {
                       )}
                     /></div>
                 </label>
-
               </div>
               <div className="col-12 col-sm-4">
                 <div className="form-floating input-group input-group-dynamic ">
@@ -246,7 +311,7 @@ function ReasignacionElementosSubAsignadosScreen() {
           <div className="row" hidden={page === 1}>
             <h5 className="font-weight-bolder">Datos de notificacion</h5>
             <div>
-              <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '470px' }}>
+              <div className="ag-theme-alpine mt-auto my-auto px-auto" style={{ height: '470px' }}>
                 <AgGridReact
                   columnDefs={columnDefs}
                   rowData={rowData}
@@ -276,7 +341,7 @@ function ReasignacionElementosSubAsignadosScreen() {
               {page === 1 ? "Siguiente >>" : "Actualizar"}
             </button>
             <button
-              className="btn bg-gradient-primary mb-0 text-capitalize"
+              className="btn bg-gradient-success mb-0 text-capitalize"
               type="submit"
               title="Send"
               form="configForm"
@@ -284,6 +349,65 @@ function ReasignacionElementosSubAsignadosScreen() {
               {"Guardar"}
             </button>
           </div>
+          <ModalLocal localState={despachar}>
+            <div className="row min-vh-100">
+              <div className="col-lg-12 col-md-12 col-12 mx-auto">
+                <h3 className="mt-3 mb-0 text-center">Justificación</h3>
+                <form
+                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                  data-animation="FadeIn"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className="col-12 col-sm-6">
+                    <label className="form-floating input-group input-group-dynamic fw-bolder ms-2">
+                      Estado{" "}
+                    </label>
+                    <label className="form-floating input-group input-group-dynamic ms-2">
+                      <div className="col-12 ">
+                        <Controller
+                          name="justificacionEstado"
+                          control={control} rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={optionState}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
+                    <label htmlFor="exampleFormControlInput1">
+                      Justificación
+                    </label>
+                    <textarea
+                      className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                      type="text"
+                      placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                      rows="2"
+                      name="justificacion"
+                      {...register("justificacion")}
+                    />
+                  </div>
+                  <div className="row justify-content-end">
+                    <button
+                      className="col-2 btn bg-gradient-danger mt-2 flex-end"
+                      onClick={handleCloseModalDespachar}
+                      type="submit"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Salir
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </ModalLocal>
         </form>
         <BusquedaDePersonalModal
           isModalActive={busquedaPersonalIsActive}

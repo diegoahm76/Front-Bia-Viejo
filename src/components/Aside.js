@@ -212,7 +212,7 @@ const Aside = ({ showAside }) => {
               </a>
               <div className="collapse" id="almacen">
                 <ul className="nav ">
-                <li className="nav-item ">
+                  <li className="nav-item ">
                     <a
                       className="nav-link text-white "
                       data-bs-toggle="collapse"
@@ -290,7 +290,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                            Salida de Articulos
+                              Salida de Articulos
                             </span>
                           </Link>
                         </li>
@@ -301,7 +301,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                             Registro de Baja
+                              Registro de Baja
                             </span>
                           </Link>
                         </li>
@@ -462,7 +462,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                             Reasignacion elementos <br /> subasignados
+                              Reasignacion elementos <br /> subasignados
                             </span>
                           </Link>
                         </li>
@@ -562,7 +562,7 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                             Despachar elementos <br /> para consumo
+                              Despachar elementos <br /> para consumo
                             </span>
                           </Link>
                         </li>
@@ -591,7 +591,7 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                           to="almacen/gestion-de-inventario/devolverelementossubasignadosresponsable"
+                            to="almacen/gestion-de-inventario/devolverelementossubasignadosresponsable"
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
@@ -617,14 +617,14 @@ const Aside = ({ showAside }) => {
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
-                             Devolver activo en <br /> calidad de préstamo
+                              Devolver activo en <br /> calidad de préstamo
                             </span>
                           </Link>
                         </li>
                         <li className="nav-item">
                           <Link
                             className="nav-link text-white "
-                           to="almacen/gestion-de-inventario/formulariorevisioninventario"
+                            to="almacen/gestion-de-inventario/formulariorevisioninventario"
                           >
                             <img src={Vineta} alt="vineta" />
                             <span className="sidenav-normal  ms-2  ps-1">
@@ -1766,6 +1766,17 @@ const Aside = ({ showAside }) => {
                   </li>
 
                   <li className="nav-item ">
+
+                    {/* <Link
+                      className="nav-link text-white "
+                      to="conservacion/centronotificaciones"
+                    >
+                      <img src={Iconocentronotificaciones} alt="CentroNotificaciones" />
+                      <span className="sidenav-normal  ms-2  ps-1">
+                        Centro de notificaciones
+                      </span>
+                    </Link> */}
+
                     <a
                       className="nav-link text-white "
                       data-bs-toggle="collapse"
@@ -1787,12 +1798,12 @@ const Aside = ({ showAside }) => {
                         <li className="nav-item">
                           <a
                             className="nav-link text-white "
-                            href="../../pages/pages/vr/vr-default.html"
+                            href="../screens/conservacion/notificaciones/CentroNotificacionesScreen"
                           >
                             <span className="sidenav-mini-icon"> V </span>
                             <span className="sidenav-normal  ms-2  ps-1">
                               {" "}
-                              VR Default{" "}
+                              Centro de notificaciones{" "}
                             </span>
                           </a>
                         </li>
@@ -1975,7 +1986,7 @@ const Aside = ({ showAside }) => {
               </a>
               <div className="collapse " id="componentsExamples">
                 <ul className="nav ">
-                <li className="nav-item ">
+                  <li className="nav-item ">
                     <a
                       className="nav-link text-white "
                       data-bs-toggle="collapse"

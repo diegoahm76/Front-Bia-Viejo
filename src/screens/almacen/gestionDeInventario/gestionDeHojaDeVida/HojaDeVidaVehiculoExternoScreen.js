@@ -55,7 +55,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                 >
                     <div className="multisteps-form__content">
                         <div className="row">
-                            <label className="form-control ms-0 text-center">
+                            <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                                 <n>Activo</n>
                             </label>
 
@@ -66,7 +66,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">160064</label>
+                                    <label htmlFor="#!" className="ms-2">160064</label>
                                 </div>
                             </div>
                             <div className="col-12 col-sm-4">
@@ -76,18 +76,18 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">Vehículo</label>
+                                    <label htmlFor="#!" className="ms-2">Vehículo</label>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-3 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-3 ">
                                     <n>Serial</n>
                                 </label>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-3 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-3 ">
                                     <n>Artículo</n>
                                 </label>
                             </div>
@@ -100,11 +100,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">93rtgd</label>
+                                    <label htmlFor="#!" className="ms-2">93rtgd</label>
                                 </div>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <label className="form-floating input-group input-group-dynamic ms-2">
+                                <label htmlFor="#!" className="form-floating input-group input-group-dynamic ms-2">
                                     Tipo de documento{" "}
                                     <div className="col-12 ">
                                         <Controller
@@ -127,22 +127,22 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                         </div>
 
                         <div className="row mb-2 ">
-                            <label className="form-control ms-0 text-left mt-3 ms-3">
+                            <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                                 <n>Especificaciones</n>
                             </label>
                             <div className="row">
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Marca:</n>
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center  mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center  mt-1 ">
                                         <n>Modelo:</n>
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center  mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center  mt-1 ">
                                         <n>Capacidad pasajeros:</n>
                                     </label>
                                 </div>
@@ -154,7 +154,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Marca</label>
+                                        <label htmlFor="#!" className="ms-2">Marca</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
@@ -164,7 +164,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Modelo</label>
+                                        <label htmlFor="#!" className="ms-2">Modelo</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
@@ -174,21 +174,21 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Capacidad pasajeros</label>
+                                        <label htmlFor="#!" className="ms-2">Capacidad pasajeros</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Linea:</n>
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center  mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center  mt-1 ">
                                         <n>Color:</n>
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center  mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center  mt-1 ">
                                         <n>Tipo de combustible:</n>
                                     </label>
                                 </div>
@@ -200,7 +200,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Linea</label>
+                                        <label htmlFor="#!" className="ms-2">Linea</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
@@ -210,7 +210,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Color</label>
+                                        <label htmlFor="#!" className="ms-2">Color</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
@@ -220,12 +220,12 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Tipo de combustible</label>
+                                        <label htmlFor="#!" className="ms-2">Tipo de combustible</label>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-1 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                     <n>Cilindraje:</n>
                                 </label>
                                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -234,11 +234,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">Cilindraje</label>
+                                    <label htmlFor="#!" className="ms-2">Cilindraje</label>
                                 </div>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-1 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                     <n>Fecha de llegada:</n>
                                 </label>
                                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -247,17 +247,17 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">Fecha de llegada</label>
+                                    <label htmlFor="#!" className="ms-2">Fecha de llegada</label>
                                 </div>
                             </div>
                         </div>
 
                         <div className="row mb-2 ">
-                            <label className="form-control ms-0 text-left mt-3 ms-3">
+                            <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                                 <n>Informacion adicional</n>
                             </label>
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-1 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                     <n>Numero de motor:</n>
                                 </label>
                                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -266,11 +266,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">Numero de motor</label>
+                                    <label htmlFor="#!" className="ms-2">Numero de motor</label>
                                 </div>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-1 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                     <n>Numero de chasis:</n>
                                 </label>
                                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -279,11 +279,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">Numero de chasis</label>
+                                    <label htmlFor="#!" className="ms-2">Numero de chasis</label>
                                 </div>
                             </div>
                             <div className="col-12 col-sm-4">
-                                <label className="form-control ms-0 text-center mt-1 ">
+                                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                     <n>Clase de vehiculo:</n>
                                 </label>
                                 <div className="form-floating input-group input-group-dynamic ms-2">
@@ -292,12 +292,12 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                         type="text"
                                         disabled="true"
                                     />
-                                    <label className="ms-2">Clase de vehiculo</label>
+                                    <label htmlFor="#!" className="ms-2">Clase de vehiculo</label>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Proveedor:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -306,24 +306,24 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Proveedor</label>
+                                        <label htmlFor="#!" className="ms-2">Proveedor</label>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                         <div className="row mb-2 ">
-                            <label className="form-control ms-0 text-left mt-3 ms-3">
+                            <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                                 <n>Control de documentación</n>
                             </label>
                             <div className="row">
                                 <div className="ms-3">
-                                    <label className="form-control ms-0">
+                                    <label htmlFor="#!" className="form-control ms-0">
                                         1) Seguro obligatorio
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Proveedor:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -332,11 +332,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Proveedor</label>
+                                        <label htmlFor="#!" className="ms-2">Proveedor</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Numero:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -345,11 +345,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Numero</label>
+                                        <label htmlFor="#!" className="ms-2">Numero</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Fecha inicial:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -358,12 +358,12 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Fecha inicial</label>
+                                        <label htmlFor="#!" className="ms-2">Fecha inicial</label>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-12 col-sm-4">
-                                        <label className="form-control ms-0 text-center mt-1 ">
+                                        <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                             <n>Fecha final:</n>
                                         </label>
                                         <div className="form-floating input-group input-group-dynamic ms-2">
@@ -372,7 +372,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                                 type="text"
                                                 disabled="true"
                                             />
-                                            <label className="ms-2">Fecha final</label>
+                                            <label htmlFor="#!" className="ms-2">Fecha final</label>
                                         </div>
                                     </div>
                                 </div>
@@ -380,12 +380,12 @@ const HojaDeVidaVehiculoExternoScreen = () => {
 
                             <div className="row">
                                 <div className="ms-3 mt-2">
-                                    <label className="form-control ms-0">
+                                    <label htmlFor="#!" className="form-control ms-0">
                                         2) Certificado ATM
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Fecha realizacion:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -394,11 +394,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Fecha realizacion</label>
+                                        <label htmlFor="#!" className="ms-2">Fecha realizacion</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Fecha de vencimiento:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -407,19 +407,19 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Fecha de vencimiento</label>
+                                        <label htmlFor="#!" className="ms-2">Fecha de vencimiento</label>
                                     </div>
                                 </div>
                                 
                             </div>
                             <div className="row">
                                 <div className="ms-3">
-                                    <label className="form-control ms-0">
+                                    <label htmlFor="#!" className="form-control ms-0">
                                         3) Poliza todo riesgo
                                     </label>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Aseguradora:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -428,11 +428,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Aseguradora</label>
+                                        <label htmlFor="#!" className="ms-2">Aseguradora</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Fecha inicial:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -441,11 +441,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Fecha inicial</label>
+                                        <label htmlFor="#!" className="ms-2">Fecha inicial</label>
                                     </div>
                                 </div>
                                 <div className="col-12 col-sm-4">
-                                    <label className="form-control ms-0 text-center mt-1 ">
+                                    <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
                                         <n>Fecha final:</n>
                                     </label>
                                     <div className="form-floating input-group input-group-dynamic ms-2">
@@ -454,13 +454,13 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                                             type="text"
                                             disabled="true"
                                         />
-                                        <label className="ms-2">Fecha final</label>
+                                        <label htmlFor="#!" className="ms-2">Fecha final</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
-                            <label className="form-control ms-0 text-left mt ms-4">
+                            <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
                                 <n>Asignaciones/Préstamos</n>
                             </label>
                             <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '275px' }}>
