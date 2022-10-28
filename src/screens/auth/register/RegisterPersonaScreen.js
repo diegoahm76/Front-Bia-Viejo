@@ -157,7 +157,7 @@ const RegisterPersonaScreen = () => {
       persona.digito_verificacion = data.dv || null;
       persona.razon_social = data.razonSocial;
       persona.email = data.eMail;
-      persona.telefono_celular = data.celular;
+      persona.telefono_celular_empresa = data.celular;
       persona.direccion_notificaciones = data.direccionNotificacion;
       persona.departamento_residencia = data.departamento?.value;
       persona.municipio_residencia = data.municipio?.value;
@@ -221,9 +221,26 @@ const RegisterPersonaScreen = () => {
               navigate("/registeruser");
             }
           });
-        } else if (err.response?.data?.email) {
+        } else if (err.response?.data?.non_field_errors) {
+          //Cambiaron los errores ahora vienen en este formato
           Swal.fire({
-            title: "Este correo electronico ya existe",
+            title: "Este documento ya existe",
+            text: "¿Desea registrarse como usuario?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3BA9E0",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/registeruser");
+            }
+          });
+        } else if (err.response?.data?.email) {
+          console.log(err);
+          Swal.fire({
+            title: "Este correo electronic o ya existe",
             text: "Verifica tus datos",
             icon: "info",
             confirmButtonColor: "#3BA9E0",
@@ -392,7 +409,7 @@ const RegisterPersonaScreen = () => {
                   />
                 </div>
                 <div className="row col-12">
-                  <div className="col-12 d-flex justify-content-between gap-2 align-items-center">
+                  <div className="col-12 d-flex flex-column flex-md-row justify-content-between gap-0 gap-md-2 align-items-center">
                     <div className="col-md-6 col-12 mt-3">
                       <label className="ms-2">
                         Número de documento:{" "}
@@ -404,7 +421,7 @@ const RegisterPersonaScreen = () => {
                         {...register("numero_documento", { required: true })}
                       />
                     </div>
-                    <p className="mt-4">-</p>
+                    <p className="mt-5 d-none d-md-block">-</p>
                     <div className="col-md-6 col-12 mt-3">
                       <label className="ms-2">DV:</label>
                       <input

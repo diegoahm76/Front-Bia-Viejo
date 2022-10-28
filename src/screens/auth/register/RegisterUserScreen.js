@@ -85,7 +85,7 @@ const RegisterUserScreen = () => {
       console.log("Este es el usuario", user);
 
       const { data: userRegister } = await clienteAxios.post(
-        "users/register/",
+        "users/register-externo/",
         user,
         config2
       );
