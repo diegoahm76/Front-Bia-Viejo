@@ -88,7 +88,7 @@ const ActualizarDatosPersonaScreen = () => {
         const personaNatural = "N";
         const { data: dataPersona } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
-        ); 
+        );
         reset(dataPersona);
 
         if (dataPersona.tipo_persona !== personaNatural) {
@@ -232,50 +232,47 @@ const ActualizarDatosPersonaScreen = () => {
             <div className={"row align-items-end"}>
               <h5 className="font-weight-bolder mt-2">Datos personales</h5>
               <div className="col-12 col-lg-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>
+                    Tipo de documento: <span className="text-danger">*</span>
+                  </label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Tipo de documento"
                     disabled
                     readOnly
                     {...register("tipo_documento")}
                   />
-                  <label>
-                    Tipo de documento: <span className="text-danger">*</span>
-                  </label>
                 </div>
               </div>
               <div className="col-6 col-lg-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>
+                    Número de documento: <span className="text-danger">*</span>
+                  </label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Número de documento"
                     disabled
                     readOnly
                     {...register("numero_documento")}
                   />
-                  <label>
-                    Número de documento: <span className="text-danger">*</span>
-                  </label>
                 </div>
               </div>
               <div className="col-6 col-lg-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>Codigo de verificación:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Nombre Codigo de verificación"
                     disabled
                     readOnly
                     {...register("digito_verificacion")}
                   />
-                  <label>Codigo de verificación:</label>
                 </div>
               </div>
               <div className="row align-items-end">
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-3">
                   <label className="form-label">
                     ¿Requiere nombre comercial?
                   </label>
@@ -295,69 +292,64 @@ const ActualizarDatosPersonaScreen = () => {
                 </div>
                 {yesOrNo && (
                   <div className="col-8 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                    <div className="mt-3">
+                      <label>Nombre Comercial:</label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="text"
-                        placeholder="Nombre comercial"
                         {...register("nombre_comercial", { required: true })}
                       />
-                      <label>Nombre Comercial:</label>
                     </div>
                   </div>
                 )}
               </div>
 
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    readOnly
-                    placeholder="Primer nombre"
-                    {...register("primer_nombre")}
-                  />
+                <div className="mt-3">
                   <label>
                     Primer nombre: <span className="text-danger">*</span>
                   </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("primer_nombre")}
+                  />
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>Segundo nombre:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Segundo nombre"
                     {...register("segundo_nombre")}
                   />
-                  <label>Segundo nombre:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>
+                    Primer apellido: <span className="text-danger">*</span>
+                  </label>
                   <input
-                    className="form-control"
-                    placeholder="Primer apellido"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     disabled
                     readOnly
                     {...register("primer_apellido")}
                   />
-                  <label>
-                    Primer apellido: <span className="text-danger">*</span>
-                  </label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>Segundo apellido:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="segundo_apellido"
                     {...register("segundo_apellido")}
                   />
-                  <label>Segundo apellido:</label>
                 </div>
               </div>
               <div className="row">
@@ -432,7 +424,7 @@ const ActualizarDatosPersonaScreen = () => {
                             fecha_nacimiento: e,
                           });
                         }}
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/dd/mm"
                       />
                     )}
@@ -561,7 +553,6 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_residencia")}
                   />
-                  <label>Dirección residencial:</label>
                   <button
                     onClick={() => setIsOpenDireccionResidencia(true)}
                     type="button"
@@ -572,14 +563,13 @@ const ActualizarDatosPersonaScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>Referencia adicional:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Referencia adicional:"
                     {...register("direccion_residencia_ref")}
                   />
-                  <label>Referencia adicional:</label>
                 </div>
               </div>
             </div>
@@ -616,29 +606,27 @@ const ActualizarDatosPersonaScreen = () => {
               {/* DATOS DE NOTIFICACIÓN */}
               <h5 className="font-weight-bolder mt-4">Datos de notificación</h5>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="email"
-                    disabled
-                    readOnly
-                    placeholder="E-mail:"
-                    {...register("email")}
-                  />
+                <div className="mt-3">
                   <label>
                     E-mail: <span className="text-danger">*</span>
                   </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="email"
+                    disabled
+                    readOnly
+                    {...register("email")}
+                  />
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <div className="mt-3">
+                  <label>E-mail secundario:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="email"
-                    placeholder="email_empresarial"
                     {...register("email_empresarial")}
                   />
-                  <label>E-mail secundario:</label>
                 </div>
               </div>
               <div className="col-md-8 col-12">
@@ -650,7 +638,6 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_notificaciones")}
                   />
-                  <label>Dirección de notificación:</label>
                   <button
                     onClick={() => setIsOpenDireccionNotificacion(true)}
                     type="button"
@@ -681,18 +668,17 @@ const ActualizarDatosPersonaScreen = () => {
                 />
               </div> */}
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic mt-3">
+                <div className="mt-3">
+                  <label>
+                    Dirección geográfica: <span className="text-danger">*</span>
+                  </label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="ubicacion_georeferenciada"
                     {...register("ubicacion_georeferenciada", {
                       required: true,
                     })}
                   />
-                  <label>
-                    Dirección geográfica: <span className="text-danger">*</span>
-                  </label>
                 </div>
                 {errors.ubicacion_georeferenciada && (
                   <div className="col-12">
@@ -703,16 +689,15 @@ const ActualizarDatosPersonaScreen = () => {
                 )}
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic mt-md-3">
-                  <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="telefono_celular"
-                    {...register("telefono_celular", { required: true })}
-                  />
+                <div className="mt-3">
                   <label>
                     Celular notificación: <span className="text-danger">*</span>
                   </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="tel"
+                    {...register("telefono_celular", { required: true })}
+                  />
                 </div>
                 {errors.telefono_celular && (
                   <div className="col-12">
@@ -723,25 +708,23 @@ const ActualizarDatosPersonaScreen = () => {
                 )}
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic mt-md-3">
+                <div className="mt-3">
+                  <label>Teléfono fijo:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="tel"
-                    placeholder="telefono_fijo_residencial"
                     {...register("telefono_fijo_residencial")}
                   />
-                  <label>Teléfono fijo:</label>
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic mt-md-3">
+                <div className="mt-3">
+                  <label>Teléfono laboral:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="tel"
-                    placeholder="telefono_empresa"
                     {...register("telefono_empresa")}
                   />
-                  <label>Teléfono laboral:</label>
                 </div>
               </div>
             </div>
