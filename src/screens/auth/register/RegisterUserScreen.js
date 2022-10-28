@@ -40,11 +40,19 @@ const RegisterUserScreen = () => {
 
   const onSubmit = async (data) => {
     try {
+      console.log(data);
       /*
        *Petición para verificación existencia de persona
        */
-      const { data: dataPersona } = await clienteAxios.get(
-        `personas/get-by-document/${data?.numeroDocumento}`
+      const { data: dataPersonaObject } = await clienteAxios.get(
+        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
+      );
+
+      const { data: dataPersona } = dataPersonaObject;
+
+      console.log(
+        "Estos son los datos que devuelve la busqueda de la persona",
+        dataPersona
       );
 
       //console.log("dataPersona", dataPersona.id_persona)
@@ -80,6 +88,8 @@ const RegisterUserScreen = () => {
           "Content-type": "application/json",
         },
       };
+
+      console.log("Este es el usuario", user);
 
       const { data: userRegister } = await clienteAxios.post(
         "users/register/",

@@ -161,68 +161,63 @@ const ActualizarDatosEmpresaScreen = () => {
           <h5 className="font-weight-bolder mt-2">Datos personales</h5>
           <form className="row" onSubmit={handleSubmit(submit)}>
             <div className="col-12 col-lg-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Tipo de documento:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
-                  placeholder="Tipo de documento"
                   disabled
                   readOnly
                   {...register("tipo_documento")}
                 />
-                <label className="ms-2">Tipo de documento:</label>
               </div>
             </div>
             <div className="col-6 col-lg-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Número de documento:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
-                  placeholder="Número de documento"
                   disabled
                   readOnly
                   {...register("numero_documento")}
                 />
-                <label className="ms-2">Número de documento:</label>
               </div>
             </div>
             <div className="col-6 col-lg-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Codigo de verificación:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
-                  placeholder="Nombre Codigo de verificación"
                   disabled
                   readOnly
                   {...register("digito_verificacion")}
                 />
-                <label className="ms-2">Codigo de verificación:</label>
               </div>
             </div>
             <div className="col-12 col-lg-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Nombre Comercial:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
-                  placeholder="Nombre comercial"
                   disabled
                   readOnly
                   {...register("nombre_comercial")}
                 />
-                <label className="ms-2">Nombre Comercial:</label>
               </div>
             </div>
             <div className="col-12 col-lg-4 mb-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Razon social:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
-                  placeholder="Razon social"
                   disabled
                   readOnly
                   {...register("razon_social")}
                 />
-                <label className="ms-2">Razon social:</label>
               </div>
             </div>
             <div className="row">
@@ -317,15 +312,15 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
             </div>
             <div className="col-md-8 col-12">
-              <div className="form-floating input-group input-group-dynamic mt-3">
+              <div className="mt-3">
+                <label className="ms-2">Dirección empresa:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
                   disabled
                   readOnly
                   {...register("direccion_residencia")}
                 />
-                <label className="ms-2">Dirección empresa:</label>
                 <button
                   onClick={() => setIsOpenDireccionEmpresa(true)}
                   type="button"
@@ -337,52 +332,52 @@ const ActualizarDatosEmpresaScreen = () => {
             </div>
             <h5 className="font-weight-bolder mt-2">Datos de notificación</h5>
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">
+                  E-mail: <span className="text-danger">*</span>
+                </label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="email"
                   placeholder="E-mail"
                   {...register("email", { required: true })}
                 />
-                <label className="ms-2">
-                  E-mail: <span className="text-danger">*</span>
-                </label>
               </div>
             </div>
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Email secundario:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="email"
                   placeholder="email_empresarial"
                   {...register("email_empresarial")}
                 />
-                <label className="ms-2">Email secundario:</label>
               </div>
             </div>
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">
+                  Ubicación geográfica:<span className="text-danger">*</span>
+                </label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
                   placeholder="Ubicación geográfica"
                   {...register("ubicacion_georeferenciada", { required: true })}
                 />
-                <label className="ms-2">
-                  Ubicación geográfica:<span className="text-danger">*</span>
-                </label>
               </div>
             </div>
             <div className="col-md-8 col-12">
-              <div className="form-floating input-group input-group-dynamic mt-2">
+              <div className="mt-3">
+                <label className="ms-2">Dirección de notificación:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="text"
                   disabled
                   readOnly
                   {...register("direccion_notificaciones")}
                 />
-                <label className="ms-2">Dirección de notificación:</label>
                 <button
                   type="button"
                   className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
@@ -393,36 +388,36 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
             </div>
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Celular notificación:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="tel"
                   placeholder="telefono_celular_empresa"
                   {...register("telefono_celular_empresa")}
                 />
-                <label className="ms-2">Celular notificación:</label>
               </div>
             </div>
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Teléfono empresa:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="tel"
                   placeholder="telefono_empresa"
                   {...register("telefono_empresa")}
                 />
-                <label className="ms-2">Teléfono empresa:</label>
               </div>
             </div>
             <div className="col-12 col-md-4">
-              <div className="form-floating input-group input-group-dynamic">
+              <div className="mt-3">
+                <label className="ms-2">Teléfono alterno:</label>
                 <input
-                  className="form-control"
+                  className="form-control border rounded-pill px-3"
                   type="tel"
                   placeholder="telefono_empresa_2"
                   {...register("telefono_empresa_2")}
                 />
-                <label className="ms-2">Teléfono alterno:</label>
               </div>
             </div>
             <div className="d-flex justify-content-end gap-2 col-12 mt-3">
