@@ -130,7 +130,7 @@ const AlertasScreen = () => {
             </div>
             <div className="row">
               <div className="col-12 col-md-6">
-                <div className="input-group input-group-dynamic flex-column col-12 mt-4">
+                <div className="flex-column col-12 mt-4">
                   <label htmlFor="exampleFormControlInput1">
                     Fecha de inicio: <span className="text-danger">*</span>
                   </label>
@@ -152,7 +152,7 @@ const AlertasScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaIni: e })
                         }
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
                       />
                     )}
@@ -167,7 +167,7 @@ const AlertasScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-6">
-                <div className="input-group input-group-dynamic flex-column col-6 mt-4">
+                <div className="flex-column col-12 mt-4">
                   <label htmlFor="exampleFormControlInput1">
                     Fecha de inicio: <span className="text-danger">*</span>
                   </label>
@@ -189,7 +189,7 @@ const AlertasScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaEnd: e })
                         }
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
                       />
                     )}
