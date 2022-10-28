@@ -50,13 +50,6 @@ const RegisterUserScreen = () => {
 
       const { data: dataPersona } = dataPersonaObject;
 
-      console.log(
-        "Estos son los datos que devuelve la busqueda de la persona",
-        dataPersona
-      );
-
-      //console.log("dataPersona", dataPersona.id_persona)
-
       if (!dataPersona.id_persona) {
         Swal.fire({
           title: "No existe un persona con estos datos",
@@ -92,7 +85,7 @@ const RegisterUserScreen = () => {
       console.log("Este es el usuario", user);
 
       const { data: userRegister } = await clienteAxios.post(
-        "users/register/",
+        "users/register-externo/",
         user,
         config2
       );

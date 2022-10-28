@@ -50,11 +50,31 @@ const AdministradorDeEmpresasScreen = () => {
 
   const onSubmitBuscar = async (data) => {
     try {
-      const { data: dataEmpresa } = await clienteAxios.get(
-        `personas/get-by-document/${data?.numeroDocumento}`
+      const { data: dataEmpresaObject } = await clienteAxios.get(
+        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
-      console.log("data empresa", dataEmpresa);
-      if (dataEmpresa.tipo_persona !== "J" && dataEmpresa.id_persona) {
+
+      const { data: dataEmpresa } = dataEmpresaObject;
+
+      if (!dataEmpresa) {
+        const result = await Swal.fire({
+          title: "No existe una empresa con estos datos",
+          text: "¿Quiere seguir buscando o quiere crear una empresa?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Seguir",
+          cancelButtonText: "Crear",
+        });
+        if (!result.isConfirmed) {
+          return setActionForm("Crear");
+        } else {
+          return;
+        }
+      }
+
+      if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
           title: "Este documento es de una persona natural",
           text: "¿Quiere ir al administrador de personas?",
@@ -71,25 +91,11 @@ const AdministradorDeEmpresasScreen = () => {
         });
         setActionForm(null);
         return;
-      } else if (!dataEmpresa.id_persona) {
-        Swal.fire({
-          title: "No existe una empresa con estos datos",
-          text: "¿Quiere seguir buscando o quiere crear una empresa?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Seguir",
-          cancelButtonText: "Crear",
-        }).then((result) => {
-          if (result.isConfirmed) {
-          } else {
-            setActionForm("Crear");
-          }
-        });
       } else {
         setActionForm("editar");
       }
+
+      console.log("Data get del buscar empresa", dataEmpresa);
 
       const defaultValuesOverrite = {
         tipoDocumento:
@@ -103,10 +109,10 @@ const AdministradorDeEmpresasScreen = () => {
         codVerificacion: dataEmpresa.digito_verificacion,
         nombreComercial: dataEmpresa.nombre_comercial,
         razonSocial: dataEmpresa.razon_social,
+        representanteLegal: dataEmpresa.representante_legal,
         eMail: dataEmpresa.email,
-        celular: dataEmpresa.telefono_celular,
         emailNotificacion: dataEmpresa.email_empresarial,
-        celularNotificacion: dataEmpresa.telefono_celular_empresa,
+        celular: dataEmpresa.telefono_celular_empresa,
         telefonoEmpresa: dataEmpresa.telefono_empresa,
         telefonoAlterno: dataEmpresa.telefono_empresa_2,
         direccionDeNotificacion: dataEmpresa.direccion_notificaciones,
@@ -146,10 +152,6 @@ const AdministradorDeEmpresasScreen = () => {
   };
 
   const onSubmitEmpresa = async (data) => {
-    console.log("data estado componentes", formValues);
-    console.log("data hook form", data);
-    console.log("direccion de notificacion", data.direccionDeNotificacion);
-
     const updateEmpresa = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
@@ -158,9 +160,10 @@ const AdministradorDeEmpresasScreen = () => {
       digito_verificacion: data.codVerificacion,
       nombre_comercial: data.nombreComercial,
       razon_social: data.razonSocial,
+      representante_legal: data.representanteLegal,
       email: data.eMail,
       email_empresarial: data.emailNotificacion,
-      telefono_celular: data.celular,
+      telefono_celular_empresa: data.celular,
       telefono_empresa: data.telefonoEmpresa,
       telefono_empresa_2: data.telefonoAlterno,
       cod_pais_nacionalidad_empresa: formValues.paisResidencia?.value,
@@ -198,7 +201,7 @@ const AdministradorDeEmpresasScreen = () => {
       try {
         updateEmpresa.tipo_persona = "J";
         await clienteAxios.post(
-          "personas/registerpersonajuridica/",
+          "personas/persona-juridica/create/",
           updateEmpresa
         );
         Swal.fire({
@@ -246,6 +249,15 @@ const AdministradorDeEmpresasScreen = () => {
         if (result.isConfirmed) {
           navigate("/dashboard/seguridad/administradordeusuario");
         }
+      });
+    } else if (err.response?.data?.representante_legal) {
+      Swal.fire({
+        title: "Ingrese un representante legal correcto",
+        text: "Verifique los datos",
+        icon: "info",
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Aceptar",
       });
     } else if (err.response?.data?.email) {
       Swal.fire({
@@ -494,6 +506,17 @@ const AdministradorDeEmpresasScreen = () => {
                         </label>
                       </div>
                     </div>
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          placeholder="representanteLegal"
+                          type="text"
+                          {...registerEmpresa("representanteLegal")}
+                        />
+                        <label className="ms-2">Representante legal:</label>
+                      </div>
+                    </div>
                   </div>
                   <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
                   <hr className="dark horizontal my-0" />
@@ -666,16 +689,17 @@ const AdministradorDeEmpresasScreen = () => {
                         <input
                           className="form-control"
                           type="text"
-                          placeholder="Celular de notificacion"
-                          {...registerEmpresa("celularNotificacion")}
+                          placeholder="Ubicacion geografica"
+                          {...registerEmpresa("ubicacionGeografica")}
                         />
                         <label className="ms-2">
-                          Celular de notificacion:{" "}
+                          Ubicacion geografica:{" "}
+                          <span className="text-danger">*</span>
                         </label>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-8 col-12">
+                      <div className="col-md-8 col-12 mt-2">
                         <div className="form-floating input-group input-group-dynamic mt-2">
                           <input
                             className="form-control"
@@ -694,20 +718,6 @@ const AdministradorDeEmpresasScreen = () => {
                           >
                             Generar
                           </button>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic ms-2">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Ubicacion geografica"
-                            {...registerEmpresa("ubicacionGeografica")}
-                          />
-                          <label className="ms-2">
-                            Ubicacion geografica:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
                         </div>
                       </div>
                       <div className="col-12 col-md-4">

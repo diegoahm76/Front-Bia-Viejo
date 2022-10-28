@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -99,11 +100,13 @@ const AdministradorDePersonasScreen = () => {
   const onSubmitBuscarPersona = async (data) => {
     console.log(data);
     try {
-      const { data: dataPersona } = await clienteAxios.get(
-        `personas/get-by-document/${data?.numeroDocumento}`
+      const { data: dataPersonaObject } = await clienteAxios.get(
+        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
-      if (dataPersona.tipo_persona !== "N" && dataPersona.id_persona) {
+      const { data: dataPersona } = dataPersonaObject;
+
+      if (dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona) {
         Swal.fire({
           title: "Este documento es de una persona juridica",
           text: "Quiere ir al administrador de empresas?",
@@ -120,8 +123,8 @@ const AdministradorDePersonasScreen = () => {
         });
         setActionForm(null);
         return;
-      } else if (!dataPersona.id_persona) {
-        Swal.fire({
+      } else if (!dataPersona?.id_persona) {
+        const result = await Swal.fire({
           title: "No existe un persona con estos datos",
           text: "Quiere seguir bucando o quiere crear una persona?",
           icon: "warning",
@@ -130,12 +133,23 @@ const AdministradorDePersonasScreen = () => {
           cancelButtonColor: "#6c757d",
           confirmButtonText: "Seguir",
           cancelButtonText: "Crear",
-        }).then((result) => {
-          if (result.isConfirmed) {
-          } else {
-            setActionForm("Crear");
-          }
         });
+        if (result.isConfirmed) {
+        } else {
+          return setActionForm("Crear");
+        }
+        // Swal.fire({
+        //   title: "No existe un persona con estos datos",
+        //   text: "Quiere seguir bucando o quiere crear una persona?",
+        //   icon: "warning",
+        //   showCancelButton: true,
+        //   confirmButtonColor: "#3BA9E0",
+        //   cancelButtonColor: "#6c757d",
+        //   confirmButtonText: "Seguir",
+        //   cancelButtonText: "Crear",
+        // }).then((result) => {
+
+        // });
       } else {
         setActionForm("editar");
       }
@@ -160,7 +174,7 @@ const AdministradorDePersonasScreen = () => {
         telefonoEmpresa: dataPersona.telefono_empresa,
         telefonoEmpresa2: dataPersona.telefono_empresa_2,
         referenciaAdicional: dataPersona.direccion_residencia_ref,
-        direccionDeNotificacion: dataPersona.direccion_notificaciones,
+        direccion_residencia: dataPersona.direccion_residencia,
         direccionLaboral: dataPersona.direccion_laboral,
         ubicacionGeografica: dataPersona.ubicacion_georeferenciada,
       };
@@ -226,7 +240,7 @@ const AdministradorDePersonasScreen = () => {
       fecha_nacimiento: formatISO(formValues.fechaNacimiento, {
         representation: "date",
       }),
-      email: data.eMail,
+      email: data.eMail, //Queda por comprobar si mejor se bloquea
       email_empresarial: data.emailEmpresarial,
       telefono_celular: data.celular,
       telefono_fijo_residencial: data.telefonoFijo,
@@ -236,7 +250,7 @@ const AdministradorDePersonasScreen = () => {
       departamento_residencia:
         departamentosOptions[formValues.departamento]?.value,
       municipio_residencia: municipiosOptions[formValues.municipio]?.value,
-      direccion_notificaciones: data.direccionDeNotificacion,
+      direccion_residencia: data.direccion_residencia,
       direccion_residencia_ref: data.referenciaAdicional,
       direccion_laboral: data.direccionLaboral,
       cod_municipio_laboral_nal:
@@ -247,10 +261,19 @@ const AdministradorDePersonasScreen = () => {
     console.log("updated persona", updatedPersona);
 
     if (actionForm === "editar") {
+      const access = getTokenAccessLocalStorage();
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${access}`,
+        },
+      };
       try {
-        await clienteAxios.put(
-          `personas/persona-natural/update/${formValues?.id_persona}/`,
-          updatedPersona
+        console.log("HGola", updatedPersona);
+        await clienteAxios.patch(
+          `personas/persona-natural/user-with-permissions/update/${updatedPersona?.id_persona}/`,
+          updatedPersona,
+          config
         );
         Swal.fire({
           position: "center",
@@ -266,7 +289,9 @@ const AdministradorDePersonasScreen = () => {
       }
     } else {
       try {
-        updatedPersona.tipo_persona = "N";
+        const COD_TIPO_PERSONA_NATURAL = "N";
+
+        updatedPersona.tipo_persona = COD_TIPO_PERSONA_NATURAL;
         await clienteAxios.post(
           "personas/persona-natural/create/",
           updatedPersona
@@ -326,6 +351,7 @@ const AdministradorDePersonasScreen = () => {
         }
       });
     } else if (err.response?.data?.email) {
+      console.log(err);
       Swal.fire({
         title: "Este correo electronico ya existe",
         text: "Verifique los datos",
@@ -852,11 +878,9 @@ const AdministradorDePersonasScreen = () => {
                           className="form-control"
                           type="text"
                           readOnly
-                          {...registerPersona("direccionDeNotificacion")}
+                          {...registerPersona("direccion_residencia")}
                         />
-                        <label className="ms-2">
-                          Dirección de notificación:
-                        </label>
+                        <label className="ms-2">Dirección de residencia:</label>
                         <button
                           type="button"
                           className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
@@ -976,7 +1000,7 @@ const AdministradorDePersonasScreen = () => {
             completeAddress={direccionNotificacionText}
             setCompleteAddress={setDireccionNotificacionText}
             reset={resetPersona}
-            keyReset="direccionDeNotificacion"
+            keyReset="direccion_residencia"
             totalValuesForm={watchPersona()}
           />
 
