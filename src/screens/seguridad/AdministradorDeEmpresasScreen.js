@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
 
+
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =

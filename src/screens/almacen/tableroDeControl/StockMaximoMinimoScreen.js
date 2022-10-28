@@ -61,9 +61,11 @@ const StockMaximoMinimoScreen = () => {
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <h5 className="font-weight-bolder">Stock</h5>
           <div className="multisteps-form__content">
             <div className="row mb-3">
+              <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
+                <n>Tipo de articulo</n>
+              </label>
               <div className="col-12 col-sm-4 col-lg-4">
                 <label>
                   Código: <span className="text-danger">*</span>
@@ -200,7 +202,7 @@ const StockMaximoMinimoScreen = () => {
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
-                className="btn bg-gradient-primary"
+                className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
                 type="submit"
                 title="Send"
                 form="configForm"
@@ -208,7 +210,7 @@ const StockMaximoMinimoScreen = () => {
                 Buscar
               </button>
               <button
-                className="btn bg-gradient-danger "
+                className="border rounded-pill px-3 btn bg-gradient-danger mb-3 text-capitalize"
                 type="button"
                 title="Send"
               >

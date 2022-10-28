@@ -142,128 +142,6 @@ const HojaDeVidaOtrosActivosScreen = () => {
           onSubmit={handleSubmit()}
           id="configForm"
         >
-<<<<<<< HEAD
-          <div className="multisteps-form__content">
-            <div className="row">
-              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
-                <n>Activo</n>
-              </label>
-
-              <div className="col-12 col-sm-4">
-                <div className="form-floating input-group input-group-dynamic ">
-                  <input
-                    className="form-control"
-                    type="text"
-
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">160064</label>
-                </div>
-              </div>
-              <div className="col-12 col-sm-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">Lenovo Laptop</label>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12 col-sm-4">
-                <label htmlFor="#!" className="form-control ms-0 text-center mt-3 ">
-                  <n>Serial</n>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="#!" className="form-control ms-0 text-center mt-3 ">
-                  <n>Artículo</n>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-              </div>
-
-              <div className="col-12 col-sm-4">
-                <div className="form-floating input-group input-group-dynamic ms-2">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">93rtgd</label>
-                </div>
-              </div>
-              <div className="col-12 col-sm-4">
-                <div className="form-floating input-group input-group-dynamic ms-2">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">Computador</label>
-                </div>
-              </div>
-            </div>
-
-            <div className="row mb-4">
-              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
-                <n>Caracteristicas</n>
-              </label>
-              <div className="input-group input-group-dynamic flex-column my-3">
-                <textarea
-                  className="multisteps-form__textarea form-control p-0 w-auto ms-1"
-                  type="text"
-                  placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                  name="nombre"
-                  {...register("nombre", { required: true })}
-                />
-              </div>
-            </div>
-            <div className="row mb-4">
-              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
-                <n>Especificaciones fisicas</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
-                  <n>Color:</n>
-                </label>
-                <div className="form-floating input-group input-group-dynamic ms-2">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">Amarillo</label>
-                </div>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
-                  <n>Marca:</n>
-                </label>
-                <div className="form-floating input-group input-group-dynamic ms-2">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">Garmin</label>
-                </div>
-              </div>
-
-              <div className="col-12 col-sm-4">
-                <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
-                  <n>Estado:</n>
-                </label>
-                <div className="form-floating input-group input-group-dynamic ms-2">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled="true"
-                  />
-                  <label htmlFor="#!" className="ms-2">Bueno</label>
-=======
           <MarcaDeAgua1>
             <div className="multisteps-form__content">
               <div className="row">
@@ -290,15 +168,10 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     />
                     <label className="ms-2">Lenovo Laptop</label>
                   </div>
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                 </div>
               </div>
               <div className="row">
                 <div className="col-12 col-sm-4">
-<<<<<<< HEAD
-                  <label htmlFor="#!" className="form-control ms-0 text-center mt-1 ">
-                    <n>Modelo:</n>
-=======
                   <label className="form-control ms-0 text-center mt-3 ">
                     <n>Serial</n>
                   </label>
@@ -353,7 +226,6 @@ const HojaDeVidaOtrosActivosScreen = () => {
                 <div className="col-12 col-sm-4">
                   <label className="form-control ms-0 text-center mt-1 ">
                     <n>Color:</n>
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                   </label>
                   <div className="form-floating input-group input-group-dynamic ms-2">
                     <input
@@ -361,25 +233,6 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       type="text"
                       disabled="true"
                     />
-<<<<<<< HEAD
-                    <label htmlFor="#!" className="ms-2">10px</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row mb-4">
-              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
-                <n>Especificaciones técnicas</n>
-              </label>
-              <div className="input-group input-group-dynamic flex-column my-3">
-                <textarea
-                  className="multisteps-form__textarea form-control p-0 w-auto ms-1"
-                  type="text"
-                  placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                  name="nombre"
-                  {...register("nombre", { required: true })}
-                />
-=======
                     <label className="ms-2">Amarillo</label>
                   </div>
                 </div>
@@ -439,21 +292,8 @@ const HojaDeVidaOtrosActivosScreen = () => {
                     {...register("nombre", { required: true })}
                   />
                 </div>
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
               </div>
 
-<<<<<<< HEAD
-            <div className="row">
-              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
-                <n>Mantenimientos</n>
-              </label>
-              <div className="ag-theme-alpine mt-auto mb-3 px-4" style={{ height: '275px' }}>
-                <AgGridReact
-                  columnDefs={columnDefs}
-                  rowData={rowData}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-=======
               <div className="row">
                 <label className="form-control ms-0 text-left mt-auto ms-4">
                   <n>Mantenimientos</n>
@@ -461,7 +301,6 @@ const HojaDeVidaOtrosActivosScreen = () => {
                 <div
                   className="ag-theme-alpine mt-auto mb-3 px-4"
                   style={{ height: "275px" }}
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                 >
                   <AgGridReact
                     columnDefs={columnDefs}
@@ -471,35 +310,11 @@ const HojaDeVidaOtrosActivosScreen = () => {
                   ></AgGridReact>
                 </div>
               </div>
-<<<<<<< HEAD
-            </div>
-            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-              <button
-                className="btn bg-gradient-primary me-md-2"
-                type="button"
-                title="Send"
-              >
-                Programar
-              </button>
-            </div>
-
-            <div className="row">
-              <label htmlFor="#!" className="form-control ms-4 fw-bolder text-left">
-                <n>Asignaciones/Préstamos</n>
-              </label>
-              <div className="ag-theme-alpine mt-auto mb-4 px-4" style={{ height: '275px' }}>
-                <AgGridReact
-                  columnDefs={columnDefs2}
-                  rowData={asignacionPrestamos}
-                  defaultColDef={defaultColDef2}
-                  onGridReady={onGridReady}
-=======
               <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
                   className="btn bg-gradient-primary me-md-2"
                   type="button"
                   title="Send"
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                 >
                   Programar
                 </button>

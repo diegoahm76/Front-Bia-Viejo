@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { Controller, set, useForm } from "react-hook-form";
 import Select from "react-select";
 import { useEffect } from "react";
@@ -18,14 +19,71 @@ const NotificacionesEstacionesScreen = () => {
   const [estadoModalEditar, setEstadoModalEditar] = useState(false);
   const [estadoModalEliminar, setEstadoModalEliminar] = useState(false);
 
+
 const dispatch = useDispatch()
 
+
 const {notificaciones} = useSelector ((state)=>state.notificaciones)
+const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
+
+  // const onSubmitAdd = async (data) => {
+  //   try{
+  //     const { data: dataEmpresa } = await.clienteAxios.get(
+  //       `personas/get-by-document/${data?.numeroDocumento}`
+  //     )
+  //   }
+  // }
+
+  // componentDidMount() {
+  //   axios.get(`https://jsonplaceholder.typicode.com/posts`)
+  //   .then(response => {
+  //     const posts = response.data;
+  //     this.setState ({posts});
+  //   })
+  // }
+
+  const [rowData, setRowData] = useState([]);
+
+  const getCustomersData = () => {
+    axios
+    .get("https://microserv.net/Notificaciones")
+    .then(result => setRowData(result.data))
+    .catch(error => console.log(error));
+    };
+
+
+
+  // axios({
+  
+  //   url: "https://microserv.net/Notificaciones",
+  //   method: "GET",
+  //   headers: {
+
+  //     // Add any auth token here
+  //     authorization: "your token comes here",
+  //   },
+
+  //   // Attaching the form data
+  //   data: formData,
+  // })
+
+  // // Handle the response from backend here
+  // .then((res) => { })
+  
+  // // Catch errors if any
+  // .catch((err) => { });
+
+
 
   const columnDefs = [
     {
       headerName: "Usuario",
       field: "t005Usuarios.t005nombre",
+      minWidth: 250,
+    },
+    {
+      headerName: "Numero",
+      field: "t005Usuarios.t005numero",
       minWidth: 250,
     },
     {
@@ -114,6 +172,7 @@ const {notificaciones} = useSelector ((state)=>state.notificaciones)
                 columnDefs={columnDefs}
                 rowData={notificaciones}
                 defaultColDef={defaultColDef}
+                
               ></AgGridReact>
             </div>
           </form>

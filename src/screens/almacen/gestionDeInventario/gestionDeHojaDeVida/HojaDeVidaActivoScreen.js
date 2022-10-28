@@ -2,31 +2,9 @@
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-<<<<<<< HEAD
-import { useForm, Controller } from "react-hook-form";
-import Select from "react-select";
-
-const options = [
-  { label: "Periferico 1", value: "PE" },
-  { label: "Accesorio 1", value: "AC" },
-  { label: "Others", value: "OT" },
-];
-
-const optionsApp = [
-  { label: "App 1", value: "AP1" },
-  { label: "App 2", value: "AP2" },
-  { label: "Others", value: "OT" },
-];
-
-
-const HojaDeVidaActivoScreen = () => {
-  const { control } = useForm();
-
-=======
 import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
 
 const HojaDeVidaActivoScreen = () => {
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
   const defaultColDef = {
     sortable: true,
     flex: 1,
@@ -160,116 +138,46 @@ const HojaDeVidaActivoScreen = () => {
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
             >
-<<<<<<< HEAD
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label htmlFor="Activo" className="form-control ms-4 fw-bolder text-left">
-                    <n>Activo</n>
-                  </label> 
-
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label htmlFor="160064" className="ms-2">160064</label> 
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label htmlFor="#" className="ms-2">Lenovo Laptop</label> 
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12 col-sm-4">
-                    <label htmlFor="#" className="form-control ms-0 text-center mt-3 ">
-                      <n>Serial</n>
-                    </label> 
-                  </div>
-                  <div className="col-12 col-sm-4 ">
-                    <label htmlFor="#" className="form-control ms-0 text-center mt-3  ">
-                      <n>Artículo</n>
-                    </label> 
-                  </div>
-                  <div className="col-12 col-sm-4"></div>
-
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label htmlFor="#" className="ms-2">93rtgd</label> 
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label htmlFor="#" className="ms-2">Computador</label> 
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row mb-4 ">
-                  
-                  <label htmlFor="#" className="form-control ms-4 fw-bolder text-left mt-3  ">
-                    <n>Caracteristicas</n>
-                  </label> 
-                  <div className="row">
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center mt-1 ">
-                        <n>Sistema Operativo:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Suite ofimatica:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Antivirus:</n>
-                      </label> 
-=======
               <MarcaDeAgua1>
                 <div className="multisteps-form__content">
-                  <div className="row">
-                    <label className="form-control ms-0 fw-bolder text-center">
-                      <n>Activo</n>
-                    </label>
-
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label className="ms-2">160064</label>
+                  <div className="row mb-3">
+                    <div className="multisteps-form__content">
+                      <div className="row mb-3">
+                        <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
+                          <n>Activo</n>
+                        </label>
                       </div>
                     </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label className="ms-2">Lenovo Laptop</label>
-                      </div>
+                    <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                      <label>
+                        Nombre de usuario: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        disabled="true"
+                        type="text"
+                        className="form-control border rounded-pill px-3"
+                      />         
+                    </div>
+                    <div className="col-12 col-sm-4 col-lg-4">
+                      <label>
+                        Nombre:
+                      </label>
+                      <input
+                        disabled="true"
+                        name="nombre"
+                        type="text"
+                        placeholder="Gina Rodríguez"
+                        className="form-control border rounded-pill px-3"
+                      />
+                    </div>
+                    <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
+                      <button
+                        className="border rounded-pill px-3 btn bg-gradient-primary mt-3 mb-0 text-capitalize"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Buscar personal
+                      </button>
                     </div>
                   </div>
                   <div className="row">
@@ -282,7 +190,6 @@ const HojaDeVidaActivoScreen = () => {
                       <label className="form-control ms-0 text-center mt-3 ">
                         <n>Artículo</n>
                       </label>
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                     </div>
                     <div className="col-12 col-sm-4"></div>
 
@@ -293,7 +200,7 @@ const HojaDeVidaActivoScreen = () => {
                           type="text"
                           disabled="true"
                         />
-                        <label htmlFor="#" className="ms-2">93rtgd</label> 
+                        <label htmlFor="#" className="ms-2">93rtgd</label>
                       </div>
                     </div>
                     <div className="col-12 col-sm-4">
@@ -303,43 +210,9 @@ const HojaDeVidaActivoScreen = () => {
                           type="text"
                           disabled="true"
                         />
-                        <label htmlFor="#" className="ms-2">Computador</label> 
+                        <label htmlFor="#" className="ms-2">Computador</label>
                       </div>
                     </div>
-<<<<<<< HEAD
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">McAfee</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2 mt-3">
-                        <div className="col-12">
-                          <label htmlFor="#" className="form-floating input-group input-group-dynamic ms-2">
-                            Otros Aplicaciones{" "}
-                            <div className="col-12 ">
-                              <Controller
-                                name="otrasAplicaciones"
-                                control={control}
-                                rules={{
-                                  required: true,
-                                }}
-                                render={({ field }) => (
-                                  <Select
-                                    {...field}
-                                    options={optionsApp}
-                                    placeholder="Seleccionar"
-                                  />
-                                )}
-                              />
-                            </div>
-                          </label> 
-=======
                   </div>
 
                   <div className="row mb-4">
@@ -391,216 +264,10 @@ const HojaDeVidaActivoScreen = () => {
                             disabled="true"
                           />
                           <label className="ms-2">McAfee</label>
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                         </div>
                       </div>
                     </div>
                   </div>
-<<<<<<< HEAD
-                </div>
-                <div className="row mb-4">
-                  <label htmlFor="#" className="form-control ms-4 fw-bolder text-left mt-2">
-                    <n>Especificaciones fisicas</n>
-                  </label> 
-                  <div className="row">
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center mt-1 ">
-                        <n>Color:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Formato:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Estado:</n>
-                      </label> 
-                    </div>
-
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Gris</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Laptop</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Bueno</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Marca:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Modelo:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Lenovo</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-6">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Ideopad</label> 
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row mb-4">
-                  <label htmlFor="#" className="form-control ms-4 fw-bolder text-left mt-1">
-                    <n>Especificaciones técnicas</n>
-                  </label> 
-                  <div className="row">
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center mt-1 ">
-                        <n>Disco duro:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>Procesadores:</n>
-                      </label> 
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <label htmlFor="#" className="form-control ms-0 text-center  mt-1 ">
-                        <n>RAM:</n>
-                      </label> 
-                    </div>
-
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Disco</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">Procesador</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label htmlFor="#" className="ms-2">RAM</label> 
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2 mt-3">
-                        <div className="col-12">
-                          <label htmlFor="#" className="form-floating input-group input-group-dynamic ms-2">
-                            Otros (Perifericos y accesorios){" "}
-                            <div className="col-12 ">
-                              <Controller
-                                name="otrosPerifericos"
-                                control={control}
-                                rules={{
-                                  required: true,
-                                }}
-                                render={({ field }) => (
-                                  <Select
-                                    {...field}
-                                    options={options}
-                                    placeholder="Seleccionar"
-                                  />
-                                )}
-                              />
-                            </div>
-                          </label> 
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <label htmlFor="#" className="form-control ms-4 fw-bolder text-left mt-auto ms-4">
-                    <n>Mantenimientos</n>
-                  </label> 
-                  <div
-                    className="ag-theme-alpine mt-auto mb-3 px-4"
-                    style={{ height: "275px" }}
-                  >
-                    <AgGridReact
-                      columnDefs={columnDefs}
-                      rowData={rowData}
-                      defaultColDef={defaultColDef}
-                      onGridReady={onGridReady}
-                    ></AgGridReact>
-                  </div>
-                </div>
-                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                  <button 
-                    className="btn bg-gradient-primary me-md-2"
-                    type="button"
-                    title="Send"
-                  >
-                    Programar
-                  </button>
-                </div>
-
-                <div className="row">
-                  <label htmlFor="#" className="form-control ms-4 fw-bolder text-left mt ms-4">
-                    <n>Asignaciones/Préstamos</n>
-                  </label> 
-                  <div
-                    className="ag-theme-alpine mt-auto mb-4 px-4"
-                    style={{ height: "275px" }}
-                  >
-                    <AgGridReact
-                      columnDefs={columnDefs2}
-                      rowData={asignacionPrestamos}
-                      defaultColDef={defaultColDef2}
-                      onGridReady={onGridReady}
-                    ></AgGridReact>
-=======
                   <div className="row mb-4">
                     <label className="form-control ms-0 text-center mt-2">
                       <n>Especificaciones fisicas</n>
@@ -805,7 +472,6 @@ const HojaDeVidaActivoScreen = () => {
                     >
                       Salir
                     </button>
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
                   </div>
                 </div>
               </MarcaDeAgua1>
