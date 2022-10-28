@@ -13,6 +13,12 @@ import {
   ESTACION_ELIMINADO_EXITO,
   OBTENER_ESTACION_EDITAR,
   OBTENER_ESTACION_ELIMINAR,
+  COMENZAR_DESCARGA_USUARIOS,
+  DESCARGA_USUARIOS_EXITO,
+  DESCARGA_USUARIOS_ERROR,
+  AGREGAR_USUARIO,
+  AGREGAR_USUARIO_EXITO,
+  AGREGAR_USUARIO_ERROR,
 } from "../types/estacionesTypes";
 import Swal from "sweetalert2";
 import { formatISO } from "date-fns";
@@ -172,5 +178,85 @@ const editarEstacionExito = (estacion) => ({
 
 const estacionEditadaError = (estado) => ({
   type: ESTACION_EDITADO_ERROR,
+  payload: estado,
+});
+
+//Usuarios
+export const obtenerUsuariosAction = () => {
+  return async (dispatch) => {
+    dispatch(descargarUsuarios(true));
+
+    try {
+      const { data: dataGetUsuarios } = await clienteEstaciones.get("usuarios");
+      //console.log("dataGetEstaciones", dataGetEstaciones);
+      // const formatFechaEstaciones = dataGetEstaciones.map((estacion) => ({
+      //   ...estacion,
+      //   t001fechaMod: formatISO(new Date(estacion.t001fechaMod), {
+      //     representation: "date",
+      //   }),
+      // }));
+      dispatch(descargarUsuariosExito(dataGetUsuarios));
+    } catch (error) {
+      console.log(error);
+      dispatch(descargarUsuariosError(true));
+    }
+  };
+};
+
+const descargarUsuarios = (estado) => ({
+  type: COMENZAR_DESCARGA_USUARIOS,
+  payload: estado,
+});
+
+const descargarUsuariosExito = (usuarios) => ({
+  type: DESCARGA_USUARIOS_EXITO,
+  payload: usuarios,
+});
+
+const descargarUsuariosError = (estado) => ({
+  type: DESCARGA_USUARIOS_ERROR,
+  payload: estado,
+});
+
+export const crearNuevoUsuarioAction = (usuario) => {
+  return async (dispatch) => {
+    dispatch(agregarUsuario());
+
+    try {
+      await clienteEstaciones.post("usuarios", usuario);
+
+      //console.log("Creacion de estacion", dataCreate);
+      // estacion.t001fechaMod = formatISO(new Date(estacion.t001fechaMod), {
+      //   representation: "date",
+      // });
+
+      dispatch(agregarUsuarioExito(usuario));
+
+      Swal.fire("Correcto", "La estación se agrego correctamente", "success");
+    } catch (error) {
+      console.log(error);
+
+      dispatch(agregarUsuarioError(true));
+
+      Swal.fire({
+        icon: "error",
+        title: "Hubo un error",
+        text: "Hubo un error, intenta de nuevo",
+      });
+    }
+  };
+};
+
+const agregarUsuario = () => ({
+  type: AGREGAR_USUARIO,
+});
+
+const agregarUsuarioExito = (usuario) => ({
+  type: AGREGAR_USUARIO_EXITO,
+  payload: usuario,
+});
+
+const agregarUsuarioError = (estado) => ({
+  type: AGREGAR_USUARIO_ERROR,
   payload: estado,
 });
