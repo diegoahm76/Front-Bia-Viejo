@@ -2,6 +2,7 @@ import { useState } from "react";
 //import ReactQuill from "react-quill";
 //import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const CreacionArticuloScreen = () => {
   //const [value, setValue] = useState("");
@@ -16,10 +17,10 @@ const CreacionArticuloScreen = () => {
     { label: "Ascensor", value: "OT" },
   ];
 
-  const opcMV=[
-{label:"PEPS",value:"PEPS"},
-{label:"PEUS", value:"PEUS"},
-{label: "Valoraion por promedio",value:"VP"}
+  const opcMV = [
+    { label: "PEPS", value: "PEPS" },
+    { label: "PEUS", value: "PEUS" },
+    { label: "Valoraion por promedio", value: "VP" },
   ];
 
   const optionsSize = [
@@ -29,32 +30,37 @@ const CreacionArticuloScreen = () => {
 
   return (
     <div className="row min-vh-100">
-    <div className="col-lg-12 col-md-10 col-12 mx-auto">
-      <h3 className="mt-3 mb-0 text-center mb-6">Crear Articulo Devolutivo</h3>
-      <form
-        className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-        data-animation="FadeIn"
-        //onSubmit={handleSubmit(submit)}
-        id="configForm"
-      >
-            {/* <!--single form panel--> */}
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
+        <h3 className="mt-3 mb-0 text-center mb-6">
+          Crear Articulo Devolutivo
+        </h3>
+        <form
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          data-animation="FadeIn"
+          //onSubmit={handleSubmit(submit)}
+          id="configForm"
+        >
+          {/* <!--single form panel--> */}
+          <div
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+          >
+            <MarcaDeAgua1>
               <h5 className="font-weight-bolder">Datos generales</h5>
               <div className="multisteps-form__content">
                 <div className="row mt-3">
-                   <div className="col-12 col-md-4 mt-4"> 
-                  <label className="form-control ms-0">Tipo de articulo</label>
-                  <Select
-                    defaultValue={selectedCategory}
-                    onChange={setSelectedCategory}
-                    options={options}
-                  />
-                  {/* </div> */}
-                </div>
-                
+                  <div className="col-12 col-md-4 mt-4">
+                    <label className="form-control ms-0">
+                      Tipo de articulo
+                    </label>
+                    <Select
+                      defaultValue={selectedCategory}
+                      onChange={setSelectedCategory}
+                      options={options}
+                    />
+                    {/* </div> */}
+                  </div>
+
                   <div className="col-12 col-md-4 mt-4">
                     <div className="input-group input-group-dynamic">
                       <label
@@ -113,7 +119,7 @@ const CreacionArticuloScreen = () => {
                       />
                     </div>
                   </div>
-                
+
                   <div className="col-12 col-md-4 mt-2">
                     <label className="form-control ms-0">
                       Metodo de valoracion
@@ -126,17 +132,17 @@ const CreacionArticuloScreen = () => {
                   </div>
 
                   <div className="row">
-                  <div className="col-12 col-md-4 mt-2">
-                    <label className="form-control ms-0">
-                      Tipo de depreciacion
-                    </label>
-                    <Select
-                      defaultValue={selectedSize}
-                      onChange={setSelectedSize}
-                      options={optionsSize}
-                    />
-                  </div>
-                  
+                    <div className="col-12 col-md-4 mt-2">
+                      <label className="form-control ms-0">
+                        Tipo de depreciacion
+                      </label>
+                      <Select
+                        defaultValue={selectedSize}
+                        onChange={setSelectedSize}
+                        options={optionsSize}
+                      />
+                    </div>
+
                     <div className="col-12 col-md-4 mt-2">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
@@ -223,11 +229,12 @@ const CreacionArticuloScreen = () => {
                   </button>
                 </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </MarcaDeAgua1>
+          </div>
+        </form>
       </div>
-    
+    </div>
+
     // </div>
   );
 };

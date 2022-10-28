@@ -4,22 +4,85 @@ import { useEffect, useState } from "react";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import clienteAxios from "../../config/clienteAxios";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ActualizarDatosEmpresaScreen = () => {
+  const navigate = useNavigate();
+  const { email: emailLogin } = useSelector((state) => state.user.user);
   const [completeAddress, setCompleteAddress] = useState("");
-  const [isOpenGenerator, setIsOpenGenerator] = useState(false);
+  const [completeAddress2, setCompleteAddress2] = useState("");
+  const [isOpenDireccionEmpresa, setIsOpenDireccionEmpresa] = useState(false);
+  const [isOpenDireccionNotificacion, setIsOpenDireccionNotificacion] =
+    useState(false);
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [formValues, setFormValues] = useState({
+    index_pais_residencia: "",
+    index_departamento_residencia: "",
+    index_municipio_residencia: "",
+  });
   const {
     register,
     control,
+    reset,
+    watch,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const submit = (data) => {
-    console.log(data);
+  const submit = async (data) => {
+    const {
+      tipo_persona,
+      tipo_documento,
+      numero_documento,
+      digito_verificacion,
+      nombre_comercial,
+      razon_social,
+      direccion_laboral,
+      direccion_notificaciones,
+      email,
+      direccion_residencia,
+      ubicacion_georeferenciada,
+      telefono_celular,
+      telefono_celular_empresa,
+      telefono_empresa,
+      telefono_empresa_2,
+      id_persona,
+    } = data;
+    const dataUpdate = {
+      tipo_persona,
+      tipo_documento,
+      numero_documento,
+      digito_verificacion,
+      nombre_comercial,
+      razon_social,
+      pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value,
+      departamento_residencia:
+        departamentosOptions[formValues.index_departamento_residencia]?.value,
+      municipio_residencia:
+        municipiosOptions[formValues.index_municipio_residencia]?.value,
+      direccion_laboral,
+      direccion_notificaciones,
+      email,
+      direccion_residencia,
+      ubicacion_georeferenciada,
+      telefono_celular,
+      telefono_celular_empresa,
+      telefono_empresa,
+      telefono_empresa_2,
+    };
+    try {
+      console.log("data update", dataUpdate, watch());
+      const { data } = await clienteAxios.put(
+        `personas/persona-juridica/update/${id_persona}/`,
+        dataUpdate
+      );
+      console.log("Todo good toma tu data", data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -42,12 +105,53 @@ const ActualizarDatosEmpresaScreen = () => {
         setPaisesOptions(paisesFormat);
         setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
+
+        //TODO Trayendo los datos del usuario y montandolos en los campos
+        const personaJuridica = "J";
+        const { data } = await clienteAxios.get(
+          `personas/get-by-email/${emailLogin}/`
+        );
+        console.log(data, data.tipo_persona !== personaJuridica);
+        if (data.tipo_persona !== personaJuridica) {
+          navigate("/dashboard/usuario/actualizar-datos-persona");
+        }
+
+        data.tipo_documento = data.tipo_documento.cod_tipo_documento;
+
+        setFormValues({
+          ...formValues,
+          index_pais_residencia: getIndexBySelectOptions(
+            data.pais_residencia,
+            paisesFormat
+          ),
+          index_departamento_residencia: getIndexBySelectOptions(
+            data.departamento_residencia,
+            departamentosFormat
+          ),
+          index_municipio_residencia: getIndexBySelectOptions(
+            data.municipio_residencia,
+            municipiosFormat
+          ),
+        });
+        reset(data);
       } catch (err) {
         console.log(err);
       }
     };
     getSelectsOptions();
   }, []);
+
+  const getIndexBySelectOptions = (valueSelect, selectOptions) => {
+    let indexValue = null;
+    selectOptions.filter((selectOption, index) => {
+      if (selectOption.value === valueSelect) {
+        indexValue = index;
+        return true;
+      }
+      return false;
+    });
+    return indexValue;
+  };
 
   return (
     <div className="row min-vh-100">
@@ -63,7 +167,8 @@ const ActualizarDatosEmpresaScreen = () => {
                   type="text"
                   placeholder="Tipo de documento"
                   disabled
-                  value="C.C."
+                  readOnly
+                  {...register("tipo_documento")}
                 />
                 <label className="ms-2">Tipo de documento:</label>
               </div>
@@ -75,7 +180,8 @@ const ActualizarDatosEmpresaScreen = () => {
                   type="text"
                   placeholder="Número de documento"
                   disabled
-                  value="1151231231"
+                  readOnly
+                  {...register("numero_documento")}
                 />
                 <label className="ms-2">Número de documento:</label>
               </div>
@@ -87,7 +193,8 @@ const ActualizarDatosEmpresaScreen = () => {
                   type="text"
                   placeholder="Nombre Codigo de verificación"
                   disabled
-                  value="423"
+                  readOnly
+                  {...register("digito_verificacion")}
                 />
                 <label className="ms-2">Codigo de verificación:</label>
               </div>
@@ -99,7 +206,8 @@ const ActualizarDatosEmpresaScreen = () => {
                   type="text"
                   placeholder="Nombre comercial"
                   disabled
-                  value="Ferretería El Tornillero"
+                  readOnly
+                  {...register("nombre_comercial")}
                 />
                 <label className="ms-2">Nombre Comercial:</label>
               </div>
@@ -111,7 +219,8 @@ const ActualizarDatosEmpresaScreen = () => {
                   type="text"
                   placeholder="Razon social"
                   disabled
-                  value="Pedro Almíbar"
+                  readOnly
+                  {...register("razon_social")}
                 />
                 <label className="ms-2">Razon social:</label>
               </div>
@@ -120,35 +229,67 @@ const ActualizarDatosEmpresaScreen = () => {
               <div className="col-12 col-md-4">
                 <label className="form-label">País:</label>
                 <Controller
-                  name="pais"
+                  name="pais_residencia"
                   control={control}
                   render={({ field }) => (
                     <Select
                       {...field}
                       options={paisesOptions}
+                      value={paisesOptions[formValues.index_pais_residencia]}
+                      onChange={(e) =>
+                        setFormValues({
+                          ...formValues,
+                          index_pais_residencia: getIndexBySelectOptions(
+                            e.value,
+                            paisesOptions
+                          ),
+                        })
+                      }
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
               <div className="col-12 col-md-4">
-                <label className="form-label">Departamento:</label>
+                <label className="form-label">
+                  Departamento: <span className="text-danger">*</span>
+                </label>
                 <Controller
-                  name="departamento"
+                  name="departamento_residencia"
                   control={control}
+                  rules={{
+                    required: true,
+                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       options={departamentosOptions}
+                      value={
+                        departamentosOptions[
+                          formValues.index_departamento_residencia
+                        ]
+                      }
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          index_departamento_residencia:
+                            getIndexBySelectOptions(
+                              e.value,
+                              departamentosOptions
+                            ),
+                        });
+                      }}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
               <div className="col-12 col-md-4">
-                <label className="form-label">Municipio:</label>
+                <label className="form-label">
+                  Municipio: <span className="text-danger">*</span>
+                </label>
                 <Controller
-                  name="municipio"
+                  name="municipio_residencia"
                   control={control}
                   rules={{
                     required: true,
@@ -157,28 +298,42 @@ const ActualizarDatosEmpresaScreen = () => {
                     <Select
                       {...field}
                       options={municipiosOptions}
+                      value={
+                        municipiosOptions[formValues.index_municipio_residencia]
+                      }
+                      onChange={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          index_municipio_residencia: getIndexBySelectOptions(
+                            e.value,
+                            municipiosOptions
+                          ),
+                        });
+                      }}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
             </div>
-            <div className="form-floating input-group input-group-dynamic mt-3">
-              <input
-                className="form-control"
-                type="text"
-                disabled
-                value="Carrera 28 # 15-53"
-                {...register("direccionNotificacion")}
-              />
-              <label className="ms-2">Dirección empresa:</label>
-              <button
-                onClick={() => setIsOpenGenerator(true)}
-                type="button"
-                className="btn bg-gradient-primary"
-              >
-                Generar
-              </button>
+            <div className="col-md-8 col-12">
+              <div className="form-floating input-group input-group-dynamic mt-3">
+                <input
+                  className="form-control"
+                  type="text"
+                  disabled
+                  readOnly
+                  {...register("direccion_residencia")}
+                />
+                <label className="ms-2">Dirección empresa:</label>
+                <button
+                  onClick={() => setIsOpenDireccionEmpresa(true)}
+                  type="button"
+                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                >
+                  Generar
+                </button>
+              </div>
             </div>
             <h5 className="font-weight-bolder mt-2">Datos de notificación</h5>
             <div className="col-12 col-md-4">
@@ -186,11 +341,12 @@ const ActualizarDatosEmpresaScreen = () => {
                 <input
                   className="form-control"
                   type="email"
-                  required
                   placeholder="E-mail"
-                  {...register("eMail")}
+                  {...register("email", { required: true })}
                 />
-                <label className="ms-2">E-mail:</label>
+                <label className="ms-2">
+                  E-mail: <span className="text-danger">*</span>
+                </label>
               </div>
             </div>
             <div className="col-12 col-md-4">
@@ -198,24 +354,11 @@ const ActualizarDatosEmpresaScreen = () => {
                 <input
                   className="form-control"
                   type="email"
-                  placeholder="Confirme su e-mail"
-                  {...register("secondaryEmail")}
+                  placeholder="email_empresarial"
+                  {...register("email_empresarial")}
                 />
                 <label className="ms-2">Email secundario:</label>
               </div>
-            </div>
-            <div className="form-floating input-group input-group-dynamic mt-3">
-              <input
-                className="form-control"
-                type="text"
-                disabled
-                value="Carrera 28 # 15-53"
-                {...register("direccionNotificacion")}
-              />
-              <label className="ms-2">Dirección de notificación:</label>
-              <button type="button" className="btn bg-gradient-primary">
-                Generar
-              </button>
             </div>
             <div className="col-12 col-md-4">
               <div className="form-floating input-group input-group-dynamic">
@@ -223,9 +366,30 @@ const ActualizarDatosEmpresaScreen = () => {
                   className="form-control"
                   type="text"
                   placeholder="Ubicación geográfica"
-                  {...register("geoLocation")}
+                  {...register("ubicacion_georeferenciada", { required: true })}
                 />
-                <label className="ms-2">Ubicación geográfica:</label>
+                <label className="ms-2">
+                  Ubicación geográfica:<span className="text-danger">*</span>
+                </label>
+              </div>
+            </div>
+            <div className="col-md-8 col-12">
+              <div className="form-floating input-group input-group-dynamic mt-2">
+                <input
+                  className="form-control"
+                  type="text"
+                  disabled
+                  readOnly
+                  {...register("direccion_notificaciones")}
+                />
+                <label className="ms-2">Dirección de notificación:</label>
+                <button
+                  type="button"
+                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                  onClick={() => setIsOpenDireccionNotificacion(true)}
+                >
+                  Generar
+                </button>
               </div>
             </div>
             <div className="col-12 col-md-4">
@@ -233,8 +397,8 @@ const ActualizarDatosEmpresaScreen = () => {
                 <input
                   className="form-control"
                   type="tel"
-                  placeholder="Celular notificación"
-                  {...register("notiCell")}
+                  placeholder="telefono_celular_empresa"
+                  {...register("telefono_celular_empresa")}
                 />
                 <label className="ms-2">Celular notificación:</label>
               </div>
@@ -244,8 +408,8 @@ const ActualizarDatosEmpresaScreen = () => {
                 <input
                   className="form-control"
                   type="tel"
-                  placeholder="Teléfono empresa"
-                  {...register("businessTel")}
+                  placeholder="telefono_empresa"
+                  {...register("telefono_empresa")}
                 />
                 <label className="ms-2">Teléfono empresa:</label>
               </div>
@@ -255,29 +419,48 @@ const ActualizarDatosEmpresaScreen = () => {
                 <input
                   className="form-control"
                   type="tel"
-                  placeholder="Teléfono alterno"
-                  {...register("alternTel")}
+                  placeholder="telefono_empresa_2"
+                  {...register("telefono_empresa_2")}
                 />
                 <label className="ms-2">Teléfono alterno:</label>
               </div>
             </div>
             <div className="d-flex justify-content-end gap-2 col-12 mt-3">
-              <button type="button" className="btn bg-gradient-light">
+              <button
+                type="button"
+                className="btn bg-gradient-light text-capitalize"
+              >
                 Cancelar
               </button>
-              <button type="submit" className="btn bg-gradient-primary">
+              <button
+                type="submit"
+                className="btn bg-gradient-primary text-capitalize"
+              >
                 Actualizar
               </button>
             </div>
-            <GeneradorDeDirecciones
-              isOpenGenerator={isOpenGenerator}
-              setIsOpenGenerator={setIsOpenGenerator}
-              completeAddress={completeAddress}
-              setCompleteAddress={setCompleteAddress}
-            />
           </form>
         </div>
       </div>
+      <GeneradorDeDirecciones
+        isOpenGenerator={isOpenDireccionEmpresa}
+        setIsOpenGenerator={setIsOpenDireccionEmpresa}
+        completeAddress={completeAddress}
+        setCompleteAddress={setCompleteAddress}
+        reset={reset}
+        keyReset={"direccion_residencia"}
+        totalValuesForm={watch()}
+      />
+
+      <GeneradorDeDirecciones
+        isOpenGenerator={isOpenDireccionNotificacion}
+        setIsOpenGenerator={setIsOpenDireccionNotificacion}
+        completeAddress={completeAddress2}
+        setCompleteAddress={setCompleteAddress2}
+        reset={reset}
+        keyReset={"direccion_notificaciones"}
+        totalValuesForm={watch()}
+      />
     </div>
   );
 };

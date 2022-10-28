@@ -8,6 +8,7 @@ import {
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 import Select from "react-select";
+import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const defaultColDef = {
   sortable: true,
@@ -104,208 +105,318 @@ const SolicitudesDeVehiculoEnEjecucionScreen = () => {
           Solicitudes de vehículo en ejecución
         </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <div id="myGrid" className="ag-theme-alpine mt-3">
-            <div
-              className="container ag-theme-alpine"
-              style={{ height: "300px", maxWidth: "800px" }}
-            >
-              <AgGridReact
-                className="ag-theme-alpine"
-                animateRows="true"
-                columnDefs={columnDefs}
-                rowData={rowData}
-                defaultColDef={defaultColDef}
-              ></AgGridReact>
-            </div>
+          <MarcaDeAgua1>
+            <div id="myGrid" className="ag-theme-alpine mt-3">
+              <div
+                className="container ag-theme-alpine"
+                style={{ height: "300px", maxWidth: "800px" }}
+              >
+                <AgGridReact
+                  className="ag-theme-alpine"
+                  animateRows="true"
+                  columnDefs={columnDefs}
+                  rowData={rowData}
+                  defaultColDef={defaultColDef}
+                ></AgGridReact>
+              </div>
 
-            <form className="row">
-              {viewData && (
-                <>
-                  <h5 className="font-weight-bolder mt-4">Coordinador</h5>
+              <form className="row">
+                {viewData && (
+                  <>
+                    <h5 className="font-weight-bolder mt-4">Coordinador</h5>
 
-                  <div className="col-12 col-lg-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
+                    <div className="col-12 col-lg-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Tipo de documento"
+                          disabled
+                          value="C.C."
+                        />
+                        <label className="ms-2">Tipo de documento:</label>
+                      </div>
+                    </div>
+
+                    <div className="col-6 col-lg-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Número de documento"
+                          disabled
+                          value="1151231231"
+                        />
+                        <label className="ms-2">Número de documento:</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="Junior"
+                          placeholder="nombre"
+                        />
+                        <label className="ms-2">Nombre</label>
+                      </div>
+                    </div>
+
+                    <h5 className="font-weight-bolder mt-4">Solicitante</h5>
+
+                    <div className="col-12 col-lg-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Tipo de documento"
+                          disabled
+                          value="C.C."
+                        />
+                        <label className="ms-2">Tipo de documento:</label>
+                      </div>
+                    </div>
+
+                    <div className="col-6 col-lg-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Número de documento"
+                          disabled
+                          value="1151231231"
+                        />
+                        <label className="ms-2">Número de documento:</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="Junior"
+                          placeholder="nombre"
+                        />
+                        <label className="ms-2">Nombre</label>
+                      </div>
+                    </div>
+
+                    <h5 className="font-weight-bolder mt-4">Datos vehículo</h5>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="Administrativa"
+                          placeholder="dependencia"
+                        />
+                        <label className="ms-2">Dependencia</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="Rentas"
+                          placeholder="grupo"
+                        />
+                        <label className="ms-2">Grupo</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="3"
+                          placeholder="capacidadPasajeros"
+                        />
+                        <label className="ms-2">Capacidad pasajeros</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="No"
+                          placeholder="transporteCarga"
+                        />
+                        <label className="ms-2">Transporte carga</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="6:30 AM"
+                          placeholder="horaDeSalida"
+                        />
+                        <label className="ms-2">Hora de salida</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="8:00 PM"
+                          placeholder="horaDeLlegada"
+                        />
+                        <label className="ms-2">Hora de llegada</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="15/05/2022"
+                          placeholder="fechaDeSalida"
+                        />
+                        <label className="ms-2">Fecha de salida</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="22/05/2022"
+                          placeholder="fechaDeLlegada"
+                        />
+                        <label className="ms-2">Fecha de llegada</label>
+                      </div>
+                    </div>
+
+                    <div className="input-group input-group-dynamic flex-column mt-3">
+                      <label htmlFor="exampleFormControlInput1 ">
+                        Observaciones
+                      </label>
+                      <textarea
+                        className="multisteps-form__input form-control p-2 mw-100 w-auto"
                         type="text"
-                        placeholder="Tipo de documento"
+                        rows="5"
                         disabled
-                        value="C.C."
+                        name="Observaciones"
+                        value={
+                          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
+                        }
                       />
-                      <label className="ms-2">Tipo de documento:</label>
+                    </div>
+
+                    <div className="d-flex justify-content-end gap-2 mt-3">
+                      <button
+                        className="btn bg-gradient-primary text-capitalize"
+                        type="button"
+                        onClick={() => {
+                          dispatch(activeModalAction());
+                        }}
+                      >
+                        Cierre de solicitud
+                      </button>
+                    </div>
+                  </>
+                )}
+              </form>
+              <CalendarModal>
+                <h5 className="font-weight-bolder mt-4 text-center">
+                  Cierre solicitud
+                </h5>
+
+                <div className="row">
+                  <div className="d-flex justify-content-between flex-column flex-md-row">
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="Junior Pacheco"
+                          placeholder="fechaDeSalida"
+                        />
+                        <label className="ms-2">Fecha de salida</label>
+                      </div>
+                    </div>
+
+                    <div className="col-12 col-md-4">
+                      <div className="form-floating input-group input-group-dynamic">
+                        <input
+                          className="form-control"
+                          type="text"
+                          disabled
+                          value="03/08/2022"
+                          placeholder="fechaDeSalida"
+                        />
+                        <label className="ms-2">Fecha de salida</label>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="col-6 col-lg-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Número de documento"
-                        disabled
-                        value="1151231231"
+                  <div className="d-flex justify-content-center">
+                    <div className="col-12 col-md-6">
+                      <label className="form-label">
+                        Razón de cierre: <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="razonDeCierre"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionRazonDeCierre}
+                            placeholder="Seleccionar"
+                          />
+                        )}
                       />
-                      <label className="ms-2">Número de documento:</label>
                     </div>
                   </div>
 
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="Junior"
-                        placeholder="nombre"
+                  <div className="d-flex justify-content-center">
+                    <div className="col-12 col-md-6">
+                      <label className="form-label">
+                        Estado del vehículo:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="estadoVehiculo"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionsEstadoVehiculo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
                       />
-                      <label className="ms-2">Nombre</label>
-                    </div>
-                  </div>
-
-                  <h5 className="font-weight-bolder mt-4">Solicitante</h5>
-
-                  <div className="col-12 col-lg-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Tipo de documento"
-                        disabled
-                        value="C.C."
-                      />
-                      <label className="ms-2">Tipo de documento:</label>
-                    </div>
-                  </div>
-
-                  <div className="col-6 col-lg-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Número de documento"
-                        disabled
-                        value="1151231231"
-                      />
-                      <label className="ms-2">Número de documento:</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="Junior"
-                        placeholder="nombre"
-                      />
-                      <label className="ms-2">Nombre</label>
-                    </div>
-                  </div>
-
-                  <h5 className="font-weight-bolder mt-4">Datos vehículo</h5>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="Administrativa"
-                        placeholder="dependencia"
-                      />
-                      <label className="ms-2">Dependencia</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="Rentas"
-                        placeholder="grupo"
-                      />
-                      <label className="ms-2">Grupo</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="3"
-                        placeholder="capacidadPasajeros"
-                      />
-                      <label className="ms-2">Capacidad pasajeros</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="No"
-                        placeholder="transporteCarga"
-                      />
-                      <label className="ms-2">Transporte carga</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="6:30 AM"
-                        placeholder="horaDeSalida"
-                      />
-                      <label className="ms-2">Hora de salida</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="8:00 PM"
-                        placeholder="horaDeLlegada"
-                      />
-                      <label className="ms-2">Hora de llegada</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="15/05/2022"
-                        placeholder="fechaDeSalida"
-                      />
-                      <label className="ms-2">Fecha de salida</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="22/05/2022"
-                        placeholder="fechaDeLlegada"
-                      />
-                      <label className="ms-2">Fecha de llegada</label>
                     </div>
                   </div>
 
@@ -316,7 +427,7 @@ const SolicitudesDeVehiculoEnEjecucionScreen = () => {
                     <textarea
                       className="multisteps-form__input form-control p-2 mw-100 w-auto"
                       type="text"
-                      rows="5"
+                      rows="6"
                       disabled
                       name="Observaciones"
                       value={
@@ -324,140 +435,32 @@ const SolicitudesDeVehiculoEnEjecucionScreen = () => {
                       }
                     />
                   </div>
-
-                  <div className="d-flex justify-content-end gap-2 mt-3">
-                    <button
-                      className="btn bg-gradient-primary text-capitalize"
-                      type="button"
-                      onClick={() => {
-                        dispatch(activeModalAction());
-                      }}
-                    >
-                      Cierre de solicitud
-                    </button>
-                  </div>
-                </>
-              )}
-            </form>
-            <CalendarModal>
-              <h5 className="font-weight-bolder mt-4 text-center">
-                Cierre solicitud
-              </h5>
-
-              <div className="row">
-                <div className="d-flex justify-content-between flex-column flex-md-row">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="Junior Pacheco"
-                        placeholder="fechaDeSalida"
-                      />
-                      <label className="ms-2">Fecha de salida</label>
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled
-                        value="03/08/2022"
-                        placeholder="fechaDeSalida"
-                      />
-                      <label className="ms-2">Fecha de salida</label>
-                    </div>
-                  </div>
                 </div>
 
-                <div className="d-flex justify-content-center">
-                  <div className="col-12 col-md-6">
-                    <label className="form-label">
-                      Razón de cierre: <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="razonDeCierre"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionRazonDeCierre}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+                <div className="d-flex justify-content-end gap-2 mt-3">
+                  <button
+                    className="btn bg-gradient-light text-capitalize"
+                    type="button"
+                    onClick={() => {
+                      dispatch(desactiveModalAction());
+                    }}
+                  >
+                    Guardar
+                  </button>
+
+                  <button
+                    className="btn bg-gradient-danger text-capitalize"
+                    type="button"
+                    onClick={() => {
+                      dispatch(desactiveModalAction());
+                    }}
+                  >
+                    Salir
+                  </button>
                 </div>
-
-                <div className="d-flex justify-content-center">
-                  <div className="col-12 col-md-6">
-                    <label className="form-label">
-                      Estado del vehículo:{" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="estadoVehiculo"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsEstadoVehiculo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
-
-                <div className="input-group input-group-dynamic flex-column mt-3">
-                  <label htmlFor="exampleFormControlInput1 ">
-                    Observaciones
-                  </label>
-                  <textarea
-                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                    type="text"
-                    rows="6"
-                    disabled
-                    name="Observaciones"
-                    value={
-                      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."
-                    }
-                  />
-                </div>
-              </div>
-
-              <div className="d-flex justify-content-end gap-2 mt-3">
-                <button
-                  className="btn bg-gradient-light text-capitalize"
-                  type="button"
-                  onClick={() => {
-                    dispatch(desactiveModalAction());
-                  }}
-                >
-                  Guardar
-                </button>
-
-                <button
-                  className="btn bg-gradient-danger text-capitalize"
-                  type="button"
-                  onClick={() => {
-                    dispatch(desactiveModalAction());
-                  }}
-                >
-                  Salir
-                </button>
-              </div>
-            </CalendarModal>
-          </div>
+              </CalendarModal>
+            </div>
+          </MarcaDeAgua1>
         </div>
       </div>
     </div>
