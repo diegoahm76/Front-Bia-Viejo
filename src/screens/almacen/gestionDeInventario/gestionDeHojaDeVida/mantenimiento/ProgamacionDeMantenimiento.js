@@ -4,13 +4,8 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
-<<<<<<< HEAD
-import DatePicker from "react-datepicker";
-import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal"
-=======
 import DatePicker, { registerLocale } from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal";
->>>>>>> 6ee102a4e23b7fb58b713f4489ce09ec8ff9099f
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../../../components/MarcaDeAgua1";
 
