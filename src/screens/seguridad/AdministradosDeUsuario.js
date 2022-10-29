@@ -6,6 +6,7 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
@@ -47,6 +48,21 @@ const AdministradosDeUsuario = () => {
           "choices/tipo-documento/"
         );
 
+        const accessToken = getTokenAccessLocalStorage();
+        const config = {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+
+        const { data: dataRoles } = await clienteAxios.get(
+          "roles/get-list",
+          config
+        );
+
+        console.log("dataRoles", dataRoles)
+
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
@@ -58,13 +74,13 @@ const AdministradosDeUsuario = () => {
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    console.log("Buscar", data);
+    //console.log("Buscar", data);
     try {
       const { data: dataPersona } = await clienteAxios.get(
         `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
       );
 
-      console.log("dataPersona", dataPersona);
+      //console.log("dataPersona", dataPersona);
 
       if (dataPersona?.Persona) {
         Swal.fire({
@@ -79,7 +95,7 @@ const AdministradosDeUsuario = () => {
         }).then((result) => {
           if (result.isConfirmed) {
             setActionForm("crear");
-            console.log("dataPersonaAcccionConfirm", dataPersona?.Persona)
+            //console.log("dataPersonaAcccionConfirm", dataPersona?.Persona);
             setPersonaData(dataPersona?.Persona);
           }
         });
@@ -114,13 +130,13 @@ const AdministradosDeUsuario = () => {
           }
         });
       } else if (dataPersona?.Usuario) {
-        setUserData(dataPersona);
+        setUserData(dataPersona?.Usuario);
         setActionForm("editar");
         const usuarioOverrideData = {
-          nombreUsuario: dataPersona.nombre_de_usuario,
-          bloqueado: dataPersona.is_blocked,
-          activo: dataPersona.is_active,
-          tipoUsuario: dataPersona.tipo_usuario === "I" ? true : false,
+          nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
+          bloqueado: dataPersona?.Usuario.is_blocked,
+          activo: dataPersona?.Usuario.is_active,
+          tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
         };
         resetUsuario(usuarioOverrideData);
       }
@@ -144,10 +160,15 @@ const AdministradosDeUsuario = () => {
   }, [watch("password"), watch("password2")]);
 
   const onSubmitUsuario = async (data) => {
+    const accessToken = getTokenAccessLocalStorage();
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+
     if (actionForm === "crear") {
-
-      console.log("dataPersona", personaData)
-
       try {
         const nuevoUsuario = {
           email: personaData.email,
@@ -156,14 +177,6 @@ const AdministradosDeUsuario = () => {
           password: data.password,
           id_usuario_creador: id_usuario,
           tipo_usuario: data.tipoUsuario ? "I" : "E",
-        };
-
-        console.log("NuevoUser", nuevoUsuario);
-
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
         };
 
         await clienteAxios.post("users/register/", nuevoUsuario, config);
@@ -175,6 +188,30 @@ const AdministradosDeUsuario = () => {
           confirmButtonColor: "#3BA9E0",
           confirmButtonText: "Continuar",
         });
+      } catch (error) {
+        console.log(error);
+      }
+    } else if (actionForm === "editar") {
+      try {
+        //console.log("persona", userData)
+        const editarUsuario = {
+          nombre_de_usuario: data.nombreUsuario,
+          tipo_usuario: data.tipoUsuario ? "I" : "E",
+          is_active: data.activo,
+          is_blocked: data.bloqueado,
+        };
+
+        const { data: dataEditar } = await clienteAxios.patch(
+          `users/update/${userData.id_usuario}/`,
+          editarUsuario,
+          config
+        );
+        //console.log("editado", dataEditar)
+        Swal.fire(
+          "Correcto",
+          "El usuario se actualizo correctamente",
+          "success"
+        );
       } catch (error) {
         console.log(error);
       }
@@ -270,8 +307,7 @@ const AdministradosDeUsuario = () => {
                     <div className="form-floating input-group input-group-dynamic">
                       <input
                         className="form-control"
-                        type="tel"
-                        disabled={actionForm === "editar"}
+                        type="text"
                         placeholder="Nombre de usuario:"
                         {...registerUsuario("nombreUsuario", {
                           required: true,
