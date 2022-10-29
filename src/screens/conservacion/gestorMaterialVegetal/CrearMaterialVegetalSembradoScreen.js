@@ -35,14 +35,25 @@ const opcionesSiembra = [
 
 const InventarioViveroCompensacion = () => {
 
+  const [porcentaje, setPorcentaje] = useState(false);
+  const [porcentaje2, setPorcentaje2] = useState(false);
+  const [porcentaje3, setPorcentaje3] = useState(false);
+  const [porcentaje4, setPorcentaje4] = useState(false);
+
   const { register, control, handleSubmit, formState: { errors } } = useForm();
 
   const [selecOpciones, setSelecOpciones] = useState({
     asignarViverista: ""
   });
+
   const onSubmit = (data) => {
     setSelecOpciones({
       asignarViverista: data.asignarViverista,
+      porcentajeParcial: data.porcentajeParcial,
+      porcentajeParcial2: data.porcentajeParcial,
+      porcentajeParcial3: data.porcentajeParcial,
+      porcentajeParcial4: data.porcentajeParcial,
+
     });
   };
 
@@ -106,7 +117,7 @@ const InventarioViveroCompensacion = () => {
           >
             <div className="row my-2  align-items-center  ">
               <div className="form-group mt-3 col-6 col-sm-6">
-                <label className="font-weight" htmlFor="cantidadKg">
+                <label className="font-weight" for="cantidadKg">
                   Seleccione vivero:
                 </label>
 
@@ -127,7 +138,7 @@ const InventarioViveroCompensacion = () => {
                 )}
 
               </div>
-              <div className="col-6 mt-5">
+              <div class="col-6 mt-5">
                 <button
                   className="btn bg-gradient-primary mb-0 text-capitalize"
                   type="submit"
@@ -156,6 +167,8 @@ const InventarioViveroCompensacion = () => {
                           />
                         )}
                       />
+                      {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+
                     </div>
 
                     <div className="col-6 col-sm-4 ms-4 mt-4">
@@ -187,7 +200,7 @@ const InventarioViveroCompensacion = () => {
                   </div>
 
                   <div className="form-group mt-3 col-12 col-sm-4">
-                    <label className="font-weight" htmlFor="cantidadKg">Cantidad a sembrar</label>
+                    <label className="font-weight" for="cantidadKg">Cantidad a sembrar</label>
                     <div className="input-group input-group-dynamic ">
                       <input
                         className="multisteps-form__input form-control "
@@ -224,30 +237,34 @@ const InventarioViveroCompensacion = () => {
                       <label> Cama de germinacion 1</label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioLLeno1"></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioLLeno1">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioLLeno1" onChange={() => setPorcentaje(false)} />
+                      <label className="form-check-label" for="idbotonRadioLLeno1">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioParcial1" checked></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioParcial1">
+                      <input class="form-check-input" type="radio" name="nombrebotonRadio1" id="idbotonRadioParcial1" onChange={() => setPorcentaje(true)} />
+                      <label class="form-check-label" for="idbotonRadioParcial1">
                         Parcial
                       </label>
                     </div>
-                    <div className="input-group input-group-dynamic ">
-                      <input
-                        className="multisteps-form__input form-control "
-                        type="text"
-                        placeholder="Escribe el porcentaje"
-                        name="nombre"
-                        {...register("nombre", { required: true })}
-                      />
-                      <label>%</label>
 
-                    </div>
-                    {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+                    {
+                      porcentaje && (
 
+                        <div className="input-group input-group-dynamic ">
+                          <input
+                            className="multisteps-form__input form-control "
+                            type="text"
+                            placeholder="Escribe el porcentaje"
+                            name="nombre"
+                            {...register("nombre", { required: true })}
+                          />
+                          <label>%</label>
+
+                        </div>
+                      )
+                    }
                   </div>
 
 
@@ -257,29 +274,33 @@ const InventarioViveroCompensacion = () => {
                       <label> Cama de germinacion 2</label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioLleno2"></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioLleno2">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioLleno2" onChange={() => setPorcentaje2(false)} />
+                      <label className="form-check-label" for="idbotonRadioLleno2">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioParcial2" checked></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioParcial2">
+                      <input class="form-check-input" type="radio" name="nombrebotonRadio2" id="idbotonRadioParcial2" onChange={() => setPorcentaje2(true)} />
+                      <label class="form-check-label" for="idbotonRadioParcial2">
                         Parcial
                       </label>
                     </div>
-                    <div className="input-group input-group-dynamic ">
-                      <input
-                        className="multisteps-form__input form-control "
-                        type="text"
-                        placeholder="Escribe el porcentaje"
-                        name="nombre"
-                        {...register("nombre", { required: true })}
-                      />
-                      <label>%</label>
+                    {
+                      porcentaje2 && (
 
-                    </div>
-                    {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+                        <div className="input-group input-group-dynamic ">
+                          <input
+                            className="multisteps-form__input form-control "
+                            type="text"
+                            placeholder="Escribe el porcentaje"
+                            name="nombre"
+                            {...register("nombre", { required: true })}
+                          />
+                          <label>%</label>
+
+                        </div>
+                      )
+                    }
 
                   </div>
 
@@ -290,30 +311,33 @@ const InventarioViveroCompensacion = () => {
                       <label> Cama de germinacion 3</label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioLleno3"></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioLleno3">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioLleno3" onChange={() => setPorcentaje3(false)} />
+                      <label className="form-check-label" for="idbotonRadioLleno3">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioParcial3" checked></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioParcial3">
+                      <input class="form-check-input" type="radio" name="nombrebotonRadio3" id="idbotonRadioParcial3" onChange={() => setPorcentaje3(true)} />
+                      <label class="form-check-label" for="idbotonRadioParcial3">
                         Parcial
                       </label>
                     </div>
-                    <div className="input-group input-group-dynamic ">
-                      <input
-                        className="multisteps-form__input form-control "
-                        type="text"
-                        placeholder="Escribe el porcentaje"
-                        name="nombre"
-                        {...register("nombre", { required: true })}
-                      />
-                      <label>%</label>
+                    {
+                      porcentaje3 && (
 
-                    </div>
-                    {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+                        <div className="input-group input-group-dynamic ">
+                          <input
+                            className="multisteps-form__input form-control "
+                            type="text"
+                            placeholder="Escribe el porcentaje"
+                            name="nombre"
+                            {...register("nombre", { required: true })}
+                          />
+                          <label>%</label>
 
+                        </div>
+                      )
+                    }
                   </div>
 
 
@@ -323,34 +347,37 @@ const InventarioViveroCompensacion = () => {
                       <label> Cama de germinacion 4</label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-2">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioLleno4"></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioLleno4">
+                      <input className="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioLleno4" onChange={() => setPorcentaje4(false)} />
+                      <label className="form-check-label" for="idbotonRadioLleno4">
                         Lleno
                       </label>
                     </div>
                     <div className="form-check col-3 col-sm-2 ms-4">
-                      <input className="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioParcial4" checked></input>
-                      <label className="form-check-label" htmlFor="idbotonRadioParcial4">
+                      <input class="form-check-input" type="radio" name="nombrebotonRadio4" id="idbotonRadioParcial4" onChange={() => setPorcentaje4(true)} />
+                      <label class="form-check-label" for="idbotonRadioParcial4">
                         Parcial
                       </label>
                     </div>
-                    <div className="input-group input-group-dynamic ">
-                      <input
-                        className="multisteps-form__input form-control "
-                        type="text"
-                        placeholder="Escribe el porcentaje"
-                        name="nombre"
-                        {...register("nombre", { required: true })}
-                      />
-                      <label>%</label>
+                    {
+                      porcentaje4 && (
 
-                    </div>
-                    {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+                        <div className="input-group input-group-dynamic ">
+                          <input
+                            className="multisteps-form__input form-control "
+                            type="text"
+                            placeholder="Escribe el porcentaje"
+                            name="nombre"
+                            {...register("nombre", { required: true })}
+                          />
+                          <label>%</label>
 
+                        </div>
+                      )
+                    }
                   </div>
 
 
-                  <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <button
                       className="btn bg-gradient-danger me-md-2"
                       type="button"
