@@ -479,7 +479,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-3 mt-md-0">
+                  <div className="col-12 col-md-4 mt-3">
                     <button
                       type="submit"
                       className="btn bg-gradient-primary mb-0 text-capitalize"
