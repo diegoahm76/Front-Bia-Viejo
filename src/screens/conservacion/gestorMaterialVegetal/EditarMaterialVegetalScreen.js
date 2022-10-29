@@ -158,29 +158,25 @@ function EditarMaterialVegetalScreen() {
     gridApi.exportDataAsCsv();
   };
   return (
-    <div className="min-vh-100">
-      <div className="row">
-        <div className="col-lg-10 col-md-10 col-12 mx-auto">
-          <h3 className="text-center my-4">Editar Material Vegetal</h3>
-        </div>
-      </div>
-      <div className="card col-lg-10 col-md-10 col-12 mx-auto">
+    <div className="row min-vh-100">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+        <h3 className="mt-3 mb-0 text-center mb-6">Editar Material Vegetal</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="multisteps-form__form">
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
           >
-            <div className="my-3">
-              <h5 className="font-weight-bolder border-radius-xl my-2">
+            <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <h5 className="font-weight-bolder my-2 text-light">
                 Editar material vegetal por vivero
               </h5>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row d-flex align-items-center mb-3">
-              <div className="col col-sm-3 text-xxs align-content-end align-items-end">
+              <div className="col col-sm-3 align-content-end align-items-end">
               <label>Seleccione vivero </label>
-              <label className="text-danger">*</label>
+              <span className="text-danger">*</span>
                 
               <Select {...register('vivero')}
                       defaultValue={selectedCategory}
@@ -191,7 +187,7 @@ function EditarMaterialVegetalScreen() {
 
               </div>
               <div className="col d-flex align-items-end">
-              <button type="submit" Value="buscar" className="btn btn-primary btn-sm text-xxs text-capitalize mt-5">
+              <button type="submit" Value="buscar" className="btn btn-primary text-capitalize mt-5 border rounded-pill px-3">
                   Buscar
                 </button>
               </div>
@@ -211,52 +207,56 @@ function EditarMaterialVegetalScreen() {
 
             <div>
                 <div className="container-fluid">
-                  <div className="mt-3 mb-2">
-                    <label className="ms-3">
-                      Cantidad de material vegetal disponible:
-                    </label>
-                    <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled="true" value="1200" ></input>
-                  </div>
-                  <div className="row">
-                    <div className="col col-6">
-                    <div className="col-12 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="number"
-                      placeholder="Ingrese cantidad"
-                      {...register("cantidadMaterialELiminar", { required: true })}
-                    />
-                    {errors.mortalidad?.type === "required" && (
-                        <small className="text-danger">El campo es requerido*</small>
-                      )}
-                    <label className="ms-2">Cantidad de material a descontar por mortalidad:</label>
-                  </div>
-                </div>
-                    </div>
-                  </div>
+                <div className="col-3 mb-3 my-4">
+            <label>
+              Cantidad de material vegetal disponible: 
+              </label>
+            <input
+              type="text"
+              className="form-control border rounded-pill px-3"
+              disabled
+              value={"1200"}
+            />
+            </div>
+            <div className="col-3 mb-3">
+            <label>
+              Cantidad de material vegetal para descontar por mortalidad: <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              className="form-control border rounded-pill px-3"
+              {...register("cantidadMaterialEliminar", { required: true })}
+            />
+            {errors.cantidadMaterialEliminar && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
                 </div>
               </div>
 
               <div className="row">
                 <div className="col my-3 d-flex justify-content-end">
                   <span>
-                    <button className="mx-2 btn btn-light btn-sm text-xxs text-capitalize">
+                    <button className="mx-2 btn btn-light text-capitalize border rounded-pill px-3">
                       Cancelar
                     </button>
                     <button
                       type="submit"
                       value="guardar"
-                      className="mx-2 btn btn-primary btn-sm text-xxs text-capitalize"
+                      className="mx-2 btn btn-primary text-capitalize border rounded-pill px-3"
                     >
                       Guardar
-                    </button>
+                      </button>
                   </span>
                 </div>
               </div>
             </div>
         </form>
-      </div>
+    </div>
     </div>
   );
 }

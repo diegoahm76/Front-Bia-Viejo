@@ -225,8 +225,8 @@ function DespacharElementosConsumoScreen() {
           <MarcaDeAgua1>
             <div className="multisteps-form__content">
               <div className="row my-3">
-                <div className="col-12 col-sm-6">
-                  <h5 className="font-weight-bolder border-radius-xl my-2">
+                <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <h5 className="font-weight-bolder my-2 text-light">
                     Datos Generales
                   </h5>
                 </div>
@@ -337,7 +337,7 @@ function DespacharElementosConsumoScreen() {
               </div>
               {/*  TERCERA FILA  */}
               <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
+              <label className="mt-4 form-control ms-0 fw-bolder text-center text-light border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   Responsable
                 </label>
                 <div className="col-12 col-md-4">
@@ -393,7 +393,7 @@ function DespacharElementosConsumoScreen() {
               </div>
               {/*  CUARTA FILA  */}
               <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
+              <label className="mt-4 form-control ms-0 fw-bolder text-center text-light border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   Solicitante
                 </label>
                 <div className="col-12 col-md-4">
@@ -455,11 +455,11 @@ function DespacharElementosConsumoScreen() {
               </div>
 
               <div className="row my-3">
-                <div className="col-12 col-sm-6">
-                  <h5 className="font-weight-bolder border-radius-xl my-2">
-                    Detalles
-                  </h5>
-                </div>
+              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <h5 className="font-weight-bolder my-2 text-light">
+                  Detalles
+                </h5>
+              </div>
               </div>
               <div id="myGrid" className="ag-theme-alpine mt-4">
                 <div

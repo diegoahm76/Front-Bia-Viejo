@@ -200,8 +200,8 @@ function DevolverActivoAsignadoScreen() {
           <MarcaDeAgua1>
             <div className="multisteps-form__content">
               <div className="row my-3">
-                <div className="col-12 col-sm-6">
-                  <h5 className="font-weight-bolder border-radius-xl my-2">
+              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <h5 className="font-weight-bolder my-2 text-light">
                     Datos Generales
                   </h5>
                 </div>
