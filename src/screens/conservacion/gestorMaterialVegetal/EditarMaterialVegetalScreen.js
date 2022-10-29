@@ -158,13 +158,9 @@ function EditarMaterialVegetalScreen() {
     gridApi.exportDataAsCsv();
   };
   return (
-    <div className="min-vh-100">
-      <div className="row">
-        <div className="col-lg-10 col-md-10 col-12 mx-auto">
-          <h3 className="text-center my-4">Editar Material Vegetal</h3>
-        </div>
-      </div>
-      <div className="card col-lg-10 col-md-10 col-12 mx-auto">
+    <div className="row min-vh-100">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+        <h3 className="mt-3 mb-0 text-center mb-6">Editar Material Vegetal</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="multisteps-form__form">
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -254,13 +250,13 @@ function EditarMaterialVegetalScreen() {
                       className="mx-2 btn btn-primary text-capitalize border rounded-pill px-3"
                     >
                       Guardar
-                    </button>
+                      </button>
                   </span>
                 </div>
               </div>
             </div>
         </form>
-      </div>
+    </div>
     </div>
   );
 }
