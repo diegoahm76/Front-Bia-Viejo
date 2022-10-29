@@ -1,6 +1,6 @@
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../components/CalendarModal";
 import {
@@ -10,6 +10,17 @@ import {
 //import Swal from "sweetalert2";
 import clienteAxios from "../../config/clienteAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import Select from "react-select";
+
+const rolesOptions = [
+  { label: "Almacen / Articulo / Consultar", value: "1.1" },
+  { label: "Almacen / Articulo / Crear", value: "1.2" },
+  { label: "Almacen / Articulo / Actualizar", value: "1.3" },
+  { label: "Almacen / Bodega / Consultar", value: "2.1" },
+  { label: "Almacen / Bodega / Crear", value: "2.2" },
+  { label: "Almacen / Bodega / Actualizar", value: "2.3" },
+  { label: "Almacen / Bodega / Borrar", value: "2.4" },
+];
 
 const rowDataInitial = [
   {
@@ -313,7 +324,7 @@ const RolesScreen = () => {
                   placeholder="Descripción"
                 />
               </div>
-              <div className="accordion mt-4">
+              {/* <div className="accordion mt-4">
                 {dataAccordion.map((data) => (
                   <>
                     <div className="accordion-item">
@@ -396,6 +407,22 @@ const RolesScreen = () => {
                     </div>
                   </>
                 ))}
+              </div> */}
+              <div className="col-12">
+                <label className="form-label">Permisos - Rol:</label>
+                <Controller
+                  name="tipoTercero"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      isMulti
+                      // defaultValue={[paisesOptions[0], paisesOptions[1]]}
+                      options={rolesOptions}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
               </div>
               {/* <div id="myGrid" className="ag-theme-alpine mt-3">
                 <div
