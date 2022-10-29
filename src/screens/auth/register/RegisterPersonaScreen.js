@@ -81,7 +81,7 @@ const RegisterPersonaScreen = () => {
         );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
-      );
+        );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
@@ -360,7 +360,7 @@ const RegisterPersonaScreen = () => {
                 <h5 className="font-weight-bolder mt-2">Datos de empresa</h5>
               )}
               <form className="row" onSubmit={handleSubmit(submitForm)}>
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-6 mt-3">
                   <label className="form-label">
                     Tipo de persona: <span className="text-danger">*</span>
                   </label>
@@ -371,7 +371,7 @@ const RegisterPersonaScreen = () => {
                     onChange={handleChangeTypePerson}
                   />
                 </div>
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-6 mt-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
@@ -393,27 +393,25 @@ const RegisterPersonaScreen = () => {
                 </div>
                 <div className="row col-12">
                   <div className="col-12 d-flex justify-content-between gap-2 align-items-center">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="number"
-                        placeholder="Número de documento"
-                        {...register("numero_documento", { required: true })}
-                      />
+                    <div className="col-md-6 col-12 mt-3">
                       <label className="ms-2">
                         Número de documento:{" "}
                         <span className="text-danger">*</span>
                       </label>
-                    </div>
-                    <p className="mt-5">-</p>
-                    <div className="form-floating input-group input-group-dynamic">
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="number"
-                        placeholder="DV"
+                        {...register("numero_documento", { required: true })}
+                      />
+                    </div>
+                    <p className="mt-4">-</p>
+                    <div className="col-md-6 col-12 mt-3">
+                      <label className="ms-2">DV:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="number"
                         {...register("dv")}
                       />
-                      <label className="ms-2">DV:</label>
                     </div>
                   </div>
                   {errorsForm.numero_documento && (
@@ -424,10 +422,10 @@ const RegisterPersonaScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 row">
-                  <div className="col-12">
+                <div className="row">
+                  <div>
                     {isUser && (
-                      <div>
+                      <div className="col-12 mt-3">
                         <label className="form-label">
                           ¿Requiere nombre comercial?
                         </label>
@@ -447,16 +445,15 @@ const RegisterPersonaScreen = () => {
                     )}
                     {!isUser && (
                       <>
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Razón social"
-                            {...register("razonSocial", { required: true })}
-                          />
+                        <div className="col-12 mt-3">
                           <label className="ms-2">
                             Razón social: <span className="text-danger">*</span>
                           </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("razonSocial", { required: true })}
+                          />
                         </div>
                         {errorsForm.razonSocial && (
                           <div className="col-12">
@@ -470,17 +467,16 @@ const RegisterPersonaScreen = () => {
 
                     {yesOrNo && (
                       <>
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Nombre comercial"
-                            {...register("nombreComercial", { required: true })}
-                          />
+                        <div className="col-12 mt-3">
                           <label className="ms-2">
                             Nombre comercial:{" "}
                             <span className="text-danger">*</span>
                           </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("nombreComercial", { required: true })}
+                          />
                         </div>
                         {errorsForm.nombreComercial && (
                           <div className="col-12">
@@ -496,16 +492,15 @@ const RegisterPersonaScreen = () => {
                 {isUser && (
                   <>
                     <div className="col-12 col-md-6">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Primer nombre"
-                          {...register("primerNombre", { required: true })}
-                        />
+                      <div className="mt-3">
                         <label className="ms-2">
                           Primer nombre: <span className="text-danger">*</span>
                         </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          {...register("primerNombre", { required: true })}
+                        />
                       </div>
                       {errorsForm.primerNombre && (
                         <div className="col-12">
@@ -516,28 +511,26 @@ const RegisterPersonaScreen = () => {
                       )}
                     </div>
                     <div className="col-12 col-md-6">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <div className="mt-3">
+                        <label className="ms-2">Segundo nombre:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
-                          placeholder="Segundo nombre"
                           {...register("segundoNombre")}
                         />
-                        <label className="ms-2">Segundo nombre:</label>
                       </div>
                     </div>
                     <div className="col-12 col-md-6">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          placeholder="Primer apellido"
-                          type="text"
-                          {...register("primerApellido", { required: true })}
-                        />
+                      <div className="mt-3">
                         <label className="ms-2">
                           Primer apellido:{" "}
                           <span className="text-danger">*</span>
                         </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          {...register("primerApellido", { required: true })}
+                        />
                       </div>
                       {errorsForm.primerApellido && (
                         <div className="col-12">
@@ -548,20 +541,19 @@ const RegisterPersonaScreen = () => {
                       )}
                     </div>
                     <div className="col-12 col-md-6">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <div className="mt-3">
+                        <label className="ms-2">Segundo apellido:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
-                          placeholder="Segundo apellido"
                           {...register("segundoApellido")}
                         />
-                        <label className="ms-2">Segundo apellido:</label>
                       </div>
                     </div>
                   </>
                 )}
                 {isUser && (
-                  <div className="input-group input-group-dynamic flex-column col-6 mt-4">
+                  <div className="flex-column col-12 mt-3">
                     <label htmlFor="exampleFormControlInput1">
                       Fecha de nacimiento:{" "}
                       <span className="text-danger">*</span>
@@ -584,7 +576,7 @@ const RegisterPersonaScreen = () => {
                           onSelect={(e) =>
                             setFormValues({ ...formValues, fechaNacimiento: e })
                           }
-                          className="multisteps-form__input form-control p-2"
+                          className="form-control border rounded-pill px-3"
                           placeholderText="dd/mm/aaaa"
                         />
                       )}
@@ -603,16 +595,15 @@ const RegisterPersonaScreen = () => {
                   Datos de notificación
                 </h5>
                 <div className="col-12 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="email"
-                      placeholder="E-mail"
-                      {...register("eMail", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       E-mail: <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="email"
+                      {...register("eMail", { required: true })}
+                    />
                   </div>
                   {errorsForm.eMail && (
                     <div className="col-12">
@@ -631,16 +622,15 @@ const RegisterPersonaScreen = () => {
                 </div>
 
                 <div className="col-12 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="email"
-                      placeholder="Confirme su e-mail"
-                      {...register("cEmail", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Confirme su e-mail: <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="email"
+                      {...register("cEmail", { required: true })}
+                    />
                   </div>
                   {errorsForm.cEmail && (
                     <div className="col-12">
@@ -658,16 +648,15 @@ const RegisterPersonaScreen = () => {
                   )}
                 </div>
                 <div className="col-12 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      placeholder="Celular"
-                      type="tel"
-                      {...register("celular", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Celular: <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="tel"
+                      {...register("celular", { required: true })}
+                    />
                   </div>
                   {errorsForm.celular && (
                     <div className="col-12">
@@ -686,17 +675,16 @@ const RegisterPersonaScreen = () => {
                 </div>
 
                 <div className="col-12 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Confirme su celular"
-                      {...register("cCelular", { required: true })}
-                    />
+                  <div className="mt-3">
                     <label className="ms-2">
                       Confirme su celular:{" "}
                       <span className="text-danger">*</span>
                     </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="tel"
+                      {...register("cCelular", { required: true })}
+                    />
                   </div>
                   {errorsForm.cCelular && (
                     <div className="col-12">

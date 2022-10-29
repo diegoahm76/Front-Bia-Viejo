@@ -1,79 +1,47 @@
 import React from "react";
-import axios from "axios";
-import { Controller, set, useForm } from "react-hook-form";
-import Select from "react-select";
 import { useEffect } from "react";
 import { useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import { AgGridReact } from "ag-grid-react";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
-import NotificacionNuevo from "../../../components/NotificacionNuevo";
-import NotificacionEditar from "../../../components/NotificacionEditar";
-import NotificacionEliminar from "../../../components/NotificacionEliminar";
+import NotificacionModal from "../../../components/NotificacionModal";
 import { useDispatch, useSelector } from "react-redux";
-import { obtenerNotificacionesAction } from "../../../actions/notificacionActions";
+import {
+  cambiarModoAction,
+  eliminarNotificacionAction,
+  obtenerNotificacionEditAction,
+  obtenerNotificacionesAction,
+} from "../../../actions/notificacionActions";
+import { useForm } from "react-hook-form";
+
+const defaultColDef = {
+  sortable: true,
+  flex: 1,
+  filter: true,
+  wrapHeaderText: true,
+  resizable: true,
+  initialWidth: 200,
+  autoHeaderHeight: false,
+  suppressMovable: true,
+};
 
 const NotificacionesEstacionesScreen = () => {
-  const [estadoModalNueva, setEstadoModalNueva] = useState(false);
-  const [estadoModalEditar, setEstadoModalEditar] = useState(false);
-  const [estadoModalEliminar, setEstadoModalEliminar] = useState(false);
+  const [isModalActive, setIsModalActive] = useState(false);
 
+  const dispatch = useDispatch();
 
-const dispatch = useDispatch()
+  const { notificaciones, loading } = useSelector(
+    (state) => state.notificaciones
+  );
 
-
-const {notificaciones} = useSelector ((state)=>state.notificaciones)
-const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
-
-  // const onSubmitAdd = async (data) => {
-  //   try{
-  //     const { data: dataEmpresa } = await.clienteAxios.get(
-  //       `personas/get-by-document/${data?.numeroDocumento}`
-  //     )
-  //   }
-  // }
-
-  // componentDidMount() {
-  //   axios.get(`https://jsonplaceholder.typicode.com/posts`)
-  //   .then(response => {
-  //     const posts = response.data;
-  //     this.setState ({posts});
-  //   })
-  // }
-
-  const [rowData, setRowData] = useState([]);
-
-  const getCustomersData = () => {
-    axios
-    .get("https://microserv.net/Notificaciones")
-    .then(result => setRowData(result.data))
-    .catch(error => console.log(error));
-    };
-
-
-
-  // axios({
-  
-  //   url: "https://microserv.net/Notificaciones",
-  //   method: "GET",
-  //   headers: {
-
-  //     // Add any auth token here
-  //     authorization: "your token comes here",
-  //   },
-
-  //   // Attaching the form data
-  //   data: formData,
-  // })
-
-  // // Handle the response from backend here
-  // .then((res) => { })
-  
-  // // Catch errors if any
-  // .catch((err) => { });
-
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const columnDefs = [
     {
@@ -101,9 +69,7 @@ const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
               className="btn btn-sm btn-outline-warning "
               type="button"
               title="Send"
-              onClick={() => {
-                setEstadoModalEditar(!estadoModalEditar);
-              }}
+              onClick={() => editarAction(params.data.idNotificacion)}
             >
               <img src={IconoEditar} alt="editar" />
             </button>
@@ -114,7 +80,9 @@ const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
               type="button"
               title="Send"
               onClick={() => {
-                setEstadoModalEliminar(!estadoModalEliminar);
+                dispatch(
+                  eliminarNotificacionAction(params.data.idNotificacion)
+                );
               }}
             >
               <img src={IconoEliminar} alt="eliminar" />
@@ -126,22 +94,20 @@ const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
     },
   ];
 
+  const editarAction = (idNotificacion) => {
+    setIsModalActive(true);
+    dispatch(obtenerNotificacionEditAction(idNotificacion, reset));
+  };
 
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: false,
-    suppressMovable: true,
+  const handleCrearAlarma = () => {
+    setIsModalActive(true);
+    dispatch(cambiarModoAction("crear"));
   };
 
   useEffect(() => {
-    dispatch(obtenerNotificacionesAction())
-  }, [])
-  
+    dispatch(obtenerNotificacionesAction());
+  }, []);
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -152,15 +118,24 @@ const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
         >
           <form className="row">
             <div>
-          
               <button
                 type="button"
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
-                onClick={() => {
-                  setEstadoModalNueva(!estadoModalNueva);
-                }}
+                disabled={loading}
+                onClick={() => handleCrearAlarma()}
               >
-                Nuevo
+                {loading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-1"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Cargando...
+                  </>
+                ) : (
+                  "Crear alarma"
+                )}
               </button>
             </div>
 
@@ -178,17 +153,15 @@ const {notificacionEditar} = useSelector((state)=>state.notificacionEditar)
           </form>
         </div>
       </div>
-      <NotificacionNuevo
-        isModalActive={estadoModalNueva}
-        setIsModalActive={setEstadoModalNueva}
-      />
-      <NotificacionEditar
-        isModalActive={estadoModalEditar}
-        setIsModalActive={setEstadoModalEditar}
-      />
-      <NotificacionEliminar
-        isModalActive={estadoModalEliminar}
-        setIsModalActive={setEstadoModalEliminar}
+      <NotificacionModal
+        isModalActive={isModalActive}
+        setIsModalActive={setIsModalActive}
+        register={register}
+        handleSubmit={handleSubmit}
+        watch={watch}
+        control={control}
+        errors={errors}
+        reset={reset}
       />
     </div>
   );

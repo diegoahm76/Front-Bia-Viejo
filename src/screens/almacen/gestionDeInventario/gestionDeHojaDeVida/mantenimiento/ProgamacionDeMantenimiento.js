@@ -502,6 +502,7 @@ const ProgamacionDeMantenimiento = () => {
                 >
                   Salir
                 </button>
+                
               </div>
             </div>
           </MarcaDeAgua1>

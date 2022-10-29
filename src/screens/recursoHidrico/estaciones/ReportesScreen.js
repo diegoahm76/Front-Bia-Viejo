@@ -118,7 +118,9 @@ const ReportesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">Reportes estaciones meteorologicas</h3>
+        <h3 className="mt-3 mb-0 text-center mb-4">
+          Reportes estaciones meteorologicas
+        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -152,7 +154,7 @@ const ReportesScreen = () => {
             </div>
             <div className="row">
               <div className="col-12 col-md-6">
-                <div className="input-group input-group-dynamic flex-column col-12 mt-4">
+                <div className="flex-column col-12 mt-4">
                   <label htmlFor="exampleFormControlInput1">
                     Fecha de inicio: <span className="text-danger">*</span>
                   </label>
@@ -174,7 +176,7 @@ const ReportesScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaIni: e })
                         }
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
                       />
                     )}
@@ -189,7 +191,7 @@ const ReportesScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-6">
-                <div className="input-group input-group-dynamic flex-column col-6 mt-4">
+                <div className="flex-column col-12 mt-4">
                   <label htmlFor="exampleFormControlInput1">
                     Fecha de inicio: <span className="text-danger">*</span>
                   </label>
@@ -211,7 +213,7 @@ const ReportesScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaEnd: e })
                         }
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
                       />
                     )}
