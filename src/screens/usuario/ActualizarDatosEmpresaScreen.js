@@ -6,6 +6,7 @@ import clienteAxios from "../../config/clienteAxios";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Subtitle from "../../components/Subtitle";
 
 const ActualizarDatosEmpresaScreen = () => {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const ActualizarDatosEmpresaScreen = () => {
     try {
       console.log("data update", dataUpdate, watch());
       const { data } = await clienteAxios.put(
-        `personas/persona-juridica/update/${id_persona}/`,
+        "personas/persona-juridica/usuario-externo/self/update/",
         dataUpdate
       );
       console.log("Todo good toma tu data", data);
@@ -108,7 +109,7 @@ const ActualizarDatosEmpresaScreen = () => {
 
         //TODO Trayendo los datos del usuario y montandolos en los campos
         const COD_PERSONA_JURIDICA = "J";
-        console.log(emailLogin)
+        console.log(emailLogin);
         const { data } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
         );
@@ -159,7 +160,7 @@ const ActualizarDatosEmpresaScreen = () => {
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Actualizar datos empresa</h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <h5 className="font-weight-bolder mt-2">Datos personales</h5>
+          <Subtitle title={"Datos personales"} mt={4} mb={0} />
           <form className="row" onSubmit={handleSubmit(submit)}>
             <div className="col-12 col-lg-4">
               <div className="mt-3">
@@ -312,16 +313,16 @@ const ActualizarDatosEmpresaScreen = () => {
                 />
               </div>
             </div>
-            <div className="col-md-8 col-12">
-              <div className="mt-3">
-                <label className="ms-2">Dirección empresa:</label>
+            <div className="col-md-8 col-12 mt-3">
+              <div className="form-floating input-group input-group-dynamic mt-3">
                 <input
-                  className="form-control border rounded-pill px-3"
+                  className="form-control"
                   type="text"
                   disabled
                   readOnly
                   {...register("direccion_residencia")}
                 />
+                <label className="ms-2">Dirección empresa:</label>
                 <button
                   onClick={() => setIsOpenDireccionEmpresa(true)}
                   type="button"
@@ -331,7 +332,7 @@ const ActualizarDatosEmpresaScreen = () => {
                 </button>
               </div>
             </div>
-            <h5 className="font-weight-bolder mt-2">Datos de notificación</h5>
+            <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
             <div className="col-12 col-md-4">
               <div className="mt-3">
                 <label className="ms-2">
@@ -369,16 +370,16 @@ const ActualizarDatosEmpresaScreen = () => {
                 />
               </div>
             </div>
-            <div className="col-md-8 col-12">
-              <div className="mt-3">
-                <label className="ms-2">Dirección de notificación:</label>
+            <div className="col-md-8 col-12 mt-3">
+              <div className="form-floating input-group input-group-dynamic mt-3">
                 <input
-                  className="form-control border rounded-pill px-3"
+                  className="form-control"
                   type="text"
                   disabled
                   readOnly
                   {...register("direccion_notificaciones")}
                 />
+                <label className="ms-2">Dirección de notificación:</label>
                 <button
                   type="button"
                   className="btn bg-gradient-primary text-capitalize mb-0 mt-3"

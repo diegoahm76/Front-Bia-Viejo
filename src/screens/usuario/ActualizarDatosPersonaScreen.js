@@ -8,8 +8,11 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
+import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
+import { getConfigAuthBearer } from "../../helpers/configAxios";
 import { getIndexBySelectOptions } from "../../helpers/inputsFormat";
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 const optionsYorNo = [
   { label: "No", value: false },
@@ -27,7 +30,6 @@ const ActualizarDatosPersonaScreen = () => {
   const navigate = useNavigate();
   const [yesOrNo, setYesOrNo] = useState(false);
   const [paisesOptions, setPaisesOptions] = useState([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -35,7 +37,6 @@ const ActualizarDatosPersonaScreen = () => {
     fecha_nacimiento: "",
     index_pais_nacimiento: "",
     index_pais_residencia: "",
-    index_departamento_residencia: "",
     index_municipio_residencia: "",
     index_sexo: "",
     index_estado_civil: "",
@@ -65,9 +66,6 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
         );
-        const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
-        );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
@@ -75,13 +73,11 @@ const ActualizarDatosPersonaScreen = () => {
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
-        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
 
         setEstadoCivilOptions(estadoCivilFormat);
         setSexoOptions(sexoFormat);
         setPaisesOptions(paisesFormat);
-        setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
 
         //TODO Trayendo los datos de la persona
@@ -107,10 +103,6 @@ const ActualizarDatosPersonaScreen = () => {
           index_pais_nacimiento: getIndexBySelectOptions(
             dataPersona.pais_nacimiento,
             paisesFormat
-          ),
-          index_departamento_residencia: getIndexBySelectOptions(
-            dataPersona.departamento_residencia,
-            departamentosFormat
           ),
           index_municipio_residencia: getIndexBySelectOptions(
             dataPersona.municipio_residencia,
@@ -187,18 +179,20 @@ const ActualizarDatosPersonaScreen = () => {
       }),
       pais_nacimiento: paisesOptions[formValues.index_pais_nacimiento]?.value,
       pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value,
-      departamento_residencia:
-        departamentosOptions[formValues.index_departamento_residencia]?.value,
       municipio_residencia:
         municipiosOptions[formValues.index_municipio_residencia]?.value,
       cod_municipio_laboral_nal:
         municipiosOptions[formValues.index_cod_municipio_laboral_nal]?.value,
     };
 
+    const accessToken = getTokenAccessLocalStorage();
+    const config = getConfigAuthBearer(accessToken);
+
     try {
       const { data } = await clienteAxios.put(
-        `personas/persona-natural/update/${id_persona}/`,
-        dataUpdate
+        "personas/persona-natural/usuario-externo/self/update/",
+        dataUpdate,
+        config
       );
       console.log("Todo good toma tu data", data);
       Swal.fire({
@@ -230,7 +224,7 @@ const ActualizarDatosPersonaScreen = () => {
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form onSubmit={handleSubmit(submit)}>
             <div className={"row align-items-end"}>
-              <h5 className="font-weight-bolder mt-2">Datos personales</h5>
+              <Subtitle title={"Datos personales"} mt={0} mb={2} />
               <div className="col-12 col-lg-4">
                 <div className="mt-3">
                   <label>
@@ -464,7 +458,7 @@ const ActualizarDatosPersonaScreen = () => {
                 />
               </div>
               {/* LUGAR DE RESIDENCIA */}
-              <h5 className="font-weight-bolder mt-4">Lugar de residencia</h5>
+              <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
               <div className="col-12 col-md-4">
                 <label className="form-label">País:</label>
                 <Controller
@@ -482,35 +476,6 @@ const ActualizarDatosPersonaScreen = () => {
                             e.value,
                             paisesOptions
                           ),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-4">
-                <label className="form-label">Departamento:</label>
-                <Controller
-                  name="departamento_residencia"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={departamentosOptions}
-                      value={
-                        departamentosOptions[
-                          formValues.index_departamento_residencia
-                        ]
-                      }
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_departamento_residencia:
-                            getIndexBySelectOptions(
-                              e.value,
-                              departamentosOptions
-                            ),
                         })
                       }
                       placeholder="Seleccionar"
@@ -553,6 +518,10 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_residencia")}
                   />
+                  <label className="ms-2">
+                    Dirección de residencia:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
                   <button
                     onClick={() => setIsOpenDireccionResidencia(true)}
                     type="button"
@@ -576,7 +545,7 @@ const ActualizarDatosPersonaScreen = () => {
 
             <div className={"row"}>
               {/* DATOS DE CONTACTO */}
-              <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
+              <Subtitle title={"Datos de contacto"} mt={4} mb={2} />
               <div className="col-12 col-md-4">
                 <label className="form-label">Municipio donde labora:</label>
                 <Controller
@@ -604,7 +573,8 @@ const ActualizarDatosPersonaScreen = () => {
                 />
               </div>
               {/* DATOS DE NOTIFICACIÓN */}
-              <h5 className="font-weight-bolder mt-4">Datos de notificación</h5>
+              <Subtitle title={"Datos de notificación"} mt={4} mb={2} />
+
               <div className="col-12 col-md-4">
                 <div className="mt-3">
                   <label>
@@ -629,7 +599,7 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-8 col-12">
+              <div className="col-md-8 col-12 mt-3">
                 <div className="form-floating input-group input-group-dynamic mt-3">
                   <input
                     className="form-control"
@@ -638,6 +608,10 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_notificaciones")}
                   />
+                  <label className="ms-2">
+                    Dirección de notificación:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
                   <button
                     onClick={() => setIsOpenDireccionNotificacion(true)}
                     type="button"
@@ -647,26 +621,6 @@ const ActualizarDatosPersonaScreen = () => {
                   </button>
                 </div>
               </div>
-              {/* //! Queda pendiente de revisar porque no aparece en la peticion */}
-              {/* <div className="col-12 col-md-4">
-                <label className="form-label">
-                  Municipio notificación: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="municipioNotificacion"
-                  control={control}
-                  rules={{
-                    required: page === 2,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={municipiosOptions}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div> */}
               <div className="col-12 col-md-4">
                 <div className="mt-3">
                   <label>

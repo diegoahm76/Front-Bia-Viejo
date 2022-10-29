@@ -10,9 +10,13 @@ import { useNavigate } from "react-router-dom";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import Subtitle from "../../components/Subtitle";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
+  const [direccionResidenciaIsOpen, setDireccionResidenciaIsOpen] =
+    useState(false);
+  const [direccionResidenciaText, setDireccionResidenciaText] = useState("");
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
     useState(false);
   const [direccionNotificacionText, setDireccionNotificacionText] =
@@ -33,9 +37,9 @@ const AdministradorDePersonasScreen = () => {
     sexo: "",
     paisNacimiento: "",
     paisResidencia: "",
-    departamento: "",
     municipio: "",
     municipioDondeLabora: "",
+    municipioNotificacion: "",
     id_persona: "",
     tipoPersona: "",
   });
@@ -136,20 +140,9 @@ const AdministradorDePersonasScreen = () => {
         });
         if (result.isConfirmed) {
         } else {
+          resetEmptyValues();
           return setActionForm("Crear");
         }
-        // Swal.fire({
-        //   title: "No existe un persona con estos datos",
-        //   text: "Quiere seguir bucando o quiere crear una persona?",
-        //   icon: "warning",
-        //   showCancelButton: true,
-        //   confirmButtonColor: "#3BA9E0",
-        //   cancelButtonColor: "#6c757d",
-        //   confirmButtonText: "Seguir",
-        //   cancelButtonText: "Crear",
-        // }).then((result) => {
-
-        // });
       } else {
         setActionForm("editar");
       }
@@ -163,6 +156,8 @@ const AdministradorDePersonasScreen = () => {
             )
           ],
         numeroDocumento2: dataPersona.numero_documento,
+        digitoVerificacion: dataPersona.digito_verificacion,
+        nombreComercial: dataPersona.nombre_comercial,
         primerNombre: dataPersona.primer_nombre,
         segundoNombre: dataPersona.segundo_nombre,
         primerApellido: dataPersona.primer_apellido,
@@ -171,12 +166,12 @@ const AdministradorDePersonasScreen = () => {
         celular: dataPersona.telefono_celular,
         emailEmpresarial: dataPersona.email_empresarial,
         telefonoFijo: dataPersona.telefono_fijo_residencial,
-        telefonoEmpresa: dataPersona.telefono_empresa,
         telefonoEmpresa2: dataPersona.telefono_empresa_2,
         referenciaAdicional: dataPersona.direccion_residencia_ref,
         direccion_residencia: dataPersona.direccion_residencia,
         direccionLaboral: dataPersona.direccion_laboral,
         ubicacionGeografica: dataPersona.ubicacion_georeferenciada,
+        direccionNotificaciones: dataPersona.direccion_notificaciones,
       };
       setFormValues({
         ...formValues,
@@ -197,16 +192,16 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.pais_residencia,
           paisesOptions
         ),
-        departamento: getIndexBySelectOptions(
-          dataPersona.departamento_residencia,
-          departamentosOptions
-        ),
         municipio: getIndexBySelectOptions(
           dataPersona.municipio_residencia,
           municipiosOptions
         ),
         municipioDondeLabora: getIndexBySelectOptions(
           dataPersona.cod_municipio_laboral_nal,
+          municipiosOptions
+        ),
+        municipioNotificacion: getIndexBySelectOptions(
+          dataPersona.cod_municipio_notificacion_nal,
           municipiosOptions
         ),
         fechaNacimiento: dataPersona.fecha_nacimiento
@@ -222,14 +217,14 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const onSubmitPersona = async (data) => {
-    console.log("data estado componentes", formValues);
-    console.log("data hook form", data);
-
+    console.log("data para submit", data);
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
-      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
+      tipo_documento: data.tipoDocumento2?.value,
       numero_documento: data.numeroDocumento2,
+      digito_verificacion: data.digitoVerificacion,
+      nombre_comercial: data.nombreComercial,
       primer_nombre: data.primerNombre,
       segundo_nombre: data.segundoNombre,
       primer_apellido: data.primerApellido,
@@ -244,15 +239,17 @@ const AdministradorDePersonasScreen = () => {
       email_empresarial: data.emailEmpresarial,
       telefono_celular: data.celular,
       telefono_fijo_residencial: data.telefonoFijo,
-      telefono_empresa: data.telefonoEmpresa,
       telefono_empresa_2: data.telefonoEmpresa2,
       pais_residencia: paisesOptions[formValues.paisResidencia]?.value,
       departamento_residencia:
         departamentosOptions[formValues.departamento]?.value,
       municipio_residencia: municipiosOptions[formValues.municipio]?.value,
+      cod_municipio_notificacion_nal:
+        municipiosOptions[formValues.municipioNotificacion]?.value,
       direccion_residencia: data.direccion_residencia,
       direccion_residencia_ref: data.referenciaAdicional,
       direccion_laboral: data.direccionLaboral,
+      direccion_notificaciones: data.direccionNotificaciones,
       cod_municipio_laboral_nal:
         municipiosOptions[formValues.municipioDondeLabora]?.value,
       ubicacion_georeferenciada: data.ubicacionGeografica,
@@ -282,7 +279,7 @@ const AdministradorDePersonasScreen = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        resetBuscar({ numeroDocumento: "" });
+        resetBuscar({ ...watchPersona(), numeroDocumento: "" });
         setActionForm(null);
       } catch (err) {
         manejadorErroresSwitAlert(err);
@@ -317,6 +314,44 @@ const AdministradorDePersonasScreen = () => {
         manejadorErroresSwitAlert(err);
       }
     }
+  };
+
+  const resetEmptyValues = () => {
+    const emptyValues = {
+      tipoDocumento: "",
+      numeroDocumento2: "",
+      digitoVerificacion: "",
+      nombreComercial: "",
+      primerNombre: "",
+      segundoNombre: "",
+      primerApellido: "",
+      segundoApellido: "",
+      eMail: "",
+      celular: "",
+      emailEmpresarial: "",
+      telefonoFijo: "",
+      telefonoEmpresa2: "",
+      referenciaAdicional: "",
+      direccion_residencia: "",
+      direccionLaboral: "",
+      ubicacionGeografica: "",
+      direccionNotificaciones: "",
+    };
+    resetPersona(emptyValues);
+    setFormValues({
+      ...formValues,
+      tipoDocumento: "",
+      sexo: "",
+      estadoCivil: "",
+      paisNacimiento: "",
+      paisResidencia: "",
+      municipio: "",
+      municipioDondeLabora: "",
+      municipioNotificacion: "",
+      fechaNacimiento: "",
+      id_persona: "",
+      tipoPersona: "",
+    });
   };
 
   const manejadorErroresSwitAlert = (err) => {
@@ -394,7 +429,7 @@ const AdministradorDePersonasScreen = () => {
           <MarcaDeAgua1>
             <div className="row">
               <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
-                <h5 className="font-weight-bolder">Buscar persona</h5>
+                <Subtitle title={"Buscar persona"} mt={0} mb={0} />
                 <div className="mt-4 row align-items-center">
                   <div className="col-12 col-md-4">
                     <label className="form-label">
@@ -423,19 +458,18 @@ const AdministradorDePersonasScreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Numero de documento"
-                        {...registerBuscar("numeroDocumento", {
-                          required: true,
-                        })}
-                      />
+                    <div>
                       <label className="ms-2">
                         Número de documento:{" "}
                         <span className="text-danger">*</span>
                       </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerBuscar("numeroDocumento", {
+                          required: true,
+                        })}
+                      />
                     </div>
                     {errorsBuscar.numeroDocumento && (
                       <div className="col-12">
@@ -464,61 +498,73 @@ const AdministradorDePersonasScreen = () => {
 
               {actionForm && (
                 <form onSubmit={handleSumbitPersona(onSubmitPersona)}>
-                  <h5 className="font-weight-bolder mt-4">Datos personales</h5>
+                  <Subtitle title={"Datos personales"} mt={4} mb={0} />
                   <hr className="dark horizontal my-0" />
                   <div className="mt-4 row">
-                    <div className="row col-12 justify-content-center align-items-center">
-                      <div className="col-12 col-md-4">
-                        <label className="form-label">
-                          Tipo de documento:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <Controller
-                          name="tipoDocumento2"
-                          control={controlPersona}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
+                    <div className="row col-12">
+                      {actionForm !== "editar" ? (
+                        <div className="col-12 col-md-4 mt-2">
+                          <label className="form-label">
+                            Tipo de documento:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <Controller
+                            name="tipoDocumento2"
+                            control={controlPersona}
+                            rules={{
+                              required: true,
+                            }}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                options={tipoDocumentoOptions}
+                                placeholder="Seleccionar"
+                              />
+                            )}
+                          />
+                          {errorsPersona.tipoDocumento2 && (
+                            <div className="col-12">
+                              <small className="text-center text-danger">
+                                Este campo es obligatorio
+                              </small>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="col-12 col-md-4 mt-2">
+                          <div>
+                            <label className="ms-2">
+                              Tipo documento:{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                            <input
+                              className="form-control border rounded-pill px-3"
+                              type="text"
                               value={
                                 tipoDocumentoOptions[formValues.tipoDocumento]
+                                  .label
                               }
-                              onChange={(e) => {
-                                //resetPersona({ tipoDocumento2: e.value });
-                                setFormValues({
-                                  ...formValues,
-                                  tipoDocumento: getIndexBySelectOptions(
-                                    e.value,
-                                    tipoDocumentoOptions
-                                  ),
-                                });
-                              }}
-                              options={tipoDocumentoOptions}
-                              placeholder="Seleccionar"
+                              disabled={actionForm === "editar"}
+                              {...registerPersona("tipoDocumento2")}
                             />
-                          )}
-                        />
-                        {errorsPersona.tipoDocumento2 && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
                           </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic ms-2">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Numero de documento"
-                            {...registerPersona("numeroDocumento2", {
-                              required: true,
-                            })}
-                          />
+                        </div>
+                      )}
+
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
                           <label className="ms-2">
                             Número de documento:{" "}
                             <span className="text-danger">*</span>
                           </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            disabled={actionForm === "editar"}
+                            {...registerPersona("numeroDocumento2", {
+                              required: true,
+                            })}
+                          />
                         </div>
                         {errorsPersona.numeroDocumento2 && (
                           <div className="col-12">
@@ -528,77 +574,113 @@ const AdministradorDePersonasScreen = () => {
                           </div>
                         )}
                       </div>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
+                          <label className="ms-2">
+                            Digito de verificación:
+                          </label>
                           <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Primer nombre"
-                            {...registerPersona("primerNombre", {
-                              required: true,
+                            className="form-control border rounded-pill px-3"
+                            type="number"
+                            {...registerPersona("digitoVerificacion", {
+                              maxLength: 1,
                             })}
                           />
+                        </div>
+                        {errorsPersona.digitoVerificacion && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo solo debe tener un digito
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
+                          <label className="ms-2">Nombre comercial:</label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            {...registerPersona("nombreComercial")}
+                          />
+                        </div>
+                        {errorsPersona.nombreComercial && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo solo debe tener un digito
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
                           <label className="ms-2">
                             Primer nombre:{" "}
                             <span className="text-danger">*</span>
                           </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            disabled={actionForm === "editar"}
+                            {...registerPersona("primerNombre", {
+                              required: true,
+                            })}
+                          />
+                        </div>
+                        {errorsPersona.primerNombre && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
+                          <label className="ms-2">Segundo nombre:</label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            disabled={actionForm === "editar"}
+                            {...registerPersona("segundoNombre")}
+                          />
                         </div>
                       </div>
-                      {errorsPersona.primerNombre && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
+                          <label className="ms-2">
+                            Primer apellido:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            disabled={actionForm === "editar"}
+                            {...registerPersona("primerApellido", {
+                              required: true,
+                            })}
+                          />
                         </div>
-                      )}
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Segundo nombre"
-                          {...registerPersona("segundoNombre")}
-                        />
-                        <label className="ms-2">Segundo nombre:</label>
+                        {errorsPersona.primerApellido && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          placeholder="Primer apellido"
-                          type="text"
-                          {...registerPersona("primerApellido", {
-                            required: true,
-                          })}
-                        />
-                        <label className="ms-2">
-                          Primer apellido:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                      </div>
-                      {errorsPersona.primerApellido && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
+                          <label className="ms-2">Segundo apellido:</label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            disabled={actionForm === "editar"}
+                            {...registerPersona("segundoApellido")}
+                          />
                         </div>
-                      )}
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Segundo apellido"
-                          {...registerPersona("segundoApellido")}
-                        />
-                        <label className="ms-2">Segundo apellido:</label>
                       </div>
-                    </div>
-                    <div className="row mt-2">
-                      <div className="col-12 col-md-4">
+                      <div className="col-12 col-md-4 mt-2">
                         <label className="form-label">Sexo:</label>
                         <Controller
                           name="sexo"
@@ -616,7 +698,7 @@ const AdministradorDePersonasScreen = () => {
                           )}
                         />
                       </div>
-                      <div className="col-12 col-md-4">
+                      <div className="col-12 col-md-4 mt-2">
                         <label className="form-label">Estado civil:</label>
                         <Controller
                           name="estadoCivil"
@@ -640,7 +722,7 @@ const AdministradorDePersonasScreen = () => {
                           )}
                         />
                       </div>
-                      <div className="col-12 col-md-4">
+                      <div className="col-12 col-md-4 mt-2">
                         <label className="form-label">
                           País de nacimiento:
                         </label>
@@ -666,57 +748,57 @@ const AdministradorDePersonasScreen = () => {
                           )}
                         />
                       </div>
-                    </div>
-                    <div className="input-group input-group-dynamic flex-column col-12 col-md-4 mt-4">
-                      <label htmlFor="exampleFormControlInput1">
-                        Fecha de nacimiento{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="fechaNacimiento"
-                        control={controlBuscar}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <DatePicker
-                            {...field}
-                            locale="es"
-                            dateFormat="yyyy/MM/dd"
-                            selected={formValues.fechaNacimiento}
-                            value={formValues.fechaNacimiento}
-                            onSelect={(e) => {
-                              setFormValues({
-                                ...formValues,
-                                fechaNacimiento: e,
-                              });
-                            }}
-                            className="multisteps-form__input form-control p-2"
-                            placeholderText="aaaa/mm/dd"
-                          />
+                      <div className="col-12 col-md-4 mt-1">
+                        <label htmlFor="exampleFormControlInput1">
+                          Fecha de nacimiento{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="fechaNacimiento"
+                          control={controlBuscar}
+                          rules={{ required: true }}
+                          render={({ field }) => (
+                            <DatePicker
+                              {...field}
+                              locale="es"
+                              dateFormat="yyyy/MM/dd"
+                              selected={formValues.fechaNacimiento}
+                              value={formValues.fechaNacimiento}
+                              onSelect={(e) => {
+                                setFormValues({
+                                  ...formValues,
+                                  fechaNacimiento: e,
+                                });
+                              }}
+                              className="form-control border rounded-pill px-3"
+                              placeholderText="aaaa/mm/dd"
+                            />
+                          )}
+                        />
+                        {errorsPersona.fechaNacimiento && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
                         )}
-                      />
-                      {errorsPersona.fechaNacimiento && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
+                      </div>
                     </div>
                   </div>
-                  <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
+                  <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
                   <hr className="dark horizontal my-0" />
-                  <div className="mt-4 row">
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                  <div className="mt-2 row">
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">
+                          E-mail: <span className="text-danger">*</span>
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="email"
                           placeholder="E-mail"
                           {...registerPersona("eMail", { required: true })}
                         />
-                        <label className="ms-2">
-                          E-mail: <span className="text-danger">*</span>
-                        </label>
                       </div>
                       {errorsPersona.eMail && (
                         <div className="col-12">
@@ -726,28 +808,26 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Email empresarial:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
-                          placeholder="Email empresarial"
                           {...registerPersona("emailEmpresarial")}
                         />
-                        <label className="ms-2">Email empresarial:</label>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="tel"
-                          placeholder="Celular"
-                          {...registerPersona("celular", { required: true })}
-                        />
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
                         <label className="ms-2">
                           Celular: <span className="text-danger">*</span>
                         </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="tel"
+                          {...registerPersona("celular", { required: true })}
+                        />
                       </div>
                       {errorsPersona.celular && (
                         <div className="col-12">
@@ -757,49 +837,64 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Telefono fijo:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="tel"
-                          placeholder="Telefono"
                           {...registerPersona("telefonoFijo")}
                         />
-                        <label className="ms-2">Telefono fijo:</label>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Telefono empresa 2:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="tel"
-                          placeholder="Telefono"
-                          {...registerPersona("telefonoEmpresa")}
-                        />
-                        <label className="ms-2">Telefono empresa:</label>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="tel"
-                          placeholder="Telefono"
                           {...registerPersona("telefonoEmpresa2")}
                         />
-                        <label className="ms-2">Telefono empresa 2:</label>
                       </div>
                     </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <label className="form-label">
+                        Municipio notificación:
+                      </label>
+                      <Controller
+                        name="municipioNotificacion"
+                        control={controlBuscar}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={municipiosOptions}
+                            value={
+                              municipiosOptions[
+                                formValues.municipioNotificacion
+                              ]
+                            }
+                            onChange={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                municipioNotificacion: getIndexBySelectOptions(
+                                  e.value,
+                                  municipiosOptions
+                                ),
+                              })
+                            }
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
                   </div>
-                  <h5 className="font-weight-bolder mt-4">
-                    Lugar de residencia
-                  </h5>
-                  <div className="row mb-3">
-                    <div className="col-12 col-md-4">
+                  <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
+                  <div className="row mb-3 mt-2">
+                    <div className="col-12 col-md-4 mt-2">
                       <label className="form-label">País de Residencia:</label>
                       <Controller
                         name="paisResidencia"
-                        control={controlBuscar}
+                        control={controlPersona}
                         render={({ field }) => (
                           <Select
                             {...field}
@@ -819,33 +914,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">Departamento:</label>
-                      <Controller
-                        name="departamento"
-                        control={controlBuscar}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={
-                              departamentosOptions[formValues.departamento]
-                            }
-                            onChange={(e) =>
-                              setFormValues({
-                                ...formValues,
-                                departamento: getIndexBySelectOptions(
-                                  e.value,
-                                  departamentosOptions
-                                ),
-                              })
-                            }
-                            options={departamentosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-4 mt-2">
                       <label className="form-label">Municipio:</label>
                       <Controller
                         name="municipio"
@@ -869,42 +938,75 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">
+                          Ubicacion geografica:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          {...registerPersona("ubicacionGeografica", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      {errorsPersona.ubicacionGeografica && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <div className="row">
-                    <div className="col-md-8 col-12">
-                      <div className="form-floating input-group input-group-dynamic mt-2">
+                    <div className="col-md-8 col-12 mt-2">
+                      <div className="form-floating input-group input-group-dynamic mt-3">
                         <input
                           className="form-control"
                           type="text"
                           readOnly
-                          {...registerPersona("direccion_residencia")}
+                          {...registerPersona("direccion_residencia", {
+                            required: true,
+                          })}
                         />
-                        <label className="ms-2">Dirección de residencia:</label>
+                        <label className="ms-2">
+                          Dirección de residencia:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
                         <button
                           type="button"
                           className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionNotificacionIsOpen(true)}
+                          onClick={() => setDireccionResidenciaIsOpen(true)}
                         >
                           Generar
                         </button>
                       </div>
+                      {errorsPersona.direccion_residencia && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Referencia adicional:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
-                          placeholder="referencia adicional"
                           {...registerPersona("referenciaAdicional")}
                         />
-                        <label className="ms-2">Referencia adicional:</label>
                       </div>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-8 col-12">
-                      <div className="form-floating input-group input-group-dynamic mt-2">
+                    <div className="col-md-8 col-12 mt-2">
+                      <div className="form-floating input-group input-group-dynamic mt-3">
                         <input
                           className="form-control"
                           type="text"
@@ -921,7 +1023,7 @@ const AdministradorDePersonasScreen = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-4 mt-2">
                       <label className="form-label">
                         Municipio donde labora:
                       </label>
@@ -949,29 +1051,26 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-md-8 col-12 mt-2">
+                      <div className="form-floating input-group input-group-dynamic mt-3">
                         <input
                           className="form-control"
                           type="text"
-                          placeholder="Ubicacion geografica"
-                          {...registerPersona("ubicacionGeografica", {
-                            required: true,
-                          })}
+                          readOnly
+                          {...registerPersona("direccionNotificaciones")}
                         />
                         <label className="ms-2">
-                          Ubicacion geografica:{" "}
-                          <span className="text-danger">*</span>
+                          Dirección Notificaciones:
                         </label>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                          onClick={() => setDireccionNotificacionIsOpen(true)}
+                        >
+                          Generar
+                        </button>
                       </div>
                     </div>
-                    {errorsPersona.ubicacionGeografica && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
                   </div>
 
                   <div className="d-flex justify-content-end gap-2 mt-4">
@@ -995,10 +1094,10 @@ const AdministradorDePersonasScreen = () => {
             </div>
           </MarcaDeAgua1>
           <GeneradorDeDirecciones
-            isOpenGenerator={direccionNotificacionIsOpen}
-            setIsOpenGenerator={setDireccionNotificacionIsOpen}
-            completeAddress={direccionNotificacionText}
-            setCompleteAddress={setDireccionNotificacionText}
+            isOpenGenerator={direccionResidenciaIsOpen}
+            setIsOpenGenerator={setDireccionResidenciaIsOpen}
+            completeAddress={direccionResidenciaText}
+            setCompleteAddress={setDireccionResidenciaText}
             reset={resetPersona}
             keyReset="direccion_residencia"
             totalValuesForm={watchPersona()}
@@ -1012,6 +1111,16 @@ const AdministradorDePersonasScreen = () => {
             reset={resetPersona}
             keyReset="direccionLaboral"
             totalValuesForm={watchPersona()}
+          />
+
+          <GeneradorDeDirecciones
+            keyReset="direccionNotificaciones"
+            reset={resetPersona}
+            totalValuesForm={watchPersona()}
+            isOpenGenerator={direccionNotificacionIsOpen}
+            setIsOpenGenerator={setDireccionNotificacionIsOpen}
+            completeAddress={direccionNotificacionText}
+            setCompleteAddress={setDireccionNotificacionText}
           />
         </div>
       </div>
