@@ -135,7 +135,7 @@ const ReporteDeEstadoDeActivosScreen = () => {
   const [startDate, setStartDate] = useState(new Date());
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Reporte de estado de activo{" "}
         </h3>
@@ -197,7 +197,7 @@ const ReporteDeEstadoDeActivosScreen = () => {
                     name="valorInicial"
                     className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Vaalor inicial"
+                    placeholder="Valor inicial"
                     {...register("valorInicial")}
                   />
                 </div>
@@ -208,7 +208,7 @@ const ReporteDeEstadoDeActivosScreen = () => {
                     name="ValorFinal"
                     className="form-control border rounded-pill px-3"
                     type="text"
-                    placeholder="Vaalor final"
+                    placeholder="Valor final"
                     {...register("valorFinal")}
                   />
                 </div>
@@ -257,69 +257,69 @@ const ReporteDeEstadoDeActivosScreen = () => {
                       </div>
                     </div>
                     <div className="mt-4 justify-content-end align-items-end">
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Nombre quien imprime</label>
-                      <input
-                        name="nombreQuienImprime"
-                        className="form-control border rounded-pill px-3"
-                        type="text"
-                        placeholder="Nombre del articulo"
-                        value="Julian Castillo"
-                        disabled
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="justify-content-end align-items-end">
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label htmlFor="exampleFormControlInput1 mt-4">
-                        Fecha de impresion
-                      </label>
-
-                      <Controller
-                        name="fechaSolicitud"
-                        control={control}
-                        render={({ field }) => (
-                          <DatePicker
-                            {...field}
-                            locale="es"
-                            selected={startDate}
-                            dateFormat="dd/MM/yyyy"
-                            includeDates={[new Date()]}
-                            onChange={(date) => setStartDate(date)}
-                            className="form-control border rounded-pill px-3  p-2"
-                            placeholderText="dd/mm/aaaa"
+                      <div className="row">
+                        <div className="col-12 col-md-4">
+                          <label className="ms-2">Nombre quien imprime</label>
+                          <input
+                            name="nombreQuienImprime"
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            placeholder="Nombre del articulo"
+                            value="Julian Castillo"
+                            disabled
                           />
-                        )}
-                      />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
+                    <div className="justify-content-end align-items-end">
+                      <div className="row">
+                        <div className="col-12 col-md-4">
+                          <label htmlFor="exampleFormControlInput1 mt-4">
+                            Fecha de impresion
+                          </label>
 
-                <div className="col-12 col-md-4 row">
-                  <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Imprimir
-                    </button>
+                          <Controller
+                            name="fechaSolicitud"
+                            control={control}
+                            render={({ field }) => (
+                              <DatePicker
+                                {...field}
+                                locale="es"
+                                selected={startDate}
+                                dateFormat="dd/MM/yyyy"
+                                includeDates={[new Date()]}
+                                onChange={(date) => setStartDate(date)}
+                                className="form-control border rounded-pill px-3  p-2"
+                                placeholderText="dd/mm/aaaa"
+                              />
+                            )}
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                      onclik="${}"
-                    >
-                      Salir
-                    </button>
-                  </div>
-                </div>
+                    <div className="col-12 col-md-4 row">
+                      <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
+                        <button
+                          className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                          type="button"
+                          title="Send"
+                          form="configForm"
+                        >
+                          Imprimir
+                        </button>
+
+                        <button
+                          className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
+                          type="button"
+                          title="Send"
+                          form="configForm"
+                          onclik="${}"
+                        >
+                          Salir
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   ""

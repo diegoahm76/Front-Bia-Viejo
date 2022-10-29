@@ -399,20 +399,19 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
             )}
           </MarcaDeAgua1>
 
-          <h1>DE ACA PA ABAJAO SE BORARA POR QUE ES DE GUIA </h1>
-          {/* div verde */}
-          <div>
-            <div className="multisteps-form__content">
-              <div className="row">
-                <label className="form-control border rounded-pill px-3 mt-3 text-white"
-                style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  <n>Articulo</n>
-                </label>
-              </div>
-            </div>
-          </div>
+          {/* <h1>DE ACA PA ABAJAO SE BORARA POR QUE ES DE GUIA </h1>
+           div verde 
+           <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <label className="form-control border rounded-pill px-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                      <n>Tercero</n>
+                    </label>
+                  </div>
+                </div>
+         
 
-          {/* fecha */}
+           fecha 
           <div className="col-12 col-md-4">
             <label htmlFor="exampleFormControlInput1 mt-4">
               Fecha de solicitud
@@ -435,7 +434,7 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
               )}
             />
           </div>
-          {/* boton */}
+           boton 
           <div className="col-12 col-md-2 ">
             <div className="d-grid gap-2 d-flex justify-content-end  mt-4">
               <button
@@ -448,7 +447,7 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
               </button>
             </div>
           </div>
-          {/* input */}
+         input 
           <div className="col-12 col-md-4">
             <label className="ms-2">
               Número de cedula
@@ -466,7 +465,7 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
               <small className="text-danger">Este campo es obligatorio</small>
             )}
           </div>
-          {/* imprimir y salir */}
+          imprimir y salir 
           <div className="d-flex flex-column align-items-start mt-6">
                   <label>
                     ____________________________________________________
@@ -542,7 +541,7 @@ const RegistroDeMantenimientoDeComputoScreen = () => {
                       Salir
                     </button>
                   </div>
-                </div>
+                </div> */}
 
 
 

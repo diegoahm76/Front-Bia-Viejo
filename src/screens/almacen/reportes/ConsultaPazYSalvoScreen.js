@@ -137,7 +137,7 @@ const ConsultaPazYSalvoScreen = () => {
           <div className="multisteps-form__content">
             <div className="row">
               <label className="form-control border rounded-pill px-3 mt-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                <n>Consultar persona</n>
+                <b>Consultar persona</b>
               </label>
             </div>
           </div>
@@ -238,13 +238,13 @@ const ConsultaPazYSalvoScreen = () => {
           {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
             <div>
               <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>
-                      Se puede generar paz y salvo, la persona selecionana no
-                      cuenta con elementos a su cargo
-                    </n>
-                  </label>
+              <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <label className="form-control border rounded-pill px-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                      <b>Se puede generar paz y salvo, la persona selecionana no cuenta con elementos a su cargo</b>
+                    </label>
+                  </div>
                 </div>
                 <div className="mt-1 row">
                   <div id="myGrid" className="ag-theme-alpine mt-4">

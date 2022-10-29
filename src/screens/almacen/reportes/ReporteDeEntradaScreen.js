@@ -112,7 +112,7 @@ const ReporteDeEntradaScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Reporte de Entrada de Almacen de activos fijos
         </h3>
@@ -259,7 +259,8 @@ const ReporteDeEntradaScreen = () => {
 
                     <div className="mt-3 row">
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
+                        
+                        <label className="ms-2">Origen</label>
                           <input
                             className="form-control"
                             type="text"
@@ -267,12 +268,12 @@ const ReporteDeEntradaScreen = () => {
                             value="Compras"
                             disabled
                           />
-                          <label className="ms-2">Origen</label>
-                        </div>
+                      
                       </div>
 
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
+                        
+                        <label className="ms-2">Bodega</label>
                           <input
                             className="form-control"
                             type="text"
@@ -280,8 +281,8 @@ const ReporteDeEntradaScreen = () => {
                             value="Villavicencio"
                             disabled
                           />
-                          <label className="ms-2">Bodega</label>
-                        </div>
+                         
+                       
                       </div>
                     </div>
 

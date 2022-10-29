@@ -157,7 +157,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Reporte de solicitudes de vehiculo
         </h3>
@@ -182,54 +182,50 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                 <div className="col-12 col-md-4">
                   <label className="form-floating input-group input-group-dynamic ms-2">
                     Tipo de documento
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoDocumento"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
                   </label>
-                </div>
-
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      name="numeroCedula"
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      {...register("numeroCedula")}
+                  <div className="col-12 mt-3">
+                    <Controller
+                      name="tipoDocumento"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionsTipoDocumento}
+                          placeholder="Seleccionar"
+                        />
+                      )}
                     />
-                    <label className="ms-2">Número de cedula</label>
                   </div>
                 </div>
 
                 <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      value="Julian Castillo"
-                      disabled
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
+                  <label className="ms-2">Número de cedula</label>
+                  <input
+                    name="numeroCedula"
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="numero cedula"
+                    {...register("numeroCedula")}
+                  />
+                </div>
+
+                <div className="col-12 col-md-4">
+                  <label className="ms-2">Nombre completo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    value="Julian Castillo"
+                    disabled
+                  />
                 </div>
               </div>
             </div>
 
-            <div className="row">
-              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="row col-2">
+              <div className="d-grid gap-2 d-flex justify-content-end  mt-4">
                 <button
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
+                  className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                   type="button"
                   title="Send"
                   form="configForm"
@@ -243,102 +239,100 @@ const ReporteSolicitudDeVehiculosScreen = () => {
             <div className="mt-4 row">
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
-                  Dependencia
-                  <div className="col-12 ">
-                    <Controller
-                      name="dependencia"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionDependecia}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+                  Dependencia{" "}
                 </label>
+                <div className="col-12 ">
+                  <Controller
+                    name="dependencia"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionDependecia}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Grupo
-                  <div className="col-12 ">
-                    <Controller
-                      name="grupo"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionGrupo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
                 </label>
+                <div className="col-12 ">
+                  <Controller
+                    name="grupo"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionGrupo}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
               </div>
             </div>
             <div className="mt-4 row">
               <div className="col-12 col-md-4">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha inicial
-                  <Controller
-                    name="fechaInicial"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        dateFormat="dd/MM/yyyy"
-                        className="multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
-                        selected={startDate}
-                        onChange={(date) => {
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            fechaInicial: date,
-                          });
-                          setStartDate(date);
-                        }}
-                        selectsStart
-                        startDate={startDate}
-                        endDate={endDate}
-                      />
-                    )}
-                  />
                 </label>
+                <Controller
+                  name="fechaInicial"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control border rounded-pill px-3  p-2"
+                      placeholderText="dd/mm/aaaa"
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaInicial: date,
+                        });
+                        setStartDate(date);
+                      }}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                    />
+                  )}
+                />
               </div>
 
               <div className="col-12 col-md-4">
                 <label htmlFor="exampleFormControlInput1 mt-4">
                   Fecha final
-                  <Controller
-                    name="fechaFinal"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        dateFormat="dd/MM/yyyy"
-                        className="multisteps-form__input form-control p-2"
-                        placeholderText="dd/mm/aaaa"
-                        selected={endDate}
-                        onChange={(date) => {
-                          setSelecOpciones({
-                            ...selecOpciones,
-                            fechaFinal: date,
-                          });
-                          setEndDate(date);
-                        }}
-                        selectsEnd
-                        startDate={startDate}
-                        endDate={endDate}
-                        minDate={startDate}
-                      />
-                    )}
-                  />
                 </label>
+                <Controller
+                  name="fechaFinal"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control border rounded-pill px-3  p-2"
+                      placeholderText="dd/mm/aaaa"
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaFinal: date,
+                        });
+                        setEndDate(date);
+                      }}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                    />
+                  )}
+                />
               </div>
             </div>
 
@@ -346,23 +340,23 @@ const ReporteSolicitudDeVehiculosScreen = () => {
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Estado de la solicitud
-                  <div className="col-12 ">
-                    <Controller
-                      name="estadoDeSolicitudes"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionEstado}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
                 </label>
+                <div className="col-12 ">
+                  <Controller
+                    name="estadoDeSolicitudes"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionEstado}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
               </div>
 
-              <div className="col-4 col-md-5">
+              <div className="col-4 col-md-4">
                 <div className="form-check mt-4">
                   <input
                     className="form-check-input"
@@ -370,15 +364,15 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     value=""
                   />
                   <label className="form-check-label">
-                    Todas la solicitudes{" "}
+                    Todas la solicitudes
                   </label>
                 </div>
               </div>
 
-              <div className="col-12 col-md-3">
+              <div className="col-12 col-md-2">
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                   <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                     type="submit"
                     title="Send"
                     form="configForm"
@@ -386,7 +380,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                     Buscar
                   </button>
                 </div>
-              </div> 
+              </div>
             </div>
             {(selecOpciones.tipoDocumento && selecOpciones.numeroCedula) ||
             (selecOpciones.dependencia && selecOpciones.grupo) ||
@@ -394,8 +388,14 @@ const ReporteSolicitudDeVehiculosScreen = () => {
             selecOpciones.estadoDeSolicitudes ? (
               <div>
                 <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>Reporte de solicitudes de vehiculo</n>
+                  <label
+                    className="form-control border rounded-pill px-3 mt-3 text-white"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(45deg, #67b136, #39aad4)",
+                    }}
+                  >
+                    <b>Reporte de solicitudes de vehiculo</b>
                   </label>
                 </div>
 
@@ -415,55 +415,65 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                   </div>
                 </div>
 
-                <div className="d-flex flex-column justify-content-end align-items-end">
+                <div className="mt-4 justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="nombreQuienImprime"
-                          className="form-control"
-                          type="text"
-                          placeholder="Nombre del articulo"
-                          value="Julian Castillo"
-                          disabled
-                        />
-                        <label className="ms-2">Nombre quien imprime</label>
-                      </div>
+                    <div className="col-12 col-md-4">
+                      <label className="ms-2">Nombre quien imprime</label>
+                      <input
+                        name="nombreQuienImprime"
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        placeholder="Nombre del articulo"
+                        value="Julian Castillo"
+                        disabled
+                      />
                     </div>
                   </div>
-
+                </div>
+                <div className="justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-12">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          name="fechaDeImpresion"
-                          className="form-control"
-                          type="text"
-                          placeholder="fecha de impresion"
-                          value="05/10/2022"
-                          disabled
-                        />
-                        <label className="ms-2">Fecha de impresion</label>
-                      </div>
+                    <div className="col-12 col-md-4">
+                      <label htmlFor="exampleFormControlInput1 mt-4">
+                        Fecha de impresion
+                      </label>
+
+                      <Controller
+                        name="fechaSolicitud"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            locale="es"
+                            selected={startDate}
+                            dateFormat="dd/MM/yyyy"
+                            includeDates={[new Date()]}
+                            onChange={(date) => setStartDate(date)}
+                            className="form-control border rounded-pill px-3  p-2"
+                            placeholderText="dd/mm/aaaa"
+                          />
+                        )}
+                      />
                     </div>
                   </div>
                 </div>
 
-                <div className="row">
-                  <div className=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                <div className="col-12 col-md-4 row">
+                  <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
                     <button
-                      className="btn bg-gradient-primary mb-0"
+                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                       type="button"
                       title="Send"
                       form="configForm"
                     >
                       Imprimir
                     </button>
+
                     <button
-                      className="btn bg-gradient-danger mb-0"
+                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
                       type="button"
                       title="Send"
                       form="configForm"
+                      onclik="${}"
                     >
                       Salir
                     </button>
