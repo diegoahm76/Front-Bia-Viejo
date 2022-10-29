@@ -50,6 +50,11 @@ const NotificacionesEstacionesScreen = () => {
       minWidth: 250,
     },
     {
+      headerName: "Numero",
+      field: "t005Usuarios.t005numero",
+      minWidth: 250,
+    },
+    {
       headerName: "Alarma",
       field: "t006Alarmas.t006nombre",
       minWidth: 250,
@@ -142,6 +147,7 @@ const NotificacionesEstacionesScreen = () => {
                 columnDefs={columnDefs}
                 rowData={notificaciones}
                 defaultColDef={defaultColDef}
+                
               ></AgGridReact>
             </div>
           </form>
