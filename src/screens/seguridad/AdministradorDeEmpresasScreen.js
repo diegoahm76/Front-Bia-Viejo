@@ -6,7 +6,13 @@ import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import Swal from "sweetalert2";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
-import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import {
+  dataOverriteEmpresaAdapter,
+  dataUpdateEmpresaAdapter,
+} from "../../adapters/administradorEmpresa.adapters";
+import { getConfigAuthBearer } from "../../helpers/configAxios";
+import Subtitle from "../../components/Subtitle";
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -19,14 +25,10 @@ const AdministradorDeEmpresasScreen = () => {
   const [actionForm, setActionForm] = useState(null);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [paisesOptions, setPaisesOptions] = useState([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [formValues, setFormValues] = useState({
     tipoDocumento: null,
-    paisResidencia: "",
-    departamento: "",
-    municipio: "",
-    municipioDondeLabora: "",
+    paisEmpresa: "",
     id_persona: "",
     tipoPersona: "",
     municipioNotificacion: "",
@@ -45,17 +47,41 @@ const AdministradorDeEmpresasScreen = () => {
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
     reset: resetBuscar,
+    watch: watchBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
 
+  const ACTION_EDITAR = "editar";
+  const ACTION_CREAR = "crear";
+
   const onSubmitBuscar = async (data) => {
     try {
-      const { data: dataEmpresa } = await clienteAxios.get(
-        `/personas/get-personas-by-document/${data.tipoDocumento.value}/${data?.numeroDocumento}/`
+      const { data: dataEmpresaObject } = await clienteAxios.get(
+        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
-      console.log(data)
-      console.log("data empresa", dataEmpresa);
-      if (dataEmpresa.tipo_persona !== "J" && dataEmpresa.id_persona) {
+
+      const { data: dataEmpresa } = dataEmpresaObject;
+
+      if (!dataEmpresa) {
+        const result = await Swal.fire({
+          title: "No existe una empresa con estos datos",
+          text: "¿Quiere seguir buscando o quiere crear una empresa?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Seguir",
+          cancelButtonText: "Crear",
+        });
+        if (!result.isConfirmed) {
+          resetEmptyValues();
+          return setActionForm(ACTION_CREAR);
+        } else {
+          return;
+        }
+      }
+
+      if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
           title: "Este documento es de una persona natural",
           text: "¿Quiere ir al administrador de personas?",
@@ -67,31 +93,17 @@ const AdministradorDeEmpresasScreen = () => {
           cancelButtonText: "No",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate("/dashboard/seguridad/administradordeempresas");
+            navigate("/dashboard/seguridad/administradordepersonas");
           }
         });
         setActionForm(null);
         return;
-      } else if (!dataEmpresa.id_persona) {
-        Swal.fire({
-          title: "No existe una empresa con estos datos",
-          text: "¿Quiere seguir buscando o quiere crear una empresa?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Seguir",
-          cancelButtonText: "Crear",
-        }).then((result) => {
-          if (result.isConfirmed) {
-          } else {
-            setActionForm("Crear");
-          }
-        });
       } else {
-        setActionForm("editar");
+        setActionForm(ACTION_EDITAR);
       }
 
+      console.log("Data get del buscar empresa", dataEmpresa);
+      const dataOverriteInputs = dataOverriteEmpresaAdapter(dataEmpresa);
       const defaultValuesOverrite = {
         tipoDocumento:
           tipoDocumentoOptions[
@@ -100,19 +112,7 @@ const AdministradorDeEmpresasScreen = () => {
               tipoDocumentoOptions
             )
           ],
-        numeroDocumento2: dataEmpresa.numero_documento,
-        codVerificacion: dataEmpresa.digito_verificacion,
-        nombreComercial: dataEmpresa.nombre_comercial,
-        razonSocial: dataEmpresa.razon_social,
-        eMail: dataEmpresa.email,
-        celular: dataEmpresa.telefono_celular,
-        emailNotificacion: dataEmpresa.email_empresarial,
-        celularNotificacion: dataEmpresa.telefono_celular_empresa,
-        telefonoEmpresa: dataEmpresa.telefono_empresa,
-        telefonoAlterno: dataEmpresa.telefono_empresa_2,
-        direccionDeNotificacion: dataEmpresa.direccion_notificaciones,
-        direccionEmpresa: dataEmpresa.direccion_residencia,
-        ubicacionGeografica: dataEmpresa.ubicacion_georeferenciada,
+        ...dataOverriteInputs,
       };
       setFormValues({
         ...formValues,
@@ -120,17 +120,9 @@ const AdministradorDeEmpresasScreen = () => {
           dataEmpresa.tipo_documento?.cod_tipo_documento,
           tipoDocumentoOptions
         ),
-        paisResidencia: getIndexBySelectOptions(
+        paisEmpresa: getIndexBySelectOptions(
           dataEmpresa.cod_pais_nacionalidad_empresa,
           paisesOptions
-        ),
-        departamento: getIndexBySelectOptions(
-          dataEmpresa.departamento_residencia,
-          departamentosOptions
-        ),
-        municipio: getIndexBySelectOptions(
-          dataEmpresa.municipio_residencia,
-          municipiosOptions
         ),
         municipioNotificacion: getIndexBySelectOptions(
           dataEmpresa.cod_municipio_notificacion_nal,
@@ -147,41 +139,28 @@ const AdministradorDeEmpresasScreen = () => {
   };
 
   const onSubmitEmpresa = async (data) => {
-    console.log("data estado componentes", formValues);
-    console.log("data hook form", data);
-    console.log("direccion de notificacion", data.direccionDeNotificacion);
-
+    const dataUpdateInputs = dataUpdateEmpresaAdapter(data);
     const updateEmpresa = {
+      ...dataUpdateInputs,
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
       tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
-      numero_documento: data.numeroDocumento2,
-      digito_verificacion: data.codVerificacion,
-      nombre_comercial: data.nombreComercial,
-      razon_social: data.razonSocial,
-      email: data.eMail,
-      email_empresarial: data.emailNotificacion,
-      telefono_celular: data.celular,
-      telefono_empresa: data.telefonoEmpresa,
-      telefono_empresa_2: data.telefonoAlterno,
-      cod_pais_nacionalidad_empresa: formValues.paisResidencia?.value,
-      departamento_residencia:
-        departamentosOptions[formValues.departamento]?.value,
-      municipio_residencia: municipiosOptions[formValues.municipio]?.value,
-      direccion_notificaciones: data.direccionDeNotificacion,
-      direccion_residencia: data.direccionEmpresa,
+      cod_pais_nacionalidad_empresa:
+        paisesOptions[formValues.paisEmpresa]?.value,
       cod_municipio_notificacion_nal:
         municipiosOptions[formValues.municipioNotificacion]?.value,
-      ubicacion_georeferenciada: data.ubicacionGeografica,
     };
 
     console.log("updated persona", updateEmpresa);
 
-    if (actionForm === "editar") {
+    if (actionForm === ACTION_EDITAR) {
+      const access = getTokenAccessLocalStorage();
+      const config = getConfigAuthBearer(access);
       try {
-        await clienteAxios.put(
-          `personas/persona-juridica/update/${formValues?.id_persona}/`,
-          updateEmpresa
+        await clienteAxios.patch(
+          `personas/persona-juridica/user-with-permissions/update/${formValues?.id_persona}/`,
+          updateEmpresa,
+          config
         );
         Swal.fire({
           position: "center",
@@ -190,7 +169,7 @@ const AdministradorDeEmpresasScreen = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        resetBuscar({ numeroDocumento: "" });
+        resetBuscar({ ...watchBuscar(), numeroDocumento: "" });
         setActionForm(null);
       } catch (err) {
         manejadorErroresSwitAlert(err);
@@ -199,7 +178,7 @@ const AdministradorDeEmpresasScreen = () => {
       try {
         updateEmpresa.tipo_persona = "J";
         await clienteAxios.post(
-          "personas/registerpersonajuridica/",
+          "personas/persona-juridica/create/",
           updateEmpresa
         );
         Swal.fire({
@@ -248,6 +227,15 @@ const AdministradorDeEmpresasScreen = () => {
           navigate("/dashboard/seguridad/administradordeusuario");
         }
       });
+    } else if (err.response?.data?.representante_legal) {
+      Swal.fire({
+        title: "Ingrese un representante legal correcto",
+        text: "Verifique los datos",
+        icon: "info",
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Aceptar",
+      });
     } else if (err.response?.data?.email) {
       Swal.fire({
         title: "Este correo electronico ya existe",
@@ -262,6 +250,34 @@ const AdministradorDeEmpresasScreen = () => {
     }
   };
 
+  const resetEmptyValues = () => {
+    const emptyValues = {
+      tipoDocumento: "",
+      numeroDocumento2: "",
+      codVerificacion: "",
+      nombreComercial: "",
+      razonSocial: "",
+      representanteLegal: "",
+      eMail: "",
+      emailNotificacion: "",
+      celular: "",
+      telefonoEmpresa: "",
+      telefonoAlterno: "",
+      direccionDeNotificacion: "",
+      direccionEmpresa: "",
+      municipioNotificacion: "",
+    };
+    resetEmpresa(emptyValues);
+    setFormValues({
+      ...formValues,
+      tipoDocumento: "",
+      paisEmpresa: null,
+      municipioNotificacion: null,
+      id_persona: "",
+      tipoPersona: "",
+    });
+  };
+
   useEffect(() => {
     const getSelectsOptions = async () => {
       try {
@@ -271,21 +287,16 @@ const AdministradorDeEmpresasScreen = () => {
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
         );
-        const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
-        );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
-        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
         setPaisesOptions(paisesFormat);
-        setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
       } catch (err) {
         console.log(err);
@@ -320,82 +331,80 @@ const AdministradorDeEmpresasScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <MarcaDeAgua1>
-            <div className="row">
-              <h5 className="font-weight-bolder">Buscar empresa</h5>
-              <form
-                className="mt-4 row align-items-center"
-                onSubmit={handleSubmitBuscar(onSubmitBuscar)}
-              >
-                <div className="col-12 col-md-4">
-                  <label className="form-label">
-                    Tipo de documento: <span className="text-danger">*</span>
-                  </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={controlBuscar}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errorsBuscar.tipoDocumento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Numero de documento"
-                      {...registerBuscar("numeroDocumento", { required: true })}
+          <div className="row">
+            <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
+            <form
+              className="mt-4 row align-items-center"
+              onSubmit={handleSubmitBuscar(onSubmitBuscar)}
+            >
+              <div className="col-12 col-md-4">
+                <label className="form-label">
+                  Tipo de documento: <span className="text-danger">*</span>
+                </label>
+                <Controller
+                  name="tipoDocumento"
+                  control={controlBuscar}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={tipoDocumentoOptions}
+                      placeholder="Seleccionar"
                     />
-                    <label className="ms-2">
-                      Número de documento:{" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errorsBuscar.numeroDocumento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
                   )}
+                />
+                {errorsBuscar.tipoDocumento && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-12 col-md-4">
+                <div>
+                  <label className="ms-2">
+                    Número de documento: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    {...registerBuscar("numeroDocumento", { required: true })}
+                  />
                 </div>
-                <div className="col-12 col-md-4 mt-2 mt-md-0">
-                  <button
-                    type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
-                  >
-                    Buscar
-                  </button>
-                  <button
-                    type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
-                  >
-                    Busqueda avanzada
-                  </button>
-                </div>
-              </form>
+                {errorsBuscar.numeroDocumento && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-12 col-md-4 mt-2 mt-md-3">
+                <button
+                  type="submit"
+                  className="btn bg-gradient-primary mb-0 text-capitalize"
+                >
+                  Buscar
+                </button>
+                <button
+                  type="button"
+                  className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                >
+                  Busqueda avanzada
+                </button>
+              </div>
+            </form>
 
-              {actionForm && (
-                <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
-                  <h5 className="font-weight-bolder mt-4">Datos personales</h5>
-                  <hr className="dark horizontal my-0" />
-                  <div className="mt-4 row">
-                    <div className="row col-12 justify-content-center align-items-center">
+            {actionForm && (
+              <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
+                <Subtitle title={"Datos personales"} mt={4} mb={0} />
+                <hr className="dark horizontal my-0" />
+                <div className="mt-4 row">
+                  <div className="row col-12 justify-content-center align-items-center">
+                    {actionForm !== ACTION_EDITAR ? (
                       <div className="col-12 col-md-4">
                         <label className="form-label">
                           Tipo de documento:{" "}
@@ -425,147 +434,214 @@ const AdministradorDeEmpresasScreen = () => {
                           )}
                         />
                       </div>
+                    ) : (
                       <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic ms-2">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Numero de documento"
-                            {...registerEmpresa("numeroDocumento2", {
-                              required: true,
-                            })}
-                          />
+                        <div className="mt-2">
                           <label className="ms-2">
-                            Número de documento:{" "}
+                            Tipo de documento:{" "}
                             <span className="text-danger">*</span>
                           </label>
-                          {errorsEmpresa.numeroDocumento2 && (
-                            <div className="col-12">
-                              <small className="text-center text-danger">
-                                Este campo es obligatorio
-                              </small>
-                            </div>
-                          )}
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            value={
+                              tipoDocumentoOptions[formValues.tipoDocumento]
+                                ?.label
+                            }
+                            disabled
+                          />
                         </div>
                       </div>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="number"
-                            placeholder="codigo de verificacion"
-                            {...registerEmpresa("codVerificacion", {
-                              maxLength: 1,
-                            })}
-                          />
-                          <label className="ms-2">Cod. verificacion:</label>
-                          {errorsEmpresa.codVerificacion && (
-                            <div className="col-12">
-                              <small className="text-center text-danger">
-                                Este campo es obligatorio, con numeros y de un
-                                carácter
-                              </small>
-                            </div>
-                          )}
-                        </div>
+                    )}
+                    <div className="col-12 col-md-4">
+                      <div className="mt-2">
+                        <label className="ms-2">
+                          Número de documento:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          disabled={actionForm === ACTION_EDITAR}
+                          {...registerEmpresa("numeroDocumento2", {
+                            required: actionForm === ACTION_CREAR,
+                          })}
+                        />
+                        {errorsEmpresa.numeroDocumento2 && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
                       </div>
                     </div>
-
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <div className="mt-2">
+                        <label className="ms-2">Cod. verificacion:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
+                          type="number"
+                          disabled={actionForm === ACTION_EDITAR}
+                          {...registerEmpresa("codVerificacion", {
+                            maxLength: 1,
+                          })}
+                        />
+                        {errorsEmpresa.codVerificacion && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio, con numeros y de un
+                              carácter
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="mt-2">
+                        <label className="ms-2">Nombre comercial:</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
                           type="text"
-                          placeholder="Nombre comercial"
+                          disabled={actionForm === ACTION_EDITAR}
                           {...registerEmpresa("nombreComercial")}
                         />
-                        <label className="ms-2">Nombre comercial:</label>
                       </div>
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          placeholder="Razon social"
-                          type="text"
-                          {...registerEmpresa("razonSocial")}
-                        />
+                      <div className="mt-2">
                         <label className="ms-2">
                           Razon social: <span className="text-danger">*</span>
                         </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          disabled={actionForm === ACTION_EDITAR}
+                          {...registerEmpresa("razonSocial")}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                      <div className="mt-2">
+                        <label className="ms-2">Representante legal:</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          disabled={actionForm === ACTION_EDITAR}
+                          {...registerEmpresa("representanteLegal")}
+                        />
                       </div>
                     </div>
                   </div>
-                  <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
-                  <hr className="dark horizontal my-0" />
-                  <div className="mt-4 row">
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">País:</label>
-                      <Controller
-                        name="paisResidencia"
-                        control={controlEmpresa}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={paisesOptions[formValues.paisResidencia]}
-                            onChange={(e) => {
-                              setFormValues({
-                                ...formValues,
-                                paisResidencia: getIndexBySelectOptions(
-                                  e.value,
-                                  paisesOptions
-                                ),
-                              });
-                            }}
-                            options={paisesOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
+                </div>
+                <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
+                <hr className="dark horizontal my-0" />
+                <div className="mt-4 row">
+                  <div className="col-12 col-md-4 mt-2">
+                    <label className="form-label">País:</label>
+                    <Controller
+                      name="paisEmpresa"
+                      control={controlEmpresa}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={paisesOptions[formValues.paisEmpresa]}
+                          onChange={(e) => {
+                            setFormValues({
+                              ...formValues,
+                              paisEmpresa: getIndexBySelectOptions(
+                                e.value,
+                                paisesOptions
+                              ),
+                            });
+                          }}
+                          options={paisesOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="col-12 col-md-4">
+                    <div className="mt-2">
+                      <label className="ms-2">
+                        E-mail: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="email"
+                        {...registerEmpresa("eMail")}
                       />
                     </div>
+                  </div>
+                  <div className="col-12 col-md-4">
+                    <div className="mt-2">
+                      <label className="ms-2">
+                        Celular: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerEmpresa("celular")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-4">
+                    <div className="mt-2">
+                      <label className="ms-2">Telefono empresa:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerEmpresa("telefonoEmpresa")}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Subtitle title={"Datos de notificacion"} mt={4} mb={0} />
+                <div className="row">
+                  <div className="col-12 col-md-4">
+                    <div className="mt-2">
+                      <label className="ms-2">Telefono alterno:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerEmpresa("telefonoAlterno")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-4">
+                    <div className="mt-2">
+                      <label className="ms-2">E-mail de notificacion:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="email"
+                        {...registerEmpresa("emailNotificacion")}
+                      />
+                    </div>
+                  </div>
+                  {actionForm !== ACTION_EDITAR ? (
                     <div className="col-12 col-md-4">
                       <label className="form-label">
-                        Departamento: <span className="text-danger">*</span>
+                        Municipio de notificacion:
                       </label>
                       <Controller
-                        name="departamento"
+                        name="municipioNotificacion"
                         control={controlEmpresa}
                         render={({ field }) => (
                           <Select
                             {...field}
                             value={
-                              departamentosOptions[formValues.departamento]
+                              municipiosOptions[
+                                formValues.municipioNotificacion
+                              ]
                             }
                             onChange={(e) => {
-                              setFormValues({
-                                ...formValues,
-                                departamento: getIndexBySelectOptions(
-                                  e.value,
-                                  departamentosOptions
-                                ),
+                              resetEmpresa({
+                                municipioNotificacion: e.value,
                               });
-                            }}
-                            options={departamentosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <label className="form-label">
-                        Municipio: <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="municipio"
-                        control={controlEmpresa}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={municipiosOptions[formValues.municipio]}
-                            onChange={(e) => {
                               setFormValues({
                                 ...formValues,
-                                municipio: getIndexBySelectOptions(
+                                municipioNotificacion: getIndexBySelectOptions(
                                   e.value,
                                   municipiosOptions
                                 ),
@@ -577,197 +653,68 @@ const AdministradorDeEmpresasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="row">
-                      <div className="col-md-8 col-12">
-                        <div className="form-floating input-group input-group-dynamic mt-2">
-                          <input
-                            className="form-control"
-                            type="text"
-                            readOnly
-                            {...registerEmpresa("direccionEmpresa")}
-                          />
-                          <label className="ms-2">Dirección de empresa:</label>
-                          <button
-                            type="button"
-                            className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                            onClick={() => setDireccionEmpresaIsOpen(true)}
-                          >
-                            Generar
-                          </button>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="email"
-                            placeholder="E-mail"
-                            {...registerEmpresa("eMail")}
-                          />
-                          <label className="ms-2">
-                            E-mail: <span className="text-danger">*</span>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
+                  ) : (
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="tel"
-                          placeholder="Celular"
-                          {...registerEmpresa("celular")}
-                        />
+                      <div className="mt-2">
                         <label className="ms-2">
-                          Celular: <span className="text-danger">*</span>
-                        </label>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Telefono empresa"
-                          {...registerEmpresa("telefonoEmpresa")}
-                        />
-                        <label className="ms-2">Telefono empresa:</label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <h5 className="font-weight-bolder mt-3">
-                    Datos de notificacion
-                  </h5>
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Telefono alterno"
-                          {...registerEmpresa("telefonoAlterno")}
-                        />
-                        <label className="ms-2">Telefono alterno:</label>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="email"
-                          placeholder="E-mail"
-                          {...registerEmpresa("emailNotificacion")}
-                        />
-                        <label className="ms-2">E-mail de notificacion:</label>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Celular de notificacion"
-                          {...registerEmpresa("celularNotificacion")}
-                        />
-                        <label className="ms-2">
-                          Celular de notificacion:{" "}
-                        </label>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-8 col-12">
-                        <div className="form-floating input-group input-group-dynamic mt-2">
-                          <input
-                            className="form-control"
-                            type="text"
-                            readOnly
-                            {...registerEmpresa("direccionDeNotificacion")}
-                          />
-                          <label className="ms-2">
-                            Dirección de notificación:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <button
-                            type="button"
-                            className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                            onClick={() => setDireccionNotificacionIsOpen(true)}
-                          >
-                            Generar
-                          </button>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic ms-2">
-                          <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Ubicacion geografica"
-                            {...registerEmpresa("ubicacionGeografica")}
-                          />
-                          <label className="ms-2">
-                            Ubicacion geografica:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-4">
-                        <label className="form-label">
                           Municipio de notificacion:
                         </label>
-                        <Controller
-                          name="municipioNotificacion"
-                          control={controlEmpresa}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={
-                                municipiosOptions[
-                                  formValues.municipioNotificacion
-                                ]
-                              }
-                              onChange={(e) => {
-                                resetEmpresa({
-                                  municipioNotificacion: e.value,
-                                });
-                                setFormValues({
-                                  ...formValues,
-                                  municipioNotificacion:
-                                    getIndexBySelectOptions(
-                                      e.value,
-                                      municipiosOptions
-                                    ),
-                                });
-                              }}
-                              options={municipiosOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          value={
+                            municipiosOptions[formValues.municipioNotificacion]
+                              ?.label
+                          }
+                          disabled
                         />
                       </div>
                     </div>
+                  )}
+                  <div className="row">
+                    <div className="col-md-8 col-12 mt-3">
+                      <div className="form-floating input-group input-group-dynamic mt-2">
+                        <input
+                          className="form-control"
+                          type="text"
+                          readOnly
+                          {...registerEmpresa("direccionDeNotificacion")}
+                        />
+                        <label className="ms-2">
+                          Dirección de notificación:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                          onClick={() => setDireccionNotificacionIsOpen(true)}
+                        >
+                          Generar
+                        </button>
+                      </div>
+                    </div>
                   </div>
+                </div>
 
-                  <div className="d-flex justify-content-end gap-2 mt-3">
-                    <button
-                      className="btn bg-gradient-light mb-0 d-block text-capitalize"
-                      type="button"
-                      onClick={handleCancelAction}
-                    >
-                      Cancelar
-                    </button>
+                <div className="d-flex justify-content-end gap-2 mt-3">
+                  <button
+                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    type="button"
+                    onClick={handleCancelAction}
+                  >
+                    Cancelar
+                  </button>
 
-                    <button
-                      className="btn bg-gradient-primary mb-0 d-block text-capitalize"
-                      type="submit"
-                    >
-                      {actionForm === "editar" ? "Actualizar" : "Crear"}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-          </MarcaDeAgua1>
+                  <button
+                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                    type="submit"
+                  >
+                    {actionForm === ACTION_EDITAR ? "Actualizar" : "Crear"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
           <GeneradorDeDirecciones
             isOpenGenerator={direccionNotificacionIsOpen}
             setIsOpenGenerator={setDireccionNotificacionIsOpen}
