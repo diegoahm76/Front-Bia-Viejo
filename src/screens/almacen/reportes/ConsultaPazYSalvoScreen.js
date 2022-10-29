@@ -136,8 +136,8 @@ const ConsultaPazYSalvoScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Consultar persona</n>
+              <label className="form-control border rounded-pill px-3 mt-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                <b>Consultar persona</b>
               </label>
             </div>
           </div>
@@ -147,7 +147,7 @@ const ConsultaPazYSalvoScreen = () => {
               <div className="col-12 col-md-4">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Tipo de documento <small className="text-danger">*</small>
-                  <div className="col-12 ">
+                  <div className="col-12 mt-3">
                     <Controller
                       name="tipoDocumento"
                       control={control}
@@ -170,18 +170,16 @@ const ConsultaPazYSalvoScreen = () => {
               </div>
 
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic ">
-                  <input
-                    name="numeroCedula"
-                    className="form-control"
-                    type="number"
-                    placeholder="numero cedula"
-                    {...register("numeroCedula", { required: true })}
-                  />
-                  <label className="ms-2">
-                    Número de cedula<small className="text-danger">*</small>
-                  </label>
-                </div>
+                <label className="ms-2">
+                  Número de cedula<small className="text-danger">*</small>
+                </label>
+                <input
+                  name="numeroCedula"
+                  className="form-control border rounded-pill px-3"
+                  type="number"
+                  placeholder="numero cedula"
+                  {...register("numeroCedula", { required: true })}
+                />
                 {errors.numeroCedula && (
                   <small className="text-danger">
                     Este campo es obligatorio
@@ -190,17 +188,17 @@ const ConsultaPazYSalvoScreen = () => {
               </div>
 
               <div className="col-12 col-md-4">
-                <div className="form-floating input-group input-group-dynamic">
+                
+                  <label className="ms-2">Nombre completo</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     value="Julian Castillo"
                     disabled
                     {...register("nombreCompleto")}
                   />
-                  <label className="ms-2">Nombre completo</label>
-                </div>
+                
                 {errors.codigoArticulo && (
                   <small className="text-danger">
                     Este campo es obligatorio
@@ -211,9 +209,9 @@ const ConsultaPazYSalvoScreen = () => {
           </div>
 
           <div className=" row">
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
               <button
-                className="btn bg-gradient-primary mb-0 text-capitalize"
+                className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                 type="button"
                 title="Send"
                 form="configForm"
@@ -225,14 +223,13 @@ const ConsultaPazYSalvoScreen = () => {
           </div>
 
           <div className="row">
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
               <button
-                className="btn bg-gradient-primary mb-0 text-capitalize"
+                className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                 type="submit"
                 title="Send"
                 form="configForm"
               >
-                {" "}
                 Buscar
               </button>
             </div>
@@ -241,13 +238,13 @@ const ConsultaPazYSalvoScreen = () => {
           {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
             <div>
               <div className="multisteps-form__content">
-                <div className="row">
-                  <label className="form-control ms-0 fw-bolder text-center mt-4">
-                    <n>
-                      Se puede generar paz y salvo, la persona selecionana no
-                      cuenta con elementos a su cargo
-                    </n>
-                  </label>
+              <div className="multisteps-form__content">
+                  <div className="mt-4 row">
+                    <label className="form-control border rounded-pill px-3 text-white"
+                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                      <b>Se puede generar paz y salvo, la persona selecionana no cuenta con elementos a su cargo</b>
+                    </label>
+                  </div>
                 </div>
                 <div className="mt-1 row">
                   <div id="myGrid" className="ag-theme-alpine mt-4">
@@ -264,9 +261,9 @@ const ConsultaPazYSalvoScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div class=" d-grid gap-2 d-flex justify-content-end  mt-3">
+                <div class=" d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
                   <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                     onClick={handleOpenModal}
                     type="button"
                     title="Send"
@@ -281,16 +278,16 @@ const ConsultaPazYSalvoScreen = () => {
             ""
           )}
         </form>
-        ç
+        
         <BusquedaDePersonalModal
           isModalActive={busquedaPersonalIsActive}
           setIsModalActive={setBusquedaPersonalIsActive}
         />
         <CalendarModal>
-          <div className="row min-vh-100">
+          <div className="row ">
             <div className="col-lg-10 col-md-10 col-12 mx-auto"></div>
 
-            <div className="row min-vh-100">
+            <div className="row ">
               <div className="col-lg-8 col-md-10 col-6 mx-auto">
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -314,26 +311,28 @@ const ConsultaPazYSalvoScreen = () => {
                     </div>
                   </div>
 
-                  <div className="d-flex flex-column justify-content-end align-items-end">
+                  <div className="mt-4 justify-content-end align-items-end">
                     <div className="row">
-                      <div className="col-12 col-md-12">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            name="nombreQuienImprime"
-                            className="form-control"
-                            type="text"
-                            placeholder="Nombre del articulo"
-                            value="Julian Castillo"
-                            disabled
-                          />
-                          <label className="ms-2">Nombre quien imprime</label>
-                        </div>
+                      <div className="col-12 col-md-6">
+                        <label className="ms-2">Nombre quien imprime</label>
+                        <input
+                          name="nombreQuienImprime"
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="Nombre del articulo"
+                          value="Julian Castillo"
+                          disabled
+                        />
                       </div>
                     </div>
+                    </div>
+                    <div className="justify-content-end align-items-end">
+                    <div className="row">
+                      <div className="col-12 col-md-6">
+                        <label htmlFor="exampleFormControlInput1 mt-4">
+                          Fecha de impresion
+                        </label>
 
-                    <div className="col-12 col-md-4">
-                      <label htmlFor="exampleFormControlInput1 mt-4">
-                        Fecha de impresion
                         <Controller
                           name="fechaSolicitud"
                           control={control}
@@ -343,32 +342,34 @@ const ConsultaPazYSalvoScreen = () => {
                               locale="es"
                               selected={startDate}
                               dateFormat="dd/MM/yyyy"
-                              includeDates={[new Date()]}
                               onChange={(date) => setStartDate(date)}
-                              className="multisteps-form__input form-control p-2"
+                              className="form-control border rounded-pill px-3  p-2"
                               placeholderText="dd/mm/aaaa"
                               disabled
                             />
                           )}
                         />
-                      </label>
+                      </div>
                     </div>
+                  </div>
 
-                    <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  <div className="col-12 col-md-6 row">
+                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
                       <button
-                        className="btn bg-gradient-primary mb-0"
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                         type="button"
                         title="Send"
                         form="configForm"
                       >
                         Imprimir
                       </button>
+                      
                       <button
-                        className="btn bg-gradient-danger mb-0"
-                        onClick={handleCloseModal}
-                        type="submit"
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
+                        type="button"
                         title="Send"
                         form="configForm"
+                        onClick={handleCloseModal}
                       >
                         Salir
                       </button>
