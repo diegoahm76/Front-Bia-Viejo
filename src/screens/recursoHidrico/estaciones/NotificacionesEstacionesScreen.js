@@ -129,7 +129,7 @@ const NotificacionesEstacionesScreen = () => {
                     Cargando...
                   </>
                 ) : (
-                  "Crear alarma"
+                  "Crear notificación"
                 )}
               </button>
             </div>

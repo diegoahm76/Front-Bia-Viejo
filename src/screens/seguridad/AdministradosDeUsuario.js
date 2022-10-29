@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
@@ -13,6 +14,9 @@ const paisesOptions = [
   { label: "Colombia", value: "COL" },
   { label: "Mexico", value: "MX" },
   { label: "Venezuela", value: "VEN" },
+  { label: "Venezuel", value: "VON" },
+  { label: "Venezue", value: "VIN" },
+  { label: "Venezu", value: "VUN" },
 ];
 
 const AdministradosDeUsuario = () => {
@@ -61,7 +65,7 @@ const AdministradosDeUsuario = () => {
           config
         );
 
-        console.log("dataRoles", dataRoles)
+        console.log("dataRoles", dataRoles);
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
@@ -230,7 +234,7 @@ const AdministradosDeUsuario = () => {
         >
           <div className="row">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
-              <h5 className="font-weight-bolder">Buscar persona</h5>
+              <Subtitle title={"Buscar persona"} mt={0} mb={0} />
               <div className="mt-4 row align-items-center">
                 <div className="col-12 col-md-4">
                   <label className="form-label">
@@ -300,7 +304,7 @@ const AdministradosDeUsuario = () => {
 
             {actionForm && (
               <form onSubmit={handleSubmitUsuario(onSubmitUsuario)}>
-                <h5 className="font-weight-bolder mt-4">Datos de usuario</h5>
+                <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="row mt-1">
                   <div className="col-12 col-md-4">
@@ -451,9 +455,7 @@ const AdministradosDeUsuario = () => {
                     Actualizar
                   </button>
                 </div>
-                <h5 className="font-weight-bolder mt-4">
-                  Modulos / Grupos / Roles
-                </h5>
+                <Subtitle title={"Modulos / Grupos / Roles"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="col-12 col-md-4">
                   <label className="form-label">Roles:</label>
