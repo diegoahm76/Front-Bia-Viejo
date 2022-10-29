@@ -222,7 +222,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Control y Seguimiento de Material Vegetal
         </h3>
@@ -233,7 +233,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
         >
           <div className="multisteps-form__content">
             <div className="col-12 col-sm-6">
-              <label className="form-control ms-0">Seleccione vivero</label>
+              <label className="form-floating input-group input-group-dynamic ms-2">Seleccione vivero</label>
               <Controller
                 name="seleccioneVivero"
                 control={control}
@@ -252,9 +252,9 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                 <small className="text-danger">Este campo es obligatorio</small>
               )}
             </div>
-            <div className="row">
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">
+            <div className="row mt-2">
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">
                   Seleccionar lote de siembra
                 </label>
                 <Controller
@@ -277,8 +277,8 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">Rango de fechas</label>
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">Rango de fechas</label>
                 <Controller
                   name="fechaInicio"
                   control={control}
@@ -301,8 +301,8 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">Etapa de Siembra</label>
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">Etapa de Siembra</label>
                 <Controller
                   name="etapaSiembra"
                   control={control}
@@ -323,8 +323,8 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">
                   Seleccione Actividad<span className="text-danger">*</span>
                 </label>
                 <Controller
@@ -394,17 +394,17 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   ></AgGridReact>
                 </div>
 
-                <div className="row">
-                  <div className="col-12 col-sm-6 ">
-                    <div className="input-group input-group-dynamic">
-                      <label>Observaciones</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-6 ">
-                    <div className="input-group input-group-dynamic">
-                      <textarea></textarea>
-                    </div>
-                  </div>
+                <div className="input-group input-group-dynamic flex-column mt-3">
+                  <label htmlFor="exampleFormControlInput1 ">
+                    Observaciones
+                  </label>
+                  <textarea
+                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                    type="text"
+                    placeholder="Observaciones"
+                    rows="3"
+                    name="Observaciones"
+                  />
                 </div>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
