@@ -240,7 +240,7 @@ const RegisterPersonaScreen = () => {
         } else if (err.response?.data?.email) {
           console.log(err);
           Swal.fire({
-            title: "Este correo electronic o ya existe",
+            title: "Este correo electronico ya existe",
             text: "Verifica tus datos",
             icon: "info",
             confirmButtonColor: "#3BA9E0",
@@ -586,8 +586,8 @@ const RegisterPersonaScreen = () => {
                           showYearDropdown
                           peekNextMonth
                           showMonthDropdown
-                          dropdownMode="select"
                           scrollableYearDropdown
+                          dropdownMode="select"
                           autoComplete="off"
                           selected={formValues.fechaNacimiento}
                           onSelect={(e) =>
