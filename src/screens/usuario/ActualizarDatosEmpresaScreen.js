@@ -6,22 +6,22 @@ import clienteAxios from "../../config/clienteAxios";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Subtitle from "../../components/Subtitle";
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import { getConfigAuthBearer } from "../../helpers/configAxios";
+import Swal from "sweetalert2";
 
 const ActualizarDatosEmpresaScreen = () => {
   const navigate = useNavigate();
   const { email: emailLogin } = useSelector((state) => state.user.user);
-  const [completeAddress, setCompleteAddress] = useState("");
   const [completeAddress2, setCompleteAddress2] = useState("");
-  const [isOpenDireccionEmpresa, setIsOpenDireccionEmpresa] = useState(false);
   const [isOpenDireccionNotificacion, setIsOpenDireccionNotificacion] =
     useState(false);
   const [paisesOptions, setPaisesOptions] = useState([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [formValues, setFormValues] = useState({
-    index_pais_residencia: "",
-    index_departamento_residencia: "",
-    index_municipio_residencia: "",
+    index_cod_pais_nacionalidad_empresa: "",
+    index_cod_municipio_notificacion_nal: "",
   });
   const {
     register,
@@ -34,52 +34,51 @@ const ActualizarDatosEmpresaScreen = () => {
 
   const submit = async (data) => {
     const {
-      tipo_persona,
-      tipo_documento,
-      numero_documento,
       digito_verificacion,
       nombre_comercial,
       razon_social,
-      direccion_laboral,
       direccion_notificaciones,
       email,
-      direccion_residencia,
-      ubicacion_georeferenciada,
-      telefono_celular,
+      email_empresarial,
       telefono_celular_empresa,
       telefono_empresa,
       telefono_empresa_2,
-      id_persona,
     } = data;
     const dataUpdate = {
-      tipo_persona,
-      tipo_documento,
-      numero_documento,
       digito_verificacion,
       nombre_comercial,
       razon_social,
-      pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value,
-      departamento_residencia:
-        departamentosOptions[formValues.index_departamento_residencia]?.value,
-      municipio_residencia:
-        municipiosOptions[formValues.index_municipio_residencia]?.value,
-      direccion_laboral,
+      cod_pais_nacionalidad_empresa:
+        paisesOptions[formValues.index_cod_pais_nacionalidad_empresa]?.value,
+      cod_municipio_notificacion_nal:
+        municipiosOptions[formValues.index_cod_municipio_notificacion_nal]
+          ?.value,
       direccion_notificaciones,
       email,
-      direccion_residencia,
-      ubicacion_georeferenciada,
-      telefono_celular,
+      email_empresarial,
       telefono_celular_empresa,
       telefono_empresa,
       telefono_empresa_2,
     };
+
+    const accessToken = getTokenAccessLocalStorage();
+    const config = getConfigAuthBearer(accessToken);
+
     try {
       console.log("data update", dataUpdate, watch());
-      const { data } = await clienteAxios.put(
-        `personas/persona-juridica/update/${id_persona}/`,
-        dataUpdate
+      const { data } = await clienteAxios.patch(
+        "personas/persona-juridica/usuario-externo/self/update/",
+        dataUpdate,
+        config
       );
       console.log("Todo good toma tu data", data);
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Datos actualizados",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -91,45 +90,38 @@ const ActualizarDatosEmpresaScreen = () => {
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
         );
-        const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
-        );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
 
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
-        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
 
         setPaisesOptions(paisesFormat);
-        setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
 
         //TODO Trayendo los datos del usuario y montandolos en los campos
-        const personaJuridica = "J";
+        const COD_PERSONA_JURIDICA = "J";
         const { data } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
         );
-        console.log(data, data.tipo_persona !== personaJuridica);
-        if (data.tipo_persona !== personaJuridica) {
+        console.log(data);
+        if (data.tipo_persona !== COD_PERSONA_JURIDICA) {
           navigate("/dashboard/usuario/actualizar-datos-persona");
         }
 
         data.tipo_documento = data.tipo_documento.cod_tipo_documento;
 
+        console.log("data useEffect", data);
+
         setFormValues({
           ...formValues,
-          index_pais_residencia: getIndexBySelectOptions(
-            data.pais_residencia,
+          index_cod_pais_nacionalidad_empresa: getIndexBySelectOptions(
+            data.cod_pais_nacionalidad_empresa,
             paisesFormat
           ),
-          index_departamento_residencia: getIndexBySelectOptions(
-            data.departamento_residencia,
-            departamentosFormat
-          ),
-          index_municipio_residencia: getIndexBySelectOptions(
-            data.municipio_residencia,
+          index_cod_municipio_notificacion_nal: getIndexBySelectOptions(
+            data.cod_municipio_notificacion_nal,
             municipiosFormat
           ),
         });
@@ -158,7 +150,7 @@ const ActualizarDatosEmpresaScreen = () => {
       <div className="col-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">Actualizar datos empresa</h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <h5 className="font-weight-bolder mt-2">Datos personales</h5>
+          <Subtitle title={"Datos personales"} mt={4} mb={0} />
           <form className="row" onSubmit={handleSubmit(submit)}>
             <div className="col-12 col-lg-4">
               <div className="mt-3">
@@ -220,117 +212,33 @@ const ActualizarDatosEmpresaScreen = () => {
                 />
               </div>
             </div>
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <label className="form-label">País:</label>
-                <Controller
-                  name="pais_residencia"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={paisesOptions}
-                      value={paisesOptions[formValues.index_pais_residencia]}
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_pais_residencia: getIndexBySelectOptions(
-                            e.value,
-                            paisesOptions
-                          ),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-4">
-                <label className="form-label">
-                  Departamento: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="departamento_residencia"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={departamentosOptions}
-                      value={
-                        departamentosOptions[
-                          formValues.index_departamento_residencia
-                        ]
-                      }
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          index_departamento_residencia:
-                            getIndexBySelectOptions(
-                              e.value,
-                              departamentosOptions
-                            ),
-                        });
-                      }}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-4">
-                <label className="form-label">
-                  Municipio: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="municipio_residencia"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={municipiosOptions}
-                      value={
-                        municipiosOptions[formValues.index_municipio_residencia]
-                      }
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          index_municipio_residencia: getIndexBySelectOptions(
-                            e.value,
-                            municipiosOptions
-                          ),
-                        });
-                      }}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
+            <div className="col-12 col-md-4 mt-3">
+              <label className="form-label">País:</label>
+              <Controller
+                name="cod_pais_nacionalidad_empresa"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={paisesOptions}
+                    value={
+                      paisesOptions[
+                        formValues.index_cod_pais_nacionalidad_empresa
+                      ]
+                    }
+                    onChange={(e) =>
+                      setFormValues({
+                        ...formValues,
+                        index_cod_pais_nacionalidad_empresa:
+                          getIndexBySelectOptions(e.value, paisesOptions),
+                      })
+                    }
+                    placeholder="Seleccionar"
+                  />
+                )}
+              />
             </div>
-            <div className="col-md-8 col-12">
-              <div className="mt-3">
-                <label className="ms-2">Dirección empresa:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("direccion_residencia")}
-                />
-                <button
-                  onClick={() => setIsOpenDireccionEmpresa(true)}
-                  type="button"
-                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                >
-                  Generar
-                </button>
-              </div>
-            </div>
-            <h5 className="font-weight-bolder mt-2">Datos de notificación</h5>
+            <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
             <div className="col-12 col-md-4">
               <div className="mt-3">
                 <label className="ms-2">
@@ -339,6 +247,7 @@ const ActualizarDatosEmpresaScreen = () => {
                 <input
                   className="form-control border rounded-pill px-3"
                   type="email"
+                  disabled
                   placeholder="E-mail"
                   {...register("email", { required: true })}
                 />
@@ -346,7 +255,7 @@ const ActualizarDatosEmpresaScreen = () => {
             </div>
             <div className="col-12 col-md-4">
               <div className="mt-3">
-                <label className="ms-2">Email secundario:</label>
+                <label className="ms-2">Email empresarial:</label>
                 <input
                   className="form-control border rounded-pill px-3"
                   type="email"
@@ -355,37 +264,40 @@ const ActualizarDatosEmpresaScreen = () => {
                 />
               </div>
             </div>
-            <div className="col-12 col-md-4">
-              <div className="mt-3">
-                <label className="ms-2">
-                  Ubicación geográfica:<span className="text-danger">*</span>
-                </label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  placeholder="Ubicación geográfica"
-                  {...register("ubicacion_georeferenciada", { required: true })}
-                />
-              </div>
-            </div>
-            <div className="col-md-8 col-12">
-              <div className="mt-3">
-                <label className="ms-2">Dirección de notificación:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("direccion_notificaciones")}
-                />
-                <button
-                  type="button"
-                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                  onClick={() => setIsOpenDireccionNotificacion(true)}
-                >
-                  Generar
-                </button>
-              </div>
+            <div className="col-12 col-md-4 mt-3">
+              <label className="form-label">
+                Municipio notificación: <span className="text-danger">*</span>
+              </label>
+              <Controller
+                name="cod_municipio_notificacion_nal"
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={municipiosOptions}
+                    value={
+                      municipiosOptions[
+                        formValues.index_cod_municipio_notificacion_nal
+                      ]
+                    }
+                    onChange={(e) => {
+                      reset({
+                        ...watch(),
+                        cod_municipio_notificacion_nal: e.value,
+                      });
+                      setFormValues({
+                        ...formValues,
+                        index_cod_municipio_notificacion_nal:
+                          getIndexBySelectOptions(e.value, municipiosOptions),
+                      });
+                    }}
+                    placeholder="Seleccionar"
+                  />
+                )}
+              />
             </div>
             <div className="col-12 col-md-4">
               <div className="mt-3">
@@ -420,13 +332,36 @@ const ActualizarDatosEmpresaScreen = () => {
                 />
               </div>
             </div>
+            <div className="col-md-8 col-12 mt-3">
+              <div className="form-floating input-group input-group-dynamic mt-3">
+                <input
+                  className="form-control"
+                  type="text"
+                  disabled
+                  readOnly
+                  {...register("direccion_notificaciones", { required: true })}
+                />
+                <label className="ms-2">
+                  Dirección de notificación:{" "}
+                  <span className="text-danger">*</span>
+                </label>
+                <button
+                  type="button"
+                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                  onClick={() => setIsOpenDireccionNotificacion(true)}
+                >
+                  Generar
+                </button>
+              </div>
+              {errors.direccion_notificaciones && (
+                <div className="col-12">
+                  <small className="text-center text-danger">
+                    Este campo es obligatorio
+                  </small>
+                </div>
+              )}
+            </div>
             <div className="d-flex justify-content-end gap-2 col-12 mt-3">
-              <button
-                type="button"
-                className="btn bg-gradient-light text-capitalize"
-              >
-                Cancelar
-              </button>
               <button
                 type="submit"
                 className="btn bg-gradient-primary text-capitalize"
@@ -437,15 +372,6 @@ const ActualizarDatosEmpresaScreen = () => {
           </form>
         </div>
       </div>
-      <GeneradorDeDirecciones
-        isOpenGenerator={isOpenDireccionEmpresa}
-        setIsOpenGenerator={setIsOpenDireccionEmpresa}
-        completeAddress={completeAddress}
-        setCompleteAddress={setCompleteAddress}
-        reset={reset}
-        keyReset={"direccion_residencia"}
-        totalValuesForm={watch()}
-      />
 
       <GeneradorDeDirecciones
         isOpenGenerator={isOpenDireccionNotificacion}

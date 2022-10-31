@@ -8,26 +8,25 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
+import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
+import { getConfigAuthBearer } from "../../helpers/configAxios";
+import { getArrayFromStringDateAAAAMMDD } from "../../helpers/dateHelpers";
 import { getIndexBySelectOptions } from "../../helpers/inputsFormat";
-
-const optionsYorNo = [
-  { label: "No", value: false },
-  { label: "Si", value: true },
-];
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 const ActualizarDatosPersonaScreen = () => {
   const { email: emailLogin } = useSelector((state) => state.user.user);
   const [completeAddress, setCompleteAddress] = useState("");
   const [completeAddress2, setCompleteAddress2] = useState("");
+  const [completeAddressLaboral, setCompleteAddressLaboral] = useState("");
   const [isOpenDireccionResidencia, setIsOpenDireccionResidencia] =
     useState(false);
   const [isOpenDireccionNotificacion, setIsOpenDireccionNotificacion] =
     useState(false);
+  const [isOpenDireccionLaboral, setIsOpenDireccionLaboral] = useState(false);
   const navigate = useNavigate();
-  const [yesOrNo, setYesOrNo] = useState(false);
   const [paisesOptions, setPaisesOptions] = useState([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -35,11 +34,11 @@ const ActualizarDatosPersonaScreen = () => {
     fecha_nacimiento: "",
     index_pais_nacimiento: "",
     index_pais_residencia: "",
-    index_departamento_residencia: "",
     index_municipio_residencia: "",
     index_sexo: "",
     index_estado_civil: "",
     index_cod_municipio_laboral_nal: "",
+    index_cod_municipio_notificacion_nal: "",
   });
 
   const {
@@ -54,9 +53,6 @@ const ActualizarDatosPersonaScreen = () => {
   useEffect(() => {
     const getSelectsOptions = async () => {
       try {
-        //personas/updatepersonajuridica/${id_persona}
-        //personas/updatepersonanatural/${id_persona}
-        //Peticion para las opciones de los selects
         const { data: sexoNoFormat } = await clienteAxios.get("choices/sexo/");
 
         const { data: estadoCivilNoFormat } = await clienteAxios.get(
@@ -65,9 +61,6 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
         );
-        const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
-        );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
@@ -75,13 +68,11 @@ const ActualizarDatosPersonaScreen = () => {
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
-        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
 
         setEstadoCivilOptions(estadoCivilFormat);
         setSexoOptions(sexoFormat);
         setPaisesOptions(paisesFormat);
-        setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
 
         //TODO Trayendo los datos de la persona
@@ -90,6 +81,8 @@ const ActualizarDatosPersonaScreen = () => {
           `personas/get-by-email/${emailLogin}/`
         );
         reset(dataPersona);
+
+        console.log("data useEffect", dataPersona);
 
         if (dataPersona.tipo_persona !== personaNatural) {
           navigate("/dashboard/usuario/actualizar-datos-empresa");
@@ -108,10 +101,6 @@ const ActualizarDatosPersonaScreen = () => {
             dataPersona.pais_nacimiento,
             paisesFormat
           ),
-          index_departamento_residencia: getIndexBySelectOptions(
-            dataPersona.departamento_residencia,
-            departamentosFormat
-          ),
           index_municipio_residencia: getIndexBySelectOptions(
             dataPersona.municipio_residencia,
             municipiosFormat
@@ -120,13 +109,19 @@ const ActualizarDatosPersonaScreen = () => {
             dataPersona.cod_municipio_laboral_nal,
             municipiosFormat
           ),
+          index_cod_municipio_notificacion_nal: getIndexBySelectOptions(
+            dataPersona.cod_municipio_notificacion_nal,
+            municipiosFormat
+          ),
           index_sexo: getIndexBySelectOptions(dataPersona.sexo, sexoFormat),
           index_estado_civil: getIndexBySelectOptions(
             dataPersona.estado_civil?.cod_estado_civil,
             estadoCivilFormat
           ),
           fecha_nacimiento: dataPersona.fecha_nacimiento
-            ? new Date(dataPersona.fecha_nacimiento)
+            ? new Date(
+                getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
+              )
             : "",
         });
         reset(dataPersona);
@@ -153,11 +148,11 @@ const ActualizarDatosPersonaScreen = () => {
       email,
       email_empresarial,
       direccion_notificaciones,
+      direccion_laboral,
       ubicacion_georeferenciada,
       telefono_celular,
       telefono_fijo_residencial,
-      telefono_empresa,
-      id_persona,
+      telefono_empresa_2,
       tipo_persona,
     } = data;
 
@@ -175,10 +170,11 @@ const ActualizarDatosPersonaScreen = () => {
       email,
       email_empresarial,
       direccion_notificaciones,
+      direccion_laboral,
       ubicacion_georeferenciada,
       telefono_celular,
       telefono_fijo_residencial,
-      telefono_empresa,
+      telefono_empresa_2,
       tipo_persona,
       sexo: sexoOptions[formValues.index_sexo]?.value,
       estado_civil: estadoCivilOptions[formValues.index_estado_civil]?.value,
@@ -187,18 +183,21 @@ const ActualizarDatosPersonaScreen = () => {
       }),
       pais_nacimiento: paisesOptions[formValues.index_pais_nacimiento]?.value,
       pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value,
-      departamento_residencia:
-        departamentosOptions[formValues.index_departamento_residencia]?.value,
       municipio_residencia:
         municipiosOptions[formValues.index_municipio_residencia]?.value,
       cod_municipio_laboral_nal:
         municipiosOptions[formValues.index_cod_municipio_laboral_nal]?.value,
     };
 
+    const accessToken = getTokenAccessLocalStorage();
+    const config = getConfigAuthBearer(accessToken);
+
     try {
-      const { data } = await clienteAxios.put(
-        `personas/persona-natural/update/${id_persona}/`,
-        dataUpdate
+      console.log("data update profile", dataUpdate);
+      const { data } = await clienteAxios.patch(
+        "personas/persona-natural/usuario-externo/self/update/",
+        dataUpdate,
+        config
       );
       console.log("Todo good toma tu data", data);
       Swal.fire({
@@ -213,14 +212,6 @@ const ActualizarDatosPersonaScreen = () => {
     }
   };
 
-  const handleYesOrNo = (e) => {
-    if (e.value) {
-      setYesOrNo(true);
-    } else {
-      setYesOrNo(false);
-    }
-  };
-
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
@@ -230,7 +221,7 @@ const ActualizarDatosPersonaScreen = () => {
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form onSubmit={handleSubmit(submit)}>
             <div className={"row align-items-end"}>
-              <h5 className="font-weight-bolder mt-2">Datos personales</h5>
+              <Subtitle title={"Datos personales"} mt={0} mb={2} />
               <div className="col-12 col-lg-4">
                 <div className="mt-3">
                   <label>
@@ -265,43 +256,28 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
-                    disabled
-                    readOnly
-                    {...register("digito_verificacion")}
+                    {...register("digito_verificacion", {
+                      maxLength: 1,
+                    })}
                   />
                 </div>
-              </div>
-              <div className="row align-items-end">
-                <div className="col-12 col-md-4 mt-3">
-                  <label className="form-label">
-                    ¿Requiere nombre comercial?
-                  </label>
-                  <Controller
-                    name="yesOrNo"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        onChange={handleYesOrNo}
-                        defaultValue={optionsYorNo[0]}
-                        options={optionsYorNo}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-                {yesOrNo && (
-                  <div className="col-8 col-md-4">
-                    <div className="mt-3">
-                      <label>Nombre Comercial:</label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="text"
-                        {...register("nombre_comercial", { required: true })}
-                      />
-                    </div>
+                {errors.digito_verificacion && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio, con numeros y de un carácter
+                    </small>
                   </div>
                 )}
+              </div>
+              <div className="col-8 col-md-4">
+                <div className="mt-3">
+                  <label>Nombre Comercial:</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    {...register("nombre_comercial")}
+                  />
+                </div>
               </div>
 
               <div className="col-12 col-md-4">
@@ -324,6 +300,7 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
+                    disabled
                     {...register("segundo_nombre")}
                   />
                 </div>
@@ -348,36 +325,37 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
+                    disabled
                     {...register("segundo_apellido")}
                   />
                 </div>
               </div>
+              <div className="col-12 col-md-4 mt-3">
+                <label className="form-label">Sexo:</label>
+                <Controller
+                  name="sexo"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={sexoOptions}
+                      value={sexoOptions[formValues.index_sexo]}
+                      onChange={(e) =>
+                        setFormValues({
+                          ...formValues,
+                          index_sexo: getIndexBySelectOptions(
+                            e.value,
+                            sexoOptions
+                          ),
+                        })
+                      }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
               <div className="row">
-                <div className="col-12 col-md-4">
-                  <label className="form-label">Sexo:</label>
-                  <Controller
-                    name="sexo"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={sexoOptions}
-                        value={sexoOptions[formValues.index_sexo]}
-                        onChange={(e) =>
-                          setFormValues({
-                            ...formValues,
-                            index_sexo: getIndexBySelectOptions(
-                              e.value,
-                              sexoOptions
-                            ),
-                          })
-                        }
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-4 mt-3">
                   <label className="form-label">Estado civil:</label>
                   <Controller
                     name="estado_civil"
@@ -403,7 +381,7 @@ const ActualizarDatosPersonaScreen = () => {
                     )}
                   />
                 </div>
-                <div className="col-md-4 col-12">
+                <div className="col-md-4 col-12 mt-3">
                   <label htmlFor="exampleFormControlInput1">
                     Fecha de nacimiento <span className="text-danger">*</span>
                   </label>
@@ -415,6 +393,12 @@ const ActualizarDatosPersonaScreen = () => {
                       <DatePicker
                         {...field}
                         locale="es"
+                        showYearDropdown
+                        peekNextMonth
+                        showMonthDropdown
+                        scrollableYearDropdown
+                        dropdownMode="select"
+                        autoComplete="off"
                         dateFormat="yyyy/MM/dd"
                         selected={formValues.fecha_nacimiento}
                         value={formValues.fecha_nacimiento}
@@ -437,35 +421,35 @@ const ActualizarDatosPersonaScreen = () => {
                     </div>
                   )}
                 </div>
+                <div className="col-12 col-md-4 mt-3">
+                  <label className="form-label">País de nacimiento:</label>
+                  <Controller
+                    name="pais_nacimiento"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={paisesOptions}
+                        value={paisesOptions[formValues.index_pais_nacimiento]}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            index_pais_nacimiento: getIndexBySelectOptions(
+                              e.value,
+                              paisesOptions
+                            ),
+                          })
+                        }
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
               </div>
 
-              <div className="col-12 col-md-4">
-                <label className="form-label">País de nacimiento:</label>
-                <Controller
-                  name="pais_nacimiento"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={paisesOptions}
-                      value={paisesOptions[formValues.index_pais_nacimiento]}
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_pais_nacimiento: getIndexBySelectOptions(
-                            e.value,
-                            paisesOptions
-                          ),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
               {/* LUGAR DE RESIDENCIA */}
-              <h5 className="font-weight-bolder mt-4">Lugar de residencia</h5>
-              <div className="col-12 col-md-4">
+              <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
+              <div className="col-12 col-md-4 mt-3">
                 <label className="form-label">País:</label>
                 <Controller
                   name="pais_residencia"
@@ -489,36 +473,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-4">
-                <label className="form-label">Departamento:</label>
-                <Controller
-                  name="departamento_residencia"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={departamentosOptions}
-                      value={
-                        departamentosOptions[
-                          formValues.index_departamento_residencia
-                        ]
-                      }
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_departamento_residencia:
-                            getIndexBySelectOptions(
-                              e.value,
-                              departamentosOptions
-                            ),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-4">
+              <div className="col-12 col-md-4 mt-3">
                 <label className="form-label">Municipio: </label>
                 <Controller
                   name="municipio_residencia"
@@ -544,40 +499,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-md-8 col-12">
-                <div className="form-floating input-group input-group-dynamic mt-3">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    readOnly
-                    {...register("direccion_residencia")}
-                  />
-                  <button
-                    onClick={() => setIsOpenDireccionResidencia(true)}
-                    type="button"
-                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                  >
-                    Generar
-                  </button>
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
-                  <label>Referencia adicional:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    {...register("direccion_residencia_ref")}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className={"row"}>
-              {/* DATOS DE CONTACTO */}
-              <h5 className="font-weight-bolder mt-4">Datos de contacto</h5>
-              <div className="col-12 col-md-4">
+              <div className="col-12 col-md-4 mt-3">
                 <label className="form-label">Municipio donde labora:</label>
                 <Controller
                   name="cod_municipio_laboral_nal"
@@ -603,8 +525,51 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
+              <div className="col-md-8 col-12">
+                <div className="form-floating input-group input-group-dynamic mt-3">
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("direccion_residencia", { required: true })}
+                  />
+                  <label className="ms-2">
+                    Dirección de residencia:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <button
+                    onClick={() => setIsOpenDireccionResidencia(true)}
+                    type="button"
+                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                  >
+                    Generar
+                  </button>
+                </div>
+                {errors.direccion_residencia && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label>Referencia adicional:</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    {...register("direccion_residencia_ref")}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={"row"}>
               {/* DATOS DE NOTIFICACIÓN */}
-              <h5 className="font-weight-bolder mt-4">Datos de notificación</h5>
+              <Subtitle title={"Datos de notificación"} mt={4} mb={2} />
+
               <div className="col-12 col-md-4">
                 <div className="mt-3">
                   <label>
@@ -629,64 +594,31 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-md-8 col-12">
-                <div className="form-floating input-group input-group-dynamic mt-3">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    readOnly
-                    {...register("direccion_notificaciones")}
-                  />
-                  <button
-                    onClick={() => setIsOpenDireccionNotificacion(true)}
-                    type="button"
-                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                  >
-                    Generar
-                  </button>
-                </div>
-              </div>
-              {/* //! Queda pendiente de revisar porque no aparece en la peticion */}
-              {/* <div className="col-12 col-md-4">
-                <label className="form-label">
-                  Municipio notificación: <span className="text-danger">*</span>
-                </label>
+              <div className="col-12 col-md-4 mt-3">
+                <label className="form-label">Municipio notificación:</label>
                 <Controller
-                  name="municipioNotificacion"
+                  name="cod_municipio_notificacion_nal"
                   control={control}
-                  rules={{
-                    required: page === 2,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       options={municipiosOptions}
+                      value={
+                        municipiosOptions[
+                          formValues.index_cod_municipio_notificacion_nal
+                        ]
+                      }
+                      onChange={(e) =>
+                        setFormValues({
+                          ...formValues,
+                          index_cod_municipio_notificacion_nal:
+                            getIndexBySelectOptions(e.value, municipiosOptions),
+                        })
+                      }
                       placeholder="Seleccionar"
                     />
                   )}
                 />
-              </div> */}
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
-                  <label>
-                    Dirección geográfica: <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    {...register("ubicacion_georeferenciada", {
-                      required: true,
-                    })}
-                  />
-                </div>
-                {errors.ubicacion_georeferenciada && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
@@ -723,8 +655,67 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3"
                     type="tel"
-                    {...register("telefono_empresa")}
+                    {...register("telefono_empresa_2")}
                   />
+                </div>
+              </div>
+              <div className="col-md-8 col-12 mt-3">
+                <div className="form-floating input-group input-group-dynamic mt-3">
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("direccion_notificaciones")}
+                  />
+                  <label className="ms-2">Dirección de notificación:</label>
+                  <button
+                    onClick={() => setIsOpenDireccionNotificacion(true)}
+                    type="button"
+                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                  >
+                    Generar
+                  </button>
+                </div>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label>
+                    Dirección geográfica: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    {...register("ubicacion_georeferenciada", {
+                      required: true,
+                    })}
+                  />
+                </div>
+                {errors.ubicacion_georeferenciada && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-md-8 col-12 mt-3">
+                <div className="form-floating input-group input-group-dynamic mt-3">
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("direccion_laboral")}
+                  />
+                  <label className="ms-2">Dirección laboral:</label>
+                  <button
+                    onClick={() => setIsOpenDireccionLaboral(true)}
+                    type="button"
+                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                  >
+                    Generar
+                  </button>
                 </div>
               </div>
             </div>
@@ -755,6 +746,16 @@ const ActualizarDatosPersonaScreen = () => {
           setCompleteAddress={setCompleteAddress2}
           reset={reset}
           keyReset={"direccion_notificaciones"}
+          totalValuesForm={watch()}
+        />
+
+        <GeneradorDeDirecciones
+          isOpenGenerator={isOpenDireccionLaboral}
+          setIsOpenGenerator={setIsOpenDireccionLaboral}
+          completeAddress={completeAddressLaboral}
+          setCompleteAddress={setCompleteAddressLaboral}
+          reset={reset}
+          keyReset={"direccion_laboral"}
           totalValuesForm={watch()}
         />
       </div>

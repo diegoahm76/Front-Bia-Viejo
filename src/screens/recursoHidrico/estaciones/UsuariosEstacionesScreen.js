@@ -1,10 +1,13 @@
 import { AgGridReact } from "ag-grid-react";
-import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { obtenerUsuarioEditarAction, obtenerUsuariosAction, obtenerUsusarioEliminarAction } from "../../../actions/estacionActions";
+import {
+  obtenerUsuarioEditarAction,
+  obtenerUsuariosAction,
+  obtenerUsusarioEliminarAction,
+} from "../../../actions/estacionActions";
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
@@ -13,7 +16,7 @@ const UsuariosEstacionesScreen = () => {
   const dispatch = useDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActive] = useState(false);
-  const [isModalEliminarActive, setIsModalEliminarActive] = useState(false)
+  const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
 
   useEffect(() => {
     dispatch(obtenerUsuariosAction());
@@ -44,7 +47,7 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-outline-warning "
             type="button"
             onClick={() => {
-              dispatch(obtenerUsuarioEditarAction(params.data))
+              dispatch(obtenerUsuarioEditarAction(params.data));
               setIsModalEditarActive(!isModalEditarActive);
             }}
           >
@@ -54,8 +57,8 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-outline-danger"
             type="button"
             onClick={() => {
-              dispatch(obtenerUsusarioEliminarAction(params.data))
-              setIsModalEliminarActive(!isModalActive)
+              dispatch(obtenerUsusarioEliminarAction(params.data));
+              setIsModalEliminarActive(!isModalActive);
             }}
           >
             <img src={IconoEliminar} alt="eliminar" />
