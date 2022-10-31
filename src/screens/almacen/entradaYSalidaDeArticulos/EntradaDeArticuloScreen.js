@@ -285,7 +285,7 @@ export const EntradaDeArticuloScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Entrada de Articulos</h3>
+       
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
@@ -293,9 +293,10 @@ export const EntradaDeArticuloScreen = () => {
           id="configForm"
         >
           <MarcaDeAgua1>
+          <h3 className="mt-3 mb-0 text-start mb-6">Entrada de Articulos</h3>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3 "style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3 "style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                   Datos generales
                 </label>
                 <div className="row mt-4">
@@ -527,7 +528,7 @@ export const EntradaDeArticuloScreen = () => {
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className=" form-control ms-0 fw-bolder text-center">
                   Detalles
                 </label>
               </div>
@@ -1016,6 +1017,7 @@ export const EntradaDeArticuloScreen = () => {
                       className={`btn btn-primary text-capitalize border rounded-pill px-3 ${
                         page === 1 && "d-none"
                       }`}
+                      style={{minWidth:"100px"}}
                       onClick={handleOpenModal}
                     >
                       Ver
