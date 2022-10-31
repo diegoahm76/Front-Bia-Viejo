@@ -164,49 +164,57 @@ const BusquedaActivosSubdelegadosScreen = () => {
                 <div className="col-12 col-sm-4">
                   <label className="form-floating input-group input-group-dynamic ms-2">
                     Tipo de documento{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoDocumento2"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={options}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
                   </label>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      {...register("numeroCedula")}
+                  <div className="col-12 ">
+                    <Controller
+                      name="tipoDocumento2"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={options}
+                          placeholder="Seleccionar"
+                        />
+                      )}
                     />
-                    <label className="ms-2">Número de documento</label>
                   </div>
+
                 </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Nombre</label>
-                  </div>
+                <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                  <label>
+                    Número de documento: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    name="numeroDocumento"
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("numeroDocumento", { required: true })}
+                  />
+                  {errors.numeroDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                  <label>
+                    Nombre: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    placeholder="Gina Rodriguez"
+                    type="text"
+                    disabled="true"
+                    className="form-control border rounded-pill px-3"
+                  />
                 </div>
                 <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
                   <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize my-2"
+                    className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
                     type="button"
                     title="Send"
                     form="configForm"
@@ -233,7 +241,7 @@ const BusquedaActivosSubdelegadosScreen = () => {
 
               <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
                 <button
-                  className="btn bg-gradient-danger "
+                  className="border rounded-pill px-3 btn bg-gradient-danger mb-3 text-capitalize"
                   type="button"
                   title="Send"
                 >
