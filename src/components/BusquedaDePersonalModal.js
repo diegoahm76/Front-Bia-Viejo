@@ -239,7 +239,7 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
                 </div>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
-                    className="btn bg-primary me-md-2 text-white text-capitalize"
+                    className="btn bg-primary me-md-2 text-white text-capitalize border rounded-pill px-3"
                     type="button"
                     onClick={() => setIsModalActive(false)}
                     title="Send"
@@ -247,7 +247,7 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
                     Limpiar
                   </button>
                   <button
-                    className="btn bg-primary me-md-2 text-white text-capitalize"
+                    className="btn bg-primary me-md-2 text-white text-capitalize border rounded-pill px-3"
                     type="button"
                     onClick={() => setIsModalActive(false)}
                     title="Send"
@@ -255,7 +255,7 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
                     Aceptar
                   </button>
                   <button
-                    className="btn bg-light text-white text-capitalize"
+                    className="btn bg-light text-white text-capitalize border rounded-pill px-3"
                     type="button"
                     onClick={() => setIsModalActive(false)}
                     title="Send"
