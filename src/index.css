@@ -77,3 +77,8 @@ code {
   border-radius: 20px !important;
   padding: 0 4px 0 4px;
 }
+
+/* minWidth buttons */
+.btn-min-width {
+  min-width: 100px;
+}
