@@ -227,7 +227,7 @@ const RolesScreen = () => {
       <div className="col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row" onSubmit={handleSubmit(searchByName)}>
-            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+            <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
               Administrador De Roles
             </h3>
             {/* <div className="multisteps-form__content">
@@ -262,7 +262,7 @@ const RolesScreen = () => {
               <div>
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize rounded-pill btn-min-width"
+                  className="btn bg-gradient-primary text-capitalize rounded-pill"
                 >
                   Buscar
                 </button>
@@ -285,7 +285,7 @@ const RolesScreen = () => {
             <div className="d-flex justify-content-end">
               <button
                 type="button"
-                className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill btn-min-width"
+                className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
                 onClick={handleCreateRole}
               >
                 Crear rol
@@ -295,14 +295,7 @@ const RolesScreen = () => {
           <CalendarModal>
             <form className="row p-3">
               <h4>{isCreate ? "Crear Rol" : "Editar Rol"}</h4>
-              <hr
-                style={{
-                  width: "100%",
-                  height: "3px",
-                  backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
-                }}
-                className="rounded-pill"
-              />
+              <hr className="rounded-pill hr-modal" />
               <div className="col-12 col-md-5 mb-3">
                 <label>Nombre rol</label>
                 <input
@@ -341,14 +334,14 @@ const RolesScreen = () => {
               <div className="d-flex justify-content-end gap-2">
                 <button
                   type="button"
-                  className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill btn-min-width"
+                  className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
                   onClick={handleCloseModal}
                 >
                   Cerrar
                 </button>
                 <button
                   type="button"
-                  className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill btn-min-width"
+                  className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
                   onClick={handleCloseModal}
                 >
                   Guardar

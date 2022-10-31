@@ -78,13 +78,15 @@ code {
   padding: 0 4px 0 4px;
 }
 
-/* minWidth buttons */
-.btn-min-width {
-  min-width: 100px;
-}
-
 /* Cambios para los btn */
 .btn {
   min-width: 100px;
   border-radius: 20px;
+}
+
+/* Linea para los titulo de los modales */
+.hr-modal {
+  width: 100%;
+  height: 3px;
+  background-image: linear-gradient(45deg, #6db227, #36a9e0);
 }
