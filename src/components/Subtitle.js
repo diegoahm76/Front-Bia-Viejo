@@ -1,10 +1,14 @@
-const Subtitle = ({ title, mt, mb }) => {
+const Subtitle = ({ title, mt = 0, mb = 0 }) => {
   return (
-    <div
-      className={`col-12 col-sm-12 border rounded-pill px-3 mt-${mt} mb-${mb}`}
-      style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}
-    >
-      <h5 className="font-weight-bolder my-2 text-light">{title}</h5>
+    <div className="row">
+      <label
+        className={`border rounded-pill px-4 mt-${mt} mb-${mb} text-white fs-5 p-1`}
+        style={{
+          backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
+        }}
+      >
+        {title}
+      </label>
     </div>
   );
 };

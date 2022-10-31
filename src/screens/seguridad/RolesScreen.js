@@ -11,6 +11,7 @@ import {
 import clienteAxios from "../../config/clienteAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Select from "react-select";
+import Subtitle from "../../components/Subtitle";
 
 const rolesOptions = [
   { label: "Almacen / Articulo / Consultar", value: "1.1" },
@@ -147,11 +148,12 @@ const RolesScreen = () => {
   // };
 
   const columDefs = [
-    { headerName: "Nombre", field: "nombre_rol", minWidth: 150 },
+    { headerName: "Nombre", field: "nombre_rol", minWidth: 150, maxWidth: 220 },
     {
       headerName: "Descripcion",
       field: "descripcion_rol",
-      minWidth: 150,
+      minWidth: 200,
+      maxWidth: 450,
     },
   ];
 
@@ -223,24 +225,27 @@ const RolesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Administrador de roles</h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row" onSubmit={handleSubmit(searchByName)}>
-            <div className="multisteps-form__content">
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Administrador de roles
+            </h3>
+            {/* <div className="multisteps-form__content">
               <div className="row">
                 <label
-                  className="form-control border rounded-pill px-3 mt-3 text-white"
+                  className="form-control border rounded-pill px-4 mt-3 text-white fs-5"
                   style={{
                     backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
                   }}
                 >
-                  <b>Informacion de roles</b>
+                  Informacion de roles
                 </label>
               </div>
-            </div>
-            <div className="d-flex align-items-end gap-4 mt-2">
-              <div className="col-12 col-md-5 mb-3">
-                <label>Nombre rol</label>
+            </div> */}
+            <Subtitle title="Informacion de roles" mt={3} />
+            <div className="d-flex align-items-end gap-4 mt-2 ms-3">
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">Nombre del rol</label>
                 <input
                   type="text"
                   className="form-control border rounded-pill px-3"
@@ -266,7 +271,7 @@ const RolesScreen = () => {
             <div id="myGrid" className="ag-theme-alpine mt-3">
               <div
                 className="container ag-theme-alpine"
-                style={{ height: "300px", maxWidth: "650px" }}
+                style={{ height: "300px", maxWidth: "750px" }}
               >
                 <AgGridReact
                   className="ag-theme-alpine"
@@ -280,7 +285,7 @@ const RolesScreen = () => {
             <div className="d-flex justify-content-end">
               <button
                 type="button"
-                className="btn bg-gradient-primary text-capitalize mt-3"
+                className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
                 onClick={handleCreateRole}
               >
                 Crear rol
@@ -441,14 +446,14 @@ const RolesScreen = () => {
               <div className="d-flex justify-content-end gap-2">
                 <button
                   type="button"
-                  className="btn bg-gradient-light text-capitalize mt-3"
+                  className="btn bg-gradient-light text-capitalize mt-3 rounded-pill"
                   onClick={handleCloseModal}
                 >
                   Cerrar
                 </button>
                 <button
                   type="button"
-                  className="btn bg-gradient-primary text-capitalize mt-3"
+                  className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
                   onClick={handleCloseModal}
                 >
                   Guardar
