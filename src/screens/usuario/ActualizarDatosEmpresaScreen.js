@@ -148,8 +148,10 @@ const ActualizarDatosEmpresaScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Actualizar datos empresa</h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <h3 className="mt-3 ms-3 mb-2">
+            Actualizar datos empresa
+          </h3>
           <Subtitle title={"Datos personales"} mt={4} mb={0} />
           <form className="row" onSubmit={handleSubmit(submit)}>
             <div className="col-12 col-lg-4">

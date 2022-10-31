@@ -215,13 +215,13 @@ const ActualizarDatosPersonaScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Actualizar datos de persona
-        </h3>
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form onSubmit={handleSubmit(submit)}>
+            <h3 className="mt-3 mb-2 ms-3">
+              Actualizar datos de persona
+            </h3>
             <div className={"row align-items-end"}>
-              <Subtitle title={"Datos personales"} mt={0} mb={2} />
+              <Subtitle title={"Datos personales"} mt={4} mb={2} />
               <div className="col-12 col-lg-4">
                 <div className="mt-3">
                   <label>
