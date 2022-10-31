@@ -82,3 +82,9 @@ code {
 .btn-min-width {
   min-width: 100px;
 }
+
+/* Cambios para los btn */
+.btn {
+  min-width: 100px;
+  border-radius: 20px;
+}
