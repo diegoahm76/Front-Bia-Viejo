@@ -187,7 +187,7 @@ const ReportePrestamosPendientesScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       className="form-control border rounded-pill px-3  p-2"
                       placeholderText="dd/mm/aaaa"
-                      selected={startDate}
+                      selected={selecOpciones.fechaInicial}
                       onChange={(date) => {
                         setSelecOpciones({
                           ...selecOpciones,
@@ -217,7 +217,7 @@ const ReportePrestamosPendientesScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       className="form-control border rounded-pill px-3  p-2"
                       placeholderText="dd/mm/aaaa"
-                      selected={endDate}
+                      selected={selecOpciones.fechaFinal}
                       onChange={(date) => {
                         setSelecOpciones({
                           ...selecOpciones,

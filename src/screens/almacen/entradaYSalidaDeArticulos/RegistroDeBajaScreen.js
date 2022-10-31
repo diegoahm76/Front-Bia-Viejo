@@ -200,6 +200,9 @@ export const RegistroDeBajaScreen = () => {
                 </div>
               </div>
 
+              
+              <div className="row mt-3">
+              <label>ANEXAR REVELACION</label>
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
@@ -217,6 +220,7 @@ export const RegistroDeBajaScreen = () => {
                   Guardar
                 </button>
               </div>
+            </div>
             </div>
           </MarcaDeAgua1>
         </form>

@@ -1,9 +1,13 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useState } from "react";
+import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
-import { activeModalAction, desactiveModalAction } from "../../../actions/modalActions";
+import {
+  activeModalAction,
+  desactiveModalAction,
+} from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 
 const SolicitudesDeMaterialSreen = () => {
@@ -201,9 +205,13 @@ const SolicitudesDeMaterialSreen = () => {
     console.log(data);
   };
 
+  const [formValues, setFormValues] = useState({
+    fechaIngreso: "",
+  });
+
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-sm-12 mx-auto">
+      <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
         <h3 className="mt-3 mb-0 text-center mb-6">
           Solicitud de Material Vegetal
         </h3>
@@ -213,155 +221,184 @@ const SolicitudesDeMaterialSreen = () => {
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
-          <div className="card mt-5">
-            <div className="row mt-4">
-              <label className="col px-6">Numero de solicitud</label>
-              <label className="col-6 align:right">Fecha</label>
-            </div>
-            <div className="row mt-6">
-              <div className="row ms-1 me-6 mb-1">
-                <div className="col col-sm-6">
-                  <label className="form-control ms-0">
-                    Selecione Vivero:{" "}
-                  </label>
-                  <Controller
-                    name="options"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcViveros}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errors.options && (
-                    <p className=" form-control ms-0 text-danger">
-                      Este campo es obligatorio
-                    </p>
+          <div className="row mt-4 ms-4">
+            <label className="col-12 col-md-4">Numero de solicitud</label>
+            <div className="col-12 col-md-4">
+              <div className=" input-group input-group-dynamic flex-column">
+                <label htmlFor="exampleFormControlInput1">
+                  Fecha de solicitud
+                </label>
+                <Controller
+                  name="fechaNacimiento"
+                  control={control}
+                  render={({ field }) => (
+                    <ReactDatePicker
+                      {...field}
+                      locale="es"
+                      //required
+                      selected={formValues.fechaIngreso}
+                      onSelect={(e) =>
+                        setFormValues({ ...formValues, fechaIngreso: e })
+                      }
+                      className="col-4 multisteps-form__input form-control p-2"
+                      placeholderText="dd/mm/aaaa"
+                    />
                   )}
-                </div>
-
-                <div className="col-6 col-sm-6 ">
-                  <button
-                    className="mt-5 btn btn-primary text-capitalize "
-                    type="submit"
-                    form="configForm"
-                  >
-                    Buscar
-                  </button>
-                </div>
-
-                {vivero.options ? (
-                  <div>
-                    <div className="d-flex mt-4 px-4 justify-content-start">
-                      <div>
-                        <label>Material Vegetal Disponible</label>
-                      </div>
-                    </div>
-
-                    <div id="myGrid" className="ag-theme-alpine ">
-                      <div
-                        className="ag-theme-alpine"
-                        style={{ height: "250px" }}
-                      >
-                        <AgGridReact
-                          columnDefs={columnasMaterialDisponible}
-                          rowData={datosFilasAgregar}
-                          defaultColDef={defaultColDef}
-                          onGridReady={onGridReady}
-                        ></AgGridReact>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  ""
+                />
+              </div>
+            </div>
+            
+          </div>
+          <div className="row mt-4 ms-2">
+            <div className="row ms-1 me-6 mb-1">
+              <div className="col-12 col-md-4">
+                <label className="form-control ms-0">Selecione Vivero: </label>
+                <Controller
+                  name="options"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={opcViveros}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+                {errors.options && (
+                  <p className=" form-control ms-0 text-danger">
+                    Este campo es obligatorio
+                  </p>
                 )}
               </div>
-              <div>
-                <div className="col">
-                  <label className="px-4">Escribe la cantidad </label>
-                  <input className=" "></input>
-                  <button
-                    className="btn btn-2 btn-secondary ms-4 mt-4"
-                    type="button"
-                  >
-                    Agregar
-                  </button>
-                </div>
-              </div>
 
-              <div className="row mt-2">
-                <div className="col px-5">
-                  <div
-                    className="ag-theme-alpine mt-7 mb-3"
-                    style={{ height: "250px" }}
-                  >
-                    <AgGridReact
-                      columnDefs={columnaMaterialAgregado}
-                      rowData={datosFilasAgregado}
-                      debounceVerticalScrollbar={true}
-                      defaultColDef={defaultColDef}
-                      onGridReady={onGridReady}
-                    ></AgGridReact>
-                  </div>
-                </div>
-              </div>
-              <div className="col px-6">
-                <button className="btn btn-2 btn-primary" type="button">
-                  Remover todo
+              <div className="col-6 col-sm-6 ">
+                <button
+                  className="mt-5 btn btn-primary text-capitalize "
+                  type="submit"
+                  form="configForm"
+                >
+                  Buscar
                 </button>
               </div>
-            </div>
-            <div className="row mt-5">
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                }}
-              >
-                <div className="col px-6">
-                  <button className="btn btn-2 btn-light px-6 text-capitalize">
-                    Cancelar
-                  </button>
+
+              {vivero.options ? (
+                <div>
+                  <div className="d-flex mt-4 px-4 justify-content-start">
+                    <div>
+                      <label>Material Vegetal Disponible</label>
+                    </div>
+                  </div>
+
+                  <div id="myGrid" className="ag-theme-alpine ">
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "250px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnasMaterialDisponible}
+                        rowData={datosFilasAgregar}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-6 px-6  ">
-                  <button
-                    className="btn btn-2 btn-primary px-6 text-capitalize"
-                    onClick={handleOpenModal}
-                  >
-                    Siguiente
-                  </button>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="row ms-2">
+              
+              <div className="col-12 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="NumeroInforme"
+                      rules={{ required: true }}
+                      {...register("NumeroInforme")}
+                    />
+                    <label>Escribir cantidad: <span className="text-danger">*</span></label>
+                  </div>
+                  {errors.NumeroInforme && (
+                          <p className="text-danger">
+                            Este campo es obligatorio
+                          </p>
+                        )}
+                </div>
+                <div className="col-12 col-md-4 mt-4">
+                <button
+                  className="btn btn-secondary text-capitalize ms-4 mt-4"
+                  type="button"
+                >
+                  Agregar
+                </button>
+                </div>
+            </div>
+
+            <div className="row mt-2">
+              <div className="col px-5">
+                <div
+                  className="ag-theme-alpine mt-5 mb-3"
+                  style={{ height: "250px" }}
+                >
+                  <AgGridReact
+                    columnDefs={columnaMaterialAgregado}
+                    rowData={datosFilasAgregado}
+                    debounceVerticalScrollbar={true}
+                    defaultColDef={defaultColDef}
+                    onGridReady={onGridReady}
+                  ></AgGridReact>
                 </div>
               </div>
             </div>
+            <div className="col-12 px-6 d-flex justify-content-end gap-4 mt-4">
+              <button
+                className="btn btn-primary text-capitalize"
+                type="button"
+              >
+                Remover todo
+              </button>
+            </div>
+          </div>
+          <div className="row mt-5">
+          
+              <div className="col-12 px-6 d-flex justify-content-end gap-4 mt-4">
+                <button className="btn btn-light text-capitalize">
+                  Cancelar
+                </button>
+              
+                <button
+                  className="btn  btn-primary  text-capitalize"
+                  onClick={handleOpenModal}
+                >
+                  Siguiente
+                </button>
+              </div>
+            
           </div>
         </form>
         <CalendarModal>
           <div className="row min-vh-100">
-            <div className="col-lg-8 col-md-10 col-sm-12 mx-auto">
+            <div className="col-lg-10 col-md-10 col-sm-12 mx-auto">
               <h5 className="mt-3 mb-0 text-center mb-6">
                 Informacion Adicional de la Solicitud de Material Vegetal
               </h5>
               <form onSubmit={handleSubmit2(onSubmit)}>
-                <div className="card mt-5">
-                  <div className="col ms-5 me-3">
-                    <div className="row">
-                      <div className="col ms-3 me-3 mt-5">
-                        <label>Numero de informe de caracterizacion: (*)</label>
-                        <div className="me-3 input-group input-group-dynamic">
-                          <input
-                            className="multisteps-form__input form-control"
-                            {...register2("numeroinfo", {
-                              required: true,
-                            })}
-                            placeholder="Numero de informe de caracterizacion"
-                          />
-                        </div>
-                        {errors.numeroinfo && (
+                <div className="row ms-5">
+                <div className="col-10 col-md-4 mt-4">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="NumeroInforme"
+                      rules={{ required: true }}
+                      {...register("NumeroInforme")}
+                    />
+                    <label>N° informe de caracterizacion: <span className="text-danger">*</span></label>
+                  </div>
+                  {errors.NumeroInforme && (
                           <p className="text-danger">
                             Este campo es obligatorio
                           </p>
@@ -373,89 +410,86 @@ const SolicitudesDeMaterialSreen = () => {
                             id="formFileLg"
                             type="file"
                           />
-                        </div>
-                        <div>
-                          {errors.formFileLg && (
-                            <p className="text-danger">
-                              Este documento es obligatorio
-                            </p>
-                          )}
-                        </div>
-
-                        <label className="mt-5 ms-3">
-                          Municipio donde se llevara el material vegetal: (*)
-                        </label>
-                        <Controller
-                          name="seleccionMunicipio"
-                          control={control2}
-                          rules={{ required: true }}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              options={opcMunicipios}
-                              placeholder="Seleccionar"
-                            />
-                          )}
+                        
+                      
+                    </div>
+                  </div>
+                  {errors.fechaRetiro && (
+                    <p className="text-danger">Este campo es obligatorio</p>
+                  )}
+                </div>
+                <div className="row mt-4 ms-5">
+                  <div className="col-6 col-md-4">
+                    <label>
+                      Municipio de destino: (*)
+                    </label>
+                    <Controller
+                      name="seleccionMunicipio"
+                      control={control2}
+                      rules={{ required: true }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={opcMunicipios}
+                          placeholder="Seleccionar"
                         />
-                        {errors.seleccionMunicipio && (
+                      )}
+                    />
+                    {errors.seleccionMunicipio && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-4 mt-3">
+                  <div className="form-floating input-group input-group-dynamic">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Vereda"
+                      rules={{ required: true }}
+                      {...register("Vereda")}
+                    />
+                    <label>Vereda y nombre de predio: <span className="text-danger">*</span></label>
+                  </div>
+                  {errors.Consecutivo && (
                           <p className="text-danger">
                             Este campo es obligatorio
                           </p>
                         )}
-                      </div>
+                </div>
+                </div>
 
-                      <div className="col-6 mt-5 ms-3 ">
-                        <label>Fechas de retiro de material vegetal: (*)</label>
-                        <div>
-                          <input
-                            type="date"
-                            value={native}
-                            onChange={onNativeChange}
-                          />
-                        </div>
-                        {errors.native && (
-                          <p className="text-danger">
-                            Este campo es obligatorio
-                          </p>
-                        )}
+                <div className="row ms-5">
+                  <div>
+                    <label for="formFileLg" class="form-label"></label>
+                    <input
+                      class="form-control form-control-lg mt-6"
+                      id="formFileLg"
+                      type="file"
+                    />
+                  </div>
+                  <div>
+                    {errors.formFileLg && (
+                      <p className="text-danger">
+                        Este documento es obligatorio
+                      </p>
+                    )}
+                  </div>
+                </div>
 
-                        <label className="mt-8 ms-3">
-                          Vereda y nombre de predio: (*)
-                        </label>
-                        <div className="me-4 mt-1 input-group input-group-dynamic">
-                          <input
-                            className="multisteps-form__input form-control"
-                            {...register2("veredaynombre", {
-                              maxLength: 200,
-                              required: true,
-                            })}
-                            placeholder="Nombre de vereda y predio"
-                          />
-                        </div>
-                        {errors.veredaynombre && (
-                          <p className="text-danger small">
-                            Este campo es obligatorio
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="row">
-                      <input
-                        className="btn btn-2 btn-secondary ms-4 mt-5 text-capitalize"
-                        type="submit"
-                        style={{ width: "150px" }}
-                        value="Solicitar"
-                      />
+                <div className="row mt-4">
+                  <div className="d-flex justify-content-end">
+                    <input
+                      className="btn btn-secondary  text-capitalize"
+                      type="submit"
+                      value="Solicitar"
+                    />
 
-                      <div className="d-flex justify-content-end">
-                        <button
-                          className="btn bg-gradient-danger mt-3"
-                          onClick={handleCloseModal}
-                        >
-                          Atras
-                        </button>
-                      </div>
-                    </div>
+                    <button
+                      className="ms-4 btn btn-danger  text-capitalize"
+                      onClick={handleCloseModal}
+                    >
+                      Atras
+                    </button>
                   </div>
                 </div>
               </form>
@@ -466,4 +500,4 @@ const SolicitudesDeMaterialSreen = () => {
     </div>
   );
 };
-export default SolicitudesDeMaterialSreen
+export default SolicitudesDeMaterialSreen;

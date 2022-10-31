@@ -41,49 +41,49 @@ export const VisualizarArticulosScreen = () => {
         >
           <MarcaDeAgua1>
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                 Informacion del Articulo
               </label>
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <label>Codigo:</label>
                   <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Consecutivo"
-                    {...register("businessTel")}
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Codigo"
+                    {...register("id")}
                   />
-                  <label>Codigo:</label>
-                </div>
+                  
+                
               </div>
               <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Consecutivo"
-                    {...register("businessTel")}
-                  />
                   <label>Nombre: </label>
-                </div>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Nombre"
+                    {...register("nombre")}
+                  />
+                
+                
               </div>
               <div className=" col-12 col-md-4 mt-4 d-flex justify-content-end gap-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize "
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Ver H/V
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary text-capitalize "
+                  className="btn btn-secondary text-capitalize border rounded-pill px-3"
                 >
                   Crear H/V
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger text-capitalize "
+                  className="btn btn-danger text-capitalize border rounded-pill px-3"
                 >
                   Borrar
                 </button>
@@ -91,26 +91,26 @@ export const VisualizarArticulosScreen = () => {
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <label>Codigo de barras / QR: </label>
                   <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Consecutivo"
-                    {...register("businessTel")}
+                    className="form-control border rounded-pill px-3"
+                    type="float"
+                    placeholder="Codigo de barras / QR"
+                    {...register("codigoDeBarra")}
                   />
-                  <label>Codigo de barras / QR: </label>
-                </div>
+                  
+                
               </div>
               <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <label>Serial / Placa: </label>
                   <input
-                    className="form-control"
-                    type="tel"
-                    placeholder="Consecutivo"
-                    {...register("businessTel")}
+                    className="form-control border rounded-pill px-3"
+                    type="num"
+                    placeholder="Serial/Placa"
+                    {...register("serial")}
                   />
-                  <label>Serial / Placa: </label>
-                </div>
+                  
+                
               </div>
               <div className="col-12 col-md-4">
                 <label className="form-control ms-0">Marca: </label>
@@ -135,22 +135,22 @@ export const VisualizarArticulosScreen = () => {
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <label >Observaciones: </label>
                   <textarea
-                    className="form-control"
-                    type="tel"
-                    placeholder="Consecutivo"
-                    {...register("businessTel")}
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Observaciones"
+                    {...register("observaciones")}
                   />
-                  <label>Observaciones: </label>
-                </div>
+                  
+                
               </div>
             </div>
             <div className="row">
               <div className="d-flex justify-content-end gap-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize "
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Guardar
                 </button>
@@ -158,7 +158,7 @@ export const VisualizarArticulosScreen = () => {
             </div>
 
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                 Articulos
               </label>
             </div>

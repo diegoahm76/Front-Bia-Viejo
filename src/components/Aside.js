@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogoutAction } from "../actions/userActions";
 import LogoCormacarena from "../assets/logos/eps/LogoVertical.svg";
-import IconoAlmacen from "../assets/ecology-house-svgrepo-com.svg";
-import IconoRecaudo from "../assets/voltmeter-power-svgrepo-com.svg";
-import IconoSeguimientoPlanes from "../assets/networking-share-svgrepo-com.svg";
-import IconoConservacion from "../assets/sprout-tree-svgrepo-com.svg";
-import IconoGestionDocumental from "../assets/recycling-environment-svgrepo-com.svg";
-import IconoTramitesServicios from "../assets/analytics-bar-chart-svgrepo-com.svg";
-import IconoRecursoHidrico from "../assets/h2o-svgrepo-com.svg";
+import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
+import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
+import IconoSeguimientoPlanes from "../assets/planning-svgrepo-com.svg";
+import IconoConservacion from "../assets/plant-leaf-svgrepo-com.svg";
+import IconoGestionDocumental from "../assets/files-document-svgrepo-com.svg";
+import IconoTramitesServicios from "../assets/ecology-svgrepo-com.svg";
+import IconoRecursoHidrico from "../assets/water-svgrepo-com.svg";
 import IconoAgregarVivero from "../assets/iconosConservacion/add-svgrepo-com.svg";
 import IconoGestorVivero from "../assets/iconosConservacion/leaf-svgrepo-com.svg";
 import IconoEditarVivero from "../assets/iconosConservacion/edit-svgrepo-com.svg";
@@ -24,10 +24,10 @@ import IconoReportes from "../assets/iconosConservacion/chart-presentation-repor
 import IconoSolicitudesArticulo from "../assets/iconosAlmacen/reception-hotel-svgrepo-com.svg";
 import IconoGestionVehiculo from "../assets/iconosAlmacen/volskwagen-van-svgrepo-com.svg";
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
-import IconoTablerosDeControl from "../assets/board-svgrepo-com.svg";
+import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
 import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
 import IconoUser from "../assets/user-svgrepo-com.svg";
-import IconoEntradaYSalida from "../assets/iconosAlmacen/logistics-delivery-warehouse-svgrepo-com.svg";
+import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/logistics-delivery-express-svgrepo-com.svg";
 
 const Aside = ({ showAside }) => {
@@ -1787,7 +1787,7 @@ const Aside = ({ showAside }) => {
                             Reportes
                           </span>
                         </Link>
-                      </li>
+                      </li> 
 
                       <li className="nav-item ">
                         <Link

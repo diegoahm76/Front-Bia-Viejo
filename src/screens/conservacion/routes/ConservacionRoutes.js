@@ -31,6 +31,7 @@ import ConsultaDeInformesDeCaracterizacionScreen from "../solicitudes/ConsultaDe
 import SolicitudesDeMaterialSreen from "../distribucion/SolicitudesDeMaterialSreen";
 import HistorialDeMovimientosScreen from "../distribucion/HistorialDeMovimientosScreen";
 import ReportesScreen from "../reportes/ReportesScreen";
+import RecepcionDeSolicitudScreen from "../distribucion/RecepcionDeSolicitudScreen";
 
 const ConservacionRoutes = () => {
   return (
@@ -40,7 +41,7 @@ const ConservacionRoutes = () => {
       <Route path="gestorvivero">
         <Route index element={<Navigate to="/dashboard/conservacion" />} />
 
-        <Route path="agregarvivero" element={<AgregarViveroScreen />} />
+        {/* <Route path="agregarvivero" element={<AgregarViveroScreen />} /> */}
 
         <Route path="editarvivero" element={<EditarViveroScreen />} />
 
@@ -151,8 +152,13 @@ const ConservacionRoutes = () => {
         />
 
         <Route
+        path="recepcionsolicitudes"
+        element={<RecepcionDeSolicitudScreen/>}
+        />
+      
+        <Route
           path="movermaterialvegetal"
-          element={<MoverMaterialVegetalScreen />}
+          element={<MoverMaterialVegetalScreen/>}
         />
 
         <Route

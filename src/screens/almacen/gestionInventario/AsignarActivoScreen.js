@@ -119,7 +119,7 @@ function AsignarActivoScreen() {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-primary mx-auto my-1 d-flex btn-sm text-xxs text-capitalize"
+            className="btn btn-primary mx-auto my-1 d-flex btn-sm text-xxs text-capitalize border rounded-pill px-3"
             onClick={handleOpenModalArticulos}
           >
             Buscar
@@ -376,8 +376,7 @@ function AsignarActivoScreen() {
                 </label>
                 <div className="col-12 col-md-4 align-content-end align-items-end">
               <label>Tipo de documento </label>
-                        
-              <Select className="border rounded-pill px-3 mt-0 bg-light"
+                      <Select className="border rounded-pill px-3 mt-0 bg-light"
                       defaultValue={optionsTipoDocumento[0]}
                       name="tipoDocumentoResponsable"
                       options={optionsTipoDocumento}
@@ -456,7 +455,7 @@ function AsignarActivoScreen() {
               Nombre completo
             </label>
             <input
-              type="tex"
+              type="text"
               id="nombreSolicitante"
               name="nombreSolicitante"
               disabled
@@ -546,9 +545,9 @@ function AsignarActivoScreen() {
                 </div>
               </div>
               <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                <label htmlFor="exampleFormControlInput1">Observaciones</label>
+                <label>Observaciones</label>
                 <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                  className="p-2 mw-100 w-auto border rounded-pill px-4"
                   type="text"
                   disabled
                   {...register("observaciones")}
@@ -612,18 +611,16 @@ function AsignarActivoScreen() {
               </div>
             </div>
             <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                    <label htmlFor="exampleFormControlInput1">
-                      Observaciones
-                    </label>
-                    <textarea
-                      className="multisteps-form__input form-control p-2 mw-100 w-auto border rounded-pill px-3"
-                      type="text"
-                      {...register("observacionesDespachar")}
-                      placeholder="Incluya observacion"
-                      rows="2"
-                      name="observaciones"
-                    />
-                  </div>
+                <label>Observaciones</label>
+                <textarea
+                  className="p-2 mw-100 w-auto border rounded-pill px-4"
+                  type="text"
+                  {...register("observacionesDespachar")}
+                  placeholder="Incluya observacion"
+                  rows="2"
+                  name="observacionesDespachar"
+                />
+              </div>
                   <div className="row justify-content-end">
                     <button
                       className="col-2 btn bg-gradient-danger mt-2 flex-end border rounded-pill px-3"
@@ -652,19 +649,20 @@ function AsignarActivoScreen() {
                 >
                   <div className="row justify-content-between">
                     <div className="col col-6 col-md-6">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          value={"Alejandro Magno"}
-                          disabled
-                          placeholder="Nombre"
-                          {...register("nombreRechazar", {
-                            required: true,
-                          })}
-                        />
-                        <label className="ms-2">Nombre</label>
-                      </div>
+                    <div className="col-12 mb-3">
+            <label>
+              Nombre
+            </label>
+            <input
+              type="text"
+              id="nombreRechazar"
+              name="nombreRechazar"
+              disabled
+              defaultValue={"Ricardo Sedihno"}
+              className="form-control border rounded-pill px-3"
+              {...register("nombreRechazar", { required: true })}
+            />
+            </div>
                     </div>
                     {/*  FECHA  */}
                     <div className="col-12 col-md-4">
@@ -681,7 +679,7 @@ function AsignarActivoScreen() {
                               dateFormat="dd/MM/yyyy"
                               includeDates={[new Date()]}
                               onChange={(date) => setStartDate(date)}
-                              className="multisteps-form__input form-control p-2 border border-1"
+                              className="form-control border rounded-pill px-3 mt-2"
                               placeholderText="Fecha de respuesta"
                               peekNextMonth
                               disabled
@@ -694,29 +692,25 @@ function AsignarActivoScreen() {
                       </label>
                     </div>
                   </div>
-
                   <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                    <label htmlFor="exampleFormControlInput1">
-                      Observaciones
-                      <span className="text-danger">*</span>
-                    </label>
-                    <textarea
-                      className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                      type="text"
-                      {...register("observacionesRechazar", {
-                        required: true,
-                      })}
-                      placeholder="Incluya observacion"
-                      rows="2"
-                      name="observacionesRechazar"
-                    />
-                    {errors.observacionesRechazar?.type === "required" && (
+                <label>Observaciones<span className="text-danger">*</span></label>
+                <textarea
+                  className="p-2 mw-100 w-auto border rounded-pill px-4"
+                  type="text"
+                  {...register("observacionesRechazar", {
+                    required: true,
+                  })}
+                  placeholder="Incluya observacion"
+                  rows="2"
+                  name="observacionesRechazar"
+                />
+                {errors.observacionesRechazar?.type === "required" && (
                       <small className="text-danger">
                         El campo es requerido*
                       </small>
                     )}
-                  </div>
-
+              </div>                                    
+                 
                   <div className="row">
                     <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
                       <button
@@ -754,21 +748,24 @@ function AsignarActivoScreen() {
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <div className="row justify-content-between">
+                    
                     <div className="col col-6 col-md-6">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
-                          type="text"
-                          value={"Alejandro Magno"}
-                          disabled
-                          placeholder="Nombre"
-                          {...register("nombreRechazar", {
-                            required: true,
-                          })}
-                        />
-                        <label className="ms-2">Nombre</label>
-                      </div>
+                    <div className="col-12 mb-3">
+            <label>
+              Nombre
+            </label>
+            <input
+              type="text"
+              id="nombreElementosNoDisponibles"
+              name="nombreElementosNoDisponibles"
+              disabled
+              defaultValue={"Ricardo Sedihno"}
+              className="form-control border rounded-pill px-3"
+              {...register("nombreElementosNoDisponibles", { required: true })}
+            />
+            </div>
                     </div>
+                    
                     {/*  FECHA  */}
                     <div className="col-12 col-md-4">
                       <label htmlFor="exampleFormControlInput1 mt-4">
@@ -784,7 +781,7 @@ function AsignarActivoScreen() {
                               dateFormat="dd/MM/yyyy"
                               includeDates={[new Date()]}
                               onChange={(date) => setStartDate(date)}
-                              className="multisteps-form__input form-control p-2 border border-1"
+                              className="form-control border rounded-pill px-3 mt-2"
                               placeholderText="Fecha de respuesta"
                               peekNextMonth
                               disabled
@@ -799,27 +796,23 @@ function AsignarActivoScreen() {
                   </div>
 
                   <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                    <label htmlFor="exampleFormControlInput1">
-                      Observaciones
-                      <span className="text-danger">*</span>
-                    </label>
-                    <textarea
-                      className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                      type="text"
-                      {...register("observacionesElementosNoDisponibles", {
-                        required: true,
-                      })}
-                      placeholder="Incluya observacion"
-                      rows="2"
-                      name="observacionesElementosNoDisponibles"
-                    />
-                    {errors.observacionesElementosNoDisponibles?.type ===
-                      "required" && (
+                <label>Observaciones<span className="text-danger">*</span></label>
+                <textarea
+                  className="p-2 mw-100 w-auto border rounded-pill px-4"
+                  type="text"
+                  {...register("observacionesElementosNoDisponibles", {
+                    required: true,
+                  })}
+                  placeholder="Incluya observacion"
+                  rows="2"
+                  name="observacionesElementosNoDisponibles"
+                />
+                {errors.observacionesElementosNoDisponibles?.type === "required" && (
                       <small className="text-danger">
                         El campo es requerido*
                       </small>
                     )}
-                  </div>
+              </div> 
 
                   <div className="row">
                     <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">

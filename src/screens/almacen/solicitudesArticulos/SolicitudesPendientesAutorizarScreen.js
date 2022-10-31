@@ -99,15 +99,15 @@ const SolicitudesPendientesAutorizarScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Solicitudes pendientes por autorizar
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
+        <h4 className="text-rigth  fw-light mb-3 mb-2">
+          Solicitudes pendientes por autorizar
+        </h4>
           <MarcaDeAgua1>
             <form>
               <div

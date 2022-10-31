@@ -313,52 +313,54 @@ const SalidaArticulosScreen = () => {
           <MarcaDeAgua1>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-center">
+                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   Datos generales
                 </label>
                 <div className="row">
                   <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                     <label>Consecutivo de salida:</label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="tel"
                         placeholder="Consecutivo"
                         {...register("businessTel")}
                       />
-                      <label>Consecutivo de salida:</label>
-                    </div>
+                     
+                    
                   </div>
 
-                  <div className="col-12 col-md-4">
-                    <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
-                      <label htmlFor="exampleFormControlInput1">
+                  <div className="col-12 col-md-4 mt-4">
+                    
+                      <label>
                         Fecha de Salida: <span className="text-danger">*</span>
                       </label>
                       <Controller
-                        name="fechaIngreso"
+                        name="fechaNacimiento"
                         control={control}
                         render={({ field }) => (
                           <ReactDatePicker
                             {...field}
                             locale="es"
-                            //required
+                            className="form-control border rounded-pill px-3"
+                            dateFormat="dd/MM/yyyy"
+                             placeholderText="dd/mm/aaaa"
                             selected={formValues.fechaIngreso}
                             onSelect={(e) =>
                               setFormValues({ ...formValues, fechaIngreso: e })
+                           
                             }
-                            className="col-4 multisteps-form__input form-control p-2"
-                            placeholderText="dd/mm/aaaa"
+                            
+                            
                           />
                         )}
                       />
-                    </div>
+                    
                   </div>
                 </div>
               </div>
 
-              <div className="row">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  Informacion de terceros:
+              <div className="row mt-6">
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>                  Informacion de terceros:
                 </label>
                 <div className="row">
                   <div className="col-12 col-md-4">
@@ -383,15 +385,15 @@ const SalidaArticulosScreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                     <label className="ms-2">Numero de identificacion:</label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="tel"
                         placeholder="Numero de identificacion"
                         {...register("businessTel")}
                       />
-                      <label className="ms-2">Numero de identificacion:</label>
-                    </div>
+                     
+                    
                   </div>
                   <div className="col-12 col-md-4">
                     <div>
@@ -403,31 +405,26 @@ const SalidaArticulosScreen = () => {
                   <div className="d-flex justify-content-end gap-2 mt-4">
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize "
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 "
                     >
                       buscar
                     </button>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="d-flex justify-content-end gap-2 mt-4">
-                    <label>Busqueda de tercero: </label>
-
-                    <button
+                      <button
                       type="button"
-                      className="btn btn-primary text-capitalize "
+                      className="btn btn-primary text-capitalize border rounded-pill px-3"
                       onClick={handleOpenModalBusquedaPersonal}
                     >
-                      buscar
+                      busqueda de tercero
                     </button>
                   </div>
                 </div>
+                
               </div>
 
               <div className="row">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  Entradas Relacionadas:
-                </label>
+              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>                  
+              Entradas Relacionadas:
+               </label>
                 <div className="row">
                   <div id="myGrid" className="ag-theme-alpine ">
                     <div
@@ -446,35 +443,35 @@ const SalidaArticulosScreen = () => {
               </div>
               <div className="row mt-4">
                 <div className="col">
-                  <div className="form-floating input-group input-group-dynamic">
+                  <label className="ms-2">Referecnia de Apropiacion:</label>
                     <input
-                      className="form-control"
-                      type="tel"
-                      placeholder="Concepto"
-                      {...register("businessTel")}
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      placeholder="Referencia de apropiación"
+                      {...register("refApro")}
                     />
-                    <label className="ms-2">Referecnia de Apropiacion:</label>
-                  </div>
+                    
+                  
                 </div>
                 <div className="col">
-                  <div className="form-floating input-group input-group-dynamic">
+                  <label className="ms-2">Concepto:</label>
                     <textarea
-                      className="form-control"
+                      className="form-control border rounded-pill px-3"
                       type="tel"
                       placeholder="Concepto"
                       {...register("businessTel")}
                     />
-                    <label className="ms-2">Concepto:</label>
-                  </div>
+                    
+                  
                 </div>
               </div>
 
               <div className="row">
                 <label>Anexar documentos</label>
-                <div className="d-flex justify-content-end gap-2 mt-4">
+                <div className="col-12 col-md-4 d-flex justify-content-end gap-2 mt-4">
                   <label htmlFor="formFileLg" className="form-label"></label>
                   <input
-                    className="form-control form-control-lg mt-1"
+                    className=" form-control form-control-lg mt-1 border rounded-pill px-3"
                     id="formFileLg"
                     type="file"
                   />
@@ -497,8 +494,8 @@ const SalidaArticulosScreen = () => {
                 </div>
               </div>
               <div className="row">
-                <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                <div id="myGrid" className="ag-theme-alpine "style={{textAlign:"-webkit-center"}}>
+                  <div className="ag-theme-alpine" style={{ height: "250px",width:"600px" }}>
                     <AgGridReact
                       columnDefs={columnEntradaRela}
                       rowData={rowDataEntradaRela}
@@ -513,7 +510,7 @@ const SalidaArticulosScreen = () => {
                   </label>
                 </div>
                 <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                  <div className="ag-theme-alpine" style={{ height: "250px", width:"600px" }}>
                     <AgGridReact
                       columnDefs={columndevolutivoAso}
                       rowData={rowDataDevolutivoAso}

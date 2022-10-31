@@ -343,9 +343,9 @@ const ReporteDeInventarioScreen = () => {
                         <DatePicker
                           {...field}
                           locale="es"
-                          dateFormat="dd/MM/yyyy"
                           className="form-control border rounded-pill px-3  p-2"
                           placeholderText="dd/mm/aaaa"
+                          selected={selecOpciones.fechaInicial}
                           onChange={(date) => {
                             setSelecOpciones({
                               ...selecOpciones,
@@ -375,7 +375,8 @@ const ReporteDeInventarioScreen = () => {
                           dateFormat="dd/MM/yyyy"
                           className="form-control border rounded-pill px-3  p-2"
                           placeholderText="dd/mm/aaaa"
-                          onChange={(date) => {
+                          selected={selecOpciones.fechaFinal}
+                          onSelect={(date) => {
                             setSelecOpciones({
                               ...selecOpciones,
                               fechaFinal: date,

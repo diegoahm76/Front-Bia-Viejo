@@ -127,7 +127,7 @@ export const EntradaDeArticuloScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-danger text-capitalize"
+            className="btn btn-2 btn-danger text-capitalize border rounded-pill px-3"
             type="button"
           >
             Borrar
@@ -191,7 +191,7 @@ export const EntradaDeArticuloScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-danger text-capitalize"
+            className="btn btn-2 btn-danger text-capitalize border rounded-pill px-3"
             type="button"
           >
             Borrar
@@ -285,7 +285,7 @@ export const EntradaDeArticuloScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Entrada de Articulos</h3>
+       
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
@@ -293,32 +293,33 @@ export const EntradaDeArticuloScreen = () => {
           id="configForm"
         >
           <MarcaDeAgua1>
+          <h3 className="mt-3 mb-0 text-start mb-6">Entrada de Articulos</h3>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-center">
+                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3 "style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                   Datos generales
                 </label>
-                <div className="row">
-                  <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                <div className="row mt-4">
+                  <div className="col-6 col-sm-3 mt-3">
+                    <label>
+                        Consecutivo: <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="text"
                         placeholder="Consecutivo"
                         rules={{ required: true }}
                         {...register("Consecutivo")}
                       />
-                      <label>
-                        Consecutivo: <span className="text-danger">*</span>
-                      </label>
-                    </div>
+                      
+                    
                     {errors.Consecutivo && (
                       <p className="text-danger">Este campo es obligatorio</p>
                     )}
                   </div>
 
-                  <div className="col-12 col-md-4">
-                    <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
+                  <div className="col-6 col-sm-3 mt-3">
+                   
                       <label htmlFor="exampleFormControlInput1">
                         Fecha de Ingreso: <span className="text-danger">*</span>
                       </label>
@@ -329,20 +330,23 @@ export const EntradaDeArticuloScreen = () => {
                           <ReactDatePicker
                             {...field}
                             locale="es"
-                            //required
+                            className="form-control border rounded-pill px-3"
+                            dateFormat="dd/MM/yyyy"
+                             placeholderText="dd/mm/aaaa"
                             selected={formValues.fechaIngreso}
                             onSelect={(e) =>
                               setFormValues({ ...formValues, fechaIngreso: e })
+                           
                             }
-                            className="col-4 multisteps-form__input form-control p-2"
-                            placeholderText="dd/mm/aaaa"
+                            
+                            
                           />
                         )}
                       />
-                    </div>
+                    
                   </div>
 
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3 mt-1">
                     <label className="form-control ms-0">
                       Origen del articulo:{" "}
                       <span className="text-danger">*</span>
@@ -364,47 +368,54 @@ export const EntradaDeArticuloScreen = () => {
                         Este campo es obligatorio
                       </p>
                     )}
-                  </div>
+                    </div>
+
+                  <div className="col-6 col-sm-3 mt-3">
                   {selectedEntrada.value === "Comp" ? (
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div>
+                       <label >
+                          Numero de factura de compra:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                                             
                         <input
-                          className="form-control"
+                          
+                          className="form-control border rounded-pill px-3"
                           type="tel"
                           placeholder="Numero de factura de compra"
                           {...register("businessTel")}
                         />
-                        <label className="ms-2">
-                          Numero de factura de compra:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                      </div>
+                        
                     </div>
                   ) : (
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div >
+                     
+                        <label>
+                          Numero de Expediente:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
                         <input
-                          className="form-control"
+                         className="form-control border rounded-pill px-3"
                           type="tel"
                           placeholder="Numero de Expediente"
                           {...register("businessTel")}
                         />
-                        <label className="ms-2">
-                          Numero de Expediente:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                   )}
+
+                  </div>
+                 
                 </div>
               </div>
 
               <div className="row">
-                <label className="mt-6 form-control ms-0 fw-bolder text-center">
+                <label className="mt-6 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                   Informacion de terceros:
                 </label>
                 <div className="row mt-2">
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3">
                     <label>
                       Tipo de Documento: <span className="text-danger">*</span>{" "}
                     </label>
@@ -427,59 +438,56 @@ export const EntradaDeArticuloScreen = () => {
                       </p>
                     )}
                   </div>
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                  <div className="col-6 col-sm-3">
+                     <label className="ms-2">
+                        Numero de identificacion:{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="text"
                         placeholder="Numero de identificacion"
                         {...register("NumeroDoc")}
                       />
-                      <label className="ms-2">
-                        Numero de identificacion:{" "}
-                        <span className="text-danger">*</span>{" "}
-                      </label>
-                    </div>
+                     
+                    
                   </div>
-                  <div className="col-12 col-md-4">
-                    <label>Nombre: </label>
+                  <div className="col-6 col-sm-3">
+                    <label>Nombre: </label><br/>
                     <label>Profesional de cormacarena</label>
                   </div>
-                  <div className=" d-flex justify-content-end gap-2 mt-3 ">
+                  <div className=" d-flex justify-content-end gap-2 mt-3 col-6 col-sm-3">
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize "
+                      className="btn btn-primary text-capitalize border rounded-pill px-3"
                     >
                       buscar
                     </button>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="d-flex justify-content-end gap-2 mt-4">
-                    <label>Busqueda de tercero: </label>
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize "
+                      className="btn btn-primary text-capitalize border rounded-pill px-3"
                       onClick={handleOpenModalBusquedaPersonal}
                     >
-                      buscar
+                      busqueda de tercero
                     </button>
+
                   </div>
                 </div>
+                
               </div>
-              <div className="row mt-5">
+              <div className="row mt-3">
                 <div className="col">
-                  <div className="form-floating input-group input-group-dynamic">
+                  <label className="ms-2">
+                      Concepto: <span className="text-danger">*</span>{" "}
+                    </label>
                     <textarea
-                      className="form-control"
+                      className="form-control border rounded-pill px-3"
                       type="text"
                       placeholder="Concepto"
                       {...register("Concepto")}
                     />
-                    <label className="ms-2">
-                      Concepto: <span className="text-danger">*</span>{" "}
-                    </label>
-                  </div>
+                    
+                  
                 </div>
               </div>
               <div className="row mt-3">
@@ -506,192 +514,190 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
               </div>
               <div className="row mt-3">
+                <div className="col-12 col-md-4">
                 <label>
                   Anexar documentos: <span className="text-danger">*</span>{" "}
                 </label>
                 <div>
                   <label htmlFor="formFileLg" className="form-label"></label>
                   <input
-                    className="form-control form-control-lg mt-1"
+                    className="form-control form-control-lg border rounded-pill px-3"
                     id="formFileLg"
                     type="file"
                     rules={{ required: true }}
                   />
+                </div>
                 </div>
               </div>
             </div>
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className=" form-control ms-0 fw-bolder text-start ms-0">
                   Detalles
                 </label>
               </div>
 
               <div className="row">
                 <div className="col">
-                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                     Identificacion de articulos
                   </label>
                 </div>
               </div>
               <div className="row">
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
+                <div className="col-6 col-sm-3">
+                    <label className="ms-2">
+                      Codigo: <span className="text-danger">*</span>{" "}
+                    </label>
                     <input
-                      className="form-control"
+                      className="form-control border rounded-pill px-3"
                       type="text"
                       required={page === 2}
                       placeholder="Codigo"
                       {...register("Cod")}
                     />
-                    <label className="ms-2">
-                      Codigo: <span className="text-danger">*</span>{" "}
-                    </label>
-                  </div>
+                  <label>Tipo de Articulo</label>
+                  
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
+                <div className="col-16 col-sm-3">
+               <label className="ms-2">Nombre de articulo:</label>
                     <input
-                      className="form-control"
+                      className="form-control border rounded-pill px-3"
                       type="text"
                       required={page === 2}
-                      placeholder="NombreArt"
+                      placeholder="Nombre Articulo"
                       disabled="true"
                     />
-                    <label className="ms-2">Nombre de articulo:</label>
-                  </div>
+                    
+                  
                 </div>
-                <div className="col-12 col-md-4 d-flex justify-content-end gap-2 ">
+                <div className="col-6 col-sm-3 mt-4 " style={{displayFlex:"flex",justifyContent:"flex-end"}}>
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize "
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
                   >
                     buscar
                   </button>
-                </div>
-                <div className="col">
-                  <label>Tipo de Articulo</label>
-                </div>
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <label className="ms-2">Buscar articulo: </label>
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize"
+                    className="btn btn-primary text-capitalize ms-1 border rounded-pill px-3"
                     onClick={handleOpenModalArticulos}
                   >
-                    Buscar
+                    Busqueda de articulo
                   </button>
                 </div>
+
+                
               </div>
               <div className="row">
                 <div>
-                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                     Informacion de articulo
                   </label>
                 </div>
 
                 <div>
                   <div className="row">
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                      <div>
+                      <label>
+                          Unidad de Medida:{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label><br/>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Unidad de medida"
                           {...register("UniMe")}
                         />
-                        <label className="ms-2">
-                          Unidad de Medida:{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
+                       
 
                         <button
                           type="button"
-                          className="btn btn-primary text-capitalize"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3"
                           onClick={handleOpenModalCrearUnidad}
                         >
                           Crear
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                       <label className="ms-2">
+                          Cantidad: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
-                          type="numb"
+                          className="form-control border rounded-pill px-3"
+                          type="number"
                           required={page === 2}
                           placeholder="Cantidad"
                           {...register("Cantidad")}
                         />
-                        <label className="ms-2">
-                          Cantidad: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                       
+                      
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
-                        <input
-                          className="form-control"
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2">
+                          Valor unitario: <span className="text-danger">*</span>{" "}
+                        </label>
+                       <input
+                         className="form-control border rounded-pill px-3"
                           type="numb"
                           required={page === 2}
                           placeholder="Valor unitario"
                           {...register("ValUni")}
                         />
-                        <label className="ms-2">
-                          Valor unitario: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                       <label className="ms-2">
+                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="numb"
                           required={page === 2}
                           placeholder="Porcentaje IVA"
                           {...register("PorceIVA")}
                         />
-                        <label className="ms-2">
-                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                  </div>
+
+                  <div className="row mb-2">
+                    
+                       
+                      
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2">
+                          Valor IVA: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="numb"
                           required={page === 2}
                           placeholder="Valor IVA"
                           {...register("ValorIVA")}
                           disabled="true"
                         />
-                        <label className="ms-2">
-                          Valor IVA: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2">Valor unitario Total:</label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="numb"
                           required={page === 2}
                           placeholder="Valor unitario Total"
                           {...register("ValUni")}
                           disabled="true"
                         />
-                        <label className="ms-2">Valor unitario Total:</label>
-                      </div>
+                        
+                      
                     </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-12 col-md-4">
+                      <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
                         Estado del articulo: :{" "}
                         <span className="text-danger">*</span>
@@ -714,195 +720,200 @@ export const EntradaDeArticuloScreen = () => {
                         </p>
                       )}
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                      <div >
+                        <label className="mb-2">
+                          Nombre Cientifico (viveros):{" "}
+                          <span className="text-danger">*</span>
+                        </label><br/>
                         <input
-                          className="form-control"
+                         className="form-control border rounded-pill px-3 mt-2"
                           type="text"
                           required={page === 2}
                           placeholder="Nombre Cientifico"
                           {...register("NombreCient")}
                         />
-                        <label className="ms-2">
-                          Nombre Cientifico (viveros):{" "}
-                          <span className="text-danger">*</span>
-                        </label>
                         <button
                           type="button"
-                          className="btn btn-primary text-capitalize"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3"
                           onClick={handleOpenModalCrearNombreCientifico}
                         >
                           Agregar
                         </button>
+                        
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                  </div>
+                  <div className="row">
+                  
+                    
+                      <label >
+                          Observaciones: <span className="text-danger">*</span>{" "}
+                        </label>
                         <textarea
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Observaciones"
                           {...register("Observaciones")}
                         />
-                        <label className="ms-2">
-                          Observaciones: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
-                    </div>
+                        
+                      
+                    
                   </div>
                 </div>
 
                 <div>
-                  <div className="row mt-3">
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                  <div className="row mt-5">
+                    <div className="col-6 col-sm-3">
+                      <div >
+                         <label className="ms-2">
+                          Unidad de Medida:{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Unidad de medida"
                           {...register("UniMed")}
                         />
-                        <label className="ms-2">
-                          Unidad de Medida:{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
+                       
                         <button
                           type="button"
-                          className="btn btn-primary text-capitalize"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3"
                           onClick={handleOpenModalCrearUnidad}
                         >
                           Crear
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                      <div >
+                         <label className="ms-2 me-2 ">
+                          Marca: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Marca"
                           {...register("Marca")}
                         />
-                        <label className="ms-2 me-2 ">
-                          Marca: <span className="text-danger">*</span>{" "}
-                        </label>
+                       
 
                         <button
                           type="button"
-                          className=" ms-2 btn btn-primary text-capitalize"
+                          className=" ms-2 btn btn-primary text-capitalize border rounded-pill px-3"
                           onClick={handleOpenModalCrearMarca}
                         >
                           Crear
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2">
+                          Modelo: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Modelo"
                           {...register("Model")}
                         />
-                        <label className="ms-2">
-                          Modelo: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                   </div>
 
                   <div className="row">
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <label className="ms-2">
+                          Cantidad: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
-                          type="numb"
+                          className="form-control border rounded-pill px-3"
+                          type="float"
                           required={page === 2}
                           placeholder="Cantidad"
                           {...register("Cant")}
                         />
-                        <label className="ms-2">
-                          Cantidad: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <label className="ms-2">
+                          Vida util: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Vida util"
                           {...register("VidaU")}
                         />
-                        <label className="ms-2">
-                          Vida util: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                     <label className="ms-2">
+                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
-                          type="numb"
+                          className="form-control border rounded-pill px-3"
+                          type="float"
                           required={page === 2}
                           placeholder="Porcentaje IVA"
                           {...register("PorcentIVA")}
                         />
-                        <label className="ms-2">
-                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                   </div>
 
                   <div className="row">
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <label className="ms-2">
+                          Valor unitario: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="numb"
                           required={page === 2}
                           placeholder="Valor Unitario"
                           {...register("ValUni")}
                         />
-                        <label className="ms-2">
-                          Valor unitario: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                     <label className="ms-2">Valor IVA:</label>
                         <input
-                          className="form-control"
-                          type="numb"
+                          className="form-control border rounded-pill px-3"
+                          type="float"
                           required={page === 2}
                           placeholder="Valor IVA"
                           {...register("ValorIVA")}
                           disabled="true"
                         />
-                        <label className="ms-2">Valor IVA:</label>
-                      </div>
+                        
+                    
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <label className="ms-2">
+                          Valor unitario Total:{" "}
+                        </label>
                         <input
-                          className="form-control"
-                          type="numb"
+                          className="form-control border rounded-pill px-3"
+                          type="float"
                           required={page === 2}
                           placeholder="Valor unitario Total"
                           {...register("ValUniTotal")}
                           disabled="true"
                         />
-                        <label className="ms-2">
-                          Valor unitario Total:{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                   </div>
                   <div className="row">
@@ -929,70 +940,70 @@ export const EntradaDeArticuloScreen = () => {
                         </p>
                       )}
                     </div>
-                    <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                    <div className="col-12 col-md-4 mt-1">
+                      <label className="ms-2">
+                          Valor Residual: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                         className="form-control border rounded-pill px-3 mt-1"
                           type="numb"
                           required={page === 2}
                           placeholder="Valor Residual"
                           {...register("ValorRes")}
                         />
-                        <label className="ms-2">
-                          Valor Residual: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <label className="ms-2">
+                          Garantia: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                        className="form-control border rounded-pill px-3 mt-1"
                           type="text"
                           required={page === 2}
                           placeholder="Garantia"
                           {...register("Garantia")}
                         />
-                        <label className="ms-2">
-                          Garantia: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-12 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                       <label className="ms-2">
+                          Dias de uso: <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="numb"
                           required={page === 2}
                           placeholder="Dias de uso"
                           {...register("DiasUso")}
                         />
-                        <label className="ms-2">
-                          Dias de uso: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                       
+                      
                     </div>
                     <div className="col-8 col-md-4">
-                      <div className="form-floating input-group input-group-dynamic">
+                      <label className="ms-2">
+                          Observaciones: <span className="text-danger">*</span>{" "}
+                        </label>
                         <textarea
-                          className="form-control"
+                          className="form-control border rounded-pill px-3"
                           type="text"
                           required={page === 2}
                           placeholder="Observaciones"
                           {...register("Observ")}
                         />
-                        <label className="ms-2">
-                          Observaciones: <span className="text-danger">*</span>{" "}
-                        </label>
-                      </div>
+                        
+                      
                     </div>
                   </div>
                 </div>
                 <div className="col-4">
                   <button
                     type="button"
-                    className="col-3 col-md-4 ms-2 mt-4 btn btn-secondary text-capitalize"
+                    className="col-3 col-md-4 ms-2 mt-4 btn btn-secondary text-capitalize border rounded-pill px-3"
                   >
                     Agregar
                   </button>
@@ -1004,9 +1015,10 @@ export const EntradaDeArticuloScreen = () => {
                     </label>
                     <button
                       type="button"
-                      className={`btn btn-primary text-capitalize ${
+                      className={`btn btn-primary text-capitalize border rounded-pill px-3 ${
                         page === 1 && "d-none"
                       }`}
+                      style={{minWidth:"100px"}}
                       onClick={handleOpenModal}
                     >
                       Ver
@@ -1020,32 +1032,32 @@ export const EntradaDeArticuloScreen = () => {
               <div className="d-flex justify-content-end gap-4 mt-4">
                 <button
                   type="button"
-                  className="btn btn-light text-capitalize "
+                  className="btn btn-light text-capitalize border rounded-pill px-3"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize "
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Limpiar
                 </button>
 
                 <button
-                  className={`btn btn-danger text-capitalize ${
+                  className={`btn btn-danger text-capitalize border rounded-pill px-3 ${
                     page === 1 && "d-none"
                   }`}
                   type="button"
-                  title="Send"
+                  title="Regresar a la pagina anterior"
                   onClick={handlePreviousPage}
                 >
                   {" "}
                   {"<< Atrás"}{" "}
                 </button>
                 <button
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                   type="submit"
-                  title="Send"
+                  title="Finalizar"
                   form="configForm"
                 >
                   {page === 1 ? "Siguiente >>" : "Continuar"}{" "}
@@ -1063,7 +1075,7 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
                 <div className="row">
                   <div className="col">
-                    <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                    <label className="mt-3 form-control ms-0 fw-bolder text-center border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                       Articulos a Ingresar
                     </label>
                   </div>
@@ -1121,7 +1133,7 @@ export const EntradaDeArticuloScreen = () => {
                   <div className="d-flex justify-content-end gap-2 mt-4">
                     <button
                       type="button"
-                      className="btn btn-secondary text-capitalize"
+                      className="btn btn-secondary text-capitalize border rounded-pill px-3"
                     >
                       Agregar
                     </button>
@@ -1132,7 +1144,7 @@ export const EntradaDeArticuloScreen = () => {
                 <div className="d-flex justify-content-end gap-2 mt-4">
                   <button
                     type="button"
-                    className="btn btn-danger text-capitalize"
+                    className="btn btn-danger text-capitalize border rounded-pill px-3"
                     onClick={handleCloseModal}
                   >
                     Regresar
@@ -1140,7 +1152,7 @@ export const EntradaDeArticuloScreen = () => {
 
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
                   >
                     Guardar
                   </button>
@@ -1165,33 +1177,33 @@ export const EntradaDeArticuloScreen = () => {
               </div>
 
               <div className="row">
-                <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start">
+                <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                   Informacion de la unidad de medida
                 </label>
               </div>
             </div>
             <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
-                  <input
-                    className="form-control"
+              <div className="col-12 col-md-4 mt-4 ms-4"> 
+                <label>Codigo:</label>
+                 <input
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Codigo"
                     {...register("Cod")}
                   />
-                  <label>Codigo:</label>
-                </div>
+                  
+                
               </div>
               <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
+                 <label>Nombre:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
                     {...register("Nombre")}
                   />
-                  <label>Nombre:</label>
-                </div>
+                 
+                
               </div>
             </div>
 
@@ -1199,13 +1211,13 @@ export const EntradaDeArticuloScreen = () => {
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Limpiar
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger text-capitalize"
+                  className="btn btn-danger text-capitalize border rounded-pill px-3"
                   onClick={handleCloseModalCrearUnidad}
                 >
                   Cancelar
@@ -1213,7 +1225,7 @@ export const EntradaDeArticuloScreen = () => {
 
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Guardar
                 </button>
@@ -1229,45 +1241,45 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row">
-              <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start">
+              <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                 Informacion de la Marca
               </label>
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
+               <label>Codigo:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Codigo"
                     {...register("Cod")}
                   />
-                  <label>Codigo:</label>
-                </div>
+                  
+                
               </div>
               <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
+                <label>Nombre:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
                     {...register("Nombre")}
                   />
-                  <label>Nombre:</label>
-                </div>
+                  
+                
               </div>
             </div>
             <div className="row">
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Limpiar
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger text-capitalize"
+                  className="btn btn-danger text-capitalize border rounded-pill px-3"
                   onClick={handleCloseModalCrearMarca}
                 >
                   Cancelar
@@ -1275,7 +1287,7 @@ export const EntradaDeArticuloScreen = () => {
 
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Guardar
                 </button>
@@ -1291,69 +1303,67 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row">
-              <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start">
-                Informacion de la Marca
+            <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
+                Informacion del articulo
               </label>
             </div>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
+            <div className="row mt-4">
+              <div className="col-12 col-md-4 ms-2">
+                <label>Codigo:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Codigo"
                     {...register("Cod")}
                   />
-                  <label>Codigo:</label>
-                </div>
+                  
+                
               </div>
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-md-4 ms-1">
+                <label>Nombre:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
                     {...register("Nombre")}
                   />
-                  <label>Nombre:</label>
-                </div>
-              </div>
-              <div>
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <button
-                    type="button"
-                    className="btn btn-primary text-capitalize"
-                    onClick={handleOpenModalArticulos}
-                  >
-                    buscar
-                  </button>
-                </div>
+                  
+                
               </div>
             </div>
             <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-md-4 mt-1 ms-1">
+                 <label>Nombre Cientifico:</label>
                   <input
-                    className="form-control"
+                    className="form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre cientifico"
                     {...register("NombCient")}
                   />
-                  <label>Nombre Cientifico:</label>
-                </div>
+                 
+                
+              </div>
+              <div className="d-flex justify-content-end">
+                <button
+                  type="button"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
+                  onClick={handleOpenModalArticulos}
+                >
+                  buscar
+                </button>
               </div>
             </div>
             <div className="row">
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Limpiar
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger text-capitalize"
+                  className="btn btn-danger text-capitalize border rounded-pill px-3"
                   onClick={handleCloseModalCrearNombreCientifico}
                 >
                   Cancelar
@@ -1361,7 +1371,7 @@ export const EntradaDeArticuloScreen = () => {
 
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                 >
                   Guardar
                 </button>

@@ -157,22 +157,27 @@ const ReporteSolicitudDeVehiculosScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de solicitudes de vehiculo
-        </h3>
-
+      <div className="col-lg-12 col-md-12 col-12 mt-auto">
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
+          <h3 className="mt-3 mb-0 text-right mb-2">
+            Reporte de solicitudes de vehiculo
+          </h3>
+
           <MarcaDeAgua1>
             <div className="multisteps-form__content">
               <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Solicitante</n>
+                <label className="form-control border rounded-pill px-3 mt-3 text-white"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(45deg, #67b136, #39aad4)",
+                    }}
+                  >
+                  <b>Solicitante</b>
                 </label>
               </div>
             </div>
@@ -290,6 +295,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       className="form-control border rounded-pill px-3  p-2"
                       placeholderText="dd/mm/aaaa"
+                      selected={selecOpciones.fechaInicial}
                       onChange={(date) => {
                         setSelecOpciones({
                           ...selecOpciones,
@@ -319,6 +325,7 @@ const ReporteSolicitudDeVehiculosScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       className="form-control border rounded-pill px-3  p-2"
                       placeholderText="dd/mm/aaaa"
+                      selected={selecOpciones.fechaFinal}
                       onChange={(date) => {
                         setSelecOpciones({
                           ...selecOpciones,
