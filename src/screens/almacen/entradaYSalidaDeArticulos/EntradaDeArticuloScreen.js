@@ -300,7 +300,7 @@ export const EntradaDeArticuloScreen = () => {
                   Datos generales
                 </label>
                 <div className="row mt-4">
-                  <div className="col-12 col-md-4 mt-3">
+                  <div className="col-6 col-sm-3 mt-3">
                     <label>
                         Consecutivo: <span className="text-danger">*</span>
                       </label>
@@ -318,7 +318,7 @@ export const EntradaDeArticuloScreen = () => {
                     )}
                   </div>
 
-                  <div className="col-12 col-md-4 mt-3">
+                  <div className="col-6 col-sm-3 mt-3">
                    
                       <label htmlFor="exampleFormControlInput1">
                         Fecha de Ingreso: <span className="text-danger">*</span>
@@ -346,7 +346,7 @@ export const EntradaDeArticuloScreen = () => {
                     
                   </div>
 
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3 mt-1">
                     <label className="form-control ms-0">
                       Origen del articulo:{" "}
                       <span className="text-danger">*</span>
@@ -368,9 +368,11 @@ export const EntradaDeArticuloScreen = () => {
                         Este campo es obligatorio
                       </p>
                     )}
-                  </div>
+                    </div>
+
+                  <div className="col-6 col-sm-3 mt-3">
                   {selectedEntrada.value === "Comp" ? (
-                    <div className="col-12 col-md-4">
+                    <div>
                        <label >
                           Numero de factura de compra:{" "}
                           <span className="text-danger">*</span>
@@ -386,7 +388,7 @@ export const EntradaDeArticuloScreen = () => {
                         
                     </div>
                   ) : (
-                    <div className="col-12 col-md-4">
+                    <div >
                      
                         <label>
                           Numero de Expediente:{" "}
@@ -402,6 +404,9 @@ export const EntradaDeArticuloScreen = () => {
                       
                     </div>
                   )}
+
+                  </div>
+                 
                 </div>
               </div>
 
@@ -410,7 +415,7 @@ export const EntradaDeArticuloScreen = () => {
                   Informacion de terceros:
                 </label>
                 <div className="row mt-2">
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3">
                     <label>
                       Tipo de Documento: <span className="text-danger">*</span>{" "}
                     </label>
@@ -433,7 +438,7 @@ export const EntradaDeArticuloScreen = () => {
                       </p>
                     )}
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3">
                      <label className="ms-2">
                         Numero de identificacion:{" "}
                         <span className="text-danger">*</span>{" "}
@@ -447,11 +452,11 @@ export const EntradaDeArticuloScreen = () => {
                      
                     
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3">
                     <label>Nombre: </label><br/>
                     <label>Profesional de cormacarena</label>
                   </div>
-                  <div className=" d-flex justify-content-end gap-2 mt-3 ">
+                  <div className=" d-flex justify-content-end gap-2 mt-3 col-6 col-sm-3">
                     <button
                       type="button"
                       className="btn btn-primary text-capitalize border rounded-pill px-3"
@@ -528,7 +533,7 @@ export const EntradaDeArticuloScreen = () => {
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className=" form-control ms-0 fw-bolder text-center">
+                <label className=" form-control ms-0 fw-bolder text-start ms-0">
                   Detalles
                 </label>
               </div>
@@ -541,7 +546,7 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-12 col-md-4">
+                <div className="col-6 col-sm-3">
                     <label className="ms-2">
                       Codigo: <span className="text-danger">*</span>{" "}
                     </label>
@@ -552,10 +557,10 @@ export const EntradaDeArticuloScreen = () => {
                       placeholder="Codigo"
                       {...register("Cod")}
                     />
-                  
+                  <label>Tipo de Articulo</label>
                   
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-16 col-sm-3">
                <label className="ms-2">Nombre de articulo:</label>
                     <input
                       className="form-control border rounded-pill px-3"
@@ -567,7 +572,7 @@ export const EntradaDeArticuloScreen = () => {
                     
                   
                 </div>
-                <div className="col-12 col-md-4 mt-4 " style={{displayFlex:"flex",justifyContent:"flex-end"}}>
+                <div className="col-6 col-sm-3 mt-4 " style={{displayFlex:"flex",justifyContent:"flex-end"}}>
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize border rounded-pill px-3"
@@ -582,9 +587,7 @@ export const EntradaDeArticuloScreen = () => {
                     Busqueda de articulo
                   </button>
                 </div>
-                <div className="col">
-                  <label>Tipo de Articulo</label>
-                </div>
+
                 
               </div>
               <div className="row">
@@ -596,7 +599,7 @@ export const EntradaDeArticuloScreen = () => {
 
                 <div>
                   <div className="row">
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <div>
                       <label>
                           Unidad de Medida:{" "}
@@ -620,7 +623,7 @@ export const EntradaDeArticuloScreen = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                        <label className="ms-2">
                           Cantidad: <span className="text-danger">*</span>{" "}
                         </label>
@@ -634,7 +637,7 @@ export const EntradaDeArticuloScreen = () => {
                        
                       
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <label className="ms-2">
                           Valor unitario: <span className="text-danger">*</span>{" "}
                         </label>
@@ -648,10 +651,7 @@ export const EntradaDeArticuloScreen = () => {
                         
                       
                     </div>
-                  </div>
-
-                  <div className="row mb-2">
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                        <label className="ms-2">
                           Porcentaje IVA: <span className="text-danger">*</span>{" "}
                         </label>
@@ -662,10 +662,14 @@ export const EntradaDeArticuloScreen = () => {
                           placeholder="Porcentaje IVA"
                           {...register("PorceIVA")}
                         />
+                  </div>
+
+                  <div className="row mb-2">
+                    
                        
                       
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <label className="ms-2">
                           Valor IVA: <span className="text-danger">*</span>{" "}
                         </label>
@@ -680,7 +684,7 @@ export const EntradaDeArticuloScreen = () => {
                         
                       
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <label className="ms-2">Valor unitario Total:</label>
                         <input
                           className="form-control border rounded-pill px-3"
@@ -693,9 +697,7 @@ export const EntradaDeArticuloScreen = () => {
                         
                       
                     </div>
-                  </div>
-                  <div className="row mt-2">
-                    <div className="col-12 col-md-4">
+                      <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
                         Estado del articulo: :{" "}
                         <span className="text-danger">*</span>
@@ -718,7 +720,7 @@ export const EntradaDeArticuloScreen = () => {
                         </p>
                       )}
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <div >
                         <label className="mb-2">
                           Nombre Cientifico (viveros):{" "}
@@ -731,22 +733,21 @@ export const EntradaDeArticuloScreen = () => {
                           placeholder="Nombre Cientifico"
                           {...register("NombreCient")}
                         />
-                        
-                        
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4 mt-5">
-                      
-                      <button
+                        <button
                           type="button"
                           className="btn btn-primary text-capitalize border rounded-pill px-3"
                           onClick={handleOpenModalCrearNombreCientifico}
                         >
                           Agregar
                         </button>
+                        
+                      </div>
                     </div>
-                    <div >
-                      <label className="mt-2">
+                  </div>
+                  <div className="row">
+                  
+                    
+                      <label >
                           Observaciones: <span className="text-danger">*</span>{" "}
                         </label>
                         <textarea
@@ -758,13 +759,13 @@ export const EntradaDeArticuloScreen = () => {
                         />
                         
                       
-                    </div>
+                    
                   </div>
                 </div>
 
                 <div>
-                  <div className="row mt-3">
-                    <div className="col-12 col-md-4">
+                  <div className="row mt-5">
+                    <div className="col-6 col-sm-3">
                       <div >
                          <label className="ms-2">
                           Unidad de Medida:{" "}
@@ -787,7 +788,7 @@ export const EntradaDeArticuloScreen = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <div >
                          <label className="ms-2 me-2 ">
                           Marca: <span className="text-danger">*</span>{" "}
@@ -810,7 +811,7 @@ export const EntradaDeArticuloScreen = () => {
                         </button>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-6 col-sm-3">
                       <label className="ms-2">
                           Modelo: <span className="text-danger">*</span>{" "}
                         </label>
@@ -1176,13 +1177,13 @@ export const EntradaDeArticuloScreen = () => {
               </div>
 
               <div className="row">
-                <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                   Informacion de la unidad de medida
                 </label>
               </div>
             </div>
             <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4">
+              <div className="col-12 col-md-4 mt-4 ms-4"> 
                 <label>Codigo:</label>
                  <input
                     className="form-control border rounded-pill px-3"
@@ -1240,7 +1241,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row">
-              <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+              <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                 Informacion de la Marca
               </label>
             </div>
@@ -1302,7 +1303,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row">
-            <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+            <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                 Informacion del articulo
               </label>
             </div>
