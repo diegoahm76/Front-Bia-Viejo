@@ -220,8 +220,8 @@ const ActualizarDatosPersonaScreen = () => {
             <h3 className="mt-3 mb-2 ms-3 fw-light text-terciary">
               Actualizar datos de persona
             </h3>
-            <div className={"row align-items-end"}>
-              <Subtitle title={"Datos personales"} mt={4} mb={2} />
+            <Subtitle title={"Datos personales"} mt={4} mb={2} />
+            <div className="row align-items-end mx-1">
               <div className="col-12 col-lg-4">
                 <div className="mt-3">
                   <label>
@@ -446,9 +446,11 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
+            </div>
 
-              {/* LUGAR DE RESIDENCIA */}
-              <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
+            {/* LUGAR DE RESIDENCIA */}
+            <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
+            <div className="row align-items-end mx-1">
               <div className="col-12 col-md-4 mt-3">
                 <label className="form-label">País:</label>
                 <Controller
@@ -566,10 +568,9 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
             </div>
 
-            <div className={"row"}>
-              {/* DATOS DE NOTIFICACIÓN */}
-              <Subtitle title={"Datos de notificación"} mt={4} mb={2} />
-
+            {/* DATOS DE NOTIFICACIÓN */}
+            <Subtitle title={"Datos de notificación"} mt={4} mb={2} />
+            <div className={"row mx-1"}>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
                   <label>
@@ -719,7 +720,7 @@ const ActualizarDatosPersonaScreen = () => {
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-end gap-2 mt-4">
+            <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
               <button
                 className="btn bg-gradient-primary text-capitalize"
                 type="submit"

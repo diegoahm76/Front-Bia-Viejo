@@ -153,223 +153,245 @@ const ActualizarDatosEmpresaScreen = () => {
             Actualizar datos empresa
           </h3>
           <Subtitle title={"Datos personales"} mt={4} mb={0} />
-          <form className="row" onSubmit={handleSubmit(submit)}>
-            <div className="col-12 col-lg-4">
-              <div className="mt-3">
-                <label className="ms-2">Tipo de documento:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("tipo_documento")}
-                />
-              </div>
-            </div>
-            <div className="col-6 col-lg-4">
-              <div className="mt-3">
-                <label className="ms-2">Número de documento:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("numero_documento")}
-                />
-              </div>
-            </div>
-            <div className="col-6 col-lg-4">
-              <div className="mt-3">
-                <label className="ms-2">Codigo de verificación:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("digito_verificacion")}
-                />
-              </div>
-            </div>
-            <div className="col-12 col-lg-4">
-              <div className="mt-3">
-                <label className="ms-2">Nombre Comercial:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("nombre_comercial")}
-                />
-              </div>
-            </div>
-            <div className="col-12 col-lg-4 mb-4">
-              <div className="mt-3">
-                <label className="ms-2">Razon social:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("razon_social")}
-                />
-              </div>
-            </div>
-            <div className="col-12 col-md-4 mt-3">
-              <label className="form-label">País:</label>
-              <Controller
-                name="cod_pais_nacionalidad_empresa"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={paisesOptions}
-                    value={
-                      paisesOptions[
-                        formValues.index_cod_pais_nacionalidad_empresa
-                      ]
-                    }
-                    onChange={(e) =>
-                      setFormValues({
-                        ...formValues,
-                        index_cod_pais_nacionalidad_empresa:
-                          getIndexBySelectOptions(e.value, paisesOptions),
-                      })
-                    }
-                    placeholder="Seleccionar"
+          <form onSubmit={handleSubmit(submit)}>
+            <div className="row mx-1">
+              <div className="col-12 col-lg-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Tipo de documento:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("tipo_documento")}
                   />
-                )}
-              />
+                </div>
+              </div>
+              <div className="col-6 col-lg-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Número de documento:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("numero_documento")}
+                  />
+                </div>
+              </div>
+              <div className="col-6 col-lg-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Codigo de verificación:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("digito_verificacion")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-lg-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Nombre Comercial:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("nombre_comercial")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-lg-4 mb-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">Razon social:</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("razon_social")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-4 mt-3">
+                <label className="text-terciary form-label">País:</label>
+                <Controller
+                  name="cod_pais_nacionalidad_empresa"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={paisesOptions}
+                      value={
+                        paisesOptions[
+                          formValues.index_cod_pais_nacionalidad_empresa
+                        ]
+                      }
+                      onChange={(e) =>
+                        setFormValues({
+                          ...formValues,
+                          index_cod_pais_nacionalidad_empresa:
+                            getIndexBySelectOptions(e.value, paisesOptions),
+                        })
+                      }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
             </div>
             <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
-            <div className="col-12 col-md-4">
-              <div className="mt-3">
-                <label className="ms-2">
-                  E-mail: <span className="text-danger">*</span>
-                </label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="email"
-                  disabled
-                  placeholder="E-mail"
-                  {...register("email", { required: true })}
-                />
-              </div>
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="mt-3">
-                <label className="ms-2">Email empresarial:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="email"
-                  placeholder="email_empresarial"
-                  {...register("email_empresarial")}
-                />
-              </div>
-            </div>
-            <div className="col-12 col-md-4 mt-3">
-              <label className="form-label">
-                Municipio notificación: <span className="text-danger">*</span>
-              </label>
-              <Controller
-                name="cod_municipio_notificacion_nal"
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={municipiosOptions}
-                    value={
-                      municipiosOptions[
-                        formValues.index_cod_municipio_notificacion_nal
-                      ]
-                    }
-                    onChange={(e) => {
-                      reset({
-                        ...watch(),
-                        cod_municipio_notificacion_nal: e.value,
-                      });
-                      setFormValues({
-                        ...formValues,
-                        index_cod_municipio_notificacion_nal:
-                          getIndexBySelectOptions(e.value, municipiosOptions),
-                      });
-                    }}
-                    placeholder="Seleccionar"
+            <div className="row mx-1">
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    E-mail: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="email"
+                    disabled
+                    placeholder="E-mail"
+                    {...register("email", { required: true })}
                   />
-                )}
-              />
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="mt-3">
-                <label className="ms-2">Celular notificación:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="tel"
-                  placeholder="telefono_celular_empresa"
-                  {...register("telefono_celular_empresa")}
-                />
+                </div>
               </div>
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="mt-3">
-                <label className="ms-2">Teléfono empresa:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="tel"
-                  placeholder="telefono_empresa"
-                  {...register("telefono_empresa")}
-                />
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Email empresarial:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="email"
+                    placeholder="email_empresarial"
+                    {...register("email_empresarial")}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="col-12 col-md-4">
-              <div className="mt-3">
-                <label className="ms-2">Teléfono alterno:</label>
-                <input
-                  className="form-control border rounded-pill px-3"
-                  type="tel"
-                  placeholder="telefono_empresa_2"
-                  {...register("telefono_empresa_2")}
-                />
-              </div>
-            </div>
-            <div className="col-md-8 col-12 mt-3">
-              <div className="form-floating input-group input-group-dynamic mt-3">
-                <input
-                  className="form-control"
-                  type="text"
-                  disabled
-                  readOnly
-                  {...register("direccion_notificaciones", { required: true })}
-                />
-                <label className="ms-2">
-                  Dirección de notificación:{" "}
-                  <span className="text-danger">*</span>
+              <div className="col-12 col-md-4 mt-3">
+                <label className="text-terciary form-label">
+                  Municipio notificación: <span className="text-danger">*</span>
                 </label>
+                <Controller
+                  name="cod_municipio_notificacion_nal"
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={municipiosOptions}
+                      value={
+                        municipiosOptions[
+                          formValues.index_cod_municipio_notificacion_nal
+                        ]
+                      }
+                      onChange={(e) => {
+                        reset({
+                          ...watch(),
+                          cod_municipio_notificacion_nal: e.value,
+                        });
+                        setFormValues({
+                          ...formValues,
+                          index_cod_municipio_notificacion_nal:
+                            getIndexBySelectOptions(e.value, municipiosOptions),
+                        });
+                      }}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Celular notificación:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="tel"
+                    placeholder="telefono_celular_empresa"
+                    {...register("telefono_celular_empresa")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Teléfono empresa:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="tel"
+                    placeholder="telefono_empresa"
+                    {...register("telefono_empresa")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="mt-3">
+                  <label className="text-terciary ms-2">
+                    Teléfono alterno:
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="tel"
+                    placeholder="telefono_empresa_2"
+                    {...register("telefono_empresa_2")}
+                  />
+                </div>
+              </div>
+              <div className="col-md-8 col-12 mt-3">
+                <div className="form-floating input-group input-group-dynamic mt-3">
+                  <input
+                    className="form-control"
+                    type="text"
+                    disabled
+                    readOnly
+                    {...register("direccion_notificaciones", {
+                      required: true,
+                    })}
+                  />
+                  <label className="text-terciary ms-2">
+                    Dirección de notificación:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <button
+                    type="button"
+                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                    onClick={() => setIsOpenDireccionNotificacion(true)}
+                  >
+                    Generar
+                  </button>
+                </div>
+                {errors.direccion_notificaciones && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="d-flex justify-content-end gap-2 col-12 mt-3">
                 <button
-                  type="button"
-                  className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                  onClick={() => setIsOpenDireccionNotificacion(true)}
+                  type="submit"
+                  className="btn bg-gradient-primary text-capitalize"
                 >
-                  Generar
+                  Actualizar
                 </button>
               </div>
-              {errors.direccion_notificaciones && (
-                <div className="col-12">
-                  <small className="text-center text-danger">
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-            <div className="d-flex justify-content-end gap-2 col-12 mt-3">
-              <button
-                type="submit"
-                className="btn bg-gradient-primary text-capitalize"
-              >
-                Actualizar
-              </button>
             </div>
           </form>
         </div>
