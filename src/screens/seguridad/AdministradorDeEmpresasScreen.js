@@ -324,17 +324,17 @@ const AdministradorDeEmpresasScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">
-          Administrador de empresas
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
           <div className="row">
+            <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+              Administrador de empresas
+            </h3>
             <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
             <form
-              className="mt-4 row align-items-center"
+              className="mt-4 row mx-1"
               onSubmit={handleSubmitBuscar(onSubmitBuscar)}
             >
               <div className="col-12 col-md-4">
@@ -382,7 +382,7 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-md-4 mt-2 mt-md-3">
+              <div className="col-12 col-md-4 mt-2 mt-md-4">
                 <button
                   type="submit"
                   className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -402,7 +402,7 @@ const AdministradorDeEmpresasScreen = () => {
               <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
                 <Subtitle title={"Datos personales"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
-                <div className="mt-4 row">
+                <div className="mt-4 row mx-1">
                   <div className="row col-12 justify-content-center align-items-center">
                     {actionForm !== ACTION_EDITAR ? (
                       <div className="col-12 col-md-4">
@@ -536,7 +536,7 @@ const AdministradorDeEmpresasScreen = () => {
                 </div>
                 <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
-                <div className="mt-4 row">
+                <div className="mt-4 row mx-1">
                   <div className="col-12 col-md-4 mt-2">
                     <label className="form-label">País:</label>
                     <Controller
@@ -598,7 +598,7 @@ const AdministradorDeEmpresasScreen = () => {
                 </div>
 
                 <Subtitle title={"Datos de notificacion"} mt={4} mb={0} />
-                <div className="row">
+                <div className="row mx-1">
                   <div className="col-12 col-md-4">
                     <div className="mt-2">
                       <label className="ms-2">Telefono alterno:</label>
@@ -671,32 +671,30 @@ const AdministradorDeEmpresasScreen = () => {
                       </div>
                     </div>
                   )}
-                  <div className="row">
-                    <div className="col-md-8 col-12 mt-3">
-                      <div className="form-floating input-group input-group-dynamic mt-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          readOnly
-                          {...registerEmpresa("direccionDeNotificacion")}
-                        />
-                        <label className="ms-2">
-                          Dirección de notificación:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <button
-                          type="button"
-                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionNotificacionIsOpen(true)}
-                        >
-                          Generar
-                        </button>
-                      </div>
+                  <div className="col-md-8 col-12 mt-3 ms-1">
+                    <div className="form-floating input-group input-group-dynamic mt-2">
+                      <input
+                        className="form-control"
+                        type="text"
+                        readOnly
+                        {...registerEmpresa("direccionDeNotificacion")}
+                      />
+                      <label className="ms-2">
+                        Dirección de notificación:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <button
+                        type="button"
+                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        onClick={() => setDireccionNotificacionIsOpen(true)}
+                      >
+                        Generar
+                      </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end gap-2 mt-3">
+                <div className="d-flex justify-content-end mx-1 gap-2 mt-3">
                   <button
                     className="btn bg-gradient-light mb-0 d-block text-capitalize"
                     type="button"

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import GeneradorDeDirecciones from "../../../components/GeneradorDeDirecciones";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
@@ -367,24 +366,19 @@ const RegisterPersonaScreen = () => {
     <div
       className="page-header align-items-start min-vh-100"
       style={{
-        backgroundImage: `url(${LogBackground})`,
+        backgroundColor: "rgb(4,47,74)",
       }}
     >
-      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row my-4">
           <div className="col-12 col-md-8 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               {isUser ? (
                 <>
-                  <h3 className="mt-3 mb-0 text-center mb-4">
-                    Registro de Persona
-                  </h3>
+                  <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">Registro de Persona</h3>
                 </>
               ) : (
-                <h3 className="mt-3 mb-0 text-center mb-4">
-                  Registro de empresa
-                </h3>
+                <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">Registro de empresa</h3>
               )}
 
               {isUser ? (
@@ -392,392 +386,400 @@ const RegisterPersonaScreen = () => {
               ) : (
                 <Subtitle title={"Datos de empresa"} mt={2} mb={0} />
               )}
-              <form className="row" onSubmit={handleSubmit(submitForm)}>
-                <div className="col-12 col-md-6 mt-3">
-                  <label className="form-label">
-                    Tipo de persona: <span className="text-danger">*</span>
-                  </label>
-                  <Select
-                    options={tipoPersonaOptions}
-                    defaultValue={formValues.tipo_persona}
-                    placeholder="Seleccionar"
-                    onChange={handleChangeTypePerson}
-                  />
-                </div>
-                <div className="col-12 col-md-6 mt-3">
-                  <label className="form-label">
-                    Tipo de documento: <span className="text-danger">*</span>
-                  </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        // defaultValue={tipoDocumentoOptions[0]}
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-                <div className="row col-12">
-                  <div className="col-12 d-flex flex-column flex-md-row justify-content-between gap-0 gap-md-2 align-items-center">
-                    <div className="col-md-6 col-12 mt-3">
-                      <div>
-                        <label className="ms-2">
-                          Número de documento:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="number"
-                          {...register("numero_documento", { required: true })}
-                        />
-                      </div>
-                      {errorsForm.numero_documento && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                    <p className="mt-6 d-none d-md-block">-</p>
-                    <div className="col-md-6 col-12 mt-3">
-                      <div>
-                        <label className="ms-2">Digito verificación:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="number"
-                          {...register("dv", {
-                            maxLength: 1,
-                          })}
-                        />
-                      </div>
-                      {errorsForm.dv && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo admite solo un carácter
-                          </small>
-                        </div>
-                      )}
-                    </div>
+              <form onSubmit={handleSubmit(submitForm)}>
+                <div className="row mx-1">
+                  <div className="col-12 col-md-6 mt-3">
+                    <label className="form-label">
+                      Tipo de persona: <span className="text-danger">*</span>
+                    </label>
+                    <Select
+                      options={tipoPersonaOptions}
+                      defaultValue={formValues.tipo_persona}
+                      placeholder="Seleccionar"
+                      onChange={handleChangeTypePerson}
+                    />
                   </div>
-                </div>
-                <div className="row">
-                  <div>
-                    {isUser && (
-                      <div className="col-12 mt-3">
-                        <label className="form-label">
-                          ¿Requiere nombre comercial?
-                        </label>
-                        <Controller
-                          name="yesOrNo"
-                          control={control}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              onChange={handleYesOrNo}
-                              options={optionsYorNo}
-                              placeholder="Seleccionar"
-                            />
-                          )}
+                  <div className="col-12 col-md-6 mt-3">
+                    <label className="form-label">
+                      Tipo de documento: <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="tipoDocumento"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          // defaultValue={tipoDocumentoOptions[0]}
+                          options={tipoDocumentoOptions}
+                          placeholder="Seleccionar"
                         />
-                      </div>
-                    )}
-                    {!isUser && (
-                      <>
-                        <div className="col-12 mt-3">
+                      )}
+                    />
+                  </div>
+                  <div className="row col-12">
+                    <div className="col-12 d-flex flex-column flex-md-row justify-content-between gap-0 gap-md-2 align-items-center">
+                      <div className="col-md-6 col-12 mt-3">
+                        <div>
                           <label className="ms-2">
-                            Razón social: <span className="text-danger">*</span>
+                            Número de documento:{" "}
+                            <span className="text-danger">*</span>
                           </label>
                           <input
                             className="form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("razonSocial", { required: true })}
+                            type="number"
+                            {...register("numero_documento", {
+                              required: true,
+                            })}
                           />
                         </div>
-                        {errorsForm.razonSocial && (
+                        {errorsForm.numero_documento && (
                           <div className="col-12">
                             <small className="text-center text-danger">
                               Este campo es obligatorio
                             </small>
                           </div>
                         )}
-                      </>
-                    )}
+                      </div>
+                      <p className="mt-6 d-none d-md-block">-</p>
+                      <div className="col-md-6 col-12 mt-3">
+                        <div>
+                          <label className="ms-2">Digito verificación:</label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="number"
+                            {...register("dv", {
+                              maxLength: 1,
+                            })}
+                          />
+                        </div>
+                        {errorsForm.dv && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo admite solo un carácter
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {isUser && (
+                    <div className="col-12 mt-3">
+                      <label className="form-label">
+                        ¿Requiere nombre comercial?
+                      </label>
+                      <Controller
+                        name="yesOrNo"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            onChange={handleYesOrNo}
+                            options={optionsYorNo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  )}
+                  {!isUser && (
+                    <>
+                      <div className="col-12 mt-3">
+                        <label className="ms-2">
+                          Razón social: <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          {...register("razonSocial", { required: true })}
+                        />
+                      </div>
+                      {errorsForm.razonSocial && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </>
+                  )}
 
-                    {yesOrNo && (
-                      <>
-                        <div className="col-12 mt-3">
+                  {yesOrNo && (
+                    <>
+                      <div className="col-12 mt-3">
+                        <label className="ms-2">
+                          Nombre comercial:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          {...register("nombreComercial", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      {errorsForm.nombreComercial && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {isUser && (
+                    <>
+                      <div className="col-12 col-md-6">
+                        <div className="mt-3">
                           <label className="ms-2">
-                            Nombre comercial:{" "}
+                            Primer nombre:{" "}
                             <span className="text-danger">*</span>
                           </label>
                           <input
                             className="form-control border rounded-pill px-3"
                             type="text"
-                            {...register("nombreComercial", { required: true })}
+                            {...register("primerNombre", { required: true })}
                           />
                         </div>
-                        {errorsForm.nombreComercial && (
+                        {errorsForm.primerNombre && (
                           <div className="col-12">
                             <small className="text-center text-danger">
                               Este campo es obligatorio
                             </small>
                           </div>
                         )}
-                      </>
-                    )}
-                  </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="mt-3">
+                          <label className="ms-2">Segundo nombre:</label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("segundoNombre")}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="mt-3">
+                          <label className="ms-2">
+                            Primer apellido:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("primerApellido", { required: true })}
+                          />
+                        </div>
+                        {errorsForm.primerApellido && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-12 col-md-6">
+                        <div className="mt-3">
+                          <label className="ms-2">Segundo apellido:</label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("segundoApellido")}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {isUser && (
+                    <div className="flex-column col-12 mt-3">
+                      <label htmlFor="exampleFormControlInput1">
+                        Fecha de nacimiento:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <Controller
+                        name="fechaNacimiento"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            locale="es"
+                            showYearDropdown
+                            peekNextMonth
+                            showMonthDropdown
+                            scrollableYearDropdown
+                            dropdownMode="select"
+                            autoComplete="off"
+                            selected={formValues.fechaNacimiento}
+                            onSelect={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                fechaNacimiento: e,
+                              })
+                            }
+                            className="form-control border rounded-pill px-3"
+                            placeholderText="dd/mm/aaaa"
+                          />
+                        )}
+                      />
+                      {errorsForm.fechaNacimiento && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                {isUser && (
-                  <>
-                    <div className="col-12 col-md-6">
-                      <div className="mt-3">
-                        <label className="ms-2">
-                          Primer nombre: <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("primerNombre", { required: true })}
-                        />
-                      </div>
-                      {errorsForm.primerNombre && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="mt-3">
-                        <label className="ms-2">Segundo nombre:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("segundoNombre")}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="mt-3">
-                        <label className="ms-2">
-                          Primer apellido:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("primerApellido", { required: true })}
-                        />
-                      </div>
-                      {errorsForm.primerApellido && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <div className="mt-3">
-                        <label className="ms-2">Segundo apellido:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("segundoApellido")}
-                        />
-                      </div>
-                    </div>
-                  </>
-                )}
-                {isUser && (
-                  <div className="flex-column col-12 mt-3">
-                    <label htmlFor="exampleFormControlInput1">
-                      Fecha de nacimiento:{" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="fechaNacimiento"
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          showYearDropdown
-                          peekNextMonth
-                          showMonthDropdown
-                          scrollableYearDropdown
-                          dropdownMode="select"
-                          autoComplete="off"
-                          selected={formValues.fechaNacimiento}
-                          onSelect={(e) =>
-                            setFormValues({ ...formValues, fechaNacimiento: e })
-                          }
-                          className="form-control border rounded-pill px-3"
-                          placeholderText="dd/mm/aaaa"
-                        />
-                      )}
-                    />
-                    {errorsForm.fechaNacimiento && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
-                  </div>
-                )}
                 {/* DATOS DE NOTIFICACION */}
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
 
-                <div className="col-12 col-md-6">
-                  <div className="mt-3">
-                    <label className="ms-2">
-                      E-mail: <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      className="form-control border rounded-pill px-3"
-                      type="email"
-                      {...register("eMail", { required: true })}
-                    />
-                  </div>
-                  {errorsForm.eMail && (
-                    <div className="col-12">
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                  {errors.confirmacionEmail && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Los emails no coinciden
-                      </small>
-                    </div>
-                  )}
-                </div>
-
-                <div className="col-12 col-md-6">
-                  <div className="mt-3">
-                    <label className="ms-2">
-                      Confirme su e-mail: <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      className="form-control border rounded-pill px-3"
-                      type="email"
-                      {...register("cEmail", { required: true })}
-                    />
-                  </div>
-                  {errorsForm.cEmail && (
-                    <div className="col-12">
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                  {errors.confirmacionEmail && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Los emails no coinciden
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-6">
-                  <div className="mt-3">
-                    <label className="ms-2">
-                      Celular: <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      className="form-control border rounded-pill px-3"
-                      type="tel"
-                      {...register("celular", { required: true })}
-                    />
-                  </div>
-                  {errorsForm.celular && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                  {errors.confirmacionCelular && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Los números no coinciden
-                      </small>
-                    </div>
-                  )}
-                </div>
-
-                <div className="col-12 col-md-6">
-                  <div className="mt-3">
-                    <label className="ms-2">
-                      Confirme su celular:{" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      className="form-control border rounded-pill px-3"
-                      type="tel"
-                      {...register("cCelular", { required: true })}
-                    />
-                  </div>
-                  {errorsForm.cCelular && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                  {errors.confirmacionCelular && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Los números no coinciden
-                      </small>
-                    </div>
-                  )}
-                </div>
-                {!isUser && (
-                  <>
-                    <div className="form-floating input-group input-group-dynamic mt-2">
-                      <input
-                        className="form-control"
-                        readOnly
-                        type="text"
-                        value={completeAddress}
-                        {...register("direccionNotificacion", {
-                          required: true,
-                        })}
-                      />
+                <div className="row mx-1">
+                  <div className="col-12 col-md-6">
+                    <div className="mt-3">
                       <label className="ms-2">
-                        Dirección de notificación:{" "}
+                        E-mail: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="email"
+                        {...register("eMail", { required: true })}
+                      />
+                    </div>
+                    {errorsForm.eMail && (
+                      <div className="col-12">
+                        <small className="text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                    {errors.confirmacionEmail && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Los emails no coinciden
+                        </small>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-12 col-md-6">
+                    <div className="mt-3">
+                      <label className="ms-2">
+                        Confirme su e-mail:{" "}
                         <span className="text-danger">*</span>
                       </label>
-                      <button
-                        type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                        onClick={() => setIsOpenGenerator(true)}
-                      >
-                        Generar
-                      </button>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="email"
+                        {...register("cEmail", { required: true })}
+                      />
                     </div>
-                    {errorsForm.direccionNotificacion && (
+                    {errorsForm.cEmail && (
+                      <div className="col-12">
+                        <small className="text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                    {errors.confirmacionEmail && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Los emails no coinciden
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="mt-3">
+                      <label className="ms-2">
+                        Celular: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...register("celular", { required: true })}
+                      />
+                    </div>
+                    {errorsForm.celular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
                         </small>
                       </div>
                     )}
-                    {/* <div className="col-12 col-md-6">
+                    {errors.confirmacionCelular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Los números no coinciden
+                        </small>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="col-12 col-md-6">
+                    <div className="mt-3">
+                      <label className="ms-2">
+                        Confirme su celular:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...register("cCelular", { required: true })}
+                      />
+                    </div>
+                    {errorsForm.cCelular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                    {errors.confirmacionCelular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Los números no coinciden
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  {!isUser && (
+                    <>
+                      <div className="form-floating input-group input-group-dynamic mt-2">
+                        <input
+                          className="form-control"
+                          readOnly
+                          type="text"
+                          value={completeAddress}
+                          {...register("direccionNotificacion", {
+                            required: true,
+                          })}
+                        />
+                        <label className="ms-2">
+                          Dirección de notificación:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                          onClick={() => setIsOpenGenerator(true)}
+                        >
+                          Generar
+                        </button>
+                      </div>
+                      {errorsForm.direccionNotificacion && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                      {/* <div className="col-12 col-md-6">
                       <label className="form-label">
                         Departamento: <span className="text-danger">*</span>
                       </label>
@@ -801,58 +803,61 @@ const RegisterPersonaScreen = () => {
                         </small>
                       </div>
                     )} */}
-                    <div className="col-12 col-md-6">
-                      <label className="form-label">
-                        Municipio: <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="municipio"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={municipiosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    {errorsForm.municipio && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
+                      <div className="col-12 col-md-6">
+                        <label className="form-label">
+                          Municipio: <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="municipio"
+                          control={control}
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={municipiosOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
                       </div>
-                    )}
-                  </>
-                )}
-                <label className="text-bold mt-3">
-                  <span className="text-danger">*</span>Al hacer clic en
-                  "Registrarse", aceptas nuestras condiciones, la política de
-                  privacidad y política de cookies. Es posible que te enviemos
-                  notificaciones por SMS y/o vía correo electrónico.
-                </label>
-                <button
-                  type="submit"
-                  className="btn bg-gradient-primary text-capitalize d-block ms-auto col-12 col-md-6"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Cargando...
+                      {errorsForm.municipio && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
                     </>
-                  ) : (
-                    "Registrarse"
                   )}
-                </button>
+                  <label className="text-bold mt-3">
+                    <span className="text-danger">*</span>Al hacer clic en
+                    "Registrarse", aceptas nuestras condiciones, la política de
+                    privacidad y política de cookies. Es posible que te enviemos
+                    notificaciones por SMS y/o vía correo electrónico.
+                  </label>
+                  <div className="d-flex justify-content-end mt-2">
+                    <button
+                      type="submit"
+                      className="btn bg-gradient-primary text-capitalize"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Registrarse"
+                      )}
+                    </button>
+                  </div>
+                </div>
               </form>
               <GeneradorDeDirecciones
                 keyReset="direccionNotificacion"

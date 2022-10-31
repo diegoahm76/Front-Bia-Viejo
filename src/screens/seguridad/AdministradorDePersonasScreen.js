@@ -419,363 +419,109 @@ const AdministradorDePersonasScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Administrador de personas
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <MarcaDeAgua1>
-            <div className="row">
-              <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
-                <Subtitle title={"Buscar persona"} mt={0} mb={0} />
-                <div className="mt-4 row align-items-center">
-                  <div className="col-12 col-md-4">
-                    <label className="form-label">
-                      Tipo de documento: <span className="text-danger">*</span>
-                    </label>
-                    <Controller
-                      name="tipoDocumento"
-                      control={controlBuscar}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={tipoDocumentoOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                    {errorsBuscar.tipoDocumento && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
-                  </div>
-                  <div className="col-12 col-md-4">
-                    <div>
-                      <label className="ms-2">
-                        Número de documento:{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="text"
-                        {...registerBuscar("numeroDocumento", {
-                          required: true,
-                        })}
+          <div className="row">
+            <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+              Administrador de personas
+            </h3>
+            <Subtitle title={"Buscar persona"} mt={0} mb={0} />
+            <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
+              <div className="mt-4 row mx-1 align-items-center">
+                <div className="col-12 col-md-4">
+                  <label className="form-label">
+                    Tipo de documento: <span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="tipoDocumento"
+                    control={controlBuscar}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={tipoDocumentoOptions}
+                        placeholder="Seleccionar"
                       />
-                    </div>
-                    {errorsBuscar.numeroDocumento && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
                     )}
-                  </div>
-                  <div className="col-12 col-md-4 mt-3">
-                    <button
-                      type="submit"
-                      className="btn bg-gradient-primary mb-0 text-capitalize"
-                    >
-                      Buscar
-                    </button>
-                    <button
-                      type="button"
-                      className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
-                    >
-                      Busqueda avanzada
-                    </button>
-                  </div>
+                  />
+                  {errorsBuscar.tipoDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
-              </form>
+                <div className="col-12 col-md-4">
+                  <div>
+                    <label className="ms-2">
+                      Número de documento:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      {...registerBuscar("numeroDocumento", {
+                        required: true,
+                      })}
+                    />
+                  </div>
+                  {errorsBuscar.numeroDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-md-4 mt-4">
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                  >
+                    Buscar
+                  </button>
+                  <button
+                    type="button"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                  >
+                    Busqueda avanzada
+                  </button>
+                </div>
+              </div>
+            </form>
 
-              {actionForm && (
-                <form onSubmit={handleSumbitPersona(onSubmitPersona)}>
-                  <Subtitle title={"Datos personales"} mt={4} mb={0} />
-                  <hr className="dark horizontal my-0" />
-                  <div className="mt-4 row">
-                    <div className="row col-12">
-                      {actionForm !== "editar" ? (
-                        <div className="col-12 col-md-4 mt-2">
-                          <label className="form-label">
-                            Tipo de documento:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <Controller
-                            name="tipoDocumento2"
-                            control={controlPersona}
-                            rules={{
-                              required: true,
-                            }}
-                            render={({ field }) => (
-                              <Select
-                                {...field}
-                                options={tipoDocumentoOptions}
-                                placeholder="Seleccionar"
-                              />
-                            )}
-                          />
-                          {errorsPersona.tipoDocumento2 && (
-                            <div className="col-12">
-                              <small className="text-center text-danger">
-                                Este campo es obligatorio
-                              </small>
-                            </div>
-                          )}
-                        </div>
-                      ) : (
-                        <div className="col-12 col-md-4 mt-2">
-                          <div>
-                            <label className="ms-2">
-                              Tipo documento:{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                            <input
-                              className="form-control border rounded-pill px-3"
-                              type="text"
-                              value={
-                                tipoDocumentoOptions[formValues.tipoDocumento]
-                                  .label
-                              }
-                              disabled={actionForm === "editar"}
-                              {...registerPersona("tipoDocumento2")}
-                            />
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">
-                            Número de documento:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            disabled={actionForm === "editar"}
-                            {...registerPersona("numeroDocumento2", {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                        {errorsPersona.numeroDocumento2 && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">
-                            Digito de verificación:
-                          </label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="number"
-                            {...registerPersona("digitoVerificacion", {
-                              maxLength: 1,
-                            })}
-                          />
-                        </div>
-                        {errorsPersona.digitoVerificacion && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo solo debe tener un digito
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">Nombre comercial:</label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            {...registerPersona("nombreComercial")}
-                          />
-                        </div>
-                        {errorsPersona.nombreComercial && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo solo debe tener un digito
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">
-                            Primer nombre:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            disabled={actionForm === "editar"}
-                            {...registerPersona("primerNombre", {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                        {errorsPersona.primerNombre && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">Segundo nombre:</label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            disabled={actionForm === "editar"}
-                            {...registerPersona("segundoNombre")}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">
-                            Primer apellido:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            disabled={actionForm === "editar"}
-                            {...registerPersona("primerApellido", {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                        {errorsPersona.primerApellido && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <div>
-                          <label className="ms-2">Segundo apellido:</label>
-                          <input
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            disabled={actionForm === "editar"}
-                            {...registerPersona("segundoApellido")}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <label className="form-label">Sexo:</label>
-                        <Controller
-                          name="sexo"
-                          control={controlBuscar}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              options={sexoOptions}
-                              value={sexoOptions[formValues.sexo]}
-                              onChange={(e) =>
-                                setFormValues({ ...formValues, sexo: e })
-                              }
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className="col-12 col-md-4 mt-2">
-                        <label className="form-label">Estado civil:</label>
-                        <Controller
-                          name="estadoCivil"
-                          control={controlBuscar}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={estadoCivilOptions[formValues.estadoCivil]}
-                              onChange={(e) =>
-                                setFormValues({
-                                  ...formValues,
-                                  estadoCivil: getIndexBySelectOptions(
-                                    e.value,
-                                    estadoCivilOptions
-                                  ),
-                                })
-                              }
-                              options={estadoCivilOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        />
-                      </div>
+            {actionForm && (
+              <form onSubmit={handleSumbitPersona(onSubmitPersona)}>
+                <Subtitle title={"Datos personales"} mt={4} mb={0} />
+                <hr className="dark horizontal my-0" />
+                <div className="mt-4 row mx-1">
+                  <div className="row col-12">
+                    {actionForm !== "editar" ? (
                       <div className="col-12 col-md-4 mt-2">
                         <label className="form-label">
-                          País de nacimiento:
-                        </label>
-                        <Controller
-                          name="paisNacimiento"
-                          control={controlBuscar}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={paisesOptions[formValues.paisNacimiento]}
-                              onChange={(e) =>
-                                setFormValues({
-                                  ...formValues,
-                                  paisNacimiento: getIndexBySelectOptions(
-                                    e.value,
-                                    paisesOptions
-                                  ),
-                                })
-                              }
-                              options={paisesOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className="col-12 col-md-4 mt-1">
-                        <label htmlFor="exampleFormControlInput1">
-                          Fecha de nacimiento{" "}
+                          Tipo de documento:{" "}
                           <span className="text-danger">*</span>
                         </label>
                         <Controller
-                          name="fechaNacimiento"
-                          control={controlBuscar}
-                          rules={{ required: true }}
+                          name="tipoDocumento2"
+                          control={controlPersona}
+                          rules={{
+                            required: true,
+                          }}
                           render={({ field }) => (
-                            <DatePicker
+                            <Select
                               {...field}
-                              locale="es"
-                              dateFormat="yyyy/MM/dd"
-                              selected={formValues.fechaNacimiento}
-                              value={formValues.fechaNacimiento}
-                              onSelect={(e) => {
-                                setFormValues({
-                                  ...formValues,
-                                  fechaNacimiento: e,
-                                });
-                              }}
-                              className="form-control border rounded-pill px-3"
-                              placeholderText="aaaa/mm/dd"
+                              options={tipoDocumentoOptions}
+                              placeholder="Seleccionar"
                             />
                           )}
                         />
-                        {errorsPersona.fechaNacimiento && (
+                        {errorsPersona.tipoDocumento2 && (
                           <div className="col-12">
                             <small className="text-center text-danger">
                               Este campo es obligatorio
@@ -783,53 +529,43 @@ const AdministradorDePersonasScreen = () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                  </div>
-                  <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
-                  <hr className="dark horizontal my-0" />
-                  <div className="mt-2 row">
+                    ) : (
+                      <div className="col-12 col-md-4 mt-2">
+                        <div>
+                          <label className="ms-2">
+                            Tipo documento:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="form-control border rounded-pill px-3"
+                            type="text"
+                            value={
+                              tipoDocumentoOptions[formValues.tipoDocumento]
+                                .label
+                            }
+                            disabled={actionForm === "editar"}
+                            {...registerPersona("tipoDocumento2")}
+                          />
+                        </div>
+                      </div>
+                    )}
+
                     <div className="col-12 col-md-4 mt-2">
                       <div>
                         <label className="ms-2">
-                          E-mail: <span className="text-danger">*</span>
+                          Número de documento:{" "}
+                          <span className="text-danger">*</span>
                         </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="email"
-                          placeholder="E-mail"
-                          {...registerPersona("eMail", { required: true })}
-                        />
-                      </div>
-                      {errorsPersona.eMail && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-12 col-md-4 mt-2">
-                      <div>
-                        <label className="ms-2">Email empresarial:</label>
                         <input
                           className="form-control border rounded-pill px-3"
                           type="text"
-                          {...registerPersona("emailEmpresarial")}
+                          disabled={actionForm === "editar"}
+                          {...registerPersona("numeroDocumento2", {
+                            required: true,
+                          })}
                         />
                       </div>
-                    </div>
-                    <div className="col-12 col-md-4 mt-2">
-                      <div>
-                        <label className="ms-2">
-                          Celular: <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="tel"
-                          {...registerPersona("celular", { required: true })}
-                        />
-                      </div>
-                      {errorsPersona.celular && (
+                      {errorsPersona.numeroDocumento2 && (
                         <div className="col-12">
                           <small className="text-center text-danger">
                             Este campo es obligatorio
@@ -839,70 +575,162 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                     <div className="col-12 col-md-4 mt-2">
                       <div>
-                        <label className="ms-2">Telefono fijo:</label>
+                        <label className="ms-2">Digito de verificación:</label>
                         <input
                           className="form-control border rounded-pill px-3"
-                          type="tel"
-                          {...registerPersona("telefonoFijo")}
+                          type="number"
+                          {...registerPersona("digitoVerificacion", {
+                            maxLength: 1,
+                          })}
+                        />
+                      </div>
+                      {errorsPersona.digitoVerificacion && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo solo debe tener un digito
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Nombre comercial:</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          {...registerPersona("nombreComercial")}
+                        />
+                      </div>
+                      {errorsPersona.nombreComercial && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo solo debe tener un digito
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">
+                          Primer nombre: <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          disabled={actionForm === "editar"}
+                          {...registerPersona("primerNombre", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      {errorsPersona.primerNombre && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Segundo nombre:</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          disabled={actionForm === "editar"}
+                          {...registerPersona("segundoNombre")}
                         />
                       </div>
                     </div>
                     <div className="col-12 col-md-4 mt-2">
                       <div>
-                        <label className="ms-2">Telefono empresa 2:</label>
+                        <label className="ms-2">
+                          Primer apellido:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
                         <input
                           className="form-control border rounded-pill px-3"
-                          type="tel"
-                          {...registerPersona("telefonoEmpresa2")}
+                          type="text"
+                          disabled={actionForm === "editar"}
+                          {...registerPersona("primerApellido", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      {errorsPersona.primerApellido && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <div>
+                        <label className="ms-2">Segundo apellido:</label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          disabled={actionForm === "editar"}
+                          {...registerPersona("segundoApellido")}
                         />
                       </div>
                     </div>
                     <div className="col-12 col-md-4 mt-2">
-                      <label className="form-label">
-                        Municipio notificación:
-                      </label>
+                      <label className="form-label">Sexo:</label>
                       <Controller
-                        name="municipioNotificacion"
+                        name="sexo"
                         control={controlBuscar}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={municipiosOptions}
-                            value={
-                              municipiosOptions[
-                                formValues.municipioNotificacion
-                              ]
-                            }
+                            options={sexoOptions}
+                            value={sexoOptions[formValues.sexo]}
                             onChange={(e) =>
-                              setFormValues({
-                                ...formValues,
-                                municipioNotificacion: getIndexBySelectOptions(
-                                  e.value,
-                                  municipiosOptions
-                                ),
-                              })
+                              setFormValues({ ...formValues, sexo: e })
                             }
                             placeholder="Seleccionar"
                           />
                         )}
                       />
                     </div>
-                  </div>
-                  <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
-                  <div className="row mb-3 mt-2">
                     <div className="col-12 col-md-4 mt-2">
-                      <label className="form-label">País de Residencia:</label>
+                      <label className="form-label">Estado civil:</label>
                       <Controller
-                        name="paisResidencia"
-                        control={controlPersona}
+                        name="estadoCivil"
+                        control={controlBuscar}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            value={paisesOptions[formValues.paisResidencia]}
+                            value={estadoCivilOptions[formValues.estadoCivil]}
                             onChange={(e) =>
                               setFormValues({
                                 ...formValues,
-                                paisResidencia: getIndexBySelectOptions(
+                                estadoCivil: getIndexBySelectOptions(
+                                  e.value,
+                                  estadoCivilOptions
+                                ),
+                              })
+                            }
+                            options={estadoCivilOptions}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="col-12 col-md-4 mt-2">
+                      <label className="form-label">País de nacimiento:</label>
+                      <Controller
+                        name="paisNacimiento"
+                        control={controlBuscar}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            value={paisesOptions[formValues.paisNacimiento]}
+                            onChange={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                paisNacimiento: getIndexBySelectOptions(
                                   e.value,
                                   paisesOptions
                                 ),
@@ -914,185 +742,341 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
-                      <label className="form-label">Municipio:</label>
-                      <Controller
-                        name="municipio"
-                        control={controlBuscar}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={municipiosOptions[formValues.municipio]}
-                            onChange={(e) =>
-                              setFormValues({
-                                ...formValues,
-                                municipio: getIndexBySelectOptions(
-                                  e.value,
-                                  municipiosOptions
-                                ),
-                              })
-                            }
-                            options={municipiosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    <div className="col-12 col-md-4 mt-2">
-                      <div>
-                        <label className="ms-2">
-                          Ubicacion geografica:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...registerPersona("ubicacionGeografica", {
-                            required: true,
-                          })}
-                        />
-                      </div>
-                      {errorsPersona.ubicacionGeografica && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <div className="col-md-8 col-12 mt-2">
-                      <div className="form-floating input-group input-group-dynamic mt-3">
-                        <input
-                          className="form-control"
-                          type="text"
-                          readOnly
-                          {...registerPersona("direccion_residencia", {
-                            required: true,
-                          })}
-                        />
-                        <label className="ms-2">
-                          Dirección de residencia:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <button
-                          type="button"
-                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionResidenciaIsOpen(true)}
-                        >
-                          Generar
-                        </button>
-                      </div>
-                      {errorsPersona.direccion_residencia && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                    <div className="col-12 col-md-4 mt-2">
-                      <div>
-                        <label className="ms-2">Referencia adicional:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...registerPersona("referenciaAdicional")}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-8 col-12 mt-2">
-                      <div className="form-floating input-group input-group-dynamic mt-3">
-                        <input
-                          className="form-control"
-                          type="text"
-                          readOnly
-                          {...registerPersona("direccionLaboral")}
-                        />
-                        <label className="ms-2">Dirección laboral:</label>
-                        <button
-                          type="button"
-                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionLaboralIsOpen(true)}
-                        >
-                          Generar
-                        </button>
-                      </div>
-                    </div>
-                    <div className="col-12 col-md-4 mt-2">
-                      <label className="form-label">
-                        Municipio donde labora:
+                    <div className="col-12 col-md-4 mt-1">
+                      <label htmlFor="exampleFormControlInput1">
+                        Fecha de nacimiento{" "}
+                        <span className="text-danger">*</span>
                       </label>
                       <Controller
-                        name="municipioDondeLabora"
+                        name="fechaNacimiento"
                         control={controlBuscar}
+                        rules={{ required: true }}
                         render={({ field }) => (
-                          <Select
+                          <DatePicker
                             {...field}
-                            options={municipiosOptions}
-                            value={
-                              municipiosOptions[formValues.municipioDondeLabora]
-                            }
-                            onChange={(e) =>
+                            locale="es"
+                            dateFormat="yyyy/MM/dd"
+                            selected={formValues.fechaNacimiento}
+                            value={formValues.fechaNacimiento}
+                            onSelect={(e) => {
                               setFormValues({
                                 ...formValues,
-                                municipioDondeLabora: getIndexBySelectOptions(
-                                  e.value,
-                                  municipiosOptions
-                                ),
-                              })
-                            }
-                            placeholder="Seleccionar"
+                                fechaNacimiento: e,
+                              });
+                            }}
+                            className="form-control border rounded-pill px-3"
+                            placeholderText="aaaa/mm/dd"
                           />
                         )}
                       />
+                      {errorsPersona.fechaNacimiento && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
                     </div>
-                    <div className="col-md-8 col-12 mt-2">
-                      <div className="form-floating input-group input-group-dynamic mt-3">
-                        <input
-                          className="form-control"
-                          type="text"
-                          readOnly
-                          {...registerPersona("direccionNotificaciones")}
-                        />
-                        <label className="ms-2">
-                          Dirección Notificaciones:
-                        </label>
-                        <button
-                          type="button"
-                          className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                          onClick={() => setDireccionNotificacionIsOpen(true)}
-                        >
-                          Generar
-                        </button>
+                  </div>
+                </div>
+                <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
+                <hr className="dark horizontal my-0" />
+                <div className="mt-2 row mx-1">
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">
+                        E-mail: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="email"
+                        placeholder="E-mail"
+                        {...registerPersona("eMail", { required: true })}
+                      />
+                    </div>
+                    {errorsPersona.eMail && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
                       </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">Email empresarial:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerPersona("emailEmpresarial")}
+                      />
                     </div>
                   </div>
-
-                  <div className="d-flex justify-content-end gap-2 mt-4">
-                    <button
-                      className="btn bg-gradient-light mb-0 d-block text-capitalize"
-                      type="button"
-                      onClick={handleCancelAction}
-                    >
-                      Cancelar
-                    </button>
-
-                    <button
-                      className="btn bg-gradient-primary mb-0 d-block text-capitalize"
-                      type="submit"
-                    >
-                      {actionForm === "editar" ? "Actualizar" : "Crear"}
-                    </button>
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">
+                        Celular: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerPersona("celular", { required: true })}
+                      />
+                    </div>
+                    {errorsPersona.celular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
-                </form>
-              )}
-            </div>
-          </MarcaDeAgua1>
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">Telefono fijo:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerPersona("telefonoFijo")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">Telefono empresa 2:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerPersona("telefonoEmpresa2")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <label className="form-label">
+                      Municipio notificación:
+                    </label>
+                    <Controller
+                      name="municipioNotificacion"
+                      control={controlBuscar}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={municipiosOptions}
+                          value={
+                            municipiosOptions[formValues.municipioNotificacion]
+                          }
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              municipioNotificacion: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            })
+                          }
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+                <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
+                <div className="row mb-3 mt-2 mx-1">
+                  <div className="col-12 col-md-4 mt-2">
+                    <label className="form-label">País de Residencia:</label>
+                    <Controller
+                      name="paisResidencia"
+                      control={controlPersona}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={paisesOptions[formValues.paisResidencia]}
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              paisResidencia: getIndexBySelectOptions(
+                                e.value,
+                                paisesOptions
+                              ),
+                            })
+                          }
+                          options={paisesOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <label className="form-label">Municipio:</label>
+                    <Controller
+                      name="municipio"
+                      control={controlBuscar}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={municipiosOptions[formValues.municipio]}
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              municipio: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            })
+                          }
+                          options={municipiosOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">
+                        Ubicacion geografica:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerPersona("ubicacionGeografica", {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    {errorsPersona.ubicacionGeografica && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-md-8 col-12 mt-2">
+                    <div className="form-floating input-group input-group-dynamic mt-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        readOnly
+                        {...registerPersona("direccion_residencia", {
+                          required: true,
+                        })}
+                      />
+                      <label className="ms-2">
+                        Dirección de residencia:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <button
+                        type="button"
+                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        onClick={() => setDireccionResidenciaIsOpen(true)}
+                      >
+                        Generar
+                      </button>
+                    </div>
+                    {errorsPersona.direccion_residencia && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <div>
+                      <label className="ms-2">Referencia adicional:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerPersona("referenciaAdicional")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-8 col-12 mt-2">
+                    <div className="form-floating input-group input-group-dynamic mt-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        readOnly
+                        {...registerPersona("direccionLaboral")}
+                      />
+                      <label className="ms-2">Dirección laboral:</label>
+                      <button
+                        type="button"
+                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        onClick={() => setDireccionLaboralIsOpen(true)}
+                      >
+                        Generar
+                      </button>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-4 mt-2">
+                    <label className="form-label">
+                      Municipio donde labora:
+                    </label>
+                    <Controller
+                      name="municipioDondeLabora"
+                      control={controlBuscar}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={municipiosOptions}
+                          value={
+                            municipiosOptions[formValues.municipioDondeLabora]
+                          }
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              municipioDondeLabora: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            })
+                          }
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
+                  <div className="col-md-8 col-12 mt-2">
+                    <div className="form-floating input-group input-group-dynamic mt-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        readOnly
+                        {...registerPersona("direccionNotificaciones")}
+                      />
+                      <label className="ms-2">Dirección Notificaciones:</label>
+                      <button
+                        type="button"
+                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        onClick={() => setDireccionNotificacionIsOpen(true)}
+                      >
+                        Generar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
+                  <button
+                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    type="button"
+                    onClick={handleCancelAction}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                    type="submit"
+                  >
+                    {actionForm === "editar" ? "Actualizar" : "Crear"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
           <GeneradorDeDirecciones
             isOpenGenerator={direccionResidenciaIsOpen}
             setIsOpenGenerator={setDireccionResidenciaIsOpen}

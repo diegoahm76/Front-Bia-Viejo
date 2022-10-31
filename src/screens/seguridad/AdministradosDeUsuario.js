@@ -225,19 +225,19 @@ const AdministradosDeUsuario = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">
-          Administrador de usuarios
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
           <div className="row">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
-              <Subtitle title={"Buscar persona"} mt={0} mb={0} />
-              <div className="mt-4 row align-items-center">
-                <div className="col-12 col-md-4">
-                  <label className="form-label">
+              <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
+                Administrador De Usuarios
+              </h3>
+              <Subtitle title={"Buscar persona"} mt={3} />
+              <div className="mt-4 row align-items-end">
+                <div className="col-12 col-md-3">
+                  <label className="form-label text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>{" "}
                   <Controller
@@ -262,21 +262,15 @@ const AdministradosDeUsuario = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Numero de documento"
-                      {...registerBuscar("numeroDocumento", {
-                        required: true,
-                      })}
-                    />
-                    <label>
-                      Número de documento:{" "}
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
+                <div className="col-12 col-md-3">
+                  <label className="text-terciary">Número de documento:</label>
+                  <input
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...registerBuscar("numeroDocumento", {
+                      required: true,
+                    })}
+                  />
                   {errorsBuscar.numeroDocumento && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -307,61 +301,52 @@ const AdministradosDeUsuario = () => {
                 <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="row mt-1">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Nombre de usuario:"
-                        {...registerUsuario("nombreUsuario", {
-                          required: true,
-                        })}
-                      />
-                      <label>
-                        Nombre de usuario:{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                    </div>
+                  <div className="col-12 col-md-3">
+                    <label className="text-terciary">
+                      Nombre de usuario:<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                      {...registerUsuario("nombreUsuario", {
+                        required: true,
+                      })}
+                    />
                   </div>
                   {actionForm === "crear" && (
                     <>
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="password"
-                            placeholder="Contraseña"
-                            {...registerUsuario("password", {
-                              required: true,
-                            })}
-                          />
-                          <label>
-                            Contraseña: <span className="text-danger">*</span>
-                          </label>
-                        </div>
+                      <div className="col-12 col-md-3">
+                        <label className="text-terciary">
+                          Contraseña: <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          type="password"
+                          placeholder="Contraseña"
+                          {...registerUsuario("password", {
+                            required: true,
+                          })}
+                        />
                         {errorsUsuario.password && (
                           <small className="text-danger">
                             Este campo es obligatorio
                           </small>
                         )}
                       </div>
-
-                      <div className="col-12 col-md-4">
-                        <div className="form-floating input-group input-group-dynamic">
-                          <input
-                            className="form-control"
-                            type="password"
-                            placeholder="Contraseña"
-                            {...registerUsuario("password2", {
-                              required: true,
-                            })}
-                          />
-                          <label>
-                            Confirmar contraseña:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                        </div>
-                        {errorsUsuario.password && (
+                      <div className="col-12 col-md-3">
+                        <label className="text-terciary">
+                          Confirmar contraseña:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control"
+                          type="password"
+                          placeholder="Contraseña"
+                          {...registerUsuario("password2", {
+                            required: true,
+                          })}
+                        />
+                        {errorsUsuario.password2 && (
                           <small className="text-danger">
                             Este campo es obligatorio
                           </small>
@@ -376,9 +361,9 @@ const AdministradosDeUsuario = () => {
                   )}
                 </div>
                 <div className="row flex-column mt-3">
-                  <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                  <div className="form-check col-md-3 col-12 ps-0 pe-10 ms-3 d-flex">
                     <label
-                      className="form-check-label"
+                      className="form-check-label text-terciary"
                       htmlFor="flexCheckDefault"
                     >
                       Bloqueado
@@ -391,9 +376,9 @@ const AdministradosDeUsuario = () => {
                       {...registerUsuario("bloqueado")}
                     />
                   </div>
-                  <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                  <div className="form-check col-md-3 col-12 ps-0 pe-10 ms-3 d-flex">
                     <label
-                      className="form-check-label"
+                      className="form-check-label text-terciary"
                       htmlFor="flexCheckDefault"
                     >
                       Activo
@@ -407,19 +392,18 @@ const AdministradosDeUsuario = () => {
                     />
                   </div>
                 </div>
-                <div className="row aling-items-center">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Ubicacion geografica"
-                        {...registerUsuario("ubicacionGeografica")}
-                      />
-                      <label>Motivo de la accion:</label>
-                    </div>
+                <div className="d-flex align-items-end gap-1">
+                  <div className="col-12 col-md-3">
+                    <label className="text-terciary">
+                      Motivo de la accion:
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                      {...registerUsuario("ubicacionGeografica")}
+                    />
                   </div>
-                  <button className="btn btn-primary text-capitalize col-12 col-md-2 mb-0 mt-3 ms-3">
+                  <button className="btn btn-primary text-capitalize mb-0">
                     Actualizar
                   </button>
                 </div>
@@ -427,7 +411,7 @@ const AdministradosDeUsuario = () => {
                 <div className="row flex-column">
                   <div className="col-6 col-md-4">
                     <div className="form-check form-switch d-flex gap-2">
-                      <label className="me-5">Externo</label>
+                      <label className="me-5 text-terciary">Externo</label>
                       <input
                         className="form-check-input mt-1"
                         type="checkbox"
@@ -435,30 +419,29 @@ const AdministradosDeUsuario = () => {
                         value=""
                         {...registerUsuario("tipoUsuario")}
                       />
-                      <label>Interno</label>
+                      <label className="text-terciary">Interno</label>
                     </div>
                   </div>
                 </div>
-                <div className="row aling-items-center">
-                  <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
-                      <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Ubicacion geografica"
-                        {...registerUsuario("ubicacionGeografica")}
-                      />
-                      <label>Motivo de la accion:</label>
-                    </div>
+                <div className="d-flex align-items-end gap-1">
+                  <div className="col-12 col-md-3">
+                    <label className="text-terciary">
+                      Motivo de la accion:
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                      {...registerUsuario("ubicacionGeografica")}
+                    />
                   </div>
-                  <button className="btn bg-gradient-primary text-capitalize col-12 col-md-2 mb-0 mt-3 ms-3">
+                  <button className="btn bg-gradient-primary text-capitalize mb-0">
                     Actualizar
                   </button>
                 </div>
                 <Subtitle title={"Modulos / Grupos / Roles"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="col-12 col-md-4">
-                  <label className="form-label">Roles:</label>
+                  <label className="form-label text-terciary">Roles:</label>
                   <Controller
                     name="roles"
                     control={controlUsuario}
@@ -474,7 +457,7 @@ const AdministradosDeUsuario = () => {
                   />
                 </div>
                 <div className="col-12 col-md-4">
-                  <label className="form-label">Tipo de tercero:</label>
+                  <label className="form-label text-terciary">Tipo de tercero:</label>
                   <Controller
                     name="tipoTercero"
                     control={controlUsuario}
