@@ -196,7 +196,7 @@ const AlarmasModal = ({
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
+              type="number"
               {...register("t006limite", { required: true })}
             />
             {errors.t006limite && (

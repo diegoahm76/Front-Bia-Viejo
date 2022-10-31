@@ -43,8 +43,11 @@ const Aside = ({ showAside }) => {
     <aside
       className={`collapse sidenav navbar navbar-vertical ${
         showAside && "navbar-expand-xs"
-      } border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark`}
+      } fixed-start bg-terciary`}
       id="sidenav-main"
+      style={{
+        minWidth: "273px"
+      }}
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
         <div className="sidenav-header">
@@ -551,6 +554,17 @@ const Aside = ({ showAside }) => {
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Transpaso de Elementos <br />
                                   en Bodegas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/gestion-de-inventario/asignaractivo"
+                              >
+                                <img src={Vineta} alt="vineta" />
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Asignación de <br /> activos fijos
                                 </span>
                               </Link>
                             </li>

@@ -20,15 +20,19 @@ const CrearProduccionPropiaScreen = () => {
     formState: { errors: errors2 },
   } = useForm();
 
-  const [selectores, setSelectores] = useState({
-    seleccioneVivero: "",
-    periodoSiembra: "",
-  });
+
 
   const [botonGuardar, setBotonGuardar] = useState({
     tamano: "",
     cantidad: "",
     etapaMaterialVegetal: "",
+  });
+
+
+
+  const [selectores, setSelectores] = useState({
+    seleccioneVivero: "",
+    periodoSiembra: "",
   });
 
   const onSubmit = (data) => {
@@ -38,6 +42,8 @@ const CrearProduccionPropiaScreen = () => {
       periodoSiembra: data.periodoSiembra,
     });
   };
+
+  
   const onSubmitGuardar = (data) => {
     console.log(data);
     setBotonGuardar({

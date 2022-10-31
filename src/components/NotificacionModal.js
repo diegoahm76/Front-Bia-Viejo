@@ -150,7 +150,7 @@ const NotificacionNuevo = ({
                     type="text"
                     disabled
                     readOnly
-                    {...register("idUsuario", { required: true })}
+                    {...register("t005Usuarios.t005nombre", { required: true })}
                   />
                 ) : (
                   <Controller

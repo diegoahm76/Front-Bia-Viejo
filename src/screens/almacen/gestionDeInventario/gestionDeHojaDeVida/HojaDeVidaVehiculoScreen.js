@@ -27,6 +27,80 @@ const HojaDeVidaVehiculoScreen = () => {
               data-animation="FadeIn"
             >
               <MarcaDeAgua1>
+
+              <div className="row mb-3">
+                  <div className="multisteps-form__content">
+                    <div className="row mb-3">
+                      <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
+                        <n>Activo</n>
+                      </label>
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                    <label>
+                      Codigo:
+                    </label>
+                    <input
+                      name="codigoActivo"
+                      disabled="true"
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                    // {...register("nombreUsuario", { required: true })}
+                    />
+                  </div>
+                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                    <label>
+                      Nombre:
+                    </label>
+                    <input
+                      name="nombreActivo"
+                      disabled="true"
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                    // {...register("nombreUsuario", { required: true })}
+                    />
+                  </div>
+                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                    <label>
+                      Placa:
+                    </label>
+                    <input
+                      name="serialActivo"
+                      disabled="true"
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                    // {...register("nombreUsuario", { required: true })}
+                    />
+                  </div>
+                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                    <label>
+                      Tipo:
+                    </label>
+                    <input
+                      name="serialActivo"
+                      disabled="true"
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                    // {...register("nombreUsuario", { required: true })}
+                    />
+                  </div>
+                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                    <label>
+                      Tipo de articulo:
+                    </label>
+                    <input
+                      name="tipoArticuloActivo"
+                      disabled="true"
+                      type="text"
+                      className="form-control border rounded-pill px-3"
+                    // {...register("nombreUsuario", { required: true })}
+                    />
+                  </div>
+                </div>
+
+
+
+
                 <div className="multisteps-form__content">
                   <div className="row">
                     <label className="form-control ms-0 text-center">
