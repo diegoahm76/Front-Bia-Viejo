@@ -12,7 +12,7 @@ import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 const SolicitudActivoPrestamoScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
-  const [isModalArticulo, setIsModalArticulo] = useState(false); 
+  const [isModalArticulo, setIsModalArticulo] = useState(false);
 
   const {
     register,
@@ -166,9 +166,6 @@ const SolicitudActivoPrestamoScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Solicitar un elemento activo en prestamo
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -180,9 +177,12 @@ const SolicitudActivoPrestamoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <h4 className="text-right fw-light ms-3 mb-2">
+              Solicitar un elemento activo en prestamo
+            </h4>
             <div className="row">
               <div className="col-12 col-sm-4">
-                <div >
+                <div>
                   <label className="ms-2">Numero consecutivo</label>
                   <input
                     className="form-control border rounded-pill px-3"
@@ -193,7 +193,7 @@ const SolicitudActivoPrestamoScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+                <label htmlFor="exampleFormControlInput1">
                   Fecha de solicitud
                   <Controller
                     name="fechaSolicitud"
@@ -206,7 +206,7 @@ const SolicitudActivoPrestamoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -247,7 +247,7 @@ const SolicitudActivoPrestamoScreen = () => {
                 </label>
               </div>
               <div className="col-12 col-sm-4">
-                <div >
+                <div>
                   <label className="ms-2">Número de cedula</label>
                   <input
                     className="form-control border rounded-pill px-3"
@@ -258,7 +258,7 @@ const SolicitudActivoPrestamoScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-sm-4">
-                <div >
+                <div>
                   <label className="ms-2">Nombre completo</label>
                   <input
                     className="form-control border rounded-pill px-3"
@@ -306,7 +306,7 @@ const SolicitudActivoPrestamoScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-sm-4">
-                <div >
+                <div>
                   <label className="ms-2">Número de cedula</label>
                   <input
                     className="form-control border rounded-pill px-3"
@@ -318,7 +318,7 @@ const SolicitudActivoPrestamoScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-sm-4">
-                <div >
+                <div>
                   <label className="ms-2">Nombre completo</label>
                   <input
                     className="form-control border rounded-pill px-3"

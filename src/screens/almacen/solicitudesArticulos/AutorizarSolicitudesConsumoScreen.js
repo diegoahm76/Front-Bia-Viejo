@@ -114,9 +114,6 @@ const AutorizarSolicitudesConsumoScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar solicitudes de consumo
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -128,6 +125,9 @@ const AutorizarSolicitudesConsumoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
+          <h4 className="text-right fw-light ms-3 mb-2">
+            Autorizar solicitudes de consumo
+          </h4>
             <div className="row">
               <div className="col-12 col-sm-4">
                 <div >
@@ -155,7 +155,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -295,14 +295,14 @@ const AutorizarSolicitudesConsumoScreen = () => {
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
-                className="btn bg-secondary me-md-2 text-white text-capitalize"
+                className="btn bg-secondary border rounded-pill me-md-2 text-white text-capitalize"
                 type="submit"
                 title="Send"
               >
                 Autorizar
               </button>
               <button
-                className="btn bg-danger text-white text-capitalize"
+                className="btn bg-danger border rounded-pill  text-white text-capitalize"
                 type="button"
                 onClick={handleOpenModal}
                 title="Send"

@@ -110,9 +110,6 @@ const SolicitarArticulosConsumoScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Solicitar un elemento de consumo
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -124,9 +121,12 @@ const SolicitarArticulosConsumoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <h4 className="text-right fw-light ms-3 mb-2">
+              Solicitar un elemento de consumo
+            </h4>
             <div className="row">
               <div className="col-12 col-sm-4">
-                <div >
+                <div>
                   <label className="ms-2">Número consecutivo</label>
                   <input
                     className="form-control border rounded-pill px-3"
@@ -136,7 +136,7 @@ const SolicitarArticulosConsumoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4 mt-2" >
+              <div className="col-12 col-sm-4 mt-2">
                 <label htmlFor="exampleFormControlInput1">
                   Fecha de solicitud
                   <Controller
@@ -150,7 +150,7 @@ const SolicitarArticulosConsumoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -192,14 +192,13 @@ const SolicitarArticulosConsumoScreen = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div>
-                <label className="ms-2">Número de cédula</label>
+                  <label className="ms-2">Número de cédula</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="number"
                     placeholder="número cédula"
                     {...register("numeroCedula")}
                   />
-                  
                 </div>
               </div>
               <div className="col-12 col-sm-4">
@@ -223,9 +222,9 @@ const SolicitarArticulosConsumoScreen = () => {
                 </button>
               </div>
               <BusquedaDePersonalModal
-              isModalActive={isModalActive}
-              setIsModalActive={setIsModalActive}
-            />
+                isModalActive={isModalActive}
+                setIsModalActive={setIsModalActive}
+              />
             </div>
           </form>
           <form
@@ -252,7 +251,7 @@ const SolicitarArticulosConsumoScreen = () => {
               </div>
               <div className="col-12 col-sm-4">
                 <div>
-                <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2">Número de cedula</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="number"
