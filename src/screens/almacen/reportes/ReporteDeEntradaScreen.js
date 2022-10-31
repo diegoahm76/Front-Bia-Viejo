@@ -262,7 +262,7 @@ const ReporteDeEntradaScreen = () => {
                         
                         <label className="ms-2">Origen</label>
                           <input
-                            className="form-control"
+                            className="form-control border rounded-pill px-3"
                             type="text"
                             placeholder="nombre completo"
                             value="Compras"
@@ -275,7 +275,7 @@ const ReporteDeEntradaScreen = () => {
                         
                         <label className="ms-2">Bodega</label>
                           <input
-                            className="form-control"
+                            className="form-control border rounded-pill px-3"
                             type="text"
                             placeholder="nombre completo"
                             value="Villavicencio"
