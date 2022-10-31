@@ -15,6 +15,7 @@ import {
 
 import CalendarModal from "../../../components/CalendarModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
+import Subtitle from "../../../components/Subtitle";
 
 const ConsultaPazYSalvoScreen = () => {
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
@@ -127,68 +128,64 @@ const ConsultaPazYSalvoScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Consultar paz y salvo </h3>
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <div className="multisteps-form__content">
-            <div className="row">
-              <label className="form-control border rounded-pill px-3 mt-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                <b>Consultar persona</b>
-              </label>
-            </div>
-          </div>
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
+          <form
+            className="row"
+            onSubmit={handleSubmit(onSubmit)}
+            id="configForm"
+          >
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Consultar paz y salvo{" "}
+            </h3>
 
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <div className="col-12 col-md-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento <small className="text-danger">*</small>
-                  <div className="col-12 mt-3">
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsTipoDocumento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  {errors.tipoDocumento && (
+            <Subtitle title="Datos de la persona" />
+
+            <div className="multisteps-form__content">
+              <div className="mt-4 row">
+                <div className="col-12 col-md-3">
+                  <label className="form-floating input-group input-group-dynamic ms-2">
+                    Tipo de documento <small className="text-danger">*</small>
+                    <div className="col-12 mt-3">
+                      <Controller
+                        name="tipoDocumento"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={optionsTipoDocumento}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                    {errors.tipoDocumento && (
+                      <small className="text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    )}
+                  </label>
+                </div>
+
+                <div className="col-12 col-md-3">
+                  <label className="ms-2">
+                    Número de cedula<small className="text-danger">*</small>
+                  </label>
+                  <input
+                    name="numeroCedula"
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero cedula"
+                    {...register("numeroCedula", { required: true })}
+                  />
+                  {errors.numeroCedula && (
                     <small className="text-danger">
                       Este campo es obligatorio
                     </small>
                   )}
-                </label>
-              </div>
+                </div>
 
-              <div className="col-12 col-md-4">
-                <label className="ms-2">
-                  Número de cedula<small className="text-danger">*</small>
-                </label>
-                <input
-                  name="numeroCedula"
-                  className="form-control border rounded-pill px-3"
-                  type="number"
-                  placeholder="numero cedula"
-                  {...register("numeroCedula", { required: true })}
-                />
-                {errors.numeroCedula && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
-                )}
-              </div>
-
-              <div className="col-12 col-md-4">
-                
+                <div className="col-12 col-md-3">
                   <label className="ms-2">Nombre completo</label>
                   <input
                     className="form-control border rounded-pill px-3"
@@ -198,55 +195,53 @@ const ConsultaPazYSalvoScreen = () => {
                     disabled
                     {...register("nombreCompleto")}
                   />
-                
-                {errors.codigoArticulo && (
-                  <small className="text-danger">
-                    Este campo es obligatorio
-                  </small>
-                )}
+
+                  {errors.codigoArticulo && (
+                    <small className="text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  )}
+                </div>
+
+                <div className="col-12 col-md-3 mt-2">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                    onClick={() => setBusquedaPersonalIsActive(true)}
+                  >
+                    Buscar personal
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className=" row">
-            <div className="d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
-              <button
-                className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                type="button"
-                title="Send"
-                form="configForm"
-                onClick={() => setBusquedaPersonalIsActive(true)}
-              >
-                Buscar personal
-              </button>
+            <div className="row">
+              <div className="col-12 col-md-3 ">
+                <button
+                  className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width text-capitalize"
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                >
+                  Buscar
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="row">
-            <div className="d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
-              <button
-                className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                type="submit"
-                title="Send"
-                form="configForm"
-              >
-                Buscar
-              </button>
-            </div>
-          </div>
-
-          {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
-            <div>
+            {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
               <div className="multisteps-form__content">
-              <div className="multisteps-form__content">
-                  <div className="mt-4 row">
-                    <label className="form-control border rounded-pill px-3 text-white"
-                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                      <b>Se puede generar paz y salvo, la persona selecionana no cuenta con elementos a su cargo</b>
-                    </label>
-                  </div>
+                <div className="mt-4 row text-center">
+                  <label>
+                    <b>
+                      Se puede generar paz y salvo, la persona selecionana no
+                      cuenta con elementos a su cargo
+                    </b>
+                  </label>
                 </div>
-                <div className="mt-1 row">
+
+                <div className="row">
                   <div id="myGrid" className="ag-theme-alpine mt-4">
                     <div
                       className="ag-theme-alpine"
@@ -261,32 +256,31 @@ const ConsultaPazYSalvoScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div class=" d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
-                  <button
-                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                    onClick={handleOpenModal}
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                  >
-                    Generar paz y salvo
-                  </button>
+
+                <div className="row ">
+                  <div className="mt-3 d-flex justify-content-end">
+                    <button
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width text-capitalize"
+                      onClick={handleOpenModal}
+                      type="button"
+                      title="Send"
+                      form="configForm"
+                    >
+                      Generar paz y salvo
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </form>
-        
-        <BusquedaDePersonalModal
-          isModalActive={busquedaPersonalIsActive}
-          setIsModalActive={setBusquedaPersonalIsActive}
-        />
-        <CalendarModal>
-          <div className="row ">
-            <div className="col-lg-10 col-md-10 col-12 mx-auto"></div>
+            ) : (
+              ""
+            )}
+          </form>
 
+          <BusquedaDePersonalModal
+            isModalActive={busquedaPersonalIsActive}
+            setIsModalActive={setBusquedaPersonalIsActive}
+          />
+          <CalendarModal>
             <div className="row ">
               <div className="col-lg-8 col-md-10 col-6 mx-auto">
                 <form
@@ -325,8 +319,8 @@ const ConsultaPazYSalvoScreen = () => {
                         />
                       </div>
                     </div>
-                    </div>
-                    <div className="justify-content-end align-items-end">
+                  </div>
+                  <div className="justify-content-end align-items-end">
                     <div className="row">
                       <div className="col-12 col-md-6">
                         <label htmlFor="exampleFormControlInput1 mt-4">
@@ -352,34 +346,35 @@ const ConsultaPazYSalvoScreen = () => {
                       </div>
                     </div>
                   </div>
+                  <div className="row">
+                    <div className="col-12 col-md-12 d-flex justify-content-end">
+                      <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
+                        <button
+                          className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                          type="button"
+                          title="Send"
+                          form="configForm"
+                        >
+                          Imprimir
+                        </button>
 
-                  <div className="col-12 col-md-6 row">
-                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
-                      <button
-                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                      >
-                        Imprimir
-                      </button>
-                      
-                      <button
-                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
-                        type="button"
-                        title="Send"
-                        form="configForm"
-                        onClick={handleCloseModal}
-                      >
-                        Salir
-                      </button>
+                        <button
+                          className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
+                          type="button"
+                          title="Send"
+                          form="configForm"
+                          onClick={handleCloseModal}
+                        >
+                          Salir
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
-          </div>
-        </CalendarModal>
+          </CalendarModal>
+        </div>
       </div>
     </div>
   );
