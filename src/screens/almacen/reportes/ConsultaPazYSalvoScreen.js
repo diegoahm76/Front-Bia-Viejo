@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
 
-
 import {
   activeModalAction,
   desactiveModalAction,
@@ -139,8 +138,7 @@ const ConsultaPazYSalvoScreen = () => {
               Consultar paz y salvo{" "}
             </h3>
 
-            <Subtitle title = "Datos de la persona"/>
-
+            <Subtitle title="Datos de la persona" />
 
             <div className="multisteps-form__content">
               <div className="mt-4 row">
@@ -204,24 +202,23 @@ const ConsultaPazYSalvoScreen = () => {
                     </small>
                   )}
                 </div>
-                
-              <div className="col-12 col-md-3 mt-2">
-                <button
-                  className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
-                  type="button"
-                  title="Send"
-                  form="configForm"
-                  onClick={() => setBusquedaPersonalIsActive(true)}
-                >
-                  Buscar personal
-                </button>
-              </div>
-           
+
+                <div className="col-12 col-md-3 mt-2">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                    onClick={() => setBusquedaPersonalIsActive(true)}
+                  >
+                    Buscar personal
+                  </button>
+                </div>
               </div>
             </div>
-            
+
             <div className="row">
-              <div className="col-12 col-md-3 mt-2">
+              <div className="col-12 col-md-3 ">
                 <button
                   className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width text-capitalize"
                   type="submit"
@@ -232,43 +229,38 @@ const ConsultaPazYSalvoScreen = () => {
                 </button>
               </div>
             </div>
+
             {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
-              <div>
-                <div className="multisteps-form__content">
-                  <div className="multisteps-form__content">
-                    <div className="mt-4 row">
-                      <label
-                        className="form-control border rounded-pill px-3 text-white"
-                        style={{
-                          backgroundImage:
-                            "linear-gradient(45deg, #67b136, #39aad4)",
-                        }}
-                      >
-                        <b>
-                          Se puede generar paz y salvo, la persona selecionana
-                          no cuenta con elementos a su cargo
-                        </b>
-                      </label>
+              <div className="multisteps-form__content">
+                <div className="mt-4 row text-center">
+                  <label>
+                    <b>
+                      Se puede generar paz y salvo, la persona selecionana no
+                      cuenta con elementos a su cargo
+                    </b>
+                  </label>
+                </div>
+
+                <div className="row">
+                  <div id="myGrid" className="ag-theme-alpine mt-4">
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "400px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnDefs}
+                        rowData={rowData}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
                     </div>
                   </div>
-                  <div className="mt-1 row">
-                    <div id="myGrid" className="ag-theme-alpine mt-4">
-                      <div
-                        className="ag-theme-alpine"
-                        style={{ height: "400px" }}
-                      >
-                        <AgGridReact
-                          columnDefs={columnDefs}
-                          rowData={rowData}
-                          defaultColDef={defaultColDef}
-                          onGridReady={onGridReady}
-                        ></AgGridReact>
-                      </div>
-                    </div>
-                  </div>
-                  <div class=" d-grid gap-2 d-flex justify-content-end  col-md-2 mt-4">
+                </div>
+
+                <div className="row ">
+                  <div className="mt-3 d-flex justify-content-end">
                     <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width text-capitalize"
                       onClick={handleOpenModal}
                       type="button"
                       title="Send"
@@ -290,76 +282,72 @@ const ConsultaPazYSalvoScreen = () => {
           />
           <CalendarModal>
             <div className="row ">
-              <div className="col-lg-10 col-md-10 col-12 mx-auto"></div>
+              <div className="col-lg-8 col-md-10 col-6 mx-auto">
+                <form
+                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                  data-animation="FadeIn"
+                  id="configForm"
+                >
+                  <div className="multisteps-form__content">
+                    <div className="row">
+                      <label className="form-control ms-0 fw-bolder text-center">
+                        <n>Certificado de paz y salvo</n>
+                      </label>
+                      <label>
+                        el grupo de almacen da como constancia que la personala{" "}
+                        <small className="text-danger">PEPITO PEREZ</small>{" "}
+                        identificado con el numero de cedula{" "}
+                        <small className="text-danger">1.121.957.666</small>{" "}
+                        seencuentra en paz y salvo ya que todos los elementos
+                        asignados a su nombre fueron devueltos con exito a la
+                        corporacion{" "}
+                      </label>
+                    </div>
+                  </div>
 
-              <div className="row ">
-                <div className="col-lg-8 col-md-10 col-6 mx-auto">
-                  <form
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                    id="configForm"
-                  >
-                    <div className="multisteps-form__content">
-                      <div className="row">
-                        <label className="form-control ms-0 fw-bolder text-center">
-                          <n>Certificado de paz y salvo</n>
+                  <div className="mt-4 justify-content-end align-items-end">
+                    <div className="row">
+                      <div className="col-12 col-md-6">
+                        <label className="ms-2">Nombre quien imprime</label>
+                        <input
+                          name="nombreQuienImprime"
+                          className="form-control border rounded-pill px-3"
+                          type="text"
+                          placeholder="Nombre del articulo"
+                          value="Julian Castillo"
+                          disabled
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="justify-content-end align-items-end">
+                    <div className="row">
+                      <div className="col-12 col-md-6">
+                        <label htmlFor="exampleFormControlInput1 mt-4">
+                          Fecha de impresion
                         </label>
-                        <label>
-                          el grupo de almacen da como constancia que la
-                          personala{" "}
-                          <small className="text-danger">PEPITO PEREZ</small>{" "}
-                          identificado con el numero de cedula{" "}
-                          <small className="text-danger">1.121.957.666</small>{" "}
-                          seencuentra en paz y salvo ya que todos los elementos
-                          asignados a su nombre fueron devueltos con exito a la
-                          corporacion{" "}
-                        </label>
+
+                        <Controller
+                          name="fechaSolicitud"
+                          control={control}
+                          render={({ field }) => (
+                            <DatePicker
+                              {...field}
+                              locale="es"
+                              selected={startDate}
+                              dateFormat="dd/MM/yyyy"
+                              onChange={(date) => setStartDate(date)}
+                              className="form-control border rounded-pill px-3  p-2"
+                              placeholderText="dd/mm/aaaa"
+                              disabled
+                            />
+                          )}
+                        />
                       </div>
                     </div>
-
-                    <div className="mt-4 justify-content-end align-items-end">
-                      <div className="row">
-                        <div className="col-12 col-md-6">
-                          <label className="ms-2">Nombre quien imprime</label>
-                          <input
-                            name="nombreQuienImprime"
-                            className="form-control border rounded-pill px-3"
-                            type="text"
-                            placeholder="Nombre del articulo"
-                            value="Julian Castillo"
-                            disabled
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="justify-content-end align-items-end">
-                      <div className="row">
-                        <div className="col-12 col-md-6">
-                          <label htmlFor="exampleFormControlInput1 mt-4">
-                            Fecha de impresion
-                          </label>
-
-                          <Controller
-                            name="fechaSolicitud"
-                            control={control}
-                            render={({ field }) => (
-                              <DatePicker
-                                {...field}
-                                locale="es"
-                                selected={startDate}
-                                dateFormat="dd/MM/yyyy"
-                                onChange={(date) => setStartDate(date)}
-                                className="form-control border rounded-pill px-3  p-2"
-                                placeholderText="dd/mm/aaaa"
-                                disabled
-                              />
-                            )}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-12 col-md-6 row">
+                  </div>
+                  <div className="row">
+                    <div className="col-12 col-md-12 d-flex justify-content-end">
                       <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
                         <button
                           className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
@@ -381,8 +369,8 @@ const ConsultaPazYSalvoScreen = () => {
                         </button>
                       </div>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
               </div>
             </div>
           </CalendarModal>
