@@ -177,45 +177,45 @@ const RolesScreen = () => {
     dispatch(desactiveModalAction());
   };
 
-  const handleClickAccion = (e) => {
-    const newDataAccordion = dataAccordion.map((data) => {
-      if (data.subsistema === e.target.dataset.subsistema) {
-        data.tipos.map((tipoSubsistema) => {
-          if (tipoSubsistema.tipo === e.target.dataset.tipo) {
-            tipoSubsistema.acciones[e.target.dataset.accion] = e.target.checked;
-            return tipoSubsistema;
-          } else {
-            return tipoSubsistema;
-          }
-        });
-        return data;
-      } else {
-        return data;
-      }
-    });
-    setDataAccordion(newDataAccordion);
-  };
+  // const handleClickAccion = (e) => {
+  //   const newDataAccordion = dataAccordion.map((data) => {
+  //     if (data.subsistema === e.target.dataset.subsistema) {
+  //       data.tipos.map((tipoSubsistema) => {
+  //         if (tipoSubsistema.tipo === e.target.dataset.tipo) {
+  //           tipoSubsistema.acciones[e.target.dataset.accion] = e.target.checked;
+  //           return tipoSubsistema;
+  //         } else {
+  //           return tipoSubsistema;
+  //         }
+  //       });
+  //       return data;
+  //     } else {
+  //       return data;
+  //     }
+  //   });
+  //   setDataAccordion(newDataAccordion);
+  // };
 
-  const handleClickAllActions = (e) => {
-    const newDataAccordion = dataAccordion.map((data) => {
-      if (data.subsistema === e.target.dataset.subsistema) {
-        data.tipos.map((tipoSubsistema) => {
-          if (tipoSubsistema.tipo === e.target.dataset.tipo) {
-            Object.keys(tipoSubsistema.acciones).forEach((accion) => {
-              tipoSubsistema.acciones[accion] = e.target.checked;
-            });
-            return tipoSubsistema;
-          } else {
-            return tipoSubsistema;
-          }
-        });
-        return data;
-      } else {
-        return data;
-      }
-    });
-    setDataAccordion(newDataAccordion);
-  };
+  // const handleClickAllActions = (e) => {
+  //   const newDataAccordion = dataAccordion.map((data) => {
+  //     if (data.subsistema === e.target.dataset.subsistema) {
+  //       data.tipos.map((tipoSubsistema) => {
+  //         if (tipoSubsistema.tipo === e.target.dataset.tipo) {
+  //           Object.keys(tipoSubsistema.acciones).forEach((accion) => {
+  //             tipoSubsistema.acciones[accion] = e.target.checked;
+  //           });
+  //           return tipoSubsistema;
+  //         } else {
+  //           return tipoSubsistema;
+  //         }
+  //       });
+  //       return data;
+  //     } else {
+  //       return data;
+  //     }
+  //   });
+  //   setDataAccordion(newDataAccordion);
+  // };
 
   const handleCreateRole = () => {
     setisCreate(true);
@@ -227,8 +227,8 @@ const RolesScreen = () => {
       <div className="col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row" onSubmit={handleSubmit(searchByName)}>
-            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
-              Administrador de roles
+            <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
+              Administrador De Roles
             </h3>
             {/* <div className="multisteps-form__content">
               <div className="row">
@@ -294,20 +294,9 @@ const RolesScreen = () => {
           </form>
           <CalendarModal>
             <form className="row p-3">
-              <div className="multisteps-form__content">
-                <div className="row">
-                  <label
-                    className="form-control border rounded-pill px-3 text-white"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(45deg, #67b136, #39aad4)",
-                    }}
-                  >
-                    <b>{isCreate ? "Crear rol" : "Editar rol"}</b>
-                  </label>
-                </div>
-              </div>
-              <div className="col-12 col-md-5 mt-3 mb-3">
+              <h4>{isCreate ? "Crear Rol" : "Editar Rol"}</h4>
+              <hr className="rounded-pill hr-modal" />
+              <div className="col-12 col-md-5 mb-3">
                 <label>Nombre rol</label>
                 <input
                   type="text"
@@ -322,97 +311,10 @@ const RolesScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 mt-3 mb-3">
+              <div className="col-12 mb-3">
                 <label>Descripción:</label>
-                <textarea
-                  className="form-control border rounded-pill px-3"
-                  placeholder="Descripción"
-                />
+                <textarea className="form-control border rounded-pill px-3" />
               </div>
-              {/* <div className="accordion mt-4">
-                {dataAccordion.map((data) => (
-                  <>
-                    <div className="accordion-item">
-                      <h2 className="accordion-header text-sm mt-1">
-                        <button
-                          className="accordion-button bg-gradient-primary text-white ps-2 text-capitalize"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target={`#R${data.subsistema}`}
-                          aria-expanded="true"
-                          aria-controls="collapseOne"
-                        >
-                          {data.subsistema}
-                        </button>
-                      </h2>
-                      <div
-                        id={`R${data.subsistema}`}
-                        className="accordion-collapse collapse"
-                      >
-                        <div className="accordion-body">
-                          <div className="accordion">
-                            {data.tipos.map((tipoSubsistema) => (
-                              <div className="accordion-item">
-                                <h2 className="accordion-header text-sm d-flex align-items-baseline justify-content-between mt-1">
-                                  <button
-                                    className="accordion-button bg-gradient-primary text-white ps-4 text-capitalize"
-                                    type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target={`#R${data.subsistema}${tipoSubsistema.tipo}`}
-                                    aria-expanded="true"
-                                    aria-controls="collapseOne"
-                                  >
-                                    {tipoSubsistema.tipo}
-                                  </button>
-                                  <div>
-                                    <div className="form-check">
-                                      <input
-                                        data-subsistema={data.subsistema}
-                                        data-tipo={tipoSubsistema.tipo}
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        onClick={handleClickAllActions}
-                                        value=""
-                                      />
-                                    </div>
-                                  </div>
-                                </h2>
-                                <div
-                                  id={`R${data.subsistema}${tipoSubsistema.tipo}`}
-                                  className="accordion-collapse collapse"
-                                >
-                                  <div className="accordion-body">
-                                    <div className="form-check mt-4">
-                                      {Object.keys(tipoSubsistema.acciones).map(
-                                        (accion) => (
-                                          <label className="form-check-label d-flex text-capitalize">
-                                            {accion}
-                                            <input
-                                              data-subsistema={`${data.subsistema}`}
-                                              data-tipo={tipoSubsistema.tipo}
-                                              data-accion={accion}
-                                              className="form-check-input"
-                                              checked={
-                                                tipoSubsistema.acciones[accion]
-                                              }
-                                              type="checkbox"
-                                              onClick={handleClickAccion}
-                                            />
-                                          </label>
-                                        )
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                ))}
-              </div> */}
               <div className="col-12">
                 <label className="form-label">Permisos - Rol:</label>
                 <Controller
@@ -429,31 +331,17 @@ const RolesScreen = () => {
                   )}
                 />
               </div>
-              {/* <div id="myGrid" className="ag-theme-alpine mt-3">
-                <div
-                  className="container ag-theme-alpine"
-                  style={{ height: "300px", maxWidth: "800px" }}
-                >
-                  <AgGridReact
-                    className="ag-theme-alpine"
-                    animateRows="true"
-                    columnDefs={columDefsUsuario}
-                    rowData={rowDataUsuarios}
-                    defaultColDef={defaultColDef}
-                  ></AgGridReact>
-                </div>
-              </div> */}
               <div className="d-flex justify-content-end gap-2">
                 <button
                   type="button"
-                  className="btn bg-gradient-light text-capitalize mt-3 rounded-pill"
+                  className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
                   onClick={handleCloseModal}
                 >
                   Cerrar
                 </button>
                 <button
                   type="button"
-                  className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
+                  className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
                   onClick={handleCloseModal}
                 >
                   Guardar
