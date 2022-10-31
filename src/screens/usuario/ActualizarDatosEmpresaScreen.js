@@ -149,7 +149,7 @@ const ActualizarDatosEmpresaScreen = () => {
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <h3 className="mt-3 ms-3 mb-2">
+          <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">
             Actualizar datos empresa
           </h3>
           <Subtitle title={"Datos personales"} mt={4} mb={0} />
