@@ -154,6 +154,7 @@ const AlertasScreen = () => {
                         }
                         className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
+                        dateFormat="yyyy/MM/dd"
                       />
                     )}
                   />
@@ -169,7 +170,7 @@ const AlertasScreen = () => {
               <div className="col-12 col-md-6">
                 <div className="flex-column col-12 mt-4">
                   <label htmlFor="exampleFormControlInput1">
-                    Fecha de inicio: <span className="text-danger">*</span>
+                    Fecha fin: <span className="text-danger">*</span>
                   </label>
                   <Controller
                     name="fechaEnd"
@@ -191,6 +192,7 @@ const AlertasScreen = () => {
                         }
                         className="form-control border rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
+                        dateFormat="yyyy/MM/dd"
                       />
                     )}
                   />
