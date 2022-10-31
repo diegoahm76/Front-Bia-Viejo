@@ -12,7 +12,6 @@ import {
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const AutorizarSolicitudesConsumoScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -35,6 +34,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
   const onSubmit = (data) => {};
 
   const [rowData] = useState([
+   
     {
       codigo: " ",
       nombre: " ",
@@ -114,262 +114,258 @@ const AutorizarSolicitudesConsumoScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar solicitudes de consumo
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <MarcaDeAgua1>
-            <form
-              className="multisteps-form__panel border-radius-xl js-active p-4 position-relative"
-              data-animation="FadeIn"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero consecutivo"
-                      disabled
-                      {...register("numeroConsecutivo")}
-                    />
-                    <label className="ms-2">Numero consecutivo</label>
-                  </div>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+          <h4 className="text-right fw-light ms-3 mb-2">
+            Autorizar solicitudes de consumo
+          </h4>
+            <div className="row">
+              <div className="col-12 col-sm-4">
+                <div >
+                  <label className="ms-2">Numero consecutivo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero consecutivo"
+                    disabled
+                    {...register("numeroConsecutivo")}
+                  />
                 </div>
-                <div className="col-12 col-sm-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de solicitud
+              </div>
+              <div className="col-12 col-sm-4">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha de solicitud
+                  <Controller
+                    name="fechaSolicitud"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border rounded-pill px-3 mt-2"
+                        placeholderText="dd/mm/aaaa"
+                      />
+                    )}
+                  />
+                </label>
+              </div>
+            </div>
+          </form>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <label className="form-control ms-0 fw-bolder text-center">
+                <n>Datos del coordinador</n>
+              </label>
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Tipo de documento{" "}
+                  <div className="col-12 ">
                     <Controller
-                      name="fechaSolicitud"
+                      name="tipoDocumento"
                       control={control}
+                      defaultValue={optionsTipoDocumento[0]}
+                      rules={{
+                        required: true,
+                      }}
                       render={({ field }) => (
-                        <DatePicker
+                        <Select
                           {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
+                          isDisabled
+                          options={optionsTipoDocumento}
+                          placeholder="Seleccionar"
                         />
                       )}
                     />
-                  </label>
-                </div>
-              </div>
-            </form>
-            <form
-              className="multisteps-form__panel border-radius-xl js-active p-4 position-relative"
-              data-animation="FadeIn"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Datos del coordinador</n>
+                  </div>
                 </label>
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoDocumento"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            isDisabled
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      disabled
-                      {...register("numeroCedula")}
-                    />
-                    <label className="ms-2">Número de cedula</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      disabled
-                      {...register("nombreCompleto")}
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div >
+                  <label className="ms-2">Número de cedula</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero cedula"
+                    disabled
+                    {...register("numeroCedula")}
+                  />
                 </div>
               </div>
-            </form>
-            <form
-              className="multisteps-form__panel border-radius-xl js-active p-4 position-relative"
-              data-animation="FadeIn"
-              onSubmit={handleSubmit(onSubmit)}
+              <div className="col-12 col-sm-4">
+                <div >
+                  <label className="ms-2">Nombre completo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    disabled
+                    {...register("nombreCompleto")}
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <label className="form-control ms-0 fw-bolder text-center">
+                <n>Datos del solicitante</n>
+              </label>
+              <div className="col-12 col-sm-4">
+                <div >
+                  <label className="ms-2">Tipo de documento</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="tipo de documento"
+                    value="C.C."
+                    disabled
+                    {...register("documento")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Número de cedula</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero cedula"
+                    value="1.121.919.374"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div >
+                  <label className="ms-2">Nombre completo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    value="Ludy Angélica León Quiroga"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+          <form>
+            <div
+              className="ag-theme-alpine mt-2 mb-4"
+              style={{ height: "300px" }}
             >
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Datos del solicitante</n>
-                </label>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="tipo de documento"
-                      value="C.C."
-                      disabled
-                      {...register("documento")}
-                    />
-                    <label className="ms-2">Tipo de documento</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      value="1.121.919.374"
-                      disabled
-                    />
-                    <label className="ms-2">Número de cedula</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      value="Ludy Angélica León Quiroga"
-                      disabled
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <form>
-              <div
-                className="ag-theme-alpine mt-2 mb-4"
-                style={{ height: "300px" }}
+              <AgGridReact
+                columnDefs={columnDefs}
+                rowData={rowData}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+            <div className="input-group input-group-dynamic flex-column mt-3">
+              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
+              <textarea
+                className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                type="text"
+                placeholder="Observaciones"
+                disabled
+                rows="3"
+                name="Observaciones"
+              />
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <button
+                className="btn bg-secondary border rounded-pill me-md-2 text-white text-capitalize"
+                type="submit"
+                title="Send"
               >
-                <AgGridReact
-                  columnDefs={columnDefs}
-                  rowData={rowData}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-                ></AgGridReact>
-              </div>
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="Observaciones"
-                  disabled
-                  rows="3"
-                  name="Observaciones"
-                />
-              </div>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                <button
-                  className="btn bg-secondary me-md-2 text-white text-capitalize"
-                  type="submit"
-                  title="Send"
-                >
-                  Autorizar
-                </button>
-                <button
-                  className="btn bg-danger text-white text-capitalize"
-                  type="button"
-                  onClick={handleOpenModal}
-                  title="Send"
-                >
-                  Rechazar
-                </button>
-              </div>
-            </form>
-          </MarcaDeAgua1>
+                Autorizar
+              </button>
+              <button
+                className="btn bg-danger border rounded-pill  text-white text-capitalize"
+                type="button"
+                onClick={handleOpenModal}
+                title="Send"
+              >
+                Rechazar
+              </button>
+            </div>
+          </form>
           <CalendarModal>
-            <MarcaDeAgua1>
-              <div className="row min-vh-100 ">
-                <div className="col-lg-10 col-md-10 col-12 mx-auto">
-                  <h3 className="mt-3 mb-0 text-center mb-6">
-                    Rechazar solicitud de consumo
-                  </h3>
+            <div className="row min-vh-100 ">
+              <div className="col-lg-10 col-md-10 col-12 mx-auto">
+                <h3 className="mt-3 mb-0 text-center mb-6">
+                  Rechazar solicitud de consumo
+                </h3>
+                <form
+                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                  data-animation="FadeIn"
+                  onSubmit={handleSubmit(onSubmit)}
+                  id="configForm"
+                >
                   <form
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
                     onSubmit={handleSubmit(onSubmit)}
-                    id="configForm"
                   >
-                    <form
-                      className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                      data-animation="FadeIn"
-                      onSubmit={handleSubmit(onSubmit)}
-                    >
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="input-group input-group-dynamic flex-column mt-3">
-                            <label htmlFor="exampleFormControlInput1 ">
-                              Motivo de Rechazo
-                            </label>
-                            <textarea
-                              className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                              type="text"
-                              placeholder="Observaciones"
-                              rows="5"
-                              name="Observaciones"
-                            />
-                          </div>
-                          <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                            <button
-                              className="btn bg-secondary me-md-2 text-white text-capitalize"
-                              type="submit"
-                              onClick={handleCloseModal}
-                              title="Send"
-                            >
-                              Salir
-                            </button>
-                            <button
-                              className="btn bg-danger text-white text-capitalize"
-                              type="button"
-                              onClick={handleCloseModal}
-                              title="Send"
-                            >
-                              Rechazar
-                            </button>
-                          </div>
+                    <div className="row">
+                      <div className="col-12">
+                        <div className="input-group input-group-dynamic flex-column mt-3">
+                          <label htmlFor="exampleFormControlInput1 ">
+                            Motivo de Rechazo
+                          </label>
+                          <textarea
+                            className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                            type="text"
+                            placeholder="Observaciones"
+                            rows="5"
+                            name="Observaciones"
+                          />
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                          <button
+                            className="btn bg-secondary me-md-2 text-white text-capitalize"
+                            type="submit"
+                            onClick={handleCloseModal}
+                            title="Send"
+                          >
+                            Salir
+                          </button>
+                          <button
+                            className="btn bg-danger text-white text-capitalize"
+                            type="button"
+                            onClick={handleCloseModal}
+                            title="Send"
+                          >
+                            Rechazar
+                          </button>
                         </div>
                       </div>
-                    </form>
+                    </div>
                   </form>
-                </div>
+                </form>
               </div>
-            </MarcaDeAgua1>
+            </div>
           </CalendarModal>
         </form>
       </div>

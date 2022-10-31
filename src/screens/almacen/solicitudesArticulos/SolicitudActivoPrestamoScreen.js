@@ -9,7 +9,6 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useDispatch } from "react-redux";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const SolicitudActivoPrestamoScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -167,218 +166,216 @@ const SolicitudActivoPrestamoScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Solicitar un elemento activo en prestamo
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <MarcaDeAgua1>
-            <form
-              className="multisteps-form__panel border-radius-xl js-active p-4 position-relative"
-              data-animation="FadeIn"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero consecutivo"
-                      {...register("numeroConsecutivo")}
-                    />
-                    <label className="ms-2">Numero consecutivo</label>
-                  </div>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <h4 className="text-right fw-light ms-3 mb-2">
+              Solicitar un elemento activo en prestamo
+            </h4>
+            <div className="row">
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Numero consecutivo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero consecutivo"
+                    {...register("numeroConsecutivo")}
+                  />
                 </div>
-                <div className="col-12 col-sm-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de solicitud
+              </div>
+              <div className="col-12 col-sm-4">
+                <label htmlFor="exampleFormControlInput1">
+                  Fecha de solicitud
+                  <Controller
+                    name="fechaSolicitud"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border rounded-pill px-3 mt-2"
+                        placeholderText="dd/mm/aaaa"
+                      />
+                    )}
+                  />
+                </label>
+              </div>
+            </div>
+          </form>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <label className="form-control ms-0 fw-bolder text-center">
+                <n>Datos del coordinador</n>
+              </label>
+              <div className="col-12 col-sm-4">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Tipo de documento{" "}
+                  <div className="col-12 ">
                     <Controller
-                      name="fechaSolicitud"
+                      name="tipoDocumento"
                       control={control}
+                      defaultValue={optionsTipoDocumento[0]}
+                      rules={{
+                        required: true,
+                      }}
                       render={({ field }) => (
-                        <DatePicker
+                        <Select
                           {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
+                          options={optionsTipoDocumento}
+                          placeholder="Seleccionar"
                         />
                       )}
                     />
-                  </label>
-                </div>
-              </div>
-            </form>
-            <form
-              className="multisteps-form__panel border-radius-xl js-active p-4 position-relative"
-              data-animation="FadeIn"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Datos del coordinador</n>
+                  </div>
                 </label>
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoDocumento"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      {...register("numeroCedula")}
-                    />
-                    <label className="ms-2">Número de cedula</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      {...register("nombreCompleto")}
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
-                </div>
-                <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button
-                    type="button"
-                    className="mt-4 btn btn-primary flex-center text-capitalize"
-                    onClick={handleOpenModal}
-                  >
-                    Buscar
-                  </button>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Número de cedula</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero cedula"
+                    {...register("numeroCedula")}
+                  />
                 </div>
               </div>
-              <BusquedaDePersonalModal
-                isModalActive={isModalActive}
-                setIsModalActive={setIsModalActive}
-              />
-            </form>
-            <form
-              className="multisteps-form__panel border-radius-xl js-active p-4 position-relative"
-              data-animation="FadeIn"
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Datos del solicitante</n>
-                </label>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="tipo de documento"
-                      value="C.C."
-                      disabled
-                      {...register("documento")}
-                    />
-                    <label className="ms-2">Tipo de documento</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      value="1.121.919.374"
-                      disabled
-                    />
-                    <label className="ms-2">Número de cedula</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      value="Ludy Angélica León Quiroga"
-                      disabled
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Nombre completo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    {...register("nombreCompleto")}
+                  />
                 </div>
               </div>
-            </form>
-            <form>
-              <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
+              <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
                 <button
                   type="button"
-                  onClick={handleOpenAgregarProducto}
                   className="mt-4 btn btn-primary flex-center text-capitalize"
+                  onClick={handleOpenModal}
                 >
-                  Agregar Producto
+                  Buscar
                 </button>
               </div>
-              <div
-                className="ag-theme-alpine mt-2 mb-4"
-                style={{ height: "300px" }}
-              >
-                <AgGridReact
-                  columnDefs={columnDefs}
-                  rowData={rowData}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-                ></AgGridReact>
-              </div>
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="Observaciones"
-                  rows="3"
-                  name="Observaciones"
-                />
-              </div>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                <button
-                  className="btn bg-primary text-white text-capitalize"
-                  type="submit"
-                  title="Send"
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
-            <BusquedaArticuloModal
-              isModalActive={isModalArticulo}
-              setIsModalActive={setIsModalArticulo}
+            </div>
+            <BusquedaDePersonalModal
+              isModalActive={isModalActive}
+              setIsModalActive={setIsModalActive}
             />
-          </MarcaDeAgua1>
+          </form>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <label className="form-control ms-0 fw-bolder text-center">
+                <n>Datos del solicitante</n>
+              </label>
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Tipo de documento</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="tipo de documento"
+                    value="C.C."
+                    disabled
+                    {...register("documento")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Número de cedula</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="number"
+                    placeholder="numero cedula"
+                    value="1121919374"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-4">
+                <div>
+                  <label className="ms-2">Nombre completo</label>
+                  <input
+                    className="form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    value="Ludy Angélica León Quiroga"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+          <form>
+            <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
+              <button
+                type="button"
+                onClick={handleOpenAgregarProducto}
+                className="mt-4 btn btn-primary flex-center text-capitalize"
+              >
+                Agregar Producto
+              </button>
+            </div>
+            <div
+              className="ag-theme-alpine mt-2 mb-4"
+              style={{ height: "300px" }}
+            >
+              <AgGridReact
+                columnDefs={columnDefs}
+                rowData={rowData}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+            <div className="input-group input-group-dynamic flex-column mt-3">
+              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
+              <textarea
+                className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                type="text"
+                placeholder="Observaciones"
+                rows="3"
+                name="Observaciones"
+              />
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <button
+                className="btn bg-primary text-white text-capitalize"
+                type="submit"
+                title="Send"
+              >
+                Guardar
+              </button>
+            </div>
+          </form>
+          <BusquedaArticuloModal
+            isModalActive={isModalArticulo}
+            setIsModalActive={setIsModalArticulo}
+          />
         </form>
       </div>
     </div>

@@ -6,7 +6,6 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 
 const SolicitudesAsignacionPendientesScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -106,30 +105,28 @@ const SolicitudesAsignacionPendientesScreen = () => {
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Autorizar o rechazar solicitudes
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <MarcaDeAgua1>
-            <form>
-              <div
-                className="ag-theme-alpine mt-2 mb-4"
-                style={{ height: "300px" }}
-              >
-                <AgGridReact
-                  columnDefs={columnDefs}
-                  rowData={rowData}
-                  defaultColDef={defaultColDef}
-                  onGridReady={onGridReady}
-                ></AgGridReact>
-              </div>
-            </form>
-          </MarcaDeAgua1>
+          <h4 className="text-rigth  fw-light mb-3 mb-2">
+            Autorizar o rechazar solicitudes
+          </h4>
+          <form>
+            <div
+              className="ag-theme-alpine mt-2 mb-4"
+              style={{ height: "300px" }}
+            >
+              <AgGridReact
+                columnDefs={columnDefs}
+                rowData={rowData}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+          </form>
         </form>
       </div>
     </div>
