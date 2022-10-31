@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import clienteAxios from "../../../config/clienteAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -160,17 +159,14 @@ const RegisterUserScreen = () => {
     <div
       className="page-header align-items-start min-vh-100"
       style={{
-        backgroundImage: `url(${LogBackground})`,
+        backgroundColor: "rgb(4,47,74)",
       }}
     >
-      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row">
           <div className="col-lg-5 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
-              <h3 className="mt-3 mb-0 text-center mb-6">
-                Registro de usuario
-              </h3>
+              <h3 className="mt-3 mb-2 fw-light text-terciary">Registro de usuario</h3>
               <form className="row" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col-12">
                   <label className="form-label">
@@ -274,13 +270,15 @@ const RegisterUserScreen = () => {
                   )}
                 </div>
 
-                <button
-                  type="submit"
-                  onClick={handleClickSubmit}
-                  className="btn bg-gradient-primary mt-3 text-capitalize d-block"
-                >
-                  Registrar
-                </button>
+                <div className="d-flex justify-content-end">
+                  <button
+                    type="submit"
+                    onClick={handleClickSubmit}
+                    className="btn bg-gradient-primary mt-3 text-capitalize"
+                  >
+                    Registrar
+                  </button>
+                </div>
               </form>
             </div>
           </div>
