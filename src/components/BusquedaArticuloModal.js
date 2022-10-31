@@ -120,7 +120,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
               </div>
               <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize"
+                  className="btn bg-primary me-md-2 text-white text-capitalize border rounded-pill px-3"
                   type="submit"
                   onClick={handleCloseAgregarProducto}
                   title="Send"
@@ -128,7 +128,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
                   Limpiar
                 </button>
                 <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize"
+                  className="btn bg-primary me-md-2 text-white text-capitalize border rounded-pill px-3"
                   type="submit"
                   onClick={handleCloseAgregarProducto}
                   title="Send"
@@ -136,7 +136,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
                   Buscar
                 </button>
                 <button
-                  className="btn bg-light text-white text-capitalize"
+                  className="btn bg-light text-white text-capitalize border rounded-pill px-3"
                   type="button"
                   onClick={handleCloseAgregarProducto}
                   title="Send"
