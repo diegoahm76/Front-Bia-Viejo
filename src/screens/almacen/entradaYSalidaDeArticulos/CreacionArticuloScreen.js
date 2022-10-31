@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 //import ReactQuill from "react-quill";
 //import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
@@ -28,6 +29,14 @@ const CreacionArticuloScreen = () => {
     { label: "Hora uso", value: "Hu" },
   ];
 
+  const {
+    register,
+    setError,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -46,7 +55,7 @@ const CreacionArticuloScreen = () => {
             data-animation="FadeIn"
           >
             <MarcaDeAgua1>
-              <h5 className="font-weight-bolder">Datos generales</h5>
+              <h5 className="font-weight-bolder border text-start text-white rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>Datos generales</h5>
               <div className="multisteps-form__content">
                 <div className="row mt-3">
                   <div className="col-12 col-md-4 mt-4">
@@ -62,62 +71,62 @@ const CreacionArticuloScreen = () => {
                   </div>
 
                   <div className="col-12 col-md-4 mt-4">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Nombre
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  <label >
+                      Nombre: <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      required={true}
+                      placeholder="Nombre de Articulo"
+                      {...register("nombre")}
+                    />
+                    
+                  
                   </div>
                   <div className="col-12 col-md-4 mt-4">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Codigo articulo
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                   <label >
+                      Codigo de articulo: <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      required={true}
+                      placeholder="Codigo de Articulo"
+                      {...register("codigo")}
+                    />
+                   
+                  
                   </div>
                 </div>
                 <div className="row mt-3">
-                  <div className="col-12 col-md-4 mt-2">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Porcentaje de IVA
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  <div className="col-12 col-md-4 mt-4">
+                    <label >
+                      Porcentaje de IVA: <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      required={true}
+                      placeholder="Porcentaje de IVA"
+                      {...register("porcenIVA")}
+                    />
+                  
+                  
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
-                    <div className="input-group input-group-dynamic">
-                      <label
-                        htmlFor="exampleFormControlInput1"
-                        className="form-label"
-                      >
-                        Vida util
-                      </label>
-                      <input
-                        className="multisteps-form__input form-control"
-                        type="text"
-                      />
-                    </div>
+                  <div className="col-12 col-md-4 mt-4">
+                   <label>
+                      Vida Util: <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      required={true}
+                      placeholder="Vida util"
+                      {...register("vidautil")}
+                    />
+                   
+                  
                   </div>
 
                   <div className="col-12 col-md-4 mt-2">
@@ -143,7 +152,7 @@ const CreacionArticuloScreen = () => {
                       />
                     </div>
 
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-4 mt-4">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
                           className="form-check-input"
@@ -171,7 +180,7 @@ const CreacionArticuloScreen = () => {
                         </label>
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-4 mt-4">
                       <div className="form-check form-switch d-flex align-items-center mb-3">
                         <input
                           className="form-check-input"
@@ -188,40 +197,26 @@ const CreacionArticuloScreen = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="row">
-                  <div className="col-sm-6">
-                    <label className="mt-4">Descripcion</label>
-                    <p className="form-text text-muted text-xs ms-1 d-inline">
-                      (optional)
-                    </p>
-                     <div id="edit-deschiption" className="h-50">
-                          <p>Some initial <strong>bold</strong> text</p>
-                        </div>
-                    <ReactQuill
-                      theme="snow"
-                      value={value}
-                      onChange={setValue}
-                      className="h-50"
-                    />
-                  </div>
-                  <div className="col-sm-6 mt-sm-3 mt-5">
-                    <label className="form-control ms-0">Category</label>
-                    <Select
-                      defaultValue={selectedCategory}
-                      onChange={setSelectedCategory}
-                      options={options}
-                    />
-                    <label className="form-control ms-0">Sizes</label>
-                    <Select
-                      defaultValue={selectedSize}
-                      onChange={setSelectedSize}
-                      options={optionsSize}
-                    />
-                  </div>
-                </div> */}
-                <div className="button-row d-flex mt-4">
+             
+                <div className="button-row d-flex mt-4" style={{display:"flex", justifyContent:"end"}}>
+              <button
+                    className="btn bg-gradient-light text-capitalize border rounded-pill px-3"
+                    type="button"
+                    title="Cancel"
+                  >
+                    cancelar
+                  </button>
+
                   <button
-                    className="btn bg-gradient-secondary ms-auto mb-0"
+                    className="btn bg-gradient-primary text-capitalize border rounded-pill px-3"
+                    type="button"
+                    title="Clear"
+                  >
+                    limpiar
+                  </button>
+
+                  <button
+                    className="btn bg-gradient-primary text-capitalize border rounded-pill px-3"
                     type="button"
                     title="Send"
                   >

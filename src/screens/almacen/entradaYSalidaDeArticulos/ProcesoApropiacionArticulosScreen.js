@@ -5,6 +5,8 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 import ModalLocal from "../../../components/ModalLocal";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
+import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 
 export const ProcesoApropiacionArticulosScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -130,7 +132,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-secondary text-capitalize"
+            className="btn btn-secondary text-capitalize border rounded-pill px-3"
             type="button"
           >
             Agregar
@@ -247,7 +249,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-danger text-capitalize"
+            className="btn btn-danger text-capitalize border rounded-pill px-3"
             type="button"
           >
             Borrar
@@ -287,6 +289,24 @@ export const ProcesoApropiacionArticulosScreen = () => {
     setPage(1);
   };
 
+
+  const handleOpenModalArticulos = () => {
+    setModalArticulos(true);
+  };
+
+  const [modalArticulos, setModalArticulos] = useState(false);
+
+  const handleOpenModalBusquedaPersonal = () => {
+    setModalPersonal(true);
+  };
+
+  const [modalPersonal, setModalPersonal] = useState(false);
+
+  const handleCloseModal = () => {
+    setModal(false);
+  };
+  const [modal, setModal] = useState(false);
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -300,52 +320,55 @@ export const ProcesoApropiacionArticulosScreen = () => {
           <MarcaDeAgua1>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-center">
+                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3"style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   Datos generales
                 </label>
                 <div className="row">
                   <div className="col-12 col-md-4 mt-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                    <label>Consecutivo:</label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="tel"
                         placeholder="Consecutivo"
                         {...register("businessTel")}
                       />
-                      <label>Consecutivo:</label>
-                    </div>
+                      
+                    
                   </div>
 
-                  <div className="col-12 col-md-4">
-                    <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
+                  <div className="col-12 col-md-4 mt-4">
+                    
                       <label htmlFor="exampleFormControlInput1">
                         Fecha de Apropiacion:{" "}
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
-                        name="fechaIngreso"
+                        name="fechaApropiacion"
                         control={control}
                         render={({ field }) => (
                           <ReactDatePicker
                             {...field}
                             locale="es"
-                            //required
+                            className="form-control border rounded-pill px-3"
+                            dateFormat="dd/MM/yyyy"
+                             placeholderText="dd/mm/aaaa"
                             selected={formValues.fechaIngreso}
                             onSelect={(e) =>
-                              setFormValues({ ...formValues, fechaIngreso: e })
+                              setFormValues({ ...formValues, fechaApropiacion: e })
+                           
                             }
-                            className="col-4 multisteps-form__input form-control p-2"
-                            placeholderText="dd/mm/aaaa"
+                            
+                            
                           />
                         )}
                       />
-                    </div>
+                    
                   </div>
                 </div>
               </div>
 
               <div className="row">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3 "style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   Informacion de terceros:
                 </label>
                 <div className="row">
@@ -371,15 +394,15 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-4">
-                    <div className="form-floating input-group input-group-dynamic">
+                     <label className="ms-2">Numero de identificacion:</label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3"
                         type="tel"
                         placeholder="Numero de identificacion"
                         {...register("businessTel")}
                       />
-                      <label className="ms-2">Numero de identificacion:</label>
-                    </div>
+                     
+                    
                   </div>
                   <div className="col-12 col-md-4">
                     <div>
@@ -391,21 +414,22 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   <div className="d-flex justify-content-end gap-2 mt-4">
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize "
+                      className="btn btn-primary text-capitalize border rounded-pill px-3"
                     >
                       buscar
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 "
+                    >
+                      busqueda de tercero
                     </button>
                   </div>
                 </div>
                 <div className="row">
                   <div className="d-flex justify-content-end gap-2 mt-4">
-                    <label>Busqueda de tercero: </label>
-                    <button
-                      type="button"
-                      className="btn btn-primary text-capitalize "
-                    >
-                      buscar
-                    </button>
+                   
+                    
                   </div>
                 </div>
               </div>
@@ -415,10 +439,10 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   Entradas Relacionadas:
                 </label>
                 <div className="row">
-                  <div id="myGrid" className="ag-theme-alpine ">
+                  <div id="myGrid" className="ag-theme-alpine " style={{display:"flex", justifyContent:"center"}}>
                     <div
                       className="ag-theme-alpine"
-                      style={{ height: "250px" }}
+                      style={{ height: "250px", width:"600px" }}
                     >
                       <AgGridReact
                         columnDefs={columnEntradaRela}
@@ -432,59 +456,61 @@ export const ProcesoApropiacionArticulosScreen = () => {
               </div>
               <div className="row mt-4">
                 <div className="col">
-                  <div className="form-floating input-group input-group-dynamic">
+                  <label className="ms-2">Referecnia de Apropiacion:</label>
                     <input
-                      className="form-control"
+                     className="form-control border rounded-pill px-3"
                       type="tel"
-                      placeholder="Concepto"
+                      placeholder="Referecia de Apropiación"
                       {...register("businessTel")}
                     />
-                    <label className="ms-2">Referecnia de Apropiacion:</label>
-                  </div>
+                    
+                  
                 </div>
                 <div className="col">
-                  <div className="form-floating input-group input-group-dynamic">
+                 <label className="ms-2">Concepto:</label>
                     <textarea
-                      className="form-control"
+                     className="form-control border rounded-pill px-3"
                       type="tel"
                       placeholder="Concepto"
                       {...register("businessTel")}
                     />
-                    <label className="ms-2">Concepto:</label>
-                  </div>
+                    
+                  
                 </div>
               </div>
 
               <div className="row">
+                <div className="col-12 col-md-4">
                 <label>Anexar documentos</label>
-                <div className="d-flex justify-content-end gap-2 mt-4">
+                <div className="d-flex justify-content-end gap-2 ">
                   <label htmlFor="formFileLg" className="form-label"></label>
                   <input
-                    className="form-control form-control-lg mt-1"
+                    className="form-control form-control-lg mt-1 border rounded-pill px-3"
                     id="formFileLg"
                     type="file"
                   />
                 </div>
               </div>
+              </div>
             </div>
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                   Detalles
                 </label>
               </div>
 
               <div className="row">
                 <div className="col">
-                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                  <label className="mt-3 form-control ms-0 fw-bolder text-center" >
                     Entradas Especiales
                   </label>
                 </div>
               </div>
               <div className="row">
-                <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                <div id="myGrid" className="ag-theme-alpine "style={{textAlign:"-webkit-center"}}>
+                  <div className="ag-theme-alpine" style={{ height: "250px", width:"600px"}}>
                     <AgGridReact
                       columnDefs={columnEntradaRela}
                       rowData={rowDataEntradaRela}
@@ -498,8 +524,8 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     Articulos Asociados
                   </label>
                 </div>
-                <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px" }}>
+                <div id="myGrid" className="ag-theme-alpine " style={{display:"flex", justifyContent:"center"}}>
+                  <div className="ag-theme-alpine" style={{ height: "250px",width:"1000px"}}>
                     <AgGridReact
                       columnDefs={columndevolutivoAso}
                       rowData={rowDataDevolutivoAso}
@@ -512,18 +538,16 @@ export const ProcesoApropiacionArticulosScreen = () => {
                 <div className="d-flex justify-content-end gap-2 mt-4">
                   <button
                     type="button"
-                    className="btn btn-secondary text-capitalize "
+                    className="btn btn-secondary text-capitalize border rounded-pill px-3 "
                   >
                     Agregar
                   </button>
                 </div>
-                <div className="col">
-                  <label>Tipo de Articulo</label>
-                </div>
+                
                 <div className="d-flex justify-content-end gap-2 mt-4">
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
                   >
                     Buscar articulo
                   </button>
@@ -531,7 +555,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
               </div>
               <div className="row">
                 <div>
-                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
                     ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION
                   </label>
                 </div>
@@ -556,7 +580,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
                 <div className="d-flex justify-content-end gap-2 mt-4">
                   <button
                     type="button"
-                    className="btn btn-secondary text-capitalize"
+                    className="btn btn-secondary text-capitalize border rounded-pill px-3"
                   >
                     Agregar
                   </button>
@@ -567,18 +591,18 @@ export const ProcesoApropiacionArticulosScreen = () => {
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
-                  className="btn btn-light text-capitalize "
+                  className="btn btn-light text-capitalize border rounded-pill px-3"
                 >
                   Cancelar
                 </button>
                 <button
                   type="button"
-                  className="btn btn-secondary text-capitalize "
+                  className="btn btn-secondary text-capitalize border rounded-pill px-3"
                 >
                   Limpiar
                 </button>
                 <button
-                  className={`btn btn-danger text-capitalize ${
+                  className={`btn btn-danger text-capitalize border rounded-pill px-3 ${
                     page === 1 && "d-none"
                   }`}
                   type="button"
@@ -589,7 +613,7 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   {"<< Atrás"}{" "}
                 </button>
                 <button
-                  className="btn btn-primary text-capitalize"
+                  className="btn btn-primary text-capitalize border rounded-pill px-3"
                   type="submit"
                   title="Send"
                   form="configForm"

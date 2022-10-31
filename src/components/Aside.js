@@ -1787,7 +1787,7 @@ const Aside = ({ showAside }) => {
                             Reportes
                           </span>
                         </Link>
-                      </li>
+                      </li> 
 
                       <li className="nav-item ">
                         <Link
