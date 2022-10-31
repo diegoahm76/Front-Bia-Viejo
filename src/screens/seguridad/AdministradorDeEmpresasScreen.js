@@ -56,14 +56,6 @@ const AdministradorDeEmpresasScreen = () => {
 
   const onSubmitBuscar = async (data) => {
     try {
-<<<<<<< HEAD
-      const { data: dataEmpresa } = await clienteAxios.get(
-        `personas/get-personas-by-document/${data.tipoDocumento.value}/${data.numeroDocumento}/`
-      );
-      console.log(data)
-      console.log("data empresa", dataEmpresa);
-      if (dataEmpresa.tipo_persona !== "J" && dataEmpresa.id_persona) {
-=======
       const { data: dataEmpresaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
@@ -90,7 +82,6 @@ const AdministradorDeEmpresasScreen = () => {
       }
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
->>>>>>> main
         Swal.fire({
           title: "Este documento es de una persona natural",
           text: "¿Quiere ir al administrador de personas?",

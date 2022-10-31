@@ -406,7 +406,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
 
               <div className="row">
-                <label className="mt-6 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                <label className="mt-6 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                   Informacion de terceros:
                 </label>
                 <div className="row mt-2">
@@ -535,7 +535,7 @@ export const EntradaDeArticuloScreen = () => {
 
               <div className="row">
                 <div className="col">
-                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                     Identificacion de articulos
                   </label>
                 </div>
@@ -589,7 +589,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
               <div className="row">
                 <div>
-                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                     Informacion de articulo
                   </label>
                 </div>
@@ -1074,7 +1074,7 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
                 <div className="row">
                   <div className="col">
-                    <label className="mt-3 form-control ms-0 fw-bolder text-center border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
+                    <label className="mt-3 form-control ms-0 fw-bolder text-center border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
                       Articulos a Ingresar
                     </label>
                   </div>
