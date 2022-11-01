@@ -50,7 +50,7 @@ const UsuariosEstacionesScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-outline-warning "
+            className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
               dispatch(obtenerUsuarioEditarAction(params.data));
@@ -60,7 +60,7 @@ const UsuariosEstacionesScreen = () => {
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            className="btn btn-sm btn-outline-danger"
+            className="btn btn-sm btn-tablas btn-outline-danger"
             type="button"
             onClick={() => {
               dispatch(obtenerUsusarioEliminarAction(params.data));

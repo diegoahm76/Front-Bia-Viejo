@@ -139,10 +139,14 @@ const Aside = ({ showAside }) => {
                     role="button"
                     aria-expanded="false"
                   >
-                    <img
-                      src={IconoTablerosDeControl}
-                      alt="Tableros de control"
-                    />
+                    <span className="sidenav-mini-icon">
+                      {" "}
+                      <img
+                        src={IconoTablerosDeControl}
+                        alt="Tableros de control"
+                      />{" "}
+                    </span>
+
                     <span className="nav-link-text ms-2 ps-1">
                       Tableros de control
                     </span>
@@ -498,10 +502,13 @@ const Aside = ({ showAside }) => {
                           aria-expanded="false"
                           href="#gestionDeInventario"
                         >
-                          <img
-                            src={IconoGestioDeInventario}
-                            alt="Configuracion"
-                          />
+                          <span className="sidenav-mini-icon">
+                            <img
+                              src={IconoGestioDeInventario}
+                              alt="Configuracion"
+                            />
+                          </span>
+
                           <span className="sidenav-normal  ms-2  ps-1">
                             Gestion de inventario
                           </span>
@@ -754,10 +761,12 @@ const Aside = ({ showAside }) => {
                           aria-expanded="false"
                           href="#solicitudesArticulos"
                         >
-                          <img
-                            src={IconoSolicitudesArticulo}
-                            alt="solicitudesArticulos"
-                          />
+                          <span className="sidenav-mini-icon">
+                            <img
+                              src={IconoSolicitudesArticulo}
+                              alt="solicitudesArticulos"
+                            />
+                          </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             Solicitudes de articulos
                           </span>
@@ -1283,10 +1292,12 @@ const Aside = ({ showAside }) => {
                           aria-expanded="false"
                           href="#gestionVehiculos"
                         >
-                          <img
-                            src={IconoGestionVehiculo}
-                            alt="gestionVehiculos"
-                          />
+                          <span className="sidenav-mini-icon">
+                            <img
+                              src={IconoGestionVehiculo}
+                              alt="gestionVehiculos"
+                            />
+                          </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             Gestión de vehículo
                           </span>
@@ -1996,10 +2007,12 @@ const Aside = ({ showAside }) => {
                           aria-expanded="false"
                           href="#CentroNotificaciones"
                         >
-                          <img
-                            src={IconoCentroNotificacion}
-                            alt="Centro de notificaciones"
-                          />
+                          <span className="sidenav-mini-icon">
+                            <img
+                              src={IconoCentroNotificacion}
+                              alt="Centro de notificaciones"
+                            />
+                          </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             {" "}
                             Centro de <br />

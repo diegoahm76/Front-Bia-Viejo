@@ -38,7 +38,7 @@ const AdministradorDeEstaciones = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-outline-warning "
+            className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
               dispatch(obtenerEstacionEditarAction(params.data));
@@ -48,7 +48,7 @@ const AdministradorDeEstaciones = () => {
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            className="btn btn-sm btn-outline-danger"
+            className="btn btn-sm btn-tablas btn-outline-danger"
             type="button"
             onClick={() => confirmarEliminarEstacion(params.data.objectid)}
           >
@@ -95,7 +95,7 @@ const AdministradorDeEstaciones = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h3 className="mt-2 mb-0 text-center mb-4">
+          <h3 className="mt-2 mb-0">
             Administrador estaciones meteorologicas
           </h3>
           <Subtitle title="Informacion de general" mt={3} />
