@@ -13,6 +13,7 @@ import {
   obtenerNotificacionesAction,
 } from "../../../actions/notificacionActions";
 import { useForm } from "react-hook-form";
+import Subtitle from "../../../components/Subtitle";
 
 const defaultColDef = {
   sortable: true,
@@ -111,11 +112,14 @@ const NotificacionesEstacionesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">Notificaciones</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">
+            Notificaciones
+          </h3>
+          <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row">
             <div>
               <button
@@ -147,7 +151,6 @@ const NotificacionesEstacionesScreen = () => {
                 columnDefs={columnDefs}
                 rowData={notificaciones}
                 defaultColDef={defaultColDef}
-                
               ></AgGridReact>
             </div>
           </form>

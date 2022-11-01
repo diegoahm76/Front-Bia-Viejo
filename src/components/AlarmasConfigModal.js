@@ -1,4 +1,14 @@
+import { useEffect } from "react";
 import Modal from "react-modal";
+import { useDispatch, useSelector } from "react-redux";
+import { editarAlarmaConfigAction } from "../actions/alarmasConfigActions";
+
+const defaultValues = {
+  t001nombre: "",
+  t007periodo: "",
+  t007periodoBase: "",
+  t007tolerancia: "",
+};
 
 const customStyles = {
   content: {
@@ -26,9 +36,24 @@ const AlarmasConfigModal = ({
   errors,
   watch,
 }) => {
+  const { loading, dataEdit } = useSelector((state) => state.alarmas);
+
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     console.log(data);
+    dispatch(editarAlarmaConfigAction(data));
+    setIsModalActive(false);
   };
+
+  const handleCloseModal = () => {
+    setIsModalActive(false);
+    reset(defaultValues);
+  };
+
+  useEffect(() => {
+    reset(dataEdit);
+  }, [dataEdit]);
 
   return (
     <Modal
@@ -44,20 +69,112 @@ const AlarmasConfigModal = ({
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
             <label>
-              Rango: <span className="text-danger">*</span>
+              Estación: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006rango", { required: true })}
+              disabled
+              readOnly
+              {...register("t001Estaciones.t001nombre", { required: true })}
             />
-            {errors.t006rango && (
+            {errors.t001nombre && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
                 </small>
               </div>
             )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Rango: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t007periodo", { required: true })}
+            />
+            {errors.t007periodo && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Rango: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t007periodoBase", { required: true })}
+            />
+            {errors.t007periodoBase && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Rango: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t007tolerancia", { required: true })}
+            />
+            {errors.t007tolerancia && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="d-flex justify-content-end gap-2 mt-3">
+            <button
+              type="button"
+              className="btn bg-gradient-light text-capitalize"
+              disabled={loading}
+              onClick={() => handleCloseModal()}
+            >
+              {loading ? (
+                <>
+                  <span
+                    className="spinner-border spinner-border-sm me-1"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Cargando...
+                </>
+              ) : (
+                "Cancelar"
+              )}
+            </button>
+            <button
+              type="submit"
+              className="btn bg-gradient-primary text-capitalize"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span
+                    className="spinner-border spinner-border-sm me-1"
+                    role="status"
+                    aria-hidden="true"
+                  ></span>
+                  Cargando...
+                </>
+              ) : (
+                "Actualizar"
+              )}
+            </button>
           </div>
         </form>
       </div>

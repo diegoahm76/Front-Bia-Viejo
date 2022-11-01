@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { Controller } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
 import {
   crearAlarmaAction,
   editarAlarmaAction,
@@ -11,10 +9,10 @@ import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 
 const defaultValues = {
-  t006nombre: "",
-  objectid: "",
-  t006color: "",
-  t006limite: "",
+  t001nombre: "",
+  t006rango: "",
+  t006mensajeUp: "",
+  t006mensajeDown: "",
 };
 
 const customStyles = {

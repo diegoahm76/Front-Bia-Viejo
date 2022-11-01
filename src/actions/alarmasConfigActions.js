@@ -4,8 +4,11 @@ import {
   COMENZAR_DESCARGA_ALARMAS_CONFIG,
   DESCARGA_ALARMAS_CONFIG_COMPLETADO,
   DESCARGA_ALARMAS_CONFIG_ERROR,
+  EDITAR_ALARMA_CONFIG_COMPLETADO,
+  EDITAR_ALARMA_CONFIG_ERROR,
   OBTENER_ALARMA_CONFIG_EDIT_COMPLETADO,
   OBTENER_ALARMA_CONFIG_EDIT_ERROR,
+  PETICION_EDITAR_ALARMA_CONFIG,
   PETICION_OBTENER_ALARMA_CONFIG_EDIT,
 } from "../types/alarmasConfigTypes";
 
@@ -78,5 +81,47 @@ const obtenerAlarmaConfigEditCompletado = (dataEdit) => ({
 
 const obtenerAlarmaConfigEditError = (estado) => ({
   type: OBTENER_ALARMA_CONFIG_EDIT_ERROR,
+  payload: estado,
+});
+
+export const editarAlarmaConfigAction = (dataEdit) => async (dispatch) => {
+  dispatch(peticionEditarAlarmaConfig(true));
+  console.log(dataEdit);
+  try {
+    await clienteEstaciones.put("Alarmas", dataEdit);
+    dispatch(editarAlarmaConfigCompletado(false));
+    dispatch(obternerAlarmasConfigAction());
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Alarma actualizada correctamente",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch(editarAlarmaConfigError(false));
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Algo pasó, intente de nuevo",
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar",
+    });
+  }
+};
+
+const peticionEditarAlarmaConfig = (estado) => ({
+  type: PETICION_EDITAR_ALARMA_CONFIG,
+  payload: estado,
+});
+
+const editarAlarmaConfigCompletado = (estado) => ({
+  type: EDITAR_ALARMA_CONFIG_COMPLETADO,
+  payload: estado,
+});
+
+const editarAlarmaConfigError = (estado) => ({
+  type: EDITAR_ALARMA_CONFIG_ERROR,
   payload: estado,
 });
