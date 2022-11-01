@@ -2,9 +2,13 @@ import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { obternerAlarmasConfigAction } from "../../../actions/alarmasConfigActions";
+import {
+  obtenerAlarmaConfigEditAction,
+  obternerAlarmasConfigAction,
+} from "../../../actions/alarmasConfigActions";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import AlarmasConfigModal from "../../../components/AlarmasConfigModal";
+import Subtitle from "../../../components/Subtitle";
 
 const defaultColDef = {
   sortable: true,
@@ -18,9 +22,7 @@ const defaultColDef = {
 };
 
 const AlarmasConfiguracionesScreen = () => {
-  const { alarmasConfig, loading } = useSelector(
-    (state) => state.alarmasConfig
-  );
+  const { alarmasConfig } = useSelector((state) => state.alarmasConfig);
   const [isModalActive, setIsModalActive] = useState(false);
 
   const dispatch = useDispatch();
@@ -78,7 +80,7 @@ const AlarmasConfiguracionesScreen = () => {
 
   const editarAction = (objectid) => {
     setIsModalActive(true);
-    // dispatch(obtenerAlarmaEditAction(objectid, reset));
+    dispatch(obtenerAlarmaConfigEditAction(objectid, reset));
   };
 
   useEffect(() => {
@@ -88,11 +90,15 @@ const AlarmasConfiguracionesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">Alarmas</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">
+            Alarmas Configuraciones
+          </h3>
+          <Subtitle title={"Informacion general"} mt={0} mb={3} />
+
           <div>
             <div
               className="ag-theme-alpine mt-auto mb-8 px-4"
