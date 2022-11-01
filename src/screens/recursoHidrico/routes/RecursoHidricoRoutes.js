@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 
 import RecursoHidricoScreen from "..";
 import AdministradorDeEstaciones from "../estaciones/AdministradorDeEstaciones";
+import AlarmasConfiguracionesScreen from "../estaciones/AlarmasConfiguracionesScreen";
 import AlarmasScreen from "../estaciones/AlarmasScreen";
 import AlertasScreen from "../estaciones/AlertasScreen";
 import ConfiguracionesScreen from "../estaciones/ConfiguracionesScreen";
@@ -36,6 +37,11 @@ const RecursoHidricoRoutes = () => {
         <Route path="configuraciones" element={<ConfiguracionesScreen />} />
 
         <Route path="alarmas-estaciones" element={<AlarmasScreen />} />
+
+        <Route
+          path="alarmas-configuraciones"
+          element={<AlarmasConfiguracionesScreen />}
+        />
 
         <Route
           path="notificaciones-estaciones"

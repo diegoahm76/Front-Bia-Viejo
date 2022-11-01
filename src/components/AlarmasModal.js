@@ -119,16 +119,16 @@ const AlarmasModal = ({
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
             <label>
-              Alarma: <span className="text-danger">*</span>
+              Estación: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
               type="text"
               disabled={alarmaAction === "editar"}
               readOnly={alarmaAction === "editar"}
-              {...register("t006nombre", { required: true })}
+              {...register("t001Estaciones.t001nombre", { required: true })}
             />
-            {errors.t006nombre && (
+            {errors.t001nombre && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -136,7 +136,7 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
-          <div className="col-12 mb-3">
+          {/* <div className="col-12 mb-3">
             <label className="form-label">
               Estación: <span className="text-danger">*</span>
             </label>
@@ -172,17 +172,17 @@ const AlarmasModal = ({
                 </small>
               </div>
             )}
-          </div>
+          </div> */}
           <div className="col-12 mb-3">
             <label>
-              Color: <span className="text-danger">*</span>
+              Rango: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006color", { required: true })}
+              {...register("t006rango", { required: true })}
             />
-            {errors.t006color && (
+            {errors.t006rango && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -192,14 +192,31 @@ const AlarmasModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Límite: <span className="text-danger">*</span>
+              Mensaje Up: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="number"
-              {...register("t006limite", { required: true })}
+              type="text"
+              {...register("t006mensajeUp", { required: true })}
             />
-            {errors.t006limite && (
+            {errors.t006mensajeUp && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Mensaje Down: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006mensajeDown", { required: true })}
+            />
+            {errors.t006mensajeDown && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio

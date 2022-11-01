@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import { alarmasConfigReducer } from "./alarmasConfigReducer";
 import { alarmasReducer } from "./alarmasReducer";
 import { estacionesReducer } from "./estacionesReducer";
 import { modalReducer } from "./modalReducer";
@@ -10,5 +11,6 @@ export default combineReducers({
   modal: modalReducer,
   estaciones: estacionesReducer,
   alarmas: alarmasReducer,
+  alarmasConfig: alarmasConfigReducer,
   notificaciones: notificacionesReducer,
 });
