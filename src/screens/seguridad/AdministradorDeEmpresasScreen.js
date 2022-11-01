@@ -328,13 +328,13 @@ const AdministradorDeEmpresasScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+            Administrador de empresas
+          </h3>
+          <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
           <div className="row">
-            <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
-              Administrador de empresas
-            </h3>
-            <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
             <form
-              className="mt-4 row mx-1"
+              className="mt-4 row mx-1 align-items-center"
               onSubmit={handleSubmitBuscar(onSubmitBuscar)}
             >
               <div className="col-12 col-md-4">
@@ -382,7 +382,7 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-md-4 mt-2 mt-md-4">
+              <div className="col-12 col-md-4 mt-4">
                 <button
                   type="submit"
                   className="btn bg-gradient-primary mb-0 text-capitalize"

@@ -423,11 +423,11 @@ const AdministradorDePersonasScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+            Administrador de personas
+          </h3>
+          <Subtitle title={"Buscar persona"} mt={0} mb={0} />
           <div className="row">
-            <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
-              Administrador de personas
-            </h3>
-            <Subtitle title={"Buscar persona"} mt={0} mb={0} />
             <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
               <div className="mt-4 row mx-1 align-items-center">
                 <div className="col-12 col-md-4">
