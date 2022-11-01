@@ -11,24 +11,26 @@ import IconoGestionDocumental from "../assets/files-document-svgrepo-com.svg";
 import IconoTramitesServicios from "../assets/ecology-svgrepo-com.svg";
 import IconoRecursoHidrico from "../assets/water-svgrepo-com.svg";
 import IconoAgregarVivero from "../assets/iconosConservacion/add-svgrepo-com.svg";
-import IconoGestorVivero from "../assets/iconosConservacion/leaf-svgrepo-com.svg";
+import IconoGestorVivero from "../assets/iconosConservacion/leaves-plant-svgrepo-com.svg";
 import IconoEditarVivero from "../assets/iconosConservacion/edit-svgrepo-com.svg";
-import IconoGMaterialVegetal from "../assets/iconosConservacion/sprout-tree-svgrepo-com.svg";
-import IconoProduccion from "../assets/iconosConservacion/ecologic-leaf-svgrepo-com.svg";
-import IconoSolicitudes from "../assets/iconosConservacion/folder-svgrepo-com.svg";
-import IconoDistribucion from "../assets/iconosConservacion/delivery-truck-delivery-svgrepo-com.svg";
+import IconoGMaterialVegetal from "../assets/iconosConservacion/leaves-plant-svgrepo-gestorcom.svg";
+import IconoProduccion from "../assets/iconosConservacion/clean-industry-svgrepo-com.svg";
+import IconoSolicitudes from "../assets/iconosConservacion/eco-organization-svgrepo-com.svg";
+import IconoDistribucion from "../assets/iconosConservacion/ecologic-planet-svgrepo-com.svg";
 import IconoCronograma from "../assets/iconosConservacion/calendar-svgrepo-com.svg";
-import IconoConfiguracion from "../assets/iconosConservacion/settings-svgrepo-com.svg";
+import IconoConfiguracion from "../assets/iconosAlmacen/config-svgrepo-com.svg";
 import IconoCentroNotificacion from "../assets/iconosConservacion/paper-plane-svgrepo-com.svg";
-import IconoReportes from "../assets/iconosConservacion/chart-presentation-report-svgrepo-com.svg";
-import IconoSolicitudesArticulo from "../assets/iconosAlmacen/reception-hotel-svgrepo-com.svg";
-import IconoGestionVehiculo from "../assets/iconosAlmacen/volskwagen-van-svgrepo-com.svg";
+import IconoReportes from "../assets/iconosAlmacen/market-research-svgrepo-com.svg";
+import IconoSolicitudesArticulo from "../assets/iconosAlmacen/cart-basket-ecommerce-svgrepo-com.svg";
+import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-vehicle-svgrepo-com.svg";
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
-import IconoSeguridad from "../assets/padlock-lock-svgrepo-com.svg";
+import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
 import IconoUser from "../assets/user-svgrepo-com.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
-import IconoGestioDeInventario from "../assets/iconosAlmacen/logistics-delivery-express-svgrepo-com.svg";
+import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
+
+import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/climate-change-svgrepo-com.svg";
 
 const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
@@ -1168,7 +1170,7 @@ const Aside = ({ showAside }) => {
                     aria-expanded="false"
                   >
                     <img src={IconoRecaudo} alt="Recaudo" />
-                    <span className="nav-link-text ms-2 ps-1">Recaudó</span>
+                    <span className="nav-link-text ms-2 ps-1">Recaudo</span>
                   </a>
                   <div className="collapse " id="pagesExamples">
                     <ul className="nav ">
@@ -2029,7 +2031,7 @@ const Aside = ({ showAside }) => {
                           aria-expanded="false"
                           href="#estaciones"
                         >
-                          <span className="sidenav-mini-icon"> E </span>
+                          <img src={IconoEstacionesHidrometereologicas} alt="estaciones hidrometereologicas" />
                           <span className="sidenav-normal  ms-2  ps-1">
                             Estaciones <br /> meteorologicas
                           </span>
@@ -2142,7 +2144,7 @@ const Aside = ({ showAside }) => {
                           className="nav-link text-white "
                           to="seguridad/administradordepersonas"
                         >
-                          <span className="sidenav-mini-icon"> A </span>
+                           <img src={Vineta} alt="vineta" />
                           <span className="sidenav-normal  ms-2  ps-1">
                             Administrador de <br /> personas
                           </span>
@@ -2153,7 +2155,7 @@ const Aside = ({ showAside }) => {
                           className="nav-link text-white "
                           to="seguridad/administradordeempresas"
                         >
-                          <span className="sidenav-mini-icon"> A </span>
+                           <img src={Vineta} alt="vineta" />
                           <span className="sidenav-normal  ms-2  ps-1">
                             Administrador de <br /> empresas
                           </span>
@@ -2164,7 +2166,7 @@ const Aside = ({ showAside }) => {
                           className="nav-link text-white "
                           to="seguridad/roles"
                         >
-                          <span className="sidenav-mini-icon"> B </span>
+                           <img src={Vineta} alt="vineta" />
                           <span className="sidenav-normal  ms-2  ps-1">
                             Administrador de <br /> roles
                           </span>
@@ -2175,7 +2177,7 @@ const Aside = ({ showAside }) => {
                           className="nav-link text-white "
                           to="seguridad/administradordeusuario"
                         >
-                          <span className="sidenav-mini-icon"> B </span>
+                           <img src={Vineta} alt="vineta" />
                           <span className="sidenav-normal  ms-2  ps-1">
                             Administrador de <br /> usuarios
                           </span>
