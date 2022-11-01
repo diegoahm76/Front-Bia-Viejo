@@ -73,8 +73,9 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       t005Identificacion : data.t005Identificacion,
       objectid : estacionesOptions[formValues.index_objectid].value,
       t005nombre: data.t005nombre,
-      t005numero: data.t005numero,
-      idUsuario: usuarioEditar.idUsuario
+      t005numeroCelular: data.t005numero,
+      idUsuario: usuarioEditar.idUsuario,
+      t005Observacion: data.t005Observacion,
     };
 
     //console.log("editar", editarUsuario)
@@ -94,8 +95,8 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>Nueva usuario</h4>
-        <hr />
+        <h4>Nuevo usuario</h4>
+        <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12 mb-3">
           <label>
@@ -161,7 +162,7 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               className="form-control border rounded-pill px-3"
               {...register("t005Identificacion", { required: true })}
             />
-            {errors.numeroIdentificacion && (
+            {errors.t005Identificacion && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -177,9 +178,24 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             <input
               type="number"
               className="form-control border rounded-pill px-3"
-              {...register("t005numero", { required: true })}
+              {...register("t005numeroCelular", { required: true })}
             />
-            {errors.numeroDeTelefono && (
+            {errors.t005numeroCelular && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Observación:</label>
+            <textarea
+              className="form-control border rounded-pill px-3"
+              placeholder="Observación"
+              {...register("t005Observacion", { required: true })}
+            />
+            {errors.t005Observacion && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio

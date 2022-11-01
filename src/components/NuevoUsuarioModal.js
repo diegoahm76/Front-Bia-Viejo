@@ -49,10 +49,11 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
   const onSumbitEstacion = async (data) => {
     const nuevoUsuario = {
-      t005Identificacion : data.numeroIdentificacion,
+      t005Identificacion: data.numeroIdentificacion,
       objectid: data.estacion.value,
       t005nombre: data.nombreUsuario,
-      t005numero: data.numeroDeTelefono
+      t005numeroCelular: data.numeroDeTelefono,
+      t005Observacion: data.observacion,
     };
 
     dispatch(crearNuevoUsuarioAction(nuevoUsuario));
@@ -70,8 +71,8 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>Nueva usuario</h4>
-        <hr />
+        <h4>Nuevo usuario</h4>
+        <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12 mb-3">
             <label>
@@ -144,6 +145,21 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               {...register("numeroDeTelefono", { required: true })}
             />
             {errors.numeroDeTelefono && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Observación:</label>
+            <textarea
+              className="form-control border rounded-pill px-3"
+              placeholder="Observación"
+              {...register("observacion", { required: true })}
+            />
+            {errors.observacion && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
