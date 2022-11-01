@@ -11,6 +11,7 @@ import {
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
+import Subtitle from "../../../components/Subtitle";
 
 const UsuariosEstacionesScreen = () => {
   const dispatch = useDispatch();
@@ -31,10 +32,15 @@ const UsuariosEstacionesScreen = () => {
       field: "t001Estaciones.t001nombre",
       minWidth: 140,
     },
-    { headerName: "Número", field: "t005numero", minWidth: 140 },
+    { headerName: "Número", field: "t005numeroCelular", minWidth: 140 },
     {
       headerName: "Identificación",
       field: "t005Identificacion",
+      minWidth: 140,
+    },
+    {
+      headerName: "Observación",
+      field: "t005Observacion",
       minWidth: 140,
     },
     {
@@ -82,13 +88,14 @@ const UsuariosEstacionesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-2 mb-0 text-center mb-4">
-          Administrador de usuarios
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-2 mb-0">
+            Administrador de usuarios
+          </h3>
+          <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
             <div className="row"></div>
             <div>
@@ -96,7 +103,7 @@ const UsuariosEstacionesScreen = () => {
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 onClick={() => setIsModalActive(!isModalActive)}
               >
-                Nueva
+                Nuevo
               </button>
             </div>
           </div>

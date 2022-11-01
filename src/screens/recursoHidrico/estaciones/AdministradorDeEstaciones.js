@@ -11,6 +11,7 @@ import {
 } from "../../../actions/estacionActions";
 import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";
+import Subtitle from "../../../components/Subtitle";
 
 const AdministradorDeEstaciones = () => {
   const dispatch = useDispatch();
@@ -40,8 +41,8 @@ const AdministradorDeEstaciones = () => {
             className="btn btn-sm btn-outline-warning "
             type="button"
             onClick={() => {
-              dispatch(obtenerEstacionEditarAction(params.data))
-              setIsModalEditarActivate(!isModalActive)
+              dispatch(obtenerEstacionEditarAction(params.data));
+              setIsModalEditarActivate(!isModalActive);
             }}
           >
             <img src={IconoEditar} alt="editar" />
@@ -90,13 +91,14 @@ const AdministradorDeEstaciones = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-2 mb-0 text-center mb-4">
-          Administrador estaciones meteorologicas
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-2 mb-0 text-center mb-4">
+            Administrador estaciones meteorologicas
+          </h3>
+          <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
             <div className="row"></div>
             <div>

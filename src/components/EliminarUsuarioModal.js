@@ -47,7 +47,7 @@ const EliminarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="container p-3">
         <h4>Eliminar usuario</h4>
-        <hr />
+        <hr className="rounded-pill hr-modal" />
         <form className="row">
           <div className="col-12 mb-3">
             <label>
@@ -91,7 +91,16 @@ const EliminarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               type="number"
               disabled
               className="form-control border rounded-pill px-3"
-              {...register("t005numero")}
+              {...register("t005numeroCelular")}
+            />
+          </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Observación:</label>
+            <textarea
+              className="form-control border rounded-pill px-3"
+              disabled
+              placeholder="Observación"
+              {...register("t005Observacion")}
             />
           </div>
 
