@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
+import { getConfigAuthBearer } from "../../helpers/configAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
@@ -27,6 +28,7 @@ const AdministradosDeUsuario = () => {
   const [errorPassword, setErrorPassword] = useState(null);
   const [personaData, setPersonaData] = useState({});
   const [actionForm, setActionForm] = useState(null);
+  const [rolesOptions, setRolesOptions] = useState([]);
   const navigate = useNavigate();
   const {
     register: registerBuscar,
@@ -45,6 +47,9 @@ const AdministradosDeUsuario = () => {
     formState: { errors: errorsUsuario },
   } = useForm();
 
+  const accessToken = getTokenAccessLocalStorage();
+  const config = getConfigAuthBearer(accessToken);
+
   useEffect(() => {
     const getSelectsOptions = async () => {
       try {
@@ -52,20 +57,17 @@ const AdministradosDeUsuario = () => {
           "choices/tipo-documento/"
         );
 
-        const accessToken = getTokenAccessLocalStorage();
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        };
-
         const { data: dataRoles } = await clienteAxios.get(
           "roles/get-list",
           config
         );
 
-        console.log("dataRoles", dataRoles);
+        const rolesFormat = dataRoles.map((rol) => ({
+          label: rol.nombre_rol,
+          value: rol.id_rol,
+        }));
+
+        setRolesOptions(rolesFormat);
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
@@ -224,7 +226,7 @@ const AdministradosDeUsuario = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+      <div className="col-12 mx-auto">
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -235,7 +237,7 @@ const AdministradosDeUsuario = () => {
                 Administrador De Usuarios
               </h3>
               <Subtitle title={"Buscar persona"} mt={3} />
-              <div className="mt-4 row align-items-end">
+              <div className="mt-4 row align-items-end ms-1">
                 <div className="col-12 col-md-3">
                   <label className="form-label text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
@@ -279,7 +281,7 @@ const AdministradosDeUsuario = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4 mt-3 mt-md-0">
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
                     className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -299,8 +301,7 @@ const AdministradosDeUsuario = () => {
             {actionForm && (
               <form onSubmit={handleSubmitUsuario(onSubmitUsuario)}>
                 <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
-                <hr className="dark horizontal my-0" />
-                <div className="row mt-1">
+                <div className="row mt-3 ms-1">
                   <div className="col-12 col-md-3">
                     <label className="text-terciary">
                       Nombre de usuario:<span className="text-danger">*</span>
@@ -360,8 +361,11 @@ const AdministradosDeUsuario = () => {
                     </>
                   )}
                 </div>
-                <div className="row flex-column mt-3">
-                  <div className="form-check col-md-3 col-12 ps-0 pe-10 ms-3 d-flex">
+                <div className="row flex-column mt-3 ms-1">
+                  <p className="font-weight-bolder text-terciary">
+                    Estado del usuario
+                  </p>
+                  <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                     <label
                       className="form-check-label text-terciary"
                       htmlFor="flexCheckDefault"
@@ -376,7 +380,7 @@ const AdministradosDeUsuario = () => {
                       {...registerUsuario("bloqueado")}
                     />
                   </div>
-                  <div className="form-check col-md-3 col-12 ps-0 pe-10 ms-3 d-flex">
+                  <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                     <label
                       className="form-check-label text-terciary"
                       htmlFor="flexCheckDefault"
@@ -392,7 +396,7 @@ const AdministradosDeUsuario = () => {
                     />
                   </div>
                 </div>
-                <div className="d-flex align-items-end gap-1">
+                <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 ms-3">
                   <div className="col-12 col-md-3">
                     <label className="text-terciary">
                       Motivo de la accion:
@@ -407,10 +411,12 @@ const AdministradosDeUsuario = () => {
                     Actualizar
                   </button>
                 </div>
-                <p className="font-weight-bolder mt-4">Tipo de usuario</p>
+                <p className="font-weight-bolder text-terciary mt-3 ms-3">
+                  Tipo de usuario
+                </p>
                 <div className="row flex-column">
-                  <div className="col-6 col-md-4">
-                    <div className="form-check form-switch d-flex gap-2">
+                  <div className="col-6 col-md-3">
+                    <div className="form-check form-switch d-flex gap-2 ps-0 ms-3">
                       <label className="me-5 text-terciary">Externo</label>
                       <input
                         className="form-check-input mt-1"
@@ -419,11 +425,11 @@ const AdministradosDeUsuario = () => {
                         value=""
                         {...registerUsuario("tipoUsuario")}
                       />
-                      <label className="text-terciary">Interno</label>
+                      <label className="ms-2 text-terciary">Interno</label>
                     </div>
                   </div>
                 </div>
-                <div className="d-flex align-items-end gap-1">
+                <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 align-items-end gap-1 ms-3">
                   <div className="col-12 col-md-3">
                     <label className="text-terciary">
                       Motivo de la accion:
@@ -439,8 +445,7 @@ const AdministradosDeUsuario = () => {
                   </button>
                 </div>
                 <Subtitle title={"Modulos / Grupos / Roles"} mt={4} mb={0} />
-                <hr className="dark horizontal my-0" />
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">Roles:</label>
                   <Controller
                     name="roles"
@@ -449,15 +454,17 @@ const AdministradosDeUsuario = () => {
                       <Select
                         {...field}
                         isMulti
-                        defaultValue={[paisesOptions[0], paisesOptions[1]]}
-                        options={paisesOptions}
+                        // defaultValue={[paisesOptions[0], paisesOptions[1]]}
+                        options={rolesOptions}
                         placeholder="Seleccionar"
                       />
                     )}
                   />
                 </div>
-                <div className="col-12 col-md-4">
-                  <label className="form-label text-terciary">Tipo de tercero:</label>
+                <div className="col-12 col-md-3 ms-3 mt-4">
+                  <label className="form-label text-terciary">
+                    Tipo de tercero:
+                  </label>
                   <Controller
                     name="tipoTercero"
                     control={controlUsuario}
