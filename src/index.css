@@ -84,6 +84,11 @@ code {
   border-radius: 20px;
 }
 
+/* Correcion botones para las tablas */
+.btn.btn-tablas {
+  min-width: 0;
+}
+
 /* Linea para los titulo de los modales */
 .hr-modal {
   width: 100%;
