@@ -8,7 +8,6 @@ import AlarmasConfiguracionesScreen from "../estaciones/AlarmasConfiguracionesSc
 import AlarmasScreen from "../estaciones/AlarmasScreen";
 import AlertasScreen from "../estaciones/AlertasScreen";
 import ConfiguracionesScreen from "../estaciones/ConfiguracionesScreen";
-import NotificacionesEstacionesScreen from "../estaciones/NotificacionesEstacionesScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
 import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
 
@@ -41,11 +40,6 @@ const RecursoHidricoRoutes = () => {
         <Route
           path="alarmas-configuraciones"
           element={<AlarmasConfiguracionesScreen />}
-        />
-
-        <Route
-          path="notificaciones-estaciones"
-          element={<NotificacionesEstacionesScreen />}
         />
       </Route>
     </Routes>
