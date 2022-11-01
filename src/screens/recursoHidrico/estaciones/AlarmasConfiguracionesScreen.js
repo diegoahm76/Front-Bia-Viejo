@@ -54,24 +54,11 @@ const AlarmasConfiguracionesScreen = () => {
             <button
               className="btn btn-sm btn-tablas btn-outline-warning "
               type="button"
-              title="Send"
               onClick={() => editarAction(params.data.objectid)}
             >
               <img src={IconoEditar} alt="editar" />
             </button>
           </div>
-          {/* <div>
-                <button
-                  className="btn btn-sm btn-tablas btn-outline-danger"
-                  type="button"
-                  title="Send"
-                  onClick={() =>
-                    dispatch(eliminarAlarmaAction(params.data.idAlarma))
-                  }
-                >
-                  <img src={IconoEliminar} alt="eliminar" />
-                </button>
-              </div> */}
         </div>
       ),
       minWidth: 150,

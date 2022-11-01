@@ -2273,32 +2273,6 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/configuraciones"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Configuraciones
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/reportes"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Reportes
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/alertas"
                               >
                                 <span className="sidenav-mini-icon">
@@ -2306,6 +2280,19 @@ const Aside = ({ showAside }) => {
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/configuraciones"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Alertas configuraciones
                                 </span>
                               </Link>
                             </li>
@@ -2325,13 +2312,26 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/notificaciones-estaciones"
+                                to="recurso-hidrico/estaciones/alarmas-configuraciones"
                               >
                                 <span className="sidenav-mini-icon">
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Notificaciones
+                                  Alarmas Configuraciones
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/reportes"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Reportes
                                 </span>
                               </Link>
                             </li>
