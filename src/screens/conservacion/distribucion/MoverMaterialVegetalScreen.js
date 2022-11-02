@@ -5,6 +5,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { Controller, useForm } from "react-hook-form";
 import ReactDatePicker, { registerLocale } from "react-datepicker";
+import Subtitle from "../../../components/Subtitle";
 
 export const MoverMaterialVegetalScreen = () => {
   const [selectedMover, setSelectedMover] = useState({});
@@ -229,16 +230,19 @@ export const MoverMaterialVegetalScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Mover Material Vegetal</h3>
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
-          <div className="row mt-3 mb-4 ms-4">
-            <div className="col-12 col-md-4">
-              <label>Tipo de movimiento</label>
+          <h3 className="mt-3 mb-0 text-start fw-light mb-3">Mover Material Vegetal</h3>
+          <Subtitle
+          title={"Mover material vegetal desde almacen, en el vivero y entre viveros"}/>
+          <div className="row mt-3 mb-4 ms-4 align-items-end">
+            <div className="col-6 col-sm-3">
+              <label className="text-terciary">Tipo de movimiento</label>
               <Select
                 defaultValue={selectedMover}
                 onChange={setSelectedMover}
@@ -247,9 +251,9 @@ export const MoverMaterialVegetalScreen = () => {
               />
             </div>
             
-            <div className="col-12 col-md-4 justify-content-end">
-              <div className=" input-group input-group-dynamic flex-column">
-                <label htmlFor="exampleFormControlInput1">
+            <div className="col-6 col-sm-3 justify-content-end">
+              
+                <label className="text-terciary" htmlFor="exampleFormControlInput1">
                   Fecha de Ingreso: 
                 </label>
                 <Controller
@@ -260,16 +264,18 @@ export const MoverMaterialVegetalScreen = () => {
                       {...field}
                       locale="es"
                       //required
+                      dateFormat={"dd/MM/yyyy"}
+                       placeholderText="dd/mm/aaaa"
                       selected={formValues.fechaIngreso}
                       onSelect={(e) =>
                         setFormValues({ ...formValues, fechaIngreso: e })
                       }
-                      className="col-4 multisteps-form__input form-control p-2"
-                      placeholderText="dd/mm/aaaa"
+                      className="col-4 multisteps-form__input form-control p-2 border rounded-pill px-3 border-terciary"
+                     
                     />
                   )}
                 />
-              </div>
+              
 
               </div> 
 
@@ -279,8 +285,8 @@ export const MoverMaterialVegetalScreen = () => {
             {selectedMover.value === "Desde" ? (
               <div>
                 <div className="row mt-3">
-                  <div className="col-12 col-md-4 ">
-                    <label>Seleccionar vivero de destino</label>
+                  <div className="col-6 col-sm-3 ">
+                    <label className="text-terciary">Seleccionar vivero de destino</label>
                     <Controller
                       name="opcVivDes"
                       control={control}
@@ -312,7 +318,7 @@ export const MoverMaterialVegetalScreen = () => {
                   </div>
                 </div>
                 <div className="row mt-2">
-                  <div className="col ms-5">
+                  <div className="col-12 col-md-4">
                     <div
                       className="ag-theme-alpine mt-4 mb-6 "
                       style={{ height: "500px" }}
@@ -337,49 +343,50 @@ export const MoverMaterialVegetalScreen = () => {
                       alignItems: "center",
                     }}
                   >
-                    <div className="form-floating input-group input-group-dynamic" style={{ width: "155px" }}>
+                    <label className="ms-2 text-terciary">
+                        Cantidad de Material:{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
+                    {/* < className="form-floating input-group input-group-dynamic" > */}
                       <input
-                        className="form-control"
-                        type="text"
+                        className="form-control border rounded-pill px-3 border-terciary "style={{ width: "155px" }}
+                        type="float"
                         
                         placeholder="Cantidad de material"
                         {...register("cantidad")}
                       />
-                      <label className="ms-2">
-                        Cantidad de Material:{" "}
-                        <span className="text-danger">*</span>{" "}
-                      </label>
-                    </div>
+                      
+                    
                     <div>
                       <button
-                        className="btn btn-2 btn-primary mt-4 text-capitalize"
+                        className="btn  btn-primary mt-4 text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                       
                       >
                         Mover
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-2 btn-primary text-capitalize"
+                        className="btn btn-primary text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                      
                       >
                         Mover todo
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-2 btn-primary text-capitalize"
+                        className="btn btn-primary text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                        
                       >
                         Remover todo
                       </button>
                     </div>
                   </div>
 
-                  <div className="col me-5">
+                  <div className="col-12 col-md-4 ">
                     <div
                       className="ag-theme-alpine mt-4 mb-6"
                       style={{ height: "500px" }}
@@ -429,8 +436,8 @@ export const MoverMaterialVegetalScreen = () => {
             selectedViveroDestino ? (
               <div>
                 <div className="row mt-6">
-                  <div className="col-12 col-md-4 ">
-                    <label>Seleccionar vivero de origen</label>
+                  <div className="col-6 col-sm-3 ">
+                    <label className="text-terciary">Seleccionar vivero de origen</label>
                     <Controller
                       name="opcVivOri"
                       control={control}
@@ -450,8 +457,8 @@ export const MoverMaterialVegetalScreen = () => {
                     )}
                   </div>
 
-                  <div className="col-12 col-md-4 ">
-                    <label>Seleccionar vivero de destino</label>
+                  <div className="col-6 col-sm-3 ">
+                    <label className="text-terciary">Seleccionar vivero de destino</label>
                     <Controller
                       name="opcVivDes2"
                       control={control}
@@ -481,7 +488,7 @@ export const MoverMaterialVegetalScreen = () => {
                   </div>
                 </div>
                 <div className="row mt-2">
-                  <div className="col ms-5">
+                  <div className="col-12 col-md-4 ">
                     <div
                       className="ag-theme-alpine mt-4 mb-6 "
                       style={{ height: "500px" }}
@@ -506,48 +513,48 @@ export const MoverMaterialVegetalScreen = () => {
                       alignItems: "center",
                     }}
                   >
-                    <div className="form-floating input-group input-group-dynamic" style={{ width: "155px" }}>
+                    <label className="ms-2 text-terciary">
+                        Cantidad de Material:{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3 border-terciary"style={{ width: "155px" }}
                         type="text"
                         placeholder="Cantidad de material"
                         {...register("cantidad")}
                       />
-                      <label className="ms-2">
-                        Cantidad de Material:{" "}
-                        <span className="text-danger">*</span>{" "}
-                      </label>
-                    </div>
+                      
+                    
                     <div>
                       <button
-                        className="btn btn-2 btn-primary mt-4 text-capitalize"
+                        className="btn  btn-primary mt-4 text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                        
                       >
                         Mover
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-2 btn-primary text-capitalize"
+                        className="btn  btn-primary text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                        
                       >
                         Mover todo
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-2 btn-primary text-capitalize"
+                        className="btn  btn-primary text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                        
                       >
                         Remover todo
                       </button>
                     </div>
                   </div>
 
-                  <div className="col me-5">
+                  <div className="col-12 col-md-4 ">
                     <div
                       className="ag-theme-alpine mt-4 mb-6"
                       style={{ height: "500px" }}
@@ -594,9 +601,9 @@ export const MoverMaterialVegetalScreen = () => {
 
             {selectedMover.value === "En" ? (
               <div>
-                <div className="row mt-3">
-                  <div className="col-12 col-md-4 ">
-                    <label>Seleccionar vivero</label>
+                <div className="row mt-3 align-items-end">
+                  <div className="col-6 col-sm-3 ">
+                    <label className="text-terciary">Seleccionar vivero</label>
                     <Controller
                       name="opcViv"
                       control={control}
@@ -615,8 +622,8 @@ export const MoverMaterialVegetalScreen = () => {
                       </p>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 "></div>
-                  <div className="col-12 col-md-4 justify-content-end ">
+                  <div className="col-12 col-md-4  "></div>
+                  <div className="col-12 col-md-4  ">
                     <button
                       className="mt-4 btn btn-primary text-capitalize "
                       type="submit"
@@ -625,10 +632,10 @@ export const MoverMaterialVegetalScreen = () => {
                     </button>
                   </div>
 
-                  <div className="col px-6"></div>
+                  
                 </div>
                 <div className="row mt-2">
-                  <div className="col ms-5">
+                  <div className="col-12  col-md-4">
                     <div
                       className="ag-theme-alpine mt-4 mb-6 "
                       style={{ height: "500px" }}
@@ -653,48 +660,48 @@ export const MoverMaterialVegetalScreen = () => {
                       alignItems: "center",
                     }}
                   >
-                    <div className="form-floating input-group input-group-dynamic" style={{ width: "155px" }}>
+                    <label className="ms-2 text-terciary">
+                        Cantidad de Material:{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
                       <input
-                        className="form-control"
+                        className="form-control border rounded-pill px-3 border-terciary"style={{ width: "155px" }}
                         type="text"
                         placeholder="Cantidad de material"
                         {...register("cantidad")}
                       />
-                      <label className="ms-2">
-                        Cantidad de Material:{" "}
-                        <span className="text-danger">*</span>{" "}
-                      </label>
-                    </div>
+                      
+                    
                     <div>
                       <button
-                        className="btn btn-2 btn-primary mt-4 text-capitalize"
+                        className="btn btn-primary mt-4 text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                        
                       >
                         Mover
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-2 btn-primary text-capitalize"
+                        className="btn btn-primary text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                        
                       >
                         Mover todo
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-2 btn-primary text-capitalize"
+                        className="btn btn-primary text-capitalize"
                         type="button"
-                        style={{ width: "150px" }}
+                       
                       >
                         Remover todo
                       </button>
                     </div>
                   </div>
 
-                  <div className="col me-5">
+                  <div className="col-12 col-md-4">
                     <div
                       className="ag-theme-alpine mt-4 mb-6"
                       style={{ height: "500px" }}

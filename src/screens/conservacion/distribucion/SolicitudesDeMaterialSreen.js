@@ -9,6 +9,8 @@ import {
   desactiveModalAction,
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
+import Subtitle from "../../../components/Subtitle";
+import ModalLocal from "../../../components/ModalLocal";
 
 const SolicitudesDeMaterialSreen = () => {
   const [selectedViveros, setSelectedViveros] = useState(null);
@@ -146,7 +148,7 @@ const SolicitudesDeMaterialSreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-2 btn-primary" type="button">
+          <button className="btn btn-2 btn-primary text-capitalize" type="button">
             Remover
           </button>
         </div>
@@ -169,14 +171,7 @@ const SolicitudesDeMaterialSreen = () => {
 
   const dispatch = useDispatch();
 
-  const handleOpenModal = () => {
-    dispatch(activeModalAction());
-  };
-
-  const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
-  };
-
+  
   const [selectedMunicipios, setSelectedMunicipios] = useState(null);
   const [select, setSelect] = useState({
     numeroinfo: "",
@@ -209,22 +204,36 @@ const SolicitudesDeMaterialSreen = () => {
     fechaIngreso: "",
   });
 
+
+  const [modal, setModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setModalInfo(true);
+  };
+  const [modalInfo, setModalInfo] = useState(false);
+
+  const handleCloseModal = () => {
+    setModalInfo(false);
+  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Solicitud de Material Vegetal
-        </h3>
+       
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+           <h3 className="mt-3 mb-0 text-start fw-light mb-3">
+          Solicitud de Material Vegetal
+        </h3>
+        <Subtitle
+        title={"Datos de la solicitud"}/>
           <div className="row mt-4 ms-4">
-            <label className="col-12 col-md-4">Numero de solicitud</label>
-            <div className="col-12 col-md-4">
-              <div className=" input-group input-group-dynamic flex-column">
+            <label className="col-6 col-sm-3">Numero de solicitud</label>
+            <div className="col-6 col-sm-3 justify-content-end">
+             
                 <label htmlFor="exampleFormControlInput1">
                   Fecha de solicitud
                 </label>
@@ -236,22 +245,23 @@ const SolicitudesDeMaterialSreen = () => {
                       {...field}
                       locale="es"
                       //required
+                      dateFormat={"dd/MM/yyyy"}
                       selected={formValues.fechaIngreso}
                       onSelect={(e) =>
                         setFormValues({ ...formValues, fechaIngreso: e })
                       }
-                      className="col-4 multisteps-form__input form-control p-2"
+                      className="form-control  border rounded-pill px-3 border-terciary"
                       placeholderText="dd/mm/aaaa"
                     />
                   )}
                 />
-              </div>
+              
             </div>
             
           </div>
           <div className="row mt-4 ms-2">
             <div className="row ms-1 me-6 mb-1">
-              <div className="col-12 col-md-4">
+              <div className="col-6 col-sm-3">
                 <label className="form-control ms-0">Selecione Vivero: </label>
                 <Controller
                   name="options"
@@ -310,17 +320,17 @@ const SolicitudesDeMaterialSreen = () => {
             </div>
             <div className="row ms-2">
               
-              <div className="col-12 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
+              <div className="col-6 col-sm-3 mt-4">
+                     <label>Escribir cantidad: <span className="text-danger">*</span></label>
                     <input
-                      className="form-control"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
-                      placeholder="NumeroInforme"
+                      placeholder="Digitar cantidad de material vegetal"
                       rules={{ required: true }}
-                      {...register("NumeroInforme")}
+                      {...register("cantidad")}
                     />
-                    <label>Escribir cantidad: <span className="text-danger">*</span></label>
-                  </div>
+                 
+                  
                   {errors.NumeroInforme && (
                           <p className="text-danger">
                             Este campo es obligatorio
@@ -379,46 +389,37 @@ const SolicitudesDeMaterialSreen = () => {
             
           </div>
         </form>
-        <CalendarModal>
+        <ModalLocal localState={modalInfo}>
           <div className="row min-vh-100">
             <div className="col-lg-10 col-md-10 col-sm-12 mx-auto">
-              <h5 className="mt-3 mb-0 text-center mb-6">
-                Informacion Adicional de la Solicitud de Material Vegetal
-              </h5>
+            <Subtitle
+                  title={"Informacion Adicional de la Solicitud"}
+                />
               <form onSubmit={handleSubmit2(onSubmit)}>
-                <div className="row ms-5">
-                <div className="col-10 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
+                <div className="row ms-5 mt-4 align-items-end">
+                <div className="col-6 col-sm-3 ">
+                  <label>N° informe de caracterizacion: <span className="text-danger">*</span></label>
                     <input
-                      className="form-control"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
-                      placeholder="NumeroInforme"
+                      placeholder="Numero de Informe"
                       rules={{ required: true }}
                       {...register("NumeroInforme")}
                     />
-                    <label>N° informe de caracterizacion: <span className="text-danger">*</span></label>
-                  </div>
+                    
+                  
                   {errors.NumeroInforme && (
                           <p className="text-danger">
                             Este campo es obligatorio
                           </p>
                         )}
-                        <div>
-                          <label htmlFor="formFileLg" className="form-label"></label>
-                          <input
-                            className="form-control form-control-lg mt-6"
-                            id="formFileLg"
-                            type="file"
-                          />
+                        </div>
                         
-                      
-                    </div>
-                  </div>
-                  {errors.fechaRetiro && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-                <div className="row mt-4 ms-5">
+                  
+                    {errors.fechaRetiro && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                
                   <div className="col-6 col-md-4">
                     <label>
                       Municipio de destino: (*)
@@ -440,16 +441,16 @@ const SolicitudesDeMaterialSreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-4 mt-3">
-                  <div className="form-floating input-group input-group-dynamic">
+                   <label>Vereda y nombre de predio: <span className="text-danger">*</span></label>
                     <input
-                      className="form-control"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
                       placeholder="Vereda"
                       rules={{ required: true }}
                       {...register("Vereda")}
                     />
-                    <label>Vereda y nombre de predio: <span className="text-danger">*</span></label>
-                  </div>
+                   
+                  
                   {errors.Consecutivo && (
                           <p className="text-danger">
                             Este campo es obligatorio
@@ -459,10 +460,10 @@ const SolicitudesDeMaterialSreen = () => {
                 </div>
 
                 <div className="row ms-5">
-                  <div>
-                    <label for="formFileLg" class="form-label"></label>
+                  <div className="col-6">
+                    <label for="formFileLg" class="form-label mt-4">Anexar Documentacion</label>
                     <input
-                      class="form-control form-control-lg mt-6"
+                      class="form-control border rounded-pill px-3 border-terciary"
                       id="formFileLg"
                       type="file"
                     />
@@ -495,9 +496,10 @@ const SolicitudesDeMaterialSreen = () => {
               </form>
             </div>
           </div>
-        </CalendarModal>
+        </ModalLocal>
       </div>
     </div>
   );
-};
+
+}
 export default SolicitudesDeMaterialSreen;
