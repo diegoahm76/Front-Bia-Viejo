@@ -329,72 +329,72 @@ const AdministradorDeEmpresasScreen = () => {
           data-animation="FadeIn"
         >
           <div className="row">
-            <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
-              Administrador de empresas
-            </h3>
-            <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
-            <form
-              className="mt-4 row mx-1"
-              onSubmit={handleSubmitBuscar(onSubmitBuscar)}
-            >
-              <div className="col-12 col-md-4">
-                <label className="form-label">
-                  Tipo de documento: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="tipoDocumento"
-                  control={controlBuscar}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={tipoDocumentoOptions}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errorsBuscar.tipoDocumento && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-md-4">
-                <div>
-                  <label className="ms-2">
-                    Número de documento: <span className="text-danger">*</span>
+            <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
+              <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+                Administrador de empresas
+              </h3>
+              <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
+              <div className="mt-4 row align-items-end ms-1">
+                <div className="col-12 col-md-3">
+                  <label className="form-label">
+                    Tipo de documento: <span className="text-danger">*</span>
                   </label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    {...registerBuscar("numeroDocumento", { required: true })}
+                  <Controller
+                    name="tipoDocumento"
+                    control={controlBuscar}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={tipoDocumentoOptions}
+                        placeholder="Seleccionar"
+                      />
+                    )}
                   />
+                  {errorsBuscar.tipoDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
-                {errorsBuscar.numeroDocumento && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
+                <div className="col-12 col-md-3">
+                  <div>
+                    <label className="ms-2">
+                      Número de documento:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3"
+                      type="text"
+                      {...registerBuscar("numeroDocumento", { required: true })}
+                    />
                   </div>
-                )}
-              </div>
-              <div className="col-12 col-md-4 mt-2 mt-md-4">
-                <button
-                  type="submit"
-                  className="btn bg-gradient-primary mb-0 text-capitalize"
-                >
-                  Buscar
-                </button>
-                <button
-                  type="button"
-                  className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
-                >
-                  Busqueda avanzada
-                </button>
+                  {errorsBuscar.numeroDocumento && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                  >
+                    Buscar
+                  </button>
+                  <button
+                    type="button"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                  >
+                    Busqueda avanzada
+                  </button>
+                </div>
               </div>
             </form>
 
@@ -403,9 +403,9 @@ const AdministradorDeEmpresasScreen = () => {
                 <Subtitle title={"Datos personales"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="mt-4 row mx-1">
-                  <div className="row col-12 justify-content-center align-items-center">
+                  <div className="row col-12 ">
                     {actionForm !== ACTION_EDITAR ? (
-                      <div className="col-12 col-md-4">
+                      <div className="col-12 col-md-3">
                         <label className="form-label">
                           Tipo de documento:{" "}
                           <span className="text-danger">*</span>
@@ -435,7 +435,7 @@ const AdministradorDeEmpresasScreen = () => {
                         />
                       </div>
                     ) : (
-                      <div className="col-12 col-md-4">
+                      <div className="col-12 col-md-3">
                         <div className="mt-2">
                           <label className="ms-2">
                             Tipo de documento:{" "}
@@ -453,7 +453,7 @@ const AdministradorDeEmpresasScreen = () => {
                         </div>
                       </div>
                     )}
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
                           Número de documento:{" "}
@@ -476,7 +476,7 @@ const AdministradorDeEmpresasScreen = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">Cod. verificacion:</label>
                         <input
@@ -497,7 +497,7 @@ const AdministradorDeEmpresasScreen = () => {
                         )}
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">Nombre comercial:</label>
                         <input
@@ -508,7 +508,7 @@ const AdministradorDeEmpresasScreen = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
                           Razon social: <span className="text-danger">*</span>
@@ -521,7 +521,7 @@ const AdministradorDeEmpresasScreen = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">Representante legal:</label>
                         <input
@@ -537,7 +537,7 @@ const AdministradorDeEmpresasScreen = () => {
                 <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="mt-4 row mx-1">
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País:</label>
                     <Controller
                       name="paisEmpresa"
@@ -561,7 +561,7 @@ const AdministradorDeEmpresasScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">
                         E-mail: <span className="text-danger">*</span>
@@ -573,7 +573,7 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">
                         Celular: <span className="text-danger">*</span>
@@ -585,7 +585,7 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">Telefono empresa:</label>
                       <input
@@ -599,7 +599,7 @@ const AdministradorDeEmpresasScreen = () => {
 
                 <Subtitle title={"Datos de notificacion"} mt={4} mb={0} />
                 <div className="row mx-1">
-                  <div className="col-12 col-md-4">
+                  <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">Telefono alterno:</label>
                       <input
@@ -609,7 +609,7 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">E-mail de notificacion:</label>
                       <input
@@ -620,7 +620,7 @@ const AdministradorDeEmpresasScreen = () => {
                     </div>
                   </div>
                   {actionForm !== ACTION_EDITAR ? (
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <label className="form-label">
                         Municipio de notificacion:
                       </label>
@@ -654,7 +654,7 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   ) : (
-                    <div className="col-12 col-md-4">
+                    <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
                           Municipio de notificacion:

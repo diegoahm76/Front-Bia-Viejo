@@ -171,7 +171,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-6 col-lg-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Número de documento:
                   </label>
                   <input
@@ -185,7 +185,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-6 col-lg-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Codigo de verificación:
                   </label>
                   <input
@@ -199,7 +199,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-12 col-lg-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Nombre Comercial:
                   </label>
                   <input
@@ -213,7 +213,9 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-12 col-lg-4 mb-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">Razon social:</label>
+                  <label className="text-terciary text-terciary ms-2">
+                    Razon social:
+                  </label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
@@ -224,7 +226,9 @@ const ActualizarDatosEmpresaScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-4 mt-3">
-                <label className="text-terciary form-label">País:</label>
+                <label className="text-terciary text-terciary form-label">
+                  País:
+                </label>
                 <Controller
                   name="cod_pais_nacionalidad_empresa"
                   control={control}
@@ -254,7 +258,7 @@ const ActualizarDatosEmpresaScreen = () => {
             <div className="row mx-1">
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     E-mail: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -268,7 +272,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Email empresarial:
                   </label>
                   <input
@@ -280,7 +284,7 @@ const ActualizarDatosEmpresaScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-4 mt-3">
-                <label className="text-terciary form-label">
+                <label className="text-terciary text-terciary form-label">
                   Municipio notificación: <span className="text-danger">*</span>
                 </label>
                 <Controller
@@ -316,7 +320,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Celular notificación:
                   </label>
                   <input
@@ -329,7 +333,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Teléfono empresa:
                   </label>
                   <input
@@ -342,7 +346,7 @@ const ActualizarDatosEmpresaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Teléfono alterno:
                   </label>
                   <input
@@ -364,7 +368,7 @@ const ActualizarDatosEmpresaScreen = () => {
                       required: true,
                     })}
                   />
-                  <label className="text-terciary ms-2">
+                  <label className="text-terciary text-terciary ms-2">
                     Dirección de notificación:{" "}
                     <span className="text-danger">*</span>
                   </label>
