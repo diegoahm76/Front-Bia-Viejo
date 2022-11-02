@@ -15,9 +15,6 @@ const paisesOptions = [
   { label: "Colombia", value: "COL" },
   { label: "Mexico", value: "MX" },
   { label: "Venezuela", value: "VEN" },
-  { label: "Venezuel", value: "VON" },
-  { label: "Venezue", value: "VIN" },
-  { label: "Venezu", value: "VUN" },
 ];
 
 const AdministradosDeUsuario = () => {
@@ -176,6 +173,8 @@ const AdministradosDeUsuario = () => {
 
     if (actionForm === "crear") {
       try {
+        const rolesFormat = data.roles.map((rol) => rol.value);
+
         const nuevoUsuario = {
           email: personaData.email,
           nombre_de_usuario: data.nombreUsuario,
@@ -183,6 +182,7 @@ const AdministradosDeUsuario = () => {
           password: data.password,
           id_usuario_creador: id_usuario,
           tipo_usuario: data.tipoUsuario ? "I" : "E",
+          roles: rolesFormat,
         };
 
         await clienteAxios.post("users/register/", nuevoUsuario, config);
@@ -241,7 +241,7 @@ const AdministradosDeUsuario = () => {
                 <div className="col-12 col-md-3">
                   <label className="form-label text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
-                  </label>{" "}
+                  </label>
                   <Controller
                     name="tipoDocumento"
                     control={controlBuscar}
