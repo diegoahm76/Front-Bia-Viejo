@@ -10,7 +10,7 @@ import DatePicker from "react-datepicker";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
-import { formatISO, formatISO9075 } from "date-fns";
+import { formatISO } from "date-fns";
 import { getDateFromAAAAMMDDToDDMMAAAA } from "../../helpers/dateHelpers";
 
 const columDefs = [
