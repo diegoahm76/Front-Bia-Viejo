@@ -423,14 +423,14 @@ const AdministradorDePersonasScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
-            Administrador de personas
-          </h3>
-          <Subtitle title={"Buscar persona"} mt={0} mb={0} />
           <div className="row">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
-              <div className="mt-4 row mx-1 align-items-center">
-                <div className="col-12 col-md-4">
+              <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+                Administrador de personas
+              </h3>
+              <Subtitle title={"Buscar persona"} mt={0} mb={0} />
+              <div className="mt-4 row align-items-end ms-1">
+                <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
@@ -456,7 +456,7 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-3">
                   <div>
                     <label className="ms-2">
                       Número de documento:{" "}
@@ -478,7 +478,7 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4 mt-4">
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
                     className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -502,7 +502,7 @@ const AdministradorDePersonasScreen = () => {
                 <div className="mt-4 row mx-1">
                   <div className="row col-12">
                     {actionForm !== "editar" ? (
-                      <div className="col-12 col-md-4 mt-2">
+                      <div className="col-12 col-md-3 mt-2">
                         <label className="form-label">
                           Tipo de documento:{" "}
                           <span className="text-danger">*</span>
@@ -530,7 +530,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       </div>
                     ) : (
-                      <div className="col-12 col-md-4 mt-2">
+                      <div className="col-12 col-md-3 mt-2">
                         <div>
                           <label className="ms-2">
                             Tipo documento:{" "}
@@ -550,7 +550,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
 
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">
                           Número de documento:{" "}
@@ -573,7 +573,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Digito de verificación:</label>
                         <input
@@ -592,7 +592,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Nombre comercial:</label>
                         <input
@@ -609,7 +609,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">
                           Primer nombre: <span className="text-danger">*</span>
@@ -631,7 +631,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Segundo nombre:</label>
                         <input
@@ -642,7 +642,7 @@ const AdministradorDePersonasScreen = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">
                           Primer apellido:{" "}
@@ -665,7 +665,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Segundo apellido:</label>
                         <input
@@ -676,7 +676,7 @@ const AdministradorDePersonasScreen = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">Sexo:</label>
                       <Controller
                         name="sexo"
@@ -694,7 +694,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">Estado civil:</label>
                       <Controller
                         name="estadoCivil"
@@ -718,7 +718,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">País de nacimiento:</label>
                       <Controller
                         name="paisNacimiento"
@@ -742,7 +742,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-1">
+                    <div className="col-12 col-md-3 mt-1">
                       <label htmlFor="exampleFormControlInput1">
                         Fecha de nacimiento{" "}
                         <span className="text-danger">*</span>
@@ -755,7 +755,12 @@ const AdministradorDePersonasScreen = () => {
                           <DatePicker
                             {...field}
                             locale="es"
-                            dateFormat="yyyy/MM/dd"
+                            showYearDropdown
+                            peekNextMonth
+                            showMonthDropdown
+                            scrollableYearDropdown
+                            dropdownMode="select"
+                            autoComplete="off"
                             selected={formValues.fechaNacimiento}
                             value={formValues.fechaNacimiento}
                             onSelect={(e) => {
@@ -765,7 +770,7 @@ const AdministradorDePersonasScreen = () => {
                               });
                             }}
                             className="form-control border rounded-pill px-3"
-                            placeholderText="aaaa/mm/dd"
+                            placeholderText="dd/mm/aaaa"
                           />
                         )}
                       />
@@ -782,7 +787,7 @@ const AdministradorDePersonasScreen = () => {
                 <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="mt-2 row mx-1">
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">
                         E-mail: <span className="text-danger">*</span>
@@ -802,7 +807,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Email empresarial:</label>
                       <input
@@ -812,7 +817,7 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">
                         Celular: <span className="text-danger">*</span>
@@ -831,7 +836,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Telefono fijo:</label>
                       <input
@@ -841,7 +846,7 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Telefono empresa 2:</label>
                       <input
@@ -851,7 +856,7 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">
                       Municipio notificación:
                     </label>
@@ -882,7 +887,7 @@ const AdministradorDePersonasScreen = () => {
                 </div>
                 <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
                 <div className="row mb-3 mt-2 mx-1">
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País de Residencia:</label>
                     <Controller
                       name="paisResidencia"
@@ -906,7 +911,7 @@ const AdministradorDePersonasScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">Municipio:</label>
                     <Controller
                       name="municipio"
@@ -930,7 +935,7 @@ const AdministradorDePersonasScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">
                         Ubicacion geografica:{" "}
@@ -982,7 +987,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Referencia adicional:</label>
                       <input
@@ -1010,7 +1015,7 @@ const AdministradorDePersonasScreen = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">
                       Municipio donde labora:
                     </label>
