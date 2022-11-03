@@ -1,13 +1,10 @@
 import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 const ReporteDeDevolucionDeActivoScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
@@ -106,23 +103,25 @@ const ReporteDeDevolucionDeActivoScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Reporte de devolucion de asignacion
-        </h3>
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
+          <form
+            className="row"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+            id="configForm"
+          >
+            <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
+              Reporte de devolucion de asignacion
+            </h3>
 
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <label className="ms-2">Numero consecutivo</label>
+            <Subtitle mb="3" title="Consecutivo de devolucion de asignación" />
+
+            <div className="row ">
+              <div className="col-12 col-md-3">
+                <label className="text-terciary ms-2">Numero consecutivo</label>
                 <input
                   name="consecutivo"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="numero consecutivo"
                   {...register("consecutivo", { required: true })}
@@ -134,10 +133,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-md-4">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-md-3 mt-2">
+                <labelc className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de devolucion
-                </label>
+                </labelc>
                 <Controller
                   name="fechaSolicitud"
                   control={control}
@@ -149,17 +148,17 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       includeDates={[new Date()]}
                       onChange={(date) => setStartDate(date)}
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="border border-terciary form-control border rounded-pill px-3  p-2"
                       placeholderText="dd/mm/aaaa"
                       disabled
                     />
                   )}
                 />
               </div>
-              <div className="col-12 col-md-2">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-4">
+              <div className="col-12 col-md-2 mt-2">
+                <div className="d-grid gap-2 d-flex">
                   <button
-                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                     type="submit"
                     title="Send"
                     form="configForm"
@@ -173,28 +172,12 @@ const ReporteDeDevolucionDeActivoScreen = () => {
             {selecOpciones.consecutivo ? (
               <div>
                 <div className="multisteps-form__content">
-                  <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white"
-                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                      <n>Reporte de devolucion de activos</n>
-                    </label>
-                  </div>
-                </div>
-                <div className="multisteps-form__content">
-                  <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white"
-                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                      <n>Almacenista</n>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="multisteps-form__content">
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Tipo de documento </label>
+                  <div className="row ">
+                    <Subtitle mb="3" title="Almacenista" />
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Tipo de documento </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="C.C"
@@ -202,10 +185,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                       />
                     </div>
 
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Numero de documento</label>
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Numero de documento</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="1.243.675.654"
@@ -213,10 +196,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                       />
                     </div>
 
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Nombre</label>
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Nombre</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="Julian Castillo"
@@ -227,20 +210,12 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                 </div>
 
                 <div className="multisteps-form__content">
-                  <div className="row">
-                    <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white"
-                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                      <n>Responsable</n>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="multisteps-form__content">
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Tipo de documento </label>
+                  <div className="row mt-3">
+                    <Subtitle mb="3" title="Responsable" />
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Tipo de documento </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="C.C"
@@ -248,10 +223,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                       />
                     </div>
 
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Numero de documento</label>
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Numero de documento</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="1.745.847.444"
@@ -259,10 +234,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                       />
                     </div>
 
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Nombre</label>
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Nombre</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="Jusus Cruz"
@@ -272,19 +247,21 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                   </div>
                 </div>
 
-                <div className="input-group input-group-dynamic flex-column mt-3">
-                  <label htmlFor="exampleFormControlInput1 ">
-                    Observaciones
-                  </label>
-                  <textarea
-                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                    type="text"
-                    placeholder="Observaciones"
-                    rows="5"
-                    name="Observaciones"
-                    value="eeLorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
-                    disabled
-                  />
+                <div className="col-12 col-md-12">
+                  <div className="mx-3 mt-3">
+                    <label className="text-terciary text-terciary" htmlFor="ms-2">
+                      Observaciones
+                    </label>
+                    <textarea
+                      className="form-control border rounded-pill px-4 border border-terciary"
+                      type="text"
+                      placeholder="Observaciones"
+                      value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, "
+                      disabled
+                      rows="5"
+                      name="Acciones"
+                    />
+                  </div>
                 </div>
 
                 <div className="mt-4 row">
@@ -317,11 +294,11 @@ const ReporteDeDevolucionDeActivoScreen = () => {
 
                 <div className="mt-4 justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">Nombre quien imprime</label>
+                    <div className="col-12 col-md-3">
+                      <label className="text-terciary ms-2">Nombre quien imprime</label>
                       <input
                         name="nombreQuienImprime"
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="Nombre del articulo"
                         value="Julian Castillo"
@@ -332,10 +309,10 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                 </div>
                 <div className="justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label htmlFor="exampleFormControlInput1 mt-4">
+                    <div className="col-12 col-md-3">
+                      <labelc className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                         Fecha de impresion
-                      </label>
+                      </labelc>
 
                       <Controller
                         name="fechaSolicitud"
@@ -348,7 +325,7 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                             dateFormat="dd/MM/yyyy"
                             includeDates={[new Date()]}
                             onChange={(date) => setStartDate(date)}
-                            className="form-control border rounded-pill px-3  p-2"
+                            className=" border border-terciary form-control border rounded-pill px-3  p-2"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}
@@ -357,34 +334,35 @@ const ReporteDeDevolucionDeActivoScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-md-4 row">
-                  <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                    >
-                      Imprimir
-                    </button>
+                <div className="row">
+                  <div className="col-12 col-md-12 d-flex justify-content-end">
+                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                        type="button"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Imprimir
+                      </button>
 
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
-                      type="button"
-                      title="Send"
-                      form="configForm"
-                      onclik="${}"
-                    >
-                      Salir
-                    </button>
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
+                        type="button"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Salir
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             ) : (
               ""
             )}
-          </MarcaDeAgua1>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
