@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";
 import Subtitle from "../../../components/Subtitle";
 
+
 const AdministradorDeEstaciones = () => {
   const dispatch = useDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
@@ -95,12 +96,11 @@ const AdministradorDeEstaciones = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h3 className="mt-2 mb-0">
-            Administrador estaciones meteorologicas
-          </h3>
+          <h3 className="mt-2 mb-0">Administrador estaciones meteorologicas</h3>
           <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
-            <div className="row"></div>
+            <div className="row">
+            </div>
             <div>
               <button
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"

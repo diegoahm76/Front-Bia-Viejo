@@ -10,7 +10,7 @@ import DatePicker from "react-datepicker";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
-import { formatISO, formatISO9075 } from "date-fns";
+import { formatISO } from "date-fns";
 import { getDateFromAAAAMMDDToDDMMAAAA } from "../../helpers/dateHelpers";
 
 const columDefs = [
@@ -70,6 +70,9 @@ const AuditoriaScreen = () => {
   const [auditorias, setAuditorias] = useState([]);
   const [subsistemasOptions, setSubsistemasOptions] = useState([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+  const [page, setPage] = useState(1);
+  const [urlBasePagination, setUrlBasePagination] = useState("");
+  const [maxPage, setMaxPage] = useState(1);
   const [formValues, setFormValues] = useState({
     fechaIni: "",
     fechaEnd: "",
@@ -105,14 +108,20 @@ const AuditoriaScreen = () => {
           ? `&tipo-documento=${data.tipoDocumento.value}&numero-documento=${data.numeroDocumento}`
           : ""
       }${data.subsistema ? `&subsistema=${data.subsistema.value}` : ""}`;
-      console.log("query params", queryParamsUrl);
       const { data: dataAuditorias } = await clienteAxios.get(
         queryParamsUrl,
         config
       );
       console.log("data response auditorias, success", dataAuditorias);
       const dataSend = dataAuditorias.auditorias ?? [];
+      if (dataAuditorias.auditorias) {
+        setUrlBasePagination(queryParamsUrl);
+        setMaxPage(dataAuditorias.pages);
+      } else {
+        setUrlBasePagination("");
+      }
       setAuditorias(dataSend);
+      setPage(1);
     } catch (err) {
       console.log(err);
     }
@@ -136,6 +145,44 @@ const AuditoriaScreen = () => {
     };
     getInfo();
   }, []);
+
+  const getPageRequest = async (urlBase) => {
+    const accessToken = getTokenAccessLocalStorage();
+    const config = getConfigAuthBearer(accessToken);
+    const { data: dataAuditorias } = await clienteAxios.get(urlBase, config);
+    console.log(dataAuditorias);
+    setAuditorias(dataAuditorias.auditorias);
+  };
+
+  const nextPage = async () => {
+    const valueNextPage = page + 1;
+    if (valueNextPage <= maxPage) {
+      const completeUrl = urlBasePagination + `&page=${valueNextPage}`;
+      await getPageRequest(completeUrl);
+      setPage(valueNextPage);
+    }
+  };
+
+  const previousPage = async () => {
+    const valuePreviousPage = page - 1;
+    if (valuePreviousPage >= 1) {
+      const completeUrl = urlBasePagination + `&page=${valuePreviousPage}`;
+      await getPageRequest(completeUrl);
+      setPage(valuePreviousPage);
+    }
+  };
+
+  const lastPage = async () => {
+    const completeUrl = urlBasePagination + `&page=${maxPage}`;
+    await getPageRequest(completeUrl);
+    setPage(maxPage);
+  };
+
+  const firstPage = async () => {
+    const completeUrl = urlBasePagination + `&page=${1}`;
+    await getPageRequest(completeUrl);
+    setPage(1);
+  };
 
   return (
     <div className="row min-vh-100">
@@ -311,6 +358,47 @@ const AuditoriaScreen = () => {
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>
+            </div>
+            <div className="d-flex justify-content-center gap-2">
+              <button
+                type="button"
+                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
+                disabled={urlBasePagination === ""}
+                onClick={firstPage}
+              >
+                {"<<"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
+                disabled={urlBasePagination === ""}
+                onClick={previousPage}
+              >
+                {"<"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
+                disabled
+              >
+                {page}
+              </button>
+              <button
+                type="button"
+                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
+                disabled={urlBasePagination === ""}
+                onClick={nextPage}
+              >
+                {">"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
+                disabled={urlBasePagination === ""}
+                onClick={lastPage}
+              >
+                {">>"}
+              </button>
             </div>
           </form>
         </div>

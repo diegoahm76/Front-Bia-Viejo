@@ -2,15 +2,18 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import {
+  textChoiseAdapter,
+  textChoiseAdapterIndicativo,
+} from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
-import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Subtitle from "../../components/Subtitle";
+import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ const AdministradorDePersonasScreen = () => {
     useState("");
   const [direccionLaboralIsOpen, setDireccionLaboralIsOpen] = useState(false);
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
+  const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [actionForm, setActionForm] = useState(null);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -30,6 +34,10 @@ const AdministradorDePersonasScreen = () => {
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [indicativoPaisesOptions, setIndicativoPaisesOptions] = useState([]);
+  const [formValuesSearch, setFormValuesSearch] = useState({
+    index_tipo_documento: "",
+  });
   const [formValues, setFormValues] = useState({
     tipoDocumento: null,
     fechaNacimiento: "",
@@ -42,6 +50,7 @@ const AdministradorDePersonasScreen = () => {
     municipioNotificacion: "",
     id_persona: "",
     tipoPersona: "",
+    indicativoPais: "",
   });
 
   const {
@@ -80,6 +89,9 @@ const AdministradorDePersonasScreen = () => {
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
+        const { data: indicativoPiasesNoFormat } = await clienteAxios.get(
+          "choices/indicativo-paises/"
+        );
 
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
@@ -87,6 +99,9 @@ const AdministradorDePersonasScreen = () => {
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+        const indivativoPaisesFormat = textChoiseAdapterIndicativo(
+          indicativoPiasesNoFormat
+        );
 
         setSexoOptions(sexoFormat);
         setEstadoCivilOptions(estadoCivilFormat);
@@ -94,6 +109,7 @@ const AdministradorDePersonasScreen = () => {
         setPaisesOptions(paisesFormat);
         setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
+        setIndicativoPaisesOptions(indivativoPaisesFormat);
       } catch (err) {
         console.log(err);
       }
@@ -221,7 +237,7 @@ const AdministradorDePersonasScreen = () => {
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
-      tipo_documento: data.tipoDocumento2?.value,
+      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento].value,
       numero_documento: data.numeroDocumento2,
       digito_verificacion: data.digitoVerificacion,
       nombre_comercial: data.nombreComercial,
@@ -267,10 +283,16 @@ const AdministradorDePersonasScreen = () => {
       };
       try {
         console.log("HGola", updatedPersona);
-        await clienteAxios.patch(
-          `personas/persona-natural/user-with-permissions/update/${updatedPersona?.id_persona}/`,
+        const { data: dataUpdate } = await clienteAxios.patch(
+          `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
           updatedPersona,
           config
+        );
+        console.log(
+          "datos actualizados",
+          dataUpdate,
+          updatedPersona.tipo_documento,
+          updatedPersona.numero_documento
         );
         Swal.fire({
           position: "center",
@@ -443,6 +465,11 @@ const AdministradorDePersonasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
+                        value={
+                          tipoDocumentoOptions[
+                            formValuesSearch.index_tipo_documento
+                          ]
+                        }
                         options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
@@ -488,6 +515,7 @@ const AdministradorDePersonasScreen = () => {
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Busqueda avanzada
                   </button>
@@ -818,15 +846,47 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   </div>
                   <div className="col-12 col-md-3 mt-2">
-                    <div>
-                      <label className="ms-2">
-                        Celular: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="tel"
-                        {...registerPersona("celular", { required: true })}
-                      />
+                    <div className="row">
+                      <div className="col-5">
+                        <label className="form-label">
+                          Cod: <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="indicativoPais"
+                          control={controlBuscar}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={
+                                indicativoPaisesOptions[
+                                  formValues.indicativoPais
+                                ]
+                              }
+                              onChange={(e) =>
+                                setFormValues({
+                                  ...formValues,
+                                  indicativoPais: getIndexBySelectOptions(
+                                    e.value,
+                                    indicativoPaisesOptions
+                                  ),
+                                })
+                              }
+                              options={indicativoPaisesOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="col-7">
+                        <label className="ms-2">
+                          Celular: <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="tel"
+                          {...registerPersona("celular", { required: true })}
+                        />
+                      </div>
                     </div>
                     {errorsPersona.celular && (
                       <div className="col-12">
@@ -1110,6 +1170,15 @@ const AdministradorDePersonasScreen = () => {
             setIsOpenGenerator={setDireccionNotificacionIsOpen}
             completeAddress={direccionNotificacionText}
             setCompleteAddress={setDireccionNotificacionText}
+          />
+
+          <BusquedaAvanzadaModal
+            isModalActive={busquedaAvanzadaIsOpen}
+            setIsModalActive={setBusquedaAvanzadaIsOpen}
+            formValues={formValuesSearch}
+            setFormValues={setFormValuesSearch}
+            reset={resetBuscar}
+            tipoDocumentoOptions={tipoDocumentoOptions}
           />
         </div>
       </div>

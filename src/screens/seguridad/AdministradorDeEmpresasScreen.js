@@ -13,12 +13,14 @@ import {
 } from "../../adapters/administradorEmpresa.adapters";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Subtitle from "../../components/Subtitle";
+import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
     useState(false);
   const [direccionEmpresaIsOpen, setDireccionEmpresaIsOpen] = useState(false);
+  const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
@@ -26,6 +28,9 @@ const AdministradorDeEmpresasScreen = () => {
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [formValuesSearch, setFormValuesSearch] = useState({
+    tipoDocumento: "",
+  });
   const [formValues, setFormValues] = useState({
     tipoDocumento: null,
     paisEmpresa: "",
@@ -158,7 +163,7 @@ const AdministradorDeEmpresasScreen = () => {
       const config = getConfigAuthBearer(access);
       try {
         await clienteAxios.patch(
-          `personas/persona-juridica/user-with-permissions/update/${formValues?.id_persona}/`,
+          `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
           updateEmpresa,
           config
         );
@@ -391,6 +396,7 @@ const AdministradorDeEmpresasScreen = () => {
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Busqueda avanzada
                   </button>
@@ -731,6 +737,15 @@ const AdministradorDeEmpresasScreen = () => {
             reset={resetEmpresa}
             keyReset="direccionEmpresa"
             totalValuesForm={watchEmpresa()}
+          />
+
+          <BusquedaAvanzadaJuridicaModal
+            isModalActive={busquedaAvanzadaIsOpen}
+            setIsModalActive={setBusquedaAvanzadaIsOpen}
+            formValues={formValuesSearch}
+            setFormValues={setFormValuesSearch}
+            reset={resetBuscar}
+            tipoDocumentoOptions={tipoDocumentoOptions}
           />
         </div>
       </div>
