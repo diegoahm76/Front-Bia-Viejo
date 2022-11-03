@@ -41,7 +41,8 @@ const AlarmasConfigModal = ({
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
-    console.log(data);
+    data.t007periodoBase = Number(data.t007periodoBase);
+    console.log("data en el submit", data);
     dispatch(editarAlarmaConfigAction(data));
     setIsModalActive(false);
   };
@@ -64,8 +65,8 @@ const AlarmasConfigModal = ({
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4 className="ms-3">Editar alarma configuración</h4>
-        <hr />
+        <h4 className="">Editar alarma configuración</h4>
+        <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
             <label>
@@ -88,11 +89,11 @@ const AlarmasConfigModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Rango: <span className="text-danger">*</span>
+              Periodo: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
+              type="number"
               {...register("t007periodo", { required: true })}
             />
             {errors.t007periodo && (
@@ -105,11 +106,11 @@ const AlarmasConfigModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Rango: <span className="text-danger">*</span>
+              Base: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
+              type="number"
               {...register("t007periodoBase", { required: true })}
             />
             {errors.t007periodoBase && (
@@ -122,11 +123,11 @@ const AlarmasConfigModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Rango: <span className="text-danger">*</span>
+              Tolerancia: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
+              type="number"
               {...register("t007tolerancia", { required: true })}
             />
             {errors.t007tolerancia && (

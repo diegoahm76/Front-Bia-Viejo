@@ -36,7 +36,7 @@ const AdministradorDePersonasScreen = () => {
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [indicativoPaisesOptions, setIndicativoPaisesOptions] = useState([]);
-  const [formValuesSearch, setformValuesSearch] = useState({
+  const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
   });
   const [formValues, setFormValues] = useState({
@@ -238,7 +238,7 @@ const AdministradorDePersonasScreen = () => {
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
-      tipo_documento: data.tipoDocumento2?.value,
+      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento].value,
       numero_documento: data.numeroDocumento2,
       digito_verificacion: data.digitoVerificacion,
       nombre_comercial: data.nombreComercial,
@@ -284,10 +284,16 @@ const AdministradorDePersonasScreen = () => {
       };
       try {
         console.log("HGola", updatedPersona);
-        await clienteAxios.patch(
-          `personas/persona-natural/user-with-permissions/update/${updatedPersona?.id_persona}/`,
+        const { data: dataUpdate } = await clienteAxios.patch(
+          `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
           updatedPersona,
           config
+        );
+        console.log(
+          "datos actualizados",
+          dataUpdate,
+          updatedPersona.tipo_documento,
+          updatedPersona.numero_documento
         );
         Swal.fire({
           position: "center",
@@ -840,9 +846,9 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div className="row">
-                      <div className="col-4">
+                      <div className="col-5">
                         <label className="form-label">
                           Cod: <span className="text-danger">*</span>
                         </label>
@@ -872,7 +878,7 @@ const AdministradorDePersonasScreen = () => {
                           )}
                         />
                       </div>
-                      <div className="col-8">
+                      <div className="col-7">
                         <label className="ms-2">
                           Celular: <span className="text-danger">*</span>
                         </label>
@@ -1171,7 +1177,7 @@ const AdministradorDePersonasScreen = () => {
             isModalActive={busquedaAvanzadaIsOpen}
             setIsModalActive={setBusquedaAvanzadaIsOpen}
             formValues={formValuesSearch}
-            setFormValues={setformValuesSearch}
+            setFormValues={setFormValuesSearch}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}
           />

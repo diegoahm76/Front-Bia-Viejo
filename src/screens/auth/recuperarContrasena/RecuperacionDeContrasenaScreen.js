@@ -39,10 +39,9 @@ const RecuperacionDeContrasenaScreen = () => {
     <div
       className="page-header align-items-start min-vh-100"
       style={{
-        backgroundImage: `url(${LogBackground})`,
+        backgroundColor: "rgb(4,47,74)",
       }}
     >
-      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row">
           <div className="col-lg-4 col-md-8 col-12 mx-auto">
@@ -60,7 +59,7 @@ const RecuperacionDeContrasenaScreen = () => {
                     recuperar su contraseña
                   </label>
                   <div className="mt-3">
-                    <label className="ms-2">Correo electronico</label>
+                    <label className="text-terciary text-terciary ms-2">Correo electronico</label>
                     <input
                       type="email"
                       className="form-control border rounded-pill px-3"
