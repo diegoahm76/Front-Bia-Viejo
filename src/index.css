@@ -75,7 +75,12 @@ code {
 /* Radius Select */
 .css-1s2u09g-control {
   border-radius: 20px !important;
-  padding: 0 4px 0 4px;
+  padding: 0 4px 0 4px !important;
+  border: 1px solid #042F4A !important;
+}
+
+.ccs-1pahdxg-control:hover {
+  border-radius: 20px !important;
 }
 
 /* Cambios para los btn */

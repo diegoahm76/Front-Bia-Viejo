@@ -2390,6 +2390,19 @@ const Aside = ({ showAside }) => {
                       <li className="nav-item ">
                         <Link
                           className="nav-link text-white "
+                          to="seguridad/administradordeusuario"
+                        >
+                          <span className="sidenav-mini-icon">
+                            <img src={Vineta} alt="vineta" />
+                          </span>
+                          <span className="sidenav-normal  ms-2  ps-1">
+                            Administrador de <br /> usuarios
+                          </span>
+                        </Link>
+                      </li>
+                      <li className="nav-item ">
+                        <Link
+                          className="nav-link text-white "
                           to="seguridad/roles"
                         >
                           <span className="sidenav-mini-icon">
@@ -2403,13 +2416,13 @@ const Aside = ({ showAside }) => {
                       <li className="nav-item ">
                         <Link
                           className="nav-link text-white "
-                          to="seguridad/administradordeusuario"
+                          to="seguridad/auditoria"
                         >
                           <span className="sidenav-mini-icon">
                             <img src={Vineta} alt="vineta" />
                           </span>
                           <span className="sidenav-normal  ms-2  ps-1">
-                            Administrador de <br /> usuarios
+                            Auditoria
                           </span>
                         </Link>
                       </li>
