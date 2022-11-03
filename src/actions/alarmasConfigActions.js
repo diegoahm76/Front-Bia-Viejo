@@ -86,9 +86,9 @@ const obtenerAlarmaConfigEditError = (estado) => ({
 
 export const editarAlarmaConfigAction = (dataEdit) => async (dispatch) => {
   dispatch(peticionEditarAlarmaConfig(true));
-  console.log(dataEdit);
+  console.log("data edit", dataEdit);
   try {
-    await clienteEstaciones.put("Alarmas", dataEdit);
+    await clienteEstaciones.put("AlarmasConfiguraciones", dataEdit);
     dispatch(editarAlarmaConfigCompletado(false));
     dispatch(obternerAlarmasConfigAction());
     Swal.fire({
