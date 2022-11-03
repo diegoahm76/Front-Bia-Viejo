@@ -64,12 +64,16 @@ const BusquedaAvanzadaUsuarioModal = ({
     const config = getConfigAuthBearer(accessToken);
 
     try {
-      const { data: dataPersonas } = await clienteAxios(
+      const { data: dataUsuarios } = await clienteAxios(
         `users/get-by-email/${data.email}/`,
         config
       );
-      console.log(dataPersonas);
-      setUsuarioSearched(dataPersonas);
+      console.log(dataUsuarios.Usuario);
+      if (dataUsuarios.Usuario) {
+        setUsuarioSearched([dataUsuarios.Usuario]);
+      } else {
+        setUsuarioSearched([]);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -78,22 +82,17 @@ const BusquedaAvanzadaUsuarioModal = ({
   const columnDefs = [
     {
       headerName: "Tipo documento",
-      field: "tipo_documento.nombre",
+      field: "persona.tipo_documento.nombre",
       minWidth: 180,
     },
     {
       headerName: "Numero documento",
-      field: "numero_documento",
+      field: "persona.numero_documento",
       minWidth: 180,
     },
     {
-      headerName: "Nombre usuario",
-      field: "razon_social",
-      minWidth: 140,
-    },
-    {
       headerName: "Email",
-      field: "email",
+      field: "persona.email",
       minWidth: 140,
     },
     {
@@ -121,13 +120,11 @@ const BusquedaAvanzadaUsuarioModal = ({
     const {
       numero_documento,
       tipo_documento: { cod_tipo_documento },
-    } = dataSearch;
-    console.log(dataSearch, numero_documento, cod_tipo_documento);
+    } = dataSearch.persona;
     const index = getIndexBySelectOptions(
       cod_tipo_documento,
       tipoDocumentoOptions
     );
-    console.log(index);
     setFormValues({ index_tipo_documento: index });
     reset({
       tipoDocumento: tipoDocumentoOptions[index],
