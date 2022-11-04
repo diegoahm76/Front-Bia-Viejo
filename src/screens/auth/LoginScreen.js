@@ -102,6 +102,7 @@ function LoginScreen() {
                       {...register("password")}
                     />
                   </div>
+                  
                   <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha
                       sitekey={process.env.REACT_APP_SITE_KEY}
