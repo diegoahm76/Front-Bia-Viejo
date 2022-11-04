@@ -1,14 +1,6 @@
-import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import Select from "react-select";
+import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import clienteAxios from "../../../config/clienteAxios";
-
-const optionsTipoRecuperacion = [
-  { label: "Correo electronico", value: "email" },
-  { label: "Numero celular", value: "cel" },
-];
 
 const RecuperacionDeContrasenaScreen = () => {
   const {
@@ -18,7 +10,10 @@ const RecuperacionDeContrasenaScreen = () => {
   } = useForm();
 
   const onSubmitRecoveryPassword = async (data) => {
-    const bodyAxios = { email: data.email };
+    const bodyAxios = {
+      email: data.email,
+      redirect_url: process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/actualizar-contrasena" : "http://localhost:3000/actualizar-contrasena",
+    };
     const { data: dataRecoveryPassword } = await clienteAxios.post(
       "users/request-reset-email/",
       bodyAxios
@@ -59,7 +54,9 @@ const RecuperacionDeContrasenaScreen = () => {
                     recuperar su contraseña
                   </label>
                   <div className="mt-3">
-                    <label className="text-terciary text-terciary ms-2">Correo electronico</label>
+                    <label className="text-terciary text-terciary ms-2">
+                      Correo electronico
+                    </label>
                     <input
                       type="email"
                       className="form-control border rounded-pill px-3"

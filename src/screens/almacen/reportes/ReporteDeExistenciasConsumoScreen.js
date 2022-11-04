@@ -1,13 +1,11 @@
 import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 const ReporteDeExistenciasConsumoScreen = () => {
   const [mostrarTabla, setMostrarTabla] = useState(false);
@@ -118,61 +116,54 @@ const ReporteDeExistenciasConsumoScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Existencias de consumo</h3>
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
+          <form
+            className="row"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+            id="configForm"
+          >
+            <h3 className="mt-3  mb-4 ms-3 fw-light text-terciary">
+              Existencias de consumo
+            </h3>
 
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <div className="multisteps-form__content">
-              <div className="row mt-4">
-                <label
-                  className="form-control border rounded-pill px-3 mt-3 text-white"
-                  style={{
-                    backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                  }}
-                >
-                  <n>Rango de codigos</n>
-                </label>
-              </div>
-            </div>
+            <Subtitle title="Paramentros de busqueda" />
 
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <label className="ms-2">
+            <div className="row mt-3">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">
                   Codigo inicial<small className="text-danger">*</small>
                 </label>
                 <input
+                  className="border-terciary form-control border rounded-pill px-3"
                   name="codigoInicial"
-                  className="form-control border rounded-pill px-3"
+                  
                   type="text"
                   placeholder="Codigo Inicial"
                   {...register("codigoInicial", { required: true })}
                 />
-                {errors.codigoinicial && (
+                {errors.codigoInicial && (
                   <small className="text-danger">
                     Este campo es obligatorio
                   </small>
                 )}
               </div>
 
-              <div className="col-12 col-md-4">
-                <label className="ms-2">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">
                   Codigo final<small className="text-danger">*</small>
                 </label>
                 <input
+                  className="border-terciary form-control border rounded-pill px-3"
                   name="codigoFinal"
-                  className="form-control border rounded-pill px-3"
+                  
                   type="text"
                   placeholder="Codigo final"
                   {...register("codigoFinal", { required: true })}
                 />
 
-                {errors.codigofinal && (
+                {errors.codigoFinal && (
                   <small className="text-danger">
                     Este campo es obligatorio
                   </small>
@@ -181,8 +172,8 @@ const ReporteDeExistenciasConsumoScreen = () => {
             </div>
 
             <div className="mt-4 row">
-              <div className="col-12 col-md-4">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha inicial
                 </label>
                 <Controller
@@ -192,8 +183,8 @@ const ReporteDeExistenciasConsumoScreen = () => {
                     <DatePicker
                       {...field}
                       locale="es"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       dateFormat="dd/MM/yyyy"
-                      className="form-control border rounded-pill px-3"
                       placeholderText="dd/mm/aaaa"
                       onChange={(date) => {
                         setSelecOpciones({
@@ -209,35 +200,35 @@ const ReporteDeExistenciasConsumoScreen = () => {
                 />
               </div>
 
-              <div className="col-12 col-md-4 mt-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <div className="col-12 col-md-3 ms-2 ">
+                <label className=" text-terciary form-floating input-group input-group-dynamic ms-2">
                   Bodega <small className="text-danger">*</small>
-                  <div className="col-12 ">
-                    <Controller
-                      name="bodega"
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsBodega}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  {errors.bodega && (
-                    <small className="text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  )}
                 </label>
+                <div className="col-12 ">
+                  <Controller
+                    name="bodega"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={optionsBodega}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+                {errors.bodega && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </div>
 
-              <div className="col-12 col-md-2">
-                <div className="d-grid gap-2 d-flex justify-content-end  mt-4">
+              <div className="col-12 col-md-2 mt-2">
+                <div className="d-grid gap-2 d-flex">
                   <button
-                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                     type="submit"
                     title="Send"
                     form="configForm"
@@ -252,55 +243,8 @@ const ReporteDeExistenciasConsumoScreen = () => {
             selecOpciones.codigoInicial &&
             selecOpciones.codigoFinal ? (
               <div>
-                <div className="multisteps-form__content">
-                  <div className="row">
-                    <label
-                      className="form-control border rounded-pill px-3 mt-3 text-white"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(45deg, #67b136, #39aad4)",
-                      }}
-                    >
-                      <n>Reporte de consumo por funcionario</n>
-                    </label>
-                  </div>
-
-                  <div className="multisteps-form__content">
-                    <div className="mt-4 row">
-                      <div className="col-12 col-md-4">
-                        <label className="ms-2">Funcionario</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          placeholder="Funcionario"
-                          value="Julian Catillo"
-                          disabled
-                        />
-                      </div>
-
-                      <div className="col-12 col-md-4">
-                        <label className="ms-2">Dependencia</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          placeholder="nombre completo"
-                          value="Administrativa"
-                          disabled
-                        />
-                      </div>
-
-                      <div className="col-12 col-md-4">
-                        <label className="ms-2">Grupo</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          placeholder="nombre completo"
-                          value="Almacen"
-                          disabled
-                        />
-                      </div>
-                    </div>
-                  </div>
+                
+                  
                   <div className="mt-1 row">
                     <div id="myGrid" className="ag-theme-alpine mt-4">
                       <div
@@ -316,7 +260,7 @@ const ReporteDeExistenciasConsumoScreen = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="d-flex flex-column align-items-start mt-6">
+                  <div className="d-flex flex-column align-items-start mt-6 ms-2">
                     <label>
                       ____________________________________________________
                     </label>
@@ -330,11 +274,12 @@ const ReporteDeExistenciasConsumoScreen = () => {
 
                   <div className="mt-4 justify-content-end align-items-end">
                     <div className="row">
-                      <div className="col-12 col-md-4">
-                        <label className="ms-2">Nombre quien imprime</label>
+                      <div className="col-12 col-md-3 ms-2">
+                        <label className="text-terciary ms-2">Nombre quien imprime</label>
                         <input
+                          className="border-terciary form-control border rounded-pill px-3"
                           name="nombreQuienImprime"
-                          className="form-control border rounded-pill px-3"
+                          
                           type="text"
                           placeholder="Nombre del articulo"
                           value="Julian Castillo"
@@ -345,8 +290,8 @@ const ReporteDeExistenciasConsumoScreen = () => {
                   </div>
                   <div className="justify-content-end align-items-end">
                     <div className="row">
-                      <div className="col-12 col-md-4">
-                        <label htmlFor="exampleFormControlInput1 mt-4">
+                      <div className="col-12 col-md-3 ms-2">
+                        <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                           Fecha de impresion
                         </label>
 
@@ -361,7 +306,7 @@ const ReporteDeExistenciasConsumoScreen = () => {
                               dateFormat="dd/MM/yyyy"
                               includeDates={[new Date()]}
                               onChange={(date) => setStartDate(date)}
-                              className="form-control border rounded-pill px-3  p-2"
+                              className="form-control border rounded-pill px-3  p-2 border-terciary"
                               placeholderText="dd/mm/aaaa"
                             />
                           )}
@@ -370,7 +315,8 @@ const ReporteDeExistenciasConsumoScreen = () => {
                     </div>
                   </div>
 
-                  <div className="col-12 col-md-4 row">
+                  <div className="row">
+                  <div className="col-12 col-md-12 d-flex justify-content-end">
                     <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
                       <button
                         className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
@@ -386,19 +332,19 @@ const ReporteDeExistenciasConsumoScreen = () => {
                         type="button"
                         title="Send"
                         form="configForm"
-                        onclik="${}"
                       >
                         Salir
                       </button>
                     </div>
                   </div>
                 </div>
+                
               </div>
             ) : (
               ""
             )}
-          </MarcaDeAgua1>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
-
+import Subtitle from '../../../../components/Subtitle'
 const HojaDeVidaOtrosActivosScreen = () => {
   const { register, handleSubmit } = useForm();
 
@@ -130,177 +130,137 @@ const HojaDeVidaOtrosActivosScreen = () => {
     { headerName: "Tipo", field: "TI", minWidth: 150 },
   ];
 
+  const onSubmit = (data) => {
+    console.log(data)
+  };
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Hoja de vida de un activo
-        </h3>
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-          data-animation="FadeIn"
-          onSubmit={handleSubmit()}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <div className="multisteps-form__content">
-              <div className="row">
-                <label className="form-control ms-0  text-center">
-                  <n>Activo</n>
-                </label>
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Hoja de vida de otros activos
+            </h3>
+            <MarcaDeAgua1>
+              <Subtitle title="Activo" mt={3} />
 
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">160064</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Lenovo Laptop</label>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-3 ">
-                    <n>Serial</n>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Codigo:
                   </label>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-3 ">
-                    <n>Artículo</n>
-                  </label>
-                </div>
-                <div className="col-12 col-sm-4"></div>
-
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">93rtgd</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Computador</label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row mb-4">
-                <label className="form-control ms-0 text-center mt-3">
-                  <n>Caracteristicas</n>
-                </label>
-                <div className="input-group input-group-dynamic flex-column my-3">
-                  <textarea
-                    className="multisteps-form__textarea form-control p-0 w-auto ms-1"
+                  <input
                     type="number"
-                    placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                    name="nombre"
-                    {...register("nombre", { required: true })}
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
                   />
                 </div>
-              </div>
-              <div className="row mb-4">
-                <label className="form-control ms-0 text-center mt-2">
-                  <n>Especificaciones fisicas</n>
-                </label>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Color:</n>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Nombre:
                   </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Amarillo</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Marca:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Garmin</label>
-                  </div>
-                </div>
-
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Estado:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Bueno</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Modelo:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">10px</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mb-4">
-                <label className="form-control ms-0 fw-bolder text-center mt-3">
-                  <n>Especificaciones técnicas</n>
-                </label>
-                <div className="input-group input-group-dynamic flex-column my-3">
-                  <textarea
-                    className="multisteps-form__textarea form-control p-0 w-auto ms-1"
-                    type="number"
-                    placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                    name="nombre"
-                    {...register("nombre", { required: true })}
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
                   />
                 </div>
               </div>
 
-              <div className="row">
-                <label className="form-control ms-0 text-left mt-auto ms-4">
-                  <n>Mantenimientos</n>
-                </label>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Serial:
+                  </label>
+                  <input
+                    type="number"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Articulo:
+                  </label>
+                  <input
+                    type="number"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Caracteristicas" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 mb-3">
+                  <textarea
+                    className="form-control border rounded-pill px-3"
+                    placeholder="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum."
+                    rows={4}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Especificaciones Físicas" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Color:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Marca:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Estado:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Modelo:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Especificaciones técnicas" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 mb-3">
+                  <textarea
+                    className="form-control border rounded-pill px-3"
+                    placeholder="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum."
+                    rows={4}
+                  />
+                </div>
+              </div>
+              <Subtitle title="Mantenimientos" mt={3} mb={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
                 <div
-                  className="ag-theme-alpine mt-auto mb-3 px-4"
-                  style={{ height: "275px" }}
+                  className="ag-theme-alpine mb-3 px-4"
+                  style={{ height: "230px" }}
                 >
                   <AgGridReact
                     columnDefs={columnDefs}
@@ -310,9 +270,10 @@ const HojaDeVidaOtrosActivosScreen = () => {
                   ></AgGridReact>
                 </div>
               </div>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-auto">
                 <button
-                  className="btn bg-gradient-primary me-md-2"
+                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
                   type="button"
                   title="Send"
                 >
@@ -320,13 +281,11 @@ const HojaDeVidaOtrosActivosScreen = () => {
                 </button>
               </div>
 
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-left mt ms-4">
-                  <n>Asignaciones/Préstamos</n>
-                </label>
+              <Subtitle title="Asiganciones/Préstaciones" mt={3} mb={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
                 <div
-                  className="ag-theme-alpine mt-auto mb-4 px-4"
-                  style={{ height: "275px" }}
+                  className="ag-theme-alpine mb-3 px-4"
+                  style={{ height: "230px" }}
                 >
                   <AgGridReact
                     columnDefs={columnDefs2}
@@ -362,11 +321,11 @@ const HojaDeVidaOtrosActivosScreen = () => {
                   Salir
                 </button>
               </div>
-            </div>
-          </MarcaDeAgua1>
-        </form>
+
+            </MarcaDeAgua1>
+          </form>
+        </div>
       </div>
-    </div>
 
     // </div>
   );

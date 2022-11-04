@@ -1,5 +1,4 @@
 import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -127,7 +126,7 @@ const ConsultaPazYSalvoScreen = () => {
   const [startDate, setStartDate] = useState(new Date());
   return (
     <div className="row min-vh-100">
-      <div className="col-12 mx-auto">
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
           <form
             className="row"
@@ -138,12 +137,12 @@ const ConsultaPazYSalvoScreen = () => {
               Consultar paz y salvo{" "}
             </h3>
 
-            <Subtitle title="Datos de la persona" />
+            <Subtitle title="Datos de la persona" mt="3" />
 
-            <div className="multisteps-form__content">
+            <div className="multisteps-form__content ms-2">
               <div className="mt-4 row">
                 <div className="col-12 col-md-3">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+                  <label className="text-terciary form-floating input-group input-group-dynamic ms-2">
                     Tipo de documento <small className="text-danger">*</small>
                     <div className="col-12 mt-3">
                       <Controller
@@ -168,12 +167,12 @@ const ConsultaPazYSalvoScreen = () => {
                 </div>
 
                 <div className="col-12 col-md-3">
-                  <label className="ms-2">
+                  <label className="text-terciary ms-2">
                     Número de cedula<small className="text-danger">*</small>
                   </label>
                   <input
                     name="numeroCedula"
-                    className="form-control border rounded-pill px-3"
+                    className="border border-terciary form-control border rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     {...register("numeroCedula", { required: true })}
@@ -186,9 +185,9 @@ const ConsultaPazYSalvoScreen = () => {
                 </div>
 
                 <div className="col-12 col-md-3">
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="text-terciary ms-2">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="border border-terciary form-control border rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     value="Julian Castillo"
@@ -217,7 +216,7 @@ const ConsultaPazYSalvoScreen = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row ms-2">
               <div className="col-12 col-md-3 ">
                 <button
                   className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width text-capitalize"
@@ -231,7 +230,7 @@ const ConsultaPazYSalvoScreen = () => {
             </div>
 
             {selecDocumento.tipoDocumento && selecDocumento.numeroCedula ? (
-              <div className="multisteps-form__content">
+              <div className="multisteps-form__content ">
                 <div className="mt-4 row text-center">
                   <label>
                     <b>
@@ -290,7 +289,7 @@ const ConsultaPazYSalvoScreen = () => {
                 >
                   <div className="multisteps-form__content">
                     <div className="row">
-                      <label className="form-control ms-0 fw-bolder text-center">
+                      <label className="text-terciary form-control ms-0 fw-bolder text-center">
                         <n>Certificado de paz y salvo</n>
                       </label>
                       <label>
@@ -308,10 +307,10 @@ const ConsultaPazYSalvoScreen = () => {
                   <div className="mt-4 justify-content-end align-items-end">
                     <div className="row">
                       <div className="col-12 col-md-6">
-                        <label className="ms-2">Nombre quien imprime</label>
+                        <label className="text-terciary ms-2">Nombre quien imprime</label>
                         <input
                           name="nombreQuienImprime"
-                          className="form-control border rounded-pill px-3"
+                          className="border border-terciary form-control border rounded-pill px-3"
                           type="text"
                           placeholder="Nombre del articulo"
                           value="Julian Castillo"
@@ -323,7 +322,7 @@ const ConsultaPazYSalvoScreen = () => {
                   <div className="justify-content-end align-items-end">
                     <div className="row">
                       <div className="col-12 col-md-6">
-                        <label htmlFor="exampleFormControlInput1 mt-4">
+                        <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                           Fecha de impresion
                         </label>
 
@@ -337,7 +336,7 @@ const ConsultaPazYSalvoScreen = () => {
                               selected={startDate}
                               dateFormat="dd/MM/yyyy"
                               onChange={(date) => setStartDate(date)}
-                              className="form-control border rounded-pill px-3  p-2"
+                              className="border border-terciary form-control border rounded-pill px-3  p-2"
                               placeholderText="dd/mm/aaaa"
                               disabled
                             />

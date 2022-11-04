@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import clienteAxios from "../../../config/clienteAxios";
 
 const ActualizarContrasenaScreen = () => {
   const navigate = useNavigate();
-  const { token, uidb64 } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("?token");
+  const uidb64 = searchParams.get("uidb64");
   const [isDiferentPasswords, setIsDiferentPasswords] = useState(false);
 
   const {

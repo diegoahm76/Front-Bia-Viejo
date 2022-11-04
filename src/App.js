@@ -23,6 +23,7 @@ import RecursoHidricoRoutes from "./screens/recursoHidrico/routes/RecursoHidrico
 import ConfirmarCuentaScreen from "./screens/auth/ConfirmarCuentaScreen";
 import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
 import UserProtectedRoutes from "./components/UserProtectedRoutes";
+import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -74,8 +75,7 @@ function App() {
       </Route>
 
       <Route
-        element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}
-      >
+        element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}>
         <Route path="/login" element={<LoginScreen />} />
 
         <Route path="/register" element={<RegisterPersonaScreen />} />
@@ -88,15 +88,16 @@ function App() {
         />
 
         <Route
+          path="/desbloqueousuario"
+          element={<DesbloqueoUsuarioScreen />}
+        />
+
+        <Route
           path="/recuperar-contrasena"
           element={<RecuperacionDeContrasenaScreen />}
         />
-
-        <Route path="/actualizar-contrasena/:uidb64">
-          <Route index element={<Navigate to="/login" />} />
-
-          <Route path=":token" element={<ActualizarContrasenaScreen />} />
-        </Route>
+        
+        <Route path="/actualizar-contrasena" element={<ActualizarContrasenaScreen />} />
 
         <Route index element={<Navigate to="/login" />} />
       </Route>

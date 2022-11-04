@@ -7,6 +7,7 @@ import es from "date-fns/locale/es";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 const SolicitudesPendientesAutorizarScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -105,9 +106,10 @@ const SolicitudesPendientesAutorizarScreen = () => {
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-        <h4 className="text-rigth  fw-light mb-3 mb-2">
+        <h3 className="text-rigth  fw-light mb-3 mb-2">
           Solicitudes pendientes por autorizar
-        </h4>
+        </h3>
+        <Subtitle title="información de solicitud " mb="3" />
           <MarcaDeAgua1>
             <form>
               <div

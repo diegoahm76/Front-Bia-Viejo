@@ -4,7 +4,6 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import {
   textChoiseAdapter,
-  textChoiseAdapterIndicativo,
 } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import { formatISO } from "date-fns";

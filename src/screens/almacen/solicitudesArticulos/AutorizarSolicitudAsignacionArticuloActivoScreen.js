@@ -12,6 +12,7 @@ import {
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
+import Subtitle from "../../../components/Subtitle";
 
 const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -129,25 +130,20 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h4 className="text-right fw-light ms-3 mb-2">
+            <h3 className="mt-4 mb-4  ms-3 fw-light text-terciary">
               Autorizar solicitud de asignación de artículo activo
-            </h4>
+            </h3>
             <div className="row col-12">
-              <label
-                className="col-12 fw-light form-control fw-bolder text-right ps-4 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                Información de la solicitud
-              </label>
+              <Subtitle title="información de solicitud " mt="3" mb="3" />
             </div>
             <div className="row">
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Numero consecutivo</label>
+                  <label className="ms-3 text-terciary">
+                    Numero consecutivo
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero consecutivo"
                     disabled
@@ -155,8 +151,8 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1">
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary">
                   Fecha de solicitud
                   <Controller
                     name="fechaSolicitud"
@@ -169,7 +165,7 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="form-control border rounded-pill px-3 mt-2"
+                        className="form-control border rounded-pill border-terciary px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -184,19 +180,15 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label
-                className="col-12 form-control ms-0 fw-bolder text-right text-light ps-3 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                Datos del responsable
-              </label>
-              <div className="col-12 col-sm-4">
+              <Subtitle title="Datos del responsable " mt="3" mb="3" />
+
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Tipo de documento</label>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="tipo de documento"
                     value="C.C."
@@ -205,11 +197,11 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="text-terciary">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     disabled
@@ -217,11 +209,11 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Nombre completo</label>
+                  <label className=" text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary  rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     disabled
@@ -237,19 +229,14 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label
-                className="col-12 form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                <n>Datos del solicitante</n>
-              </label>
-              <div className="col-12 col-sm-4">
+              <Subtitle title="Datos del solicitante " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Tipo de documento</label>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="tipo de documento"
                     value="C.C."
@@ -258,11 +245,11 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
                   <label className="ms-2">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="numero cedula"
                     value="1.121.919.374"
@@ -270,11 +257,11 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
                   <label className="ms-2">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     value="Ludy Angélica León Quiroga"
@@ -290,42 +277,27 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label
-                className="col-12 form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                <n>Datos del operario</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      defaultValue={optionsTipoDocumento[0]}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          isDisabled
-                          options={optionsTipoDocumento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
+              <Subtitle title="Datos del operario " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
+                    type="text"
+                    placeholder="tipo de documento"
+                    value="C.C."
+                    disabled
+                    {...register("documento")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
+                  <input
+                    className="form-control  border-terciary border rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     disabled
@@ -333,11 +305,11 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     disabled
@@ -354,14 +326,7 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label
-                className="col-12 form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                <n>Información del artículo</n>
-              </label>
+              <Subtitle title="Información del artículo " mt="3" mb="3" />
             </div>
             <div
               className="ag-theme-alpine mt-2 mb-4"
@@ -374,18 +339,19 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                 onGridReady={onGridReady}
               ></AgGridReact>
             </div>
-            <div className="input-group input-group-dynamic flex-column mt-3">
-              <label htmlFor="exampleFormControlInput1 ">
-                Observaciones generales
-              </label>
-              <textarea
-                className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                type="text"
-                placeholder="Observaciones generales"
-                disabled
-                rows="3"
-                name="Observaciones"
-              />
+            <div className="col-12">
+              <div className="mx-3">
+                <label htmlFor="ms-2" className="text-terciary">
+                  Observaciones generales
+                </label>
+                <textarea
+                  className="form-control border rounded-pill px-4 border-terciary"
+                  type="text"
+                  placeholder="Observaciones generales"
+                  rows="3"
+                  name="Observaciones"
+                />
+              </div>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
@@ -406,11 +372,12 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
             </div>
           </form>
           <CalendarModal>
-            <div className="row min-vh-100 ">
+          <div className="row min-vh-100 ">
               <div className="col-lg-10 col-md-10 col-12 mx-auto">
-                <h3 className="mt-3 mb-0 text-center mb-6">
+                <h3 className="mt-3 mb-0 text-rigth">
                   Rechazar solicitud de consumo
                 </h3>
+                <Subtitle title="información de solicitud " mt="3" />
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                   data-animation="FadeIn"
@@ -424,21 +391,23 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                   >
                     <div className="row">
                       <div className="col-12">
-                        <div className="input-group input-group-dynamic flex-column mt-3">
-                          <label htmlFor="exampleFormControlInput1 ">
-                            Motivo de Rechazo
-                          </label>
-                          <textarea
-                            className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                            type="text"
-                            placeholder="Observaciones"
-                            rows="5"
-                            name="Observaciones"
-                          />
+                        <div className="col-12">
+                          <div className="mx-3">
+                            <label htmlFor="ms-2" className="text-terciary">
+                              Motivo de rechazo
+                            </label>
+                            <textarea
+                              className="form-control border rounded-pill px-4 border-terciary"
+                              type="text"
+                              placeholder="Observaciones generales"
+                              rows="3"
+                              name="Observaciones"
+                            />
+                          </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                           <button
-                            className="btn bg-secondary border rounded-pill me-md-2 text-white text-capitalize"
+                            className="btn bg-secondary me-md-2 text-white text-capitalize"
                             type="submit"
                             onClick={handleCloseModal}
                             title="Send"
@@ -446,7 +415,7 @@ const AutorizarSolicitudAsignacionArticuloActivoScreen = () => {
                             Salir
                           </button>
                           <button
-                            className="btn bg-danger text-white border rounded-pill text-capitalize"
+                            className="btn bg-danger text-white text-capitalize"
                             type="button"
                             onClick={handleCloseModal}
                             title="Send"

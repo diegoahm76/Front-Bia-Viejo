@@ -12,6 +12,7 @@ import {
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
+import Subtitle from "../../../components/Subtitle";
 
 const AutorizarSolicitudesConsumoScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -34,7 +35,6 @@ const AutorizarSolicitudesConsumoScreen = () => {
   const onSubmit = (data) => {};
 
   const [rowData] = useState([
-   
     {
       codigo: " ",
       nombre: " ",
@@ -125,15 +125,18 @@ const AutorizarSolicitudesConsumoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-          <h4 className="text-right fw-light ms-3 mb-2">
-            Autorizar solicitudes de consumo
-          </h4>
+            <h3 className="text-right fw-light ms-3 mb-2">
+              Autorizar solicitudes de consumo
+            </h3>
             <div className="row">
-              <div className="col-12 col-sm-4">
-                <div >
-                  <label className="ms-2">Numero consecutivo</label>
+              <Subtitle title="información de solicitud " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-3 text-terciary">
+                    Numero consecutivo
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="number"
                     placeholder="numero consecutivo"
                     disabled
@@ -141,8 +144,11 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-sm-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-4"
+                >
                   Fecha de solicitud
                   <Controller
                     name="fechaSolicitud"
@@ -155,7 +161,7 @@ const AutorizarSolicitudesConsumoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="form-control border rounded-pill px-3 mt-2"
+                        className="form-control border-terciary border rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -170,37 +176,27 @@ const AutorizarSolicitudesConsumoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Datos del coordinador</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      defaultValue={optionsTipoDocumento[0]}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          isDisabled
-                          options={optionsTipoDocumento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <div >
-                  <label className="ms-2">Número de cedula</label>
+              <Subtitle title="Datos del coordinador" mb="3" />
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
+                    type="text"
+                    placeholder="tipo de documento"
+                    value="C.C."
+                    disabled
+                    {...register("documento")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
+                  <input
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     disabled
@@ -208,11 +204,11 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <div >
-                  <label className="ms-2">Nombre completo</label>
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border  border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     disabled
@@ -228,14 +224,14 @@ const AutorizarSolicitudesConsumoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Datos del solicitante</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <div >
-                  <label className="ms-2">Tipo de documento</label>
+              <Subtitle title="Datos del solicitante" mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="tipo de documento"
                     value="C.C."
@@ -244,11 +240,11 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     value="1.121.919.374"
@@ -256,11 +252,11 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <div >
-                  <label className="ms-2">Nombre completo</label>
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     value="Ludy Angélica León Quiroga"
@@ -270,7 +266,14 @@ const AutorizarSolicitudesConsumoScreen = () => {
               </div>
             </div>
           </form>
-          <form>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <Subtitle title="información de solicitud " mt="3" mb="3" />
+            </div>
             <div
               className="ag-theme-alpine mt-2 mb-4"
               style={{ height: "300px" }}
@@ -282,16 +285,19 @@ const AutorizarSolicitudesConsumoScreen = () => {
                 onGridReady={onGridReady}
               ></AgGridReact>
             </div>
-            <div className="input-group input-group-dynamic flex-column mt-3">
-              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-              <textarea
-                className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                type="text"
-                placeholder="Observaciones"
-                disabled
-                rows="3"
-                name="Observaciones"
-              />
+            <div className="col-12">
+              <div className="mx-3">
+                <label htmlFor="ms-2" className="text-terciary">
+                  Observaciones generales
+                </label>
+                <textarea
+                  className="form-control border rounded-pill px-4 border-terciary"
+                  type="text"
+                  placeholder="Observaciones generales"
+                  rows="3"
+                  name="Observaciones"
+                />
+              </div>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
@@ -314,9 +320,10 @@ const AutorizarSolicitudesConsumoScreen = () => {
           <CalendarModal>
             <div className="row min-vh-100 ">
               <div className="col-lg-10 col-md-10 col-12 mx-auto">
-                <h3 className="mt-3 mb-0 text-center mb-6">
+                <h3 className="mt-3 mb-0 text-center">
                   Rechazar solicitud de consumo
                 </h3>
+                <Subtitle title="información de solicitud " mt="3" />
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                   data-animation="FadeIn"
@@ -330,17 +337,19 @@ const AutorizarSolicitudesConsumoScreen = () => {
                   >
                     <div className="row">
                       <div className="col-12">
-                        <div className="input-group input-group-dynamic flex-column mt-3">
-                          <label htmlFor="exampleFormControlInput1 ">
-                            Motivo de Rechazo
-                          </label>
-                          <textarea
-                            className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                            type="text"
-                            placeholder="Observaciones"
-                            rows="5"
-                            name="Observaciones"
-                          />
+                        <div className="col-12">
+                          <div className="mx-3">
+                            <label htmlFor="ms-2" className="text-terciary">
+                              Motivo de rechazo
+                            </label>
+                            <textarea
+                              className="form-control border rounded-pill px-4 border-terciary"
+                              type="text"
+                              placeholder="Observaciones generales"
+                              rows="3"
+                              name="Observaciones"
+                            />
+                          </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                           <button

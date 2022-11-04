@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import BusquedaAvanzadaUsuarioModal from "../../components/BusquedaAvanzadaUsuarioModal";
 import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
@@ -19,6 +20,7 @@ const paisesOptions = [
 
 const AdministradosDeUsuario = () => {
   const { id_usuario } = useSelector((state) => state.user.user);
+  const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [userData, setUserData] = useState(null);
   const [isHandleSubmit, setIsHandleSubmit] = useState(false);
@@ -27,6 +29,9 @@ const AdministradosDeUsuario = () => {
   const [actionForm, setActionForm] = useState(null);
   const [rolesOptions, setRolesOptions] = useState([]);
   const [bloqueoTipoUsuario, setBloqueoTipoUsuario] = useState(false);
+  const [formValuesSearch, setFormValuesSearch] = useState({
+    tipoDocumento: "",
+  });
   const [formValues, setFormValues] = useState({
     roles: [],
   });
@@ -35,7 +40,7 @@ const AdministradosDeUsuario = () => {
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
-    //reset: resetBuscar,
+    reset: resetBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -340,6 +345,7 @@ const AdministradosDeUsuario = () => {
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Busqueda avanzada
                   </button>
@@ -549,6 +555,14 @@ const AdministradosDeUsuario = () => {
               </form>
             )}
           </div>
+          <BusquedaAvanzadaUsuarioModal
+            isModalActive={busquedaAvanzadaIsOpen}
+            setIsModalActive={setBusquedaAvanzadaIsOpen}
+            formValues={formValuesSearch}
+            setFormValues={setFormValuesSearch}
+            reset={resetBuscar}
+            tipoDocumentoOptions={tipoDocumentoOptions}
+          />
         </div>
       </div>
     </div>
