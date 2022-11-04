@@ -7,6 +7,7 @@ import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import Subtitle from "../../../components/Subtitle";
 registerLocale("es", es);
 
 const ControlSeguimientoDeMaterialVegetalScreen = () => {
@@ -223,17 +224,18 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Control y Seguimiento de Material Vegetal
-        </h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <div className="multisteps-form__content">
-            <div className="col-12 col-sm-6">
-              <label className="form-floating input-group input-group-dynamic ms-2">Seleccione vivero</label>
+        <h3 className="text-rigth  fw-light mb-3 mb-2">
+          Control y Seguimiento de Material Vegetal
+        </h3>
+        <Subtitle title="Información general" mb="3" />
+          <div className="row">
+            <div className="col-12 col-sm-3">
+              <label className="text-terciary ms-3">Seleccione vivero</label>
               <Controller
                 name="seleccioneVivero"
                 control={control}
@@ -253,8 +255,8 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
               )}
             </div>
             <div className="row mt-2">
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary ms-2">
                   Seleccionar lote de siembra
                 </label>
                 <Controller
@@ -277,7 +279,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <label className="form-floating input-group input-group-dynamic ms-2">Rango de fechas</label>
                 <Controller
                   name="fechaInicio"
@@ -301,7 +303,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <label className="form-floating input-group input-group-dynamic ms-2">Etapa de Siembra</label>
                 <Controller
                   name="etapaSiembra"
@@ -323,7 +325,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <label className="form-floating input-group input-group-dynamic ms-2">
                   Seleccione Actividad<span className="text-danger">*</span>
                 </label>

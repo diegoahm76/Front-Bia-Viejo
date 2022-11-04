@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
+import DesbloqueoUsuarioScreen from "./desbloqueoUsuario/DesbloqueoUsuarioScreen";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
@@ -102,6 +103,26 @@ function LoginScreen() {
                       {...register("password")}
                     />
                   </div>
+                  {error?.detail ===
+                  "Su usuario está bloqueado, debe comunicarse con el administrador" ? (
+                    <div>
+                      <label className="text-white text-center fw-lighter fs-5">
+                        {error?.detail}
+
+                        <Link className="text-white" to="/desbloqueousuario">
+                          <button
+                            type="submit"
+                            className="btn bg-gradient-primary rounded-pill justify-content-center px-5 my-4 mb-2 fw-normal"
+                          >
+                            Desbloquear Usuario
+                          </button>
+                        </Link>
+                      </label>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
                   <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha
                       sitekey={process.env.REACT_APP_SITE_KEY}
