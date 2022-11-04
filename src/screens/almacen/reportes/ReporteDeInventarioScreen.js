@@ -1,13 +1,11 @@
 import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 const ReporteDeInventarioScreen = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -173,343 +171,302 @@ const ReporteDeInventarioScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Reporte de inventario </h3>
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
+          <form
+            className="row"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+            id="configForm"
+          >
+            <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
+              Reporte de inventario
+            </h3>
 
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <div className="multisteps-form__content">
-              <div className="mt-4 row">
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Ubicacion
-                  </label>
-                  <div className="col-12 mt-3">
-                    <Controller
-                      name="ubicacion"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionUbicacion}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+            <Subtitle title="Parametros de busqueda" />
+
+            <div className="mt-3 row">
+              <div className="col-12 col-md-3">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Ubicacion
+                </label>
+                <div className="col-12 mt-3">
+                  <Controller
+                    name="ubicacion"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionUbicacion}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
                 </div>
+              </div>
 
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Bodega{" "}
-                  </label>
-                  <div className="col-12 mt-3">
-                    <Controller
-                      name="bodega"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionBodega}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+              <div className="col-12 col-md-3">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Bodega{" "}
+                </label>
+                <div className="col-12 mt-3">
+                  <Controller
+                    name="bodega"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionBodega}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
                 </div>
+              </div>
 
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de entrada
-                  </label>
-                  <div className="col-12 mt-3">
-                    <Controller
-                      name="tipoDeEntrada"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionTipoDeEntrada}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+              <div className="col-12 col-md-3">
+                <label className="form-floating input-group input-group-dynamic ms-2">
+                  Tipo de entrada
+                </label>
+                <div className="col-12 mt-3">
+                  <Controller
+                    name="tipoDeEntrada"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionTipoDeEntrada}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
                 </div>
+              </div>
+            </div>
 
-                <div className="multisteps-form__content">
-                  <div className="row mt-4">
-                    <label
-                      className="form-control border rounded-pill px-3 mt-3 text-white"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(45deg, #67b136, #39aad4)",
+            <Subtitle title="Rango de codigos" mt="3" />
+
+            <div className="row mt-3">
+              <div className="col-12 col-md-3">
+                <label className="ms-2">Codigo inicial</label>
+                <input
+                  name="codigoInicial"
+                  className="form-control border rounded-pill px-3"
+                  type="text"
+                  placeholder="Codigo inicial"
+                  {...register("codigoInicial")}
+                />
+              </div>
+
+              <div className="col-12 col-md-3">
+                <label className="ms-2">Codigo final</label>
+                <input
+                  name="codigoFinal"
+                  className="form-control border rounded-pill px-3"
+                  type="text"
+                  placeholder="Codigo final"
+                  {...register("codigoFinal")}
+                />
+              </div>
+            </div>
+
+            <Subtitle title="Rango de valores" mt="3" />
+
+            <div className="mt-3 row">
+              <div className="col-12 col-md-3">
+                <label className="ms-2">Valor inicial</label>
+                <input
+                  name="valorInicial"
+                  className="form-control border rounded-pill px-3"
+                  type="text"
+                  placeholder="nombre completo"
+                  {...register("valorInicial")}
+                />
+              </div>
+
+              <div className="col-12 col-md-3">
+                <label className="ms-2">Valor final</label>
+                <input
+                  name="valorFinal"
+                  className="form-control border rounded-pill px-3"
+                  type="text"
+                  placeholder="nombre completo"
+                  {...register("valorFinal")}
+                />
+              </div>
+            </div>
+
+            <Subtitle title="Rango de fechas" mt="3" />
+
+            <div className="row mt-3">
+              <div className="col-12 col-md-3">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha inicial
+                </label>
+                <Controller
+                  name="fechaInicial"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      className="form-control border rounded-pill px-3  p-2"
+                      placeholderText="dd/mm/aaaa"
+                      selected={selecOpciones.fechaInicial}
+                      onChange={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaInicial: date,
+                        });
+                        setStartDate(date);
                       }}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="col-12 col-md-3">
+                <label htmlFor="exampleFormControlInput1 mt-4">
+                  Fecha final
+                </label>
+                <Controller
+                  name="fechaFinal"
+                  control={control}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      dateFormat="dd/MM/yyyy"
+                      className="form-control border rounded-pill px-3  p-2"
+                      placeholderText="dd/mm/aaaa"
+                      selected={selecOpciones.fechaFinal}
+                      onSelect={(date) => {
+                        setSelecOpciones({
+                          ...selecOpciones,
+                          fechaFinal: date,
+                        });
+                        setEndDate(date);
+                      }}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="col-12 col-md-2 mt-2">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {selecOpciones.ubicacion ||
+            selecOpciones.bodega ||
+            selecOpciones.tipoDeEntrada ||
+            (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||
+            (selecOpciones.valorInicial && selecOpciones.valorFinal) ||
+            (selecOpciones.fechaInicial && selecOpciones.fechaFinal) ? (
+              <div>
+                <div className="mt-1 row">
+                  <div id="myGrid" className="ag-theme-alpine mt-4">
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "400px" }}
                     >
-                      <b>Rango de codigos</b>
-                    </label>
+                      <AgGridReact
+                        columnDefs={columnDefs}
+                        rowData={rowData}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-4 justify-content-end align-items-end">
+                  <div className="row">
+                    <div className="col-12 col-md-3">
+                      <label className="ms-2">Nombre quien imprime</label>
+                      <input
+                        name="nombreQuienImprime"
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        placeholder="Nombre del articulo"
+                        value="Julian Castillo"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="justify-content-end align-items-end">
+                  <div className="row">
+                    <div className="col-12 col-md-3">
+                      <label htmlFor="exampleFormControlInput1 mt-4">
+                        Fecha de impresion
+                      </label>
+
+                      <Controller
+                        name="fechaSolicitud"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            locale="es"
+                            selected={startDate}
+                            dateFormat="dd/MM/yyyy"
+                            includeDates={[new Date()]}
+                            onChange={(date) => setStartDate(date)}
+                            className="form-control border rounded-pill px-3  p-2"
+                            placeholderText="dd/mm/aaaa"
+                          />
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="row">
-                  <div className="col-12 col-md-4">
-                    <label className="ms-2">Codigo inicial</label>
-                    <input
-                      name="codigoInicial"
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      placeholder="Codigo inicial"
-                      {...register("codigoInicial")}
-                    />
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <label className="ms-2">Codigo final</label>
-                    <input
-                      name="codigoFinal"
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      placeholder="Codigo final"
-                      {...register("codigoFinal")}
-                    />
-                  </div>
-                </div>
-
-                <div className="multisteps-form__content">
-                  <div className="row ">
-                    <label
-                      className="form-control border rounded-pill px-3 mt-3 text-white"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(45deg, #67b136, #39aad4)",
-                      }}
-                    >
-                      <b>Rango de valores</b>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <label className="ms-2">Valor inicial</label>
-                    <input
-                      name="valorInicial"
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      placeholder="nombre completo"
-                      {...register("valorInicial")}
-                    />
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <label className="ms-2">Valor final</label>
-                    <input
-                      name="valorFinal"
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      placeholder="nombre completo"
-                      {...register("valorFinal")}
-                    />
-                  </div>
-                </div>
-
-                <div className="multisteps-form__content">
-                  <div className="mt-4 row">
-                    <label
-                      className="form-control border rounded-pill px-3 mt-3 text-white"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(45deg, #67b136, #39aad4)",
-                      }}
-                    >
-                      <b>Rango de fechas</b>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <label htmlFor="exampleFormControlInput1 mt-4">
-                      Fecha inicial
-                    </label>
-                    <Controller
-                      name="fechaInicial"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          className="form-control border rounded-pill px-3  p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={selecOpciones.fechaInicial}
-                          onChange={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaInicial: date,
-                            });
-                            setStartDate(date);
-                          }}
-                          selectsStart
-                          startDate={startDate}
-                          endDate={endDate}
-                        />
-                      )}
-                    />
-                  </div>
-
-                  <div className="col-12 col-md-4">
-                    <label htmlFor="exampleFormControlInput1 mt-4">
-                      Fecha final
-                    </label>
-                    <Controller
-                      name="fechaFinal"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          dateFormat="dd/MM/yyyy"
-                          className="form-control border rounded-pill px-3  p-2"
-                          placeholderText="dd/mm/aaaa"
-                          selected={selecOpciones.fechaFinal}
-                          onSelect={(date) => {
-                            setSelecOpciones({
-                              ...selecOpciones,
-                              fechaFinal: date,
-                            });
-                            setEndDate(date);
-                          }}
-                          selectsEnd
-                          startDate={startDate}
-                          endDate={endDate}
-                          minDate={startDate}
-                        />
-                      )}
-                    />
-                  </div>
-
-                  <div className="col-12 col-md-2">
-                    <div className="d-grid gap-2 d-flex justify-content-end  mt-4">
+                  <div className="col-12 col-md-12 d-flex justify-content-end">
+                    <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
                       <button
                         className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                        type="submit"
+                        type="button"
                         title="Send"
                         form="configForm"
                       >
-                        Buscar
+                        Imprimir
+                      </button>
+
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
+                        type="button"
+                        title="Send"
+                        form="configForm"
+                      >
+                        Salir
                       </button>
                     </div>
                   </div>
                 </div>
-
-                {selecOpciones.ubicacion ||
-                selecOpciones.bodega ||
-                selecOpciones.tipoDeEntrada ||
-                (selecOpciones.codigoInicial && selecOpciones.codigoFinal) ||
-                (selecOpciones.valorInicial && selecOpciones.valorFinal) ||
-                (selecOpciones.fechaInicial && selecOpciones.fechaFinal) ? (
-                  <div>
-                    <div className="multisteps-form__content">
-                    <div className="multisteps-form__content">
-                  <div className="mt-4 row">
-                    <label className="form-control border rounded-pill px-3 text-white"
-                    style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                      <b>Reporte de inventario</b>
-                    </label>
-                  </div>
-                </div>
-                      <div className="mt-1 row">
-                        <div id="myGrid" className="ag-theme-alpine mt-4">
-                          <div
-                            className="ag-theme-alpine"
-                            style={{ height: "400px" }}
-                          >
-                            <AgGridReact
-                              columnDefs={columnDefs}
-                              rowData={rowData}
-                              defaultColDef={defaultColDef}
-                              onGridReady={onGridReady}
-                            ></AgGridReact>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 justify-content-end align-items-end">
-                        <div className="row">
-                          <div className="col-12 col-md-4">
-                            <label className="ms-2">Nombre quien imprime</label>
-                            <input
-                              name="nombreQuienImprime"
-                              className="form-control border rounded-pill px-3"
-                              type="text"
-                              placeholder="Nombre del articulo"
-                              value="Julian Castillo"
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="justify-content-end align-items-end">
-                        <div className="row">
-                          <div className="col-12 col-md-4">
-                            <label htmlFor="exampleFormControlInput1 mt-4">
-                              Fecha de impresion
-                            </label>
-
-                            <Controller
-                              name="fechaSolicitud"
-                              control={control}
-                              render={({ field }) => (
-                                <DatePicker
-                                  {...field}
-                                  locale="es"
-                                  selected={startDate}
-                                  dateFormat="dd/MM/yyyy"
-                                  includeDates={[new Date()]}
-                                  onChange={(date) => setStartDate(date)}
-                                  className="form-control border rounded-pill px-3  p-2"
-                                  placeholderText="dd/mm/aaaa"
-                                />
-                              )}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-12 col-md-4 row">
-                        <div className=" d-grid gap-2 d-flex justify-content-end  mt-4 ">
-                          <button
-                            className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                            type="button"
-                            title="Send"
-                            form="configForm"
-                          >
-                            Imprimir
-                          </button>
-
-                          <button
-                            className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-danger mb-0 text-capitalize"
-                            type="button"
-                            title="Send"
-                            form="configForm"
-                            onclik="${}"
-                          >
-                            Salir
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
               </div>
-            </div>
-          </MarcaDeAgua1>
-        </form>
+            ) : (
+              ""
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

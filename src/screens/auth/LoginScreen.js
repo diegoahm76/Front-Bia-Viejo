@@ -127,7 +127,7 @@ function LoginScreen() {
                   </Link>
                 </div>
                 <div className="d-flex justify-content-center mb-4">
-                  <Link className="text-white" to="/register">
+                  <Link className="text-white" to="/recuperar-contrasena">
                     <p>Olvidó su contraseña</p>
                   </Link>
                 </div>

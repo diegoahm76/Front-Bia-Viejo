@@ -11,6 +11,8 @@ import {
 } from "../../../actions/estacionActions";
 import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";
+import Subtitle from "../../../components/Subtitle";
+import ExportExcelFile from "../../../components/ExportExcelFile";
 
 const AdministradorDeEstaciones = () => {
   const dispatch = useDispatch();
@@ -23,6 +25,16 @@ const AdministradorDeEstaciones = () => {
   }, []);
 
   const { estaciones } = useSelector((state) => state.estaciones);
+
+  const dataExcel = estaciones.map((estacion) => ({
+    OBJECTID: estacion.objectid,
+    Estación: estacion.t001nombre,
+    "Coordenada 1": estacion.t001coord1,
+    "Coordenada 2": estacion.t001coord2,
+    Modificado: estacion.t001fechaMod,
+    Usuario: estacion.t001userMod,
+  }));
+
   const columnDefs = [
     { headerName: "OBJECTID", field: "objectid", minWidth: 140 },
     { headerName: "Estación", field: "t001nombre", minWidth: 140 },
@@ -37,17 +49,17 @@ const AdministradorDeEstaciones = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-outline-warning "
+            className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
-              dispatch(obtenerEstacionEditarAction(params.data))
-              setIsModalEditarActivate(!isModalActive)
+              dispatch(obtenerEstacionEditarAction(params.data));
+              setIsModalEditarActivate(!isModalActive);
             }}
           >
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            className="btn btn-sm btn-outline-danger"
+            className="btn btn-sm btn-tablas btn-outline-danger"
             type="button"
             onClick={() => confirmarEliminarEstacion(params.data.objectid)}
           >
@@ -90,16 +102,16 @@ const AdministradorDeEstaciones = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-2 mb-0 text-center mb-4">
-          Administrador estaciones meteorologicas
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-2 mb-0">Administrador estaciones meteorologicas</h3>
+          <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
             <div className="row"></div>
-            <div>
+            <div className="d-flex">
+              <ExportExcelFile estaciones={dataExcel} name="Estaciones" />
               <button
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 onClick={() => setIsModalActive(!isModalActive)}

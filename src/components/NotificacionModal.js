@@ -177,7 +177,6 @@ const NotificacionNuevo = ({
                     )}
                   />
                 )}
-
                 {errors.usuario && (
                   <small className="text-danger">
                     Este campo es obligatorio

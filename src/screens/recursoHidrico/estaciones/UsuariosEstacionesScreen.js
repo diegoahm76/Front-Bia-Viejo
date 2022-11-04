@@ -11,6 +11,8 @@ import {
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
+import Subtitle from "../../../components/Subtitle";
+import ExportExcelFile from "../../../components/ExportExcelFile";
 
 const UsuariosEstacionesScreen = () => {
   const dispatch = useDispatch();
@@ -24,6 +26,8 @@ const UsuariosEstacionesScreen = () => {
 
   const { usuarios } = useSelector((state) => state.estaciones);
 
+  const dataExcel = usuarios.map( usuario => ({}))
+
   const columnDefs = [
     { headerName: "Usuario", field: "t005nombre", minWidth: 140 },
     {
@@ -31,10 +35,15 @@ const UsuariosEstacionesScreen = () => {
       field: "t001Estaciones.t001nombre",
       minWidth: 140,
     },
-    { headerName: "Número", field: "t005numero", minWidth: 140 },
+    { headerName: "Número", field: "t005numeroCelular", minWidth: 140 },
     {
       headerName: "Identificación",
       field: "t005Identificacion",
+      minWidth: 140,
+    },
+    {
+      headerName: "Observación",
+      field: "t005Observacion",
       minWidth: 140,
     },
     {
@@ -44,7 +53,7 @@ const UsuariosEstacionesScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-outline-warning "
+            className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
               dispatch(obtenerUsuarioEditarAction(params.data));
@@ -54,7 +63,7 @@ const UsuariosEstacionesScreen = () => {
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            className="btn btn-sm btn-outline-danger"
+            className="btn btn-sm btn-tablas btn-outline-danger"
             type="button"
             onClick={() => {
               dispatch(obtenerUsusarioEliminarAction(params.data));
@@ -82,21 +91,23 @@ const UsuariosEstacionesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-2 mb-0 text-center mb-4">
-          Administrador de usuarios
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-2 mb-0">
+            Administrador de usuarios
+          </h3>
+          <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
             <div className="row"></div>
-            <div>
+            <div className="d-flex">
+            <ExportExcelFile estaciones={dataExcel} name="Estaciones" />
               <button
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 onClick={() => setIsModalActive(!isModalActive)}
               >
-                Nueva
+                Nuevo
               </button>
             </div>
           </div>

@@ -8,6 +8,7 @@ import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import { formatISO9075 } from "date-fns";
 import { AgGridReact } from "ag-grid-react";
 import { formatISO } from "date-fns";
+import Subtitle from "../../../components/Subtitle";
 
 const columnDefs = [
   {
@@ -118,13 +119,12 @@ const ReportesScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">
-          Reportes estaciones meteorologicas
-        </h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Reportes</h3>
+          <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row" onSubmit={handleSubmitFiltrar(onSubmitFiltrar)}>
             <div className="col-12 col-md-4">
               <label className="form-label">
