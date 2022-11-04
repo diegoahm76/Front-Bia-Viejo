@@ -204,7 +204,7 @@ export const editarAlarmaAction = (dataEdit) => async (dispatch) => {
   dispatch(peticionEditarAlarma(true));
   console.log(dataEdit);
   try {
-    await clienteEstaciones.put("AlarmasConfiguraciones", dataEdit);
+    await clienteEstaciones.put("Alarmas", dataEdit);
     dispatch(editarAlarmaCompletado(false));
     dispatch(obternerAlarmasAction());
     Swal.fire({

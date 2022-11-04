@@ -1,5 +1,6 @@
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
+import Subtitle from "../../../components/Subtitle"
 
 // import "react-quill/dist/quill.snow.css";
 import { AgGridReact } from 'ag-grid-react';
@@ -52,21 +53,16 @@ const InventarioViveroCompensacion = () => {
 
     return (
         <div className="row min-vh-100">
-            <div className="col-lg-12 col-md-12 col-12 mx-auto">
-                <h3 className="mt-3 mb-0 text-center mb-6">Cuarentena material vegetal</h3>
-                <form
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-                    data-animation="FadeIn"
-                    onSubmit={handleSubmit(onSubmit)}
-                    id="configForm"
-                >
-                    <div
-                        className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                        data-animation="FadeIn"
-                    >
-                        <div className="row my-2  align-items-center  ">
-                            <div className="form-group mt-3 col-12 col-sm-4 col-lg-4 mb-3">
-                                <label className="font-weight" htmlFor="cantidadKg">
+            <div className="col-lg-12 mx-auto">
+                <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+                    <form className="row" onSubmit={handleSubmit(onSubmit)}>
+                        <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+                            Cuarentena de material vegetal
+                        </h3>
+                        <Subtitle title="Cuarentena" mt={3} />
+                        <div className="row d-flex align-items-end mt-2 mx-2">
+                            <div className="col-12 col-md-3 mb-3">
+                                <label className="text-terciary">
                                     Etapa de material vegetal:
                                 </label>
 
@@ -87,98 +83,100 @@ const InventarioViveroCompensacion = () => {
                                 )}
 
                             </div>
-                            <div className="col-12 col-sm-4 col-lg-4 mt-5">
+                            <div className="col-12 col-md-3">
                                 <button
-                                    className="border rounded-pill px-3 btn bg-gradient-primary mb-0 text-capitalize"
                                     type="submit"
+                                    className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
                                 >
                                     Buscar
                                 </button>
                             </div>
                         </div>
-                        {
-                            selecOpciones.asignarViverista && (
-                                <div className="multisteps-form__content">
-                                    <div className="ag-theme-alpine mb-2" style={{ height: '225px' }}>
-                                        <AgGridReact
-                                            columnDefs={columnDefs}
-                                            rowData={rowData}
-                                            defaultColDef={defaultColDef}
-                                            onGridReady={onGridReady}
+                    </form>
+                    {
+                        selecOpciones.asignarViverista && (
+                            <form className="row" onSubmit={handleSubmit(onSubmit)}>
+                                <div className="row d-flex align-items-end mt-2">
+                                        <div
+                                            className="ag-theme-alpine mb-3 mx-3 "
+                                            style={{ height: "225px" }}
                                         >
-                                        </AgGridReact>
-                                    </div>
-                                    <div className="row mb-3">
-                                        <div className="col-12 col-lg-4 col-sm-4">
-                                            <label>
-                                                Cantidad de material vegetal: <span className="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                name="cantidadMaterialVegetal"
-                                                type="number"
-                                                className="form-control border rounded-pill px-3"
-                                                {...register("cantidadMaterialVegetal", { required: true })}
-                                            />
-                                            {errors.cantidadMaterialVegetal && (
-                                                <div className="col-12">
-                                                    <small className="text-center text-danger">
-                                                        Este campo es obligatorio
-                                                    </small>
-                                                </div>
-                                            )}
-                                        </div>
-                                        <div className="col-12 col-lg-4 col-sm-4">
-                                            <label>
-                                                Ubicación de material vegetal: <span className="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                name="ubicaciónMaterialVegetal"
-                                                type="number"
-                                                className="form-control border rounded-pill px-3"
-                                                {...register("ubicaciónMaterialVegetal", { required: true })}
-                                            />
-                                            {errors.ubicaciónMaterialVegetal && (
-                                                <div className="col-12">
-                                                    <small className="text-center text-danger">
-                                                        Este campo es obligatorio
-                                                    </small>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="input-group input-group-dynamic flex-column my-3">
-                                        <label htmlFor="exampleFormControlTextArea">Observaciones</label>
-                                        <textarea
-                                            className="form-control borderRadius  px-3 multisteps-form__textarea form-control p-0 w-auto "
-                                            rows="3"
-                                            style={{ borderRadius: "1rem;" }}
-                                            type="text"
-                                            placeholder="Nombre"
-                                            name="observaciones"
-                                            {...register("observaciones", { required: true })}
-                                        />
-                                    </div>
-                                    {errors.observaciones && <p className="text-danger">Este campo es obligatorio</p>}
-                                    <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                                        <button
-                                            className="border rounded-pill px-3 btn bg-gradient-danger me-md-2"
-                                            type="button"
-                                            title="Send"
-                                        >
-                                            Cancelar
-                                        </button>
-                                        <button
-                                            className="border rounded-pill px-3 btn bg-gradient-primary "
-                                            type="submit"
-                                        >
-                                            Guardar
-                                        </button>
+                                            <AgGridReact
+                                                columnDefs={columnDefs}
+                                                rowData={rowData}
+                                                defaultColDef={defaultColDef}
+                                                onGridReady={onGridReady}
+                                            >
+                                            </AgGridReact>
                                     </div>
                                 </div>
-                            )
-                        }
-                    </div>
-                </form>
+                                <div className="row d-flex align-items-end mt-2 mx-2">
+                                    <div className="col-12 col-md-3 mb-3">
+                                        <label className="text-terciary">
+                                            Cantidad de material vegetal: <span className="text-danger">*</span>
+                                        </label>
+                                        <input
+                                            name="cantidadMaterialVegetal"
+                                            type="number"
+                                            className="form-control border border-terciary rounded-pill px-3"
+                                            {...register("cantidadMaterialVegetal", { required: true })}
+                                        />
+                                        {errors.cantidadMaterialVegetal && (
+                                            <div className="col-12">
+                                                <small className="text-center text-danger">
+                                                    Este campo es obligatorio
+                                                </small>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="col-12 col-md-3 mb-3">                                        <label className="text-terciary">
+                                        Ubicación de material vegetal: <span className="text-danger">*</span>
+                                    </label>
+                                        <input
+                                            name="ubicaciónMaterialVegetal"
+                                            type="text"
+                                            className="form-control border border-terciary rounded-pill px-3"
+                                            {...register("ubicaciónMaterialVegetal", { required: true })}
+                                        />
+                                        {errors.ubicaciónMaterialVegetal && (
+                                            <div className="col-12">
+                                                <small className="text-center text-danger">
+                                                    Este campo es obligatorio
+                                                </small>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="col-12">
+                                        <label className="text-terciary">
+                                            Observaciones
+                                        </label>
+                                        <textarea
+                                            className="form-control border rounded-pill px-3"
+                                            placeholder="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum."
+                                            rows={3}
+                                        />
+                                        {errors.observaciones && <p className="text-danger">Este campo es obligatorio</p>}
+                                    </div>
+                                </div>
+                                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                                    <button
+                                        className="border rounded-pill px-3 btn bg-gradient-danger me-md-2"
+                                        type="button"
+                                        title="Send"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        className="border rounded-pill px-3 btn bg-gradient-primary "
+                                        type="submit"
+                                    >
+                                        Guardar
+                                    </button>
+                                </div>
+                            </form>
+                        )
+                    }
+                </div>
             </div>
         </div>
     );

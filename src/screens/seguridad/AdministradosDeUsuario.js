@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import BusquedaAvanzadaUsuarioModal from "../../components/BusquedaAvanzadaUsuarioModal";
 import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
@@ -19,6 +20,7 @@ const paisesOptions = [
 
 const AdministradosDeUsuario = () => {
   const { id_usuario } = useSelector((state) => state.user.user);
+  const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [userData, setUserData] = useState(null);
   const [isHandleSubmit, setIsHandleSubmit] = useState(false);
@@ -26,12 +28,19 @@ const AdministradosDeUsuario = () => {
   const [personaData, setPersonaData] = useState({});
   const [actionForm, setActionForm] = useState(null);
   const [rolesOptions, setRolesOptions] = useState([]);
+  const [bloqueoTipoUsuario, setBloqueoTipoUsuario] = useState(false);
+  const [formValuesSearch, setFormValuesSearch] = useState({
+    tipoDocumento: "",
+  });
+  const [formValues, setFormValues] = useState({
+    roles: [],
+  });
   const navigate = useNavigate();
   const {
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
-    //reset: resetBuscar,
+    reset: resetBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -83,8 +92,6 @@ const AdministradosDeUsuario = () => {
         `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
       );
 
-      //console.log("dataPersona", dataPersona);
-
       if (dataPersona?.Persona) {
         Swal.fire({
           title: "Este numero de documento no tiene un usuario asignado",
@@ -135,12 +142,36 @@ const AdministradosDeUsuario = () => {
       } else if (dataPersona?.Usuario) {
         setUserData(dataPersona?.Usuario);
         setActionForm("editar");
+
+        if (dataPersona?.Usuario.tipo_usuario === "I") {
+          setBloqueoTipoUsuario(true);
+        } else if (dataPersona?.Usuario.tipo_usuario === "E") {
+          setBloqueoTipoUsuario(false);
+        }
+
+        const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
+
+        const dataRolesIndex = getIndexBySelectOptions(
+          indexRoles,
+          rolesOptions
+        );
+
+        setFormValues({
+          roles: dataRolesIndex,
+        });
+
+        const optionsBySelect = dataRolesIndex.map(
+          (roleIndex) => rolesOptions[roleIndex]
+        );
+
         const usuarioOverrideData = {
           nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
           bloqueado: dataPersona?.Usuario.is_blocked,
           activo: dataPersona?.Usuario.is_active,
           tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
+          roles: optionsBySelect,
         };
+
         resetUsuario(usuarioOverrideData);
       }
     } catch (err) {
@@ -173,7 +204,7 @@ const AdministradosDeUsuario = () => {
 
     if (actionForm === "crear") {
       try {
-        const rolesFormat = data.roles.map((rol) => rol.value);
+        const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
 
         const nuevoUsuario = {
           email: personaData.email,
@@ -181,7 +212,7 @@ const AdministradosDeUsuario = () => {
           persona: personaData.id_persona,
           password: data.password,
           id_usuario_creador: id_usuario,
-          tipo_usuario: data.tipoUsuario ? "I" : "E",
+          tipo_usuario: "I",
           roles: rolesFormat,
         };
 
@@ -199,12 +230,17 @@ const AdministradosDeUsuario = () => {
       }
     } else if (actionForm === "editar") {
       try {
-        //console.log("persona", userData)
+        const rolesReFormat = data.roles.map((rol) => ({
+          nombre_rol: rol.label,
+          id_rol: rol.value,
+        }));
+
         const editarUsuario = {
           nombre_de_usuario: data.nombreUsuario,
           tipo_usuario: data.tipoUsuario ? "I" : "E",
           is_active: data.activo,
           is_blocked: data.bloqueado,
+          roles: rolesReFormat,
         };
 
         const { data: dataEditar } = await clienteAxios.patch(
@@ -224,6 +260,24 @@ const AdministradosDeUsuario = () => {
     }
   };
 
+  const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
+    const idResult = [];
+    const idSelectOptions = selectOptions.map((option) => option.value);
+    idSelectOptions.forEach((optionId, index) => {
+      if (valuesSelect.includes(optionId)) {
+        idResult.push(index);
+      }
+    });
+    return idResult;
+  };
+
+  const getDefaultValuesOptions = () => {
+    const defaultValues = formValues.roles?.map(
+      (option) => rolesOptions[option]
+    );
+    return defaultValues;
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
@@ -239,7 +293,7 @@ const AdministradosDeUsuario = () => {
               <Subtitle title={"Buscar persona"} mt={3} />
               <div className="mt-4 row align-items-end ms-1">
                 <div className="col-12 col-md-3">
-                  <label className="form-label text-terciary">
+                  <label className="text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
                   <Controller
@@ -268,7 +322,7 @@ const AdministradosDeUsuario = () => {
                   <label className="text-terciary">Número de documento:</label>
                   <input
                     type="text"
-                    className="form-control border rounded-pill px-3"
+                    className="border border-terciary form-control border rounded-pill px-3"
                     {...registerBuscar("numeroDocumento", {
                       required: true,
                     })}
@@ -291,6 +345,7 @@ const AdministradosDeUsuario = () => {
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Busqueda avanzada
                   </button>
@@ -308,7 +363,7 @@ const AdministradosDeUsuario = () => {
                     </label>
                     <input
                       type="text"
-                      className="form-control border rounded-pill px-3"
+                      className="border border-terciary form-control border rounded-pill px-3"
                       {...registerUsuario("nombreUsuario", {
                         required: true,
                       })}
@@ -321,7 +376,7 @@ const AdministradosDeUsuario = () => {
                           Contraseña: <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control"
+                          className="border border-terciary form-control"
                           type="password"
                           placeholder="Contraseña"
                           {...registerUsuario("password", {
@@ -340,7 +395,7 @@ const AdministradosDeUsuario = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control"
+                          className="border border-terciary form-control"
                           type="password"
                           placeholder="Contraseña"
                           {...registerUsuario("password2", {
@@ -361,89 +416,95 @@ const AdministradosDeUsuario = () => {
                     </>
                   )}
                 </div>
-                <div className="row flex-column mt-3 ms-1">
-                  <p className="font-weight-bolder text-terciary">
-                    Estado del usuario
-                  </p>
-                  <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                    <label
-                      className="form-check-label text-terciary"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Bloqueado
-                    </label>
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                      {...registerUsuario("bloqueado")}
-                    />
-                  </div>
-                  <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                    <label
-                      className="form-check-label text-terciary"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Activo
-                    </label>
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                      {...registerUsuario("activo")}
-                    />
-                  </div>
-                </div>
-                <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 ms-3">
-                  <div className="col-12 col-md-3">
-                    <label className="text-terciary">
-                      Motivo de la accion:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                      {...registerUsuario("ubicacionGeografica")}
-                    />
-                  </div>
-                  <button className="btn btn-primary text-capitalize mb-0">
-                    Actualizar
-                  </button>
-                </div>
-                <p className="font-weight-bolder text-terciary mt-3 ms-3">
-                  Tipo de usuario
-                </p>
-                <div className="row flex-column">
-                  <div className="col-6 col-md-3">
-                    <div className="form-check form-switch d-flex gap-2 ps-0 ms-3">
-                      <label className="me-5 text-terciary">Externo</label>
-                      <input
-                        className="form-check-input mt-1"
-                        type="checkbox"
-                        role="switch"
-                        value=""
-                        {...registerUsuario("tipoUsuario")}
-                      />
-                      <label className="ms-2 text-terciary">Interno</label>
+                {actionForm === "editar" && (
+                  <>
+                    <div className="row flex-column mt-3 ms-1">
+                      <p className="font-weight-bolder text-terciary">
+                        Estado del usuario
+                      </p>
+                      <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                        <label
+                          className="form-check-label text-terciary"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Bloqueado
+                        </label>
+                        <input
+                          className="border border-terciary form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="flexCheckDefault"
+                          {...registerUsuario("bloqueado")}
+                        />
+                      </div>
+                      <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                        <label
+                          className="form-check-label text-terciary"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Activo
+                        </label>
+                        <input
+                          className="border border-terciary form-check-input"
+                          type="checkbox"
+                          value=""
+                          id="flexCheckDefault"
+                          {...registerUsuario("activo")}
+                        />
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 align-items-end gap-1 ms-3">
+                    {/* <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 ms-3">
+                      <div className="col-12 col-md-3">
+                        <label className="text-terciary">
+                          Motivo de la accion:
+                        </label>
+                        <input
+                          type="text"
+                          className="border border-terciary form-control border rounded-pill px-3"
+                          {...registerUsuario("ubicacionGeografica")}
+                        />
+                      </div>
+                      <button className="btn btn-primary text-capitalize mb-0">
+                        Actualizar
+                      </button>
+                    </div> */}
+
+                    <p className="font-weight-bolder text-terciary mt-3 ms-3">
+                      Tipo de usuario
+                    </p>
+                    <div className="row flex-column">
+                      <div className="col-6 col-md-3">
+                        <div className="form-check form-switch d-flex gap-2 ps-0 ms-3">
+                          <label className="me-5 text-terciary">Externo</label>
+                          <input
+                            className="form-check-input mt-1"
+                            type="checkbox"
+                            role="switch"
+                            value=""
+                            disabled={bloqueoTipoUsuario}
+                            {...registerUsuario("tipoUsuario")}
+                          />
+                          <label className="ms-2 text-terciary">Interno</label>
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 align-items-end gap-1 ms-3">
                   <div className="col-12 col-md-3">
                     <label className="text-terciary">
                       Motivo de la accion:
                     </label>
                     <input
                       type="text"
-                      className="form-control border rounded-pill px-3"
+                      className="border border-terciary form-control border rounded-pill px-3"
                       {...registerUsuario("ubicacionGeografica")}
                     />
                   </div>
                   <button className="btn bg-gradient-primary text-capitalize mb-0">
                     Actualizar
                   </button>
-                </div>
+                </div> */}
+                  </>
+                )}
                 <Subtitle title={"Modulos / Grupos / Roles"} mt={4} mb={0} />
                 <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">Roles:</label>
@@ -454,8 +515,13 @@ const AdministradosDeUsuario = () => {
                       <Select
                         {...field}
                         isMulti
-                        // defaultValue={[paisesOptions[0], paisesOptions[1]]}
+                        defaultValue={getDefaultValuesOptions}
                         options={rolesOptions}
+                        //value={rolesOptions[formValues.roles]}
+                        // onChange={(e) =>{
+                        //   setFormValues({ ...formValues, roles: e })
+                        // }
+                        // }
                         placeholder="Seleccionar"
                       />
                     )}
@@ -472,7 +538,7 @@ const AdministradosDeUsuario = () => {
                       <Select
                         {...field}
                         isMulti
-                        defaultValue={[paisesOptions[0], paisesOptions[1]]}
+                        //defaultValue={[paisesOptions[0], paisesOptions[1]]}
                         options={paisesOptions}
                         placeholder="Seleccionar"
                       />
@@ -489,6 +555,14 @@ const AdministradosDeUsuario = () => {
               </form>
             )}
           </div>
+          <BusquedaAvanzadaUsuarioModal
+            isModalActive={busquedaAvanzadaIsOpen}
+            setIsModalActive={setBusquedaAvanzadaIsOpen}
+            formValues={formValuesSearch}
+            setFormValues={setFormValuesSearch}
+            reset={resetBuscar}
+            tipoDocumentoOptions={tipoDocumentoOptions}
+          />
         </div>
       </div>
     </div>

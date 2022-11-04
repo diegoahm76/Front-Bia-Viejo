@@ -47,9 +47,10 @@ const RegisterUserScreen = () => {
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
+
       const { data: dataPersona } = dataPersonaObject;
 
-      if (!dataPersona.id_persona) {
+      if (dataPersonaObject.detail) {
         Swal.fire({
           title: "No existe un persona con estos datos",
           text: "¿Desea registrarse como persona o empresa?",
@@ -166,10 +167,12 @@ const RegisterUserScreen = () => {
         <div className="row">
           <div className="col-lg-5 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
-              <h3 className="mt-3 mb-2 fw-light text-terciary">Registro de usuario</h3>
+              <h3 className="mt-3 mb-2 fw-light text-terciary">
+                Registro de usuario
+              </h3>
               <form className="row" onSubmit={handleSubmit(onSubmit)}>
                 <div className="col-12">
-                  <label className="form-label">
+                  <label className="form-label text-terciary text-terciary ms-2">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
                   <Controller
@@ -194,7 +197,7 @@ const RegisterUserScreen = () => {
                 )}
                 <div className="col-12">
                   <div className="mt-3">
-                    <label className="ms-2">
+                    <label className="text-terciary text-terciary ms-2">
                       Número de documento:{" "}
                       <span className="text-danger">*</span>
                     </label>
@@ -212,7 +215,7 @@ const RegisterUserScreen = () => {
                 )}
                 <div className="col-12">
                   <div className="mt-3">
-                    <label className="ms-2">
+                    <label className="text-terciary text-terciary ms-2">
                       Nombre de usuario: <span className="text-danger">*</span>
                     </label>
                     <input
@@ -230,7 +233,7 @@ const RegisterUserScreen = () => {
 
                 <div className="col-12">
                   <div className="mt-3">
-                    <label className="ms-2">
+                    <label className="text-terciary text-terciary ms-2">
                       Contraseña: <span className="text-danger">*</span>
                     </label>
                     <input
@@ -248,7 +251,7 @@ const RegisterUserScreen = () => {
 
                 <div className="col-12">
                   <div className="mt-3">
-                    <label className="ms-2">
+                    <label className="text-terciary text-terciary ms-2">
                       Confirmar contraseña:{" "}
                       <span className="text-danger">*</span>
                     </label>

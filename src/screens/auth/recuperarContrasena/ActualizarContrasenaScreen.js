@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import LogBackground from "../../../assets/logos/Macareniaa.jpg";
 import clienteAxios from "../../../config/clienteAxios";
 
 const ActualizarContrasenaScreen = () => {
   const navigate = useNavigate();
-  const { token, uidb64 } = useParams();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("?token");
+  const uidb64 = searchParams.get("uidb64");
   const [isDiferentPasswords, setIsDiferentPasswords] = useState(false);
 
   const {
@@ -67,15 +68,14 @@ const ActualizarContrasenaScreen = () => {
     <div
       className="page-header align-items-start min-vh-100"
       style={{
-        backgroundImage: `url(${LogBackground})`,
+        backgroundColor: "rgb(4,47,74)",
       }}
     >
-      <span className="mask bg-gradient-dark opacity-6"></span>
       <div className="container my-auto">
         <div className="row">
           <div className="col-lg-4 col-md-8 col-12 mx-auto">
             <div className="card z-index-0 fadeIn3 fadeInBottom">
-              <h3 className="mt-4 text-center">Actualizar</h3>
+              <h3 className="mt-4 mb-0 text-center">Actualizar</h3>
               <div className="card-body">
                 <form
                   className="text-start"
@@ -90,7 +90,9 @@ const ActualizarContrasenaScreen = () => {
                     </small>
                   )}
                   <div className="mt-3">
-                    <label className="ms-2">Nueva contraseña</label>
+                    <label className="text-terciary text-terciary ms-2">
+                      Nueva contraseña
+                    </label>
                     <input
                       type="password"
                       className="form-control border rounded-pill px-3"
@@ -114,7 +116,9 @@ const ActualizarContrasenaScreen = () => {
                   )}
 
                   <div className="mt-3">
-                    <label className="ms-2">Confirme su contraseña</label>
+                    <label className="text-terciary text-terciary ms-2">
+                      Confirme su contraseña
+                    </label>
                     <input
                       type="password"
                       className="form-control border rounded-pill px-3"

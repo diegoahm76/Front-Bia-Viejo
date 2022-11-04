@@ -27,6 +27,7 @@ const ActualizarDatosPersonaScreen = () => {
   const [isOpenDireccionLaboral, setIsOpenDireccionLaboral] = useState(false);
   const navigate = useNavigate();
   const [paisesOptions, setPaisesOptions] = useState([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -61,6 +62,9 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
         );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
@@ -68,11 +72,13 @@ const ActualizarDatosPersonaScreen = () => {
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
 
         setEstadoCivilOptions(estadoCivilFormat);
         setSexoOptions(sexoFormat);
         setPaisesOptions(paisesFormat);
+        setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
 
         //TODO Trayendo los datos de la persona
@@ -157,36 +163,35 @@ const ActualizarDatosPersonaScreen = () => {
     } = data;
 
     const dataUpdate = {
-      tipo_documento,
-      numero_documento,
-      digito_verificacion,
-      nombre_comercial,
-      primer_nombre,
-      segundo_nombre,
-      primer_apellido,
-      segundo_apellido,
-      direccion_residencia,
-      direccion_residencia_ref,
-      email,
-      email_empresarial,
-      direccion_notificaciones,
-      direccion_laboral,
-      ubicacion_georeferenciada,
-      telefono_celular,
-      telefono_fijo_residencial,
-      telefono_empresa_2,
-      tipo_persona,
-      sexo: sexoOptions[formValues.index_sexo]?.value,
-      estado_civil: estadoCivilOptions[formValues.index_estado_civil]?.value,
+      tipo_documento: tipo_documento ?? "",
+      numero_documento: numero_documento ?? "",
+      digito_verificacion: digito_verificacion ?? "",
+      nombre_comercial: nombre_comercial ?? "",
+      primer_nombre: primer_nombre ?? "",
+      segundo_nombre: segundo_nombre ?? "",
+      primer_apellido: primer_apellido ?? "",
+      segundo_apellido: segundo_apellido ?? "",
+      direccion_residencia: direccion_residencia ?? "",
+      direccion_residencia_ref: direccion_residencia_ref ?? "",
+      email: email ?? "",
+      email_empresarial: email_empresarial ?? "",
+      direccion_notificaciones: direccion_notificaciones ?? "",
+      direccion_laboral: direccion_laboral ?? "",
+      ubicacion_georeferenciada: ubicacion_georeferenciada ?? "",
+      telefono_celular: telefono_celular ?? "",
+      telefono_fijo_residencial: telefono_fijo_residencial ?? "",
+      telefono_empresa_2: telefono_empresa_2 ?? "",
+      tipo_persona: tipo_persona ?? "",
+      sexo: sexoOptions[formValues.index_sexo]?.value ?? "",
+      estado_civil : estadoCivilOptions[formValues.index_estado_civil]?.value ?? "",
       fecha_nacimiento: formatISO(formValues.fecha_nacimiento, {
-        representation: "date",
-      }),
-      pais_nacimiento: paisesOptions[formValues.index_pais_nacimiento]?.value,
-      pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value,
-      municipio_residencia:
-        municipiosOptions[formValues.index_municipio_residencia]?.value,
-      cod_municipio_laboral_nal:
-        municipiosOptions[formValues.index_cod_municipio_laboral_nal]?.value,
+          representation: "date",
+        }) ?? "",
+      pais_nacimiento: paisesOptions[formValues.index_pais_nacimiento]?.value ?? "",
+      pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value ?? "",
+      municipio_residencia: municipiosOptions[formValues.index_municipio_residencia]?.value ?? "",
+      cod_municipio_laboral_nal: municipiosOptions[formValues.index_cod_municipio_laboral_nal]?.value ?? "",
+      cod_municipio_notificacion_nal: municipiosOptions[formValues.index_cod_municipio_notificacion_nal]?.value ?? "",
     };
 
     const accessToken = getTokenAccessLocalStorage();
@@ -222,13 +227,13 @@ const ActualizarDatosPersonaScreen = () => {
             </h3>
             <Subtitle title={"Datos personales"} mt={4} mb={2} />
             <div className="row align-items-end mx-1">
-              <div className="col-12 col-lg-4">
-                <div className="mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     disabled
                     readOnly
@@ -236,13 +241,13 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-6 col-lg-4">
-                <div className="mt-3">
+              <div className="col-6 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Número de documento: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     disabled
                     readOnly
@@ -250,45 +255,47 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-6 col-lg-4">
-                <div className="mt-3">
+              <div className="col-6 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Codigo de verificación:
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="number"
                     {...register("digito_verificacion", {
-                      maxLength: 1,
+                      maxLength: 1
                     })}
                   />
                 </div>
-                {errors.digito_verificacion && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio, con numeros y de un carácter
-                    </small>
-                  </div>
-                )}
+                <div className="row position-relative">
+                  {errors.digito_verificacion && (
+                    <div className="col-12 position-absolute">
+                      <small className="text-center text-danger">
+                        Este campo es de maximo un caracter
+                      </small>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="col-8 col-md-4">
-                <div className="mt-3">
+              <div className="col-8 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">Nombre Comercial:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     {...register("nombre_comercial")}
                   />
                 </div>
               </div>
 
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Primer nombre: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     disabled
                     readOnly
@@ -296,24 +303,24 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">Segundo nombre:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     disabled
                     {...register("segundo_nombre")}
                   />
                 </div>
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Primer apellido: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     disabled
                     readOnly
@@ -321,18 +328,18 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">Segundo apellido:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     disabled
                     {...register("segundo_apellido")}
                   />
                 </div>
               </div>
-              <div className="col-12 col-md-4 mt-3">
+              <div className="col-12 col-md-3 mt-3">
                 <label className="form-label text-terciary">Sexo:</label>
                 <Controller
                   name="sexo"
@@ -356,124 +363,91 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="row">
-                <div className="col-12 col-md-4 mt-3 ">
-                  <label className="form-label text-terciary">
-                    Estado civil:
-                  </label>
-                  <Controller
-                    name="estado_civil"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={estadoCivilOptions}
-                        value={
-                          estadoCivilOptions[formValues.index_estado_civil]
-                        }
-                        onChange={(e) =>
-                          setFormValues({
-                            ...formValues,
-                            index_estado_civil: getIndexBySelectOptions(
-                              e.value,
-                              estadoCivilOptions
-                            ),
-                          })
-                        }
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-                <div className="col-md-4 col-12 mt-3">
-                  <label
-                    htmlFor="exampleFormControlInput1"
-                    className="text-terciary"
-                  >
-                    Fecha de nacimiento <span className="text-danger">*</span>
-                  </label>
-                  <Controller
-                    name="fecha_nacimiento"
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        showYearDropdown
-                        peekNextMonth
-                        showMonthDropdown
-                        scrollableYearDropdown
-                        dropdownMode="select"
-                        autoComplete="off"
-                        dateFormat="yyyy/MM/dd"
-                        selected={formValues.fecha_nacimiento}
-                        value={formValues.fecha_nacimiento}
-                        onSelect={(e) => {
-                          setFormValues({
-                            ...formValues,
-                            fecha_nacimiento: e,
-                          });
-                        }}
-                        className="form-control border rounded-pill px-3"
-                        placeholderText="aaaa/dd/mm"
-                      />
-                    )}
-                  />
-                  {errors.fecha_nacimiento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-4 mt-3">
-                  <label className="form-label text-terciary">
-                    País de nacimiento:
-                  </label>
-                  <Controller
-                    name="pais_nacimiento"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={paisesOptions}
-                        value={paisesOptions[formValues.index_pais_nacimiento]}
-                        onChange={(e) =>
-                          setFormValues({
-                            ...formValues,
-                            index_pais_nacimiento: getIndexBySelectOptions(
-                              e.value,
-                              paisesOptions
-                            ),
-                          })
-                        }
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* LUGAR DE RESIDENCIA */}
-            <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
-            <div className="row align-items-end mx-1">
-              <div className="col-12 col-md-4 mt-3">
-                <label className="form-label text-terciary">País:</label>
+              <div className="col-12 col-md-3 mt-3 ">
+                <label className="form-label text-terciary">
+                  Estado civil:
+                </label>
                 <Controller
-                  name="pais_residencia"
+                  name="estado_civil"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={estadoCivilOptions}
+                      value={estadoCivilOptions[formValues.index_estado_civil]}
+                      onChange={(e) =>
+                        setFormValues({
+                          ...formValues,
+                          index_estado_civil: getIndexBySelectOptions(
+                            e.value,
+                            estadoCivilOptions
+                          ),
+                        })
+                      }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-md-3 col-12 mt-3">
+                <label
+                  htmlFor="exampleFormControlInput1"
+                  className="text-terciary"
+                >
+                  Fecha de nacimiento <span className="text-danger">*</span>
+                </label>
+                <Controller
+                  name="fecha_nacimiento"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <DatePicker
+                      {...field}
+                      locale="es"
+                      showYearDropdown
+                      peekNextMonth
+                      showMonthDropdown
+                      scrollableYearDropdown
+                      dropdownMode="select"
+                      autoComplete="off"
+                      dateFormat="yyyy/MM/dd"
+                      selected={formValues.fecha_nacimiento}
+                      value={formValues.fecha_nacimiento}
+                      onSelect={(e) => {
+                        setFormValues({
+                          ...formValues,
+                          fecha_nacimiento: e,
+                        });
+                      }}
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      placeholderText="aaaa/dd/mm"
+                    />
+                  )}
+                />
+                {errors.fecha_nacimiento && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  País de nacimiento:
+                </label>
+                <Controller
+                  name="pais_nacimiento"
                   control={control}
                   render={({ field }) => (
                     <Select
                       {...field}
                       options={paisesOptions}
-                      value={paisesOptions[formValues.index_pais_residencia]}
+                      value={paisesOptions[formValues.index_pais_nacimiento]}
                       onChange={(e) =>
                         setFormValues({
                           ...formValues,
-                          index_pais_residencia: getIndexBySelectOptions(
+                          index_pais_nacimiento: getIndexBySelectOptions(
                             e.value,
                             paisesOptions
                           ),
@@ -484,11 +458,71 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 />
               </div>
-              <div className="col-12 col-md-4 mt-3">
-                <label className="form-label text-terciary">Municipio: </label>
+            </div>
+
+            {/* LUGAR DE RESIDENCIA */}
+            <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
+            <div className="row align-items-end mx-1">
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">País:</label>
+                <Controller
+                  name="pais_residencia"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={paisesOptions}
+                      // value={paisesOptions[formValues.index_pais_residencia]}
+                      // onChange={(e) =>
+                      //   setFormValues({
+                      //     ...formValues,
+                      //     index_pais_residencia: getIndexBySelectOptions(
+                      //       e.value,
+                      //       paisesOptions
+                      //     ),
+                      //   })
+                      // }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  Departamento:{" "}
+                </label>
+                <Controller
+                  name="Departamento_residencia"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={departamentosOptions}
+                      // value={
+                      //   municipiosOptions[formValues.index_municipio_residencia]
+                      // }
+                      // onChange={(e) =>
+                      //   setFormValues({
+                      //     ...formValues,
+                      //     index_municipio_residencia: getIndexBySelectOptions(
+                      //       e.value,
+                      //       municipiosOptions
+                      //     ),
+                      //   })
+                      // }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  Municipio: <span className="text-danger">*</span>
+                </label>
                 <Controller
                   name="municipio_residencia"
                   control={control}
+                  //rules={{ required: true }}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -509,14 +543,124 @@ const ActualizarDatosPersonaScreen = () => {
                     />
                   )}
                 />
+                {errors.municipio_residencia && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
-              <div className="col-12 col-md-4 mt-3">
+              <div className="col-md-8 col-10 mt-3">
+                <div className="mt-3 d-flex align-items-end">
+                  <div className="col-10">
+                    <label className="ms-2 text-terciary">
+                      Dirección de residencia:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="form-control rounded-pill px-3 border border-terciary"
+                      type="text"
+                      disabled
+                      readOnly
+                      {...register("direccion_residencia", { required: true })}
+                    />
+                  </div>
+                  <button
+                    onClick={() => setIsOpenDireccionResidencia(true)}
+                    type="button"
+                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                  >
+                    Generar
+                  </button>
+                </div>
+                {errors.direccion_residencia && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+              </div>
+              <div className="col-12 col-md-4">
+                <div className="mt-4">
+                  <label className="text-terciary">Referencia adicional:</label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="text"
+                    {...register("direccion_residencia_ref")}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* DATOS LABORALES */}
+            <Subtitle title={"Datos laborales"} mt={4} mb={2} />
+            <div className="row align-items-end mx-1">
+              <div className="col-12 col-md-3 mt-3">
                 <label className="form-label text-terciary">
-                  Municipio donde labora:
+                  Pais Donde Labora:{" "}
+                </label>
+                <Controller
+                  name="pais_laboral"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={paisesOptions}
+                      // value={
+                      //   municipiosOptions[formValues.index_municipio_residencia]
+                      // }
+                      // onChange={(e) =>
+                      //   setFormValues({
+                      //     ...formValues,
+                      //     index_municipio_residencia: getIndexBySelectOptions(
+                      //       e.value,
+                      //       municipiosOptions
+                      //     ),
+                      //   })
+                      // }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  Departamento Donde Labora:{" "}
+                </label>
+                <Controller
+                  name="Departamento_laboral"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={departamentosOptions}
+                      // value={
+                      //   municipiosOptions[formValues.index_municipio_residencia]
+                      // }
+                      // onChange={(e) =>
+                      //   setFormValues({
+                      //     ...formValues,
+                      //     index_municipio_residencia: getIndexBySelectOptions(
+                      //       e.value,
+                      //       municipiosOptions
+                      //     ),
+                      //   })
+                      // }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  Municipio Donde Labora: <span className="text-danger">*</span>
                 </label>
                 <Controller
                   name="cod_municipio_laboral_nal"
                   control={control}
+                  //rules={{ required: true }}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -537,29 +681,48 @@ const ActualizarDatosPersonaScreen = () => {
                     />
                   )}
                 />
+                {errors.cod_municipio_laboral_nal && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
-              <div className="col-md-8 col-12">
-                <div className="form-floating input-group input-group-dynamic mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
+                  <label className="text-terciary">Teléfono laboral:</label>
                   <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    readOnly
-                    {...register("direccion_residencia", { required: true })}
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="tel"
+                    {...register("telefono_empresa_2")}
                   />
-                  <label className="ms-2 text-terciary">
-                    Dirección de residencia:{" "}
-                    <span className="text-danger">*</span>
-                  </label>
+                </div>
+              </div>
+
+              <div className="col-md-8 col-10 mt-3">
+                <div className="mt-3 d-flex align-items-end">
+                  <div className="col-10">
+                    <label className="text-terciary">
+                      Dirección laboral: <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="form-control rounded-pill px-3 border border-terciary"
+                      type="text"
+                      disabled
+                      readOnly
+                      {...register("direccion_laboral", { required: true })}
+                    />
+                  </div>
                   <button
-                    onClick={() => setIsOpenDireccionResidencia(true)}
+                    onClick={() => setIsOpenDireccionLaboral(true)}
                     type="button"
                     className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
                   >
                     Generar
                   </button>
                 </div>
-                {errors.direccion_residencia && (
+                {errors.direccion_laboral && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -568,12 +731,12 @@ const ActualizarDatosPersonaScreen = () => {
                 )}
               </div>
               <div className="col-12 col-md-4">
-                <div className="mt-3">
+                <div className="mt-4">
                   <label className="text-terciary">Referencia adicional:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
-                    {...register("direccion_residencia_ref")}
+                    {...register("direccion_laboral_ref")}
                   />
                 </div>
               </div>
@@ -582,37 +745,70 @@ const ActualizarDatosPersonaScreen = () => {
             {/* DATOS DE NOTIFICACIÓN */}
             <Subtitle title={"Datos de notificación"} mt={4} mb={2} />
             <div className={"row mx-1"}>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
-                  <label className="text-terciary">
-                    E-mail: <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="email"
-                    disabled
-                    readOnly
-                    {...register("email")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
-                  <label className="text-terciary">E-mail secundario:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="email"
-                    {...register("email_empresarial")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-md-4 mt-3">
+              <div className="col-12 col-md-3 mt-3">
                 <label className="form-label text-terciary">
-                  Municipio notificación:
+                  Pais notificación:
+                </label>
+                <Controller
+                  name="cod_pais_notificacion_nal"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={paisesOptions}
+                      // value={
+                      //   municipiosOptions[
+                      //     formValues.index_cod_municipio_notificacion_nal
+                      //   ]
+                      // }
+                      // onChange={(e) =>
+                      //   setFormValues({
+                      //     ...formValues,
+                      //     index_cod_municipio_notificacion_nal:
+                      //       getIndexBySelectOptions(e.value, municipiosOptions),
+                      //   })
+                      // }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  Departamento notificación:
+                </label>
+                <Controller
+                  name="cod_departamento_notificacion_nal"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={departamentosOptions}
+                      // value={
+                      //   municipiosOptions[
+                      //     formValues.index_cod_municipio_notificacion_nal
+                      //   ]
+                      // }
+                      // onChange={(e) =>
+                      //   setFormValues({
+                      //     ...formValues,
+                      //     index_cod_municipio_notificacion_nal:
+                      //       getIndexBySelectOptions(e.value, municipiosOptions),
+                      //   })
+                      // }
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-md-3 mt-3">
+                <label className="form-label text-terciary">
+                  Municipio notificación: <span className="text-danger">*</span>
                 </label>
                 <Controller
                   name="cod_municipio_notificacion_nal"
                   control={control}
+                  //rules={{required: true}}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -633,14 +829,55 @@ const ActualizarDatosPersonaScreen = () => {
                     />
                   )}
                 />
+                {errors.cod_municipio_notificacion_nal && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
+                  <label className="text-terciary">Teléfono fijo:</label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="tel"
+                    {...register("telefono_fijo_residencial")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
+                  <label className="text-terciary">
+                    E-mail: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="email"
+                    disabled
+                    readOnly
+                    {...register("email")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
+                  <label className="text-terciary">E-mail secundario:</label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="email"
+                    {...register("email_empresarial")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Celular notificación: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border border-terciary"
                     type="tel"
                 
                     {...register("telefono_celular", { required: true, maxLength:10,minLength:10 })}
@@ -654,38 +891,23 @@ const ActualizarDatosPersonaScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
-                  <label className="text-terciary">Teléfono fijo:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="tel"
-                    {...register("telefono_fijo_residencial")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
-                  <label className="text-terciary">Teléfono laboral:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="tel"
-                    {...register("telefono_empresa_2")}
-                  />
-                </div>
-              </div>
-              <div className="col-md-8 col-12 mt-3">
-                <div className="form-floating input-group input-group-dynamic mt-3">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    readOnly
-                    {...register("direccion_notificaciones")}
-                  />
-                  <label className="ms-2 text-terciary">
-                    Dirección de notificación:
-                  </label>
+              <div className="col-md-8 col-10 mt-3">
+                <div className="mt-3 d-flex align-items-end">
+                  <div className="col-10">
+                    <label className="ms-2 text-terciary">
+                      Dirección de notificación:{" "}
+                      <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="form-control rounded-pill px-3 border border-terciary"
+                      type="text"
+                      disabled
+                      readOnly
+                      {...register("direccion_notificaciones", {
+                        required: true,
+                      })}
+                    />
+                  </div>
                   <button
                     onClick={() => setIsOpenDireccionNotificacion(true)}
                     type="button"
@@ -694,9 +916,16 @@ const ActualizarDatosPersonaScreen = () => {
                     Generar
                   </button>
                 </div>
+                {errors.direccion_notificaciones && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-3">
+              {/* <div className="col-12 col-md-3">
+                <div className="mt-4">
                   <label className="text-terciary">
                     Dirección geográfica: <span className="text-danger">*</span>
                   </label>
@@ -715,28 +944,7 @@ const ActualizarDatosPersonaScreen = () => {
                     </small>
                   </div>
                 )}
-              </div>
-              <div className="col-md-8 col-12 mt-3">
-                <div className="form-floating input-group input-group-dynamic mt-3">
-                  <input
-                    className="form-control"
-                    type="text"
-                    disabled
-                    readOnly
-                    {...register("direccion_laboral")}
-                  />
-                  <label className="ms-2 text-terciary">
-                    Dirección laboral:
-                  </label>
-                  <button
-                    onClick={() => setIsOpenDireccionLaboral(true)}
-                    type="button"
-                    className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                  >
-                    Generar
-                  </button>
-                </div>
-              </div>
+              </div> */}
             </div>
             <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
               <button

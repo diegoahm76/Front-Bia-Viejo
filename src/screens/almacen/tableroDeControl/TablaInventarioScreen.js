@@ -78,15 +78,14 @@ const TablaInventarioScreen = () => {
   }
 
   return (
-    <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Inventario de articulos</h3>
-        <div className="card">
+<div className="row min-vh-100">
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="multisteps-form__form">
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
+          <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Tabla de inventario de articulos
+            </h3>
+
               <div className="multisteps-form__content">
                 <div>
                   <div className="ag-theme-alpine my-auto px-auto" style={{ height: '470px' }}>
@@ -101,7 +100,7 @@ const TablaInventarioScreen = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            
           </form>
         </div>
       </div>

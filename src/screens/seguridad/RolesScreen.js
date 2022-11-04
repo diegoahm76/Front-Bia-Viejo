@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../components/CalendarModal";
+import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import {
   activeModalAction,
   desactiveModalAction,
@@ -41,6 +43,7 @@ const RolesScreen = () => {
         "roles/get-list",
         config
       );
+      console.log(dataRoles);
       setRoles(dataRoles);
     } catch (err) {
       console.log(err);
@@ -67,11 +70,7 @@ const RolesScreen = () => {
 
   const [isCreate, setisCreate] = useState(true);
   const dispatch = useDispatch();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const {
     register: registerRolPermiso,
@@ -88,7 +87,71 @@ const RolesScreen = () => {
       minWidth: 200,
       maxWidth: 450,
     },
+    {
+      headerName: "Acciones",
+      field: "acciones",
+      minWidth: 140,
+      cellRendererFramework: (params) => (
+        <div className="d-flex gap-1">
+          <button
+            className="btn btn-sm btn-tablas btn-outline-warning "
+            type="button"
+            onClick={() => {
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              // setIsModalEditarActivate(!isModalActive);
+            }}
+          >
+            <img src={IconoEditar} alt="editar" />
+          </button>
+          <button
+            className="btn btn-sm btn-tablas btn-outline-danger"
+            type="button"
+            onClick={() => {
+              confirmarEliminarRol(params.data.id_rol);
+            }}
+          >
+            <img src={IconoEliminar} alt="eliminar" />
+          </button>
+        </div>
+      ),
+    },
   ];
+
+  const eliminarRol = async (idRol) => {
+    try {
+      const { data } = await clienteAxios.delete(
+        `roles/delete/${idRol}`,
+        config
+      );
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: data.detail,
+        showConfirmButton: true,
+        confirmButtonText: "Continuar",
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const confirmarEliminarRol = async (idRol) => {
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Un rol que se elimina no se puede recuperar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, elminar!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        eliminarRol(idRol);
+      }
+    });
+  };
 
   const handleCloseModal = () => {
     dispatch(desactiveModalAction());
@@ -136,31 +199,40 @@ const RolesScreen = () => {
     }
   };
 
+  const onSubmitByName = async (data) => {
+    try {
+      if (data.nombreRol) {
+        const { data: dataByName } = await clienteAxios.get(
+          `roles/get-by-name/?keyword=${data.nombreRol}`,
+          config
+        );
+        setRoles(dataByName);
+      } else {
+        getRolesList();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <form onSubmit={handleSubmit()}>
+          <form onSubmit={handleSubmit(onSubmitByName)}>
             <div className="row">
               <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
                 Administrador De Roles
               </h3>
-              <Subtitle title="Informacion de roles" mt={3} />
+              <Subtitle title="Informacion general" mt={3} />
               <div className="d-flex align-items-end gap-4 mb-0 mt-4 ms-3">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">Nombre del rol</label>
                   <input
                     type="text"
                     className="form-control border rounded-pill px-3"
-                    {...register("nombreRol", { required: true })}
+                    {...register("nombreRol")}
                   />
-                  {errors.nombreRol && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
                 </div>
                 <div>
                   <button
@@ -182,6 +254,9 @@ const RolesScreen = () => {
                     columnDefs={columDefs}
                     rowData={roles}
                     defaultColDef={defaultColDef}
+                    overlayNoRowsTemplate={
+                      "<span>No se encontraron roles</span>"
+                    }
                   ></AgGridReact>
                 </div>
               </div>

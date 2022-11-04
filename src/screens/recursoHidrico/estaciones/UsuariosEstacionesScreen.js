@@ -12,6 +12,7 @@ import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
 import Subtitle from "../../../components/Subtitle";
+import ExportExcelFile from "../../../components/ExportExcelFile";
 
 const UsuariosEstacionesScreen = () => {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ const UsuariosEstacionesScreen = () => {
   }, []);
 
   const { usuarios } = useSelector((state) => state.estaciones);
+
+  const dataExcel = usuarios.map( usuario => ({}))
 
   const columnDefs = [
     { headerName: "Usuario", field: "t005nombre", minWidth: 140 },
@@ -98,7 +101,8 @@ const UsuariosEstacionesScreen = () => {
           <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
             <div className="row"></div>
-            <div>
+            <div className="d-flex">
+            <ExportExcelFile estaciones={dataExcel} name="Estaciones" />
               <button
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 onClick={() => setIsModalActive(!isModalActive)}

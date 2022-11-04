@@ -9,6 +9,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useDispatch } from "react-redux";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+import Subtitle from "../../../components/Subtitle";
 
 const SolicitudActivoPrestamoScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -177,23 +178,26 @@ const SolicitudActivoPrestamoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h4 className="text-right fw-light ms-3 mb-2">
+            <h3 className="text-right fw-light ms-3 mb-2">
               Solicitar un elemento activo en prestamo
-            </h4>
+            </h3>
             <div className="row">
-              <div className="col-12 col-sm-4">
+              <Subtitle title="información de solicitud " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Numero consecutivo</label>
+                  <label className="ms-3 text-terciary">
+                    Numero consecutivo
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero consecutivo"
                     {...register("numeroConsecutivo")}
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1">
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary">
                   Fecha de solicitud
                   <Controller
                     name="fechaSolicitud"
@@ -206,7 +210,7 @@ const SolicitudActivoPrestamoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="form-control border rounded-pill px-3 mt-2"
+                        className="form-control border  border-terciary rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -221,12 +225,11 @@ const SolicitudActivoPrestamoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Datos del coordinador</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento{" "}
+              <Subtitle title="Datos del coordinador" mb="3" mt="2" />
+              <div className="col-12 col-sm-3">
+                <label className="form-floating text-terciary input-group input-group-dynamic ms-3">
+                  Tipo de documento
+                </label>
                   <div className="col-12 ">
                     <Controller
                       name="tipoDocumento"
@@ -238,44 +241,48 @@ const SolicitudActivoPrestamoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
+                          className="mt-3"
                           options={optionsTipoDocumento}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
                   </div>
-                </label>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     {...register("numeroCedula")}
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     {...register("nombreCompleto")}
                   />
                 </div>
               </div>
-              <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button
-                  type="button"
-                  className="mt-4 btn btn-primary flex-center text-capitalize"
-                  onClick={handleOpenModal}
-                >
-                  Buscar
-                </button>
+              <div className="col-12 col-md-2 mt-2">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                    onClick={handleOpenModal}
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
             </div>
             <BusquedaDePersonalModal
@@ -289,14 +296,14 @@ const SolicitudActivoPrestamoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-center">
-                <n>Datos del solicitante</n>
-              </label>
-              <div className="col-12 col-sm-4">
+              <Subtitle title="Datos del solicitante" mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Tipo de documento</label>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="tipo de documento"
                     value="C.C."
@@ -305,11 +312,11 @@ const SolicitudActivoPrestamoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     value="1121919374"
@@ -317,11 +324,11 @@ const SolicitudActivoPrestamoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     value="Ludy Angélica León Quiroga"
@@ -331,15 +338,26 @@ const SolicitudActivoPrestamoScreen = () => {
               </div>
             </div>
           </form>
-          <form>
-            <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
-              <button
-                type="button"
-                onClick={handleOpenAgregarProducto}
-                className="mt-4 btn btn-primary flex-center text-capitalize"
-              >
-                Agregar Producto
-              </button>
+          <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <Subtitle title="información del artículo " mt="3" />
+            </div>
+            <div className="col-12 col-md-2 mt-2">
+              <div className="d-grid gap-2 d-flex">
+                <button
+                  className="btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width"
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                  onClick={handleOpenAgregarProducto}
+                >
+                  Agregar producto
+                </button>
+              </div>
             </div>
             <div
               className="ag-theme-alpine mt-2 mb-4"
@@ -352,15 +370,19 @@ const SolicitudActivoPrestamoScreen = () => {
                 onGridReady={onGridReady}
               ></AgGridReact>
             </div>
-            <div className="input-group input-group-dynamic flex-column mt-3">
-              <label htmlFor="exampleFormControlInput1 ">Observaciones</label>
-              <textarea
-                className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                type="text"
-                placeholder="Observaciones"
-                rows="3"
-                name="Observaciones"
-              />
+            <div className="col-12">
+              <div className="mx-3">
+                <label htmlFor="ms-2" className="text-terciary">
+                  Observaciones generales
+                </label>
+                <textarea
+                  className="form-control border rounded-pill px-4 border-terciary"
+                  type="text"
+                  placeholder="Observaciones generales"
+                  rows="3"
+                  name="Observaciones"
+                />
+              </div>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button

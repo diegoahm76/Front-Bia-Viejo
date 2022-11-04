@@ -4,13 +4,13 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
-import DatePicker, { registerLocale } from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal";
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../../../components/MarcaDeAgua1";
 
+import Subtitle from "../../../../../components/Subtitle"
+
 const ProgamacionDeMantenimiento = () => {
-  const [startDate, setStartDate] = useState(new Date());
 
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
     useState(false);
@@ -37,7 +37,13 @@ const ProgamacionDeMantenimiento = () => {
     });
   };
 
-  const { register, control, handleSubmit } = useForm();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
 
   const options = [
     { label: "Árticulo", value: "AR" },
@@ -138,85 +144,76 @@ const ProgamacionDeMantenimiento = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Programación mantenimiento
-        </h3>
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <div className="multisteps-form__content">
-              <div className="row">
-                <div className="col-12 col-sm-4 ">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de solicitud
-                    <Controller
-                      name="fechaSolicitud"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
-                        />
-                      )}
-                    />
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Programacion mantenimiento
+            </h3>
+            <MarcaDeAgua1>
+              <Subtitle title="Articulo" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2 justify-content-md-end">
+                <div className="col-12 col-md-3 mb-3 ">
+                  <label className="text-terciary">
+                    Fecha de solicitud {""}<span className="text-danger">*</span>
                   </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    placeholder="Escribe el nombre del vivero"
+                    {...register("fechaSolicitud", { required: true })}
+                  />
+                  {errors.fechaSolicitud && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Articulo</n>
-                </label>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      {...register("numeroCedula")}
-                    />
-                    <label className="ms-2">Codigo</label>
-                  </div>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Código: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroCodigoArticulo", { required: true })}
+                  />
+                  {errors.numeroCodigoArticulo && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Nombre</label>
-                  </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Nombre: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("nombreArticulo", { required: true })}
+                  />
+                  {errors.nombreArticulo && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
-                <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button
-                    className="btn bg-gradient-primary mb-0 text-capitalize my-2"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                    onClick={() => setBusquedaPersonalIsActive(true)}
-                  >
-                    Buscar personal
-                  </button>
-                </div>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo{" "}
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Tipo{" "}
+                  </label>
                   <div className="col-12 ">
                     <Controller
-                      name="tipoDocumento2"
+                      name="tipoArticulo"
                       control={control}
                       rules={{
                         required: true,
@@ -226,235 +223,255 @@ const ProgamacionDeMantenimiento = () => {
                           {...field}
                           options={options}
                           placeholder="Seleccionar"
+                        // {...register("tipoArticulo", { required: true })}  
                         />
                       )}
                     />
-                  </div>
-                </label>
-              </div>
 
-              <div className="row">
-                <div className="col-12 col-sm-12">
-                  <label className="form-control ms-0 text-left mt-3">
-                    <n>Datos del artículo:</n>
-                  </label>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Marca:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Lenovo</label>
                   </div>
                 </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Serial/Placa:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">k8363ju462</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Modelo:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">V14-ADA</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Kilometraje:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">12.603</label>
-                  </div>
+                <div className="col-12 col-md-3">
+                  <button
+                    className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
+                    type="button"
+                    title="Send"
+                    form="configForm"
+                    onClick={() => setBusquedaPersonalIsActive(true)}
+                  >
+                    Buscar personal
+                  </button>
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-12 col-sm-12">
-                  <label className="form-control ms-0 text-left mt-3">
-                    <n>Detalles:</n>
+              <Subtitle title="Datalles del articulo" mt={3} />
+              <div className="row d-flex align-items-center mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Marca: <span className="text-danger">*</span>
                   </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("marcaArticulo", { required: true })}
+                  />
+                  {/* {errors.marcaArticulo && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )} */}
                 </div>
-              </div>
-
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de mantenimiento{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoMantenimiento"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={opcionMantenimiento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Serial/Placa: <span className="text-danger">*</span>
                   </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("serialArticulo", { required: true })}
+                  />
+                  {/* {errors.serialArticulo && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )} */}
                 </div>
-              </div>
-              <div className="row mb-4">
-                <label className="form-control ms-0 text-center mt-3">
-                  <n>Especificaciones técnicas</n>
-                </label>
-                <div className="input-group input-group-dynamic flex-column my-3">
-                  <textarea
-                    className="multisteps-form__textarea form-control p-0 w-auto ms-1"
-                    type="number"
-                    placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                    name="nombre"
-                    {...register("nombre", { required: true })}
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Modelo: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("modeloArticulo", { required: true })}
+                  />
+                  {/* {errors.modeloArticulo && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )} */}
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Kilometraje: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="form-control border border-terciary rounded-pill px-3"
+                    type="text"
                   />
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-12 col-sm-12">
-                  <label className="form-control ms-0 text-left mt-3">
-                    <n>Programar por fechas:</n>
+              <Subtitle title="Articulo" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Tipo de mantenimiento{" "} <span className="text-danger">*</span>
                   </label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Programación{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="programarFecha"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={opcionProgramar}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      {...register("numeroCedula")}
-                    />
-                    <label className="ms-2">Cada</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tiempo{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="fecha"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={opcionProgramarFecha}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-sm-4 ">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de solicitud
+                  <div className="col-12 ">
                     <Controller
-                      name="fechaSolicitud"
+                      name="tipoMantenimiento"
                       control={control}
+                      rules={{
+                        required: true,
+                      }}
                       render={({ field }) => (
-                        <DatePicker
+                        <Select
                           {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
+                          options={opcionMantenimiento}
+                          placeholder="Seleccionar"
                         />
                       )}
                     />
+                  </div>
+
+                </div>
+              </div>
+              <div className="row d-flex align-items-center mb-2 mx-2">
+                <div className="col-12">
+                  <label className="text-terciary">
+                    Especificaciones tecnicas: <span className="text-danger">*</span>
                   </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3"
+                    placeholder="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum."
+                    rows={3}
+                  />
                 </div>
-                <div className="row">
-                  <div className="col-12 col-sm-5">
-                    <div className="form-check form-switch d-flex align-items-center mt-3">
-                      <label className="form-check ">
-                        Incluir sabados y domingos
-                      </label>
-                      <input
-                        className="form-check ms-3"
-                        type="checkbox"
-                        id="rememberMe"
+                {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
+              </div>
+
+              <Subtitle title="Programar por fechas" mt={3} />
+
+              <div className="row d-flex align-items-center mx-2 mt-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Programación{" "}
+                  </label>
+                  <Controller
+                    name="programarFecha"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionProgramar}
+                        placeholder="Seleccionar"
                       />
-                    </div>
-                  </div>
+                    )}
+                  />
+
                 </div>
-                <div className="row">
-                  <div className="col-12 col-sm-5">
-                    <div className="form-check form-switch d-flex align-items-center mt-3">
-                      <label className="form-check">Incluir festivos</label>
-                      <input
-                        className="form-check ms-7"
-                        type="checkbox"
-                        id="rememberMe"
-                      />
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Cada: {/*<span className="text-danger">*</span> */}
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("cadaNumero", { required: true })}
+                  />
+                  {/* {errors.cadaNumero && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
                     </div>
-                  </div>
+                  )} */}
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Tiempo{" "}
+                  </label>
+                  <Controller
+                    name="fecha"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={opcionProgramarFecha}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+
+                <div className="col-12 col-md-3 mb-3 ">
+                  <label className="text-terciary">
+                    Fecha de solicitud {""} {/*<span className="text-danger">*</span> */}
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    placeholder="Escribe el nombre del vivero"
+                  // {...register("fechaSolicitud", { required: true })}
+                  />
+                  {/* {errors.fechaSolicitud && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )} */}
+                </div>
+              </div>
+              <div className="row d-flex align-items-end mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Hasta {""} {/*<span className="text-danger">*</span> */}
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    placeholder="Escribe el nombre del vivero"
+                  // {...register("fechaSolicitud", { required: true })}
+                  />
                 </div>
               </div>
 
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+
+              <div className="row d-flex align-items-end mx-2">
+                <div className="form-check col-md-5 col-12 ps-0 pe-10 ms-3 mb-3 d-flex">
+                  <label className="form-check-label text-terciary"
+                  >
+                    Incluir sabados y domingos {""} {/*<span className="text-danger">*</span> */}
+                  </label>
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    value=""
+                    id="incluirFines"
+                    {...register("IncluirFinSemana")}
+                  />
+                </div>
+              </div>
+              <div className="row d-flex align-items-end mx-2">
+                <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                  <label className="form-check-label text-terciary"
+                  >
+                    Incluir festivos {""} {/*<span className="text-danger">*</span> */}
+                  </label>
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    value=""
+                    id="incluirFestivos"
+                    {...register("incluirFestivos")}
+                  />
+                </div>
+              </div>
+
+              <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button
                   className="btn bg-gradient-primary me-md-2"
                   type="button"
@@ -464,10 +481,46 @@ const ProgamacionDeMantenimiento = () => {
                 </button>
               </div>
 
+              <Subtitle title="Programar por kilometraje" mt={3} />
+
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    1) Al llegar a:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    placeholder="Kilometros"
+                  />
+                </div>
+              </div>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    2) Cada:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    placeholder="Kilometros"
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Hasta:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    placeholder="Kilometros"
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Previsualizacion" mt={3} />
+
               <div className="row">
-                <label className="form-floating input-group input-group-dynamic justify-content-center ">
-                  Previsualización
-                </label>
                 <div
                   className="ag-theme-alpine mt-3 mb-4 px-4"
                   style={{ height: "275px" }}
@@ -490,8 +543,7 @@ const ProgamacionDeMantenimiento = () => {
                 </button>
                 <button
                   className="btn bg-gradient-primary me-md-2"
-                  type="button"
-                  title="Send"
+                  type="submit"
                 >
                   Guardar
                 </button>
@@ -502,20 +554,20 @@ const ProgamacionDeMantenimiento = () => {
                 >
                   Salir
                 </button>
-                
-              </div>
-            </div>
-          </MarcaDeAgua1>
-        </form>
-        <BusquedaDePersonalModal
-          isModalActive={busquedaPersonalIsActive}
-          setIsModalActive={setBusquedaPersonalIsActive}
-        />
 
-        <BusquedaArticuloModal
-          isModalActive={busquedaArticuloIsActive}
-          setIsModalActive={setBusquedaArticuloIsActive}
-        />
+              </div>
+            </MarcaDeAgua1>
+          </form>
+          <BusquedaDePersonalModal
+            isModalActive={busquedaPersonalIsActive}
+            setIsModalActive={setBusquedaPersonalIsActive}
+          />
+
+          <BusquedaArticuloModal
+            isModalActive={busquedaArticuloIsActive}
+            setIsModalActive={setBusquedaArticuloIsActive}
+          />
+        </div>
       </div>
     </div>
   );
