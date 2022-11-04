@@ -353,6 +353,7 @@ const AuditoriaScreen = () => {
                 <AgGridReact
                   className="ag-theme-alpine"
                   animateRows="true"
+                  pagination = { true }
                   columnDefs={columDefs}
                   rowData={auditorias}
                   defaultColDef={defaultColDef}
