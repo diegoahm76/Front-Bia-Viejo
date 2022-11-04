@@ -4,6 +4,7 @@ import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+import Subtitle from '../../../components/Subtitle'
 import React, { useState } from "react";
 
 const StockMaximoMinimoScreen = () => {
@@ -51,29 +52,22 @@ const StockMaximoMinimoScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Configuarción de maximos y minimos de consumo
-        </h3>
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <div className="multisteps-form__content">
-            <div className="row mb-3">
-              <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                <n>Tipo de articulo</n>
-              </label>
-              <div className="col-12 col-sm-4 col-lg-4">
-                <label>
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Configuración de máximos y mínimos de consumo
+            </h3>
+            <Subtitle title="Tipo de articulo" mt={3} />
+
+            <div className="row d-flex align-items-end mt-2 mx-2">
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Código: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="valorCodigo"
                   type="number"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border border-terciary rounded-pill px-3"
                   {...register("valorCodigo", { required: true })}
                 />
                 {errors.valorCodigo && (
@@ -84,20 +78,19 @@ const StockMaximoMinimoScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-sm-4 col-lg-4">
-                <label>
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Nombre: <span className="text-danger">*</span>
                 </label>
                 <input
                   disabled="true"
-                  name="nombre"
                   type="text"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border border-terciary rounded-pill px-3"
                 />
               </div>
-              <div className="col-12 col-sm-4 col-lg-4 mt-2">
+              <div className="col-12 col-md-3">
                 <button
-                  className="border rounded-pill px-3 btn bg-gradient-primary mt-4 mb-0 text-capitalize"
+                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
                   type="button"
                   title="Send"
                   form="configForm"
@@ -107,22 +100,16 @@ const StockMaximoMinimoScreen = () => {
                 </button>
               </div>
             </div>
-            <div className="multisteps-form__content">
-              <div className="row mb-3">
-                <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                  <n>Stock</n>
-                </label>
-              </div>
-            </div>
-            <div className="row mb-3">
-              <div className="col-12 col-lg-4 col-sm-4">
-                <label>
+
+            <Subtitle title="Stock" mt={3} />
+            <div className="row d-flex align-items-center mt-2 mx-2">
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Stock minimo: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="stockMinimo"
                   type="number"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border border-terciary rounded-pill px-3"
                   {...register("stockMinimo", { required: true })}
                 />
                 {errors.stockMinimo && (
@@ -133,14 +120,14 @@ const StockMaximoMinimoScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-lg-4 col-sm-4">
-                <label>
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Stock maximo: <span className="text-danger">*</span>
                 </label>
                 <input
                   name="stockMaximo"
                   type="number"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border border-terciary rounded-pill px-3"
                   {...register("stockMaximo", { required: true })}
                 />
                 {errors.stockMaximo && (
@@ -153,23 +140,16 @@ const StockMaximoMinimoScreen = () => {
               </div>
             </div>
 
-            <div className="multisteps-form__content">
-              <div className="row mb-3">
-                <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                  <n>Recibir alertas</n>
-                </label>
-              </div>
-            </div>
+            <Subtitle title="Recibir alertas" mt={3} />
 
-            <div className="row mb-3">
-              <div className="col-12 col-lg-4 col-sm-4">
-                <label>
+            <div className="row d-flex align-items-center mt-2 mx-2">
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Recibir alertas minimo: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="alertasMinimo"
                   type="number"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border border-terciary rounded-pill px-3"
                   {...register("alertasMinimo", { required: true })}
                 />
                 {errors.alertasMinimo && (
@@ -180,14 +160,13 @@ const StockMaximoMinimoScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-lg-4 col-sm-4">
-                <label>
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Recibir alertas maximo: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="alertasMaximo"
                   type="number"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border border-terciary rounded-pill px-3"
                   {...register("alertasMaximo", { required: true })}
                 />
                 {errors.alertasMaximo && (
@@ -200,36 +179,33 @@ const StockMaximoMinimoScreen = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
-                className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
+                className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
                 type="submit"
-                title="Send"
-                form="configForm"
               >
                 Buscar
               </button>
               <button
-                className="border rounded-pill px-3 btn bg-gradient-danger mb-3 text-capitalize"
+                className="btn-min-width border rounded-pill px-3 btn bg-gradient-danger"
                 type="button"
                 title="Send"
               >
                 Salir
               </button>
             </div>
-          </div>
-        </form>
-        <BusquedaDePersonalModal
-          isModalActive={busquedaPersonalIsActive}
-          setIsModalActive={setBusquedaPersonalIsActive}
-        />
+          </form>
+          <BusquedaDePersonalModal
+            isModalActive={busquedaPersonalIsActive}
+            setIsModalActive={setBusquedaPersonalIsActive}
+          />
 
-        <BusquedaArticuloModal
-          isModalActive={busquedaArticuloIsActive}
-          setIsModalActive={setBusquedaArticuloIsActive}
-        />
+          <BusquedaArticuloModal
+            isModalActive={busquedaArticuloIsActive}
+            setIsModalActive={setBusquedaArticuloIsActive}
+          />
+        </div>
       </div>
-    </div>
     // </div>
   );
 };

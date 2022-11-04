@@ -10,6 +10,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import BusquedaDePersonalModal from "../../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
+import Subtitle from '../../../../components/Subtitle'
 
 const BusquedaActivosSubdelegadosScreen = () => {
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
@@ -144,53 +145,48 @@ const BusquedaActivosSubdelegadosScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Busqueda de activos a subdelegados
-        </h3>
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <h5 className="font-weight-bolder">Activos</h5>
-            <div className="multisteps-form__content">
-              <div className="row">
-                <label className="form-control ms-0 fw-bolder text-center">
-                  <n>Nombre del responsable</n>
-                </label>
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Busqueda de activos a subdelegados
+            </h3>
+            <Subtitle title="Activos" mt={3} />
+            <div className="col-12 col-md-3 mb-3">
+              <Subtitle title="Nombre del responsable" mt={3} />
+
+            </div>
+            <MarcaDeAgua1>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                     Tipo de documento{" "}
                   </label>
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipoDocumento2"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={options}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+
+                  <Controller
+                    name="tipoDocumento2"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={options}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
 
                 </div>
-                <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                  <label>
+                <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                     Número de documento: <span className="text-danger">*</span>
                   </label>
                   <input
                     name="numeroDocumento"
                     type="text"
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     {...register("numeroDocumento", { required: true })}
                   />
                   {errors.numeroDocumento && (
@@ -201,28 +197,27 @@ const BusquedaActivosSubdelegadosScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                  <label>
+                <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                     Nombre: <span className="text-danger">*</span>
                   </label>
                   <input
                     placeholder="Gina Rodriguez"
                     type="text"
                     disabled="true"
-                    className="form-control border rounded-pill px-3"
-                  />
+                    className="form-control border border-terciary rounded-pill px-3"
+                    />
                 </div>
-                <div className="col-12 col-sm-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                  <button
-                    className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                    type="button"
-                    title="Send"
-                    form="configForm"
-                    onClick={() => setBusquedaPersonalIsActive(true)}
-                  >
-                    Buscar personal
-                  </button>
-                </div>
+              
+                <div className="col-12 col-md-3">
+                <button
+                  className="btn-min-width border rounded-pill mt-3 px-3 btn bg-gradient-primary"
+                  type="submit"
+                  onClick={() => setBusquedaPersonalIsActive(true)}
+                >
+                  Buscar personal
+                </button>
+              </div>
               </div>
 
               <div className="row mt-3">
@@ -248,7 +243,7 @@ const BusquedaActivosSubdelegadosScreen = () => {
                   Salir
                 </button>
               </div>
-            </div>
+
           </MarcaDeAgua1>
         </form>
         <BusquedaDePersonalModal
@@ -261,6 +256,7 @@ const BusquedaActivosSubdelegadosScreen = () => {
           setIsModalActive={setBusquedaArticuloIsActive}
         />
       </div>
+    </div>
     </div>
   );
 };
