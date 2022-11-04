@@ -92,11 +92,7 @@ function App() {
           element={<RecuperacionDeContrasenaScreen />}
         />
 
-        <Route path="/actualizar-contrasena/:uidb64">
-          <Route index element={<Navigate to="/login" />} />
-
-          <Route path=":token" element={<ActualizarContrasenaScreen />} />
-        </Route>
+        <Route path="/actualizar-contrasena" element={<ActualizarContrasenaScreen />} />
 
         <Route index element={<Navigate to="/login" />} />
       </Route>
