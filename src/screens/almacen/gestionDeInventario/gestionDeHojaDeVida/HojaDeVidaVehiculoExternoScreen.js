@@ -5,6 +5,8 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
+import Subtitle from "../../../../components/Subtitle"
+
 
 const options = [
   { label: "Platon", value: "PL" },
@@ -13,6 +15,15 @@ const options = [
 ];
 
 const HojaDeVidaVehiculoExternoScreen = () => {
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
+
+
   const defaultColDef2 = {
     sortable: true,
     flex: 1,
@@ -27,8 +38,6 @@ const HojaDeVidaVehiculoExternoScreen = () => {
   const onGridReady = (params) => {
     gridApi = params.api;
   };
-
-  const { control, handleSubmit } = useForm();
 
   const columnDefs2 = [
     { headerName: "Número", field: "NU", minWidth: 150 },
@@ -84,427 +93,315 @@ const HojaDeVidaVehiculoExternoScreen = () => {
 
   let gridApi;
 
+  const onSubmit = (data) => {
+    console.log(data)
+  };
+
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Hoja de vida de un vehiculo
-        </h3>
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-          data-animation="FadeIn"
-          onSubmit={handleSubmit()}
-          id="configForm"
-        >
-          <MarcaDeAgua1>
-            <div className="multisteps-form__content">
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Hoja de vida de un vehiculo en arriendo
+            </h3>
+            <MarcaDeAgua1>
+              <Subtitle title="Activo" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Código:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Nombre:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Placa:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Tipo{" "}
+                  </label>
+                  <Select
+                    options={options}
+                    placeholder="Seleccionar"
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Especificaciones" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Marca:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Modelo:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Linea:
+                  </label>
+                  <input
+                    type="text"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha de llegada:
+                  </label>
+                  <input
+                    type="date"
+                    disabled
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreVivero", { required: true })}
+                  />
+                </div>
+              </div>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Capacidad pasajeros:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("capacidadPasajeros", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Tipo de combustible:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("tipoCombustible", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Cilindraje:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("cilindraje", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Color:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("color", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Información adicional" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Numero de motor:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroMotor", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Numero de chasis:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroChasis", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    clase de vehiculo:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("tipoVehiculo", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Proveedor:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("proveedor", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Control de documentación" mt={3} />
+              <div className="row col-12 col-md-4 ms-2">
+                <Subtitle title="1) Seguro obligatorio" mt={3} />
+              </div>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Aseguradora:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("aseguradora", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Número:
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numero", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha inicial:
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("fechaInicial", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha de vencimiento:
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("fechaVencimiento", { required: true })}
+                  />
+                </div>
+              </div>
+              <div className="row col-12 col-md-4 ms-2">
+                <Subtitle title="2) Certificado ATM" mt={3} />
+              </div>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha de realización:
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("fechaRealizacion", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha de vencimiento:
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("fechaVencimientoATM", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <div className="row col-12 col-md-4 ms-2">
+                <Subtitle title="3) Póliza todo riesgo" mt={3} />
+              </div>
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Aseguradora:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("aseguradoraPoliza", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha inicial:
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("fechaInicialAseguradoraPoliza", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Fecha final:
+                  </label>
+                  <input
+                    type="date"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("fechaFinalAseguradoraPoliza", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Asignaciones y préstamos" mt={3} mb={3} />
+
+
+              
               <div className="row">
-                <label className="form-control ms-0 text-center">
-                  <n>Activo</n>
-                </label>
-
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">160064</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Vehículo</label>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-3 ">
-                    <n>Serial</n>
-                  </label>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-3 ">
-                    <n>Artículo</n>
-                  </label>
-                </div>
-                <div className="col-12 col-sm-4"></div>
-
-                <div className="col-12 col-sm-4">
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">93rtgd</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento{" "}
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoDocumento2"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={options}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              <div className="row mb-2 ">
-                <label className="form-control ms-0 text-left mt-3 ms-3">
-                  <n>Especificaciones</n>
-                </label>
-                <div className="row">
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Marca:</n>
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center  mt-1 ">
-                      <n>Modelo:</n>
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center  mt-1 ">
-                      <n>Capacidad pasajeros:</n>
-                    </label>
-                  </div>
-
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Marca</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Modelo</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Capacidad pasajeros</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Linea:</n>
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center  mt-1 ">
-                      <n>Color:</n>
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center  mt-1 ">
-                      <n>Tipo de combustible:</n>
-                    </label>
-                  </div>
-
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Linea</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Color</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Tipo de combustible</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Cilindraje:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Cilindraje</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Fecha de llegada:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Fecha de llegada</label>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row mb-2 ">
-                <label className="form-control ms-0 text-left mt-3 ms-3">
-                  <n>Informacion adicional</n>
-                </label>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Numero de motor:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Numero de motor</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Numero de chasis:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Numero de chasis</label>
-                  </div>
-                </div>
-                <div className="col-12 col-sm-4">
-                  <label className="form-control ms-0 text-center mt-1 ">
-                    <n>Clase de vehiculo:</n>
-                  </label>
-                  <div className="form-floating input-group input-group-dynamic ms-2">
-                    <input
-                      className="form-control"
-                      type="text"
-                      disabled="true"
-                    />
-                    <label className="ms-2">Clase de vehiculo</label>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Proveedor:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Proveedor</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mb-2 ">
-                <label className="form-control ms-0 text-left mt-3 ms-3">
-                  <n>Control de documentación</n>
-                </label>
-                <div className="row">
-                  <div className="ms-3">
-                    <label className="form-control ms-0">
-                      1) Seguro obligatorio
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Proveedor:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Proveedor</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Numero:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Numero</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Fecha inicial:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Fecha inicial</label>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-12 col-sm-4">
-                      <label className="form-control ms-0 text-center mt-1 ">
-                        <n>Fecha final:</n>
-                      </label>
-                      <div className="form-floating input-group input-group-dynamic ms-2">
-                        <input
-                          className="form-control"
-                          type="text"
-                          disabled="true"
-                        />
-                        <label className="ms-2">Fecha final</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="ms-3 mt-2">
-                    <label className="form-control ms-0">
-                      2) Certificado ATM
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Fecha realizacion:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Fecha realizacion</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Fecha de vencimiento:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Fecha de vencimiento</label>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="ms-3">
-                    <label className="form-control ms-0">
-                      3) Poliza todo riesgo
-                    </label>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Aseguradora:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Aseguradora</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Fecha inicial:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Fecha inicial</label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-4">
-                    <label className="form-control ms-0 text-center mt-1 ">
-                      <n>Fecha final:</n>
-                    </label>
-                    <div className="form-floating input-group input-group-dynamic ms-2">
-                      <input
-                        className="form-control"
-                        type="text"
-                        disabled="true"
-                      />
-                      <label className="ms-2">Fecha final</label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <label className="form-control ms-0 text-left mt ms-4">
-                  <n>Asignaciones/Préstamos</n>
-                </label>
                 <div
                   className="ag-theme-alpine mt-auto mb-4 px-4"
                   style={{ height: "275px" }}
@@ -530,8 +427,7 @@ const HojaDeVidaVehiculoExternoScreen = () => {
               <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
                   className="btn bg-gradient-primary me-md-2"
-                  type="button"
-                  title="Send"
+                  type="submit"
                 >
                   Guardar
                 </button>
@@ -543,11 +439,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                   Salir
                 </button>
               </div>
-            </div>
-          </MarcaDeAgua1>
-        </form>
+
+            </MarcaDeAgua1>
+          </form>
+        </div>
       </div>
-    </div>
     // </div>
   );
 };

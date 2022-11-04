@@ -5,7 +5,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
-
+import Subtitle from '../../../../components/Subtitle'
 
 const options = [
   { label: "Aplicativo 1", value: "A1" },
@@ -22,6 +22,10 @@ const options2 = [
 ];
 
 const HojaDeVidaActivoScreen = () => {
+
+  const onSubmit = (data) => {
+    console.log(data)
+  };
 
   const { register, control, handleSubmit } = useForm();
 
@@ -148,368 +152,305 @@ const HojaDeVidaActivoScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Hoja de vida de un activo
-        </h3>
-        <div className="card">
-          <form className="multisteps-form__form">
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
-              <MarcaDeAgua1>
-                <div className="row mb-3">
-                  <div className="multisteps-form__content">
-                    <div className="row mb-3">
-                      <label className="form-control border rounded-pill px-3 bg-success mt-3 text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                        <n>Activo</n>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Codigo:
-                    </label>
-                    <input
-                      name="codigoActivo"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Nombre:
-                    </label>
-                    <input
-                      name="nombreActivo"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Serial:
-                    </label>
-                    <input
-                      name="serialActivo"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Tipo de articulo:
-                    </label>
-                    <input
-                      name="tipoArticuloActivo"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Hoja de vida de un activo
+            </h3>
+            <MarcaDeAgua1>
+              <Subtitle title="Activo" mt={3} />
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Codigo:
+                  </label>
+                  <input
+                    disabled
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreUsuario", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Nombre:
+                  </label>
+                  <input
+                    disabled
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreUsuario", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Serial:
+                  </label>
+                  <input
+                    disabled
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreUsuario", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                  <label>
+                    Tipo de articulo:
+                  </label>
+                  <input
+                    disabled="true"
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                  // {...register("nombreUsuario", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Caracteristicas" mt={3} />
+
+              <div className="row d-flex align-items-end mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Sistema operativo:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("sistemasOperativosCaracteristicas", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Suite ofimática:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("suiteOfimaticaCaracteristicas", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Antivirus:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("antivirusCaracteristicas", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-lg-4 col-sm-4 mb-3">
+                  <label className="text-terciary">
+                    Otros aplicativos{" "}
+                  </label>
+                  <Controller
+                    name="tipoDocumentoResponsable"
+                    control={control} rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={options}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Especificaciones físicas" mt={3} />
+
+              <div className="row d-flex align-items-center mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Color:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("colorEspecificaciones", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Marca:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("marcaEspecificaciones", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Formato:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("formatoEspecificaciones", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Modelo:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("modeloEspecificaciones", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Estado:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("estadoEspecificaciones", { required: true })}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Especificaciones técnicas" mt={3} />
+              <div className="row d-flex align-items-center mt-2 mx-2">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Disco duro:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("discoDuro", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Suite ofimática:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("suiteOfimaticaCaracteristicas", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Antivirus:
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("antivirusCaracteristicas", { required: true })}
+                  />
+                </div>
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">
+                    Otros (Perifericos y accesorios){" "}
+                  </label>
+                  <Controller
+                    name="otrosPerifericos"
+                    control={control} rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={options2}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              </div>
+
+              <Subtitle title="Mantenimientos" mt={3} mb={3}/>
+
+              <div className="row d-flex align-items-center mt-2 mx-2">
+                <div className="col-12 mb-3">
+                  <div
+                    className="ag-theme-alpine mt-auto mb-3 px-auto"
+                    style={{ height: "275px" }}
+                  >
+                    <AgGridReact
+                      columnDefs={columnDefs}
+                      rowData={rowData}
+                      defaultColDef={defaultColDef}
+                    // onGridReady={onGridReady}
                     />
                   </div>
                 </div>
-
-                <div className="row mb-3">
-                  <div className="multisteps-form__content">
-                    <div className="row mb-3">
-                      <label className="form-control border rounded-pill px-3 bg-success text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                        <n>Caracteristicas</n>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Sistema operativo:
-                    </label>
-                    <input
-                      name="sistemasOperativosCaracteristicas"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Suite ofimática:
-                    </label>
-                    <input
-                      name="suiteOfimaticaCaracteristicas"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Antivirus:
-                    </label>
-                    <input
-                      name="antivirusCaracteristicas"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Otros aplicativos{" "}
-                    </label>
-                    <Controller
-                      name="tipoDocumentoResponsable"
-                      control={control} rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={options}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
+                    type="button"
+                    title="Send"
+                  >
+                    Programar
+                  </button>
                 </div>
+              </div>
 
-                <div className="row mb-3">
-                  <div className="multisteps-form__content">
-                    <div className="row mb-3">
-                      <label className="form-control border rounded-pill px-3 bg-success text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                        <n>Especificaciones fisicas</n>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Color:
-                    </label>
-                    <input
-                      name="colorEspecificaciones"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Marca:
-                    </label>
-                    <input
-                      name="marcaEspecificaciones"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Formato:
-                    </label>
-                    <input
-                      name="formatoEspecificaciones"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Modelo:
-                    </label>
-                    <input
-                      name="modeloEspecificaciones"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Estado:
-                    </label>
-                    <input
-                      name="estadoEspecificaciones"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
+              <Subtitle title="Mantenimientos" mt={3} mb={3}/>
+              <div className="row d-flex align-items-center mt-2 mx-2">
+
+                <div className="col-12 mb-3">                  <div
+                  className="ag-theme-alpine mt-auto mb-3 px-auto"
+                  style={{ height: "275px" }}
+                >
+                  <AgGridReact
+                    columnDefs={columnDefs2}
+                    rowData={asignacionPrestamos}
+                    defaultColDef={defaultColDef2}
+                  // onGridReady={onGridReady}
+                  />
                 </div>
-
-                <div className="row mb-3">
-                  <div className="multisteps-form__content">
-                    <div className="row mb-3">
-                      <label className="form-control border rounded-pill px-3 bg-success text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                        <n>Especificaciones tecnicas</n>
-                      </label>
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Disco duro:
-                    </label>
-                    <input
-                      name="discoDuro"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Suite ofimática:
-                    </label>
-                    <input
-                      name="suiteOfimaticaCaracteristicas"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Antivirus:
-                    </label>
-                    <input
-                      name="antivirusCaracteristicas"
-                      disabled="true"
-                      type="text"
-                      className="form-control border rounded-pill px-3"
-                    // {...register("nombreUsuario", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-4 col-sm-4 mb-3">
-                    <label>
-                      Otros (Perifericos y accesorios){" "}
-                    </label>
-                    <Controller
-                      name="otrosPerifericos"
-                      control={control} rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={options2}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
                 </div>
-
-                <div className="multisteps-form__content">
-                  <div className="row">
-                    <div className="multisteps-form__content">
-                      <div className="row mb-3">
-                        <label className="form-control border rounded-pill px-3 bg-success text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                          <n>Mantenimientos</n>
-                        </label>
-                      </div>
-                    </div>
-
-                    <div
-                      className="ag-theme-alpine mt-auto mb-3 px-auto"
-                      style={{ height: "275px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
-                        defaultColDef={defaultColDef}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
-                    </div>
-                  </div>
-                  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button
-                      className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                      type="button"
-                      title="Send"
-                    >
-                      Programar
-                    </button>
-                  </div>
-
-                  <div className="row">
-                    <div className="multisteps-form__content">
-                      <div className="row mb-3">
-                        <label className="form-control border rounded-pill px-3 bg-success text-white" style={{ backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)" }}>
-                          <n>Asignaciones y prestamos</n>
-                        </label>
-                      </div>
-                    </div>
-                    <div
-                      className="ag-theme-alpine mt-auto mb-3 px-auto"
-                      style={{ height: "275px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs2}
-                        rowData={asignacionPrestamos}
-                        defaultColDef={defaultColDef2}
-                        onGridReady={onGridReady}
-                      ></AgGridReact>
-                    </div>
-                  </div>
-                  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button
-                      className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                      type="button"
-                      title="Send"
-                    >
-                      Historico de archivo
-                    </button>
-                  </div>
-
-                  <div className="row mb-3">
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-left col-12 col-lg-6 col-sm-6">
-
-                      <button
-                        className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                        type="button"
-                        title="Send"
-                      >
-                        Orden de la compra
-                      </button>
-
-                    </div>
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-end col-12 col-lg-6 col-sm-6">
-                      <button
-                        className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                        type="button"
-                        title="Send"
-                      >
-                        Guardar
-                      </button>
-                      <button
-                        className="border rounded-pill px-3 btn bg-gradient-danger mb-3 text-capitalize"
-                        type="button"
-                        title="Send"
-                      >
-                        Salir
-                      </button>
-
-                    </div>
-                  </div>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
+                    type="button"
+                    title="Send"
+                  >
+                    Historico de archivo
+                  </button>
                 </div>
-              </MarcaDeAgua1>
-            </div>
+              </div>
+
+              <div className="row mb-3">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-left col-12 col-lg-6 col-sm-6">
+
+                  <button
+                    className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
+                    type="button"
+                    title="Send"
+                  >
+                    Orden de la compra
+                  </button>
+
+                </div>
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end col-12 col-lg-6 col-sm-6">
+                  <button
+                    className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
+                    type="button"
+                    title="Send"
+                  >
+                    Guardar
+                  </button>
+                  <button
+                    className="border rounded-pill px-3 btn bg-gradient-danger mb-3 text-capitalize"
+                    type="button"
+                    title="Send"
+                  >
+                    Salir
+                  </button>
+
+                </div>
+              </div>
+            </MarcaDeAgua1>
           </form>
         </div>
       </div>
