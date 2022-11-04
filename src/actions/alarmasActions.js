@@ -168,11 +168,10 @@ export const obtenerAlarmaEditAction =
     dispatch(cambiarModoAction("editar"));
 
     try {
-      const { data } = await clienteEstaciones.get(
-        `Alarmas/OBJECTID/${objectid}`
-      );
-      reset(data[0]);
-      dispatch(obtenerAlarmaEditCompletado(data[0]));
+      const { data } = await clienteEstaciones.get(`Alarmas/${objectid}`);
+      console.log(data);
+      reset(data);
+      dispatch(obtenerAlarmaEditCompletado(data));
     } catch (err) {
       console.log(err);
       dispatch(obtenerAlarmaEditError(false));
@@ -203,7 +202,7 @@ const obtenerAlarmaEditError = (estado) => ({
 
 export const editarAlarmaAction = (dataEdit) => async (dispatch) => {
   dispatch(peticionEditarAlarma(true));
-
+  console.log(dataEdit);
   try {
     await clienteEstaciones.put("Alarmas", dataEdit);
     dispatch(editarAlarmaCompletado(false));

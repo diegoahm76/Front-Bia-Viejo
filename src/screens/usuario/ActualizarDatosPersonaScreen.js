@@ -224,7 +224,7 @@ const ActualizarDatosPersonaScreen = () => {
             <div className="row align-items-end mx-1">
               <div className="col-12 col-lg-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -238,7 +238,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-6 col-lg-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     Número de documento: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -252,7 +252,9 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-6 col-lg-4">
                 <div className="mt-3">
-                  <label>Codigo de verificación:</label>
+                  <label className="text-terciary">
+                    Codigo de verificación:
+                  </label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
@@ -271,7 +273,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-8 col-md-4">
                 <div className="mt-3">
-                  <label>Nombre Comercial:</label>
+                  <label className="text-terciary">Nombre Comercial:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
@@ -282,7 +284,7 @@ const ActualizarDatosPersonaScreen = () => {
 
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     Primer nombre: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -296,7 +298,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>Segundo nombre:</label>
+                  <label className="text-terciary">Segundo nombre:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
@@ -307,7 +309,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     Primer apellido: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -321,7 +323,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>Segundo apellido:</label>
+                  <label className="text-terciary">Segundo apellido:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
@@ -331,7 +333,7 @@ const ActualizarDatosPersonaScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-4 mt-3">
-                <label className="form-label">Sexo:</label>
+                <label className="form-label text-terciary">Sexo:</label>
                 <Controller
                   name="sexo"
                   control={control}
@@ -355,8 +357,10 @@ const ActualizarDatosPersonaScreen = () => {
                 />
               </div>
               <div className="row">
-                <div className="col-12 col-md-4 mt-3">
-                  <label className="form-label">Estado civil:</label>
+                <div className="col-12 col-md-4 mt-3 ">
+                  <label className="form-label text-terciary">
+                    Estado civil:
+                  </label>
                   <Controller
                     name="estado_civil"
                     control={control}
@@ -382,7 +386,10 @@ const ActualizarDatosPersonaScreen = () => {
                   />
                 </div>
                 <div className="col-md-4 col-12 mt-3">
-                  <label htmlFor="exampleFormControlInput1">
+                  <label
+                    htmlFor="exampleFormControlInput1"
+                    className="text-terciary"
+                  >
                     Fecha de nacimiento <span className="text-danger">*</span>
                   </label>
                   <Controller
@@ -422,7 +429,9 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 </div>
                 <div className="col-12 col-md-4 mt-3">
-                  <label className="form-label">País de nacimiento:</label>
+                  <label className="form-label text-terciary">
+                    País de nacimiento:
+                  </label>
                   <Controller
                     name="pais_nacimiento"
                     control={control}
@@ -452,7 +461,7 @@ const ActualizarDatosPersonaScreen = () => {
             <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
             <div className="row align-items-end mx-1">
               <div className="col-12 col-md-4 mt-3">
-                <label className="form-label">País:</label>
+                <label className="form-label text-terciary">País:</label>
                 <Controller
                   name="pais_residencia"
                   control={control}
@@ -476,7 +485,7 @@ const ActualizarDatosPersonaScreen = () => {
                 />
               </div>
               <div className="col-12 col-md-4 mt-3">
-                <label className="form-label">Municipio: </label>
+                <label className="form-label text-terciary">Municipio: </label>
                 <Controller
                   name="municipio_residencia"
                   control={control}
@@ -502,7 +511,9 @@ const ActualizarDatosPersonaScreen = () => {
                 />
               </div>
               <div className="col-12 col-md-4 mt-3">
-                <label className="form-label">Municipio donde labora:</label>
+                <label className="form-label text-terciary">
+                  Municipio donde labora:
+                </label>
                 <Controller
                   name="cod_municipio_laboral_nal"
                   control={control}
@@ -536,7 +547,7 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_residencia", { required: true })}
                   />
-                  <label className="ms-2">
+                  <label className="ms-2 text-terciary">
                     Dirección de residencia:{" "}
                     <span className="text-danger">*</span>
                   </label>
@@ -558,7 +569,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>Referencia adicional:</label>
+                  <label className="text-terciary">Referencia adicional:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="text"
@@ -573,7 +584,7 @@ const ActualizarDatosPersonaScreen = () => {
             <div className={"row mx-1"}>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     E-mail: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -587,7 +598,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>E-mail secundario:</label>
+                  <label className="text-terciary">E-mail secundario:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="email"
@@ -596,7 +607,9 @@ const ActualizarDatosPersonaScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-md-4 mt-3">
-                <label className="form-label">Municipio notificación:</label>
+                <label className="form-label text-terciary">
+                  Municipio notificación:
+                </label>
                 <Controller
                   name="cod_municipio_notificacion_nal"
                   control={control}
@@ -623,7 +636,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     Celular notificación: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -642,7 +655,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>Teléfono fijo:</label>
+                  <label className="text-terciary">Teléfono fijo:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="tel"
@@ -652,7 +665,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>Teléfono laboral:</label>
+                  <label className="text-terciary">Teléfono laboral:</label>
                   <input
                     className="form-control border rounded-pill px-3"
                     type="tel"
@@ -669,7 +682,9 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_notificaciones")}
                   />
-                  <label className="ms-2">Dirección de notificación:</label>
+                  <label className="ms-2 text-terciary">
+                    Dirección de notificación:
+                  </label>
                   <button
                     onClick={() => setIsOpenDireccionNotificacion(true)}
                     type="button"
@@ -681,7 +696,7 @@ const ActualizarDatosPersonaScreen = () => {
               </div>
               <div className="col-12 col-md-4">
                 <div className="mt-3">
-                  <label>
+                  <label className="text-terciary">
                     Dirección geográfica: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -709,7 +724,9 @@ const ActualizarDatosPersonaScreen = () => {
                     readOnly
                     {...register("direccion_laboral")}
                   />
-                  <label className="ms-2">Dirección laboral:</label>
+                  <label className="ms-2 text-terciary">
+                    Dirección laboral:
+                  </label>
                   <button
                     onClick={() => setIsOpenDireccionLaboral(true)}
                     type="button"

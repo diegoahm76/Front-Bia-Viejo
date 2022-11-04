@@ -2,17 +2,21 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import {
+  textChoiseAdapter,
+  textChoiseAdapterIndicativo,
+} from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
-import MarcaDeAgua1 from "../../components/MarcaDeAgua1";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Subtitle from "../../components/Subtitle";
+import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 
 const AdministradorDePersonasScreen = () => {
+  const [departamentoMunicipio, setDepartamentoMunicipio] = useState("");
   const navigate = useNavigate();
   const [direccionResidenciaIsOpen, setDireccionResidenciaIsOpen] =
     useState(false);
@@ -23,6 +27,7 @@ const AdministradorDePersonasScreen = () => {
     useState("");
   const [direccionLaboralIsOpen, setDireccionLaboralIsOpen] = useState(false);
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
+  const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [actionForm, setActionForm] = useState(null);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -30,6 +35,10 @@ const AdministradorDePersonasScreen = () => {
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [indicativoPaisesOptions, setIndicativoPaisesOptions] = useState([]);
+  const [formValuesSearch, setFormValuesSearch] = useState({
+    index_tipo_documento: "",
+  });
   const [formValues, setFormValues] = useState({
     tipoDocumento: null,
     fechaNacimiento: "",
@@ -42,6 +51,7 @@ const AdministradorDePersonasScreen = () => {
     municipioNotificacion: "",
     id_persona: "",
     tipoPersona: "",
+    indicativoPais: "",
   });
 
   const {
@@ -80,6 +90,9 @@ const AdministradorDePersonasScreen = () => {
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
+        const { data: indicativoPiasesNoFormat } = await clienteAxios.get(
+          "choices/indicativo-paises/"
+        );
 
         const sexoFormat = textChoiseAdapter(sexoNoFormat);
         const estadoCivilFormat = textChoiseAdapter(estadoCivilNoFormat);
@@ -87,6 +100,9 @@ const AdministradorDePersonasScreen = () => {
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+        const indivativoPaisesFormat = textChoiseAdapterIndicativo(
+          indicativoPiasesNoFormat
+        );
 
         setSexoOptions(sexoFormat);
         setEstadoCivilOptions(estadoCivilFormat);
@@ -94,6 +110,7 @@ const AdministradorDePersonasScreen = () => {
         setPaisesOptions(paisesFormat);
         setDepartamentosOptions(departamentosFormat);
         setMunicipiosOptions(municipiosFormat);
+        setIndicativoPaisesOptions(indivativoPaisesFormat);
       } catch (err) {
         console.log(err);
       }
@@ -221,7 +238,7 @@ const AdministradorDePersonasScreen = () => {
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
-      tipo_documento: data.tipoDocumento2?.value,
+      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
       numero_documento: data.numeroDocumento2,
       digito_verificacion: data.digitoVerificacion,
       nombre_comercial: data.nombreComercial,
@@ -267,10 +284,16 @@ const AdministradorDePersonasScreen = () => {
       };
       try {
         console.log("HGola", updatedPersona);
-        await clienteAxios.patch(
-          `personas/persona-natural/user-with-permissions/update/${updatedPersona?.id_persona}/`,
+        const { data: dataUpdate } = await clienteAxios.patch(
+          `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
           updatedPersona,
           config
+        );
+        console.log(
+          "datos actualizados",
+          dataUpdate,
+          updatedPersona.tipo_documento,
+          updatedPersona.numero_documento
         );
         Swal.fire({
           position: "center",
@@ -424,13 +447,13 @@ const AdministradorDePersonasScreen = () => {
           data-animation="FadeIn"
         >
           <div className="row">
-            <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
-              Administrador de personas
-            </h3>
-            <Subtitle title={"Buscar persona"} mt={0} mb={0} />
             <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
-              <div className="mt-4 row mx-1 align-items-center">
-                <div className="col-12 col-md-4">
+              <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
+                Administrador de personas
+              </h3>
+              <Subtitle title={"Buscar persona"} mt={0} mb={0} />
+              <div className="mt-4 row align-items-end ms-1">
+                <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
@@ -443,6 +466,11 @@ const AdministradorDePersonasScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
+                        value={
+                          tipoDocumentoOptions[
+                            formValuesSearch.index_tipo_documento
+                          ]
+                        }
                         options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
@@ -456,7 +484,7 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
+                <div className="col-12 col-md-3">
                   <div>
                     <label className="ms-2">
                       Número de documento:{" "}
@@ -478,7 +506,7 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4 mt-4">
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
                     className="btn bg-gradient-primary mb-0 text-capitalize"
@@ -488,6 +516,7 @@ const AdministradorDePersonasScreen = () => {
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Busqueda avanzada
                   </button>
@@ -502,7 +531,7 @@ const AdministradorDePersonasScreen = () => {
                 <div className="mt-4 row mx-1">
                   <div className="row col-12">
                     {actionForm !== "editar" ? (
-                      <div className="col-12 col-md-4 mt-2">
+                      <div className="col-12 col-md-3 mt-2">
                         <label className="form-label">
                           Tipo de documento:{" "}
                           <span className="text-danger">*</span>
@@ -530,7 +559,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       </div>
                     ) : (
-                      <div className="col-12 col-md-4 mt-2">
+                      <div className="col-12 col-md-3 mt-2">
                         <div>
                           <label className="ms-2">
                             Tipo documento:{" "}
@@ -550,7 +579,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
 
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">
                           Número de documento:{" "}
@@ -573,7 +602,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Digito de verificación:</label>
                         <input
@@ -592,7 +621,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Nombre comercial:</label>
                         <input
@@ -609,7 +638,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">
                           Primer nombre: <span className="text-danger">*</span>
@@ -631,7 +660,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Segundo nombre:</label>
                         <input
@@ -642,7 +671,7 @@ const AdministradorDePersonasScreen = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">
                           Primer apellido:{" "}
@@ -665,7 +694,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <div>
                         <label className="ms-2">Segundo apellido:</label>
                         <input
@@ -676,7 +705,7 @@ const AdministradorDePersonasScreen = () => {
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">Sexo:</label>
                       <Controller
                         name="sexo"
@@ -694,7 +723,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">Estado civil:</label>
                       <Controller
                         name="estadoCivil"
@@ -718,7 +747,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-2">
+                    <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">País de nacimiento:</label>
                       <Controller
                         name="paisNacimiento"
@@ -742,7 +771,7 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
-                    <div className="col-12 col-md-4 mt-1">
+                    <div className="col-12 col-md-3 mt-1">
                       <label htmlFor="exampleFormControlInput1">
                         Fecha de nacimiento{" "}
                         <span className="text-danger">*</span>
@@ -755,7 +784,12 @@ const AdministradorDePersonasScreen = () => {
                           <DatePicker
                             {...field}
                             locale="es"
-                            dateFormat="yyyy/MM/dd"
+                            showYearDropdown
+                            peekNextMonth
+                            showMonthDropdown
+                            scrollableYearDropdown
+                            dropdownMode="select"
+                            autoComplete="off"
                             selected={formValues.fechaNacimiento}
                             value={formValues.fechaNacimiento}
                             onSelect={(e) => {
@@ -765,7 +799,7 @@ const AdministradorDePersonasScreen = () => {
                               });
                             }}
                             className="form-control border rounded-pill px-3"
-                            placeholderText="aaaa/mm/dd"
+                            placeholderText="dd/mm/aaaa"
                           />
                         )}
                       />
@@ -782,7 +816,7 @@ const AdministradorDePersonasScreen = () => {
                 <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="mt-2 row mx-1">
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">
                         E-mail: <span className="text-danger">*</span>
@@ -802,7 +836,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Email empresarial:</label>
                       <input
@@ -812,16 +846,48 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
-                    <div>
-                      <label className="ms-2">
-                        Celular: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="tel"
-                        {...registerPersona("celular", { required: true })}
-                      />
+                  <div className="col-12 col-md-3 mt-2">
+                    <div className="row">
+                      <div className="col-5">
+                        <label className="form-label">
+                          Cod: <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="indicativoPais"
+                          control={controlBuscar}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={
+                                indicativoPaisesOptions[
+                                  formValues.indicativoPais
+                                ]
+                              }
+                              onChange={(e) =>
+                                setFormValues({
+                                  ...formValues,
+                                  indicativoPais: getIndexBySelectOptions(
+                                    e.value,
+                                    indicativoPaisesOptions
+                                  ),
+                                })
+                              }
+                              options={indicativoPaisesOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                      <div className="col-7">
+                        <label className="ms-2">
+                          Celular: <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3"
+                          type="tel"
+                          {...registerPersona("celular", { required: true })}
+                        />
+                      </div>
                     </div>
                     {errorsPersona.celular && (
                       <div className="col-12">
@@ -831,7 +897,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Telefono fijo:</label>
                       <input
@@ -841,7 +907,7 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Telefono empresa 2:</label>
                       <input
@@ -851,7 +917,7 @@ const AdministradorDePersonasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">
                       Municipio notificación:
                     </label>
@@ -882,7 +948,7 @@ const AdministradorDePersonasScreen = () => {
                 </div>
                 <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
                 <div className="row mb-3 mt-2 mx-1">
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País de Residencia:</label>
                     <Controller
                       name="paisResidencia"
@@ -906,7 +972,18 @@ const AdministradorDePersonasScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
+                    <div>
+                      <label className="ms-2">Departamento:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        value={departamentoMunicipio}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">Municipio:</label>
                     <Controller
                       name="municipio"
@@ -930,7 +1007,7 @@ const AdministradorDePersonasScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  {/* <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">
                         Ubicacion geografica:{" "}
@@ -951,7 +1028,7 @@ const AdministradorDePersonasScreen = () => {
                         </small>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                   <div className="col-md-8 col-12 mt-2">
                     <div className="form-floating input-group input-group-dynamic mt-3">
                       <input
@@ -982,7 +1059,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Referencia adicional:</label>
                       <input
@@ -1010,7 +1087,7 @@ const AdministradorDePersonasScreen = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="col-12 col-md-4 mt-2">
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">
                       Municipio donde labora:
                     </label>
@@ -1105,6 +1182,15 @@ const AdministradorDePersonasScreen = () => {
             setIsOpenGenerator={setDireccionNotificacionIsOpen}
             completeAddress={direccionNotificacionText}
             setCompleteAddress={setDireccionNotificacionText}
+          />
+
+          <BusquedaAvanzadaModal
+            isModalActive={busquedaAvanzadaIsOpen}
+            setIsModalActive={setBusquedaAvanzadaIsOpen}
+            formValues={formValuesSearch}
+            setFormValues={setFormValuesSearch}
+            reset={resetBuscar}
+            tipoDocumentoOptions={tipoDocumentoOptions}
           />
         </div>
       </div>

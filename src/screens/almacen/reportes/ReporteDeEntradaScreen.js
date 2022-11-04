@@ -377,10 +377,10 @@ const ReporteDeEntradaScreen = () => {
               ""
             )}
           </form>
-          <DirecionResidenciaModal
+          {/* <DirecionResidenciaModal
             isModalActive = {direccionModal}
             setIsModalActive ={setDireccionModal}
-            />
+            /> */}
         </div>
       </div>
     </div>
