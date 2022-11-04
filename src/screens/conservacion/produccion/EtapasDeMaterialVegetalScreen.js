@@ -1,10 +1,10 @@
 import React, { useMemo, useRef, useState,} from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
+import Subtitle from '../../../components/Subtitle'
 
 const EtapasDeMaterialVegetalScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
@@ -149,21 +149,25 @@ const EtapasDeMaterialVegetalScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Consultar etapa y estado de Material Vegetal
-        </h3>
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+      <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
+        
 
         <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          className="row"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-              <div className="col-12 col-md-4">
-                <label className=" form-control ms-0">Lote de siembra: </label>
+          <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
+          Consultar etapa y estado de Material Vegetal
+        </h3>
+        <Subtitle title="Parametros de busqueda"/>
+
+         
+            <div className="row">
+              <div className="col-12 col-md-3 ms-3">
+                <label className="text-terciary form-control ms-0">Lote de siembra: </label>
                 <Controller
                   name="lote"
                   control={control}
@@ -183,8 +187,8 @@ const EtapasDeMaterialVegetalScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-md-4">
-                <label className=" form-control ms-0">
+              <div className="col-12 col-md-3">
+                <label className="text-terciary form-control ms-0">
                   Seleccionar etapa de la planta:{" "}
                 </label>
                 <Controller
@@ -206,7 +210,7 @@ const EtapasDeMaterialVegetalScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-md-4">
+              <div className="col-12 col-md-3">
                 <button
                   className="mt-5 btn btn-primary text-capitalize "
                   type="submit"
@@ -215,7 +219,7 @@ const EtapasDeMaterialVegetalScreen = () => {
                 </button>
               </div>
             </div>
-          </div>
+         
 
           
 
@@ -232,7 +236,7 @@ const EtapasDeMaterialVegetalScreen = () => {
                 </div>
               </div>
 
-              <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+              {/* <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
                 <button
                   className="btn bg-gradient-primary mb-0"
                   type="submit"
@@ -241,7 +245,7 @@ const EtapasDeMaterialVegetalScreen = () => {
                 >
                   Editar estado
                 </button>
-              </div>
+              </div> */}
 
               <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
                 <button
@@ -258,6 +262,7 @@ const EtapasDeMaterialVegetalScreen = () => {
             ""
           )}
         </form>
+        </div>
       </div>
     </div>
   );

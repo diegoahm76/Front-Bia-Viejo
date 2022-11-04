@@ -358,7 +358,7 @@ const RegisterPersonaScreen = () => {
   };
 
   const handleYesOrNo = (e) => {
-    if (e.value) {
+    if (e.target.checked) {
       setYesOrNo(true);
     } else {
       setYesOrNo(false);
@@ -435,7 +435,7 @@ const RegisterPersonaScreen = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             type="number"
                             {...register("numero_documento", {
                               required: true,
@@ -450,13 +450,61 @@ const RegisterPersonaScreen = () => {
                           </div>
                         )}
                       </div>
-                      <p className="mt-6 d-none d-md-block">-</p>
-                      <div className="col-md-6 col-12 mt-3">
-                        <div>
+                      
+                      <div className="col-md-6 col-12 ">
+                        {isUser && (
+                          <div className="form-check">
+                            <label
+                              className="form-check-label "
+                              htmlFor="flexCheckDefault"
+                            >
+                              ¿Requiere nombre comercial?{" "}</label>
+                            <input
+                            
+                              name="yesOrNo"
+                              className="border border-terciary form-check-input mx-2"
+                              type="checkbox"
+                              onClick={handleYesOrNo}
+                              id="flexCheckDefault"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  {yesOrNo && (
+                    <>
+                      <div className="col-md-6 col-12 ">
+                        <div className="mt-3">
+                          <label className="ms-2">
+                            Nombre comercial:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="border border-terciary form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("nombreComercial", {
+                              required: true,
+                            })}
+                          />
+                        </div>
+                        {errorsForm.nombreComercial && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-md-6 col-12 ">
+                        <div className="mt-3">
                           <label className="ms-2">Digito verificación:</label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary hola form-control border rounded-pill px-3"
                             type="number"
+                            max="9"
+                            min="0"
+                            maxLength="1"
                             {...register("dv", {
                               maxLength: 1,
                             })}
@@ -470,75 +518,39 @@ const RegisterPersonaScreen = () => {
                           </div>
                         )}
                       </div>
-                    </div>
-                  </div>
-                  {isUser && (
-                    <div className="col-12 mt-3">
-                      <label className="form-label">
-                        ¿Requiere nombre comercial?
-                      </label>
-                      <Controller
-                        name="yesOrNo"
-                        control={control}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            onChange={handleYesOrNo}
-                            options={optionsYorNo}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  )}
-                  {!isUser && (
-                    <>
-                      <div className="col-12 mt-3">
-                        <label className="ms-2">
-                          Razón social: <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("razonSocial", { required: true })}
-                        />
-                      </div>
-                      {errorsForm.razonSocial && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </>
-                  )}
-
-                  {yesOrNo && (
-                    <>
-                      <div className="col-12 mt-3">
-                        <label className="ms-2">
-                          Nombre comercial:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("nombreComercial", {
-                            required: true,
-                          })}
-                        />
-                      </div>
-                      {errorsForm.nombreComercial && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
                     </>
                   )}
                   {isUser && (
                     <>
+                      {!yesOrNo && (
+                        <>
+                          <div className="col-md-6 col-12">
+                            <div className="mt-3">
+                              <label className="ms-2">
+                                Nombre comercial:{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                className=" border border-terciary form-control border rounded-pill px-3"
+                                type="text"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6 col-12">
+                            <div className="mt-3">
+                              <label className="ms-2">
+                                Digito verificación:
+                              </label>
+                              <input
+                                className=" border border-terciary hola form-control border rounded-pill px-3"
+                                type="number"
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
                       <div className="col-12 col-md-6">
                         <div className="mt-3">
                           <label className="ms-2">
@@ -546,24 +558,17 @@ const RegisterPersonaScreen = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
                             {...register("primerNombre", { required: true })}
                           />
                         </div>
-                        {errorsForm.primerNombre && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
                       </div>
                       <div className="col-12 col-md-6">
                         <div className="mt-3">
                           <label className="ms-2">Segundo nombre:</label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
                             {...register("segundoNombre")}
                           />
@@ -576,7 +581,7 @@ const RegisterPersonaScreen = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
                             {...register("primerApellido", { required: true })}
                           />
@@ -593,7 +598,7 @@ const RegisterPersonaScreen = () => {
                         <div className="mt-3">
                           <label className="ms-2">Segundo apellido:</label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
                             {...register("segundoApellido")}
                           />
@@ -608,6 +613,7 @@ const RegisterPersonaScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
+                      
                         name="fechaNacimiento"
                         control={control}
                         rules={{ required: true }}
@@ -615,6 +621,7 @@ const RegisterPersonaScreen = () => {
                           <DatePicker
                             {...field}
                             locale="es"
+                            
                             showYearDropdown
                             peekNextMonth
                             showMonthDropdown
@@ -628,7 +635,7 @@ const RegisterPersonaScreen = () => {
                                 fechaNacimiento: e,
                               })
                             }
-                            className="form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}
@@ -653,7 +660,7 @@ const RegisterPersonaScreen = () => {
                         E-mail: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
                         {...register("eMail", { required: true })}
                       />
@@ -681,7 +688,7 @@ const RegisterPersonaScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
                         {...register("cEmail", { required: true })}
                       />
@@ -707,7 +714,7 @@ const RegisterPersonaScreen = () => {
                         Celular: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
                         {...register("celular", { required: true })}
                       />
@@ -735,7 +742,7 @@ const RegisterPersonaScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
                         {...register("cCelular", { required: true })}
                       />

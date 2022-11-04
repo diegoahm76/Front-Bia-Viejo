@@ -251,17 +251,17 @@ const SolicitudesRealizadasViveroScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Revisar solicitudes realizadas al vivero
-        </h3>
-
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
+          <h3 className="mt-3 mb-0 text-center mb-6">
+            Revisar solicitudes realizadas al vivero
+          </h3>
+
           <div className="multisteps-form__content">
             <div className="mt-4 row">
               <div className="col-12 col-md-4">
@@ -520,45 +520,34 @@ const SolicitudesRealizadasViveroScreen = () => {
         </form>
         <CalendarModal>
           <div className="row min-vh-100">
-           
-            <div className="col-lg-10 col-md-10 col-12 mx-auto">
-              
-            </div>
+            <div className="col-lg-10 col-md-10 col-12 mx-auto"></div>
 
             <div className="row min-vh-100">
-              
               <div className="col-lg-8 col-md-10 col-6 mx-auto">
-                
                 <form
                   className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                   data-animation="FadeIn"
                   id="configForm"
                 >
                   <div className="row mt-2">
-                    
                     <div className="col-12 col-sm-6">
-                      
                       <div className="col-12 col-sm-12">
                         <label>Tipo de documento: </label>
                       </div>
                     </div>
                     <div className="col-12 col-sm-3">
-                    
                       <div className="col-12 col-sm-12">
                         <h2>PDF </h2>
                       </div>
                     </div>
                     <div className="col-12 col-sm-3">
-                      
                       <div className="col-12 col-sm-12">
                         <h2>PDF </h2>
                       </div>
                     </div>
                   </div>
 
-                
                   <div className="row mt-2">
-                    
                     <div className="col-12 col-sm-12">
                       <label className="col-12 col-sm-12 font-weight">
                         Listado de solicitud{" "}
@@ -567,7 +556,6 @@ const SolicitudesRealizadasViveroScreen = () => {
                   </div>
 
                   <div id="myGrid" className="ag-theme-alpine">
-                    
                     <div
                       className="ag-theme-alpine"
                       style={{ height: "400px" }}
@@ -582,7 +570,6 @@ const SolicitudesRealizadasViveroScreen = () => {
                   </div>
 
                   <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                    
                     <button
                       className="btn bg-gradient-danger mb-0"
                       onClick={handleCloseModal}
@@ -592,7 +579,6 @@ const SolicitudesRealizadasViveroScreen = () => {
                     >
                       Salir
                     </button>
-                    
                   </div>
                 </form>
               </div>

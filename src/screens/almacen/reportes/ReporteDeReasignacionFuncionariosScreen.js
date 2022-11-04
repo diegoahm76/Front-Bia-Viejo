@@ -127,14 +127,14 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
             <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
               Reporte de reasignacion entre funcionarios
             </h3>
-            <Subtitle title="Consecutivo de reasignacion" />
+            <Subtitle title="Consecutivo de reasignacion" mb="3" />
 
-            <div className="row mt-3">
-              <div className="col-12 col-md-3">
-                <label className="ms-2">Numero consecutivo</label>
+            <div className="row">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">Numero consecutivo</label>
                 <input
                   name="consecutivo"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="numero consecutivo"
                   {...register("consecutivo", { required: true })}
@@ -147,8 +147,8 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-md-3">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de reasiganacion{" "}
                 </label>
                 <Controller
@@ -162,7 +162,7 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       includeDates={[new Date()]}
                       onChange={(date) => setStartDate(date)}
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="form-control border rounded-pill px-3  p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       disabled
                     />
@@ -186,13 +186,14 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
 
             {selecOpciones.consecutivo ? (
               <div>
-                <Subtitle title="Quien entrega" />
+                
 
-                <div className="row mt-3">
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Tipo de documento </label>
+                <div className="row">
+                <Subtitle title="Quien entrega" mb="3"/>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Tipo de documento </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="C.C"
@@ -200,10 +201,10 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Numero de documento</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Numero de documento</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="1.243.675.654"
@@ -211,10 +212,10 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Nombre</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Nombre</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="Julian Castillo"
@@ -223,13 +224,14 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                   </div>
                 </div>
 
-                <Subtitle title="Quien recibe" mt="3" />
+                
+                <div className="row">
+                <Subtitle title="Quien recibe" mt="3" mb="3"/>
 
-                <div className="row mt-3">
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Tipo de documento </label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Tipo de documento </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="C.C"
@@ -237,10 +239,10 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Numero de documento</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Numero de documento</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="1.745.847.444"
@@ -248,10 +250,10 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Nombre</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Nombre</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="Jusus Cruz"
@@ -260,17 +262,19 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-md-12 mt-3">
-                  <label htmlFor="ms-2">Observaciones</label>
-                  <textarea
-                    className="form-control border rounded-pill px-4"
-                    type="text"
-                    placeholder="Observaciones"
-                    value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
-                    disabled
-                    rows="5"
-                    name="Acciones"
-                  />
+                <div className="col-12 col-md-12 mt-3 ">
+                  <div className="mx-3">
+                    <label className="text-terciary" htmlFor="ms-2">Observaciones</label>
+                    <textarea
+                      className="form-control border rounded-pill px-4 border border-terciary"
+                      type="text"
+                      placeholder="Observaciones"
+                      rows="5"
+                      value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
+                      name="Acciones"
+                      disabled
+                    />
+                  </div>
                 </div>
 
                 <div className="mt-4 row">
@@ -288,7 +292,7 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-12 col-md-12 d-flex">
+                <div className="col-12 col-md-12 d-flex ms-2">
                   <div className="d-flex flex-column align-items-start mt-6 col-6">
                     <label>
                       ____________________________________________________
@@ -305,7 +309,7 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                       ____________________________________________________
                     </label>
                     <div className="d-flex justify-content-center align-items-center">
-                      <label>Firma de quien solicita</label>
+                      <label>Firma de quien Entrega</label>
                     </div>
                     <div className="d-flex justify-content-start align-items-center">
                       <label>Nombre:</label>
@@ -315,11 +319,11 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
 
                 <div className="mt-4 justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-3">
-                      <label className="ms-2">Nombre quien imprime</label>
+                    <div className="col-12 col-md-3 ms-1">
+                      <label className="text-terciary ms-2">Nombre quien imprime</label>
                       <input
                         name="nombreQuienImprime"
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="Nombre del articulo"
                         value="Julian Castillo"
@@ -330,8 +334,8 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                 </div>
                 <div className="justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-3">
-                      <label htmlFor="exampleFormControlInput1 mt-4">
+                    <div className="col-12 col-md-3 ms-2">
+                      <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                         Fecha de impresion
                       </label>
 
@@ -346,7 +350,7 @@ const ReporteDeReasignacionFuncionariosScreen = () => {
                             dateFormat="dd/MM/yyyy"
                             includeDates={[new Date()]}
                             onChange={(date) => setStartDate(date)}
-                            className="form-control border rounded-pill px-3  p-2"
+                            className="form-control border rounded-pill px-3  p-2 border border-terciary"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}

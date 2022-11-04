@@ -185,8 +185,8 @@ const ReporteDeInventarioScreen = () => {
             <Subtitle title="Parametros de busqueda" />
 
             <div className="mt-3 row">
-              <div className="col-12 col-md-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary form-floating input-group input-group-dynamic ms-2">
                   Ubicacion
                 </label>
                 <div className="col-12 mt-3">
@@ -204,8 +204,8 @@ const ReporteDeInventarioScreen = () => {
                 </div>
               </div>
 
-              <div className="col-12 col-md-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary form-floating input-group input-group-dynamic ms-2">
                   Bodega{" "}
                 </label>
                 <div className="col-12 mt-3">
@@ -223,8 +223,8 @@ const ReporteDeInventarioScreen = () => {
                 </div>
               </div>
 
-              <div className="col-12 col-md-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary form-floating input-group input-group-dynamic ms-2">
                   Tipo de entrada
                 </label>
                 <div className="col-12 mt-3">
@@ -246,22 +246,22 @@ const ReporteDeInventarioScreen = () => {
             <Subtitle title="Rango de codigos" mt="3" />
 
             <div className="row mt-3">
-              <div className="col-12 col-md-3">
-                <label className="ms-2">Codigo inicial</label>
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">Codigo inicial</label>
                 <input
                   name="codigoInicial"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Codigo inicial"
                   {...register("codigoInicial")}
                 />
               </div>
 
-              <div className="col-12 col-md-3">
-                <label className="ms-2">Codigo final</label>
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">Codigo final</label>
                 <input
                   name="codigoFinal"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Codigo final"
                   {...register("codigoFinal")}
@@ -272,22 +272,22 @@ const ReporteDeInventarioScreen = () => {
             <Subtitle title="Rango de valores" mt="3" />
 
             <div className="mt-3 row">
-              <div className="col-12 col-md-3">
-                <label className="ms-2">Valor inicial</label>
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">Valor inicial</label>
                 <input
                   name="valorInicial"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   {...register("valorInicial")}
                 />
               </div>
 
-              <div className="col-12 col-md-3">
-                <label className="ms-2">Valor final</label>
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">Valor final</label>
                 <input
                   name="valorFinal"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   {...register("valorFinal")}
@@ -298,8 +298,8 @@ const ReporteDeInventarioScreen = () => {
             <Subtitle title="Rango de fechas" mt="3" />
 
             <div className="row mt-3">
-              <div className="col-12 col-md-3">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha inicial
                 </label>
                 <Controller
@@ -309,7 +309,7 @@ const ReporteDeInventarioScreen = () => {
                     <DatePicker
                       {...field}
                       locale="es"
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="form-control border rounded-pill px-3  p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       selected={selecOpciones.fechaInicial}
                       onChange={(date) => {
@@ -327,8 +327,8 @@ const ReporteDeInventarioScreen = () => {
                 />
               </div>
 
-              <div className="col-12 col-md-3">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha final
                 </label>
                 <Controller
@@ -339,7 +339,7 @@ const ReporteDeInventarioScreen = () => {
                       {...field}
                       locale="es"
                       dateFormat="dd/MM/yyyy"
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="form-control border rounded-pill px-3  p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       selected={selecOpciones.fechaFinal}
                       onSelect={(date) => {
@@ -397,11 +397,11 @@ const ReporteDeInventarioScreen = () => {
 
                 <div className="mt-4 justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-3">
-                      <label className="ms-2">Nombre quien imprime</label>
+                    <div className="col-12 col-md-3 ms-1">
+                      <label className="text-terciary ms-2">Nombre quien imprime</label>
                       <input
                         name="nombreQuienImprime"
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="Nombre del articulo"
                         value="Julian Castillo"
@@ -413,8 +413,8 @@ const ReporteDeInventarioScreen = () => {
 
                 <div className="justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-3">
-                      <label htmlFor="exampleFormControlInput1 mt-4">
+                    <div className="col-12 col-md-3 ms-2">
+                      <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                         Fecha de impresion
                       </label>
 
@@ -429,7 +429,7 @@ const ReporteDeInventarioScreen = () => {
                             dateFormat="dd/MM/yyyy"
                             includeDates={[new Date()]}
                             onChange={(date) => setStartDate(date)}
-                            className="form-control border rounded-pill px-3  p-2"
+                            className="form-control border rounded-pill px-3  p-2 border border-terciary"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}
