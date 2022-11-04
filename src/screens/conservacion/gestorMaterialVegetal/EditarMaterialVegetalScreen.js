@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
-
+import Subtitle from "../../../components/Subtitle";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
@@ -12,8 +12,15 @@ function EditarMaterialVegetalScreen() {
     alert(`${params.data.nombreComun} ${params.data.disponibleVivero}`);
   };
 
-  const { register, handleSubmit, watch, formState: { errors }, } = useForm();
-  const onSubmit = (data) => {console.log(data);};
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const options = [
@@ -40,106 +47,105 @@ function EditarMaterialVegetalScreen() {
       minWidth: 70,
       wrapText: true,
     },
-   
+
     {
       headerName: "Cantidad en el Vivero",
       field: "cantidadVivero",
-     minWidth: 70,
-     },
-   
+      minWidth: 70,
+    },
   ];
 
   const rowData = [
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
-        cantidadVivero: 500,
-      },
+      cantidadVivero: 500,
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 0,
-    }, 
-      {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
-       cantidadVivero: 500,
-      },
+      cantidadVivero: 500,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Karen",
+      cantidadVivero: 500,
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 2,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-        cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 0,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-       cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 500,
-      },
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Karen",
+      cantidadVivero: 0,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Karen",
+      cantidadVivero: 500,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Karen",
+      cantidadVivero: 500,
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 200,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 1,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
-         cantidadVivero: 2,
-      },
+      cantidadVivero: 2,
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 500,
-      },
+    },
     {
       nombreComun: "Rahul",
       nombreCientifico: "Karen",
       cantidadVivero: 0,
-      },
+    },
   ];
   const defaultColDef = {
     sortable: true,
@@ -160,42 +166,46 @@ function EditarMaterialVegetalScreen() {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Editar Material Vegetal</h3>
-        <form onSubmit={handleSubmit(onSubmit)} className="multisteps-form__form">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="multisteps-form__form"
+        >
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
           >
-            <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-              <h5 className="font-weight-bolder my-2 text-light">
-                Editar material vegetal por vivero
-              </h5>
-            </div>
+            <h3 className="mt-3 text-start mb-3 fw-light ms-3">
+              Editar Material Vegetal
+            </h3>
+            <Subtitle title={"Editar material vegetal por vivero"} mt={3} />
 
             <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="row d-flex align-items-center mb-3">
-              <div className="col col-sm-3 align-content-end align-items-end">
-              <label>Seleccione vivero </label>
-              <span className="text-danger">*</span>
-                
-              <Select {...register('vivero')}
-                      defaultValue={selectedCategory}
-                      onChange={setSelectedCategory}
-                      options={options}
-                      placeholder="Seleccione vivero"
-                    />
+              <div className="row ms-1 d-flex align-items-center mb-3">
+                <div className="col-12 col-md-3 align-content-end align-items-end">
+                <label className="text-terciary">Seleccione vivero</label>
+                  <span className="text-danger">*</span>
 
+                  <Select
+                    {...register("vivero")}
+                    defaultValue={selectedCategory}
+                    onChange={setSelectedCategory}
+                    options={options}
+                    placeholder="Seleccione vivero"
+                  />
+                </div>
+                <div className="col-12 col-md-3 d-flex align-items-end">
+                  <button
+                    type="submit"
+                    Value="buscar"
+                    className="btn btn-primary text-capitalize mt-5 border rounded-pill px-3"
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
-              <div className="col d-flex align-items-end">
-              <button type="submit" Value="buscar" className="btn btn-primary text-capitalize mt-5 border rounded-pill px-3">
-                  Buscar
-                </button>
-              </div>
-              </div>
-
             </form>
 
-            <div className="ag-theme-alpine" style={{ height: "500px" }}>
+            <div className="ag-theme-alpine mx-3" style={{ height: "500px" }}>
               <AgGridReact
                 columnDefs={columnDefs}
                 rowData={rowData}
@@ -206,57 +216,62 @@ function EditarMaterialVegetalScreen() {
             </div>
 
             <div>
-                <div className="container-fluid">
+              <div className="container-fluid">
                 <div className="col-3 mb-3 my-4">
-            <label>
-              Cantidad de material vegetal disponible: 
-              </label>
-            <input
-              type="text"
-              className="form-control border rounded-pill px-3"
-              disabled
-              value={"1200"}
-            />
-            </div>
-            <div className="col-3 mb-3">
-            <label>
-              Cantidad de material vegetal para descontar por mortalidad: <span className="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              className="form-control border rounded-pill px-3"
-              {...register("cantidadMaterialEliminar", { required: true })}
-            />
-            {errors.cantidadMaterialEliminar && (
-              <div className="col-12">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
-              </div>
-            )}
-          </div>
+                <label className="text-terciary">Cantidad de material vegetal disponible:</label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    disabled
+                    value={"1200"}
+                  />
+                </div>
+                <div className="col-12 col-md-3">
+                <label className="text-terciary">
+                    Cantidad de material vegetal para descontar por mortalidad:{" "}
+                    <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("cantidadMaterialEliminar", {
+                      required: true,
+                    })}
+                  />
+                  {errors.cantidadMaterialEliminar && (
+                    <div className="col-12 col-md-3">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
+            </div>
 
-              <div className="row">
-                <div className="col my-3 d-flex justify-content-end">
-                  <span>
-                    <button className="mx-2 btn btn-light text-capitalize border rounded-pill px-3">
-                      Cancelar
-                    </button>
-                    <button
-                      type="submit"
-                      value="guardar"
-                      className="mx-2 btn btn-primary text-capitalize border rounded-pill px-3"
-                    >
-                      Guardar
-                      </button>
-                  </span>
+            <div className="row">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
+                  >
+                    Guardar
+                  </button>
+                </div>
+                <div className="mx-1 d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
+                  >
+                    Cancelar
+                  </button>
                 </div>
               </div>
             </div>
+          </div>
         </form>
-    </div>
+      </div>
     </div>
   );
 }

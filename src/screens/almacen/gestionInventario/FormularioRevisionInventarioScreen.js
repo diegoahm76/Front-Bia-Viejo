@@ -7,6 +7,7 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
+import Subtitle from "../../../components/Subtitle";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import { useDispatch } from "react-redux";
@@ -116,50 +117,50 @@ function FormularioRevisionInventarioScreen() {
       field: "estado",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsEstado[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsEstado}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsEstado[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsEstado}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
     {
       headerName: "Revisión",
       field: "revision",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsRevision[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsRevision}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsRevision[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsRevision}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
 
     {
@@ -194,6 +195,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Bueno",
+      revision:"Pendiente",
       cantidad: 95,
     },
     {
@@ -205,6 +208,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Defectuoso",
+      revision:"OK",
       cantidad: 10,
     },
     {
@@ -216,6 +221,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Defectuoso",
+      revision:"Pendiente",
       cantidad: 25,
     },
     {
@@ -227,6 +234,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Defectuoso",
+      revision:"Pendiente",
       cantidad: 8,
     },
   ];
@@ -263,10 +272,7 @@ function FormularioRevisionInventarioScreen() {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Formulario Inventario de Revisión de Activos
-        </h3>
-
+       
         {/*  CUERPO DEL FORMULARIO  */}
 
         <form
@@ -276,206 +282,214 @@ function FormularioRevisionInventarioScreen() {
           id="configForm"
         >
           <MarcaDeAgua1>
+          <h3 className="mt-3 text-start mb-3 fw-light ms-3">Formulario Inventario de Revisión de Activos</h3>
             <div className="multisteps-form__content">
-              <div className="row my-3">
-              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-              <h5 className="font-weight-bolder my-2 text-light">
-                    Detalles
-                  </h5>
-                </div>
-              </div>
+            <Subtitle title={"Detalles"} mt={3} />
 
               {/*  PRIMERA FILA  */}
-              <div className="row">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  Tipo de Artículo
-                </label>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="number"
-                      placeholder="Código"
-                      {...register("codigo", {
-                        required: true,
-                      })}
-                      defaultValue="114485"
-                    />
-                    <label className="ms-2">
-                      Código
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errors.codigo?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
+              <Subtitle title={"Tipo de Artículo"} mt={3} />
+              <div className="row ms-1 justify-content-start">
+                <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">
+                    Código<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="search"
+                    id="codigoInventario"
+                    name="codigoInventario"
+                    minlength="2"
+                    maxlength="15"
+                    defaultValue={"114485"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("codigoInventario", {
+                      required: true,
+                    })}
+                  />
+                  {errors.codigoInventario && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Nombre"
-                      {...register("nombreArticulo")}
-                      defaultValue="Equipo de Cómputo"
-                      disabled
-                    />
-                    <label className="ms-2">
-                      Nombre
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
                 </div>
-                <div className="col col-12 col-md-4">
-                  <div className="form-floating">
+                <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Nombre</label>
+                  <input
+                    type="text"
+                    id="nombreArticulo"
+                    name="nombreArticulo"
+                    disabled
+                    defaultValue={"Equipo Lenovo"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("nombreArticulo", { required: true })}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3 d-inline-flex flex-column">
+                    <label>&nbsp;</label>
                     <button
-                      className="my-3 text-center align-center-stretch btn btn-primary text-capitalize"
-                      onClick={handleOpenModalArticulos}
-                    >
-                      Buscar Artículos
-                    </button>
+                    type="submit"
+                    Value="buscar"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
+                    onClick={handleOpenModalArticulos}
+                  >
+                    Buscar Artículos
+                  </button>
                   </div>
-                </div>
+                  </div>
               </div>
               {/*  SEGUNDA FILA  */}
-              <div className="row flex-column">
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Bodega{" "}
-                    <div className="col-12">
-                      <Controller
-                        name="bodega"
-                        control={control}
-                        defaultValue={optionsBodega[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={optionsBodega}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+              <div className="row ms-1">
+              <div className="col-12 col-md-6">
+                  <label className="text-terciary">
+                    Bodega<span className="text-danger">*</span>
                   </label>
+                  <Controller
+                    name="bodega"
+                    control={control}
+                    defaultValue={optionsBodega[0]}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select {...field} options={optionsBodega} />
+                    )}
+                  />
+                  {errors.bodega && (
+                    <span className="text-danger">
+                      Este campo es obligatorio *
+                    </span>
+                  )}
+                </div>
+
+
+                <div className="form-check col-12 col-md-3">
+                <div className="mb-3 d-flex flex-column align-items-center">
+                  <label className="text-terciary">En Producción</label>
+                  <div className="mt-2">
+                    <input
+                    type="checkbox"
+                    id="enProduccion"
+                    name="enProduccion"
+                    className="form-check-input border border-terciary"
+                    {...register("enProduccion", { required: true })}
+                  />
+                  </div>
+                  
                 </div>
               </div>
-              {/*  TERCER FILA  */}
-              <div className="row flex-column">
-                <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex my-3">
-                  <label
-                    className="form-check-label form-floating input-group form-control"
-                    for="flexRadioDefault2"
-                  >
-                    En Producción
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault2"
-                    />
-                  </label>
+               
                 </div>
-              </div>
-              {/*  CUARTA FILA  */}
-              <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                  Persona
-                </label>
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento <span className="text-danger">*</span>
-                    <div className="col-12">
-                      <Controller
-                        name="tipoDocumentoPersona"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+             
+              {/*  TERCERA FILA  */}
+              <Subtitle title={"Persona"} mt={3} />
+              <div className="row ms-1">
+                <div className="col-12 col-md-3 align-content-end align-items-end">
+                  <label className="text-terciary">
+                    Tipo de documento<span className="text-danger">*</span>
                   </label>
+                  <Controller
+                    name="tipoDocumentoPersona"
+                    control={control}
+                    defaultValue={optionsTipoDocumento[0]}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select {...field} options={optionsTipoDocumento} />
+                    )}
+                  />
+                  {errors.tipoDocumentoPersona && (
+                    <span className="text-danger">
+                      Este campo es obligatorio *
+                    </span>
+                  )}
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
+                <div className="col-12 col-md-3">
+                  <div className="mb-3">
+                    <label className="text-terciary">Número de documento<span className="text-danger">*</span></label>
                     <input
-                      className="form-control"
                       type="number"
+                      id="numeroDocumentoPersona"
+                      name="numeroDocumentoPersona"
+                      defaultValue={""}
+                      placeholder={"Ingrese número de documento"}
+                      className="form-control border border-terciary rounded-pill px-3"
                       {...register("numeroDocumentoPersona", {
                         required: true,
                       })}
-                      placeholder="numero documento"
-                      defaultValue={"1121919374"}
                     />
-                    <label className="ms-2">
-                      Número de documento
-                      <span className="text-danger">*</span>
-                    </label>
                   </div>
                   {errors.numeroDocumentoPersona?.type === "required" && (
-                    <small className="text-danger">
+                    <span className="text-danger">
                       El campo es requerido*
-                    </small>
-                  )}
+                    </span>
+                )}
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
+                <div className="col-12 col-md-3">
+                  <div className="mb-3">
+                    <label className="text-terciary">Nombre completo</label>
                     <input
-                      className="form-control"
                       type="text"
-                      {...register("nombrePersona")}
-                      placeholder="Nombre Completo"
-                      value="Jhon Alejandro Lopez Ramos"
-                      disabled
                       id="nombrePersona"
+                      name="nombrePersona"
+                      disabled
+                      defaultValue={"Jhon Alejandro Lopez"}
+                      className="form-control border rounded-pill px-3 border-terciary"
+                      {...register("nombrePersona", { required: true })}
                     />
-                    <label className="ms-2">Nombre completo</label>
                   </div>
                 </div>
-              </div>
-              <div className="row justify-content-end">
-                <div className="col-12 col-md-4">
-                  <div className="form-floating align-content-end">
+                <div className="col-12 col-md-3">
+                <div className="mb-3 d-inline-flex flex-column">
+                    <label>&nbsp;</label>
                     <button
-                      className="my-3 text-center align-center-stretch btn btn-primary text-capitalize"
-                      onClick={handleOpenModalBusquedaPersonal}
-                    >
-                      Buscar Personal
-                    </button>
+                    type="submit"
+                    Value="buscar"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
+                    onClick={handleOpenModalBusquedaPersonal}
+                  >
+                    Buscar Personal
+                  </button>
                   </div>
-                </div>
+                  </div>
               </div>
 
               <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-2 btn btn-primary flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
                   >
                     Buscar
                   </button>
                 </div>
+                <div className="mx-1 d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
+                  >
+                    Cancelar
+                  </button>
+                </div>
               </div>
+            </div>
               {/*  CUERPO DEL LA TABLA  */}
-              <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                Revisón de Activos
-              </label>
+              <label className="mt-4 form-control ms-0 fw-bolder text-white text-center" style={{
+          background: "#002c42",
+        }}>
+                  Revisión de Activos
+                </label>
               <div id="myGrid" className="ag-theme-alpine mt-2">
                 <div
-                  className="ag-theme-alpine my-1"
-                  style={{ height: "300px" }}
+                  className="ag-theme-alpine my-1 mx-3"
+                  style={{ height: "270px" }}
                 >
                   <AgGridReact
                     columnDefs={columnDefsArticulos}
@@ -487,104 +501,116 @@ function FormularioRevisionInventarioScreen() {
                 </div>
               </div>
               {/*  TRES FECHAS  */}
-              <div className="row">
-                <div className="col-12 col-md-4 mt-4">
-                  <label htmlFor="exampleFormControlInput1 mt-3">
-                    Fecha inicial
-                    <Controller
-                      name="fechaRespuesta"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2 border border-1"
-                          placeholderText="Fecha inicial"
-                          disabled
-                          peekNextMonth
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-                <div className="col-12 col-md-4 mt-4">
-                  <label htmlFor="exampleFormControlInput1 mt-3">
-                    Última modificación
-                    <Controller
-                      name="fechaRespuesta"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2 border border-1"
-                          placeholderText="Última modificación"
-                          disabled
-                          peekNextMonth
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
-                <div className="col-12 col-md-4 mt-4">
-                  <label htmlFor="exampleFormControlInput1 mt-3">
-                    Fecha final
-                    <Controller
-                      name="fechaRespuesta"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2 border border-1"
-                          placeholderText="Fecha final"
-                          disabled
-                          peekNextMonth
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
+              <div className="row ms-1 mt-3">
+              <div className="col-12 col-md-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-5"
+                >
+                  Fecha Inicial
+                  <Controller
+                    name="fechaRespuesta"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border border-terciary rounded-pill px-3 mt-2"
+                        placeholderText="Fecha Inicial"
+                        peekNextMonth
+                        disabled
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
+                  />
+                </label>
               </div>
-              {/*  TRES BOTONES  */}
+              <div className="col-12 col-md-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-5"
+                >
+                  Última Modificación
+                  <Controller
+                    name="fechaRespuesta"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border border-terciary rounded-pill px-3 mt-2"
+                        placeholderText="Última Modificación"
+                        peekNextMonth
+                        disabled
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
+                  />
+                </label>
+              </div>
+              <div className="col-12 col-md-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-5"
+                >
+                  Fecha Final
+                  <Controller
+                    name="fechaRespuesta"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border border-terciary rounded-pill px-3 mt-2"
+                        placeholderText="Fecha Final"
+                        peekNextMonth
+                        disabled
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
+                  />
+                </label>
+              </div>
+              </div>
+              {/*  DOS BOTONES  */}
               <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 mx-4 btn btn-primary flex-center text-capitalize"
-                    onClick={"null"}
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
                   >
                     Guardar
                   </button>
+                </div>
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 btn btn-light flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
                   >
                     Finalizar
                   </button>
                 </div>
               </div>
+            </div>
             </div>
           </MarcaDeAgua1>
         </form>
