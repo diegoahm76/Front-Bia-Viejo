@@ -12,7 +12,7 @@ import {
 import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";
 import Subtitle from "../../../components/Subtitle";
-
+import ExportExcelFile from "../../../components/ExportExcelFile";
 
 const AdministradorDeEstaciones = () => {
   const dispatch = useDispatch();
@@ -25,6 +25,16 @@ const AdministradorDeEstaciones = () => {
   }, []);
 
   const { estaciones } = useSelector((state) => state.estaciones);
+
+  const dataExcel = estaciones.map((estacion) => ({
+    OBJECTID: estacion.objectid,
+    Estación: estacion.t001nombre,
+    "Coordenada 1": estacion.t001coord1,
+    "Coordenada 2": estacion.t001coord2,
+    Modificado: estacion.t001fechaMod,
+    Usuario: estacion.t001userMod,
+  }));
+
   const columnDefs = [
     { headerName: "OBJECTID", field: "objectid", minWidth: 140 },
     { headerName: "Estación", field: "t001nombre", minWidth: 140 },
@@ -99,9 +109,9 @@ const AdministradorDeEstaciones = () => {
           <h3 className="mt-2 mb-0">Administrador estaciones meteorologicas</h3>
           <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
-            <div className="row">
-            </div>
-            <div>
+            <div className="row"></div>
+            <div className="d-flex">
+              <ExportExcelFile estaciones={dataExcel} name="Estaciones" />
               <button
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 onClick={() => setIsModalActive(!isModalActive)}

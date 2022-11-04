@@ -17,6 +17,7 @@ import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 
 const AdministradorDePersonasScreen = () => {
+  const [departamentoMunicipio, setDepartamentoMunicipio] = useState("");
   const navigate = useNavigate();
   const [direccionResidenciaIsOpen, setDireccionResidenciaIsOpen] =
     useState(false);
@@ -238,7 +239,7 @@ const AdministradorDePersonasScreen = () => {
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
-      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento].value,
+      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
       numero_documento: data.numeroDocumento2,
       digito_verificacion: data.digitoVerificacion,
       nombre_comercial: data.nombreComercial,
@@ -438,6 +439,22 @@ const AdministradorDePersonasScreen = () => {
   const handleCancelAction = () => {
     setActionForm(null);
   };
+
+  const getDepartamentoFromMunicipio = (propiedadFormvalues) => {
+    const valueMunicipio =
+      municipiosOptions[formValues[propiedadFormvalues]]?.value;
+    const valueDepartamento =
+      valueMunicipio?.split("")[0] + valueMunicipio?.split("")[1];
+    const labelDepartamento = departamentosOptions?.filter(
+      (departamento) => departamento?.value === valueDepartamento
+    );
+    console.
+    setDepartamentoMunicipio(labelDepartamento[0]);
+  };
+
+  useEffect(() => {
+    getDepartamentoFromMunicipio("departamento");
+  }, [formValues.municipio]);
 
   return (
     <div className="row min-vh-100">
@@ -973,6 +990,17 @@ const AdministradorDePersonasScreen = () => {
                     />
                   </div>
                   <div className="col-12 col-md-3 mt-2">
+                    <div>
+                      <label className="ms-2">Departamento:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        value={departamentoMunicipio}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">Municipio:</label>
                     <Controller
                       name="municipio"
@@ -996,7 +1024,7 @@ const AdministradorDePersonasScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="col-12 col-md-3 mt-2">
+                  {/* <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">
                         Ubicacion geografica:{" "}
@@ -1017,7 +1045,7 @@ const AdministradorDePersonasScreen = () => {
                         </small>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                   <div className="col-md-8 col-12 mt-2">
                     <div className="form-floating input-group input-group-dynamic mt-3">
                       <input
