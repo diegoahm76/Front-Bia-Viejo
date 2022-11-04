@@ -4,6 +4,7 @@ import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import Subtitle from "../../../components/Subtitle";
 
 const CrearProduccionPropiaScreen = () => {
   const {
@@ -20,15 +21,11 @@ const CrearProduccionPropiaScreen = () => {
     formState: { errors: errors2 },
   } = useForm();
 
-
-
   const [botonGuardar, setBotonGuardar] = useState({
     tamano: "",
     cantidad: "",
     etapaMaterialVegetal: "",
   });
-
-
 
   const [selectores, setSelectores] = useState({
     seleccioneVivero: "",
@@ -43,7 +40,6 @@ const CrearProduccionPropiaScreen = () => {
     });
   };
 
-  
   const onSubmitGuardar = (data) => {
     console.log(data);
     setBotonGuardar({
@@ -129,19 +125,23 @@ const CrearProduccionPropiaScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Producción Propia</h3>
+      <div className=" col-12 mx-auto">
         <div className="multisteps-form__content">
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <h3 className="text-rigth  fw-light mb-3 mb-2">
+              Producción Propia
+            </h3>
             <div className="row">
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">
+              <Subtitle title="información general" mb="3" />
+              <div className="col-12 col-sm-3">
+                <label className="form-control ms-3">
                   Seleccionar vivero <span className="text-danger">*</span>
                 </label>
+
                 <Controller
                   name="seleccioneVivero"
                   control={control}
@@ -162,7 +162,7 @@ const CrearProduccionPropiaScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-6">
+              <div className="col-12 col-sm-3">
                 <label className="form-control ms-0">
                   Periodo de Siembra <span className="text-danger">*</span>
                 </label>
@@ -186,13 +186,15 @@ const CrearProduccionPropiaScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 d-flex justify-content-end">
-                <button
-                  type="submit"
-                  className="mt-3 btn btn-primary flex-center text-capitalize"
-                >
-                  Buscar
-                </button>
+              <div className="col-12 col-md-3 mt-4">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    type="submit"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -203,8 +205,9 @@ const CrearProduccionPropiaScreen = () => {
               onSubmit={handleSubmit2(onSubmitGuardar)}
             >
               <div className="row">
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">
+                <Subtitle title="información de la solicitud" mb="3" />
+                <div className="col-12 col-sm-3">
+                  <label className="form-control ms-3">
                     Lote de siembra No.
                   </label>
                 </div>
@@ -220,54 +223,47 @@ const CrearProduccionPropiaScreen = () => {
                   ></AgGridReact>
                 </div>
                 <div>
-                  <label className="form-control ms-0 fs-6">
-                    Información del producto a ingresar{" "}
-                    <span className="text-danger">*</span>
-                  </label>
                   <div className="row">
-                    <div className="col-6 col-sm-6 ">
-                      <label
-                        className="form-control ms-0"
-                        htmlFor="exampleFormControlInput1"
-                      >
-                        Cantidad
-                      </label>
-                      <div className="input-group input-group-dynamic">
+                    <Subtitle
+                      title="información del producto a ingresar"
+                      mb="3"
+                    />
+                    <div className="col-12 col-sm-3 mt-3">
+                      <div>
+                        <label className="ms-2 text-terciary ">Cantidad</label>
                         <input
-                          className="multisteps-form__input form-control"
-                          type="text"
-                          placeholder="Cantidad"
+                          className="form-control border border-terciary rounded-pill px-3"
+                          type="number"
+                          placeholder="cantidad"
                           name="cantidad"
                           {...register2("cantidad", { required: true })}
                         />
+                        {errors2.cantidad && (
+                          <small className="text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        )}
                       </div>
-                      {errors2.cantidad && (
-                        <small className="text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      )}
                     </div>
-                    <div className="col-6 col-sm-6 ">
-                      <label className="form-control ms-0">
-                        Tamaño promedio (cm)
-                      </label>
-                      <div className="input-group input-group-dynamic">
+                    <div className="col-12 col-sm-3 mt-3">
+                      <div>
+                        <label className="ms-2 text-terciary ">Tamaño promedio (cm)</label>
                         <input
-                          className="multisteps-form__input form-control"
-                          type="text"
+                          className="form-control border border-terciary rounded-pill px-3"
+                          type="number"
                           placeholder="Tamaño Promedio (cm)"
                           name="tamano"
                           {...register2("tamano", { required: true })}
                         />
+                        {errors2.tamano && (
+                          <small className="text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        )}
                       </div>
-                      {errors2.tamano && (
-                        <small className="text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      )}
                     </div>
-                    <div className="col-2 col-sm-6">
-                      <label className="form-control ms-0">
+                    <div className="col-12 col-sm-3 mt-3">
+                      <label className="text-terciary">
                         Etapa del material vegetal
                       </label>
                       <Controller

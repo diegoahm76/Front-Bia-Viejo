@@ -6,6 +6,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import es from "date-fns/locale/es";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import Subtitle from "../../../components/Subtitle";
 
 const SolicitudesAutorizadasPendientesScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -127,6 +128,7 @@ const SolicitudesAutorizadasPendientesScreen = () => {
           <h3 className="text-rigth  fw-light mb-3 mb-2">
             Solicitudes pendientes por despachar
           </h3>
+          <Subtitle title="información de solicitud " mb="3" />
           <form>
             <div
               className="ag-theme-alpine mt-2 mb-4"

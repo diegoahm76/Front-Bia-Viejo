@@ -563,7 +563,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Hoja de vida <br /> vehiculo
+                                  Hoja de vida <br /> un vehiculo externo
                                 </span>
                               </Link>
                             </li>
@@ -589,7 +589,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Hoja de vida de <br /> vehiculos externos
+                                  Hoja de vida de <br /> un vehiculo
                                 </span>
                               </Link>
                             </li>
@@ -1725,7 +1725,7 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
-                                to="conservacion/gestormaterialvegetal/materialvegetalsembrado"
+                                to="conservacion/gestormaterialvegetal/crearmaterialvegetalsembrado"
                               >
                                 <span className="sidenav-mini-icon"> M </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
@@ -1901,6 +1901,17 @@ const Aside = ({ showAside }) => {
                                 <span className="sidenav-mini-icon"> V </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Mover material vegetal
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="conservacion/distribucion/recepcionsolicitudes"
+                              >
+                                <span className="sidenav-mini-icon"> V </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Gestion de Solicitudes de Material <br/> Vegetal
                                 </span>
                               </Link>
                             </li>

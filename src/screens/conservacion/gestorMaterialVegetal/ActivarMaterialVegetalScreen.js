@@ -1,10 +1,10 @@
 import React, { useMemo, useRef, useState } from "react";
-import { render } from "react-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
+import Subtitle from "../../../components/Subtitle"
 
 
 
@@ -223,22 +223,23 @@ const ActivarMaterialCuarentenaScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Material en cuarentena
-        </h3>
-        
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+      <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
         <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          className="row"
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSubmit)}
           id="configForm"
         >
-        <div className="multisteps-form__content">
-          <div className="mt-4 row">
+          <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
+          Material en cuarentena
+        </h3>
+        <Subtitle title="Información por vivero"/>
+        
+          <div className="row">
 
-            <div className="col-12 col-md-4">
-                <label className=" form-control ms-0">Selecione Vivero: </label>
+            <div className="col-12 col-md-3 ms-3">
+                <label className="text-terciary form-control ms-0">Seleccione Vivero: </label>
                 <Controller
                   name="viveros"
                   control={control}
@@ -256,7 +257,7 @@ const ActivarMaterialCuarentenaScreen = () => {
                 )}
             </div>
 
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-md-3 ">
               <button
                 className="mt-5 btn btn-primary text-capitalize "
                 type="submit"
@@ -292,8 +293,9 @@ const ActivarMaterialCuarentenaScreen = () => {
           </div>)
           :
           ("")}
-        </div>
+        
         </form>
+        </div>
       </div>
     </div>
   );

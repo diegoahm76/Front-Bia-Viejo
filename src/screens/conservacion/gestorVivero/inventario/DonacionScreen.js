@@ -5,12 +5,12 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller, appendErrors } from "react-hook-form";
+import Subtitle from "../../../../components/Subtitle";
 
 const DonacionesScreen = () => {
   const [selecVivero, setSelecVivero] = useState({
-    viveros : "",
-  }
-  );
+    viveros: "",
+  });
 
   const {
     register,
@@ -21,7 +21,7 @@ const DonacionesScreen = () => {
 
   const onSubmit = (data) => {
     setSelecVivero({
-      viveros: data.viveros
+      viveros: data.viveros,
     });
   };
 
@@ -170,22 +170,23 @@ const DonacionesScreen = () => {
   };
 
   return (
-    <div className="row min-vh-100">    
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Inventario Donaciones</h3>
-        
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
-        >
+    <div className="row min-vh-100">
+      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
+          <form
+            className="row"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+            id="configForm"
+          >
+            <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
+              Inventario Donaciones
+            </h3>
+            <Subtitle title="Información del inventario" />
 
-          <div className="multisteps-form__content">
-            <div className="mt-4 row">
-
-              <div className="col-12 col-md-4">
-                <label className="form-control ms-0">Selecione Vivero: </label>
+            <div className="row">
+              <div className="col-12 col-md-3 ms-3">
+                <label className="text-terciary form-control ms-0">Seleccione Vivero :</label>
                 <Controller
                   name="viveros"
                   control={control}
@@ -199,24 +200,29 @@ const DonacionesScreen = () => {
                   )}
                 />
                 {errors.viveros && (
-                <small className="text-danger">Este campo es obligatorio</small>
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
                 )}
               </div>
 
-              <div className="col-12 col-md-4 ">
-                <button
-                  className="mt-5 btn btn-primary text-capitalize"
-                  type="submit"
-                >
-                  Buscar
-                </button>
+              <div className="col-12 col-md-3 mt-4">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
             </div>
 
-            {selecVivero.viveros? (
+            {selecVivero.viveros ? (
               <div>
-
-                <div className="d-flex mt-4 px-4 justify-content-end">
+                <div className="d-flex mt-3 px-4 justify-content-end">
                   <div>
                     <label type="number"> Total de plantas |</label>
                   </div>
@@ -226,9 +232,8 @@ const DonacionesScreen = () => {
                     </label>
                   </div>
                 </div>
-  
+
                 <div id="myGrid" className="ag-theme-alpine">
-                  
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnDefs}
@@ -240,16 +245,16 @@ const DonacionesScreen = () => {
                 </div>
 
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button className="btn bg-gradient-danger mb-0" type="submit">
+                  <button className="text-capitalize btn bg-gradient-danger mb-0" type="submit">
                     Salir
                   </button>
                 </div>
-
-              </div>)
-              :
-              ("") }
-          </div>
-        </form>
+              </div>
+            ) : (
+              ""
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

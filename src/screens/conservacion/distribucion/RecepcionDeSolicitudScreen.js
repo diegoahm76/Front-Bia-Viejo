@@ -9,6 +9,7 @@ import {
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../../components/CalendarModal";
 import ModalLocal from "../../../components/ModalLocal";
+import Subtitle from "../../../components/Subtitle";
 
 
 const RecepcionDeSolicitudScreen = () => {
@@ -110,7 +111,7 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-primary"
+            className="btn text-capitalize btn-primary"
             type="button"
             onClick={handleOpenModalGes}
           >
@@ -133,7 +134,7 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-primary"
+            className="btn text-capitalize btn-primary"
             type="button"
             onClick={handleOpenModalVer}
           >
@@ -238,17 +239,20 @@ const [modal2, setModal2] = useState(false)
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Gestion de solicitudes de material vegetal
-        </h3>
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+          <h3 className="mt-3 ms-1 text-start fw-light mb-3">
+          Gestion de solicitudes de material vegetal
+        </h3>
           <div className="row mt-3 mb-5">
-            <div className="col-12 col-md-4">
+            <Subtitle
+            title={"Solicitudes pendientes y gestionadas"}/>
+            <div className="col-6 col-sm-3">
               <label className="form-control ms-2">
                 Estado de la solicitud:{" "}
               </label>
@@ -283,13 +287,12 @@ const [modal2, setModal2] = useState(false)
           {estado.options.value === "PEND" ? (
             <div>
               <div className="row mt-1">
-                <h4 className="mt-1 mb-2 text-center mb-1   ">
-                  Solicitudes pendientes
-                </h4>
+               <Subtitle 
+               title={"Solicitudes pendientes"}/>
                 
                   <div className="row mt-3">
-                    <div className="col-12 col-md-4">
-                      <label >Seleccionar vivero: </label>
+                    <div className="col-6 col-sm-3">
+                      <label className="text-terciary">Seleccionar vivero: </label>
                       <Controller
                         name="optionsvi"
                         control={control}
@@ -309,8 +312,8 @@ const [modal2, setModal2] = useState(false)
                       )}
                     </div>
                   
-                    <div className="col-12 col-md-4">
-                      <label>Seleccionar profesional</label>
+                    <div className="col-6 col-sm-3">
+                      <label className="text-terciary">Seleccionar profesional</label>
                       <Controller
                         name="optionspro"
                         control={control}
@@ -344,7 +347,7 @@ const [modal2, setModal2] = useState(false)
               </div>
 
               <div className="row mt-6">
-                <label className="px-6">Solicitudes relacionadas</label>
+                <label className="px-6 text-terciary">Solicitudes relacionadas</label>
                 <div
                   className="ag-theme-alpine mt-1 mb-6 px-6"
                   style={{ height: "250px" }}
@@ -366,13 +369,12 @@ const [modal2, setModal2] = useState(false)
 
           {estado.options.value === "GEST" ? (
             <div>
-              <div className="row mt-1">
-                <h4 className="mt-1 mb-2 text-center mb-1   ">
-                  Solicitudes pendientes
-                </h4>
+              <div className="row mt-1 align-items-end">
+                <Subtitle
+                 title={"Solcitudes Gestionadas"}/>
                 <div className="row mt-1">
-                    <div className="col-12 col-md-4">
-                      <label className="px-6">Seleccionar vivero: </label>
+                    <div className="col-6 col-sm-3">
+                      <label className="text-terciary">Seleccionar vivero: </label>
                       <Controller
                         name="optionsvi2"
                         control={control}
@@ -392,8 +394,8 @@ const [modal2, setModal2] = useState(false)
                       )}
                     </div>
                   
-                    <div className="col-12 col-md-4 ">
-                      <label>Seleccionar profesional</label>
+                    <div className="col-6 col-sm-3 ">
+                      <label className="text-terciary">Seleccionar profesional</label>
                       <Controller
                         name="optionspro2"
                         control={control}
@@ -425,7 +427,7 @@ const [modal2, setModal2] = useState(false)
               </div>
 
               <div className="row mt-6">
-                <label className="px-6">Solicitudes relacionadas</label>
+                <label className="px-6 text-terciary">Solicitudes relacionadas</label>
                 <div
                   className="ag-theme-alpine mt-1 mb-6 mb-2 px-6"
                   style={{ height: "250px" }}
@@ -448,9 +450,8 @@ const [modal2, setModal2] = useState(false)
           <ModalLocal localState={modal2}>
           <div className="row min-vh-100">
             <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
-              <h5 className="mt-3 mb-0 text-center mb-3">
-                Gestion de solicitudes de material vegetal
-              </h5>
+              <Subtitle 
+              title={"Gestion de solicitudes de amterial vegetal"}/>
               <form
                 className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
                 data-animation="FadeIn"
@@ -458,13 +459,13 @@ const [modal2, setModal2] = useState(false)
               >
                 
                   <div className="row mt-1 ms-5">
-                    <label>Solicitud numéro: 000960</label>
+                    <label className="text-terciary">Solicitud numéro: 000960</label>
                   </div>
                   <div className="row mt-3 ms-5">
-                    <label>Documento relacionado: </label>
+                    <label className="text-terciary">Documento relacionado: </label>
                   </div>
                   <div className="row mt-3 ms-5">
-                    <label>Listado de la solicitud: </label>
+                    <label className="text-terciary">Listado de la solicitud: </label>
                     
                     <div className="row">
                     
@@ -517,24 +518,22 @@ const [modal2, setModal2] = useState(false)
         <CalendarModal>
         <div className="row min-vh-100">
             <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
-              <h5 className="mt-3 mb-0 text-center mb-3">
-                Ver Solicitudes de Material Vegetal
-              </h5>
-              
+            <Subtitle 
+            title={"Solicitud gestionada de material vegetal"}/>
                 
                   <div className="row mt-1 ms-5">
                     <div className="col ">
-                      <label>Solicitud numéro: 000960</label>
+                      <label className="text-terciary">Solicitud numéro: 000960</label>
                     </div>
                     <div className="col-6">
-                      <label>Estado de la solicitiud: Aceptada</label>
+                      <label className="text-terciary">Estado de la solicitiud: Aceptada</label>
                     </div>
                   </div>
                   <div className="row mt-3 ms-5">
-                    <label>Documento relacionado: </label>
+                    <label className="text-terciary">Documento relacionado: </label>
                   </div>
                   <div className="row mt-3 ms-5">
-                    <label>Listado de la solicitud: </label>
+                    <label className="text-terciary">Listado de la solicitud: </label>
                     <div
                       className="ag-theme-alpine mt-1 mb-6 mb-2"
                       style={{ height: "250px" }}

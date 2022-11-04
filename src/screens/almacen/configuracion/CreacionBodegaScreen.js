@@ -148,7 +148,7 @@ const CreacionBodegaScreen = () => {
                 </div>
               </div>
 
-              <div className="col-12 d-flex justify-content-center mt-7 mb-5">
+              <div className="col-12 d-flex justify-content-center mt-5 mb-5">
                 <label className="form-floating input-group input-group-dynamic ms-5 my-2">
                   {" "}
                   Notificar a: <span className="text-danger">*</span>{" "}
@@ -156,9 +156,9 @@ const CreacionBodegaScreen = () => {
                 <Controller
                   name="tipoDocumento"
                   control={control}
-                  //rules={{
-                  //required: true,
-                  //}}
+                  rules={{
+                  required: true,
+                  }}
                   render={({ field }) => (
                     <Select
                       {...field}

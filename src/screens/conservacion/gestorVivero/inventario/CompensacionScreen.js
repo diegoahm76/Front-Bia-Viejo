@@ -1,8 +1,9 @@
 import Select from "react-select";
 import { AgGridReact } from 'ag-grid-react';
-import React, { useRef, useState, } from 'react';
+import React, { useState, } from 'react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { useForm } from "react-hook-form";
 
 const options = [
   { label: "Acacías", value: "Acac" },
@@ -31,15 +32,18 @@ const CompensacionScreen = () => {
   const [dataRowFilter, setDataRowFilter] = useState(rowData)
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  const {
+    handleSubmit,
+  } = useForm();
 
+  const onSubmit = (data) => { };
 
-  const gridRef = useRef(); // Optional - for accessing Grid's API
 
 
 
 
   // Each Column Definition results in one Column.
-  let gridApi
+  // let gridApi
   const columnDefs = [
     { headerName: "nombre común", field: "nombrecomún" },
     { headerName: "nombre cientifico", field: "nombrecientifico", },
@@ -51,12 +55,12 @@ const CompensacionScreen = () => {
   ]
 
   const defaultColDef = { sortable: true, flex: 1, filter: true, wrapHeaderText: true, resizable: true, initialWidth: 200, autoHeaderHeight: true, suppressMovable: true }
-  const onGridReady = (params) => {
-    gridApi = params.api
-  }
-  const onExportClick = () => {
-    gridApi.exportDataAsCsv();
-  }
+  // const onGridReady = (params) => {
+  //   gridApi = params.api
+  // }
+  // const onExportClick = () => {
+  //   gridApi.exportDataAsCsv();
+  // }
 
   const totalPlantas = () => {
     let total = 0
@@ -79,67 +83,59 @@ const CompensacionScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Inventario conservación</h3>
-        <div className="card">
-          <form className="multisteps-form__form">
-            <div
-              className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-              data-animation="FadeIn"
-            >
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+            <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+              Inventario compensacion
+            </h3>
+            <div className="row d-flex align-items-end mt-2 mx-2">
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
+                  Seleccione vivero
+                </label>
+                <Select
+                  defaultValue={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.label)}
+                  options={options}
+                  placeholder="Seleccionar"
+                />
 
-              <div className="multisteps-form__content">
-                <div className="row">
+              </div>
+              <div className="col-12 col-md-3">
+                <button
+                  onClick={handleClickSearch}
+                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                  type="button"
+                >Buscar</button>
+              </div>
+              {/**Ver Documentacion */}
+              <div className="col-12 col-md-4 mb-3">
+                <label className="text-terciary">
+                  Ver documentación de la compensacion seleccionada
+                </label>
+              </div>
+              <div className="col-12 col-md-2">
+                <button
+                  type="button"
+                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                >
+                  Ver documento
+                </button>
+              </div>
+              <div className="ag-theme-alpine mt-auto mb-4 mx-auto px-auto" style={{ height: '470px' }}>
+                <div className="d-flex justify-content-end mx-auto px-2">
+                  <label>Total{""} </label>
+                  <input className="text-center" type="text" id="name" name="name" disabled value={totalPlantas()} ></input>
+                </div>
+                <AgGridReact
+                  columnDefs={columnDefs}
+                  rowData={dataRowFilter}
+                  defaultColDef={defaultColDef}
+                  // onGridReady={onGridReady}
+                >
+                </AgGridReact>
 
-                  <div className="col-6 col-sm-4 mt-3">
-                    <label htmlFor="selectVivero">Seleccione vivero </label>
-                    <Select
-                      defaultValue={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.label)}
-                      options={options}
-                      placeholder="Seleccionar"
-                    />
-
-                  </div>
-                  <div className="col-12 col-sm-4 mt-5">
-                    <button 
-                      onClick={handleClickSearch}
-                      className="border rounded-pill px-3 btn bg-gradient-primary"
-                      type="button"
-                    >Buscar</button>
-                  </div>
-                  {/**Ver Documentacion */}
-                  <div className="col-6 col-sm-4 ms-auto mb-0">
-                    <label className="form-control  ms-0">
-                      Ver documentación de la compensacion seleccionada
-                      <div className="button-row d-flex">
-                        <button
-                          type="button"
-                          className="border rounded-pill px-3 btn btn-info btn-sm"
-                        >
-                          Ver documento
-                        </button>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <div className="ag-theme-alpine mt-auto mb-3 px-auto" style={{ height: '470px' }}>
-                    <AgGridReact
-                      columnDefs={columnDefs}
-                      rowData={dataRowFilter}
-                      defaultColDef={defaultColDef}
-                      onGridReady={onGridReady}
-                    >
-                    </AgGridReact>
-                    <div className="d-flex justify-content-end px-2">
-                      <label htmlFor="totalGrid">Total </label>
-                      <input className="text-center" type="text" id="name" name="name" disabled="true" value={totalPlantas()} ></input>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-4 col-sm-4">
-                </div>
               </div>
             </div>
           </form>

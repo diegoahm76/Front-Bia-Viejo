@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 export const RegistroDeBajaScreen = () => {
   const {
@@ -110,7 +111,7 @@ export const RegistroDeBajaScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Registro de Baja</h3>
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
@@ -118,25 +119,29 @@ export const RegistroDeBajaScreen = () => {
           id="configForm"
         >
           <MarcaDeAgua1>
+            <h3 className="mt-3 mb-0 ms-3 text-start fw-light mb-3">Registro de Baja</h3>
             <div className={"row"}>
-              <label className="form-control ms-0 fw-bolder text-center">
-                Datos generales
-              </label>
-              <div className="row">
-                <div className="col-12 col-md-4 mt-4">
-                  <div className="form-floating input-group input-group-dynamic">
+            <Subtitle
+                  title={"Datos Generales"}
+                />
+              <div className="row align-items-end ms-2">
+                <div className="col-6 col-sm-3 mt-4">
+                
+                    <label className="ms-2 text-terciary">
+                      Consecutivo:{" "}
+                      <span className="text-danger">*</span>{" "}
+                    </label>
                     <input
-                      className="form-control"
-                      type="tel"
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
                       placeholder="Consecutivo"
-                      {...register("businessTel")}
+                      {...register("NumeroDoc")}
                     />
-                    <label>Consecutivo:</label>
                   </div>
-                </div>
+                
                 <div className="col-12 col-md-4">
-                  <div className=" input-group input-group-dynamic flex-column col-12 col-md-6 mt-3">
-                    <label htmlFor="exampleFormControlInput1">
+                  
+                    <label htmlFor="exampleFormControlInput1" className="text-terciary">
                       Fecha de Ingreso: <span className="text-danger">*</span>
                     </label>
                     <Controller
@@ -146,40 +151,42 @@ export const RegistroDeBajaScreen = () => {
                         <ReactDatePicker
                           {...field}
                           locale="es"
-                          //required
+                         dateFormat={"dd/MM/yyyy"}
+                          placeholderText="dd/mm/aaaa"
+                          className="col-4 multisteps-form__input form-control p-2 border rounded-pill px-3 text-terciary border border-terciary"
                           selected={formValues.fechaIngreso}
                           onSelect={(e) =>
                             setFormValues({ ...formValues, fechaIngreso: e })
                           }
-                          className="col-4 multisteps-form__input form-control p-2"
-                          placeholderText="dd/mm/aaaa"
+                          
+                         
                         />
                       )}
                     />
-                  </div>
+                  
                 </div>
               </div>
-              <div className="row">
+              <div className="row ms-1">
                 <div className="col">
-                  <div className="form-floating input-group input-group-dynamic">
+                  <label className="ms-2 text-terciary">Concepto:</label>
                     <textarea
-                      className="form-control"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="tel"
                       placeholder="Concepto"
                       {...register("businessTel")}
                     />
-                    <label className="ms-2">Concepto:</label>
-                  </div>
+                    
+                  
                 </div>
               </div>
 
-              <div className="row">
+              <div className="row mt-5">
                 <div>
-                  <label className="mt-6 form-control ms-0 fw-bolder text-center">
-                    Detalles
-                  </label>
+                <Subtitle
+                  title={"Detalles"}
+                />
                 </div>
-                <div id="myGrid" className="ag-theme-alpine ">
+                <div id="myGrid" className="ag-theme-alpine mt-3">
                   <div className="ag-theme-alpine" style={{ height: "250px" }}>
                     <AgGridReact
                       columnDefs={columnDetalles}
@@ -190,19 +197,27 @@ export const RegistroDeBajaScreen = () => {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <button
-                    type="button"
-                    className="btn btn-primary text-capitalize"
-                  >
-                    Revelacion
-                  </button>
+                <div className="d-flex justify-content-start gap-2 mt-4">
+                <div className="col-12 col-md-4">
+                  <label className="text-terciary">
+                    Anexar revelacion: <span className="text-danger">*</span>{" "}
+                  </label>
+                  <div>
+                    <label htmlFor="formFileLg" className="form-label"></label>
+                    <input
+                      className="form-control form-control-lg border rounded-pill px-3 border border-terciary"
+                      id="formFileLg"
+                      type="file"
+                      rules={{ required: true }}
+                    />
+                  </div>
+                </div>
                 </div>
               </div>
 
               
               <div className="row mt-3">
-              <label>ANEXAR REVELACION</label>
+              
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
                   type="button"
