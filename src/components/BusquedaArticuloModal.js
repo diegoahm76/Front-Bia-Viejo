@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
+import Subtitle from "./Subtitle";
 
 
 const customStyles = {
@@ -45,77 +46,79 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <h3 className="mt-3 mb-0 text-center mb-0">Busqueda de artículo</h3>
+          <h3 className="text-center  fw-light mt-4 mb-2">Busqueda de artículo</h3>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic ">
+
+            <Subtitle title="Información del articulo" mb="3" />
+            <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Código</label>
                   <input
-                    className="form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="codigo"
+                    placeholder="Código"
                     {...register("codigo")}
                   />
-                  <label className="ms-2">Código</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic ">
+              <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Nombre artículo</label>
                   <input
-                    className="form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre"
                     {...register("nombre")}
                   />
-                  <label className="ms-2">Nombre</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Marca</label>
                   <input
-                    className="form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="marca"
+                    placeholder="Marca"
                     {...register("marca")}
                   />
-                  <label className="ms-2">Marca</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Código de barras/QR</label>
                   <input
-                    className="form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="codigobarras"
-                    {...register("codigobarras")}
+                    placeholder="codigo"
+                    {...register("codigo")}
                   />
-                  <label className="ms-2">Código de barras/QR</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Serial/Placa</label>
                   <input
-                    className="form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="serialPlaca"
+                    placeholder="serial/placa"
                     {...register("serialPlaca")}
                   />
-                  <label className="ms-2">Serial/Placa</label>
                 </div>
               </div>
-              <div className="col-12 col-sm-6">
-                <div className="form-floating input-group input-group-dynamic">
+              <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Cantidad</label>
                   <input
-                    className="form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="cantidad"
                     {...register("cantidad")}
                   />
-                  <label className="ms-2">Cantidad</label>
                 </div>
               </div>
               <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
