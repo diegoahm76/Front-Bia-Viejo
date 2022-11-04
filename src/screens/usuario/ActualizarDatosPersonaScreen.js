@@ -642,7 +642,8 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3"
                     type="tel"
-                    {...register("telefono_celular", { required: true })}
+                
+                    {...register("telefono_celular", { required: true, maxLength:10,minLength:10 })}
                   />
                 </div>
                 {errors.telefono_celular && (

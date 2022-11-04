@@ -231,10 +231,21 @@ const SolicitudesDeMaterialSreen = () => {
         <Subtitle
         title={"Datos de la solicitud"}/>
           <div className="row mt-4 ms-4">
-            <label className="col-6 col-sm-3">Numero de solicitud</label>
+            <div className="col-6 col-sm-3">
+            <label className="text-terciary">Numero de solicitud</label>
+            <input
+                      className="form-control border rounded-pill px-3 border-terciary"
+                      type="number"
+                      disabled="true"
+                      placeholder="000960"
+                      rules={{ required: true }}
+                      {...register("consecutivo")}
+                    />
+</div>
+
             <div className="col-6 col-sm-3 justify-content-end">
              
-                <label htmlFor="exampleFormControlInput1">
+                <label htmlFor="exampleFormControlInput1" className="text-terciary">
                   Fecha de solicitud
                 </label>
                 <Controller
@@ -296,7 +307,7 @@ const SolicitudesDeMaterialSreen = () => {
                 <div>
                   <div className="d-flex mt-4 px-4 justify-content-start">
                     <div>
-                      <label>Material Vegetal Disponible</label>
+                      <label className="text-terciary">Material Vegetal Disponible</label>
                     </div>
                   </div>
 
@@ -318,13 +329,13 @@ const SolicitudesDeMaterialSreen = () => {
                 ""
               )}
             </div>
-            <div className="row ms-2">
+            <div className="row ms-2 mt-3 ">
               
-              <div className="col-6 col-sm-3 mt-4">
-                     <label>Escribir cantidad: <span className="text-danger">*</span></label>
+              <div className="col-6 col-sm-3">
+                     <label className="text-terciary">Escribir cantidad: <span className="text-danger">*</span></label>
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
-                      type="text"
+                      type="number"
                       placeholder="Digitar cantidad de material vegetal"
                       rules={{ required: true }}
                       {...register("cantidad")}
@@ -337,9 +348,9 @@ const SolicitudesDeMaterialSreen = () => {
                           </p>
                         )}
                 </div>
-                <div className="col-12 col-md-4 mt-4">
+                <div className="col-6 col-sm-3 mt-4">
                 <button
-                  className="btn btn-secondary text-capitalize ms-4 mt-4"
+                  className="btn btn-secondary text-capitalize ms-4 "
                   type="button"
                 >
                   Agregar
@@ -398,7 +409,7 @@ const SolicitudesDeMaterialSreen = () => {
               <form onSubmit={handleSubmit2(onSubmit)}>
                 <div className="row ms-5 mt-4 align-items-end">
                 <div className="col-6 col-sm-3 ">
-                  <label>N° informe de caracterizacion: <span className="text-danger">*</span></label>
+                  <label className="text-terciary">N° informe de caracterizacion: <span className="text-danger">*</span></label>
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
@@ -421,7 +432,7 @@ const SolicitudesDeMaterialSreen = () => {
                     )}
                 
                   <div className="col-6 col-md-4">
-                    <label>
+                    <label className="text-terciary">
                       Municipio de destino: (*)
                     </label>
                     <Controller
@@ -441,7 +452,7 @@ const SolicitudesDeMaterialSreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-4 mt-3">
-                   <label>Vereda y nombre de predio: <span className="text-danger">*</span></label>
+                   <label className="text-terciary">Vereda y nombre de predio: <span className="text-danger">*</span></label>
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
@@ -461,7 +472,7 @@ const SolicitudesDeMaterialSreen = () => {
 
                 <div className="row ms-5">
                   <div className="col-6">
-                    <label for="formFileLg" class="form-label mt-4">Anexar Documentacion</label>
+                    <label for="formFileLg" class="form-label mt-4 text-terciary">Anexar Documentacion</label>
                     <input
                       class="form-control border rounded-pill px-3 border-terciary"
                       id="formFileLg"

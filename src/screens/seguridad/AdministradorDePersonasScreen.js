@@ -147,6 +147,8 @@ const AdministradorDePersonasScreen = () => {
         setActionForm("editar");
       }
 
+      
+
       const defaultValuesOverrite = {
         tipoDocumento:
           tipoDocumentoOptions[
@@ -215,7 +217,7 @@ const AdministradorDePersonasScreen = () => {
       console.log(err);
     }
   };
-
+  const indicativo ="57"
   const onSubmitPersona = async (data) => {
     console.log("data para submit", data);
     const updatedPersona = {
@@ -237,7 +239,7 @@ const AdministradorDePersonasScreen = () => {
       }),
       email: data.eMail, //Queda por comprobar si mejor se bloquea
       email_empresarial: data.emailEmpresarial,
-      telefono_celular: data.celular,
+      telefono_celular: indicativo+data.celular,
       telefono_fijo_residencial: data.telefonoFijo,
       telefono_empresa_2: data.telefonoEmpresa2,
       pais_residencia: paisesOptions[formValues.paisResidencia]?.value,
@@ -254,6 +256,8 @@ const AdministradorDePersonasScreen = () => {
         municipiosOptions[formValues.municipioDondeLabora]?.value,
       ubicacion_georeferenciada: data.ubicacionGeografica,
     };
+   
+    
 
     console.log("updated persona", updatedPersona);
 
@@ -415,6 +419,8 @@ const AdministradorDePersonasScreen = () => {
   const handleCancelAction = () => {
     setActionForm(null);
   };
+ 
+
 
   return (
     <div className="row min-vh-100">
@@ -434,6 +440,7 @@ const AdministradorDePersonasScreen = () => {
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
+                  
                   <Controller
                     name="tipoDocumento"
                     control={controlBuscar}
@@ -442,6 +449,7 @@ const AdministradorDePersonasScreen = () => {
                     }}
                     render={({ field }) => (
                       <Select
+                      defaultValue={"Seleccionar"}
                         {...field}
                         options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
@@ -515,6 +523,7 @@ const AdministradorDePersonasScreen = () => {
                           }}
                           render={({ field }) => (
                             <Select
+                         
                               {...field}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
@@ -825,13 +834,15 @@ const AdministradorDePersonasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="tel"
-                        {...registerPersona("celular", { required: true })}
+                      
+                        {...registerPersona("celular", { required: true, maxLength:10, minLength:10 })}
+                                               
                       />
                     </div>
                     {errorsPersona.celular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
-                          Este campo es obligatorio
+                          Este campo es obligatorio, solo 10 caracteres
                         </small>
                       </div>
                     )}

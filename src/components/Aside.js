@@ -1907,6 +1907,17 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
+                                to="conservacion/distribucion/recepcionsolicitudes"
+                              >
+                                <span className="sidenav-mini-icon"> V </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Gestion de Solicitudes de Material <br/> Vegetal
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
                                 to="conservacion/distribucion/historialdemovimientos"
                               >
                                 <span className="sidenav-mini-icon"> V </span>
