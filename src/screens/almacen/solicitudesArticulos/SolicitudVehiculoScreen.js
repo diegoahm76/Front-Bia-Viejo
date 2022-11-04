@@ -12,6 +12,8 @@ import {
 } from "../../../actions/modalActions";
 import CalendarModal from "../../../components/CalendarModal";
 import { useDispatch } from "react-redux";
+import Subtitle from "../../../components/Subtitle";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 
 const SolicitudVehiculoScreen = () => {
   const [formValues, setFormValues] = useState({
@@ -33,6 +35,16 @@ const SolicitudVehiculoScreen = () => {
   } = useForm();
 
   const onSubmit = (data) => {};
+
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isModalArticulo, setIsModalArticulo] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalActive(true);
+  };
+  const handleOpenAgregarProducto = () => {
+    setIsModalArticulo(true);
+  };
 
   const [rowData] = useState([
     {
@@ -199,15 +211,6 @@ const SolicitudVehiculoScreen = () => {
   };
 
   const dispatch = useDispatch();
-
-  const handleOpenModal = () => {
-    dispatch(activeModalAction());
-  };
-
-  const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
-  };
-
   return (
     <div className="row min-vh-100 ">
       <div className="col-12 mx-auto">
@@ -222,24 +225,28 @@ const SolicitudVehiculoScreen = () => {
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
-          <h4 className="text-rigth  fw-light mb-3 mb-2">
-            Solicitud de vehículo
-          </h4>
+            <h3 className="text-rigth  fw-light mb-3 mb-2">
+              Solicitud de vehículo
+            </h3>
             <div className="row">
-              <div className="col-12 col-sm-4">
+              <Subtitle title="información de solicitud " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Numero consecutivo</label>
+                  <label className="ms-3 text-terciary">
+                    Numero consecutivo
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border  border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero consecutivo"
                     {...register("numeroConsecutivo")}
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1">
+              <div className="col-12 col-sm-3">
+                <label classNAme="text-terciary">
                   Fecha de solicitud
+                </label>
                   <Controller
                     name="fechaSolicitud"
                     control={control}
@@ -251,12 +258,11 @@ const SolicitudVehiculoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="form-control border rounded-pill px-3 mt-2"
+                        className="form-control border-terciary border rounded-pill px-3"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
                   />
-                </label>
               </div>
             </div>
           </form>
@@ -266,19 +272,14 @@ const SolicitudVehiculoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label
-                className="form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                <n>Datos del solicitante</n>
-              </label>
-              <div className="col-12 col-sm-4">
+              <Subtitle title="Datos del solicitante" mb="3" />
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Tipo de documento</label>
+                  <label className="ms-3 text-terciary">
+                    Tipo de documento
+                  </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="tipo de documento"
                     value="C.C."
@@ -287,11 +288,11 @@ const SolicitudVehiculoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     value="1121919374"
@@ -299,11 +300,11 @@ const SolicitudVehiculoScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     value="Ludy Angélica León Quiroga"
@@ -319,78 +320,69 @@ const SolicitudVehiculoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <label
-                className="form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                <n>Datos del coordinador</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Tipo de documento{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      defaultValue={optionsTipoDocumento[0]}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          className="mt-3"
-                          options={optionsTipoDocumento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
+              <Subtitle title="Datos del coordinador " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary ms-3">Tipo de documento </label>
+                <div className="col-12 ">
+                  <Controller
+                    name="tipoDocumento"
+                    control={control}
+                    defaultValue={optionsTipoDocumento[0]}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={optionsTipoDocumento}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Número de cedula</label>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="number"
                     placeholder="numero cedula"
                     {...register("numeroCedula")}
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
+              <div className="col-12 col-sm-3">
                 <div>
-                  <label className="ms-2">Nombre completo</label>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
                     {...register("nombreCompleto")}
                   />
                 </div>
               </div>
-              <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-                <button
-                  type="submit"
-                  className="mt-4 btn btn-primary border rounded-pill flex-center text-capitalize"
-                  onClick={handleOpenModal}
-                >
-                  Buscar
-                </button>
+              <div className="col-12 col-md-2 mt-2">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                    onClick={handleOpenModal}
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
-              <label
-                className="form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                style={{
-                  backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                }}
-              >
-                <n>Información de la solicitud</n>
-              </label>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <BusquedaDePersonalModal
+                isModalActive={isModalActive}
+                setIsModalActive={setIsModalActive}
+              />
+              <Subtitle title="información de solicitud " mt="3" mb="3" />
+              <div className="col-12 col-sm-3">
+                <label className="form-floating input-group input-group-dynamic ms-2 text-terciary">
                   Dependecia{" "}
                   <div className="col-12 ">
                     <Controller
@@ -402,6 +394,7 @@ const SolicitudVehiculoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
+                          className="mt-2"
                           options={optionsDependencia}
                           placeholder="Seleccionar"
                         />
@@ -409,160 +402,9 @@ const SolicitudVehiculoScreen = () => {
                     />
                   </div>
                 </label>
-                <CalendarModal>
-                  <div className="row min-vh-100 ">
-                    <div className="col-12 mx-auto">
-                      <h3 className="mt-3 mb-0 text-center mb-0">
-                        Busqueda de personal
-                      </h3>
-                      <form
-                        className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                        data-animation="FadeIn"
-                        onSubmit={handleSubmit(onSubmit)}
-                      >
-                        <label
-                          className="form-control ms-0 fw-bolder text-right ps-2 border rounded-pill text-white"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(45deg, #67b136, #39aad4)",
-                          }}
-                        >
-                          <n>Información de persona</n>
-                        </label>
-                        <div className="row">
-                          <div className="col-12 col-sm-6">
-                            <label className="form-floating input-group input-group-dynamic ms-2">
-                              Tipo de documento{" "}
-                              <div className="col-12 ">
-                                <Controller
-                                  name="tipoDocumento"
-                                  control={control}
-                                  defaultValue={optionsTipoDocumento[0]}
-                                  rules={{
-                                    required: true,
-                                  }}
-                                  render={({ field }) => (
-                                    <Select
-                                      {...field}
-                                      className="mt-3"
-                                      options={optionsTipoDocumento}
-                                      placeholder="Seleccionar"
-                                    />
-                                  )}
-                                />
-                              </div>
-                            </label>
-                          </div>
-                          <div className="col-12 col-sm-6">
-                            <div>
-                              <label className="ms-2">Número de cedula</label>
-                              <input
-                                className="form-control border rounded-pill px-3"
-                                type="number"
-                                placeholder="numero cedula"
-                                {...register("numeroCedula")}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-sm-6">
-                            <div>
-                              <label className="ms-2">Nombre completo</label>
-                              <input
-                                className="form-control border rounded-pill px-3"
-                                type="text"
-                                placeholder="nombre completo"
-                                {...register("nombreCompleto")}
-                              />
-                            </div>
-                          </div>
-                          <div className="col-12 col-sm-6">
-                            <label className="form-floating input-group input-group-dynamic ms-2">
-                              Dependecia{" "}
-                              <div className="col-12">
-                                <Controller
-                                  name="dependencia"
-                                  control={control}
-                                  rules={{
-                                    required: true,
-                                  }}
-                                  render={({ field }) => (
-                                    <Select
-                                      {...field}
-                                      className="mt-3"
-                                      options={optionsDependencia}
-                                      placeholder="Seleccionar"
-                                    />
-                                  )}
-                                />
-                              </div>
-                            </label>
-                          </div>
-                          <div className="col-12 col-sm-6">
-                            <label className="form-floating input-group input-group-dynamic ms-2">
-                              Grupo{" "}
-                              <div className="col-12">
-                                <Controller
-                                  name="grupo"
-                                  control={control}
-                                  rules={{
-                                    required: true,
-                                  }}
-                                  render={({ field }) => (
-                                    <Select
-                                      {...field}
-                                      options={optionsGrupo}
-                                      placeholder="Seleccionar"
-                                    />
-                                  )}
-                                />
-                              </div>
-                            </label>
-                          </div>
-                          <div
-                            className="ag-theme-alpine mt-4 mb-4"
-                            style={{ height: "300px" }}
-                          >
-                            <AgGridReact
-                              columnDefs={columnBuscar}
-                              rowData={rowBuscar}
-                              defaultColDef={defaultColDef}
-                              onGridReady={onGridReady}
-                            ></AgGridReact>
-                          </div>
-                          <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
-                            <button
-                              className="btn bg-primary me-md-2 text-white border rounded-pill text-capitalize"
-                              type="submit"
-                              onClick={handleCloseModal}
-                              title="Send"
-                            >
-                              Limpiar
-                            </button>
-                            <button
-                              className="btn bg-primary me-md-2 text-white border rounded-pill  text-capitalize"
-                              type="submit"
-                              onClick={handleCloseModal}
-                              title="Send"
-                            >
-                              Aceptar
-                            </button>
-                            <button
-                              className="btn bg-light text-white border rounded-pill  text-capitalize"
-                              type="button"
-                              onClick={handleCloseModal}
-                              title="Send"
-                            >
-                              Salir
-                            </button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </CalendarModal>
               </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+              <div className="col-12 col-sm-3">
+                <label className="form-floating input-group input-group-dynamic text-terciary ms-2">
                   Grupo{" "}
                   <div className="col-12 ">
                     <Controller
@@ -574,6 +416,7 @@ const SolicitudVehiculoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
+                          className="mt-2"
                           options={optionsGrupo}
                           placeholder="Seleccionar"
                         />
@@ -582,170 +425,184 @@ const SolicitudVehiculoScreen = () => {
                   </div>
                 </label>
               </div>
-              <div className="input-group input-group-dynamic flex-column mt-3 mb-3">
-                <label htmlFor="exampleFormControlInput1 ">
-                  Motivo de salida
-                </label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="motivo de salida"
-                  rows="3"
-                  name="motivosalida"
-                />
-              </div>
-              <div className="col-12 col-sm-4">
-                <div>
-                  <label className="ms-2">Número expediente</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="number"
-                    placeholder="numero cedula"
-                    {...register("numeroCedula")}
+              <div className="col-12">
+                <div className="mx-3">
+                  <label htmlFor="ms-2" className="text-terciary">
+                    Motivo de salida
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-4 border-terciary"
+                    type="text"
+                    placeholder="Observaciones generales"
+                    rows="3"
+                    name="Observaciones"
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <div>
-                  <label className="ms-2">Capacidad de pasajeros</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="number"
-                    placeholder="numero cedula"
-                    {...register("numeroCedula")}
-                  />
+              <div className="row">
+                <div className="col-12 col-sm-3 mt-3">
+                  <div>
+                    <label className="ms-2 text-terciary ">
+                      Número expediente
+                    </label>
+                    <input
+                      className="form-control border border-terciary rounded-pill px-3"
+                      type="number"
+                      placeholder="Número expediente"
+                      {...register("numeroCedula")}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
-                  ¿Acompañamiento policial o militar?{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="acompañamiento"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsSiNo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                <div className="col-12 col-sm-3 mt-1">
+                  <div>
+                    <label className="ms-2 text-terciary mt-3">
+                      Capacidad de pasajeros
+                    </label>
+                    <input
+                      className="form-control border-terciary border rounded-pill px-3"
+                      type="number"
+                      placeholder="Capacidad pasajeros"
+                      {...register("numeroCedula")}
                     />
                   </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2 ">
-                  Transporta carga{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="capacidad"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsSiNo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Departamento{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="departamento"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsSiNo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2 ">
-                  Municipio{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="municipio"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={optionsSiNo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label className="form-floating input-group input-group-dynamic ms-2">
-                  Predio{" "}
-                  <div className="col-12 ">
-                    <Controller
-                      name="predio"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          className="mt-2"
-                          options={optionsSiNo}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </label>
-              </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1 mt-4">
-                  Fecha de salida
-                  <Controller
-                    name="fechaSalida"
-                    control={control}
-                    render={({ field }) => (
-                      <DatePicker
-                        {...field}
-                        locale="es"
-                        dateFormat="dd/MM/yyyy"
-                        selected={formValues.fechaSalida}
-                        onSelect={(e) =>
-                          setFormValues({ ...formValues, fechaSalida: e })
-                        }
-                        className="form-control border rounded-pill px-3 mt-2"
-                        placeholderText="dd/mm/aaaa"
+                </div>
+                <div className="col-12 col-sm-3 mt-3">
+                  <label className="form-floating text-terciary input-group input-group-dynamic ms-2 mt-1">
+                    ¿Acompañamiento policial/militar?{" "}
+                    <div className="col-12 ">
+                      <Controller
+                        name="acompañamiento"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            className="mt-2"
+                            options={optionsSiNo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </label>
+                    </div>
+                  </label>
+                </div>
+                <div className="col-12 col-sm-3 mt-3">
+                  <label className="form-floating input-group input-group-dynamic ms-2 text-terciary">
+                    Transporta carga{" "}
+                    <div className="col-12 ">
+                      <Controller
+                        name="capacidad"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            className="mt-3"
+                            options={optionsSiNo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
               </div>
-              <div className="col-12 col-sm-4">
-                <label htmlFor="exampleFormControlInput1">
+              <div className="row mt-3">
+                <div className="col-12 col-sm-3">
+                  <label className="form-floating input-group input-group-dynamic text-terciary ms-2">
+                    Departamento{" "}
+                    <div className="col-12 ">
+                      <Controller
+                        name="departamento"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            className="mt-2"
+                            options={optionsSiNo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div className="col-12 col-sm-3">
+                  <label className="form-floating text-terciary input-group input-group-dynamic ms-2 ">
+                    Municipio{" "}
+                    <div className="col-12 ">
+                      <Controller
+                        name="municipio"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            className="mt-2"
+                            options={optionsSiNo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div className="col-12 col-sm-3">
+                  <label className="form-floating text-terciary input-group input-group-dynamic ms-2">
+                    Predio{" "}
+                    <div className="col-12 ">
+                      <Controller
+                        name="predio"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            className="mt-2"
+                            options={optionsSiNo}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </label>
+                </div>
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
+                    Fecha de salida
+                    <Controller
+                      name="fechaSalida"
+                      control={control}
+                      render={({ field }) => (
+                        <DatePicker
+                          {...field}
+                          locale="es"
+                          dateFormat="dd/MM/yyyy"
+                          selected={formValues.fechaSalida}
+                          onSelect={(e) =>
+                            setFormValues({ ...formValues, fechaSalida: e })
+                          }
+                          className="form-control border rounded-pill border-terciary px-3 mt-2"
+                          placeholderText="dd/mm/aaaa"
+                        />
+                      )}
+                    />
+                  </label>
+                </div>
+              </div>
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1">
                   Fecha de llegada
                   <Controller
                     name="fechallegada"
@@ -759,24 +616,26 @@ const SolicitudVehiculoScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaLlegada: e })
                         }
-                        className="form-control border rounded-pill px-3 mt-2"
+                        className="form-control border-terciary border rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
                   />
                 </label>
               </div>
-              <div className="input-group input-group-dynamic flex-column mt-3">
-                <label htmlFor="exampleFormControlInput1 ">
-                  Observaciones adicionales
-                </label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                  type="text"
-                  placeholder="Observaciones adicionales"
-                  rows="3"
-                  name="Observacionesadicionales"
-                />
+              <div className="col-12">
+                <div className="mx-3">
+                  <label htmlFor="ms-2" className="text-terciary">
+                    Observaciones generales
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-4 border-terciary"
+                    type="text"
+                    placeholder="Observaciones generales"
+                    rows="3"
+                    name="Observaciones"
+                  />
+                </div>
               </div>
             </div>
           </form>

@@ -256,10 +256,12 @@ const RegisterPersonaScreen = () => {
     } else {
       try {
         console.log(persona);
-        const { data: dataRegisterPersona } = await clienteAxios.post(
+        const { data: dataRegisterEmpresa } = await clienteAxios.post(
           "personas/persona-juridica/create/",
           persona
         );
+
+        console.log(dataRegisterEmpresa);
 
         Swal.fire({
           title: "Registrado como persona juridica",
@@ -425,7 +427,7 @@ const RegisterPersonaScreen = () => {
                     />
                   </div>
                   <div className="row col-12">
-                    <div className="col-12 d-flex flex-column flex-md-row justify-content-between gap-0 gap-md-2 align-items-center">
+                    <div className="col-12 d-flex flex-column flex-md-row justify-content-between gap-0 gap-md-2 align-items-end">
                       <div className="col-md-6 col-12 mt-3">
                         <div>
                           <label className="ms-2">
@@ -448,17 +450,16 @@ const RegisterPersonaScreen = () => {
                           </div>
                         )}
                       </div>
-                      
-                      <div className="col-md-6 col-12 ">
+
+                      <div className="col-md-6 col-12">
                         {isUser && (
                           <div className="form-check">
                             <label
-                              className="form-check-label "
+                              className="form-check-label text-terciary me-2"
                               htmlFor="flexCheckDefault"
                             >
                               ¿Requiere nombre comercial?</label>
                             <input
-                            
                               name="yesOrNo"
                               className="border border-terciary form-check-input mx-2"
                               type="checkbox"
@@ -611,7 +612,6 @@ const RegisterPersonaScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
-                      
                         name="fechaNacimiento"
                         control={control}
                         rules={{ required: true }}
@@ -619,7 +619,6 @@ const RegisterPersonaScreen = () => {
                           <DatePicker
                             {...field}
                             locale="es"
-                            
                             showYearDropdown
                             peekNextMonth
                             showMonthDropdown

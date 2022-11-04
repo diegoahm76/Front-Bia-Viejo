@@ -41,7 +41,7 @@ const ConservacionRoutes = () => {
       <Route path="gestorvivero">
         <Route index element={<Navigate to="/dashboard/conservacion" />} />
 
-        {/* <Route path="agregarvivero" element={<AgregarViveroScreen />} /> */}
+        <Route path="agregarvivero" element={<AgregarViveroScreen />} /> 
 
         <Route path="editarvivero" element={<EditarViveroScreen />} />
 
