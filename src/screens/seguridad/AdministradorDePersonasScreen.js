@@ -439,22 +439,6 @@ const AdministradorDePersonasScreen = () => {
     setActionForm(null);
   };
 
-  const getDepartamentoFromMunicipio = (propiedadFormvalues) => {
-    const valueMunicipio =
-      municipiosOptions[formValues[propiedadFormvalues]]?.value;
-    const valueDepartamento =
-      valueMunicipio?.split("")[0] + valueMunicipio?.split("")[1];
-    const labelDepartamento = departamentosOptions?.filter(
-      (departamento) => departamento?.value === valueDepartamento
-    );
-    console.
-    setDepartamentoMunicipio(labelDepartamento[0]);
-  };
-
-  useEffect(() => {
-    getDepartamentoFromMunicipio("departamento");
-  }, [formValues.municipio]);
-
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
