@@ -64,7 +64,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="container p-3">
         <h4>Editar estación meteorologica</h4>
-        <hr />
+        <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12">
             <div className="mt-3">

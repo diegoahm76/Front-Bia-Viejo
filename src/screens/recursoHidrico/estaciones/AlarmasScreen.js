@@ -9,8 +9,8 @@ import {
   obternerAlarmasAction,
 } from "../../../actions/alarmasActions";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import AlarmasModal from "../../../components/AlarmasModal";
+import Subtitle from "../../../components/Subtitle";
 
 const defaultColDef = {
   sortable: true,
@@ -43,13 +43,14 @@ const AlarmasScreen = () => {
   }, []);
 
   const columnDefs = [
-    { headerName: "Alarma", field: "idAlarma", minWidth: 140 },
-    { headerName: "Límite", field: "t006limite", minWidth: 140 },
     {
       headerName: "Estación",
       field: "t001Estaciones.t001nombre",
       minWidth: 140,
     },
+    { headerName: "Rango", field: "t006rango", minWidth: 100 },
+    { headerName: "MensajeUp", field: "t006mensajeUp", minWidth: 240 },
+    { headerName: "MensajeDown", field: "t006mensajeDown", minWidth: 240 },
     {
       headerName: "Acciones",
       field: "accion",
@@ -57,7 +58,7 @@ const AlarmasScreen = () => {
         <div className="d-flex justify-content-center align-items-center gap-2">
           <div>
             <button
-              className="btn btn-sm btn-outline-warning "
+              className="btn btn-sm btn-tablas btn-outline-warning "
               type="button"
               title="Send"
               onClick={() => editarAction(params.data.objectid)}
@@ -65,28 +66,16 @@ const AlarmasScreen = () => {
               <img src={IconoEditar} alt="editar" />
             </button>
           </div>
-          <div>
-            <button
-              className="btn btn-sm btn-outline-danger"
-              type="button"
-              title="Send"
-              onClick={() =>
-                dispatch(eliminarAlarmaAction(params.data.idAlarma))
-              }
-            >
-              <img src={IconoEliminar} alt="eliminar" />
-            </button>
-          </div>
         </div>
       ),
-      minWidth: 160,
+      minWidth: 150,
     },
   ];
 
-  const handleCrearAlarma = () => {
-    setIsModalActive(true);
-    dispatch(cambiarModoAction("crear"));
-  };
+  // const handleCrearAlarma = () => {
+  //   setIsModalActive(true);
+  //   dispatch(cambiarModoAction("crear"));
+  // };
 
   const editarAction = (objectid) => {
     setIsModalActive(true);
@@ -96,14 +85,15 @@ const AlarmasScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-4">Alarmas</h3>
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Alarmas</h3>
+          <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row">
             <div className="multisteps-form__content">
-              <div>
+              {/* <div>
                 <button
                   type="button"
                   className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
@@ -123,7 +113,7 @@ const AlarmasScreen = () => {
                     "Crear alarma"
                   )}
                 </button>
-              </div>
+              </div> */}
               <div>
                 <div
                   className="ag-theme-alpine mt-auto mb-8 px-4"

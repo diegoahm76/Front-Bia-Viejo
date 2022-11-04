@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import Subtitle from "../../../components/Subtitle";
+import DirecionResidenciaModal from "../../../components/DirecionResidenciaModal";
 
 const defaultValues = {
   tipo_persona: "",
@@ -375,10 +376,14 @@ const RegisterPersonaScreen = () => {
             <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
               {isUser ? (
                 <>
-                  <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">Registro de Persona</h3>
+                  <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">
+                    Registro de Persona
+                  </h3>
                 </>
               ) : (
-                <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">Registro de empresa</h3>
+                <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">
+                  Registro de empresa
+                </h3>
               )}
 
               {isUser ? (
@@ -859,12 +864,22 @@ const RegisterPersonaScreen = () => {
                   </div>
                 </div>
               </form>
-              <GeneradorDeDirecciones
+              {/* <GeneradorDeDirecciones
                 keyReset="direccionNotificacion"
                 reset={reset}
                 totalValuesForm={watch()}
                 isOpenGenerator={isOpenGenerator}
                 setIsOpenGenerator={setIsOpenGenerator}
+                completeAddress={completeAddress}
+                setCompleteAddress={setCompleteAddress}
+              /> */}
+
+              <DirecionResidenciaModal
+                keyReset="direccionNotificacion"
+                reset={reset}
+                totalValuesForm={watch()}
+                isModalActive={isOpenGenerator}
+                setIsModalActive={setIsOpenGenerator}
                 completeAddress={completeAddress}
                 setCompleteAddress={setCompleteAddress}
               />

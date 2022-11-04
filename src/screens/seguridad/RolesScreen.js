@@ -7,36 +7,16 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../actions/modalActions";
-//import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import clienteAxios from "../../config/clienteAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
-
-const rolesOptions = [
-  { label: "Almacen / Articulo / Consultar", value: "1.1" },
-  { label: "Almacen / Articulo / Crear", value: "1.2" },
-  { label: "Almacen / Articulo / Actualizar", value: "1.3" },
-  { label: "Almacen / Bodega / Consultar", value: "2.1" },
-  { label: "Almacen / Bodega / Crear", value: "2.2" },
-  { label: "Almacen / Bodega / Actualizar", value: "2.3" },
-  { label: "Almacen / Bodega / Borrar", value: "2.4" },
-];
-
-const rowDataInitial = [
-  {
-    Nombre: "Almacenista",
-    Descripcion: "Descripcion 1",
-  },
-  {
-    Nombre: "Viverista",
-    Descripcion: "Descripcion 1",
-  },
-  {
-    Nombre: "Jefe de almacen",
-    Descripcion: "Descripcion 1",
-  },
-];
+import { getConfigAuthBearer } from "../../helpers/configAxios";
+import {
+  getPermisosAdapterSelect,
+  getPermisosRolPost,
+} from "../../adapters/roles.adapters";
 
 const defaultColDef = {
   sortable: true,
@@ -48,104 +28,53 @@ const defaultColDef = {
   suppressMovable: true,
 };
 
-// const columDefsUsuario = [
-//   { headerName: "Usuarios con este rol", field: "Usuarios con este rol" },
-// ];
-
 const RolesScreen = () => {
   const [roles, setRoles] = useState([]);
+  const [permisos, setPermisos] = useState([]);
+
+  const accessToken = getTokenAccessLocalStorage();
+  const config = getConfigAuthBearer(accessToken);
+
+  const getRolesList = async () => {
+    try {
+      const { data: dataRoles } = await clienteAxios.get(
+        "roles/get-list",
+        config
+      );
+      setRoles(dataRoles);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    const getRoles = async () => {
+    const getRolesPermisos = async () => {
       try {
-        const accessToken = getTokenAccessLocalStorage();
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-        };
+        getRolesList();
 
-        const { data: dataRoles } = await clienteAxios.get(
-          "roles/get-list",
-          config
+        const { data: dataPermisos } = await clienteAxios.get(
+          "permisos/permisos-modulos/get-list/"
         );
 
-        setRoles(dataRoles);
+        const permisosFormat = getPermisosAdapterSelect(dataPermisos);
+        setPermisos(permisosFormat);
       } catch (error) {
         console.log(error);
       }
     };
-    getRoles();
+    getRolesPermisos();
   }, []);
 
-  const [dataAccordion, setDataAccordion] = useState([
-    {
-      subsistema: "almacen",
-      tipos: [
-        {
-          tipo: "articulo",
-          acciones: { consultar: false, crear: false, actualizar: false },
-        },
-        {
-          tipo: "bodega",
-          acciones: { editar: false, eliminar: false, actualizar: false },
-        },
-      ],
-    },
-    {
-      subsistema: "conservacion",
-      tipos: [
-        {
-          tipo: "articulo",
-          acciones: { consultar: false, crear: false, actualizar: false },
-        },
-        {
-          tipo: "bodega",
-          acciones: { editar: false, eliminar: false, actualizar: false },
-        },
-      ],
-    },
-  ]);
-  const [rowData, setRowData] = useState([]);
-  // const [rowDataUsuarios, setRowDataUsuarios] = useState([
-  //   { "Usuarios con este rol": "Julian Catillo" },
-  //   { "Usuarios con este rol": "Jesus Cruz" },
-  //   { "Usuarios con este rol": "Angelica Gomez" },
-  // ]);
   const [isCreate, setisCreate] = useState(true);
   const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+
   const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
+    register: registerRolPermiso,
+    control: controlRolPermiso,
+    handleSubmit: handleSubmitRolPermiso,
+    formState: { errors: errorsRolPermiso },
   } = useForm();
-
-  // const editAction = (params) => {
-  //   setisCreate(false);
-  //   dispatch(activeModalAction());
-  // };
-
-  // const deleteAction = (params) => {
-  //   Swal.fire({
-  //     title: `¿Esta seguro de eliminar el rol ${params.node.data.Nombre}?`,
-  //     text: "No se pueden revertir los cambios después de aceptar",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Aceptar",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       const dataFiltered = rowData.filter(
-  //         (data) => params.node.data.Nombre !== data.Nombre
-  //       );
-  //       setRowData(dataFiltered);
-  //       Swal.fire("Eliminado", "El rol ha sido elminado", "success");
-  //     }
-  //   });
-  // };
 
   const columDefs = [
     { headerName: "Nombre", field: "nombre_rol", minWidth: 150, maxWidth: 220 },
@@ -157,153 +86,141 @@ const RolesScreen = () => {
     },
   ];
 
-  const searchByName = (dataForm) => {
-    const dataRender = rowDataInitial.filter((dataRow) => {
-      if (dataForm.nombre === "") {
-        return true;
-      }
-      if (
-        dataRow.Nombre.toLowerCase().includes(dataForm.nombre.toLowerCase())
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    setRowData(dataRender);
-  };
-
   const handleCloseModal = () => {
     dispatch(desactiveModalAction());
   };
-
-  // const handleClickAccion = (e) => {
-  //   const newDataAccordion = dataAccordion.map((data) => {
-  //     if (data.subsistema === e.target.dataset.subsistema) {
-  //       data.tipos.map((tipoSubsistema) => {
-  //         if (tipoSubsistema.tipo === e.target.dataset.tipo) {
-  //           tipoSubsistema.acciones[e.target.dataset.accion] = e.target.checked;
-  //           return tipoSubsistema;
-  //         } else {
-  //           return tipoSubsistema;
-  //         }
-  //       });
-  //       return data;
-  //     } else {
-  //       return data;
-  //     }
-  //   });
-  //   setDataAccordion(newDataAccordion);
-  // };
-
-  // const handleClickAllActions = (e) => {
-  //   const newDataAccordion = dataAccordion.map((data) => {
-  //     if (data.subsistema === e.target.dataset.subsistema) {
-  //       data.tipos.map((tipoSubsistema) => {
-  //         if (tipoSubsistema.tipo === e.target.dataset.tipo) {
-  //           Object.keys(tipoSubsistema.acciones).forEach((accion) => {
-  //             tipoSubsistema.acciones[accion] = e.target.checked;
-  //           });
-  //           return tipoSubsistema;
-  //         } else {
-  //           return tipoSubsistema;
-  //         }
-  //       });
-  //       return data;
-  //     } else {
-  //       return data;
-  //     }
-  //   });
-  //   setDataAccordion(newDataAccordion);
-  // };
 
   const handleCreateRole = () => {
     setisCreate(true);
     dispatch(activeModalAction());
   };
 
+  const onSubmitRolPermiso = async (data) => {
+    try {
+      const rolCreate = {
+        nombre_rol: data.nombreRol,
+        descripcion_rol: data.descripcionRol,
+        Rol_sistema: false,
+      };
+
+      const { data: dataRol } = await clienteAxios.post(
+        "roles/create/",
+        rolCreate,
+        config
+      );
+
+      const permisosRol = getPermisosRolPost(dataRol.id_rol, data.permisosRol);
+      await clienteAxios.post(
+        "permisos/permisos-modulos-rol/create/",
+        permisosRol,
+        config
+      );
+
+      dispatch(desactiveModalAction());
+
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Rol creado",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      getRolesList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmitByName = async (data) => {
+    try {
+      if (data.nombreRol) {
+        const { data: dataByName } = await clienteAxios.get(
+          `roles/get-by-name/?keyword=${data.nombreRol}`,
+          config
+        );
+        setRoles(dataByName);
+      } else {
+        getRolesList()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <form className="row" onSubmit={handleSubmit(searchByName)}>
-            <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
-              Administrador De Roles
-            </h3>
-            {/* <div className="multisteps-form__content">
-              <div className="row">
-                <label
-                  className="form-control border rounded-pill px-4 mt-3 text-white fs-5"
-                  style={{
-                    backgroundImage: "linear-gradient(45deg, #67b136, #39aad4)",
-                  }}
+          <form onSubmit={handleSubmit(onSubmitByName)}>
+            <div className="row">
+              <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
+                Administrador De Roles
+              </h3>
+              <Subtitle title="Informacion general" mt={3} />
+              <div className="d-flex align-items-end gap-4 mb-0 mt-4 ms-3">
+                <div className="col-12 col-md-3 mb-3">
+                  <label className="text-terciary">Nombre del rol</label>
+                  <input
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...register("nombreRol")}
+                  />
+                </div>
+                <div>
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-primary text-capitalize rounded-pill"
+                  >
+                    Buscar
+                  </button>
+                </div>
+              </div>
+              <div id="myGrid" className="ag-theme-alpine mt-3">
+                <div
+                  className="container ag-theme-alpine"
+                  style={{ height: "300px", maxWidth: "750px" }}
                 >
-                  Informacion de roles
-                </label>
+                  <AgGridReact
+                    className="ag-theme-alpine"
+                    animateRows="true"
+                    columnDefs={columDefs}
+                    rowData={roles}
+                    defaultColDef={defaultColDef}
+                    overlayNoRowsTemplate={
+                      '<span>No se encontraron roles</span>'
+                    }
+                  ></AgGridReact>
+                </div>
               </div>
-            </div> */}
-            <Subtitle title="Informacion de roles" mt={3} />
-            <div className="d-flex align-items-end gap-4 mt-2 ms-3">
-              <div className="col-12 col-md-3 mb-3">
-                <label className="text-terciary">Nombre del rol</label>
-                <input
-                  type="text"
-                  className="form-control border rounded-pill px-3"
-                  {...register("nombreRol", { required: true })}
-                />
-                {errors.nombreRol && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div>
+              <div className="d-flex justify-content-end">
                 <button
-                  type="submit"
-                  className="btn bg-gradient-primary text-capitalize rounded-pill"
+                  type="button"
+                  className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
+                  onClick={handleCreateRole}
                 >
-                  Buscar
+                  Crear rol
                 </button>
               </div>
             </div>
-            <div id="myGrid" className="ag-theme-alpine mt-3">
-              <div
-                className="container ag-theme-alpine"
-                style={{ height: "300px", maxWidth: "750px" }}
-              >
-                <AgGridReact
-                  className="ag-theme-alpine"
-                  animateRows="true"
-                  columnDefs={columDefs}
-                  rowData={roles}
-                  defaultColDef={defaultColDef}
-                ></AgGridReact>
-              </div>
-            </div>
-            <div className="d-flex justify-content-end">
-              <button
-                type="button"
-                className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
-                onClick={handleCreateRole}
-              >
-                Crear rol
-              </button>
-            </div>
           </form>
           <CalendarModal>
-            <form className="row p-3">
+            <form
+              className="row p-3"
+              onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
+            >
               <h4>{isCreate ? "Crear Rol" : "Editar Rol"}</h4>
               <hr className="rounded-pill hr-modal" />
               <div className="col-12 col-md-5 mb-3">
-                <label>Nombre rol</label>
+                <label>
+                  Nombre rol: <span className="text-danger">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control border rounded-pill px-3"
-                  {...register("nombreRol", { required: true })}
+                  {...registerRolPermiso("nombreRol", { required: true })}
                 />
-                {errors.nombreRol && (
+                {errorsRolPermiso.nombreRol && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -312,24 +229,46 @@ const RolesScreen = () => {
                 )}
               </div>
               <div className="col-12 mb-3">
-                <label>Descripción:</label>
-                <textarea className="form-control border rounded-pill px-3" />
+                <label>
+                  Descripción: <span className="text-danger">*</span>
+                </label>
+                <textarea
+                  className="form-control border rounded-pill px-3"
+                  {...registerRolPermiso("descripcionRol", { required: true })}
+                />
+                {errorsRolPermiso.descripcionRol && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
               <div className="col-12">
-                <label className="form-label">Permisos - Rol:</label>
+                <label className="form-label">
+                  Permisos - Rol: <span className="text-danger">*</span>
+                </label>
                 <Controller
-                  name="tipoTercero"
-                  control={control}
+                  name="permisosRol"
+                  control={controlRolPermiso}
+                  rules={{ required: true }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       isMulti
                       // defaultValue={[paisesOptions[0], paisesOptions[1]]}
-                      options={rolesOptions}
+                      options={permisos}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
+                {errorsRolPermiso.permisosRol && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
               <div className="d-flex justify-content-end gap-2">
                 <button
@@ -340,9 +279,8 @@ const RolesScreen = () => {
                   Cerrar
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
-                  onClick={handleCloseModal}
                 >
                   Guardar
                 </button>

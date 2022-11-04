@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  crearAlarmaAction,
-  editarAlarmaAction,
-} from "../actions/alarmasActions";
-import clienteEstaciones from "../config/clienteAxiosEstaciones";
-import { getIndexBySelectOptions } from "../helpers/inputsFormat";
+import { editarAlarmaConfigAction } from "../actions/alarmasConfigActions";
 
 const defaultValues = {
   t001nombre: "",
-  t006rango: "",
-  t006mensajeUp: "",
-  t006mensajeDown: "",
+  t007periodo: "",
+  t007periodoBase: "",
+  t007tolerancia: "",
 };
 
 const customStyles = {
@@ -31,7 +26,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const AlarmasModal = ({
+const AlarmasConfigModal = ({
   isModalActive,
   setIsModalActive,
   handleSubmit,
@@ -41,66 +36,24 @@ const AlarmasModal = ({
   errors,
   watch,
 }) => {
-  const [estacionesOptions, setEstacionesOptions] = useState([]);
-  const [formValues, setFormValues] = useState({
-    index_objectid: "",
-  });
-  const { loading, alarmaAction, dataEdit } = useSelector(
-    (state) => state.alarmas
-  );
+  const { loading, dataEdit } = useSelector((state) => state.alarmas);
 
   const dispatch = useDispatch();
 
-  const handleCrearAlarma = async (data) => {
-    dispatch(crearAlarmaAction(data));
-    reset(defaultValues);
-    setFormValues({ index_objectid: "" });
-  };
-
   const onSubmit = (data) => {
-    if (alarmaAction === "editar") {
-      data.objectid = estacionesOptions[formValues.index_objectid].value;
-      console.log("Entro aca", data);
-      dispatch(editarAlarmaAction(data));
-    } else {
-      console.log(data);
-      handleCrearAlarma(data);
-    }
+    data.t007periodoBase = Number(data.t007periodoBase);
+    console.log("data en el submit", data);
+    dispatch(editarAlarmaConfigAction(data));
     setIsModalActive(false);
-  };
-
-  const getEstaciones = async () => {
-    const { data } = await clienteEstaciones.get("Estaciones");
-    const estacionesMaped = data.map((estacion) => ({
-      label: estacion.t001nombre,
-      value: estacion.objectid,
-    }));
-    setEstacionesOptions(estacionesMaped);
   };
 
   const handleCloseModal = () => {
     setIsModalActive(false);
-    setFormValues({ ...formValues, index_objectid: "" });
     reset(defaultValues);
   };
 
-  const handleResetDataEdit = () => {
-    setFormValues({
-      ...formValues,
-      index_objectid: getIndexBySelectOptions(
-        dataEdit?.objectid,
-        estacionesOptions
-      ),
-    });
+  useEffect(() => {
     reset(dataEdit);
-  };
-
-  useEffect(() => {
-    getEstaciones();
-  }, []);
-
-  useEffect(() => {
-    handleResetDataEdit();
   }, [dataEdit]);
 
   return (
@@ -112,8 +65,8 @@ const AlarmasModal = ({
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>{alarmaAction === "editar" ? "Editar Alarma" : "Nueva Alarma"}</h4>
-        <hr />
+        <h4 className="">Editar alarma configuración</h4>
+        <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
             <label>
@@ -122,8 +75,8 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              disabled={alarmaAction === "editar"}
-              readOnly={alarmaAction === "editar"}
+              disabled
+              readOnly
               {...register("t001Estaciones.t001nombre", { required: true })}
             />
             {errors.t001nombre && (
@@ -134,53 +87,16 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
-          {/* <div className="col-12 mb-3">
-            <label className="form-label">
-              Estación: <span className="text-danger">*</span>
-            </label>
-            <Controller
-              name="objectid"
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  value={estacionesOptions[formValues.index_objectid]}
-                  onChange={(e) => {
-                    reset({ ...watch(), objectid: e.value });
-                    setFormValues({
-                      ...formValues,
-                      index_objectid: getIndexBySelectOptions(
-                        e.value,
-                        estacionesOptions
-                      ),
-                    });
-                  }}
-                  options={estacionesOptions}
-                  placeholder="Seleccionar"
-                />
-              )}
-            />
-            {errors.objectid && (
-              <div className="col-12 mb-3">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
-              </div>
-            )}
-          </div> */}
           <div className="col-12 mb-3">
             <label>
-              Rango: <span className="text-danger">*</span>
+              Periodo: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
-              {...register("t006rango", { required: true })}
+              type="number"
+              {...register("t007periodo", { required: true })}
             />
-            {errors.t006rango && (
+            {errors.t007periodo && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -190,14 +106,14 @@ const AlarmasModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Mensaje Up: <span className="text-danger">*</span>
+              Base: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
-              {...register("t006mensajeUp", { required: true })}
+              type="number"
+              {...register("t007periodoBase", { required: true })}
             />
-            {errors.t006mensajeUp && (
+            {errors.t007periodoBase && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -207,14 +123,14 @@ const AlarmasModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Mensaje Down: <span className="text-danger">*</span>
+              Tolerancia: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
-              type="text"
-              {...register("t006mensajeDown", { required: true })}
+              type="number"
+              {...register("t007tolerancia", { required: true })}
             />
-            {errors.t006mensajeDown && (
+            {errors.t007tolerancia && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -256,10 +172,8 @@ const AlarmasModal = ({
                   ></span>
                   Cargando...
                 </>
-              ) : alarmaAction === "editar" ? (
-                "Actualizar"
               ) : (
-                "Crear"
+                "Actualizar"
               )}
             </button>
           </div>
@@ -268,4 +182,4 @@ const AlarmasModal = ({
     </Modal>
   );
 };
-export default AlarmasModal;
+export default AlarmasConfigModal;
