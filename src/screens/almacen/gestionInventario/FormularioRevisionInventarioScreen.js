@@ -117,50 +117,50 @@ function FormularioRevisionInventarioScreen() {
       field: "estado",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsEstado[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsEstado}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsEstado[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsEstado}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
     {
       headerName: "Revisión",
       field: "revision",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsRevision[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsRevision}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsRevision[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsRevision}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
 
     {
@@ -195,6 +195,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Bueno",
+      revision:"Pendiente",
       cantidad: 95,
     },
     {
@@ -206,6 +208,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Defectuoso",
+      revision:"OK",
       cantidad: 10,
     },
     {
@@ -217,6 +221,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Defectuoso",
+      revision:"Pendiente",
       cantidad: 25,
     },
     {
@@ -228,6 +234,8 @@ function FormularioRevisionInventarioScreen() {
       bodega: "San Benito",
       responsable: "Pepito",
       codigoBarras: "154875",
+      estado:"Defectuoso",
+      revision:"Pendiente",
       cantidad: 8,
     },
   ];

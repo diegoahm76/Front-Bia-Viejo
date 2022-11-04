@@ -297,7 +297,7 @@ function ProduccionPropiaScreen() {
             <div className="row ms-1 d-flex flex-row justify-content-start align-items-center">
               <div className="col-12 col-md-3">
                 <div>
-                  <label>
+                <label className="text-terciary">
                   Seleccione vivero<span className="text-danger">*</span>
                 </label>
                 <Controller
@@ -331,7 +331,7 @@ function ProduccionPropiaScreen() {
                 </button>
               </div>
               <div className="col-12 col-md-3 mt-3 d-flex flex-column justify-content-center align-items-center">
-                <label>Crear producto nuevo</label>
+              <label className="text-terciary">Crear producto nuevo</label>
                 <button className="btn btn-secondary mx-auto border rounded-pill px-3 text-capitalize">
                   Crear
                 </button>

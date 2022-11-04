@@ -182,7 +182,7 @@ function EditarMaterialVegetalScreen() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="row ms-1 d-flex align-items-center mb-3">
                 <div className="col-12 col-md-3 align-content-end align-items-end">
-                  <label>Seleccione vivero </label>
+                <label className="text-terciary">Seleccione vivero</label>
                   <span className="text-danger">*</span>
 
                   <Select
@@ -218,22 +218,22 @@ function EditarMaterialVegetalScreen() {
             <div>
               <div className="container-fluid">
                 <div className="col-3 mb-3 my-4">
-                  <label>Cantidad de material vegetal disponible:</label>
+                <label className="text-terciary">Cantidad de material vegetal disponible:</label>
                   <input
                     type="text"
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     disabled
                     value={"1200"}
                   />
                 </div>
                 <div className="col-12 col-md-3">
-                  <label>
+                <label className="text-terciary">
                     Cantidad de material vegetal para descontar por mortalidad:{" "}
                     <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     {...register("cantidadMaterialEliminar", {
                       required: true,
                     })}

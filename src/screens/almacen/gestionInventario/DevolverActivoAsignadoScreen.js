@@ -88,25 +88,25 @@ function DevolverActivoAsignadoScreen() {
       field: "estado",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsEstado[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsEstado}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsEstado[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsEstado}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
     {
       headerName: "Justificación",
@@ -145,15 +145,10 @@ function DevolverActivoAsignadoScreen() {
   ];
 
   const rowData = [
-    { codigo: "1025", nombre: "Canoa", id: 95, consecutivoAsignacion: "5698" },
-    { codigo: "9856", nombre: "Pala", id: 10, consecutivoAsignacion: "5698" },
-    {
-      codigo: "10256",
-      nombre: "Amarillea",
-      id: 25,
-      consecutivoAsignacion: "5698",
-    },
-    { codigo: "98563", nombre: "Biche", id: 8, consecutivoAsignacion: "5698" },
+    { codigo: "1025", nombre: "Canoa", id: 95, consecutivoAsignacion: "5698", estado: "Bueno" },
+    { codigo: "9856", nombre: "Pala", id: 10, consecutivoAsignacion: "5698", estado: "Bueno" },
+    {codigo: "10256", nombre: "Amarillea", id: 25, consecutivoAsignacion: "5698", estado: "Defectuoso",},
+    { codigo: "98563", nombre: "Biche", id: 8, consecutivoAsignacion: "5698", estado: "Bueno" },
   ];
 
   const defaultColDef = {

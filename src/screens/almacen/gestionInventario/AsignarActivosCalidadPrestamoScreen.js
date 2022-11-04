@@ -71,14 +71,15 @@ function AsignarActivosCalidadPrestamoScreen() {
       width: 50,
       minWidth: 100,
       maxWidth: 200,
-      cellRendererFramework: (params) => (
-        <div>
-          <input
-            className="border border-0 mx-auto my-0 d-flex btn-sm text-xxs text-capitalize"
-            type="date"
-          ></input>
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <input
+      //       className="border border-0 mx-auto my-0 d-flex btn-sm text-xxs text-capitalize"
+      //       type="date"
+      //       placeholder="dd/mm/aaaa"
+      //     ></input>
+      //   </div>
+      // ),
     },
   ];
 
@@ -179,10 +180,10 @@ function AsignarActivosCalidadPrestamoScreen() {
   };
 
   const rowData = [
-    { codigoArticulo: "1025", nombreArticulo: "Canoa", cantidad: 95 },
-    { codigoArticulo: "9856", nombreArticulo: "Pala", cantidad: 10 },
-    { codigoArticulo: "10256", nombreArticulo: "Amarillea", cantidad: 25 },
-    { codigoArticulo: "98563", nombreArticulo: "Biche", cantidad: 8 },
+    { codigoArticulo: "1025", nombreArticulo: "Canoa", cantidad: 95, fechaEntrega: "10/05/2022" },
+    { codigoArticulo: "9856", nombreArticulo: "Pala", cantidad: 10, fechaEntrega: "10/05/2022"},
+    { codigoArticulo: "10256", nombreArticulo: "Amarillea", cantidad: 25, fechaEntrega: "10/05/2022"},
+    { codigoArticulo: "98563", nombreArticulo: "Biche", cantidad: 8, fechaEntrega: "10/05/2022"},
   ];
 
   const rowDataDespachar = [

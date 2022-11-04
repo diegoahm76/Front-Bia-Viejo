@@ -96,25 +96,25 @@ function ReasignarElementosEntreFuncionariosScreen() {
       field: "estado",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsEstado[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsEstado}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsEstado[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsEstado}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
     {
       headerName: "Justificación",
@@ -160,7 +160,7 @@ function ReasignarElementosEntreFuncionariosScreen() {
       marca: "lenovo",
       serial: 86842,
       valorUnitario: "1.150.100",
-      estado: "Bueno",
+      estado: "Defectuoso",
       justificacion: "Necesario",
     },
     {
@@ -170,7 +170,7 @@ function ReasignarElementosEntreFuncionariosScreen() {
       marca: "lenovo",
       serial: 86842,
       valorUnitario: "1.150.100",
-      estado: "Bueno",
+      estado: "Malo",
       justificacion: "Necesario",
     },
     {
@@ -190,7 +190,7 @@ function ReasignarElementosEntreFuncionariosScreen() {
       marca: "lenovo",
       serial: 86842,
       valorUnitario: "1.150.100",
-      estado: "Bueno",
+      estado: "Malo",
       justificacion: "Necesario",
     },
   ];

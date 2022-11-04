@@ -117,25 +117,25 @@ function DevolverActivoCalidadPrestamoScreen() {
       field: "estado",
       minWidth: 100,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div>
-          <Controller
-            name="estado"
-            control={control}
-            defaultValue={optionsEstado[0]}
-            rules={{
-              required: true,
-            }}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={optionsEstado}
-                placeholder="Seleccionar"
-              />
-            )}
-          />
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div>
+      //     <Controller
+      //       name="estado"
+      //       control={control}
+      //       defaultValue={optionsEstado[0]}
+      //       rules={{
+      //         required: true,
+      //       }}
+      //       render={({ field }) => (
+      //         <Select
+      //           {...field}
+      //           options={optionsEstado}
+      //           placeholder="Seleccionar"
+      //         />
+      //       )}
+      //     />
+      //   </div>
+      // ),
     },
     {
       headerName: "Justificación",
@@ -181,6 +181,7 @@ function DevolverActivoCalidadPrestamoScreen() {
       marca: "Lenovo",
       serial: "5698",
       diasRetraso: "15",
+      estado:"Malo",
     },
     {
       codigo: "9856",
@@ -189,6 +190,7 @@ function DevolverActivoCalidadPrestamoScreen() {
       marca: "Lenovo",
       serial: "5698",
       diasRetraso: "15",
+      estado:"Bueno",
     },
     {
       codigo: "10256",
@@ -197,6 +199,7 @@ function DevolverActivoCalidadPrestamoScreen() {
       marca: "Lenovo",
       serial: "5698",
       diasRetraso: "15",
+      estado:"Malo",
     },
     {
       codigo: "98563",
@@ -205,6 +208,7 @@ function DevolverActivoCalidadPrestamoScreen() {
       marca: "Lenovo",
       serial: "5698",
       diasRetraso: "15",
+      estado:"Malo",
     },
   ];
 
