@@ -456,7 +456,7 @@ const RegisterPersonaScreen = () => {
                               className="form-check-label "
                               htmlFor="flexCheckDefault"
                             >
-                              ¿Requiere nombre comercial?{" "}</label>
+                              ¿Requiere nombre comercial?</label>
                             <input
                             
                               name="yesOrNo"
