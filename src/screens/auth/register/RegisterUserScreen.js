@@ -47,9 +47,10 @@ const RegisterUserScreen = () => {
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
+
       const { data: dataPersona } = dataPersonaObject;
 
-      if (!dataPersona.id_persona) {
+      if (dataPersonaObject.detail) {
         Swal.fire({
           title: "No existe un persona con estos datos",
           text: "¿Desea registrarse como persona o empresa?",

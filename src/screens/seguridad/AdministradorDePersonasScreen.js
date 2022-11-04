@@ -269,7 +269,8 @@ const AdministradorDePersonasScreen = () => {
       direccion_notificaciones: data.direccionNotificaciones,
       cod_municipio_laboral_nal:
         municipiosOptions[formValues.municipioDondeLabora]?.value,
-      ubicacion_georeferenciada: data.ubicacionGeografica,
+      // ubicacion_georeferenciada: data.ubicacionGeografica,
+      ubicacion_georeferenciada: "mi casita",
     };
 
     console.log("updated persona", updatedPersona);
@@ -847,47 +848,15 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   </div>
                   <div className="col-12 col-md-3 mt-2">
-                    <div className="row">
-                      <div className="col-5">
-                        <label className="form-label">
-                          Cod: <span className="text-danger">*</span>
-                        </label>
-                        <Controller
-                          name="indicativoPais"
-                          control={controlBuscar}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={
-                                indicativoPaisesOptions[
-                                  formValues.indicativoPais
-                                ]
-                              }
-                              onChange={(e) =>
-                                setFormValues({
-                                  ...formValues,
-                                  indicativoPais: getIndexBySelectOptions(
-                                    e.value,
-                                    indicativoPaisesOptions
-                                  ),
-                                })
-                              }
-                              options={indicativoPaisesOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        />
-                      </div>
-                      <div className="col-7">
-                        <label className="ms-2">
-                          Celular: <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="tel"
-                          {...registerPersona("celular", { required: true })}
-                        />
-                      </div>
+                    <div>
+                      <label className="ms-2">
+                        Celular: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerPersona("celular", { required: true })}
+                      />
                     </div>
                     {errorsPersona.celular && (
                       <div className="col-12">

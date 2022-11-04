@@ -256,10 +256,12 @@ const RegisterPersonaScreen = () => {
     } else {
       try {
         console.log(persona);
-        const { data: dataRegisterPersona } = await clienteAxios.post(
+        const { data: dataRegisterEmpresa } = await clienteAxios.post(
           "personas/persona-juridica/create/",
           persona
         );
+
+        console.log(dataRegisterEmpresa);
 
         Swal.fire({
           title: "Registrado como persona juridica",

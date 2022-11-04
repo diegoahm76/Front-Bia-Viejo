@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../components/CalendarModal";
+import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import {
   activeModalAction,
   desactiveModalAction,
@@ -41,6 +43,7 @@ const RolesScreen = () => {
         "roles/get-list",
         config
       );
+      console.log(dataRoles);
       setRoles(dataRoles);
     } catch (err) {
       console.log(err);
@@ -84,7 +87,71 @@ const RolesScreen = () => {
       minWidth: 200,
       maxWidth: 450,
     },
+    {
+      headerName: "Acciones",
+      field: "acciones",
+      minWidth: 140,
+      cellRendererFramework: (params) => (
+        <div className="d-flex gap-1">
+          <button
+            className="btn btn-sm btn-tablas btn-outline-warning "
+            type="button"
+            onClick={() => {
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              // setIsModalEditarActivate(!isModalActive);
+            }}
+          >
+            <img src={IconoEditar} alt="editar" />
+          </button>
+          <button
+            className="btn btn-sm btn-tablas btn-outline-danger"
+            type="button"
+            onClick={() => {
+              confirmarEliminarRol(params.data.id_rol);
+            }}
+          >
+            <img src={IconoEliminar} alt="eliminar" />
+          </button>
+        </div>
+      ),
+    },
   ];
+
+  const eliminarRol = async (idRol) => {
+    try {
+      const { data } = await clienteAxios.delete(
+        `roles/delete/${idRol}`,
+        config
+      );
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: data.detail,
+        showConfirmButton: true,
+        confirmButtonText: "Continuar",
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const confirmarEliminarRol = async (idRol) => {
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Un rol que se elimina no se puede recuperar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, elminar!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        eliminarRol(idRol);
+      }
+    });
+  };
 
   const handleCloseModal = () => {
     dispatch(desactiveModalAction());
@@ -141,7 +208,7 @@ const RolesScreen = () => {
         );
         setRoles(dataByName);
       } else {
-        getRolesList()
+        getRolesList();
       }
     } catch (error) {
       console.log(error);
@@ -188,7 +255,7 @@ const RolesScreen = () => {
                     rowData={roles}
                     defaultColDef={defaultColDef}
                     overlayNoRowsTemplate={
-                      '<span>No se encontraron roles</span>'
+                      "<span>No se encontraron roles</span>"
                     }
                   ></AgGridReact>
                 </div>
