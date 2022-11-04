@@ -65,6 +65,7 @@ const defaultValues = {
   avenida: "",
   numero: "",
   letra1: "",
+  bis: "",
   orientacion: "",
   numero2: "",
   letra2: "",
@@ -99,6 +100,7 @@ const DirecionResidenciaModal = ({
     avenida: "",
     numero: "",
     letra1: "",
+    bis: "",
     orientacion: "",
     numero2: "",
     letra2: "",
@@ -120,6 +122,7 @@ const DirecionResidenciaModal = ({
     "avenida",
     "numero",
     "letra1",
+    "bis",
     "orientacion",
     "numero2",
     "letra2",
@@ -170,26 +173,26 @@ const DirecionResidenciaModal = ({
     return data;
   };
 
-  const resetDefaultValues = () => {
-    resetDireccion({
-      ubicacion: "",
-      nombreUbicacion: "",
-      residencia: "",
-      numeroResidencia: "",
-      complementoRural: "",
+  // const resetDefaultValues = () => {
+  //   resetDireccion({
+  //     ubicacion: "",
+  //     nombreUbicacion: "",
+  //     residencia: "",
+  //     numeroResidencia: "",
+  //     complementoRural: "",
 
-      avenida: "",
-      numero: "",
-      letra1: "",
-      orientacion: "",
-      numero2: "",
-      letra2: "",
-      numeroSecundario: "",
-      orientacion2: "",
-      complemento: "",
-      adicional: "",
-    });
-  };
+  //     avenida: "",
+  //     numero: "",
+  //     letra1: "",
+  //     orientacion: "",
+  //     numero2: "",
+  //     letra2: "",
+  //     numeroSecundario: "",
+  //     orientacion2: "",
+  //     complemento: "",
+  //     adicional: "",
+  //   });
+  // };
 
   useEffect(() => {
     const getDataDirecciones = async () => {
@@ -453,7 +456,20 @@ const DirecionResidenciaModal = ({
                       <input
                         className="form-check-input mx-2"
                         type="checkbox"
-                        value=""
+                        onChange={(e) => {
+                          console.log(e.target.checked);
+                          if (e.target.checked) {
+                            setFormValues({
+                              ...formValues,
+                              bis: "BIS",
+                            });
+                          } else {
+                            setFormValues({
+                              ...formValues,
+                              bis: "",
+                            });
+                          }
+                        }}
                         id="flexCheckDefault"
                       />
                       <label
