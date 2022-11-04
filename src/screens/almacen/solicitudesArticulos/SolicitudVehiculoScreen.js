@@ -246,6 +246,7 @@ const SolicitudVehiculoScreen = () => {
               <div className="col-12 col-sm-3">
                 <label classNAme="text-terciary">
                   Fecha de solicitud
+                </label>
                   <Controller
                     name="fechaSolicitud"
                     control={control}
@@ -257,12 +258,11 @@ const SolicitudVehiculoScreen = () => {
                         dateFormat="dd/MM/yyyy"
                         includeDates={[new Date()]}
                         onChange={(date) => setStartDate(date)}
-                        className="form-control border-terciary border rounded-pill px-3 mt-2"
+                        className="form-control border-terciary border rounded-pill px-3"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
                   />
-                </label>
               </div>
             </div>
           </form>
@@ -394,6 +394,7 @@ const SolicitudVehiculoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
+                          className="mt-2"
                           options={optionsDependencia}
                           placeholder="Seleccionar"
                         />
@@ -415,6 +416,7 @@ const SolicitudVehiculoScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
+                          className="mt-2"
                           options={optionsGrupo}
                           placeholder="Seleccionar"
                         />
@@ -511,7 +513,7 @@ const SolicitudVehiculoScreen = () => {
               </div>
               <div className="row mt-3">
                 <div className="col-12 col-sm-3">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+                  <label className="form-floating input-group input-group-dynamic text-terciary ms-2">
                     Departamento{" "}
                     <div className="col-12 ">
                       <Controller
@@ -523,6 +525,7 @@ const SolicitudVehiculoScreen = () => {
                         render={({ field }) => (
                           <Select
                             {...field}
+                            className="mt-2"
                             options={optionsSiNo}
                             placeholder="Seleccionar"
                           />
@@ -532,7 +535,7 @@ const SolicitudVehiculoScreen = () => {
                   </label>
                 </div>
                 <div className="col-12 col-sm-3">
-                  <label className="form-floating input-group input-group-dynamic ms-2 ">
+                  <label className="form-floating text-terciary input-group input-group-dynamic ms-2 ">
                     Municipio{" "}
                     <div className="col-12 ">
                       <Controller
@@ -544,6 +547,7 @@ const SolicitudVehiculoScreen = () => {
                         render={({ field }) => (
                           <Select
                             {...field}
+                            className="mt-2"
                             options={optionsSiNo}
                             placeholder="Seleccionar"
                           />
@@ -553,7 +557,7 @@ const SolicitudVehiculoScreen = () => {
                   </label>
                 </div>
                 <div className="col-12 col-sm-3">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+                  <label className="form-floating text-terciary input-group input-group-dynamic ms-2">
                     Predio{" "}
                     <div className="col-12 ">
                       <Controller
@@ -575,7 +579,7 @@ const SolicitudVehiculoScreen = () => {
                   </label>
                 </div>
                 <div className="col-12 col-sm-3">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
+                  <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                     Fecha de salida
                     <Controller
                       name="fechaSalida"
@@ -589,7 +593,7 @@ const SolicitudVehiculoScreen = () => {
                           onSelect={(e) =>
                             setFormValues({ ...formValues, fechaSalida: e })
                           }
-                          className="form-control border rounded-pill px-3 mt-2"
+                          className="form-control border rounded-pill border-terciary px-3 mt-2"
                           placeholderText="dd/mm/aaaa"
                         />
                       )}
@@ -598,7 +602,7 @@ const SolicitudVehiculoScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-sm-3">
-                <label htmlFor="exampleFormControlInput1">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1">
                   Fecha de llegada
                   <Controller
                     name="fechallegada"
@@ -612,7 +616,7 @@ const SolicitudVehiculoScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaLlegada: e })
                         }
-                        className="form-control border rounded-pill px-3 mt-2"
+                        className="form-control border-terciary border rounded-pill px-3 mt-2"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
