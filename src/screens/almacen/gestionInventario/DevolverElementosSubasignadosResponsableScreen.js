@@ -9,6 +9,7 @@ import {
 } from "../../../actions/modalActions";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import { useDispatch } from "react-redux";
+import Subtitle from "../../../components/Subtitle";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -202,10 +203,7 @@ function DevolverElementosSubasignadosResponsableScreen() {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Devolver Elementos Subasignados al Responsable
-        </h3>
-
+        
         {/*  CUERPO DEL FORMULARIO  */}
 
         <form
@@ -215,170 +213,162 @@ function DevolverElementosSubasignadosResponsableScreen() {
           id="configForm"
         >
           <MarcaDeAgua1>
+          <h3 className="mt-3 text-start mb-3 fw-light ms-3">
+          Devolver Elementos Subasignados al Responsable
+          </h3>
             <div className="multisteps-form__content">
-              <div className="row my-3">
-              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-              <h5 className="font-weight-bolder my-2 text-light">
-                    Devolucion de Activos Subasignados
-                  </h5>
-                </div>
-              </div>
+            <Subtitle title={"Devolucion de Activos Subasignados"} mt={3} />
 
               {/*  PRIMERA FILA  */}
-              <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                  Responsable
-                </label>
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento{" "}
-                    <div className="col-12">
-                      <Controller
-                        name="tipoDocumentoResponsable"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            isDisabled
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="number"
-                      {...register("numeroDocumentoResponsable")}
-                      placeholder="numero documento"
-                      value="1121919374"
-                      disabled
-                    />
-                    <label className="ms-2">Número de documento</label>
-                  </div>
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="text"
-                      {...register("nombreResponsable")}
-                      placeholder="Nombre Completo"
-                      value="Jhon Alejandro Lopez Ramos"
-                      disabled
-                      id="nombreResponsable"
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
+              <Subtitle title={"Responsable"} mt={3} />
+            <div className="row ms-1">
+              <div className="col-12 col-md-3 align-content-end align-items-end">
+                <label className="text-terciary">Tipo de documento </label>
+                <Select
+                  className="border rounded-pill px-3 mt-0 bg-light"
+                  defaultValue={optionsTipoDocumento[0]}
+                  name="tipoDocumentoResponsable"
+                  options={optionsTipoDocumento}
+                  isDisabled
+                  placeholder="Seleccione"
+                />
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Número de documento</label>
+                  <input
+                    type="number"
+                    id="numeroDocumentoResponsable"
+                    name="numeroDocumentoResponsable"
+                    disabled
+                    defaultValue={"112264899"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroDocumentoResponsable", {
+                      required: true,
+                    })}
+                  />
                 </div>
               </div>
-              {/*  SEGUNDA FILA  */}
-              <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                  Operario
-                </label>
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento <span className="text-danger">*</span>
-                    <div className="col-12">
-                      <Controller
-                        name="tipoDocumentoOperario"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  </label>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Nombre completo</label>
+                  <input
+                    type="tex"
+                    id="nombreResponsable"
+                    name="nombreResponsable"
+                    disabled
+                    defaultValue={"Jhon Alejandro Lopez"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("nombreResponsable", { required: true })}
+                  />
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="number"
-                      {...register("numeroDocumentoOperario", {
-                        required: true,
-                      })}
-                      placeholder="numero documento"
-                      defaultValue={"1121919374"}
-                    />
-                    <label className="ms-2">
-                      Número de documento
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errors.numeroDocumentoOperario?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
+              </div>
+            </div>
+              {/*  SEGUNDA FILA  */}
+              <Subtitle title={"Operario"} mt={3} />
+              <div className="row ms-1">
+                <div className="col-12 col-md-3 align-content-end align-items-end">
+                  <label className="text-terciary">
+                    Tipo de documento<span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="tipoDocumentoOperario"
+                    control={control}
+                    defaultValue={optionsTipoDocumento[0]}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select {...field} options={optionsTipoDocumento} />
+                    )}
+                  />
+                  {errors.tipoDocumentoOperario && (
+                    <span className="text-danger">
+                      Este campo es obligatorio *
+                    </span>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
+                <div className="col-12 col-md-3">
+                  <div className="mb-3">
+                    <label className="text-terciary">Número de documento<span className="text-danger">*</span></label>
                     <input
-                      className="form-control"
-                      type="text"
-                      {...register("nombreOperario")}
-                      placeholder="Nombre Completo"
-                      value="Jhon Alejandro Lopez Ramos"
-                      disabled
-                      id="nombreOperario"
+                      type="number"
+                      id="numeroOperario"
+                      name="numeroOperario"
+                      defaultValue={""}
+                      placeholder={"Ingrese número de documento"}
+                      className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numeroOperario", {
+                        required: true,
+                      })}
                     />
-                    <label className="ms-2">Nombre completo</label>
+                  </div>
+                  {errors.numeroOperario?.type === "required" && (
+                    <span className="text-danger">
+                      El campo es requerido*
+                    </span>
+                )}
+                </div>
+                <div className="col-12 col-md-3">
+                  <div className="mb-3">
+                    <label className="text-terciary">Nombre completo</label>
+                    <input
+                      type="text"
+                      id="nombreOperario"
+                      name="nombreOperario"
+                      disabled
+                      defaultValue={"Jhon Alejandro Lopez"}
+                      className="form-control border rounded-pill px-3 border-terciary"
+                      {...register("nombreOperario", { required: true })}
+                    />
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
-                  <button
+                <div className="col-12 col-md-3">
+                <div className="mb-3 d-inline-flex flex-column">
+                    <label>&nbsp;</label>
+                    <button
                     type="submit"
+                    Value="buscar"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
                     onClick={handleOpenModalBusquedaPersonal}
-                    className="mt-0 btn btn-primary flex-center text-capitalize"
                   >
                     Buscar
                   </button>
-                </div>
+                  </div>
+                  </div>
               </div>
 
               <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    title="Send"
-                    form="configForm"
-                    Value="buscar"
-                    id="almacen"
-                    className="mt-4 btn btn-primary flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
                   >
                     Buscar Activos
                   </button>
                 </div>
+                <div className="mx-1 d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
+                  >
+                    Cancelar
+                  </button>
+                </div>
               </div>
+            </div>
 
               <div>
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
+                <label className="mt-4 form-control ms-0 fw-bolder text-white text-center" style={{
+          background: "#002c42",
+        }}>
                   Contratistas
                 </label>
                 <div id="myGrid" className="ag-theme-alpine mt-2">
                   <div
-                    className="ag-theme-alpine my-1"
-                    style={{ height: "300px" }}
+                    className="ag-theme-alpine my-1 mx-3"
+                    style={{ height: "250px" }}
                   >
                     <AgGridReact
                       columnDefs={columnDefsContratistas}
@@ -390,13 +380,15 @@ function DevolverElementosSubasignadosResponsableScreen() {
                   </div>
                 </div>
 
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
+                <label className="mt-4 form-control ms-0 fw-bolder text-white text-center" style={{
+          background: "#002c42",
+        }}>
                   Artículos Subasignados
                 </label>
                 <div id="myGrid" className="ag-theme-alpine mt-2">
                   <div
-                    className="ag-theme-alpine my-1"
-                    style={{ height: "300px" }}
+                    className="ag-theme-alpine my-1 mx-3"
+                    style={{ height: "250px" }}
                   >
                     <AgGridReact
                       columnDefs={columnDefsArticulos}
@@ -409,24 +401,25 @@ function DevolverElementosSubasignadosResponsableScreen() {
                 </div>
 
                 <div className="row">
-                  <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
-                    <button
-                      type="button"
-                      className="mt-4 mx-4 btn btn-primary flex-center text-capitalize"
-                      onClick={"null"}
-                    >
-                      Guardar
-                    </button>
-                    <button
-                      type="submit"
-                      title="Send"
-                      form="configForm"
-                      className="mt-4 btn btn-light flex-center text-capitalize"
-                    >
-                      Limpiar
-                    </button>
-                  </div>
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
+                  >
+                    Guardar
+                  </button>
                 </div>
+                <div className="mx-1 d-flex justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
+                  >
+                    Limpiar
+                  </button>
+                </div>
+              </div>
+            </div>
               </div>
             </div>
           </MarcaDeAgua1>

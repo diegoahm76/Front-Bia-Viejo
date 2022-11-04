@@ -13,15 +13,20 @@ function ProduccionPropiaScreen() {
   };
   const [dataRowFilter, setDataRowFilter] = useState();
   const [selecOpciones, setSelecOpciones] = useState({
-    vivero:"",
-});
- 
+    vivero: "",
+  });
+
   const grdRef = useRef(); // Optional - for accessing Grid's API
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm();
   const onSubmit = (data) => {
     setSelecOpciones({
-      vivero : data.vivero,
+      vivero: data.vivero,
     });
   };
 
@@ -125,23 +130,133 @@ function ProduccionPropiaScreen() {
   ];
 
   const rowData = [
-    {nombreComun: "Mata Raton", nombreCientifico: "Quiebraroedor", viveros: 9876543210, produccion: 550, disponibleVivero: 300, mortalidad: 500, total: 350,},
-    {nombreComun: "Rahul", nombreCientifico: "Raul", viveros: 9876543210, produccion: 501, disponibleVivero: 0, mortalidad: 500, total: 501,},
-    {nombreComun: "Duranta", nombreCientifico: "Amarillea", viveros: 9876543210, produccion: 10, disponibleVivero: 300, mortalidad: 0, total: 300,},
-    {nombreComun: "Mango", nombreCientifico: "Biche", viveros: 9876543210, produccion: 320, disponibleVivero: 300, mortalidad: 500, total: 1100,},
-    {nombreComun: "Palma Africana", nombreCientifico: "Aceitepalm", viveros: 9876543210, produccion: 1111, disponibleVivero: 2017, mortalidad: 500, total: 1100,},
-    {nombreComun: "Rahul", nombreCientifico: "Perez", viveros: 9876543210, produccion: 1, disponibleVivero: 1, mortalidad: 2, total: 1100,},
-    {nombreComun: "Ixora", nombreCientifico: "Frondosa", viveros: 9876543210, produccion: 230, disponibleVivero: 300, mortalidad: 500, total: 1100,},
-    {nombreComun: "Mata Raton", nombreCientifico: "Quiebraroedor", viveros: 9876543210, produccion: 550, disponibleVivero: 300, mortalidad: 500, total: 350,},
-    {nombreComun: "Rahul", nombreCientifico: "Raul", viveros: 9876543210, produccion: 501, disponibleVivero: 0, mortalidad: 500, total: 501,},
-    {nombreComun: "Duranta", nombreCientifico: "Amarillea", viveros: 9876543210, produccion: 10, disponibleVivero: 300, mortalidad: 0, total: 300,},
-    {nombreComun: "Mango", nombreCientifico: "Biche", viveros: 9876543210, produccion: 320, disponibleVivero: 300, mortalidad: 500, total: 1100,},
-    {nombreComun: "Palma Africana", nombreCientifico: "Aceitepalm", viveros: 9876543210, produccion: 1111, disponibleVivero: 2017, mortalidad: 500, total: 1100,},
-    {nombreComun: "Rahul", nombreCientifico: "Perez", viveros: 9876543210, produccion: 1, disponibleVivero: 1, mortalidad: 2, total: 1100,},
-    {nombreComun: "Ixora", nombreCientifico: "Frondosa", viveros: 9876543210, produccion: 230, disponibleVivero: 300, mortalidad: 500, total: 1100,},
-        
-    ];
-
+    {
+      nombreComun: "Mata Raton",
+      nombreCientifico: "Quiebraroedor",
+      viveros: 9876543210,
+      produccion: 550,
+      disponibleVivero: 300,
+      mortalidad: 500,
+      total: 350,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Raul",
+      viveros: 9876543210,
+      produccion: 501,
+      disponibleVivero: 0,
+      mortalidad: 500,
+      total: 501,
+    },
+    {
+      nombreComun: "Duranta",
+      nombreCientifico: "Amarillea",
+      viveros: 9876543210,
+      produccion: 10,
+      disponibleVivero: 300,
+      mortalidad: 0,
+      total: 300,
+    },
+    {
+      nombreComun: "Mango",
+      nombreCientifico: "Biche",
+      viveros: 9876543210,
+      produccion: 320,
+      disponibleVivero: 300,
+      mortalidad: 500,
+      total: 1100,
+    },
+    {
+      nombreComun: "Palma Africana",
+      nombreCientifico: "Aceitepalm",
+      viveros: 9876543210,
+      produccion: 1111,
+      disponibleVivero: 2017,
+      mortalidad: 500,
+      total: 1100,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Perez",
+      viveros: 9876543210,
+      produccion: 1,
+      disponibleVivero: 1,
+      mortalidad: 2,
+      total: 1100,
+    },
+    {
+      nombreComun: "Ixora",
+      nombreCientifico: "Frondosa",
+      viveros: 9876543210,
+      produccion: 230,
+      disponibleVivero: 300,
+      mortalidad: 500,
+      total: 1100,
+    },
+    {
+      nombreComun: "Mata Raton",
+      nombreCientifico: "Quiebraroedor",
+      viveros: 9876543210,
+      produccion: 550,
+      disponibleVivero: 300,
+      mortalidad: 500,
+      total: 350,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Raul",
+      viveros: 9876543210,
+      produccion: 501,
+      disponibleVivero: 0,
+      mortalidad: 500,
+      total: 501,
+    },
+    {
+      nombreComun: "Duranta",
+      nombreCientifico: "Amarillea",
+      viveros: 9876543210,
+      produccion: 10,
+      disponibleVivero: 300,
+      mortalidad: 0,
+      total: 300,
+    },
+    {
+      nombreComun: "Mango",
+      nombreCientifico: "Biche",
+      viveros: 9876543210,
+      produccion: 320,
+      disponibleVivero: 300,
+      mortalidad: 500,
+      total: 1100,
+    },
+    {
+      nombreComun: "Palma Africana",
+      nombreCientifico: "Aceitepalm",
+      viveros: 9876543210,
+      produccion: 1111,
+      disponibleVivero: 2017,
+      mortalidad: 500,
+      total: 1100,
+    },
+    {
+      nombreComun: "Rahul",
+      nombreCientifico: "Perez",
+      viveros: 9876543210,
+      produccion: 1,
+      disponibleVivero: 1,
+      mortalidad: 2,
+      total: 1100,
+    },
+    {
+      nombreComun: "Ixora",
+      nombreCientifico: "Frondosa",
+      viveros: 9876543210,
+      produccion: 230,
+      disponibleVivero: 300,
+      mortalidad: 500,
+      total: 1100,
+    },
+  ];
 
   const defaultColDef = {
     sortable: true,
@@ -163,105 +278,146 @@ function ProduccionPropiaScreen() {
   };
 
   return (
-
-    <div className="row min-vh-100">
-    <div className="col-lg-12 col-md-12 col-12 mx-auto">
-      <h3 className="mt-3 mb-0 text-center mb-6">Producción Propia</h3>
-        <form onSubmit={handleSubmit(onSubmit)} className="multisteps-form__form" id="configForm">
+    <div className="min-vh-100">
+      <div className="col-lg-12 col-md-12 col-12">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="multisteps-form__form"
+          id="configForm"
+        >
           <div
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
           >
-            <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-              <h5 className="font-weight-bolder my-2 text-light">
-                Produccion propia por vivero
-              </h5>
-            </div>
-            
-    
-            <div className="row d-flex align-items-center">
-              <div className="col col-sm-3 align-content-end align-items-end">
-              <label>Seleccione vivero </label>
-              <span className="text-danger">*</span>
-              <Controller
+            <h3 className="mt-3 text-start mb-3 fw-light ms-3">
+              Producción Propia
+            </h3>
+            <Subtitle title={"Produccion propia por vivero"} mt={3} />
+
+            <div className="row ms-1 d-flex flex-row justify-content-start align-items-center">
+              <div className="col-12 col-md-3">
+                <div>
+                  <label>
+                  Seleccione vivero<span className="text-danger">*</span>
+                </label>
+                <Controller
                   name="vivero"
                   control={control}
                   rules={{ required: true }}
                   render={({ field }) => (
-              <Select 
+                    <Select
                       {...field}
-                      
                       options={options}
                       placeholder="Seleccione vivero"
                     />
-                    )}
-                    />
-                    {errors.vivero && (
-              <small className="text-danger">Este campo es obligatorio *</small>
-              )}
-
+                  )}
+                />
+                {errors.vivero && (
+                  <small className="text-danger">
+                    Este campo es obligatorio*
+                  </small>
+                )}
+                </div>
               </div>
-              <div className="col d-flex align-items-end">
-              <button type="submit" title= "Send" form= "configForm" Value="buscar" className="btn btn-primary border rounded-pill px-3 text-capitalize mt-5">
+              <div className="col-12 col-md-3">
+                <button
+                  type="submit"
+                  title="Send"
+                  form="configForm"
+                  Value="buscar"
+                  className="btn btn-primary border rounded-pill px-3 text-capitalize mt-5"
+                >
                   Buscar
                 </button>
               </div>
-              <div className="col col-6 mx-auto d-flex justify-content-center flex-column align-items-center">
+              <div className="col-12 col-md-3 mt-3 d-flex flex-column justify-content-center align-items-center">
                 <label>Crear producto nuevo</label>
                 <button className="btn btn-secondary mx-auto border rounded-pill px-3 text-capitalize">
                   Crear
                 </button>
+                
               </div>
             </div>
-            
 
             {selecOpciones.vivero && (
+              <div>
+                <div className="row mt-4">
+                  <div className="col mx-auto d-flex justify-content-end align-items-end">
+                    <span className="d-flex justify-content-end">
+                      <label className="ms-3 my-auto">
+                        Producción &#60; 30: &#32;
+                      </label>
+                      <input
+                        className="text-start input small border border-0 w-5"
+                        type="text"
+                        id="name"
+                        name="name"
+                        disabled="true"
+                        value="500"
+                      ></input>
+                      <label className="ms-3 my-auto">
+                        Disponible en vivero &#62; 30: &#32;
+                      </label>
+                      <input
+                        className="text-start input small border border-0 w-5"
+                        type="text"
+                        id="name"
+                        name="name"
+                        disabled="true"
+                        value="1200"
+                      ></input>
+                      <label className="ms-3 my-auto">Mortalidad: &#32;</label>
+                      <input
+                        className="text-start input small border border-0 w-5"
+                        type="text"
+                        id="name"
+                        name="name"
+                        disabled="true"
+                        value="1100"
+                      ></input>
+                      <label className="ms-3 my-auto">Total: &#32;</label>
+                      <input
+                        className="text-start input small border border-0 w-5"
+                        type="text"
+                        id="name"
+                        name="name"
+                        disabled="true"
+                        value="1050"
+                      ></input>
+                    </span>
+                  </div>
+                </div>
 
-           <div>
-            <div className="row mt-4">
-              <div className="col mx-auto d-flex justify-content-end align-items-end">
-                <span className="d-flex justify-content-end">
-                  <label className="ms-3 my-auto">Producción &#60; 30: &#32;</label>
-                  <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled="true" value="500" ></input>
-                  <label className="ms-3 my-auto">Disponible en vivero &#62; 30: &#32;</label>
-                  <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled="true" value="1200" ></input>
-                  <label className="ms-3 my-auto">Mortalidad: &#32;</label>
-                  <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled="true" value="1100" ></input>
-                  <label className="ms-3 my-auto">Total: &#32;</label>
-                  <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled="true" value="1050" ></input>
-                </span>
+                <div id="myGrid" className="ag-theme-alpine mt-4">
+                  <div
+                    className="ag-theme-alpine my-1 mx-3"
+                    style={{ height: "500px" }}
+                  >
+                    <AgGridReact
+                      columnDefs={columnDefs}
+                      rowData={rowData}
+                      debounceVerticalScrollbar={true}
+                      defaultColDef={defaultColDef}
+                      onGridReady={onGridReady}
+                    ></AgGridReact>
+                  </div>
+                </div>
+
+                <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
+                  {" "}
+                  {/*  BOTONES DE ABAJO  */}
+                  <button
+                    className="btn bg-gradient-danger mb-0 border rounded-pill px-3 text-capitalize"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                  >
+                    Salir
+                  </button>
+                </div>
               </div>
-            </div>
-
-            <div id="myGrid" className="ag-theme-alpine mt-4">
-            <div className="ag-theme-alpine my-1" style={{ height: "500px" }}>
-              <AgGridReact
-                columnDefs={columnDefs}
-                rowData={rowData}
-                debounceVerticalScrollbar={true}
-                defaultColDef={defaultColDef}
-                onGridReady={onGridReady}
-              ></AgGridReact>
-            </div>
-            </div>
-            
-            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-            {" "}
-            {/*  BOTONES DE ABAJO  */}
-            <button
-              className="btn bg-gradient-danger mb-0 border rounded-pill px-3 text-capitalize"
-              type="submit"
-              title="Send"
-              form="configForm"
-            >
-              Salir
-            </button>
-          </div>
-
-            </div>
             )}
-
-            </div>
+          </div>
         </form>
       </div>
     </div>

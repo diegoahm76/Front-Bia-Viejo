@@ -8,6 +8,7 @@ import {
   desactiveModalAction,
 } from "../../../actions/modalActions";
 import ModalLocal from "../../../components/ModalLocal";
+import Subtitle from "../../../components/Subtitle";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import { useDispatch } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -279,10 +280,7 @@ function AsignarActivosCalidadPrestamoScreen() {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Asignar Activos en Calidad de Préstamo
-        </h3>
-
+        
         {/*  CUERPO DEL FORMULARIO  */}
 
         <form
@@ -292,221 +290,217 @@ function AsignarActivosCalidadPrestamoScreen() {
           id="configForm"
         >
           <MarcaDeAgua1>
+          <h3 className="mt-3 text-start mb-3 fw-light ms-3">Asignar Activos en Calidad de Préstamo</h3>
             <div className="multisteps-form__content">
-              <div className="row my-3">
-              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                <h5 className="font-weight-bolder my-2 text-light">
-                    Datos Generales
-                  </h5>
-                </div>
-              </div>
+            <Subtitle title={"Datos Generales"} mt={3} />
               {/*  PRIMERA FILA  */}
-              <div className="row justify-content-between">
-              <div className="col col-12 col-md-4">
-              <div className="col-12 mb-3">
-            <label>
-              Consecutivo<span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              id="consecutivoAsignarActivoPrestamo"
-              name="consecutivo"
-              minlength="2"
-              maxlength="15"
-              defaultValue={"25225"}
-              className="form-control border rounded-pill px-3"
-              {...register("consecutivoAsignarActivoPrestamo", { required: true })}
-            />
-            {errors.consecutivoAsignarActivoPrestamo && (
-              <div className="col-12">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
-              </div>
-            )}
-          </div>
-              </div>
-                {/*  FECHA  */}
-                <div className="col col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-5">
-                    Fecha de Respuesta
-                    <Controller
-                      name="fechaRespuesta"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="form-control border rounded-pill px-3 mt-2"
-                          placeholderText="Fecha de respuesta"
-                          peekNextMonth
-                          disabled
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
-                      )}
-                    />
+            <div className="row ms-1 justify-content-start">
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">
+                    Consecutivo<span className="text-danger">*</span>
                   </label>
+                  <input
+                    type="search"
+                    id="consecutivoAsignarActivosPrestamo"
+                    name="consecutivo"
+                    minlength="2"
+                    maxlength="15"
+                    defaultValue={"25225"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("consecutivoAsignarActivosPrestamo", {
+                      required: true,
+                    })}
+                  />
+                  {errors.consecutivoAsignarActivosPrestamo && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
-              {/*  SEGUNDA FILA  */}
-              <div className="row justify-content-between">
-              <div className="col col-12 col-md-4">
-              <div className="col-12 mb-3">
-            <label>
-              Consecutivo Solicitud<span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              id="consecutivoSolicitudPrestamo"
-              name="consecutivo"
-              minlength="2"
-              maxlength="15"
-              defaultValue={"25225"}
-              className="form-control border rounded-pill px-3"
-              {...register("consecutivoSolicitudPrestamo", { required: true })}
-            />
-            {errors.consecutivoSolicitudPrestamo && (
-              <div className="col-12">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
+              {/*  FECHA  */}
+              <div className="col-12 col-md-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-5"
+                >
+                  Fecha de Respuesta
+                  <Controller
+                    name="fechaRespuesta"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border border-terciary rounded-pill px-3 mt-2"
+                        placeholderText="Fecha de respuesta"
+                        peekNextMonth
+                        disabled
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
+                  />
+                </label>
               </div>
-            )}
-          </div>
-              </div>
-                {/*  FECHA  */}
-                <div className="col col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-5">
-                    Fecha de Respuesta
-                    <Controller
-                      name="fechaSolicitud"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="form-control border rounded-pill px-3 mt-2"
-                          placeholderText="Fecha de respuesta"
-                          peekNextMonth
-                          disabled
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
-                      )}
-                    />
+            </div>
+            {/*  SEGUNDA FILA  */}
+            <div className="row ms-1 justify-content-start">
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">
+                    Consecutivo Solicitud<span className="text-danger">*</span>
                   </label>
+                  <input
+                    type="number"
+                    id="consecutivoSolicitud"
+                    name="consecutivo"
+                    minlength="2"
+                    maxlength="15"
+                    defaultValue={"25225"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("consecutivoSolicitud", { required: true })}
+                  />
+                  {errors.consecutivoSolicitud && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
-              {/*  TERCERA FILA  */}
-              <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center text-light border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  Coordinador
+              {/*  FECHA  */}
+              <div className="col-12 col-md-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-5"
+                >
+                  Fecha de Solicitud
+                  <Controller
+                    name="fechaSolicitud"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border border-terciary rounded-pill px-3 mt-2"
+                        placeholderText="Fecha de solicitud"
+                        disabled
+                        peekNextMonth
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
+                      />
+                    )}
+                  />
                 </label>
-                <div className="col-12 col-md-4 align-content-end align-items-end">
-              <label>Tipo de documento </label>
-                        
-              <Select className="border rounded-pill px-3 mt-0 bg-light"
-                      defaultValue={optionsTipoDocumento[0]}
-                      name="tipoDocumentoCoordinador"
-                      options={optionsTipoDocumento}
-                      isDisabled
-                      placeholder="Seleccione"
-                    />
               </div>
-              <div className="col col-12 col-md-4">
-              <div className="col-12 mb-3">
-            <label>
-              Número de documento
-            </label>
-            <input
-              type="number"
-              id="numeroDocumentoCoordinador"
-              name="numeroDocumentoCoordinador"
-              disabled
-              defaultValue={"112264899"}
-              className="form-control border rounded-pill px-3"
-              {...register("numeroDocumentoCoordinador", { required: true })}
-            />
             </div>
+             {/*  TERCERA FILA  */}
+            <Subtitle title={"Coordinador"} mt={3} />
+            <div className="row ms-1">
+              <div className="col-12 col-md-3 align-content-end align-items-end">
+                <label className="text-terciary">Tipo de documento </label>
+                <Select
+                  className="border rounded-pill px-3 mt-0 bg-light"
+                  defaultValue={optionsTipoDocumento[0]}
+                  name="tipoDocumentoResponsable"
+                  options={optionsTipoDocumento}
+                  isDisabled
+                  placeholder="Seleccione"
+                />
               </div>
-              <div className="col col-12 col-md-4">
-              <div className="col-12 mb-3">
-            <label>
-              Nombre completo
-            </label>
-            <input
-              type="tex"
-              id="nombreCoordinador"
-              name="nombreCoordinador"
-              disabled
-              defaultValue={"Jhon Alejandro Lopez"}
-              className="form-control border rounded-pill px-3"
-              {...register("nombreCoordinador", { required: true })}
-            />
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Número de documento</label>
+                  <input
+                    type="number"
+                    id="numeroDocumentoCoordinador"
+                    name="numeroDocumentoCoordinador"
+                    disabled
+                    defaultValue={"112264899"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroDocumentoCoordinador", {
+                      required: true,
+                    })}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Nombre completo</label>
+                  <input
+                    type="tex"
+                    id="nombreCoordinador"
+                    name="nombreCoordinador"
+                    disabled
+                    defaultValue={"Jhon Alejandro Lopez"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("nombreCoordinador", { required: true })}
+                  />
+                </div>
+              </div>
             </div>
-              </div>
-              </div>
-              {/*  CUARTA FILA  */}
-              <div className="row">
-              <label className="mt-4 form-control ms-0 fw-bolder text-center text-light border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  Solicitante
-                </label>
-                <div className="col-12 col-md-4 align-content-end align-items-end">
-              <label>Tipo de documento </label>
-                
-              <Select className="border rounded-pill px-3 mt-0 bg-light"
-                      defaultValue={optionsTipoDocumento[0]}
-                      name="tipoDocumentoSolicitante"
-                      options={optionsTipoDocumento}
-                      isDisabled
-                      placeholder="Seleccione"
-                    />
-              </div>
-              <div className="col col-12 col-md-4">
-              <div className="col-12 mb-3">
-            <label>
-              Número de documento
-            </label>
-            <input
-              type="number"
-              id="numeroDocumentoSolicitante"
-              name="numeroDocumentoSolicitante"
-              disabled
-              defaultValue={"1122648"}
-              className="form-control border rounded-pill px-3"
-              {...register("numeroDocumentoSolicitante", { required: true })}
-            />
-            </div>
-              </div>
-              <div className="col col-12 col-md-4">
-              <div className="col-12 mb-3">
-            <label>
-              Nombre completo
-            </label>
-            <input
-              type="tex"
-              id="nombreSolicitante"
-              name="nombreSolicitante"
-              disabled
-              defaultValue={"Ricardo Sedihno"}
-              className="form-control border rounded-pill px-3"
-              {...register("nombreSolicitante", { required: true })}
-            />
-            </div>
-              </div>
-              </div>
+            {/*  CUARTA FILA  */}
+            <Subtitle title={"Solicitante"} mt={3} />
+            <div className="row ms-1">
+              <div className="col-12 col-md-3 align-content-end align-items-end">
+                <label className="text-terciary">Tipo de documento </label>
 
+                <Select
+                  className="border rounded-pill px-3 mt-0 bg-light"
+                  defaultValue={optionsTipoDocumento[0]}
+                  name="tipoDocumentoSolicitante"
+                  options={optionsTipoDocumento}
+                  isDisabled
+                  placeholder="Seleccione"
+                />
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Número de documento</label>
+                  <input
+                    type="number"
+                    id="numeroDocumentoSolicitante"
+                    name="numeroDocumentoSolicitante"
+                    disabled
+                    defaultValue={"1122648"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroDocumentoSolicitante", {
+                      required: true,
+                    })}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Nombre completo</label>
+                  <input
+                    type="text"
+                    id="nombreSolicitante"
+                    name="nombreSolicitante"
+                    disabled
+                    defaultValue={"Ricardo Sedihno"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("nombreSolicitante", { required: true })}
+                  />
+                </div>
+              </div>
+            </div>
+              {/* QUINTA FILA */}
               <div>
                 <label className="mt-4 form-control ms-0 fw-bolder text-end p-3">
                   Solicitud autorizada el día 10/20/2022 por Jhon Alejandro
@@ -514,17 +508,11 @@ function AsignarActivosCalidadPrestamoScreen() {
                 </label>
               </div>
 
-              <div className="row my-3">
-              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-              <h5 className="font-weight-bolder my-2 text-light">
-                  Detalles
-                </h5>
-              </div>
-              </div>
-              <div id="myGrid" className="ag-theme-alpine mt-4">
+              <Subtitle title={"Detalles"} mt={3} />
+              <div id="myGrid" className="ag-theme-alpine mt-1">
                 <div
-                  className="ag-theme-alpine my-1"
-                  style={{ height: "300px" }}
+                  className="ag-theme-alpine mt-2 mx-3"
+                  style={{ height: "270px" }}
                 >
                   <AgGridReact
                     columnDefs={columnDefs}
@@ -535,45 +523,52 @@ function AsignarActivosCalidadPrestamoScreen() {
                   ></AgGridReact>
                 </div>
               </div>
-              <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                <label>Observaciones</label>
-                <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto border rounded-pill px-3"
-                  type="text"
-                  placeholder="Incluya observacion"
-                  rows="3"
-                  name="observaciones"
-                  value={"Asignacion de articulos provenientes de..."}
-                  disabled
-                />
-              </div>
+              <div className="input-group mx-2 input-group-dynamic flex-column mt-4 mb-2 px-1">
+              <label className="text-terciary">Observaciones</label>
+              <textarea
+                className="p-2 mw-100 w-auto border border-terciary rounded-pill px-4"
+                type="text"
+                disabled
+                {...register("observaciones")}
+                defaultValue={"Campo de observaciones traídas de la solicitud"}
+                placeholder="Incluya observacion"
+                rows="3"
+                name="observaciones"
+              />
+            </div>
 
               {/* CAMPO DE BOTONES */}
-              <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+            <div className="row">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
                   <button
                     type="button"
-                    className="mt-4 btn btn-secondary flex-center text-capitalize border rounded-pill px-3"
+                    className="btn btn-secondary flex-center text-capitalize border rounded-pill px-3"
                     onClick={handleOpenModalDespachar}
                   >
                     Despachar
                   </button>
+                </div>
+                <div className="mx-1 d-flex justify-content-center">
                   <button
                     type="button"
-                    className="mt-4 mx-4 btn btn-danger flex-center text-capitalize border rounded-pill px-3"
+                    className="btn btn-danger flex-center text-capitalize border rounded-pill px-3"
                     onClick={handleOpenModalRechazar}
                   >
                     Rechazar
                   </button>
+                </div>
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 btn btn-danger flex-center text-capitalize border rounded-pill px-3"
+                    type="button"
+                    className="btn btn-danger flex-center text-capitalize border rounded-pill px-3"
                     onClick={handleOpenModalElementosNoDisponibles}
                   >
                     Elementos no disponibles
                   </button>
                 </div>
               </div>
+            </div>
             </div>
           </MarcaDeAgua1>
         </form>
