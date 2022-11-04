@@ -8,6 +8,7 @@ import {
   desactiveModalAction,
 } from "../../../../actions/modalActions";
 import CalendarModal from "../../../../components/CalendarModal";
+import Subtitle from "../../../../components/Subtitle";
 
 const defaultColDef = {
   sortable: true,
@@ -183,39 +184,42 @@ const EntregadosScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Entregas Completadas</h3>
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
+        
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h5 className="font-weight-bolder mt-2">
-            Seleccione la opción a mostrar
-          </h5>
-          <div className="row">
-            <div className="col-12 col-md-6">
-              <label>Vivero</label>
+          <h3 className="mt-3 mb-0 text-start fw-light mb-3">Entregas Completadas</h3>
+          <Subtitle
+          title={"Seleccione opcion a mostrar"}/>
+          <div className="row mt-3">
+            <div className="col-6 col-sm-3">
+              <label className="text-terciary">Vivero</label>
               <Select
                 options={getOptionsForSelects("Vivero relacionado")}
                 placeholder="Seleccione"
                 onChange={(e) => setViveroSelect(e.label)}
               />
             </div>
-            <div className="col-12 col-md-6">
-              <label>Profesional</label>
+            <div className="col-6 col-sm-3">
+              <label className="text-terciary">Profesional</label>
               <Select
                 options={getOptionsForSelects("Nombre de profesional")}
                 placeholder="Seleccione"
                 onChange={(e) => setProfesionalSelect(e.label)}
               />
             </div>
-          </div>
-          <button
+<div className="col-6 col-sm-3 mt-3">
+            <button
             onClick={handleClickBuscar}
             className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize"
           >
             Buscar
           </button>
+          </div>
+          </div>
+          
 
           <div id="myGrid" className="ag-theme-alpine mt-3">
             <div
@@ -267,7 +271,7 @@ const EntregadosScreen = () => {
               </div>
             </div>
             <div className="input-group input-group-dynamic flex-column">
-              <label htmlFor="exampleFormControlInput1">Observaciones:</label>
+              <label htmlFor="exampleFormControlInput1" className="text-terciary">Observaciones:</label>
               <textarea
                 disabled
                 className="multisteps-form__input form-control w-auto"
@@ -276,7 +280,7 @@ const EntregadosScreen = () => {
                 }
               />
             </div>
-            <label>
+            <label className="text-terciary">
               Estos campos no son editables por seguridad de la información
             </label>
             <button

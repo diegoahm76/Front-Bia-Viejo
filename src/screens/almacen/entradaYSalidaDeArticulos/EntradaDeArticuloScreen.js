@@ -7,6 +7,7 @@ import ModalLocal from "../../../components/ModalLocal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -285,7 +286,6 @@ export const EntradaDeArticuloScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-       
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
@@ -293,57 +293,51 @@ export const EntradaDeArticuloScreen = () => {
           id="configForm"
         >
           <MarcaDeAgua1>
-          <h3 className="mt-3 mb-0 text-start mb-6">Entrada de Articulos</h3>
+            <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">Entrada de Articulos</h3>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3 "style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                  Datos generales
-                </label>
-                <div className="row mt-4">
+                <Subtitle
+                  title={"Datos generales"}
+                />
+                <div className="row ms-1 mt-4">
                   <div className="col-6 col-sm-3 mt-3">
-                    <label>
-                        Consecutivo: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="text"
-                        placeholder="Consecutivo"
-                        rules={{ required: true }}
-                        {...register("Consecutivo")}
-                      />
-                      
-                    
+                    <label className="text-terciary">
+                      Consecutivo: <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
+                      placeholder="Consecutivo"
+                      rules={{ required: true }}
+                      {...register("Consecutivo")}
+                    />
+
                     {errors.Consecutivo && (
                       <p className="text-danger">Este campo es obligatorio</p>
                     )}
                   </div>
 
                   <div className="col-6 col-sm-3 mt-3">
-                   
-                      <label htmlFor="exampleFormControlInput1">
-                        Fecha de Ingreso: <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="fechaNacimiento"
-                        control={control}
-                        render={({ field }) => (
-                          <ReactDatePicker
-                            {...field}
-                            locale="es"
-                            className="form-control border rounded-pill px-3"
-                            dateFormat="dd/MM/yyyy"
-                             placeholderText="dd/mm/aaaa"
-                            selected={formValues.fechaIngreso}
-                            onSelect={(e) =>
-                              setFormValues({ ...formValues, fechaIngreso: e })
-                           
-                            }
-                            
-                            
-                          />
-                        )}
-                      />
-                    
+                    <label htmlFor="exampleFormControlInput1 " className="text-terciary">
+                      Fecha de Ingreso: <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="fechaNacimiento"
+                      control={control}
+                      render={({ field }) => (
+                        <ReactDatePicker
+                          {...field}
+                          locale="es"
+                          className="form-control border rounded-pill px-3 border border-terciary "
+                          dateFormat="dd/MM/yyyy"
+                          placeholderText="dd/mm/aaaa"
+                          selected={formValues.fechaIngreso}
+                          onSelect={(e) =>
+                            setFormValues({ ...formValues, fechaIngreso: e })
+                          }
+                        />
+                      )}
+                    />
                   </div>
 
                   <div className="col-6 col-sm-3 mt-1">
@@ -368,55 +362,48 @@ export const EntradaDeArticuloScreen = () => {
                         Este campo es obligatorio
                       </p>
                     )}
-                    </div>
+                  </div>
 
                   <div className="col-6 col-sm-3 mt-3">
-                  {selectedEntrada.value === "Comp" ? (
-                    <div>
-                       <label >
+                    {selectedEntrada.value === "Comp" ? (
+                      <div>
+                        <label className="text-terciary ">
                           Numero de factura de compra:{" "}
                           <span className="text-danger">*</span>
                         </label>
-                                             
+
                         <input
-                          
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border border-terciary"
                           type="tel"
                           placeholder="Numero de factura de compra"
                           {...register("businessTel")}
                         />
-                        
-                    </div>
-                  ) : (
-                    <div >
-                     
+                      </div>
+                    ) : (
+                      <div>
                         <label>
                           Numero de Expediente:{" "}
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                         className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border border-terciary"
                           type="tel"
                           placeholder="Numero de Expediente"
                           {...register("businessTel")}
                         />
-                        
-                      
-                    </div>
-                  )}
-
+                      </div>
+                    )}
                   </div>
-                 
                 </div>
               </div>
 
-              <div className="row">
-                <label className="mt-6 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                  Informacion de terceros:
-                </label>
-                <div className="row mt-2">
+              <div className="row mt-3">
+              <Subtitle
+                  title={"Informacion de terceros"}
+                />
+                <div className="row ms-1 mt-2">
                   <div className="col-6 col-sm-3">
-                    <label>
+                    <label className="text-terciary">
                       Tipo de Documento: <span className="text-danger">*</span>{" "}
                     </label>
                     <Controller
@@ -439,24 +426,23 @@ export const EntradaDeArticuloScreen = () => {
                     )}
                   </div>
                   <div className="col-6 col-sm-3">
-                     <label className="ms-2">
-                        Numero de identificacion:{" "}
-                        <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="text"
-                        placeholder="Numero de identificacion"
-                        {...register("NumeroDoc")}
-                      />
-                     
-                    
+                    <label className="ms-2 text-terciary">
+                      Numero de identificacion:{" "}
+                      <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
+                      placeholder="Numero de identificacion"
+                      {...register("NumeroDoc")}
+                    />
                   </div>
                   <div className="col-6 col-sm-3">
-                    <label>Nombre: </label><br/>
-                    <label>Profesional de cormacarena</label>
+                    <label className="text-terciary">Nombre: </label>
+                    <br />
+                    <label className="text-terciary">Profesional de cormacarena</label>
                   </div>
-                  <div className=" d-flex justify-content-end gap-2 mt-3 col-6 col-sm-3">
+                  <div className="  mt-3 col-6 col-sm-3">
                     <button
                       type="button"
                       className="btn btn-primary text-capitalize border rounded-pill px-3"
@@ -470,29 +456,25 @@ export const EntradaDeArticuloScreen = () => {
                     >
                       busqueda de tercero
                     </button>
-
                   </div>
                 </div>
-                
               </div>
-              <div className="row mt-3">
+              <div className="row ms-1 mt-3">
                 <div className="col">
-                  <label className="ms-2">
-                      Concepto: <span className="text-danger">*</span>{" "}
-                    </label>
-                    <textarea
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      placeholder="Concepto"
-                      {...register("Concepto")}
-                    />
-                    
-                  
+                  <label className="ms-2 text-terciary">
+                    Concepto: <span className="text-danger">*</span>{" "}
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="text"
+                    placeholder="Concepto"
+                    {...register("Concepto")}
+                  />
                 </div>
               </div>
-              <div className="row mt-3">
+              <div className="row ms-1 mt-3">
                 <div className="col">
-                  <label>Bodega</label>
+                  <label className="text-terciary">Bodega</label>
                   <Controller
                     name="options"
                     control={control3}
@@ -513,191 +495,180 @@ export const EntradaDeArticuloScreen = () => {
                   )}
                 </div>
               </div>
-              <div className="row mt-3">
+              <div className="row ms-1 mt-3">
                 <div className="col-12 col-md-4">
-                <label>
-                  Anexar documentos: <span className="text-danger">*</span>{" "}
-                </label>
-                <div>
-                  <label htmlFor="formFileLg" className="form-label"></label>
-                  <input
-                    className="form-control form-control-lg border rounded-pill px-3"
-                    id="formFileLg"
-                    type="file"
-                    rules={{ required: true }}
-                  />
-                </div>
+                  <label className="text-terciary">
+                    Anexar documentos: <span className="text-danger">*</span>{" "}
+                  </label>
+                  <div>
+                    <label htmlFor="formFileLg" className="form-label"></label>
+                    <input
+                      className="form-control form-control-lg border rounded-pill px-3 border border-terciary"
+                      id="formFileLg"
+                      type="file"
+                      rules={{ required: true }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className=" form-control ms-0 fw-bolder text-start ms-0">
+                <label className=" form-control ms-0 fw-border text-start ms-2">
                   Detalles
                 </label>
               </div>
 
               <div className="row">
                 <div className="col">
-                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                    Identificacion de articulos
-                  </label>
+                <Subtitle
+                  title={"Identificacion de articulos"}
+                />
                 </div>
               </div>
-              <div className="row">
+              <div className="row ms-1 align-items-end">
                 <div className="col-6 col-sm-3">
-                    <label className="ms-2">
-                      Codigo: <span className="text-danger">*</span>{" "}
-                    </label>
-                    <input
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      required={page === 2}
-                      placeholder="Codigo"
-                      {...register("Cod")}
-                    />
-                  <label>Tipo de Articulo</label>
-                  
+                  <label className="ms-2 text-terciary">
+                    Codigo: <span className="text-danger">*</span>{" "}
+                  </label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="text"
+                    required={page === 2}
+                    placeholder="Codigo"
+                    {...register("Cod")}
+                  />
                 </div>
-                <div className="col-16 col-sm-3">
-               <label className="ms-2">Nombre de articulo:</label>
-                    <input
-                      className="form-control border rounded-pill px-3"
-                      type="text"
-                      required={page === 2}
-                      placeholder="Nombre Articulo"
-                      disabled="true"
-                    />
-                    
-                  
+                <div className="col-6 col-sm-3">
+                  <label className="ms-2 text-terciary">Nombre de articulo:</label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="text"
+                    required={page === 2}
+                    placeholder="Nombre Articulo"
+                    disabled="true"
+                  />
                 </div>
-                <div className="col-6 col-sm-3 mt-4 " style={{displayFlex:"flex",justifyContent:"flex-end"}}>
+                <div
+                  className="col-6 col-sm-3 mt-4"
+                >
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize border rounded-pill px-3"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mb-0"
                   >
                     buscar
                   </button>
+                  </div>
+                  <div className="col-6 col-sm-3">
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize ms-1 border rounded-pill px-3"
+                    className="btn btn-primary text-capitalize ms-1 border rounded-pill px-3 mb-0"
                     onClick={handleOpenModalArticulos}
                   >
                     Busqueda de articulo
                   </button>
                 </div>
-
-                
               </div>
-              <div className="row">
+              <div className="row mt-4">
                 <div>
-                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                    Informacion de articulo
-                  </label>
+                <Subtitle
+                  title={"Informacion de articulo"}
+                />
                 </div>
 
                 <div>
-                  <div className="row">
+                  <div className=" row ms-2">
                     <div className="col-6 col-sm-3">
                       <div>
-                      <label>
+                        <label className="text-terciary">
                           Unidad de Medida:{" "}
                           <span className="text-danger">*</span>{" "}
-                        </label><br/>
+                        </label>
+                        <br />
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border border-terciary"
                           type="text"
                           required={page === 2}
                           placeholder="Unidad de medida"
                           {...register("UniMe")}
                         />
-                       
-
-                        <button
-                          type="button"
-                          className="btn btn-primary text-capitalize border rounded-pill px-3"
-                          onClick={handleOpenModalCrearUnidad}
-                        >
-                          Crear
-                        </button>
                       </div>
                     </div>
                     <div className="col-6 col-sm-3">
-                       <label className="ms-2">
-                          Cantidad: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="number"
-                          required={page === 2}
-                          placeholder="Cantidad"
-                          {...register("Cantidad")}
-                        />
-                       
-                      
+                      <label className="ms-2 text-terciary">
+                        Cantidad: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="number"
+                        required={page === 2}
+                        placeholder="Cantidad"
+                        {...register("Cantidad")}
+                      />
                     </div>
                     <div className="col-6 col-sm-3">
-                      <label className="ms-2">
-                          Valor unitario: <span className="text-danger">*</span>{" "}
-                        </label>
-                       <input
-                         className="form-control border rounded-pill px-3"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Valor unitario"
-                          {...register("ValUni")}
-                        />
-                        
-                      
+                      <label className="ms-2 text-terciary">
+                        Valor unitario: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Valor unitario"
+                        {...register("ValUni")}
+                      />
                     </div>
                     <div className="col-6 col-sm-3">
-                       <label className="ms-2">
-                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Porcentaje IVA"
-                          {...register("PorceIVA")}
-                        />
+                      <label className="ms-2 text-terciary">
+                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Porcentaje IVA"
+                        {...register("PorceIVA")}
+                      />
+                    </div>
                   </div>
-
-                  <div className="row mb-2">
-                    
-                       
-                      
+                  <div className=" row ms-2 mb-2">
+                    <div className="col-2">
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
+                        onClick={handleOpenModalCrearUnidad}
+                      >
+                        Crear
+                      </button>
+                    </div>
+                  </div>
+                  <div className="row ms-2 align-items-end">
+                    <div className="col-6 col-sm-3 mt-1">
+                      <label className="ms-2 text-terciary">
+                        Valor IVA: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 mt-2 border border-terciary"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Valor IVA"
+                        {...register("ValorIVA")}
+                        disabled="true"
+                      />
                     </div>
                     <div className="col-6 col-sm-3">
-                      <label className="ms-2">
-                          Valor IVA: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Valor IVA"
-                          {...register("ValorIVA")}
-                          disabled="true"
-                        />
-                        
-                      
+                      <label className="ms-2 text-terciary">Valor unitario Total:</label>
+                      <input
+                        className="form-control border rounded-pill px-3 mt-2 border border-terciary"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Valor unitario Total"
+                        {...register("ValUni")}
+                        disabled="true"
+                      />
                     </div>
                     <div className="col-6 col-sm-3">
-                      <label className="ms-2">Valor unitario Total:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Valor unitario Total"
-                          {...register("ValUni")}
-                          disabled="true"
-                        />
-                        
-                      
-                    </div>
-                      <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
                         Estado del articulo: :{" "}
                         <span className="text-danger">*</span>
@@ -721,203 +692,193 @@ export const EntradaDeArticuloScreen = () => {
                       )}
                     </div>
                     <div className="col-6 col-sm-3">
-                      <div >
-                        <label className="mb-2">
-                          Nombre Cientifico (viveros):{" "}
-                          <span className="text-danger">*</span>
-                        </label><br/>
-                        <input
-                         className="form-control border rounded-pill px-3 mt-2"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Nombre Cientifico"
-                          {...register("NombreCient")}
-                        />
-                        <button
-                          type="button"
-                          className="btn btn-primary text-capitalize border rounded-pill px-3"
-                          onClick={handleOpenModalCrearNombreCientifico}
-                        >
-                          Agregar
-                        </button>
-                        
-                      </div>
+                      <label className="text-terciary">
+                        Nombre Cientifico (viveros):{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <br />
+                      <input
+                        className="form-control border rounded-pill px-3 mt-2 border border-terciary"
+                        type="text"
+                        required={page === 2}
+                        placeholder="Nombre Cientifico"
+                        {...register("NombreCient")}
+                      />
                     </div>
                   </div>
-                  <div className="row">
-                  
-                    
-                      <label >
-                          Observaciones: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <textarea
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Observaciones"
-                          {...register("Observaciones")}
-                        />
-                        
-                      
-                    
+
+                  <div className="row ms-2 justify-content-end">
+                    <div
+                      className="col-2"
+                     
+                    >
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
+                        onClick={handleOpenModalCrearNombreCientifico}
+                      >
+                        Agregar
+                      </button>
+                    </div>
+                  </div>
+                  <div className="row ms-3">
+                    <label className="text-terciary">
+                      Observaciones: <span className="text-danger">*</span>{" "}
+                    </label>
+                    <textarea
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
+                      required={page === 2}
+                      placeholder="Observaciones"
+                      {...register("Observaciones")}
+                    />
                   </div>
                 </div>
 
                 <div>
-                  <div className="row mt-5">
+                  <div className="row ms-2 mt-5">
                     <div className="col-6 col-sm-3">
-                      <div >
-                         <label className="ms-2">
+                      <div>
+                        <label className="ms-2 text-terciary">
                           Unidad de Medida:{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border border-terciary"
                           type="text"
                           required={page === 2}
                           placeholder="Unidad de medida"
                           {...register("UniMed")}
                         />
-                       
-                        <button
-                          type="button"
-                          className="btn btn-primary text-capitalize border rounded-pill px-3"
-                          onClick={handleOpenModalCrearUnidad}
-                        >
-                          Crear
-                        </button>
                       </div>
                     </div>
                     <div className="col-6 col-sm-3">
-                      <div >
-                         <label className="ms-2 me-2 ">
+                      <div>
+                        <label className="ms-2 me-2 text-terciary ">
                           Marca: <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border border-terciary"
                           type="text"
                           required={page === 2}
                           placeholder="Marca"
                           {...register("Marca")}
                         />
-                       
-
-                        <button
-                          type="button"
-                          className=" ms-2 btn btn-primary text-capitalize border rounded-pill px-3"
-                          onClick={handleOpenModalCrearMarca}
-                        >
-                          Crear
-                        </button>
                       </div>
                     </div>
                     <div className="col-6 col-sm-3">
-                      <label className="ms-2">
-                          Modelo: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Modelo"
-                          {...register("Model")}
-                        />
-                        
-                      
+                      <label className="ms-2 text-terciary">
+                        Modelo: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="text"
+                        required={page === 2}
+                        placeholder="Modelo"
+                        {...register("Model")}
+                      />
+                    </div>
+
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2 text-terciary">
+                        Cantidad: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="float"
+                        required={page === 2}
+                        placeholder="Cantidad"
+                        {...register("Cant")}
+                      />
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">
-                          Cantidad: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="float"
-                          required={page === 2}
-                          placeholder="Cantidad"
-                          {...register("Cant")}
-                        />
-                        
-                      
+                  <div className="row ms-2">
+                    <div className="col-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
+                        onClick={handleOpenModalCrearUnidad}
+                      >
+                        Crear
+                      </button>
                     </div>
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">
-                          Vida util: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Vida util"
-                          {...register("VidaU")}
-                        />
-                        
-                      
-                    </div>
-                    <div className="col-12 col-md-4">
-                     <label className="ms-2">
-                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="float"
-                          required={page === 2}
-                          placeholder="Porcentaje IVA"
-                          {...register("PorcentIVA")}
-                        />
-                        
-                      
+                    <div className="col-3">
+                      <button
+                        type="button"
+                        className=" ms-2 btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
+                        onClick={handleOpenModalCrearMarca}
+                      >
+                        Crear
+                      </button>
                     </div>
                   </div>
 
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">
-                          Valor unitario: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Valor Unitario"
-                          {...register("ValUni")}
-                        />
-                        
-                      
+                  <div className="row ms-2 align-items-end">
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2 text-terciary">
+                        Vida util: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="text"
+                        required={page === 2}
+                        placeholder="Vida util"
+                        {...register("VidaU")}
+                      />
                     </div>
-                    <div className="col-12 col-md-4">
-                     <label className="ms-2">Valor IVA:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="float"
-                          required={page === 2}
-                          placeholder="Valor IVA"
-                          {...register("ValorIVA")}
-                          disabled="true"
-                        />
-                        
-                    
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2 text-terciary">
+                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="float"
+                        required={page === 2}
+                        placeholder="Porcentaje IVA"
+                        {...register("PorcentIVA")}
+                      />
                     </div>
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">
-                          Valor unitario Total:{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="float"
-                          required={page === 2}
-                          placeholder="Valor unitario Total"
-                          {...register("ValUniTotal")}
-                          disabled="true"
-                        />
-                        
-                      
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2 text-terciary">
+                        Valor unitario: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Valor Unitario"
+                        {...register("ValUni")}
+                      />
+                    </div>
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2">Valor IVA:</label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="float"
+                        required={page === 2}
+                        placeholder="Valor IVA"
+                        {...register("ValorIVA")}
+                        disabled="true"
+                      />
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-12 col-md-4">
+
+                  
+                  <div className="row ms-2 align-items-end">
+                    <div className="col-6 col-md-3 mt-2">
+                      <label className="ms-2 text-terciary">Valor unitario Total: </label>
+                      <input
+                        className="form-control border rounded-pill px-3 mt-1 border border-terciary"
+                        type="float"
+                        required={page === 2}
+                        placeholder="Valor unitario Total"
+                        {...register("ValUniTotal")}
+                        disabled="true"
+                      />
+                    </div>
+
+                    <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
                         Estado del articulo: :{" "}
                         <span className="text-danger">*</span>
@@ -940,70 +901,62 @@ export const EntradaDeArticuloScreen = () => {
                         </p>
                       )}
                     </div>
-                    <div className="col-12 col-md-4 mt-1">
-                      <label className="ms-2">
-                          Valor Residual: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                         className="form-control border rounded-pill px-3 mt-1"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Valor Residual"
-                          {...register("ValorRes")}
-                        />
-                        
-                      
+                    <div className="col-6 col-sm-3 mt-2">
+                      <label className="ms-2 text-terciary">
+                        Valor Residual: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 mt-1 border border-terciary"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Valor Residual"
+                        {...register("ValorRes")}
+                      />
                     </div>
-                    <div className="col-12 col-md-4">
-                      <label className="ms-2">
-                          Garantia: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                        className="form-control border rounded-pill px-3 mt-1"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Garantia"
-                          {...register("Garantia")}
-                        />
-                        
-                      
+                    <div className="col-6 col-sm-3 mt-2">
+                      <label className="ms-2 text-terciary">
+                        Garantia: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 mt-1 border border-terciary"
+                        type="text"
+                        required={page === 2}
+                        placeholder="Garantia"
+                        {...register("Garantia")}
+                      />
                     </div>
                   </div>
-                  <div className="row">
-                    <div className="col-12 col-md-4">
-                       <label className="ms-2">
-                          Dias de uso: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="numb"
-                          required={page === 2}
-                          placeholder="Dias de uso"
-                          {...register("DiasUso")}
-                        />
-                       
-                      
+                  <div className="row ms-2 mt-3">
+                    <div className="col-6 col-sm-3">
+                      <label className="ms-2 text-terciary">
+                        Dias de uso: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="numb"
+                        required={page === 2}
+                        placeholder="Dias de uso"
+                        {...register("DiasUso")}
+                      />
                     </div>
-                    <div className="col-8 col-md-4">
-                      <label className="ms-2">
-                          Observaciones: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <textarea
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Observaciones"
-                          {...register("Observ")}
-                        />
-                        
-                      
+                    <div className="col ">
+                      <label className="ms-2 text-terciary">
+                        Observaciones: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <textarea
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        type="text"
+                        required={page === 2}
+                        placeholder="Observaciones"
+                        {...register("Observ")}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="col-4">
                   <button
                     type="button"
-                    className="col-3 col-md-4 ms-2 mt-4 btn btn-secondary text-capitalize border rounded-pill px-3"
+                    className="col-3 col-md-4 ms-4 mt-4 btn btn-secondary text-capitalize border rounded-pill px-3"
                   >
                     Agregar
                   </button>
@@ -1018,7 +971,7 @@ export const EntradaDeArticuloScreen = () => {
                       className={`btn btn-primary text-capitalize border rounded-pill px-3 ${
                         page === 1 && "d-none"
                       }`}
-                      style={{minWidth:"100px"}}
+                      style={{ minWidth: "100px" }}
                       onClick={handleOpenModal}
                     >
                       Ver
@@ -1069,20 +1022,20 @@ export const EntradaDeArticuloScreen = () => {
             <MarcaDeAgua1>
               <div className="row">
                 <div className="col">
-                  <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                  <h2 className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
                     Resumen
-                  </label>
+                  </h2>
                 </div>
                 <div className="row">
                   <div className="col">
-                    <label className="mt-3 form-control ms-0 fw-bolder text-center border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                      Articulos a Ingresar
-                    </label>
+                  <Subtitle
+                  title={"Articulos a ingresar"}
+                />
                   </div>
                 </div>
                 <div className="row">
                   <div className="col">
-                    <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                    <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
                       Articulos de Consumo
                     </label>
                   </div>
@@ -1104,7 +1057,7 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
                 <div className="row">
                   <div className="col">
-                    <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                    <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
                       Articulos Devolutivos
                     </label>
                   </div>
@@ -1171,39 +1124,35 @@ export const EntradaDeArticuloScreen = () => {
           <ModalLocal localState={crearUnidad}>
             <div className="row">
               <div className="col">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
                   Registro Unidad
                 </label>
               </div>
 
               <div className="row">
-                <label className="mt-3 ms-4 form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                  Informacion de la unidad de medida
-                </label>
+              <Subtitle
+                  title={"Informacion de la unidad de medida"}
+                />
               </div>
             </div>
             <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4"> 
-                <label>Codigo:</label>
-                 <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Codigo"
-                    {...register("Cod")}
-                  />
-                  
-                
+              <div className="col-12 col-md-4 mt-4 ms-4">
+                <label className="text-terciary">Codigo:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Codigo"
+                  {...register("Cod")}
+                />
               </div>
               <div className="col-12 col-md-4 mt-4 ms-4">
-                 <label>Nombre:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Nombre"
-                    {...register("Nombre")}
-                  />
-                 
-                
+                <label className="text-terciary">Nombre:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Nombre"
+                  {...register("Nombre")}
+                />
               </div>
             </div>
 
@@ -1235,38 +1184,34 @@ export const EntradaDeArticuloScreen = () => {
           <ModalLocal localState={crearMarca}>
             <div className="row">
               <div className="col">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
                   Registro Marca
                 </label>
               </div>
             </div>
             <div className="row">
-              <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                Informacion de la Marca
-              </label>
+            <Subtitle
+                  title={"Informacion de la marca"}
+                />
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-4 ms-4">
-               <label>Codigo:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Codigo"
-                    {...register("Cod")}
-                  />
-                  
-                
+                <label className="text-terciary">Codigo:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Codigo"
+                  {...register("Cod")}
+                />
               </div>
               <div className="col-12 col-md-4 mt-4 ms-4">
-                <label>Nombre:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Nombre"
-                    {...register("Nombre")}
-                  />
-                  
-                
+                <label className="text-terciary">Nombre:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Nombre"
+                  {...register("Nombre")}
+                />
               </div>
             </div>
             <div className="row">
@@ -1297,51 +1242,45 @@ export const EntradaDeArticuloScreen = () => {
           <ModalLocal localState={crearNombreCientifico}>
             <div className="row">
               <div className="col">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
                   Registro Nombre Cientifico
                 </label>
               </div>
             </div>
             <div className="row">
-            <label className="mt-3 ms-4  form-control ms-0 fw-bolder text-start border rounded-pill px-3 text-white" style={{width:"-webkit-fill-available", backgroundImage:"linear-gradient(45deg, #6db227, #36a9e0)"}}>
-                Informacion del articulo
-              </label>
+            <Subtitle
+                  title={"Informacion del Articulo"}
+                />
             </div>
             <div className="row mt-4">
               <div className="col-12 col-md-4 ms-2">
-                <label>Codigo:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Codigo"
-                    {...register("Cod")}
-                  />
-                  
-                
+                <label className="text-terciary">Codigo:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Codigo"
+                  {...register("Cod")}
+                />
               </div>
               <div className="col-12 col-md-4 ms-1">
-                <label>Nombre:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Nombre"
-                    {...register("Nombre")}
-                  />
-                  
-                
+                <labe className="text-terciary">Nombre:</labe>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Nombre"
+                  {...register("Nombre")}
+                />
               </div>
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-1 ms-1">
-                 <label>Nombre Cientifico:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Nombre cientifico"
-                    {...register("NombCient")}
-                  />
-                 
-                
+                <label className="text-terciary">Nombre Cientifico:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Nombre cientifico"
+                  {...register("NombCient")}
+                />
               </div>
               <div className="d-flex justify-content-end">
                 <button

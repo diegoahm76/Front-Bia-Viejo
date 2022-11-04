@@ -154,6 +154,8 @@ const AdministradorDePersonasScreen = () => {
         setActionForm("editar");
       }
 
+      
+
       const defaultValuesOverrite = {
         tipoDocumento:
           tipoDocumentoOptions[
@@ -224,7 +226,7 @@ const AdministradorDePersonasScreen = () => {
       console.log(err);
     }
   };
-
+  const indicativo ="57"
   const onSubmitPersona = async (data) => {
     console.log("data para submit", data);
     const indicativo = "57"
@@ -264,6 +266,8 @@ const AdministradorDePersonasScreen = () => {
         municipiosOptions[formValues.municipioDondeLabora]?.value,
       ubicacion_georeferenciada: data.ubicacionGeografica,
     };
+   
+    
 
     console.log("updated persona", updatedPersona);
 
@@ -431,6 +435,8 @@ const AdministradorDePersonasScreen = () => {
   const handleCancelAction = () => {
     setActionForm(null);
   };
+ 
+
 
   return (
     <div className="row min-vh-100">
@@ -450,6 +456,7 @@ const AdministradorDePersonasScreen = () => {
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
+                  
                   <Controller
                     name="tipoDocumento"
                     control={controlBuscar}
@@ -458,6 +465,7 @@ const AdministradorDePersonasScreen = () => {
                     }}
                     render={({ field }) => (
                       <Select
+                      defaultValue={"Seleccionar"}
                         {...field}
                         value={
                           tipoDocumentoOptions[
@@ -537,6 +545,7 @@ const AdministradorDePersonasScreen = () => {
                           }}
                           render={({ field }) => (
                             <Select
+                         
                               {...field}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
@@ -804,6 +813,95 @@ const AdministradorDePersonasScreen = () => {
                         )}
                       />
                     </div>
+<<<<<<< HEAD
+                    {errorsPersona.eMail && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
+                    <div>
+                      <label className="ms-2">Email empresarial:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="text"
+                        {...registerPersona("emailEmpresarial")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
+                    <div>
+                      <label className="ms-2">
+                        Celular: <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                      
+                        {...registerPersona("celular", { required: true, maxLength:10, minLength:10 })}
+                                               
+                      />
+                    </div>
+                    {errorsPersona.celular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio, solo 10 caracteres
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
+                    <div>
+                      <label className="ms-2">Telefono fijo:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerPersona("telefonoFijo")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
+                    <div>
+                      <label className="ms-2">Telefono empresa 2:</label>
+                      <input
+                        className="form-control border rounded-pill px-3"
+                        type="tel"
+                        {...registerPersona("telefonoEmpresa2")}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-3 mt-2">
+                    <label className="form-label">
+                      Municipio notificación:
+                    </label>
+                    <Controller
+                      name="municipioNotificacion"
+                      control={controlBuscar}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={municipiosOptions}
+                          value={
+                            municipiosOptions[formValues.municipioNotificacion]
+                          }
+                          onChange={(e) =>
+                            setFormValues({
+                              ...formValues,
+                              municipioNotificacion: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            })
+                          }
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+=======
+>>>>>>> main
                   </div>
                 </div>
                 <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />

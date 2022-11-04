@@ -7,6 +7,7 @@ import {
   desactiveModalAction,
 } from "../../../../actions/modalActions";
 import CalendarModal from "../../../../components/CalendarModal";
+import Subtitle from "../../../../components/Subtitle";
 
 
 const columDefs = [
@@ -167,19 +168,19 @@ const EntregasPendientesScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Entregas pendientes</h3>
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
+       
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h5 className="font-weight-bolder mt-2">
-            Seleccione las opciones a mostrar
-          </h5>
+           <h3 className="mt-3 mb-0 text-start fw-light mb-3">Entregas pendientes</h3>
+          <Subtitle 
+          title={"Seleccione opciones a mostrar"}/>
 
           <div className="row">
             <div className="col-12 col-md-6">
-              <label>Vivero</label>
+              <label className="text-terciary">Vivero</label>
               <Select
                 options={getOptionsForSelects("Vivero relacionado")}
                 placeholder="Seleccione"
@@ -187,7 +188,7 @@ const EntregasPendientesScreen = () => {
               />
             </div>
             <div className="col-12 col-md-6">
-              <label>Profesional</label>
+              <label className="text-terciary">Profesional</label>
               <Select
                 options={getOptionsForSelects("Nombre de profesional")}
                 placeholder="Seleccione"
@@ -222,12 +223,14 @@ const EntregasPendientesScreen = () => {
             Gestionar
           </button>
           <CalendarModal>
-            <label className="mt-5 fw-bold fs-6 d-block">
-              Numero de entrega: <span className="fw-normal">0000960</span>
+            <Subtitle
+            title={"Informacion de la entrega realizada"}/>
+            <label className="mt-3 fw-bold fs-6 d-block text-terciary" >
+              Numero de entrega: <span className="fw-normal ">0000960</span>
             </label>
             <div className="row mt-3">
               <div className="col-12 col-md-6">
-                <label className="fw-bold fs-6 d-block">
+                <label className="fw-bold fs-6 d-block text-terciary">
                   Documentación relacionada:{" "}
                   <span className="text-danger">*</span>
                 </label>
@@ -235,7 +238,7 @@ const EntregasPendientesScreen = () => {
               <div className="col-12 col-md-6">
                 <div className="col-3 text-center">
                   <i className="fa-solid fa-file fs-3 d-block"></i>
-                  <label className="d-block m-0">Contratos</label>
+                  <label className="d-block m-0 ">Contratos</label>
                 </div>
                 <button className="btn bg-gradient-primary ms-auto d-block mt-3 text-capitalize">
                   Anexar Documentación
@@ -260,10 +263,10 @@ const EntregasPendientesScreen = () => {
               Editar
             </button>
             <div className="input-group input-group-dynamic flex-column">
-              <label htmlFor="exampleFormControlInput1">
+              <label htmlFor="exampleFormControlInput1" className="text-terciary">
                 Observaciones: <span className="text-danger">*</span>
               </label>
-              <textarea className="multisteps-form__input form-control w-auto" />
+              <textarea className=" form-control w-auto border-rounded-pill px-3" />
             </div>
             <div className="d-flex justify-content-end gap-2">
               <button

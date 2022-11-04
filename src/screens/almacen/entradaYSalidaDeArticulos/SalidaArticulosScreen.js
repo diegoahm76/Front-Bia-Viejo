@@ -6,6 +6,7 @@ import Select from "react-select";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 const SalidaArticulosScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -303,24 +304,25 @@ const SalidaArticulosScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Salida de Articulos</h3>
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+          <h3 className="mt-3 mb-0 ms-3 fw-light text-start mb-4">Salida de Articulos</h3>
           <MarcaDeAgua1>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  Datos generales
-                </label>
-                <div className="row">
-                  <div className="col-12 col-md-4 mt-4">
-                     <label>Consecutivo de salida:</label>
+              <Subtitle
+                  title={"Datos Generales"}
+                />
+                <div className="row ms-1">
+                  <div className="col-12 col-md-4 mt-4 ">
+                     <label className="text-terciary">Consecutivo de salida:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="tel"
                         placeholder="Consecutivo"
                         {...register("businessTel")}
@@ -331,7 +333,7 @@ const SalidaArticulosScreen = () => {
 
                   <div className="col-12 col-md-4 mt-4">
                     
-                      <label>
+                      <label className="text-terciary">
                         Fecha de Salida: <span className="text-danger">*</span>
                       </label>
                       <Controller
@@ -341,7 +343,7 @@ const SalidaArticulosScreen = () => {
                           <ReactDatePicker
                             {...field}
                             locale="es"
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border rounded-pill px-3 border border-terciary"
                             dateFormat="dd/MM/yyyy"
                              placeholderText="dd/mm/aaaa"
                             selected={formValues.fechaIngreso}
@@ -359,12 +361,13 @@ const SalidaArticulosScreen = () => {
                 </div>
               </div>
 
-              <div className="row mt-6">
-              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>                  Informacion de terceros:
-                </label>
-                <div className="row">
+              <div className="row mt-5">
+              <Subtitle
+                  title={"Informacion de terceros"}
+                />
+                <div className="row mt-3 ms-1">
                   <div className="col-12 col-md-4">
-                    <label>Tipo de Documento</label>
+                    <label className="text-terciary">Tipo de Documento</label>
                     <Controller
                       name="options"
                       control={control2}
@@ -385,9 +388,9 @@ const SalidaArticulosScreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-4">
-                     <label className="ms-2">Numero de identificacion:</label>
+                     <label className="ms-2 text-terciary">Numero de identificacion:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="tel"
                         placeholder="Numero de identificacion"
                         {...register("businessTel")}
@@ -397,10 +400,10 @@ const SalidaArticulosScreen = () => {
                   </div>
                   <div className="col-12 col-md-4">
                     <div>
-                      <label>Nombre: </label>
+                      <label className="text-terciary">Nombre: </label>
                     </div>
 
-                    <label>Empresa o persona</label>
+                    <label className="text-terciary">Empresa o persona</label>
                   </div>
                   <div className="d-flex justify-content-end gap-2 mt-4">
                     <button
@@ -422,10 +425,10 @@ const SalidaArticulosScreen = () => {
               </div>
 
               <div className="row">
-              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>                  
-              Entradas Relacionadas:
-               </label>
-                <div className="row">
+              <Subtitle
+                  title={"Entradas Relacionadas"}
+                />
+                <div className="row mt-3">
                   <div id="myGrid" className="ag-theme-alpine ">
                     <div
                       className="ag-theme-alpine"
@@ -441,11 +444,11 @@ const SalidaArticulosScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="row mt-4">
+              <div className="row mt-4 ms-0">
                 <div className="col">
-                  <label className="ms-2">Referecnia de Apropiacion:</label>
+                  <label className="ms-2 text-terciary">Referencia de Apropiacion:</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="Referencia de apropiación"
                       {...register("refApro")}
@@ -454,9 +457,9 @@ const SalidaArticulosScreen = () => {
                   
                 </div>
                 <div className="col">
-                  <label className="ms-2">Concepto:</label>
+                  <label className="ms-2 text-terciary">Concepto:</label>
                     <textarea
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="tel"
                       placeholder="Concepto"
                       {...register("businessTel")}
@@ -466,12 +469,12 @@ const SalidaArticulosScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
+              <div className="row ms-0 text-terciary">
                 <label>Anexar documentos</label>
                 <div className="col-12 col-md-4 d-flex justify-content-end gap-2 mt-4">
                   <label htmlFor="formFileLg" className="form-label"></label>
                   <input
-                    className=" form-control form-control-lg mt-1 border rounded-pill px-3"
+                    className=" form-control form-control-lg mt-1 border rounded-pill px-3 border border-terciary"
                     id="formFileLg"
                     type="file"
                   />
@@ -481,19 +484,20 @@ const SalidaArticulosScreen = () => {
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                  Detalles
-                </label>
+               <Subtitle
+                  title={"Detalles"}
+                />
               </div>
 
               <div className="row">
                 <div className="col">
+               
                   <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                    Entradas Especiales
-                  </label>
+                  Entradas especiales
+                </label>
                 </div>
               </div>
-              <div className="row">
+              <div className="row mt-3">
                 <div id="myGrid" className="ag-theme-alpine "style={{textAlign:"-webkit-center"}}>
                   <div className="ag-theme-alpine" style={{ height: "250px",width:"600px" }}>
                     <AgGridReact
@@ -509,8 +513,8 @@ const SalidaArticulosScreen = () => {
                     Articulos Asociados
                   </label>
                 </div>
-                <div id="myGrid" className="ag-theme-alpine ">
-                  <div className="ag-theme-alpine" style={{ height: "250px", width:"600px" }}>
+                <div id="myGrid" className="ag-theme-alpine " style={{display:"flex", justifyContent:"center"}}>
+                  <div className="ag-theme-alpine" style={{ height: "250px", width:"1000px" }}>
                     <AgGridReact
                       columnDefs={columndevolutivoAso}
                       rowData={rowDataDevolutivoAso}
@@ -531,13 +535,13 @@ const SalidaArticulosScreen = () => {
 
                 <div className="row">
                   <div>
-                    <label className="mt-3 form-control ms-0 fw-bolder text-center">
-                      ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION
-                    </label>
+                  <Subtitle
+                  title={"ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION"}
+                />
                   </div>
 
                   <div>
-                    <div className="row">
+                    <div className="row mt-3">
                       <div id="myGrid" className="ag-theme-alpine ">
                         <div
                           className="ag-theme-alpine"
@@ -555,7 +559,10 @@ const SalidaArticulosScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="row">
+              
+            
+            </div>
+            <div className="row">
                 <div className="d-flex justify-content-end gap-2 mt-4">
                   <button
                     type="button"
@@ -590,7 +597,9 @@ const SalidaArticulosScreen = () => {
                   </button>
                 </div>
               </div>
-              <BusquedaDePersonalModal
+          </MarcaDeAgua1>
+
+            <BusquedaDePersonalModal
                 isModalActive={modalPersonal}
                 setIsModalActive={setModalPersonal}
               />
@@ -598,8 +607,6 @@ const SalidaArticulosScreen = () => {
                 isModalActive={modalArticulos}
                 setIsModalActive={setModalArticulos}
               />
-            </div>
-          </MarcaDeAgua1>
         </form>
       </div>
     </div>

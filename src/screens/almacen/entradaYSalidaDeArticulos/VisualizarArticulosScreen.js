@@ -6,6 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import Collapse from "react-bootstrap";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
 
 export const VisualizarArticulosScreen = () => {
   const [marca, setMarca] = useState({});
@@ -32,43 +33,39 @@ export const VisualizarArticulosScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Visualizar articulos</h3>
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+          <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4 ">
+            Visualizar articulos
+          </h3>
           <MarcaDeAgua1>
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                Informacion del Articulo
-              </label>
+              <Subtitle title={"Informacion del Articulo"} />
             </div>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4">
-                <label>Codigo:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Codigo"
-                    {...register("id")}
-                  />
-                  
-                
+            <div className="row ms-1 align-items-end">
+              <div className="col-6 col-sm-3 mt-4">
+                <label className="text-terciary">Codigo:</label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Codigo"
+                  {...register("id")}
+                />
               </div>
-              <div className="col-12 col-md-4 mt-4">
-                  <label>Nombre: </label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Nombre"
-                    {...register("nombre")}
-                  />
-                
-                
+              <div className="col-6 col-sm-3 mt-4">
+                <label className="text-terciary">Nombre: </label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Nombre"
+                  {...register("nombre")}
+                />
               </div>
-              <div className=" col-12 col-md-4 mt-4 d-flex justify-content-end gap-4">
+              <div className=" col-6 col-sm-3 ">
                 <button
                   type="button"
                   className="btn btn-primary text-capitalize border rounded-pill px-3"
@@ -81,6 +78,8 @@ export const VisualizarArticulosScreen = () => {
                 >
                   Crear H/V
                 </button>
+              </div>
+              <div className=" col-6 col-sm-3 ">
                 <button
                   type="button"
                   className="btn btn-danger text-capitalize border rounded-pill px-3"
@@ -89,31 +88,27 @@ export const VisualizarArticulosScreen = () => {
                 </button>
               </div>
             </div>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4">
-                <label>Codigo de barras / QR: </label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="float"
-                    placeholder="Codigo de barras / QR"
-                    {...register("codigoDeBarra")}
-                  />
-                  
-                
+            <div className="row ms-1 align-items-end">
+              <div className="col-6 col-sm-3 mt-4">
+                <label className="text-terciary">Codigo de barras / QR: </label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="float"
+                  placeholder="Codigo de barras / QR"
+                  {...register("codigoDeBarra")}
+                />
               </div>
-              <div className="col-12 col-md-4 mt-4">
-                <label>Serial / Placa: </label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="num"
-                    placeholder="Serial/Placa"
-                    {...register("serial")}
-                  />
-                  
-                
+              <div className="col-6 col-sm-3 mt-4">
+                <label className="text-terciary">Serial / Placa: </label>
+                <input
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="num"
+                  placeholder="Serial/Placa"
+                  {...register("serial")}
+                />
               </div>
-              <div className="col-12 col-md-4">
-                <label className="form-control ms-0">Marca: </label>
+              <div className="col-6 col-sm-3">
+                <label className="form-control ms-0 text-terciary">Marca: </label>
                 <Controller
                   name="options"
                   control={control}
@@ -133,20 +128,18 @@ export const VisualizarArticulosScreen = () => {
                 )}
               </div>
             </div>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4">
-                <label >Observaciones: </label>
-                  <textarea
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Observaciones"
-                    {...register("observaciones")}
-                  />
-                  
-                
+            <div className="row mt-3 ms-1">
+              <div className="col">
+                <label className="text-terciary">Observaciones: </label>
+                <textarea
+                  className="form-control border rounded-pill px-3 border border-terciary"
+                  type="text"
+                  placeholder="Observaciones"
+                  {...register("observaciones")}
+                />
               </div>
             </div>
-            <div className="row">
+            <div className="row mt-3">
               <div className="d-flex justify-content-end gap-4">
                 <button
                   type="button"
@@ -158,9 +151,7 @@ export const VisualizarArticulosScreen = () => {
             </div>
 
             <div className="row">
-              <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                Articulos
-              </label>
+              <Subtitle title={"Articulos"} />
             </div>
           </MarcaDeAgua1>
         </form>
