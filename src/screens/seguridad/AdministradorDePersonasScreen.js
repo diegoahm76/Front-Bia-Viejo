@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
-import {
-  textChoiseAdapter,
-} from "../../adapters/textChoices.adapter";
+import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
@@ -27,6 +25,7 @@ const AdministradorDePersonasScreen = () => {
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [actionForm, setActionForm] = useState(null);
+  const [yesOrNot, setYesOrNot] = useState(false)
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
@@ -170,7 +169,7 @@ const AdministradorDePersonasScreen = () => {
         primerApellido: dataPersona.primer_apellido,
         segundoApellido: dataPersona.segundo_apellido,
         eMail: dataPersona.email,
-        celular: dataPersona.telefono_celular,
+        celular: dataPersona.telefono_celular.slice(2),
         emailEmpresarial: dataPersona.email_empresarial,
         telefonoFijo: dataPersona.telefono_fijo_residencial,
         telefonoEmpresa2: dataPersona.telefono_empresa_2,
@@ -180,7 +179,7 @@ const AdministradorDePersonasScreen = () => {
         ubicacionGeografica: dataPersona.ubicacion_georeferenciada,
         direccionNotificaciones: dataPersona.direccion_notificaciones,
         municipioDondeLabora: dataPersona.cod_municipio_laboral_nal,
-        municipioNotificacion: dataPersona.cod_municipio_notificacion_nal
+        municipioNotificacion: dataPersona.cod_municipio_notificacion_nal,
       };
       setFormValues({
         ...formValues,
@@ -227,7 +226,7 @@ const AdministradorDePersonasScreen = () => {
 
   const onSubmitPersona = async (data) => {
     console.log("data para submit", data);
-    const indicativo = "57"
+    const indicativo = "57";
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
       id_persona: formValues.id_persona,
@@ -247,7 +246,7 @@ const AdministradorDePersonasScreen = () => {
       }),
       email: data.eMail, //Queda por comprobar si mejor se bloquea
       email_empresarial: data.emailEmpresarial,
-      telefono_celular: indicativo+data.celular,
+      telefono_celular: indicativo + data.celular,
       telefono_fijo_residencial: data.telefonoFijo,
       telefono_empresa_2: data.telefonoEmpresa2,
       pais_residencia: paisesOptions[formValues.paisResidencia]?.value,
@@ -522,7 +521,7 @@ const AdministradorDePersonasScreen = () => {
                 <Subtitle title={"Datos personales"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
                 <div className="mt-4 row mx-1">
-                  <div className="row col-12">
+                  <div className="row col-12 align-items-end">
                     {actionForm !== "editar" ? (
                       <div className="col-12 col-md-3 mt-2">
                         <label className="form-label">
@@ -595,12 +594,33 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
+                    <div className="col-md-3 col-12">
+                      <div className="form-check">
+                        <label
+                          className="form-check-label text-terciary me-2"
+                          htmlFor="flexCheckDefault"
+                        >
+                          ¿Requiere nombre comercial?
+                        </label>
+                        <input
+                          name="yesOrNo"
+                          className="border border-terciary form-check-input mx-2"
+                          type="checkbox"
+                          id="flexCheckDefault"
+                          onClick={ e => setYesOrNot(e.target.checked)}
+                        />
+                      </div>
+                    </div>
                     <div className="col-12 col-md-3 mt-2">
                       <div>
-                        <label className="ms-2">Digito de verificación:</label>
+                        <label className="text-terciary">Digito de verificación:</label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="border border-terciary hola form-control border rounded-pill px-3"
                           type="number"
+                          max="9"
+                          min="0"
+                          maxLength="1"
+                          disabled={!yesOrNot}
                           {...registerPersona("digitoVerificacion", {
                             maxLength: 1,
                           })}
@@ -616,20 +636,14 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3 mt-2">
                       <div>
-                        <label className="ms-2">Nombre comercial:</label>
+                        <label className="text-terciary">Nombre comercial:</label>
                         <input
                           className="form-control border rounded-pill px-3"
                           type="text"
+                          disabled={!yesOrNot}
                           {...registerPersona("nombreComercial")}
                         />
                       </div>
-                      {errorsPersona.nombreComercial && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo solo debe tener un digito
-                          </small>
-                        </div>
-                      )}
                     </div>
                     <div className="col-12 col-md-3 mt-2">
                       <div>
@@ -1254,13 +1268,17 @@ const AdministradorDePersonasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="tel"
-                        {...registerPersona("celular", { required: true, maxLength: 10, minLength: 10 })}
+                        {...registerPersona("celular", {
+                          required: true,
+                          maxLength: 10,
+                          minLength: 10,
+                        })}
                       />
                     </div>
                     {errorsPersona.celular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
-                          Este campo es obligatorio, solo 10 caracteres 
+                          Este campo es obligatorio, solo 10 caracteres
                         </small>
                       </div>
                     )}
