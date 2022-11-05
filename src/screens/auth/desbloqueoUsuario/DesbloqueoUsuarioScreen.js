@@ -3,11 +3,12 @@ import { useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import Subtitle from "../../../components/Subtitle";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
+import Swal from "sweetalert2";
 
 const DesbloqueoUsuarioScreen = () => {
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
@@ -22,18 +23,10 @@ const DesbloqueoUsuarioScreen = () => {
     formState: { errors },
   } = useForm();
 
-  //   {
-  //     "nombre_de_usuario": "ruben",
-  //     "tipo_documento": "NU",
-  //     "numero_documento": "1006856900",
-  //     "telefono_celular": "573144198170",
-  //     "email": "rubenhernandoprietosolano@gmail.com",
-  //     "fecha_nacimiento": "2000-09-05",
-  //     "redirect_url": "https://www.google.com"
-  //   }
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    data.redirect_url = "https://www.google.com";
+    data.redirect_url = process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo" : "http://localhost:3000/#/actualizar-contrasena-bloqueo";
     data.fecha_nacimiento = formatISO(formValues.fechaNacimiento, {
       representation: "date",
     });
@@ -45,7 +38,32 @@ const DesbloqueoUsuarioScreen = () => {
         "users/unblock/",
         data
       );
+
       console.log(dataResponse);
+
+      if (dataResponse.success) {
+        Swal.fire({
+          position: "center",
+          icon: "info",
+          title: "Datos correctos, revisa tu correo electronico",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#3085d6",
+          is_active: true,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login");
+          }
+        });
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Datos invalidos",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#3085d6",
+          is_active: true,
+        });
+      }
     } catch (err) {
       console.log(err);
     }

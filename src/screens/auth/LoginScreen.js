@@ -2,18 +2,17 @@ import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
-// import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
-import DesbloqueoUsuarioScreen from "./desbloqueoUsuario/DesbloqueoUsuarioScreen";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
   const { error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
 
@@ -48,6 +47,10 @@ function LoginScreen() {
     } else {
     }
   }, [error]);
+
+  const handleClickToDesbloqueo = () => {
+    navigate("/desbloqueo-usuario");
+  };
 
   return (
     <div
@@ -109,14 +112,13 @@ function LoginScreen() {
                       <label className="text-white text-center fw-lighter fs-5">
                         {error?.detail}
 
-                        <Link className="text-white" to="/desbloqueousuario">
-                          <button
-                            type="submit"
-                            className="btn bg-gradient-primary rounded-pill justify-content-center px-5 my-4 mb-2 fw-normal"
-                          >
-                            Desbloquear Usuario
-                          </button>
-                        </Link>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary rounded-pill justify-content-center px-5 my-4 mb-2 fw-normal"
+                          onClick={handleClickToDesbloqueo}
+                        >
+                          Desbloquear Usuario
+                        </button>
                       </label>
                     </div>
                   ) : (
