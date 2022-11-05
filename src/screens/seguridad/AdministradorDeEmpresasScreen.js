@@ -162,11 +162,12 @@ const AdministradorDeEmpresasScreen = () => {
       const access = getTokenAccessLocalStorage();
       const config = getConfigAuthBearer(access);
       try {
-        await clienteAxios.patch(
+        const { data: dataResponse } = await clienteAxios.patch(
           `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
           updateEmpresa,
           config
         );
+        console.log("data response", dataResponse);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -462,7 +463,7 @@ const AdministradorDeEmpresasScreen = () => {
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
-                          Número de documento:{" "}
+                          Número de documento:
                           <span className="text-danger">*</span>
                         </label>
                         <input
