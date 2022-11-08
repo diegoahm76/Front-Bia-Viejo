@@ -14,6 +14,8 @@ import EditarEstacionModal from "../../../components/EditarEstacionModal";
 import Subtitle from "../../../components/Subtitle";
 import ExportExcelFile from "../../../components/ExportExcelFile";
 
+
+
 const AdministradorDeEstaciones = () => {
   const dispatch = useDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
@@ -134,9 +136,12 @@ const AdministradorDeEstaciones = () => {
                 ></AgGridReact>
               </div>
             </div>
+           
           </div>
+          <div className="col"></div>
         </div>
       </div>
+      
       <NuevaEstacionModal
         setIsModalActive={setIsModalActive}
         isModalActive={isModalActive}

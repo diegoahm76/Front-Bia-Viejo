@@ -125,7 +125,7 @@ const CrearProduccionPropiaScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
+      <div className=" col-12 mx-auto">
         <div className="multisteps-form__content">
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -136,11 +136,12 @@ const CrearProduccionPropiaScreen = () => {
               Producción Propia
             </h3>
             <div className="row">
-              <Subtitle title="Información general" mb="3" />
+              <Subtitle title="información general" mb="3" />
               <div className="col-12 col-sm-3">
-                <label className="text-terciary ms-3">
+                <label className="form-control ms-3">
                   Seleccionar vivero <span className="text-danger">*</span>
                 </label>
+
                 <Controller
                   name="seleccioneVivero"
                   control={control}
@@ -162,38 +163,34 @@ const CrearProduccionPropiaScreen = () => {
                 )}
               </div>
               <div className="col-12 col-sm-3">
-                <label className="text-terciary ms-0">
+                <label className="form-control ms-0">
                   Periodo de Siembra <span className="text-danger">*</span>
                 </label>
-                <div>
-                  <Controller
-                    name="periodoSiembra"
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionsSizePeriodo}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errors.periodoSiembra && (
-                    <small className="text-danger">
-                      Este campo es obligatorio
-                    </small>
+                <Controller
+                  name="periodoSiembra"
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={optionsSizePeriodo}
+                      placeholder="Seleccionar"
+                    />
                   )}
-                </div>
+                />
+                {errors.periodoSiembra && (
+                  <small className="text-danger">
+                    Este campo es obligatorio
+                  </small>
+                )}
               </div>
-              <div className="col-12 col-md-2 mt-2">
-                <div className=" d-grid gap-2 d-flex">
+              <div className="col-12 col-md-3 mt-4">
+                <div className="d-grid gap-2 d-flex">
                   <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                     type="submit"
-                    title="Send"
-                    form="configForm"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                   >
                     Buscar
                   </button>
@@ -208,9 +205,9 @@ const CrearProduccionPropiaScreen = () => {
               onSubmit={handleSubmit2(onSubmitGuardar)}
             >
               <div className="row">
-                <Subtitle title="Información de siembra" mb="3" />
+                <Subtitle title="información de la solicitud" mb="3" />
                 <div className="col-12 col-sm-3">
-                  <label className="text-terciary ms-3">
+                  <label className="form-control ms-3">
                     Lote de siembra No.
                   </label>
                 </div>
@@ -226,45 +223,46 @@ const CrearProduccionPropiaScreen = () => {
                   ></AgGridReact>
                 </div>
                 <div>
-                  <Subtitle
-                    title="Información del producto a ingresar "
-                    mb="3"
-                  />
                   <div className="row">
-                    <div className="col-12 col-sm-3">
+                    <Subtitle
+                      title="información del producto a ingresar"
+                      mb="3"
+                    />
+                    <div className="col-12 col-sm-3 mt-3">
                       <div>
-                        <label className="ms-2 text-terciary">Cantidad</label>
+                        <label className="ms-2 text-terciary ">Cantidad</label>
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
                           type="number"
                           placeholder="cantidad"
-                          {...register2("cantidad", {required:true})}
+                          name="cantidad"
+                          {...register2("cantidad", { required: true })}
                         />
+                        {errors2.cantidad && (
+                          <small className="text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        )}
                       </div>
-
-                      {errors2.cantidad && (
-                        <small className="text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      )}
                     </div>
-                    <div className="col-6 col-sm-3 ">
-                    <div>
-                        <label className="ms-2 text-terciary">Tamaño promedio (cm)</label>
+                    <div className="col-12 col-sm-3 mt-3">
+                      <div>
+                        <label className="ms-2 text-terciary ">Tamaño promedio (cm)</label>
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
                           type="number"
-                          placeholder="tamaño"
-                          {...register2("tamano", {required:true})}
+                          placeholder="Tamaño Promedio (cm)"
+                          name="tamano"
+                          {...register2("tamano", { required: true })}
                         />
+                        {errors2.tamano && (
+                          <small className="text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        )}
                       </div>
-                      {errors2.tamano && (
-                        <small className="text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      )}
                     </div>
-                    <div className="col-2 col-sm-3">
+                    <div className="col-12 col-sm-3 mt-3">
                       <label className="text-terciary">
                         Etapa del material vegetal
                       </label>
