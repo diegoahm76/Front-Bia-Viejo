@@ -3,6 +3,8 @@ import { useState } from "react";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
+import Subtitle from "../../../components/Subtitle";
+import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 
 const optionsDocumentSelection = [
   { label: "Seleccione opción" },
@@ -12,12 +14,6 @@ const optionsDocumentSelection = [
   { label: "NIT" },
 ];
 
-const optionsDniNumbers = [
-  { label: "Seleccione opción" },
-  { label: "1111111111" },
-  { label: "1212121212" },
-  { label: "1010101011" },
-];
 
 const optionsDepartamentos = [
   { label: "Seleccione opción" },
@@ -33,52 +29,49 @@ const optionsMunicipios = [
   { label: "Acacías" },
 ];
 
-const optionsProfessional = [
-  { label: "Cesar Camacho" },
-  { label: "Argenis Alarcón" },
-  { label: "Mónica Ospina" },
-];
-
 const CreacionBodegaScreen = () => {
   const [selectDepartament, setSelectedDepartament] = useState(null);
   const [selectMunicipios, setSelectedMunicipios] = useState(null);
-  const [selectedIdDocument, setSelectedIdDocument] = useState(null);
-  const [selectProfessional, setSelectedProfessional] = useState(null);
-  const [selectNumberId, setSelectedNumberId] = useState(null);
   const { register, handleSubmit, control } = useForm();
 
   const submit = (data) => {};
 
+  const [isModalActive, setIsModalActive] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalActive(true);
+  };
+  const onSubmit = (data) => {};
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6"> Creación de bodegas</h3>
-
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+          <h3 className="text-rigth  fw-light mt-4 mb-2">
+            {" "}
+            Creación de bodegas
+          </h3>
+
           <MarcaDeAgua1>
             <div className="row">
-              <div className="col-12 col-md-4 mt-2">
-                <div className="input-group input-group-dynamic">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    {" "}
-                    Nombre de bodega:{" "}
-                    <span className="text-danger" {...register("cellarName")}>
-                      *
-                    </span>{" "}
-                  </label>
+              <Subtitle title="Información del articulo" mb="3" />
+              <div className="col-12 col-sm-3 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Nombre de bodega</label>
                   <input
-                    className="multisteps-form__input form-control mt-1"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
+                    placeholder="nombre"
+                    {...register("nombre")}
                   />
                 </div>
               </div>
 
-              <div className="col-12 col-md-4 mt-2">
+              <div className="col-12 col-md-3 mt-2">
                 <div className=" input-group input-group-dynamic">
                   <label className="form-floating input-group input-group-dynamic ms-2">
                     {" "}
@@ -105,7 +98,7 @@ const CreacionBodegaScreen = () => {
                 </div>
               </div>
 
-              <div className="col-12 col-md-4 mt-2">
+              <div className="col-12 col-md-3 mt-2">
                 <div className=" input-group input-group-dynamic">
                   <label className="form-floating input-group input-group-dynamic ms-2">
                     {" "}
@@ -131,95 +124,101 @@ const CreacionBodegaScreen = () => {
                   />
                 </div>
               </div>
-
-              <div className="col-12 col-md-4 mb-2 mt-4">
-                <div className="input-group input-group-dynamic">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    {" "}
-                    Dirección de bodega: <span className="text-danger">
-                      *
-                    </span>{" "}
+              <div className="col-12 col-sm-3 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">
+                    Dirección de bodega
                   </label>
                   <input
-                    className="multisteps-form__input form-control"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    {...register("cellarAddress")}
+                    placeholder="dirección"
+                    {...register("direccion")}
                   />
                 </div>
               </div>
+              <div className="form-check mt-4">
+                            <label
+                              className="form-check-label text-terciary me-2"
+                              htmlFor="flexCheckDefault"
+                            >
+                              ¿La bodega es principal?</label>
+                            <input
+                              name="yesOrNo"
+                              className="border border-terciary form-check-input mx-2"
+                              type="checkbox"
+                              id="flexCheckDefault"
+                            />
+                          </div>
 
-              <div className="col-12 d-flex justify-content-center mt-5 mb-5">
-                <label className="form-floating input-group input-group-dynamic ms-5 my-2">
-                  {" "}
-                  Notificar a: <span className="text-danger">*</span>{" "}
-                </label>
+              <form
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <div className="row">
+              <Subtitle title={"Datos del responsable"}
+              mb="3" />
+              <div className="col-12 col-sm-3">
+                <label className="ms-3 text-terciary">Tipo de Documento</label>
                 <Controller
                   name="tipoDocumento"
                   control={control}
+                  defaultValue={optionsDocumentSelection[0]}
                   rules={{
-                  required: true,
+                    required: true,
                   }}
                   render={({ field }) => (
                     <Select
                       {...field}
-                      {...register("idDocument")}
-                      className="col-3 mx-1"
-                      defaultValue={selectedIdDocument}
-                      onChange={setSelectedIdDocument}
                       options={optionsDocumentSelection}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
-
-                <Controller
-                  name="numeroDocumento"
-                  control={control}
-                  //rules={{
-                  //required: true,
-                  //}}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      {...register("optionDniNumbers")}
-                      className="col-3 mx-1"
-                      defaultValue={selectNumberId}
-                      onChange={setSelectedNumberId}
-                      options={optionsDniNumbers}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-
-                <Controller
-                  name="Professional"
-                  control={control}
-                  //rules={{
-                  //required: true,
-                  //}}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      {...register("ProfessionalOptions")}
-                      className="col-3 mx-1"
-                      defaultValue={selectProfessional}
-                      onChange={setSelectedProfessional}
-                      options={optionsProfessional}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-
+              </div>
+              <div className="col-12 col-sm-3">
                 <div>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
+                  <input
+                    className="form-control border border border-terciary rounded-pill px-3"
+                    type="number"
+                    placeholder="número cédula"
+                    {...register("numeroCedula")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-sm-3">
+                <div>
+                  <label className="ms-2 text-terciary">Nombre completo</label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    {...register("nombreCompleto")}
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-md-2 mt-2">
+                <div className="d-grid gap-2 d-flex">
                   <button
-                    type="button"
-                    className="btn btn-primary mx-2 text-capitalize"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="submit"
+                    title="Send"
+                    form="configForm"
+                    
+                    onClick={handleOpenModal}
                   >
                     Buscar
                   </button>
                 </div>
               </div>
-
+              <BusquedaDePersonalModal
+                isModalActive={isModalActive}
+                setIsModalActive={setIsModalActive}
+              />
+            </div>
+          </form>
               <div className="d-flex justify-content-end mt-3">
                 <button
                   type="button"
