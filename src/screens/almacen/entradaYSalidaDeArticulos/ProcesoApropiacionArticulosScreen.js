@@ -7,6 +7,7 @@ import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 import ModalLocal from "../../../components/ModalLocal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
+import Subtitle from "../../../components/Subtitle";
 
 export const ProcesoApropiacionArticulosScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -310,24 +311,25 @@ export const ProcesoApropiacionArticulosScreen = () => {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Apropiacion de Articulos</h3>
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+          <h3 className="mt-3 mb-0 text-start fw-light ms-3 mb-4">Apropiacion de Articulos</h3>
           <MarcaDeAgua1>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <label className="form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3"style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  Datos generales
-                </label>
-                <div className="row">
-                  <div className="col-12 col-md-4 mt-4">
-                    <label>Consecutivo:</label>
+              <Subtitle
+                  title={"Datos generales"}
+                />
+                <div className="row mt-2 ms-1">
+                  <div className="col-6 col-sm-3">
+                    <label className="text-terciary">Consecutivo:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="tel"
                         placeholder="Consecutivo"
                         {...register("businessTel")}
@@ -336,9 +338,9 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     
                   </div>
 
-                  <div className="col-12 col-md-4 mt-4">
+                  <div className="col-6 col-sm-3">
                     
-                      <label htmlFor="exampleFormControlInput1">
+                      <label htmlFor="exampleFormControlInput1" className="text-terciary">
                         Fecha de Apropiacion:{" "}
                         <span className="text-danger">*</span>
                       </label>
@@ -349,10 +351,10 @@ export const ProcesoApropiacionArticulosScreen = () => {
                           <ReactDatePicker
                             {...field}
                             locale="es"
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border rounded-pill px-3 border border-terciary"
                             dateFormat="dd/MM/yyyy"
                              placeholderText="dd/mm/aaaa"
-                            selected={formValues.fechaIngreso}
+                            selected={formValues.fechaApropiacion}
                             onSelect={(e) =>
                               setFormValues({ ...formValues, fechaApropiacion: e })
                            
@@ -367,13 +369,13 @@ export const ProcesoApropiacionArticulosScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
-                <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3 "style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  Informacion de terceros:
-                </label>
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <label>Tipo de Documento</label>
+              <div className="row mt-4">
+              <Subtitle
+                  title={"Informacion de terceros"}
+                />
+                <div className="row ms-1 align-items-end">
+                  <div className="col-6 col-sm-3 ">
+                    <label className="text-terciary">Tipo de Documento</label>
                     <Controller
                       name="options"
                       control={control2}
@@ -393,25 +395,23 @@ export const ProcesoApropiacionArticulosScreen = () => {
                       </p>
                     )}
                   </div>
-                  <div className="col-12 col-md-4">
-                     <label className="ms-2">Numero de identificacion:</label>
+                  <div className="col-6 col-sm-3">
+                     <label className="ms-2 text-terciary">Numero de identificacion:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="tel"
                         placeholder="Numero de identificacion"
                         {...register("businessTel")}
                       />
-                     
-                    
                   </div>
-                  <div className="col-12 col-md-4">
+                  <div className="col-6 col-sm-3">
                     <div>
-                      <label>Nombre: </label>
+                      <label className="text-terciary">Nombre: </label>
                     </div>
 
-                    <label>Empresa o persona</label>
+                    <label className="text-terciary">Empresa o persona</label>
                   </div>
-                  <div className="d-flex justify-content-end gap-2 mt-4">
+                  <div className="col-6 col-sm-3">
                     <button
                       type="button"
                       className="btn btn-primary text-capitalize border rounded-pill px-3"
@@ -420,22 +420,18 @@ export const ProcesoApropiacionArticulosScreen = () => {
                     </button>
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize border rounded-pill px-3 "
+                      className="btn btn-primary text-capitalize border rounded-pill px-3"
+                      onClick={handleOpenModalBusquedaPersonal}
                     >
                       busqueda de tercero
                     </button>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="d-flex justify-content-end gap-2 mt-4">
-                   
-                    
-                  </div>
-                </div>
+                
               </div>
 
               <div className="row">
-                <label className="mt-3 form-control ms-0 fw-bolder text-center">
+                <label className="mt-4 form-control ms-0 fw-bolder text-center">
                   Entradas Relacionadas:
                 </label>
                 <div className="row">
@@ -454,11 +450,11 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="row mt-4">
+              <div className="row ms-1 mt-4">
                 <div className="col">
-                  <label className="ms-2">Referecnia de Apropiacion:</label>
+                  <label className="ms-2 text-terciary">Referecnia de Apropiacion:</label>
                     <input
-                     className="form-control border rounded-pill px-3"
+                     className="form-control border rounded-pill px-3 border border-terciary"
                       type="tel"
                       placeholder="Referecia de Apropiación"
                       {...register("businessTel")}
@@ -467,9 +463,9 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   
                 </div>
                 <div className="col">
-                 <label className="ms-2">Concepto:</label>
+                 <label className="ms-2 text-terciary">Concepto:</label>
                     <textarea
-                     className="form-control border rounded-pill px-3"
+                     className="form-control border rounded-pill px-3 border border-terciary"
                       type="tel"
                       placeholder="Concepto"
                       {...register("businessTel")}
@@ -479,13 +475,13 @@ export const ProcesoApropiacionArticulosScreen = () => {
                 </div>
               </div>
 
-              <div className="row">
+              <div className="row ms-1">
                 <div className="col-12 col-md-4">
-                <label>Anexar documentos</label>
+                <label className="text-terciary">Anexar documentos</label>
                 <div className="d-flex justify-content-end gap-2 ">
                   <label htmlFor="formFileLg" className="form-label"></label>
                   <input
-                    className="form-control form-control-lg mt-1 border rounded-pill px-3"
+                    className="form-control form-control-lg mt-1 border rounded-pill px-3 border border-terciary"
                     id="formFileLg"
                     type="file"
                   />
@@ -496,9 +492,9 @@ export const ProcesoApropiacionArticulosScreen = () => {
 
             <div className={"row"} hidden={page === 1}>
               <div>
-                <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                  Detalles
-                </label>
+              <Subtitle
+                  title={"Detalles"}
+                />
               </div>
 
               <div className="row">
@@ -544,24 +540,16 @@ export const ProcesoApropiacionArticulosScreen = () => {
                   </button>
                 </div>
                 
-                <div className="d-flex justify-content-end gap-2 mt-4">
-                  <button
-                    type="button"
-                    className="btn btn-primary text-capitalize border rounded-pill px-3"
-                  >
-                    Buscar articulo
-                  </button>
-                </div>
               </div>
               <div className="row">
                 <div>
-                  <label className="mt-3 form-control ms-0 fw-bolder text-start text-white border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-                    ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION
-                  </label>
+                <Subtitle
+                  title={"ARTICULOS QUE ENTRAN A HACER PARTE DE LA CORPORACION"}
+                />
                 </div>
 
                 <div>
-                  <div className="row">
+                  <div className="row mt-3">
                     <div id="myGrid" className="ag-theme-alpine ">
                       <div
                         className="ag-theme-alpine"
@@ -623,6 +611,10 @@ export const ProcesoApropiacionArticulosScreen = () => {
               </div>
             </div>
           </MarcaDeAgua1>
+          <BusquedaDePersonalModal
+            isModalActive={modalPersonal}
+            setIsModalActive={setModalPersonal}
+          />
         </form>
       </div>
     </div>
