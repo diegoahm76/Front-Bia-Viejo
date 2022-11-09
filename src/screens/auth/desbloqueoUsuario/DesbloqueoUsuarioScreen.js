@@ -9,12 +9,18 @@ import Subtitle from "../../../components/Subtitle";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
+import { useDispatch } from "react-redux";
+import { userRemoveErrorAction } from "../../../actions/userActions";
+
+const INDICATIVO_PAIS_COLOMBIA = 57
 
 const DesbloqueoUsuarioScreen = () => {
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
   });
+  const dispatch = useDispatch();
+
 
   const {
     register,
@@ -31,7 +37,7 @@ const DesbloqueoUsuarioScreen = () => {
       representation: "date",
     });
     data.tipo_documento = data.tipo_documento.value;
-    console.log(data);
+    data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono_celular}` 
 
     try {
       const { data: dataResponse } = await clienteAxios.post(
@@ -78,6 +84,7 @@ const DesbloqueoUsuarioScreen = () => {
       setTipoDocumentoOptions(documentosFormat);
     };
     getData();
+    dispatch(userRemoveErrorAction())
   }, []);
 
   return (
@@ -160,7 +167,7 @@ const DesbloqueoUsuarioScreen = () => {
                       </label>
                       <input
                         className="form-control border-terciary border rounded-pill px-3"
-                        type="text"
+                        type="number"
                         {...register("numero_documento", { required: true })}
                       />
                       {errors.numero_documento && (
@@ -180,7 +187,7 @@ const DesbloqueoUsuarioScreen = () => {
                       </label>
                       <input
                         className="form-control border-terciary border rounded-pill px-3"
-                        type="text"
+                        type="number"
                         {...register("telefono_celular", { required: true })}
                       />
                       {errors.telefono_celular && (
@@ -200,7 +207,7 @@ const DesbloqueoUsuarioScreen = () => {
                       </label>
                       <input
                         className="form-control border-terciary border rounded-pill px-3"
-                        type="text"
+                        type="email"
                         {...register("email", { required: true })}
                       />
                       {errors.email && (

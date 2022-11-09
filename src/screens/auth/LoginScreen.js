@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
@@ -21,7 +21,14 @@ function LoginScreen() {
     if (token) {
       dispatch(userLoginAction(dataForm.email, dataForm.password));
     } else {
-      console.log("Sigue intentando");
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: "Es necesario validar el captcha, para poder ingresar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6",
+        is_active: true,
+      });
     }
   };
 
@@ -135,7 +142,7 @@ function LoginScreen() {
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal"
+                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal text-capitalize"
                     >
                       Iniciar sesión
                     </button>
@@ -154,15 +161,6 @@ function LoginScreen() {
                     <p>Olvidó su contraseña</p>
                   </Link>
                 </div>
-                {/* <nav className="mt-3 d-flex flex-column text-center">
-                  <small className="text-white">
-                    Registrarse como <Link to="/register">Persona</Link> o{" "}
-                    <Link to="/registeruser">Usuario</Link>
-                  </small>
-                  <Link to="/recuperar-contrasena">
-                    <small className="text-white">Olvide mi contraseña</small>
-                  </Link>
-                </nav> */}
               </div>
             </div>
           </div>
