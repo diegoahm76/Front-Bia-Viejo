@@ -154,8 +154,6 @@ const AdministradorDePersonasScreen = () => {
         setActionForm("editar");
       }
 
-      
-
       const defaultValuesOverrite = {
         tipoDocumento:
           tipoDocumentoOptions[
@@ -226,7 +224,7 @@ const AdministradorDePersonasScreen = () => {
       console.log(err);
     }
   };
-  const indicativo ="57"
+
   const onSubmitPersona = async (data) => {
     console.log("data para submit", data);
     const indicativo = "57"
@@ -266,8 +264,6 @@ const AdministradorDePersonasScreen = () => {
         municipiosOptions[formValues.municipioDondeLabora]?.value,
       ubicacion_georeferenciada: data.ubicacionGeografica,
     };
-   
-    
 
     console.log("updated persona", updatedPersona);
 
@@ -435,8 +431,6 @@ const AdministradorDePersonasScreen = () => {
   const handleCancelAction = () => {
     setActionForm(null);
   };
- 
-
 
   return (
     <div className="row min-vh-100">
@@ -456,7 +450,6 @@ const AdministradorDePersonasScreen = () => {
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
-                  
                   <Controller
                     name="tipoDocumento"
                     control={controlBuscar}
@@ -465,7 +458,6 @@ const AdministradorDePersonasScreen = () => {
                     }}
                     render={({ field }) => (
                       <Select
-                      defaultValue={"Seleccionar"}
                         {...field}
                         value={
                           tipoDocumentoOptions[
@@ -545,7 +537,6 @@ const AdministradorDePersonasScreen = () => {
                           }}
                           render={({ field }) => (
                             <Select
-                         
                               {...field}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
@@ -1381,3 +1372,6 @@ const AdministradorDePersonasScreen = () => {
   );
 };
 export default AdministradorDePersonasScreen;
+
+
+    
