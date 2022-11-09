@@ -1034,12 +1034,12 @@ const AdministradorDePersonasScreen = () => {
                   <div className="col-12 col-md-3 mt-2">
                     <label className="text-terciary">
                       Municipio donde labora:{" "}
-                      <span className="text-danger">*</span>
+                      {/* <span className="text-danger">*</span> */}
                     </label>
                     <Controller
                       name="municipioDondeLabora"
                       control={controlPersona}
-                      rules={{ required: true }}
+                      // rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -1193,12 +1193,12 @@ const AdministradorDePersonasScreen = () => {
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">
                       Municipio notificación:{" "}
-                      <span className="text-danger">*</span>
+                      {/* <span className="text-danger">*</span> */}
                     </label>
                     <Controller
                       name="municipioNotificacion"
                       control={controlPersona}
-                      rules={{ required: true }}
+                      // rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
