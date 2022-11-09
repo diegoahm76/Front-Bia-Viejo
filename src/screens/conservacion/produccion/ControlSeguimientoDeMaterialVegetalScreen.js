@@ -280,7 +280,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                 )}
               </div>
               <div className="col-12 col-sm-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">Rango de fechas</label>
+                <label className="text-terciary ms-2">Rango de fechas</label>
                 <Controller
                   name="fechaInicio"
                   control={control}
@@ -292,7 +292,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                       onSelect={(e) =>
                         setFormValues({ ...formValues, fechaInicio: e })
                       }
-                      className="multisteps-form__input form-control p-2"
+                      className="form-control border-terciary border rounded-pill px-3"
                       placeholderText="dd/mm/aaaa"
                     />
                   )}
@@ -304,7 +304,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                 )}
               </div>
               <div className="col-12 col-sm-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">Etapa de Siembra</label>
+                <label className="text-terciary ms-2">Etapa de Siembra</label>
                 <Controller
                   name="etapaSiembra"
                   control={control}
@@ -326,7 +326,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                 )}
               </div>
               <div className="col-12 col-sm-3">
-                <label className="form-floating input-group input-group-dynamic ms-2">
+                <label className="text-terciary ms-2">
                   Seleccione Actividad<span className="text-danger">*</span>
                 </label>
                 <Controller
@@ -365,6 +365,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   className="ag-theme-alpine mt-2 mb-4"
                   style={{ height: "300px" }}
                 >
+                  <Subtitle title="Informacion de material vegetal " mt="3" mb="3" />
                   <AgGridReact
                     columnDefs={columnDefs}
                     rowData={rowData}
@@ -396,18 +397,20 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   ></AgGridReact>
                 </div>
 
-                <div className="input-group input-group-dynamic flex-column mt-3">
-                  <label htmlFor="exampleFormControlInput1 ">
-                    Observaciones
+                <div className="col-12">
+                <div className="mx-3">
+                  <label htmlFor="ms-2" className="text-terciary">
+                    Observaciones generales
                   </label>
                   <textarea
-                    className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                    className="form-control border rounded-pill px-4 border-terciary"
                     type="text"
-                    placeholder="Observaciones"
+                    placeholder="Observaciones generales"
                     rows="3"
                     name="Observaciones"
                   />
                 </div>
+              </div>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
                     className="btn bg-primary me-md-2 text-white text-capitalize"

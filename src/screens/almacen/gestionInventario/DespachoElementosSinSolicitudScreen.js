@@ -7,6 +7,7 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
+import Subtitle from "../../../components/Subtitle";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import { useDispatch } from "react-redux";
@@ -135,10 +136,7 @@ function DespachoElementosSinSolicitudScreen() {
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Despachar Elementos sin Solicitud
-        </h3>
-
+        
         {/*  CUERPO DEL FORMULARIO  */}
 
         <form
@@ -148,226 +146,213 @@ function DespachoElementosSinSolicitudScreen() {
           id="configForm"
         >
           <MarcaDeAgua1>
+          <h3 className="mt-3 text-start mb-3 fw-light ms-3">Despachar Elementos sin Solicitud</h3>
             <div className="multisteps-form__content">
-              <div className="row my-3">
-              <div className="col-12 col-sm-12 border rounded-pill px-3" style={{backgroundImage:"linear-gradient(45deg, #67b136, #39aad4)"}}>
-              <h5 className="font-weight-bolder my-2 text-light">
-                    Datos Generales
-                  </h5>
-                </div>
-              </div>
+            <Subtitle title={"Datos Generales"} mt={3} />
               {/*  PRIMERA FILA  */}
-              <div className="row justify-content-between">
-                <div className="col col-6 col-md-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="number"
-                      defaultValue={"25225"}
-                      placeholder="Consecutivo"
-                      {...register("consecutivoAsignarActivo", {
-                        required: true,
-                      })}
-                    />
-                    <label className="ms-2">
-                      Consecutivo
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errors.consecutivoAsignarActivo?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
+            <div className="row ms-1 justify-content-start">
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">
+                    Consecutivo<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="search"
+                    id="consecutivoDespacharElementosSinSolicitud"
+                    name="consecutivo"
+                    minlength="2"
+                    maxlength="15"
+                    defaultValue={"25225"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("consecutivoDespacharElementosSinSolicitud", {
+                      required: true,
+                    })}
+                  />
+                  {errors.consecutivoDespacharElementosSinSolicitud && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
                 </div>
-                {/*  FECHA  */}
-                <div className="col-12 col-md-4">
-                  <label htmlFor="exampleFormControlInput1 mt-4">
-                    Fecha de Respuesta
-                    <Controller
-                      name="fechaRespuesta"
-                      control={control}
-                      render={({ field }) => (
-                        <DatePicker
-                          {...field}
-                          locale="es"
-                          selected={startDate}
-                          dateFormat="dd/MM/yyyy"
-                          includeDates={[new Date()]}
-                          onChange={(date) => setStartDate(date)}
-                          className="multisteps-form__input form-control p-2 border border-1"
-                          placeholderText="Fecha de respuesta"
-                          peekNextMonth
-                          disabled
-                          showMonthDropdown
-                          showYearDropdown
-                          dropdownMode="select"
-                        />
-                      )}
-                    />
-                  </label>
-                </div>
               </div>
-              {/*  SEGUNDA FILA  */}
-              <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                  Operario Almacén
-                </label>
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento{" "}
-                    <div className="col-12">
-                      <Controller
-                        name="tipoDocumentoOperario"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            isDisabled
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
+              {/*  FECHA  */}
+              <div className="col-12 col-md-3">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-5"
+                >
+                  Fecha de Respuesta
+                  <Controller
+                    name="fechaRespuesta"
+                    control={control}
+                    render={({ field }) => (
+                      <DatePicker
+                        {...field}
+                        locale="es"
+                        selected={startDate}
+                        dateFormat="dd/MM/yyyy"
+                        includeDates={[new Date()]}
+                        onChange={(date) => setStartDate(date)}
+                        className="form-control border border-terciary rounded-pill px-3 mt-2"
+                        placeholderText="Fecha de respuesta"
+                        peekNextMonth
+                        disabled
+                        showMonthDropdown
+                        showYearDropdown
+                        dropdownMode="select"
                       />
-                    </div>
-                  </label>
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="number"
-                      {...register("numeroDocumentoOperario")}
-                      placeholder="numero documento"
-                      value="1121919374"
-                      disabled
-                    />
-                    <label className="ms-2">Número de documento</label>
-                  </div>
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="text"
-                      {...register("nombreOperario")}
-                      placeholder="Nombre Completo"
-                      value="Jhon Alejandro Lopez Ramos"
-                      disabled
-                      id="nombreOperario"
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
+                    )}
+                  />
+                </label>
+              </div>
+            </div>
+               {/*  SEGUNDA FILA  */}
+            <Subtitle title={"Operario Almacén"} mt={3} />
+            <div className="row ms-1">
+              <div className="col-12 col-md-3 align-content-end align-items-end">
+                <label className="text-terciary">Tipo de documento </label>
+                <Select
+                  className="border rounded-pill px-3 mt-0 bg-light"
+                  defaultValue={optionsTipoDocumento[0]}
+                  name="tipoDocumentoOperario"
+                  options={optionsTipoDocumento}
+                  isDisabled
+                  placeholder="Seleccione"
+                />
+              </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Número de documento</label>
+                  <input
+                    type="number"
+                    id="numeroDocumentoOperario"
+                    name="numeroDocumentoOperario"
+                    disabled
+                    defaultValue={"112264899"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("numeroDocumentoOperario", {
+                      required: true,
+                    })}
+                  />
                 </div>
               </div>
+              <div className="col-12 col-md-3">
+                <div className="mb-3">
+                  <label className="text-terciary">Nombre completo</label>
+                  <input
+                    type="tex"
+                    id="nombreOperario"
+                    name="nombreOperario"
+                    disabled
+                    defaultValue={"Jhon Alejandro Lopez"}
+                    className="form-control border border-terciary rounded-pill px-3"
+                    {...register("nombreOperario", { required: true })}
+                  />
+                </div>
+              </div>
+            </div>
               {/*  TERCERA FILA  */}
-              <div className="row">
-                <label className="mt-4 form-control ms-0 fw-bolder text-center">
-                  Responsable
-                </label>
-                <div className="col-12 col-md-4">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
-                    Tipo de documento <span className="text-danger">*</span>
-                    <div className="col-12">
-                      <Controller
-                        name="tipoDocumentoResponsable"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+              <Subtitle title={"Responsable"} mt={3} />
+              <div className="row ms-1">
+                <div className="col-12 col-md-3 align-content-end align-items-end">
+                  <label className="text-terciary">
+                    Tipo de documento<span className="text-danger">*</span>
                   </label>
-                </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
-                    <input
-                      className="form-control"
-                      type="number"
-                      {...register("numeroDocumentoResponsable", {
-                        required: true,
-                      })}
-                      placeholder="numero documento"
-                      defaultValue={"1121919374"}
-                    />
-                    <label className="ms-2">
-                      Número de documento
-                      <span className="text-danger">*</span>
-                    </label>
-                  </div>
-                  {errors.numeroDocumentoResponsable?.type === "required" && (
-                    <small className="text-danger">
-                      El campo es requerido*
-                    </small>
+                  <Controller
+                    name="tipoDocumentoResponsable"
+                    control={control}
+                    defaultValue={optionsTipoDocumento[0]}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select {...field} options={optionsTipoDocumento} />
+                    )}
+                  />
+                  {errors.tipoDocumentoResponsable && (
+                    <span className="text-danger">
+                      Este campo es obligatorio *
+                    </span>
                   )}
                 </div>
-                <div className="col-12 col-md-4">
-                  <div className="form-floating input-group input-group-dynamic disabled">
+                <div className="col-12 col-md-3">
+                  <div className="mb-3">
+                    <label className="text-terciary">Número de documento<span className="text-danger">*</span></label>
                     <input
-                      className="form-control"
-                      type="text"
-                      {...register("nombreResponsable")}
-                      placeholder="Nombre Completo"
-                      value="Jhon Alejandro Lopez Ramos"
-                      disabled
-                      id="nombreResponsable"
+                      type="number"
+                      id="numeroDocumentoQuienEntrega"
+                      name="numeroDocumentoQuienEntrega"
+                      defaultValue={""}
+                      placeholder={"Ingrese número de documento"}
+                      className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numeroDocumentoQuienEntrega", {
+                        required: true,
+                      })}
                     />
-                    <label className="ms-2">Nombre completo</label>
+                  </div>
+                  {errors.numeroDocumentoQuienEntrega?.type === "required" && (
+                    <span className="text-danger">
+                      El campo es requerido*
+                    </span>
+                )}
+                </div>
+                <div className="col-12 col-md-3">
+                  <div className="mb-3">
+                    <label className="text-terciary">Nombre completo</label>
+                    <input
+                      type="text"
+                      id="nombreResponsable"
+                      name="nombreResponsable"
+                      disabled
+                      defaultValue={"Jhon Alejandro Lopez"}
+                      className="form-control border rounded-pill px-3 border-terciary"
+                      {...register("nombreResponsable", { required: true })}
+                    />
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
-                  <button
+                <div className="col-12 col-md-3">
+                <div className="mb-3 d-inline-flex flex-column">
+                    <label>&nbsp;</label>
+                    <button
                     type="submit"
+                    Value="buscar"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3"
                     onClick={handleOpenModalBusquedaPersonal}
-                    className="mt-0 btn btn-primary flex-center text-capitalize"
                   >
                     Buscar
                   </button>
-                </div>
+                  </div>
+                  </div>
               </div>
 
-              <div className="row mt-4">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-end">
+              <div className="row">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 btn btn-primary flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
                   >
                     Guardar
                   </button>
+                </div>
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 mx-4 btn btn-light flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
                   >
                     Cancelar
                   </button>
                 </div>
               </div>
+            </div>
 
-              <div className="row my-3">
-                <div className="col-12 col-sm-6">
-                  <h5 className="font-weight-bolder border-radius-xl my-2">
-                    Despacho de Solicitud
-                  </h5>
-                </div>
-              </div>
-              <div id="myGrid" className="ag-theme-alpine mt-4">
+            <Subtitle title={"Despacho de Solicitud"} mt={3} />
+              <div id="myGrid" className="ag-theme-alpine mt-1">
                 <div
-                  className="ag-theme-alpine my-1"
-                  style={{ height: "300px" }}
+                  className="ag-theme-alpine mt-2 mx-3"
+                  style={{ height: "250px" }}
                 >
                   <AgGridReact
                     columnDefs={columnDefs}
@@ -378,38 +363,42 @@ function DespachoElementosSinSolicitudScreen() {
                   ></AgGridReact>
                 </div>
               </div>
-              <div className="input-group input-group-dynamic flex-column mt-4 mb-2">
-                <label htmlFor="exampleFormControlInput1">Observaciones</label>
+              <div className="input-group mx-2 input-group-dynamic flex-column mt-4 mb-2 px-1">
+                <label className="text-terciary">Observaciones<span className="text-danger">*</span></label>
                 <textarea
-                  className="multisteps-form__input form-control p-2 mw-100 w-auto"
+                  className="p-2 mw-100 w-auto border border-terciary rounded-pill px-4"
                   type="text"
-                  {...register("observaciones", {
-                    required: true,
-                  })}
-                  placeholder="Incluya observacion"
+                  placeholder="Incluya observación"
                   rows="3"
-                  name="observaciones"
+                  name="observacion"
+                  {...register("observacion", {
+                    required: true,
+                  })}                  
                 />
-                {errors.observaciones?.type === "required" && (
-                  <small className="text-danger">El campo es requerido*</small>
+                {errors.observacion?.type === "required" && (
+                  <span className="text-danger">El campo es requerido*</span>
                 )}
               </div>
               <div className="row">
-                <div className="col-12 col-md-12 d-grid gap-2 d-md-flex justify-content-center">
+              <div className="d-flex justify-content-end flex-wrap mt-4">
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 btn btn-primary flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
                   >
                     Guardar
                   </button>
+                </div>
+                <div className="mx-1 d-flex justify-content-center">
                   <button
-                    type="submit"
-                    className="mt-4 mx-4 btn btn-light flex-center text-capitalize"
+                    type="button"
+                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
                   >
-                    Salir
+                    Cancelar
                   </button>
                 </div>
               </div>
+            </div>
             </div>
           </MarcaDeAgua1>
         </form>

@@ -7,7 +7,6 @@ import Select from "react-select";
 import { useDispatch } from "react-redux";
 import { useForm, Controller } from "react-hook-form";
 import DatePicker, { registerLocale } from "react-datepicker";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 import Subtitle from "../../../components/Subtitle";
 
 const ReporteAsignacionDeActivoScreen = () => {
@@ -154,7 +153,10 @@ const ReporteAsignacionDeActivoScreen = () => {
               </div>
 
               <div className="col-12 col-md-3 ms-2">
-                <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
+                <label
+                  className="text-terciary"
+                  htmlFor="exampleFormControlInput1 mt-4"
+                >
                   Fecha de Asignacion
                 </label>
 
@@ -190,11 +192,12 @@ const ReporteAsignacionDeActivoScreen = () => {
             </div>
             {selecOpciones.consecutivo ? (
               <div className="multisteps-form__content">
-                
-
                 <div className="multisteps-form__content mt-3">
                   <div className="row">
-                  <Subtitle title="Reporte de asignacion de un activo"mb="3"/>
+                    <Subtitle
+                      title="Reporte de asignacion de un activo"
+                      mb="3"
+                    />
                     <div className="col-12 col-md-3 ms-2">
                       <label className="text-terciary ms-2">Dependencia</label>
                       <input
@@ -219,13 +222,13 @@ const ReporteAsignacionDeActivoScreen = () => {
                   </div>
                 </div>
 
-                
-
                 <div className="multisteps-form__content mt-3">
                   <div className="row">
-                  <Subtitle title="Responsable" mt="3" mb="3"/>
+                    <Subtitle title="Responsable" mt="3" mb="3" />
                     <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Tipo de documento </label>
+                      <label className="text-terciary ms-2">
+                        Tipo de documento{" "}
+                      </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
@@ -236,7 +239,9 @@ const ReporteAsignacionDeActivoScreen = () => {
                     </div>
 
                     <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Numero de documento</label>
+                      <label className="text-terciary ms-2">
+                        Numero de documento
+                      </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
@@ -259,14 +264,13 @@ const ReporteAsignacionDeActivoScreen = () => {
                   </div>
                 </div>
 
-                
-
-
                 <div className="multisteps-form__content mt-3">
                   <div className="row">
-                  <Subtitle title="Solicitante" mt="3" mb="3"/>
+                    <Subtitle title="Solicitante" mt="3" mb="3" />
                     <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Tipo de documento </label>
+                      <label className="text-terciary ms-2">
+                        Tipo de documento{" "}
+                      </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
@@ -277,7 +281,9 @@ const ReporteAsignacionDeActivoScreen = () => {
                     </div>
 
                     <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Numero de documento</label>
+                      <label className="text-terciary ms-2">
+                        Numero de documento
+                      </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
@@ -300,58 +306,58 @@ const ReporteAsignacionDeActivoScreen = () => {
                   </div>
                 </div>
 
-                
-
-                
-                  <div className="row mt-3">
-                  <Subtitle title="Operario" mt="3" mb="3"/>
-                    <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Tipo de documento </label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="C.C"
-                        disabled
-                      />
-                    </div>
-
-                    <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Numero de documento</label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="1.435.984.111"
-                        disabled
-                      />
-                    </div>
-
-                    <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Nombre</label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="text"
-                        placeholder="nombre completo"
-                        value="Estevan Lopez"
-                        disabled
-                      />
-                    </div>
+                <div className="row mt-3">
+                  <Subtitle title="Operario" mt="3" mb="3" />
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">
+                      Tipo de documento{" "}
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
+                      placeholder="nombre completo"
+                      value="C.C"
+                      disabled
+                    />
                   </div>
-              
 
-                  <div className="col-12 col-md-12 mt-3 ">
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">
+                      Numero de documento
+                    </label>
+                    <input
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
+                      placeholder="nombre completo"
+                      value="1.435.984.111"
+                      disabled
+                    />
+                  </div>
+
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Nombre</label>
+                    <input
+                      className="form-control border rounded-pill px-3 border border-terciary"
+                      type="text"
+                      placeholder="nombre completo"
+                      value="Estevan Lopez"
+                      disabled
+                    />
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-12 mt-3 ">
                   <div className="mx-3">
-                  <label htmlFor="ms-2">Observaciones</label>
-                  <textarea
-                    className="form-control border rounded-pill px-4 border border-terciary"
-                    type="text"
-                    placeholder="Observaciones"
-                    rows="5"
-                    value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
-                    name="Acciones"
-                    disabled
-                  />
+                    <label htmlFor="ms-2">Observaciones</label>
+                    <textarea
+                      className="form-control border rounded-pill px-4 border border-terciary"
+                      type="text"
+                      placeholder="Observaciones"
+                      rows="5"
+                      value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
+                      name="Acciones"
+                      disabled
+                    />
                   </div>
                 </div>
 
@@ -407,7 +413,9 @@ const ReporteAsignacionDeActivoScreen = () => {
                 <div className="mt-4 justify-content-end align-items-end ">
                   <div className="row">
                     <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary ms-2">Nombre quien imprime</label>
+                      <label className="text-terciary ms-2">
+                        Nombre quien imprime
+                      </label>
                       <input
                         name="nombreQuienImprime"
                         className="form-control border rounded-pill px-3 border border-terciary"
@@ -422,7 +430,10 @@ const ReporteAsignacionDeActivoScreen = () => {
                 <div className="justify-content-end align-items-end">
                   <div className="row">
                     <div className="col-12 col-md-3 ms-2">
-                      <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
+                      <label
+                        className="text-terciary"
+                        htmlFor="exampleFormControlInput1 mt-4"
+                      >
                         Fecha de impresion
                       </label>
 

@@ -703,7 +703,7 @@ const ActualizarDatosPersonaScreen = () => {
               <div className="col-md-8 col-10 mt-3">
                 <div className="mt-3 d-flex align-items-end">
                   <div className="col-10">
-                    <label className="ms-2 text-terciary">
+                    <label className="text-terciary">
                       Dirección laboral: <span className="text-danger">*</span>
                     </label>
                     <input
@@ -879,7 +879,8 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
                     type="tel"
-                    {...register("telefono_celular", { required: true })}
+                
+                    {...register("telefono_celular", { required: true, maxLength:10,minLength:10 })}
                   />
                 </div>
                 {errors.telefono_celular && (

@@ -88,18 +88,18 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
+            <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary" >
               Reporte de la solicitud de consumo
             </h3>
 
-            <Subtitle title="Consecutivo de solicitud de consumo" />
+            <Subtitle title="Consecutivo de solicitud de consumo" mb="3" />
 
-            <div className="row mt-3">
-              <div className="col-12 col-md-3">
-                <label className="ms-2">Numero consecutivo</label>
+            <div className="row ">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary ms-2">Numero consecutivo</label>
                 <input
                   name="consecutivo"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="numero consecutivo"
                   {...register("consecutivo", { required: true })}
@@ -111,8 +111,8 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                   </small>
                 )}
               </div>
-              <div className="col-12 col-md-3">
-                <label htmlFor="exampleFormControlInput1 mt-4">
+              <div className="col-12 col-md-3 ms-2">
+                <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de solicitud
                 </label>
                 <Controller
@@ -126,7 +126,7 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       includeDates={[new Date()]}
                       onChange={(date) => setStartDate(date)}
-                      className="form-control border rounded-pill px-3 p-2"
+                      className="form-control border rounded-pill px-3 p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       disabled
                     />
@@ -149,13 +149,14 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
             </div>
             {selecOpciones.consecutivo ? (
               <div>
-                <Subtitle title="Datos de la solicitud" />
+                
 
-                <div className="row mt-3">
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Dependencia</label>
+                <div className="row ">
+                <Subtitle title="Datos de la solicitud" mb="3" />
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Dependencia</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="Administrativa y finaciera"
@@ -163,10 +164,10 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Grupo</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Grupo</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="Almacen"
@@ -175,13 +176,14 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                   </div>
                 </div>
 
-                <Subtitle title="Responsable" mt="3" />
+                
 
-                <div className="row mt-3">
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Tipo de documento </label>
+                <div className="row ">
+                <Subtitle title="Responsable" mt="3" mb="3" />
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Tipo de documento </label>
                     <input
-                      className="form-control border rounded-pill px-3s"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="C.C"
@@ -189,10 +191,10 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Numero de documento</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Numero de documento</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="1.243.675.654"
@@ -200,10 +202,10 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Nombre</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Nombre</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="Julian Castillo"
@@ -212,13 +214,14 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                   </div>
                 </div>
 
-                <Subtitle title="Solicitante" mt="3" />
+                
 
-                <div className="row mt-3">
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Tipo de documento </label>
+                <div className="row ">
+                <Subtitle title="Solicitante" mt="3" mb="3" />
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Tipo de documento </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="C.C"
@@ -226,10 +229,10 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Numero de documento</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Numero de documento</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="1.745.847.444"
@@ -237,10 +240,10 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                     />
                   </div>
 
-                  <div className="col-12 col-md-3">
-                    <label className="ms-2">Nombre</label>
+                  <div className="col-12 col-md-3 ms-2">
+                    <label className="text-terciary ms-2">Nombre</label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="nombre completo"
                       value="Jusus Cruz"
@@ -249,17 +252,19 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                   </div>
                 </div>
 
-                <div className="col-12 col-md-12 mt-3">
-                  <label htmlFor="ms-2">Observaciones</label>
-                  <textarea
-                    className="form-control border rounded-pill px-4"
-                    type="text"
-                    placeholder="Observaciones"
-                    value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas"
-                    disabled
-                    rows="5"
-                    name="Acciones"
-                  />
+                <div className="col-12 col-md-12 mt-3 ">
+                  <div className="mx-3">
+                    <label className="text-terciary" htmlFor="ms-2">Observaciones</label>
+                    <textarea
+                      className="form-control border rounded-pill px-4 border border-terciary"
+                      type="text"
+                      placeholder="Observaciones"
+                      rows="5"
+                      value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
+                      name="Acciones"
+                      disabled
+                    />
+                  </div>
                 </div>
 
                 <div className="row">
@@ -296,7 +301,7 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                   </div>
                 </div>
 
-                <div className="d-flex flex-column align-items-start mt-6">
+                <div className="d-flex flex-column align-items-start mt-6 ms-2">
                   <label>
                     ____________________________________________________
                   </label>
@@ -310,11 +315,11 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
 
                 <div className="mt-4 justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-3">
-                      <label className="ms-2">Nombre quien imprime</label>
+                    <div className="col-12 col-md-3 ms-1">
+                      <label className="text-terciary ms-2">Nombre quien imprime</label>
                       <input
                         name="nombreQuienImprime"
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="Nombre del articulo"
                         value="Julian Castillo"
@@ -325,8 +330,8 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                 </div>
                 <div className="justify-content-end align-items-end">
                   <div className="row">
-                    <div className="col-12 col-md-3">
-                      <label htmlFor="exampleFormControlInput1 mt-4">
+                    <div className="col-12 col-md-3 ms-2">
+                      <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                         Fecha de impresion
                       </label>
 
@@ -341,7 +346,7 @@ const ReporteDeSolicitudDeConsumoScreen = () => {
                             dateFormat="dd/MM/yyyy"
                             includeDates={[new Date()]}
                             onChange={(date) => setStartDate(date)}
-                            className="form-control border rounded-pill px-3  p-2"
+                            className="form-control border rounded-pill px-3  p-2 border border-terciary"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}

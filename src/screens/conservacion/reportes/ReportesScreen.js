@@ -7,9 +7,10 @@ import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import Subtitle from "../../../components/Subtitle";
 registerLocale("es", es);
 
-const ReportesScreen = () =>{
+const ReportesScreen = () => {
   const [selectedReporte, setSelectedReporte] = useState({
     tipoReporte: "",
     seleccioneVivero: "",
@@ -508,8 +509,7 @@ const ReportesScreen = () =>{
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Reportes</h3>
+      <div className="col-12 mx-auto">
         <div className="multisteps-form__content">
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -517,8 +517,10 @@ const ReportesScreen = () =>{
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">Reporte</label>
+              <h3 className="text-rigth  fw-light mb-3 mb-2">Reportes</h3>
+              <Subtitle title="información de solicitud" mb="3" />
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary ms-0">Tipo reporte</label>
                 <Controller
                   name="tipoReporte"
                   control={control}
@@ -539,8 +541,8 @@ const ReportesScreen = () =>{
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-6">
-                <label className="form-control ms-0">Seleccione Vivero</label>
+              <div className="col-12 col-sm-3">
+                <label className="text-terciary ms-0">Seleccione Vivero</label>
                 <Controller
                   name="seleccioneVivero"
                   control={control}
@@ -561,13 +563,15 @@ const ReportesScreen = () =>{
                   </small>
                 )}
               </div>
-              <div className="col-12 col-sm-6">
-                <button
-                  type="submit"
-                  className="mt-5 btn btn-primary flex-center text-capitalize"
-                >
-                  Buscar
-                </button>
+              <div className="col-12 col-md-3 mt-2">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    type="submit"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                  >
+                    Buscar
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -578,11 +582,9 @@ const ReportesScreen = () =>{
               onSubmit={handleSubmit2(onSubmitBotonInventario)}
             >
               <div className="row">
-                <h6 className="mt-0 mb-0 text-center mb-3">
-                  Reportes de Inventario
-                </h6>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Tipo de Reporte</label>
+                <Subtitle title="Reportes de Inventario" mb="3" />
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-0">Tipo de Reporte</label>
                   <Controller
                     name="tipoReporteInventario"
                     control={control2}
@@ -603,8 +605,8 @@ const ReportesScreen = () =>{
                     </small>
                   )}
                 </div>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Etapa de planta</label>
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-0">Etapa de planta</label>
                   <Controller
                     name="etapaPlanta"
                     control={control2}
@@ -625,8 +627,8 @@ const ReportesScreen = () =>{
                     </small>
                   )}
                 </div>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Rango de fechas</label>
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-0">Rango de fechas</label>
                   <Controller
                     name="fechaInicioInventario"
                     control={control2}
@@ -638,7 +640,7 @@ const ReportesScreen = () =>{
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaInicio: e })
                         }
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border-terciary border rounded-pill px-3"
                         placeholderText="dd/mm/aaaa"
                         onChange={(event) =>
                           onDateChanged(event, "fechaInicio")
@@ -652,7 +654,7 @@ const ReportesScreen = () =>{
                     </small>
                   )}
                 </div>
-                <div className="col-12 col-sm-6">
+                <div className="col-12 col-sm-3">
                   <button
                     type="submit"
                     className="mt-5 btn btn-primary flex-center text-capitalize"
@@ -663,7 +665,8 @@ const ReportesScreen = () =>{
               </div>
               {botonReportesInventario.tipoReporteInventario &&
               botonReportesInventario.etapaPlanta ? (
-                <div>
+                <div className="row">
+                  <Subtitle title="Información del reporte" mb="3" />
                   <div
                     className="ag-theme-alpine mt-2 mb-4"
                     style={{ height: "300px" }}
@@ -702,11 +705,9 @@ const ReportesScreen = () =>{
               onSubmit={handleSubmit3(onSubmitBotonDistribucion)}
             >
               <div className="row">
-                <h6 className="mt-0 mb-0 text-center mb-3">
-                  Reportes de Distribución
-                </h6>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Tipo de Reporte</label>
+                <Subtitle title="Reportes de Distribución" mb="3" />
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-3">Tipo de Reporte</label>
                   <Controller
                     name="tipoReporteDistribucion"
                     control={control3}
@@ -729,7 +730,7 @@ const ReportesScreen = () =>{
                   {botonReportesDistribucion.tipoReporteDistribucion.value ===
                   "P" ? (
                     <div className="col-12">
-                      <label className="form-control ms-0">
+                      <label className="text-terciary ms-3">
                         Nombre de planta
                       </label>
                       <Controller
@@ -759,7 +760,7 @@ const ReportesScreen = () =>{
                   {botonReportesDistribucion.tipoReporteDistribucion.value ===
                   "PRO" ? (
                     <div className="col-12">
-                      <label className="form-control ms-0">
+                      <label className="text-terciary ms-3">
                         Nombre de funcionario
                       </label>
                       <Controller
@@ -789,7 +790,7 @@ const ReportesScreen = () =>{
                   {botonReportesDistribucion.tipoReporteDistribucion.value ===
                   "D" ? (
                     <div className="col-12">
-                      <label className="form-control ms-0">
+                      <label className="text-terciary ms-3">
                         Toda la distribución
                       </label>
                       <Controller
@@ -816,8 +817,10 @@ const ReportesScreen = () =>{
                   ) : (
                     ""
                   )}
-                  <div className="col-12 col-sm-6">
-                    <label className="form-control ms-0">Rango de fechas</label>
+                  <div className="col-12">
+                    <label className="text-terciary ms-3">
+                      Rango de fechas
+                    </label>
                     <Controller
                       name="fechaInicioDistribucion"
                       control={control3}
@@ -829,7 +832,7 @@ const ReportesScreen = () =>{
                           onSelect={(e) =>
                             setFormValues({ ...formValues, fechaInicio: e })
                           }
-                          className="multisteps-form__input form-control p-2"
+                          className="form-control border rounded-pill border-terciary px-3 "
                           placeholderText="dd/mm/aaaa"
                         />
                       )}
@@ -841,19 +844,25 @@ const ReportesScreen = () =>{
                     )}
                   </div>
                 </div>
-
-                <div className="col-12 col-sm-6">
-                  <button
-                    type="submit"
-                    className="mt-5 btn btn-primary flex-center text-capitalize"
-                  >
-                    Buscar
-                  </button>
+                <div className="col-12 col-md-2 mt-2">
+                  <div className="d-grid gap-2 d-flex">
+                    <button
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                      type="submit"
+                    >
+                      Buscar
+                    </button>
+                  </div>
                 </div>
                 {botonReportesDistribucion.nombreFuncionario ||
                 botonReportesDistribucion.nombrePlanta ||
                 botonReportesDistribucion.todaDistribucion ? (
-                  <form>
+                  <form
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                    onSubmit={handleSubmit3(onSubmitBotonDistribucion)}
+                  >
+                    <Subtitle title="Información del reporte" mb="3" />
                     <div
                       className="ag-theme-alpine mt-2 mb-4"
                       style={{ height: "300px" }}
@@ -892,11 +901,9 @@ const ReportesScreen = () =>{
               onSubmit={handleSubmit4(onSubmitBotonMaterialVegetal)}
             >
               <div className="row">
-                <h6 className="mt-0 mb-0 text-center mb-2">
-                  Reportes de Material Vegetal
-                </h6>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Tipo de Reporte</label>
+                <Subtitle title="Reportes de Material Vegetal" mb="3" />
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-3">Tipo de Reporte</label>
                   <Controller
                     name="tipoReporteMaterialVegetal"
                     control={control4}
@@ -919,7 +926,7 @@ const ReportesScreen = () =>{
                   {botonReporteMaterialVegetal.tipoReporteMaterialVegetal
                     .value === "PL" ? (
                     <div className="col-12">
-                      <label className="form-control ms-0">
+                      <label className="text-terciary ms-3">
                         Nombre de planta
                       </label>
                       <Controller
@@ -949,7 +956,7 @@ const ReportesScreen = () =>{
                   {botonReporteMaterialVegetal.tipoReporteMaterialVegetal
                     .value === "SE" ? (
                     <div className="col-12">
-                      <label className="form-control ms-0">
+                      <label className="text-terciary ms-3">
                         Nombre de la semilla
                       </label>
                       <Controller
@@ -979,7 +986,7 @@ const ReportesScreen = () =>{
                   {botonReporteMaterialVegetal.tipoReporteMaterialVegetal
                     .value === "T" ? (
                     <div className="col-12">
-                      <label className="form-control ms-0">
+                      <label className="text-terciary ms-3">
                         Todo el material
                       </label>
                       <Controller
@@ -1006,8 +1013,11 @@ const ReportesScreen = () =>{
                   ) : (
                     ""
                   )}
-                  <div className="col-12 col-sm-6">
-                    <label className="form-control ms-0">Rango de fechas</label>
+
+                  <div className="col-12">
+                    <label className="text-terciary ms-3">
+                      Rango de fechas
+                    </label>
                     <Controller
                       name="fechaInicioMaterialVegetal"
                       control={control4}
@@ -1019,7 +1029,7 @@ const ReportesScreen = () =>{
                           onSelect={(e) =>
                             setFormValues({ ...formValues, fechaInicio: e })
                           }
-                          className="multisteps-form__input form-control p-2"
+                          className="form-control border rounded-pill border-terciary px-3"
                           placeholderText="dd/mm/aaaa"
                         />
                       )}
@@ -1030,24 +1040,32 @@ const ReportesScreen = () =>{
                       </small>
                     )}
                   </div>
+                  <div className="col-12 col-md-2 mt-2">
+                    <div className="d-grid gap-2 d-flex">
+                      <button
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                        type="submit"
+                      >
+                        Buscar
+                      </button>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="col-12 col-sm-6">
-                  <button
-                    type="submit"
-                    className="mt-5 btn btn-primary flex-center text-capitalize"
-                  >
-                    Buscar
-                  </button>
-                </div>
                 {botonReporteMaterialVegetal.nombrePlantaMaterialVegetal ||
                 botonReporteMaterialVegetal.nombreSemilla ||
                 botonReporteMaterialVegetal.todoMaterial ? (
-                  <form>
+                  <form
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                  >
                     <div
-                      className="ag-theme-alpine mt-2 mb-4"
+                      className="row ag-theme-alpine mt-2 mb-4"
                       style={{ height: "300px" }}
                     >
+                      <div className="row">
+                      <Subtitle title="Información de la solicitud" mb="3" /></div>
+
                       <AgGridReact
                         columnDefs={columnDefsMaterialVegetal}
                         rowData={rowDataMaterialVegetal}
@@ -1081,12 +1099,13 @@ const ReportesScreen = () =>{
               data-animation="FadeIn"
               onSubmit={handleSubmit5(onSubmitBotonAdquisicionMaterialVegetal)}
             >
-              <div>
-                <h6 className="mt-4 mb-0 text-center mb-3">
-                  Reportes de Adquisición de Material Vegetal
-                </h6>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Tipo de Reporte</label>
+              <div className="row">
+                <Subtitle
+                  title="Reportes de Adquisición de Material Vegetal"
+                  mb="3"
+                />
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-0">Tipo de Reporte</label>
                   <Controller
                     name="tipoReporteAdquisicionMaterialVegetal"
                     control={control5}
@@ -1107,8 +1126,8 @@ const ReportesScreen = () =>{
                     </small>
                   )}
                 </div>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-0">
                     Material a reportar
                   </label>
                   <Controller
@@ -1134,8 +1153,8 @@ const ReportesScreen = () =>{
                     </small>
                   )}
                 </div>
-                <div className="col-12 col-sm-6">
-                  <label className="form-control ms-0">Rango de fechas</label>
+                <div className="col-12 col-sm-3">
+                  <label className="text-terciary ms-0">Rango de fechas</label>
                   <Controller
                     name="fechaInicioAdquisicion"
                     control={control5}
@@ -1147,7 +1166,7 @@ const ReportesScreen = () =>{
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaInicio: e })
                         }
-                        className="multisteps-form__input form-control p-2"
+                        className="form-control border rounded-pill border-terciary px-3"
                         placeholderText="dd/mm/aaaa"
                       />
                     )}
@@ -1158,18 +1177,26 @@ const ReportesScreen = () =>{
                     </small>
                   )}
                 </div>
-                <div className="col-12 col-sm-6">
-                  <button
-                    type="submit"
-                    className="mt-5 btn btn-primary flex-center text-capitalize"
-                  >
-                    Buscar
-                  </button>
+                <div className="col-12 col-md-3 mt-2">
+                  <div className="d-grid gap-2 d-flex">
+                    <button
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                      type="submit"
+                    >
+                      Buscar
+                    </button>
+                  </div>
                 </div>
               </div>
               {botonAdquisicionMaterialVegetal.tipoReporteAdquisicionMaterialVegetal &&
               botonAdquisicionMaterialVegetal.materialReportar ? (
-                <form>
+                <form
+                  className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                  data-animation="FadeIn"
+                >
+                  <div className="row">
+                    <Subtitle title="Información del reporte" mb="3" />
+                  </div>
                   <div
                     className="ag-theme-alpine mt-2 mb-4"
                     style={{ height: "300px" }}
@@ -1205,4 +1232,4 @@ const ReportesScreen = () =>{
     </div>
   );
 };
-export default ReportesScreen
+export default ReportesScreen;

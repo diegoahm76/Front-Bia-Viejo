@@ -126,7 +126,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
             </h3>
 
             <div className="row ">
-              <div className="col-12 col-md-3 ms-2">
+              <div className="col-12 col-md-3 ms-3">
                 <label className="text-terciary" htmlFor="exampleFormControlInput1 mt-4">
                   Fecha de eleboracion
                 </label>
@@ -141,7 +141,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                       dateFormat="dd/MM/yyyy"
                       includeDates={[new Date()]}
                       onChange={(date) => setStartDate(date)}
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="form-control border rounded-pill px-3  p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       disabled
                     />
@@ -184,7 +184,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                 </label>
                 <input
                   name="numeroCedula"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="numero cedula"
                   {...register("numeroCedula", { required: true })}
@@ -200,7 +200,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                 <label className="text-terciary ms-2">Nombre completo</label>
                 <input
                   name="nombrecompleto"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   value="Julian Castillo"
@@ -233,7 +233,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
               <div className="col-12 col-md-3 ms-2">
                 <label className="text-terciary ms-2">Dependencia</label>
                 <input
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   value="Administrativa y finaciera"
@@ -244,7 +244,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
               <div className="col-12 col-md-3 ms-2">
                 <label className="text-terciary ms-2">Grupo</label>
                 <input
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   value="Almacen"
@@ -260,7 +260,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                 <label className="text-terciary ms-2">Codigo inicial</label>
                 <input
                   name="codigoInicial"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   {...register("codigoInicial")}
@@ -271,7 +271,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                 <label className="text-terciary ms-2">Codigo final</label>
                 <input
                   name="codigoFinal"
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="nombre completo"
                   {...register("codigoFinal")}
@@ -294,7 +294,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                       {...field}
                       locale="es"
                       dateFormat="dd/MM/yyyy"
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="form-control border rounded-pill px-3  p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       onChange={(date) => {
                         setSelecOpciones({
@@ -323,7 +323,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                       {...field}
                       locale="es"
                       dateFormat="dd/MM/yyyy"
-                      className="form-control border rounded-pill px-3  p-2"
+                      className="form-control border rounded-pill px-3  p-2 border border-terciary"
                       placeholderText="dd/mm/aaaa"
                       onChange={(date) => {
                         setSelecOpciones({
@@ -366,7 +366,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                     <div className="col-12 col-md-3 ms-2">
                       <label className="text-terciary ms-2">Funcionario</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="Funcionario"
                         value="Julian Catillo"
@@ -377,7 +377,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                     <div className="col-12 col-md-3 ms-2">
                       <label className="text-terciary ms-2">Dependencia</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="Administrativa"
@@ -388,7 +388,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                     <div className="col-12 col-md-3 ms-2">
                       <label className="text-terciary ms-2">Grupo</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="nombre completo"
                         value="Almacen"
@@ -418,7 +418,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                       <label className="text-terciary ms-2">Nombre quien imprime</label>
                       <input
                         name="nombreQuienImprime"
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         placeholder="Nombre del articulo"
                         value="Julian Castillo"
@@ -445,7 +445,7 @@ const ReporteDeFuncionarioPorConsumoScreen = () => {
                             dateFormat="dd/MM/yyyy"
                             includeDates={[new Date()]}
                             onChange={(date) => setStartDate(date)}
-                            className="form-control border rounded-pill px-3  p-2"
+                            className="form-control border rounded-pill px-3  p-2 border border-terciary"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}

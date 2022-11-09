@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
 import MarcaDeAgua1 from "./MarcaDeAgua1";
+import Subtitle from "./Subtitle";
 
 const customStyles = {
   content: {
@@ -132,7 +133,7 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <h3 className="mt-3 mb-0 text-center mb-0">Busqueda de personal</h3>
+          <h3 className="text-center  fw-light mt-4 mb-2">Busqueda de personal</h3>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
@@ -140,9 +141,12 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
           >
             <MarcaDeAgua1>
               <div className="row">
+
+              <Subtitle title="Información de la persona" mb="3" />
                 <div className="col-12 col-sm-6">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+                  <label className="form-floating text-terciary  input-group input-group-dynamic ms-3">
                     Tipo de documento{" "}
+                  </label>
                     <div className="col-12 ">
                       <Controller
                         name="tipoDocumento"
@@ -154,39 +158,40 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
                         render={({ field }) => (
                           <Select
                             {...field}
+                            className="mt-3"
                             options={optionsTipoDocumento}
                             placeholder="Seleccionar"
                           />
                         )}
                       />
                     </div>
-                  </label>
                 </div>
                 <div className="col-12 col-sm-6">
-                  <div className="form-floating input-group input-group-dynamic ">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="numero cedula"
-                      {...register("numeroCedula")}
-                    />
-                    <label className="ms-2">Número de cedula</label>
-                  </div>
+                <div>
+                  <label className="ms-2 text-terciary">Número de cedula</label>
+                  <input
+                    className="form-control border border-terciary rounded-pill px-3"
+                    type="number"
+                    placeholder="numero cedula"
+                    {...register("numeroCedula")}
+                  />
                 </div>
-                <div className="col-12 col-sm-6">
-                  <div className="form-floating input-group input-group-dynamic">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="nombre completo"
-                      {...register("nombreCompleto")}
-                    />
-                    <label className="ms-2">Nombre completo</label>
-                  </div>
+              </div>
+              <div className="col-12 col-sm-6 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Nombre completo</label>
+                  <input
+                    className="form-control border border-terciary rounded-pill px-3"
+                    type="text"
+                    placeholder="nombre completo"
+                    {...register("nombreCompleto")}
+                  />
                 </div>
+              </div>
                 <div className="col-12 col-sm-6">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+                  <label className="form-floating text-terciary mt-2 input-group input-group-dynamic ms-2">
                     Dependecia{" "}
+                  </label>
                     <div className="col-12">
                       <Controller
                         name="dependencia"
@@ -197,17 +202,18 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
                         render={({ field }) => (
                           <Select
                             {...field}
+                            className="mt-2"
                             options={optionsDependencia}
                             placeholder="Seleccionar"
                           />
                         )}
                       />
                     </div>
-                  </label>
                 </div>
                 <div className="col-12 col-sm-6">
-                  <label className="form-floating input-group input-group-dynamic ms-2">
+                  <label className="form-floating mt-2 text-terciary input-group input-group-dynamic ms-3">
                     Grupo{" "}
+                  </label>
                     <div className="col-12">
                       <Controller
                         name="grupo"
@@ -218,13 +224,13 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
                         render={({ field }) => (
                           <Select
                             {...field}
+                            className="mt-2"
                             options={optionsGrupo}
                             placeholder="Seleccionar"
                           />
                         )}
                       />
                     </div>
-                  </label>
                 </div>
                 <div
                   className="ag-theme-alpine mt-4 mb-4"
