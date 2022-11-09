@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
@@ -86,7 +87,6 @@ const ActualizarDatosPersonaScreen = () => {
         const { data: dataPersona } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
         );
-        reset(dataPersona);
 
         console.log("data useEffect", dataPersona);
 
@@ -94,8 +94,8 @@ const ActualizarDatosPersonaScreen = () => {
           navigate("/dashboard/usuario/actualizar-datos-empresa");
         }
 
-        dataPersona.tipo_documento =
-          dataPersona.tipo_documento.cod_tipo_documento;
+        dataPersona.telefono_celular = dataPersona.telefono_celular.slice(2);
+        dataPersona.tipo_documento = dataPersona.tipo_documento.cod_tipo_documento;
 
         setFormValues({
           ...formValues,
@@ -178,20 +178,29 @@ const ActualizarDatosPersonaScreen = () => {
       direccion_notificaciones: direccion_notificaciones ?? "",
       direccion_laboral: direccion_laboral ?? "",
       ubicacion_georeferenciada: ubicacion_georeferenciada ?? "",
-      telefono_celular: telefono_celular ?? "",
+      telefono_celular: ("57" + telefono_celular) ?? "",
       telefono_fijo_residencial: telefono_fijo_residencial ?? "",
       telefono_empresa_2: telefono_empresa_2 ?? "",
       tipo_persona: tipo_persona ?? "",
       sexo: sexoOptions[formValues.index_sexo]?.value ?? "",
-      estado_civil : estadoCivilOptions[formValues.index_estado_civil]?.value ?? "",
-      fecha_nacimiento: formatISO(formValues.fecha_nacimiento, {
+      estado_civil:
+        estadoCivilOptions[formValues.index_estado_civil]?.value ?? "",
+      fecha_nacimiento:
+        formatISO(formValues.fecha_nacimiento, {
           representation: "date",
         }) ?? "",
-      pais_nacimiento: paisesOptions[formValues.index_pais_nacimiento]?.value ?? "",
-      pais_residencia: paisesOptions[formValues.index_pais_residencia]?.value ?? "",
-      municipio_residencia: municipiosOptions[formValues.index_municipio_residencia]?.value ?? "",
-      cod_municipio_laboral_nal: municipiosOptions[formValues.index_cod_municipio_laboral_nal]?.value ?? "",
-      cod_municipio_notificacion_nal: municipiosOptions[formValues.index_cod_municipio_notificacion_nal]?.value ?? "",
+      pais_nacimiento:
+        paisesOptions[formValues.index_pais_nacimiento]?.value ?? "",
+      pais_residencia:
+        paisesOptions[formValues.index_pais_residencia]?.value ?? "",
+      municipio_residencia:
+        municipiosOptions[formValues.index_municipio_residencia]?.value ?? "",
+      cod_municipio_laboral_nal:
+        municipiosOptions[formValues.index_cod_municipio_laboral_nal]?.value ??
+        "",
+      cod_municipio_notificacion_nal:
+        municipiosOptions[formValues.index_cod_municipio_notificacion_nal]
+          ?.value ?? "",
     };
 
     const accessToken = getTokenAccessLocalStorage();
@@ -264,7 +273,7 @@ const ActualizarDatosPersonaScreen = () => {
                     className="form-control border rounded-pill px-3 border border-terciary"
                     type="number"
                     {...register("digito_verificacion", {
-                      maxLength: 1
+                      maxLength: 1,
                     })}
                   />
                 </div>
@@ -278,7 +287,7 @@ const ActualizarDatosPersonaScreen = () => {
                   )}
                 </div>
               </div>
-              <div className="col-8 col-md-3">
+              <div className="col-12 col-md-3">
                 <div className="mt-4">
                   <label className="text-terciary">Nombre Comercial:</label>
                   <input
@@ -730,16 +739,6 @@ const ActualizarDatosPersonaScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-md-4">
-                <div className="mt-4">
-                  <label className="text-terciary">Referencia adicional:</label>
-                  <input
-                    className="form-control border rounded-pill px-3 border border-terciary"
-                    type="text"
-                    {...register("direccion_laboral_ref")}
-                  />
-                </div>
-              </div>
             </div>
 
             {/* DATOS DE NOTIFICACIÓN */}
@@ -837,8 +836,8 @@ const ActualizarDatosPersonaScreen = () => {
                   </div>
                 )}
               </div>
-              <div className="col-12 col-md-3">
-                <div className="mt-4">
+              <div className="col-12 col-md-3 mt-3">
+                <div>
                   <label className="text-terciary">Teléfono fijo:</label>
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
@@ -878,9 +877,12 @@ const ActualizarDatosPersonaScreen = () => {
                   </label>
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
-                    type="tel"
-                
-                    {...register("telefono_celular", { required: true, maxLength:10,minLength:10 })}
+                    type="number"
+                    {...register("telefono_celular", {
+                      required: true,
+                      maxLength: 10,
+                      minLength: 10,
+                    })}
                   />
                 </div>
                 {errors.telefono_celular && (
@@ -950,40 +952,43 @@ const ActualizarDatosPersonaScreen = () => {
               <button
                 className="btn bg-gradient-primary text-capitalize"
                 type="submit"
+                onClick={() => {
+                  console.log(watch());
+                }}
               >
                 Actualizar
               </button>
             </div>
           </form>
         </div>
-        <GeneradorDeDirecciones
-          isOpenGenerator={isOpenDireccionResidencia}
-          setIsOpenGenerator={setIsOpenDireccionResidencia}
+        <DirecionResidenciaModal
+          isModalActive={isOpenDireccionResidencia}
+          setIsModalActive={setIsOpenDireccionResidencia}
           completeAddress={completeAddress}
           setCompleteAddress={setCompleteAddress}
           reset={reset}
           keyReset={"direccion_residencia"}
-          totalValuesForm={watch()}
+          watch={watch}
         />
 
-        <GeneradorDeDirecciones
-          isOpenGenerator={isOpenDireccionNotificacion}
-          setIsOpenGenerator={setIsOpenDireccionNotificacion}
+        <DirecionResidenciaModal
+          isModalActive={isOpenDireccionNotificacion}
+          setIsModalActive={setIsOpenDireccionNotificacion}
           completeAddress={completeAddress2}
           setCompleteAddress={setCompleteAddress2}
           reset={reset}
           keyReset={"direccion_notificaciones"}
-          totalValuesForm={watch()}
+          watch={watch}
         />
 
-        <GeneradorDeDirecciones
-          isOpenGenerator={isOpenDireccionLaboral}
-          setIsOpenGenerator={setIsOpenDireccionLaboral}
+        <DirecionResidenciaModal
+          isModalActive={isOpenDireccionLaboral}
+          setIsModalActive={setIsOpenDireccionLaboral}
           completeAddress={completeAddressLaboral}
           setCompleteAddress={setCompleteAddressLaboral}
           reset={reset}
           keyReset={"direccion_laboral"}
-          totalValuesForm={watch()}
+          watch={watch}
         />
       </div>
     </div>

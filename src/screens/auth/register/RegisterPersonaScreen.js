@@ -192,6 +192,7 @@ const RegisterPersonaScreen = () => {
 
         //* Manejo de errores por datos repetidos en la DB (email y numero documento)
       } catch (err) {
+        console.log(err);
         if (err.response?.data?.email && err.response?.data?.numero_documento) {
           Swal.fire({
             title: "Este documento y correo ya estan relacionados",
@@ -352,8 +353,10 @@ const RegisterPersonaScreen = () => {
     setFormValues({ ...formValues, tipo_persona: e });
     if (e.value === "J") {
       setIsUser(false);
+      setYesOrNo(true);
     } else {
       setIsUser(true);
+      setYesOrNo(false);
     }
   };
 
@@ -426,75 +429,50 @@ const RegisterPersonaScreen = () => {
                       )}
                     />
                   </div>
-                  <div className="row col-12">
-                    <div className="col-12 d-flex flex-column flex-md-row justify-content-between gap-0 gap-md-2 align-items-end">
-                      <div className="col-md-6 col-12 mt-3">
-                        <div>
-                          <label className="ms-2">
-                            Número de documento:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="number"
-                            {...register("numero_documento", {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                        {errorsForm.numero_documento && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
 
-                      <div className="col-md-6 col-12">
-                        {isUser && (
-                          <div className="form-check">
-                            <label
-                              className="form-check-label text-terciary me-2"
-                              htmlFor="flexCheckDefault"
-                            >
-                              ¿Requiere nombre comercial?</label>
-                            <input
-                              name="yesOrNo"
-                              className="border border-terciary form-check-input mx-2"
-                              type="checkbox"
-                              onClick={handleYesOrNo}
-                              id="flexCheckDefault"
-                            />
-                          </div>
-                        )}
+                  {isUser && (
+                    <div className="col-12 mt-4 mt-md-5 d-flex justify-content-center">
+                      <div className="form-check">
+                        <label
+                          className="form-check-label text-terciary me-2"
+                          htmlFor="flexCheckDefault"
+                        >
+                          ¿Requiere nombre comercial?
+                        </label>
+                        <input
+                          name="yesOrNo"
+                          className="border border-terciary form-check-input mx-2"
+                          type="checkbox"
+                          onClick={handleYesOrNo}
+                          id="flexCheckDefault"
+                        />
                       </div>
                     </div>
+                  )}
+                  <div className="col-md-6 col-12 mt-3">
+                    <div>
+                      <label className="ms-2">
+                        Número de documento:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="number"
+                        {...register("numero_documento", {
+                          required: true,
+                        })}
+                      />
+                    </div>
+                    {errorsForm.numero_documento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
                   {yesOrNo && (
                     <>
-                      <div className="col-md-6 col-12 ">
-                        <div className="mt-3">
-                          <label className="ms-2">
-                            Nombre comercial:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("nombreComercial", {
-                              required: true,
-                            })}
-                          />
-                        </div>
-                        {errorsForm.nombreComercial && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
                       <div className="col-md-6 col-12 ">
                         <div className="mt-3">
                           <label className="ms-2">Digito verificación:</label>
@@ -517,39 +495,57 @@ const RegisterPersonaScreen = () => {
                           </div>
                         )}
                       </div>
+                      <div className="col-md-6 col-12 ">
+                        <div className="mt-3">
+                          <label className="ms-2">
+                            Nombre comercial:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="border border-terciary form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("nombreComercial", {
+                              required: true,
+                            })}
+                          />
+                        </div>
+                        {errorsForm.nombreComercial && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
                     </>
                   )}
+
+                  {!isUser && (
+                    <div className="col-md-6 col-12 ">
+                      <div className="mt-3">
+                        <label className="ms-2">
+                          Razón social: <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="border border-terciary form-control border rounded-pill px-3"
+                          type="text"
+                          {...register("razonSocial", {
+                            required: true,
+                          })}
+                        />
+                      </div>
+                      {errorsForm.razonSocial && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {isUser && (
                     <>
-                      {!yesOrNo && (
-                        <>
-                          <div className="col-md-6 col-12">
-                            <div className="mt-3">
-                              <label className="ms-2">
-                                Nombre comercial:{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                className=" border border-terciary form-control border rounded-pill px-3"
-                                type="text"
-                                disabled
-                              />
-                            </div>
-                          </div>
-                          <div className="col-md-6 col-12">
-                            <div className="mt-3">
-                              <label className="ms-2">
-                                Digito verificación:
-                              </label>
-                              <input
-                                className=" border border-terciary hola form-control border rounded-pill px-3"
-                                type="number"
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        </>
-                      )}
                       <div className="col-12 col-md-6">
                         <div className="mt-3">
                           <label className="ms-2">
@@ -606,7 +602,7 @@ const RegisterPersonaScreen = () => {
                     </>
                   )}
                   {isUser && (
-                    <div className="flex-column col-12 mt-3">
+                    <div className="flex-column col-12 col-md-6 mt-3">
                       <label htmlFor="exampleFormControlInput1">
                         Fecha de nacimiento:{" "}
                         <span className="text-danger">*</span>
@@ -625,6 +621,7 @@ const RegisterPersonaScreen = () => {
                             scrollableYearDropdown
                             dropdownMode="select"
                             autoComplete="off"
+                            dateFormat="dd/MM/yyyy"
                             selected={formValues.fechaNacimiento}
                             onSelect={(e) =>
                               setFormValues({
@@ -771,6 +768,7 @@ const RegisterPersonaScreen = () => {
                             <input
                               className="form-control rounded-pill px-3 border border-terciary"
                               readOnly
+                              disabled
                               type="text"
                               value={completeAddress}
                               {...register("direccionNotificacion", {
@@ -781,7 +779,10 @@ const RegisterPersonaScreen = () => {
                           <button
                             type="button"
                             className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
-                            onClick={() => setIsOpenGenerator(true)}
+                            onClick={() => {
+                              setIsOpenGenerator(true)
+                              console.log(watch())
+                            }}
                           >
                             Generar
                           </button>
@@ -923,13 +924,13 @@ const RegisterPersonaScreen = () => {
               /> */}
 
               <DirecionResidenciaModal
-                keyReset="direccionNotificacion"
-                reset={reset}
-                totalValuesForm={watch()}
                 isModalActive={isOpenGenerator}
                 setIsModalActive={setIsOpenGenerator}
                 completeAddress={completeAddress}
                 setCompleteAddress={setCompleteAddress}
+                reset={reset}
+                keyReset="direccionNotificacion"
+                watch={watch}
               />
             </div>
           </div>

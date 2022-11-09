@@ -11,6 +11,7 @@ import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
+import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -1130,16 +1131,6 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-3 mt-2">
-                    <div className="mt-4">
-                      <label className="ms-2">Referencia adicional:</label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="text"
-                        {...registerPersona("referenciaAdicional")}
-                      />
-                    </div>
-                  </div>
                 </div>
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
@@ -1346,32 +1337,32 @@ const AdministradorDePersonasScreen = () => {
               </form>
             )}
           </div>
-          <GeneradorDeDirecciones
-            isOpenGenerator={direccionResidenciaIsOpen}
-            setIsOpenGenerator={setDireccionResidenciaIsOpen}
+          <DirecionResidenciaModal
+            isModalActive={direccionResidenciaIsOpen}
+            setIsModalActive={setDireccionResidenciaIsOpen}
             completeAddress={direccionResidenciaText}
             setCompleteAddress={setDireccionResidenciaText}
             reset={resetPersona}
             keyReset="direccion_residencia"
-            totalValuesForm={watchPersona()}
+            watch={watchPersona}
           />
 
-          <GeneradorDeDirecciones
-            isOpenGenerator={direccionLaboralIsOpen}
-            setIsOpenGenerator={setDireccionLaboralIsOpen}
+          <DirecionResidenciaModal
+            isModalActive={direccionLaboralIsOpen}
+            setIsModalActive={setDireccionLaboralIsOpen}
             completeAddress={direccionLaboralText}
             setCompleteAddress={setDireccionLaboralText}
             reset={resetPersona}
             keyReset="direccionLaboral"
-            totalValuesForm={watchPersona()}
+            watch={watchPersona}
           />
 
-          <GeneradorDeDirecciones
+          <DirecionResidenciaModal
             keyReset="direccionNotificaciones"
             reset={resetPersona}
-            totalValuesForm={watchPersona()}
-            isOpenGenerator={direccionNotificacionIsOpen}
-            setIsOpenGenerator={setDireccionNotificacionIsOpen}
+            watch={watchPersona}
+            isModalActive={direccionNotificacionIsOpen}
+            setIsModalActive={setDireccionNotificacionIsOpen}
             completeAddress={direccionNotificacionText}
             setCompleteAddress={setDireccionNotificacionText}
           />

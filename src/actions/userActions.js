@@ -12,6 +12,7 @@ import {
   USER_REGISTER_REQUEST,
   USER_REGISTER_SUCCESS,
   USER_LOGIN_INVALID,
+  USER_REMOVE_ERROR,
 } from "../types/userTypes";
 
 export const userLoginAction = (email, password) => async (dispatch) => {
@@ -152,3 +153,11 @@ const userRegisterFail = (error) => ({
       ? error.response.data.detail
       : error.message,
 });
+
+export const userRemoveErrorAction = () => async (dispatch) => {
+  dispatch(userRemoveError())
+};
+
+const userRemoveError = () => ({
+  type: USER_REMOVE_ERROR
+})

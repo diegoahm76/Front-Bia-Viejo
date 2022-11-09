@@ -14,6 +14,7 @@ import {
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
+import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -576,6 +577,8 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="email"
+                        disabled
+                        readOnly
                         {...registerEmpresa("eMail")}
                       />
                     </div>
@@ -720,24 +723,24 @@ const AdministradorDeEmpresasScreen = () => {
               </form>
             )}
           </div>
-          <GeneradorDeDirecciones
-            isOpenGenerator={direccionNotificacionIsOpen}
-            setIsOpenGenerator={setDireccionNotificacionIsOpen}
+          <DirecionResidenciaModal
+            isModalActive={direccionNotificacionIsOpen}
+            setIsModalActive={setDireccionNotificacionIsOpen}
             completeAddress={direccionNotificacionText}
             setCompleteAddress={setDireccionNotificacionText}
             reset={resetEmpresa}
             keyReset="direccionDeNotificacion"
-            totalValuesForm={watchEmpresa()}
+            watch={watchEmpresa}
           />
 
-          <GeneradorDeDirecciones
-            isOpenGenerator={direccionEmpresaIsOpen}
-            setIsOpenGenerator={setDireccionEmpresaIsOpen}
+          <DirecionResidenciaModal
+            isModalActive={direccionEmpresaIsOpen}
+            setIsModalActive={setDireccionEmpresaIsOpen}
             completeAddress={direccionEmpresaText}
             setCompleteAddress={setDireccionEmpresaText}
             reset={resetEmpresa}
             keyReset="direccionEmpresa"
-            totalValuesForm={watchEmpresa()}
+            watch={watchEmpresa}
           />
 
           <BusquedaAvanzadaJuridicaModal
