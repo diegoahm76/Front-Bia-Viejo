@@ -33,6 +33,7 @@ import HistorialDeMovimientosScreen from "../distribucion/HistorialDeMovimientos
 import ReportesScreen from "../reportes/ReportesScreen";
 import RecepcionDeSolicitudScreen from "../distribucion/RecepcionDeSolicitudScreen";
 
+
 const ConservacionRoutes = () => {
   return (
     <Routes>
