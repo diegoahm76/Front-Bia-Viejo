@@ -35,6 +35,7 @@ function AsignarActivoScreen() {
     control,
     formState: { errors },
   } = useForm();
+  
   const onSubmit = (data) => {
     setSelecOpciones({
       vivero: data.vivero,
