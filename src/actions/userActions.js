@@ -1,7 +1,5 @@
-import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import {
-  USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
@@ -30,30 +28,10 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-
-    if (data.login_erroneo?.contador) {
-      dispatch(userLoginInvalid(data));
-    } else if (data.detail) {
-      dispatch(userLoginInvalid(data));
-    } else if (data.email) {
       dispatch(userLoginSuccess(data));
       localStorage.setItem("userInfo", JSON.stringify(data));
-    } else {
-      console.log(data);
-    }
   } catch (error) {
-    if (error.response?.data?.detail) {
-      Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: error.response?.data?.detail,
-        showConfirmButton: false,
-        timer: 2000,
-        is_active: true,
-      });
-    }
-    console.log(error)
-    dispatch(userLoginFail(error));
+      dispatch(userLoginInvalid(error.response.data));
   }
 };
 
@@ -69,14 +47,6 @@ const userLoginSuccess = (user) => ({
 const userLoginInvalid = (dataError) => ({
   type: USER_LOGIN_INVALID,
   payload: dataError,
-});
-
-const userLoginFail = (error) => ({
-  type: USER_LOGIN_FAIL,
-  payload:
-    error.response && error.response.data
-      ? error.response.data.detail
-      : error.message,
 });
 
 export const userLogoutAction = () => (dispatch) => {

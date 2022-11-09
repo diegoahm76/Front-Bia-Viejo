@@ -41,7 +41,6 @@ export const userReducer = (state = initialState, action) => {
         error: null,
       };
 
-    case USER_LOGIN_FAIL:
     case USER_LOGIN_INVALID:
     case USER_REGISTER_FAIL:
       return {

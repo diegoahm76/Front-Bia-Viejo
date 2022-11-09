@@ -7,7 +7,6 @@ import clienteAxios from "../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
@@ -108,7 +107,7 @@ const AdministradorDePersonasScreen = () => {
     getSelectsOptions();
   }, []);
 
-  const onSubmitBuscarPersona = async (data) => {
+  const onSubmitBuscar = async (data) => {
     console.log(data);
     try {
       const { data: dataPersonaObject } = await clienteAxios.get(
@@ -116,8 +115,8 @@ const AdministradorDePersonasScreen = () => {
       );
 
       const { data: dataPersona } = dataPersonaObject;
-
-      if (dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona) {
+      console.log("dataPersona", dataPersona)
+      if(dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona){
         Swal.fire({
           title: "Este documento es de una persona juridica",
           text: "Quiere ir al administrador de empresas?",
@@ -129,30 +128,13 @@ const AdministradorDePersonasScreen = () => {
           cancelButtonText: "No",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate("/dashboard/seguridad/administradordeempresas");
+            navigate("/dashboard/seguridad/administradordeempresas")
           }
         });
-        setActionForm(null);
-        return;
-      } else if (!dataPersona?.id_persona) {
-        const result = await Swal.fire({
-          title: "No existe un persona con estos datos",
-          text: "Quiere seguir bucando o quiere crear una persona?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Seguir",
-          cancelButtonText: "Crear",
-        });
-        if (result.isConfirmed) {
-        } else {
-          resetEmptyValues();
-          return setActionForm("Crear");
-        }
-      } else {
-        setActionForm("editar");
+        return setActionForm(null)
       }
+
+      setActionForm("editar");
 
       const defaultValuesOverrite = {
         tipoDocumento:
@@ -222,6 +204,25 @@ const AdministradorDePersonasScreen = () => {
       resetPersona(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
+      if (err.response.data.detail) {
+        Swal.fire({
+          title: "No encontró ninguna persona natural con los parametros ingresados",
+          text: "Quiere crear una persona natural?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            resetEmptyValues();
+            setActionForm("Crear");
+          }else{
+            setActionForm(null);
+          }
+        });
+      }
     }
   };
 
@@ -371,6 +372,7 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const manejadorErroresSwitAlert = (err) => {
+    console.log(err)
     if (err.response?.data?.email && err.response?.data?.numero_documento) {
       Swal.fire({
         title: "Este documento y correo ya estan relacionados",
@@ -440,7 +442,7 @@ const AdministradorDePersonasScreen = () => {
           data-animation="FadeIn"
         >
           <div className="row">
-            <form onSubmit={handleSubmitBuscar(onSubmitBuscarPersona)}>
+            <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
               <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
                 Administrador de personas
               </h3>
@@ -503,6 +505,10 @@ const AdministradorDePersonasScreen = () => {
                   <button
                     type="submit"
                     className="btn bg-gradient-primary mb-0 text-capitalize"
+                    onClick={() => {
+                      console.log("hice click")
+                      setActionForm(null)
+                    }}
                   >
                     Buscar
                   </button>
@@ -878,12 +884,12 @@ const AdministradorDePersonasScreen = () => {
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label">
                       Municipio de residencia:{" "}
-                      <span className="text-danger">*</span>
+                      {/* <span className="text-danger">*</span> */}
                     </label>
                     <Controller
                       name="municipio"
                       control={controlBuscar}
-                      rules={{ required: true }}
+                      // rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -1034,12 +1040,12 @@ const AdministradorDePersonasScreen = () => {
                   <div className="col-12 col-md-3 mt-2">
                     <label className="text-terciary">
                       Municipio donde labora:{" "}
-                      <span className="text-danger">*</span>
+                      {/* <span className="text-danger">*</span> */}
                     </label>
                     <Controller
                       name="municipioDondeLabora"
                       control={controlPersona}
-                      rules={{ required: true }}
+                      // rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -1193,12 +1199,12 @@ const AdministradorDePersonasScreen = () => {
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">
                       Municipio notificación:{" "}
-                      <span className="text-danger">*</span>
+                      {/* <span className="text-danger">*</span> */}
                     </label>
                     <Controller
                       name="municipioNotificacion"
                       control={controlPersona}
-                      rules={{ required: true }}
+                      // rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}

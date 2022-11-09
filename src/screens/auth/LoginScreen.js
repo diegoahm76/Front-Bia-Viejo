@@ -33,6 +33,7 @@ function LoginScreen() {
   };
 
   useEffect(() => {
+    console.log("useEffect error", error)
     if (error?.login_erroneo?.contador) {
       Swal.fire({
         position: "center",
