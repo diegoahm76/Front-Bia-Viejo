@@ -24,6 +24,7 @@ export const obternerAlarmasAction = () => async (dispatch) => {
 
   try {
     const { data } = await clienteEstaciones.get("Alarmas");
+    console.log("Alarmar", data)
     dispatch(descargarAlarmasCompletado(data));
   } catch (err) {
     dispatch(descargaAlarmasError(true));
