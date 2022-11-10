@@ -5,7 +5,6 @@ import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import Swal from "sweetalert2";
-import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import {
   dataOverriteEmpresaAdapter,
@@ -68,24 +67,24 @@ const AdministradorDeEmpresasScreen = () => {
 
       const { data: dataEmpresa } = dataEmpresaObject;
 
-      if (!dataEmpresa) {
-        const result = await Swal.fire({
-          title: "No existe una empresa con estos datos",
-          text: "¿Quiere seguir buscando o quiere crear una empresa?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Seguir",
-          cancelButtonText: "Crear",
-        });
-        if (!result.isConfirmed) {
-          resetEmptyValues();
-          return setActionForm(ACTION_CREAR);
-        } else {
-          return;
-        }
-      }
+      // if (!dataEmpresa) {
+      //   const result = await Swal.fire({
+      //     title: "No existe una empresa con estos datos",
+      //     text: "¿Quiere seguir buscando o quiere crear una empresa?",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Seguir",
+      //     cancelButtonText: "Crear",
+      //   });
+      //   if (!result.isConfirmed) {
+      //     resetEmptyValues();
+      //     return setActionForm(ACTION_CREAR);
+      //   } else {
+      //     return;
+      //   }
+      // }
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
@@ -141,6 +140,24 @@ const AdministradorDeEmpresasScreen = () => {
       resetEmpresa(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
+      if (err.response.data) {
+        const result = await Swal.fire({
+          title: err.response.data.detail,
+          text: "¿Quiere seguir buscando o quiere crear una empresa?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Seguir",
+          cancelButtonText: "Crear",
+        });
+        if (!result.isConfirmed) {
+          resetEmptyValues();
+          return setActionForm(ACTION_CREAR);
+        } else {
+          return;
+        }
+      }
     }
   };
 
@@ -247,6 +264,15 @@ const AdministradorDeEmpresasScreen = () => {
       Swal.fire({
         title: "Este correo electronico ya existe",
         text: "Verifique los datos",
+        icon: "info",
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Aceptar",
+      });
+    } else if (err.response?.data?.detail) {
+      Swal.fire({
+        title: err.response?.data?.detail,
+        //text: "Verifique los datos",
         icon: "info",
         confirmButtonColor: "#3BA9E0",
         cancelButtonColor: "#6c757d",
@@ -577,8 +603,8 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="email"
-                        disabled
-                        readOnly
+                        disabled={actionForm === ACTION_EDITAR}
+                        readOnly={actionForm === ACTION_EDITAR}
                         {...registerEmpresa("eMail")}
                       />
                     </div>
@@ -591,7 +617,11 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="tel"
-                        {...registerEmpresa("celular")}
+                        {...registerEmpresa("celular", {
+                          required: true,
+                          maxLength: 10,
+                          minLength: 10,
+                        })}
                       />
                     </div>
                   </div>
@@ -687,7 +717,9 @@ const AdministradorDeEmpresasScreen = () => {
                         className="form-control"
                         type="text"
                         readOnly
-                        {...registerEmpresa("direccionDeNotificacion")}
+                        {...registerEmpresa("direccionDeNotificacion", {
+                          required: true,
+                        })}
                       />
                       <label className="ms-2">
                         Dirección de notificación:{" "}
@@ -701,6 +733,13 @@ const AdministradorDeEmpresasScreen = () => {
                         Generar
                       </button>
                     </div>
+                    {errorsEmpresa.direccionDeNotificacion && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
 
