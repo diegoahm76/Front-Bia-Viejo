@@ -10,6 +10,7 @@ import Subtitle from "../../components/Subtitle";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Swal from "sweetalert2";
+import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
 const ActualizarDatosEmpresaScreen = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const ActualizarDatosEmpresaScreen = () => {
       direccion_notificaciones,
       email,
       email_empresarial,
-      telefono_celular_empresa,
+      telefono_celular_empresa: "57" + telefono_celular_empresa,
       telefono_empresa,
       telefono_empresa_2,
     };
@@ -111,6 +112,7 @@ const ActualizarDatosEmpresaScreen = () => {
         }
 
         data.tipo_documento = data.tipo_documento.cod_tipo_documento;
+        data.telefono_celular_empresa = data.telefono_celular_empresa.slice(2);
 
         console.log("data useEffect", data);
 
@@ -401,14 +403,14 @@ const ActualizarDatosEmpresaScreen = () => {
         </div>
       </div>
 
-      <GeneradorDeDirecciones
-        isOpenGenerator={isOpenDireccionNotificacion}
-        setIsOpenGenerator={setIsOpenDireccionNotificacion}
+      <DirecionResidenciaModal
+        isModalActive={isOpenDireccionNotificacion}
+        setIsModalActive={setIsOpenDireccionNotificacion}
         completeAddress={completeAddress2}
         setCompleteAddress={setCompleteAddress2}
         reset={reset}
         keyReset={"direccion_notificaciones"}
-        totalValuesForm={watch()}
+        watch={watch}
       />
     </div>
   );

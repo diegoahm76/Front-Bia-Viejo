@@ -74,7 +74,10 @@ const RegisterUserScreen = () => {
         password: data.password,
         id_usuario_creador: null,
         tipo_usuario: "E", // Debería ser por defecto que se creara en E
+        redirect_url: process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/login" : "http://localhost:3000/#/login"
       };
+
+      console.log("data user post", user)
 
       const config2 = {
         headers: {
@@ -119,7 +122,15 @@ const RegisterUserScreen = () => {
             navigate("/register");
           }
         });
-      } else if (error.response?.data?.errors?.non_field_errors) {
+      } else if(error.response?.data?.detail){
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: error.response?.data?.detail,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }else if (error.response?.data?.errors?.non_field_errors) {
         Swal.fire({
           position: "center",
           icon: "warning",

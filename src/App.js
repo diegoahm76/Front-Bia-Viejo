@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
+import store from "./store";
 
 import HomeScreen from "./screens/layout/HomeScreen";
 import LoginScreen from "./screens/auth/LoginScreen";
@@ -24,6 +25,7 @@ import ConfirmarCuentaScreen from "./screens/auth/ConfirmarCuentaScreen";
 import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
 import UserProtectedRoutes from "./components/UserProtectedRoutes";
 import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
+import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
 
 function App() {
   const dispatch = useDispatch();
@@ -88,7 +90,7 @@ function App() {
         />
 
         <Route
-          path="/desbloqueousuario"
+          path="/desbloqueo-usuario"
           element={<DesbloqueoUsuarioScreen />}
         />
 
@@ -98,6 +100,8 @@ function App() {
         />
         
         <Route path="/actualizar-contrasena" element={<ActualizarContrasenaScreen />} />
+
+        <Route path="/actualizar-contrasena-bloqueo" element={<ActualizarContrasenaScreenBloqueo />} />
 
         <Route index element={<Navigate to="/login" />} />
       </Route>

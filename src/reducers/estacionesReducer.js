@@ -33,7 +33,7 @@ const initialState = {
   estacionEditar: null,
   usuarioEliminar: null,
   usuarioEditar: null,
-};
+}; 
 
 export const estacionesReducer = (state = initialState, action) => {
   switch (action.type) {

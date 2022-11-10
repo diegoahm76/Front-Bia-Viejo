@@ -62,7 +62,7 @@ const defaultValues = {
   numeroResidencia: "",
   complementoRural: "",
 
-  avenida: "",
+  principal: "",
   numero: "",
   letra1: "",
   bis: "",
@@ -82,7 +82,7 @@ const DirecionResidenciaModal = ({
   setCompleteAddress,
   reset,
   keyReset,
-  totalValuesForm,
+  watch,
 }) => {
   const [principalRuralOptions, setPrincipalRuralOptionsOptions] = useState([]);
   const [complementoRuralOptions, setComplementoRuralOptions] = useState([]);
@@ -92,12 +92,12 @@ const DirecionResidenciaModal = ({
   const [selecDireccion, setSelecDireccion] = useState({});
   const [formValues, setFormValues] = useState({
     ubicacion: "",
-    residencia: "",
     nombreUbicacion: "",
+    residencia: "",
     numeroResidencia: "",
     complementoRural: "",
 
-    avenida: "",
+    principal: "",
     numero: "",
     letra1: "",
     bis: "",
@@ -112,14 +112,14 @@ const DirecionResidenciaModal = ({
 
   const orderRural = [
     "ubicacion",
-    "residencia",
     "nombreUbicacion",
+    "residencia",
     "numeroResidencia",
     "complementoRural",
   ];
 
   const orderUrbano = [
-    "avenida",
+    "principal",
     "numero",
     "letra1",
     "bis",
@@ -133,15 +133,15 @@ const DirecionResidenciaModal = ({
   ];
 
   const {
-    register,
     handleSubmit,
     control,
     reset: resetDireccion,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = () => {
-    const completeAddressWitoutWhiteSpaces = completeAddress
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const completeAddressWithoutWhiteSpaces = completeAddress
       .trim()
       .split("")
       .filter((letter, index, arrFilter) => {
@@ -156,11 +156,12 @@ const DirecionResidenciaModal = ({
         }
       })
       .join("");
-    setCompleteAddress(completeAddressWitoutWhiteSpaces);
+    setCompleteAddress(completeAddressWithoutWhiteSpaces);
     const dataReset = {
-      ...totalValuesForm,
-      [keyReset]: completeAddressWitoutWhiteSpaces,
+      ...watch(),
+      [keyReset]: completeAddressWithoutWhiteSpaces,
     };
+    console.log("object de reseteo", dataReset);
     reset(dataReset);
     setIsModalActive(false);
   };
@@ -173,31 +174,10 @@ const DirecionResidenciaModal = ({
     return data;
   };
 
-  // const resetDefaultValues = () => {
-  //   resetDireccion({
-  //     ubicacion: "",
-  //     nombreUbicacion: "",
-  //     residencia: "",
-  //     numeroResidencia: "",
-  //     complementoRural: "",
-
-  //     avenida: "",
-  //     numero: "",
-  //     letra1: "",
-  //     orientacion: "",
-  //     numero2: "",
-  //     letra2: "",
-  //     numeroSecundario: "",
-  //     orientacion2: "",
-  //     complemento: "",
-  //     adicional: "",
-  //   });
-  // };
-
   useEffect(() => {
     const getDataDirecciones = async () => {
       const { data } = await clienteAxios.get("choices/direcciones/");
-      console.log(data);
+
       setPrincipalRuralOptionsOptions(
         formatChoisesJuanDavid(data["Principal rural"])
       );
@@ -216,21 +196,48 @@ const DirecionResidenciaModal = ({
     };
     getDataDirecciones();
   }, []);
+  // const resetDefaultValues = () => {
+  //   resetDireccion({
+  //     ubicacion: "",
+  //     nombreUbicacion: "",
+  //     residencia: "",
+  //     numeroResidencia: "",
+  //     complementoRural: "",
 
+  //     principal: "",
+  //     numero: "",
+  //     letra1: "",
+  //     orientacion: "",
+  //     numero2: "",
+  //     letra2: "",
+  //     numeroSecundario: "",
+  //     orientacion2: "",
+  //     complemento: "",
+  //     adicional: "",
+  //   });
+  // };
   useEffect(() => {
     let fullAddress = "";
     if (selecDireccion.value === "urb") {
       orderUrbano.forEach((field) => {
         const dataField = formValues[field];
         const dataFieldTrim = dataField.trim();
-        fullAddress = fullAddress + " " + dataFieldTrim;
+        if (field === "letra1" || field === "letra2") {
+          fullAddress = fullAddress + dataFieldTrim;
+        } else if(field === "numeroSecundario" && dataFieldTrim){
+          fullAddress = fullAddress + " No. " + dataFieldTrim;
+        } else {
+          fullAddress = fullAddress + " " + dataFieldTrim;
+        }
       });
       setCompleteAddress(fullAddress);
     } else if (selecDireccion.value === "rur") {
       orderRural.forEach((field) => {
         const dataField = formValues[field];
-        const dataFieldTrim = dataField?.trim() ?? dataField;
-        fullAddress = fullAddress + " " + dataFieldTrim;
+        const dataFieldTrim = dataField?.trim() ?? "";
+        if (dataFieldTrim) {
+          fullAddress = fullAddress + " " + dataFieldTrim;
+        }
       });
       setCompleteAddress(fullAddress);
     } else {
@@ -255,7 +262,7 @@ const DirecionResidenciaModal = ({
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={onSubmit}
           >
             <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
               Direccion de recidencia
@@ -389,9 +396,9 @@ const DirecionResidenciaModal = ({
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Avenida:</label>
+                    <label className="text-terciary">Principal:</label>
                     <Controller
-                      name="avenida"
+                      name="principal"
                       control={control}
                       render={({ field }) => (
                         <Select
@@ -400,7 +407,7 @@ const DirecionResidenciaModal = ({
                           onChange={(e) => {
                             setFormValues({
                               ...formValues,
-                              avenida: e.value,
+                              principal: e.value,
                             });
                           }}
                           placeholder="Selecciona"
@@ -635,8 +642,7 @@ const DirecionResidenciaModal = ({
                 Cancelar
               </button>
               <button
-                type="button"
-                onClick={() => setIsModalActive(false)}
+                type="submit"
                 className="btn bg-gradient-primary text-capitalize"
               >
                 Guardar
