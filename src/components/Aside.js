@@ -2096,6 +2096,17 @@ const Aside = ({ showAside }) => {
                           </span>
                         </a>
                       </li>
+                      <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestordocumental/edicion-organigrama"
+                              >
+                                <span className="sidenav-mini-icon"> V </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Edicion Organigrama
+                                </span>
+                              </Link>
+                            </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "
