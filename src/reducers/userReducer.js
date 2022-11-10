@@ -10,6 +10,7 @@ import {
   USER_REGISTER_SUCCESS,
   USER_REGISTER_FAIL,
   USER_LOGIN_INVALID,
+  USER_REMOVE_ERROR,
 } from "../types/userTypes";
 
 const initialState = {
@@ -40,7 +41,6 @@ export const userReducer = (state = initialState, action) => {
         error: null,
       };
 
-    case USER_LOGIN_FAIL:
     case USER_LOGIN_INVALID:
     case USER_REGISTER_FAIL:
       return {
@@ -61,6 +61,12 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+      };
+
+    case USER_REMOVE_ERROR:
+      return {
+        ...state,
+        error: null,
       };
 
     default:

@@ -16,6 +16,7 @@ import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import {
+  getPermisosAdapterByRolForSelect,
   getPermisosAdapterSelect,
   getPermisosRolPost,
 } from "../../adapters/roles.adapters";
@@ -33,6 +34,9 @@ const defaultColDef = {
 const RolesScreen = () => {
   const [roles, setRoles] = useState([]);
   const [permisos, setPermisos] = useState([]);
+  const [formValues, setFormValues] = useState({
+    permisosRol: [],
+  });
 
   const accessToken = getTokenAccessLocalStorage();
   const config = getConfigAuthBearer(accessToken);
@@ -43,37 +47,38 @@ const RolesScreen = () => {
         "roles/get-list",
         config
       );
-      console.log(dataRoles);
       setRoles(dataRoles);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const getRolesPermisos = async () => {
+    try {
+      getRolesList();
+
+      const { data: dataPermisos } = await clienteAxios.get(
+        "permisos/permisos-modulos/get-list/"
+      );
+      const permisosFormat = getPermisosAdapterSelect(dataPermisos);
+      setPermisos(permisosFormat);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    const getRolesPermisos = async () => {
-      try {
-        getRolesList();
-
-        const { data: dataPermisos } = await clienteAxios.get(
-          "permisos/permisos-modulos/get-list/"
-        );
-
-        const permisosFormat = getPermisosAdapterSelect(dataPermisos);
-        setPermisos(permisosFormat);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     getRolesPermisos();
   }, []);
 
-  const [isCreate, setisCreate] = useState(true);
+  const [isCreate, setisCreate] = useState(null);
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
   const {
     register: registerRolPermiso,
+    watch: watchPermiso,
+    reset: resetPermiso,
     control: controlRolPermiso,
     handleSubmit: handleSubmitRolPermiso,
     formState: { errors: errorsRolPermiso },
@@ -97,8 +102,7 @@ const RolesScreen = () => {
             className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
-              // setIsModalEditarActivate(!isModalActive);
+              handleOpenEditRol(params.data.id_rol);
             }}
           >
             <img src={IconoEditar} alt="editar" />
@@ -117,12 +121,53 @@ const RolesScreen = () => {
     },
   ];
 
+  const handleOpenEditRol = async (idRol) => {
+    try {
+      const {
+        data: { data },
+      } = await clienteAxios.get(
+        `permisos/permisos-modulos-rol/get-by-rol/${idRol}/`,
+        config
+      );
+
+      const { data: dataRol } = await clienteAxios.get(
+        `roles/get-by-id/${idRol}/`,
+        config
+      );
+
+      console.log("data rol", dataRol);
+
+      const dataFormat = getPermisosAdapterByRolForSelect(data);
+      // const valuesIndexs = dataFormat.map((value) => value.value);
+      // const indexs = getIndexBySelectOptions(valuesIndexs, permisos);
+      setFormValues({
+        ...formValues,
+        permisosRol: dataFormat,
+        nombreRol: dataRol.nombre_rol,
+        descripcionRol: dataRol.descripcion_rol,
+      });
+      resetPermiso({
+        idRol: idRol,
+        permisosRol: dataFormat,
+        nombreRol: dataRol.nombre_rol,
+        descripcionRol: dataRol.descripcion_rol,
+      });
+      console.log("dataFormat", dataFormat);
+    } catch (err) {
+      console.log(err);
+    }
+    dispatch(activeModalAction());
+    setisCreate(null);
+    setisCreate("editar");
+  };
+
   const eliminarRol = async (idRol) => {
     try {
       const { data } = await clienteAxios.delete(
         `roles/delete/${idRol}`,
         config
       );
+
       Swal.fire({
         position: "center",
         icon: "info",
@@ -130,10 +175,10 @@ const RolesScreen = () => {
         showConfirmButton: true,
         confirmButtonText: "Continuar",
       });
-      console.log(data);
     } catch (err) {
       console.log(err);
     }
+    getRolesPermisos();
   };
 
   const confirmarEliminarRol = async (idRol) => {
@@ -154,48 +199,118 @@ const RolesScreen = () => {
   };
 
   const handleCloseModal = () => {
+    setisCreate(null);
+    resetPermiso({
+      nombreRol: "",
+      descripcionRol: "",
+      permisosRol: [],
+    });
+    setFormValues({ permisosRol: [] });
     dispatch(desactiveModalAction());
   };
 
   const handleCreateRole = () => {
-    setisCreate(true);
+    setisCreate("crear");
     dispatch(activeModalAction());
   };
 
+  // const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
+  //   const idResult = [];
+  //   const idSelectOptions = selectOptions.map((option) => option.value);
+  //   idSelectOptions.forEach((optionId, index) => {
+  //     if (valuesSelect.includes(optionId)) {
+  //       idResult.push(index);
+  //     }
+  //   });
+  //   return idResult;
+  // };
+
   const onSubmitRolPermiso = async (data) => {
-    try {
-      const rolCreate = {
+    console.log("datos comprobacion submit", data.idRol);
+    if (isCreate === "crear") {
+      try {
+        const rolCreate = {
+          nombre_rol: data.nombreRol,
+          descripcion_rol: data.descripcionRol,
+          Rol_sistema: false,
+        };
+
+        const { data: dataRol } = await clienteAxios.post(
+          "roles/create/",
+          rolCreate,
+          config
+        );
+
+        const permisosRol = getPermisosRolPost(
+          dataRol.id_rol,
+          data.permisosRol
+        );
+        await clienteAxios.post(
+          "permisos/permisos-modulos-rol/create/",
+          permisosRol,
+          config
+        );
+
+        dispatch(desactiveModalAction());
+
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Rol creado",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        getRolesList();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const datosEditRol = {
         nombre_rol: data.nombreRol,
         descripcion_rol: data.descripcionRol,
-        Rol_sistema: false,
       };
+      try {
+        const { data: responseEditRol } = await clienteAxios.put(
+          `/roles/update/${data.idRol}/`,
+          datosEditRol,
+          config
+        );
+        console.log(responseEditRol);
 
-      const { data: dataRol } = await clienteAxios.post(
-        "roles/create/",
-        rolCreate,
-        config
-      );
-
-      const permisosRol = getPermisosRolPost(dataRol.id_rol, data.permisosRol);
-      await clienteAxios.post(
-        "permisos/permisos-modulos-rol/create/",
-        permisosRol,
-        config
-      );
-
-      dispatch(desactiveModalAction());
-
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Rol creado",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      getRolesList();
-    } catch (error) {
-      console.log(error);
+        const datosEditPermisosRol = getPermisosRolPost(
+          data.idRol,
+          formValues.permisosRol
+        );
+        const dataFormatRequestRol = datosEditPermisosRol.map((permiso) => ({
+          id_permisos_modulo: permiso.id_permiso_modulo,
+        }));
+        console.log(dataFormatRequestRol);
+        const { data: responseEditPermisosRol } = await clienteAxios.put(
+          `permisos/permisos-modulos-rol/update/${data.idRol}/`,
+          dataFormatRequestRol,
+          config
+        );
+        console.log(responseEditPermisosRol);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Datos del rol actualizados correctamente",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      } catch (err) {
+        console.log(err);
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Algo pasó consulta con tu developer de confianza",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }
+      dispatch(desactiveModalAction())
+      getRolesList()
     }
   };
 
@@ -214,6 +329,16 @@ const RolesScreen = () => {
       console.log(error);
     }
   };
+
+  // const getDefaultPermisions = (permisosRol) => {
+  //   const defaultValues = permisosRol.map((permiso) => permisos[permiso]);
+  //   console.log("default values", defaultValues);
+  //   return defaultValues;
+  // };
+
+  // const getDefaultNombreRol = () => {
+  //   return formValues.nombreRol;
+  // };
 
   return (
     <div className="row min-vh-100">
@@ -271,89 +396,193 @@ const RolesScreen = () => {
               </div>
             </div>
           </form>
-          <CalendarModal>
-            <form
-              className="row p-3"
-              onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
-            >
-              <h4>{isCreate ? "Crear Rol" : "Editar Rol"}</h4>
-              <hr className="rounded-pill hr-modal" />
-              <div className="col-12 col-md-5 mb-3">
-                <label>
-                  Nombre rol: <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control border rounded-pill px-3"
-                  {...registerRolPermiso("nombreRol", { required: true })}
-                />
-                {errorsRolPermiso.nombreRol && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 mb-3">
-                <label>
-                  Descripción: <span className="text-danger">*</span>
-                </label>
-                <textarea
-                  className="form-control border rounded-pill px-3"
-                  {...registerRolPermiso("descripcionRol", { required: true })}
-                />
-                {errorsRolPermiso.descripcionRol && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12">
-                <label className="form-label">
-                  Permisos - Rol: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="permisosRol"
-                  control={controlRolPermiso}
-                  rules={{ required: true }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      isMulti
-                      // defaultValue={[paisesOptions[0], paisesOptions[1]]}
-                      options={permisos}
-                      placeholder="Seleccionar"
-                    />
+          {isCreate === "crear" && (
+            <CalendarModal>
+              <form
+                className="row p-3"
+                onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
+              >
+                <h4>{isCreate === "crear" ? "Crear Rol" : "Editar Rol"}</h4>
+                <hr className="rounded-pill hr-modal" />
+                <div className="col-12 col-md-5 mb-3">
+                  <label>
+                    Nombre rol: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...registerRolPermiso("nombreRol", { required: true })}
+                  />
+                  {errorsRolPermiso.nombreRol && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
                   )}
-                />
-                {errorsRolPermiso.permisosRol && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="d-flex justify-content-end gap-2">
-                <button
-                  type="button"
-                  className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
-                  onClick={handleCloseModal}
-                >
-                  Cerrar
-                </button>
-                <button
-                  type="submit"
-                  className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
-          </CalendarModal>
+                </div>
+                <div className="col-12 mb-3">
+                  <label>
+                    Descripción: <span className="text-danger">*</span>
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3"
+                    {...registerRolPermiso("descripcionRol", {
+                      required: true,
+                    })}
+                  />
+                  {errorsRolPermiso.descripcionRol && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12">
+                  <label className="form-label">
+                    Permisos - Rol: <span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="permisosRol"
+                    control={controlRolPermiso}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        isMulti
+                        // defaultValue={getDefaultPermisions}
+                        options={permisos}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errorsRolPermiso.permisosRol && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="d-flex justify-content-end gap-2">
+                  <button
+                    type="button"
+                    className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
+                    onClick={handleCloseModal}
+                  >
+                    Cerrar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
+                  >
+                    Guardar
+                  </button>
+                </div>
+              </form>
+            </CalendarModal>
+          )}
+          {isCreate === "editar" && (
+            <CalendarModal>
+              <form
+                className="row p-3"
+                onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
+              >
+                <h4>{isCreate === "crear" ? "Crear Rol" : "Editar Rol"}</h4>
+                <hr className="rounded-pill hr-modal" />
+                <div className="col-12 col-md-5 mb-3">
+                  <label>
+                    Nombre rol: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control border rounded-pill px-3"
+                    {...registerRolPermiso("nombreRol", { required: true })}
+                  />
+                  {errorsRolPermiso.nombreRol && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 mb-3">
+                  <label>
+                    Descripción: <span className="text-danger">*</span>
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3"
+                    {...registerRolPermiso("descripcionRol", {
+                      required: true,
+                    })}
+                  />
+                  {errorsRolPermiso.descripcionRol && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12">
+                  <label className="form-label">
+                    Permisos - Rol: <span className="text-danger">*</span>
+                  </label>
+                  <Controller
+                    name="permisosRol"
+                    control={controlRolPermiso}
+                    rules={{ required: true }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        isMulti
+                        value={formValues.permisosRol}
+                        onChange={(e) => {
+                          resetPermiso({
+                            ...watchPermiso(),
+                            permisosRol: e,
+                          });
+                          setFormValues({
+                            ...formValues,
+                            permisosRol: e,
+                          });
+                        }}
+                        // defaultValue={() =>
+                        //   getDefaultPermisions(formValues.permisosRol)
+                        // }
+                        options={permisos}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errorsRolPermiso.permisosRol && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="d-flex justify-content-end gap-2">
+                  <button
+                    type="button"
+                    className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
+                    onClick={handleCloseModal}
+                  >
+                    Cerrar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
+                  >
+                    Guardar
+                  </button>
+                </div>
+              </form>
+            </CalendarModal>
+          )}
         </div>
       </div>
     </div>

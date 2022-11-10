@@ -25,6 +25,7 @@ import ConfirmarCuentaScreen from "./screens/auth/ConfirmarCuentaScreen";
 import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
 import UserProtectedRoutes from "./components/UserProtectedRoutes";
 import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
+import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,83 +33,79 @@ function App() {
   dispatch(getDataFromLocalStorage());
 
   return (
-    <Provider store= {store}>
-      <Routes>
-        <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
-          <Route path="/dashboard" element={<HomeScreen />}>
-            <Route index element={<LogoScreen />} />
+    <Routes>
+      <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
+        <Route path="/dashboard" element={<HomeScreen />}>
+          <Route index element={<LogoScreen />} />
 
-            <Route element={<UserProtectedRoutes />}>
-              <Route
-                path="tablerosdecontrol/*"
-                element={<TablerosDeControlRoutes />}
-              />
+          <Route element={<UserProtectedRoutes />}>
+            <Route
+              path="tablerosdecontrol/*"
+              element={<TablerosDeControlRoutes />}
+            />
 
-              <Route path="almacen/*" element={<AlmacenRoutes />} />
+            <Route path="almacen/*" element={<AlmacenRoutes />} />
 
-              <Route path="recaudo/*" element={<RecaudoRoutes />} />
+            <Route path="recaudo/*" element={<RecaudoRoutes />} />
 
-              <Route path="conservacion/*" element={<ConservacionRoutes />} />
+            <Route path="conservacion/*" element={<ConservacionRoutes />} />
 
-              <Route path="usuario/*" element={<UsuarioRoutes />} />
+            <Route path="usuario/*" element={<UsuarioRoutes />} />
 
-              <Route
-                path="recurso-hidrico/*"
-                element={<RecursoHidricoRoutes />}
-              />
+            <Route
+              path="recurso-hidrico/*"
+              element={<RecursoHidricoRoutes />}
+            />
 
-              <Route
-                path="gestordocumental/*"
-                element={<GestorDocumentalRoutes />}
-              />
+            <Route
+              path="gestordocumental/*"
+              element={<GestorDocumentalRoutes />}
+            />
 
-              <Route
-                path="tramitesyservicios/*"
-                element={<TramitesYServiciosRoutes />}
-              />
-            </Route>
-
-            <Route element={<AdminProtectedRoutes />}>
-              <Route path="seguridad/*" element={<SeguridadRoutes />} />
-            </Route>
+            <Route
+              path="tramitesyservicios/*"
+              element={<TramitesYServiciosRoutes />}
+            />
           </Route>
 
-          <Route path="/*" element={<Navigate to="/dashboard" />} />
+          <Route element={<AdminProtectedRoutes />}>
+            <Route path="seguridad/*" element={<SeguridadRoutes />} />
+          </Route>
         </Route>
+
+        <Route path="/*" element={<Navigate to="/dashboard" />} />
+      </Route>
+
+      <Route
+        element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}>
+        <Route path="/login" element={<LoginScreen />} />
+
+        <Route path="/register" element={<RegisterPersonaScreen />} />
+
+        <Route path="/registeruser" element={<RegisterUserScreen />} />
 
         <Route
-          element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}
-        >
-          <Route path="/login" element={<LoginScreen />} />
+          path="/confirmar-cuenta/:token"
+          element={<ConfirmarCuentaScreen />}
+        />
 
-          <Route path="/register" element={<RegisterPersonaScreen />} />
+        <Route
+          path="/desbloqueo-usuario"
+          element={<DesbloqueoUsuarioScreen />}
+        />
 
-          <Route path="/registeruser" element={<RegisterUserScreen />} />
+        <Route
+          path="/recuperar-contrasena"
+          element={<RecuperacionDeContrasenaScreen />}
+        />
+        
+        <Route path="/actualizar-contrasena" element={<ActualizarContrasenaScreen />} />
 
-          <Route
-            path="/confirmar-cuenta/:token"
-            element={<ConfirmarCuentaScreen />}
-          />
+        <Route path="/actualizar-contrasena-bloqueo" element={<ActualizarContrasenaScreenBloqueo />} />
 
-          <Route
-            path="/desbloqueousuario"
-            element={<DesbloqueoUsuarioScreen />}
-          />
-
-          <Route
-            path="/recuperar-contrasena"
-            element={<RecuperacionDeContrasenaScreen />}
-          />
-
-          <Route
-            path="/actualizar-contrasena"
-            element={<ActualizarContrasenaScreen />}
-          />
-
-          <Route index element={<Navigate to="/login" />} />
-        </Route>
-      </Routes>
-    </Provider>
+        <Route index element={<Navigate to="/login" />} />
+      </Route>
+    </Routes>
   );
 }
 
