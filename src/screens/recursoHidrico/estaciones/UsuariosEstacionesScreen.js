@@ -26,10 +26,8 @@ const UsuariosEstacionesScreen = () => {
 
   const { usuarios } = useSelector((state) => state.estaciones);
 
-  const dataExcel = usuarios.map( usuario => ({}))
-
   const columnDefs = [
-    { headerName: "Usuario", field: "t005nombre", minWidth: 140 },
+    { headerName: "Parte Interesada", field: "t005nombre", minWidth: 140 },
     {
       headerName: "Estación",
       field: "t001Estaciones.t001nombre",
@@ -37,12 +35,7 @@ const UsuariosEstacionesScreen = () => {
     },
     { headerName: "Número", field: "t005numeroCelular", minWidth: 140 },
     {
-      headerName: "Identificación",
-      field: "t005Identificacion",
-      minWidth: 140,
-    },
-    {
-      headerName: "Observación",
+      headerName: "Observaciones",
       field: "t005Observacion",
       minWidth: 140,
     },
@@ -95,14 +88,11 @@ const UsuariosEstacionesScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h3 className="mt-2 mb-0">
-            Administrador de usuarios
-          </h3>
+          <h3 className="mt-2 mb-0">Partes Interesadas</h3>
           <Subtitle title="Informacion de general" mt={3} />
           <div className="row">
             <div className="row"></div>
-            <div className="d-flex">
-            <ExportExcelFile estaciones={dataExcel} name="Estaciones" />
+            <div>
               <button
                 className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
                 onClick={() => setIsModalActive(!isModalActive)}

@@ -38,6 +38,7 @@ const RegisterUserScreen = () => {
   }, []);
 
   const onSubmit = async (data) => {
+    data.redirect_url = process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/login" : "http://localhost:3000/#/login"
     try {
       console.log(data);
       /*
@@ -119,7 +120,15 @@ const RegisterUserScreen = () => {
             navigate("/register");
           }
         });
-      } else if (error.response?.data?.errors?.non_field_errors) {
+      } else if(error.response?.data?.detail){
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: error.response?.data?.detail,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }else if (error.response?.data?.errors?.non_field_errors) {
         Swal.fire({
           position: "center",
           icon: "warning",

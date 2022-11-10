@@ -1,19 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
-// import LogBackground from "../../assets/logos/Macareniaa.jpg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
-import DesbloqueoUsuarioScreen from "./desbloqueoUsuario/DesbloqueoUsuarioScreen";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
   const { error } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
 
@@ -22,11 +21,19 @@ function LoginScreen() {
     if (token) {
       dispatch(userLoginAction(dataForm.email, dataForm.password));
     } else {
-      console.log("Sigue intentando");
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: "Es necesario validar el captcha, para poder ingresar",
+        confirmButtonText: "Aceptar",
+        confirmButtonColor: "#3085d6",
+        is_active: true,
+      });
     }
   };
 
   useEffect(() => {
+    console.log("useEffect error", error)
     if (error?.login_erroneo?.contador) {
       Swal.fire({
         position: "center",
@@ -48,6 +55,10 @@ function LoginScreen() {
     } else {
     }
   }, [error]);
+
+  const handleClickToDesbloqueo = () => {
+    navigate("/desbloqueo-usuario");
+  };
 
   return (
     <div
@@ -109,14 +120,13 @@ function LoginScreen() {
                       <label className="text-white text-center fw-lighter fs-5">
                         {error?.detail}
 
-                        <Link className="text-white" to="/desbloqueousuario">
-                          <button
-                            type="submit"
-                            className="btn bg-gradient-primary rounded-pill justify-content-center px-5 my-4 mb-2 fw-normal"
-                          >
-                            Desbloquear Usuario
-                          </button>
-                        </Link>
+                        <button
+                          type="button"
+                          className="btn bg-gradient-primary rounded-pill justify-content-center px-5 my-4 mb-2 fw-normal"
+                          onClick={handleClickToDesbloqueo}
+                        >
+                          Desbloquear Usuario
+                        </button>
                       </label>
                     </div>
                   ) : (
@@ -133,7 +143,7 @@ function LoginScreen() {
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal"
+                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal text-capitalize"
                     >
                       Iniciar sesión
                     </button>
@@ -152,15 +162,6 @@ function LoginScreen() {
                     <p>Olvidó su contraseña</p>
                   </Link>
                 </div>
-                {/* <nav className="mt-3 d-flex flex-column text-center">
-                  <small className="text-white">
-                    Registrarse como <Link to="/register">Persona</Link> o{" "}
-                    <Link to="/registeruser">Usuario</Link>
-                  </small>
-                  <Link to="/recuperar-contrasena">
-                    <small className="text-white">Olvide mi contraseña</small>
-                  </Link>
-                </nav> */}
               </div>
             </div>
           </div>
