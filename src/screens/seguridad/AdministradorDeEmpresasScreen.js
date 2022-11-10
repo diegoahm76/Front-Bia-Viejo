@@ -5,7 +5,6 @@ import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import Swal from "sweetalert2";
-import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import {
   dataOverriteEmpresaAdapter,
@@ -14,6 +13,7 @@ import {
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
+import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -67,24 +67,24 @@ const AdministradorDeEmpresasScreen = () => {
 
       const { data: dataEmpresa } = dataEmpresaObject;
 
-      if (!dataEmpresa) {
-        const result = await Swal.fire({
-          title: "No existe una empresa con estos datos",
-          text: "¿Quiere seguir buscando o quiere crear una empresa?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Seguir",
-          cancelButtonText: "Crear",
-        });
-        if (!result.isConfirmed) {
-          resetEmptyValues();
-          return setActionForm(ACTION_CREAR);
-        } else {
-          return;
-        }
-      }
+      // if (!dataEmpresa) {
+      //   const result = await Swal.fire({
+      //     title: "No existe una empresa con estos datos",
+      //     text: "¿Quiere seguir buscando o quiere crear una empresa?",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Seguir",
+      //     cancelButtonText: "Crear",
+      //   });
+      //   if (!result.isConfirmed) {
+      //     resetEmptyValues();
+      //     return setActionForm(ACTION_CREAR);
+      //   } else {
+      //     return;
+      //   }
+      // }
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
@@ -140,6 +140,24 @@ const AdministradorDeEmpresasScreen = () => {
       resetEmpresa(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
+      if (err.response.data) {
+        const result = await Swal.fire({
+          title: err.response.data.detail,
+          text: "¿Quiere seguir buscando o quiere crear una empresa?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Seguir",
+          cancelButtonText: "Crear",
+        });
+        if (!result.isConfirmed) {
+          resetEmptyValues();
+          return setActionForm(ACTION_CREAR);
+        } else {
+          return;
+        }
+      }
     }
   };
 
@@ -162,11 +180,12 @@ const AdministradorDeEmpresasScreen = () => {
       const access = getTokenAccessLocalStorage();
       const config = getConfigAuthBearer(access);
       try {
-        await clienteAxios.patch(
+        const { data: dataResponse } = await clienteAxios.patch(
           `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
           updateEmpresa,
           config
         );
+        console.log("data response", dataResponse);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -250,8 +269,24 @@ const AdministradorDeEmpresasScreen = () => {
         cancelButtonColor: "#6c757d",
         confirmButtonText: "Aceptar",
       });
+    } else if (err.response?.data?.detail) {
+      Swal.fire({
+        title: err.response?.data?.detail,
+        //text: "Verifique los datos",
+        icon: "info",
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Aceptar",
+      });
     } else {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Algo pasó, intente de nuevo",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 
@@ -462,7 +497,7 @@ const AdministradorDeEmpresasScreen = () => {
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
-                          Número de documento:{" "}
+                          Número de documento:
                           <span className="text-danger">*</span>
                         </label>
                         <input
@@ -575,6 +610,8 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="email"
+                        disabled={actionForm === ACTION_EDITAR}
+                        readOnly={actionForm === ACTION_EDITAR}
                         {...registerEmpresa("eMail")}
                       />
                     </div>
@@ -587,7 +624,11 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="tel"
-                        {...registerEmpresa("celular")}
+                        {...registerEmpresa("celular", {
+                          required: true,
+                          maxLength: 10,
+                          minLength: 10,
+                        })}
                       />
                     </div>
                   </div>
@@ -683,7 +724,9 @@ const AdministradorDeEmpresasScreen = () => {
                         className="form-control"
                         type="text"
                         readOnly
-                        {...registerEmpresa("direccionDeNotificacion")}
+                        {...registerEmpresa("direccionDeNotificacion", {
+                          required: true,
+                        })}
                       />
                       <label className="ms-2">
                         Dirección de notificación:{" "}
@@ -697,6 +740,13 @@ const AdministradorDeEmpresasScreen = () => {
                         Generar
                       </button>
                     </div>
+                    {errorsEmpresa.direccionDeNotificacion && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -719,24 +769,24 @@ const AdministradorDeEmpresasScreen = () => {
               </form>
             )}
           </div>
-          <GeneradorDeDirecciones
-            isOpenGenerator={direccionNotificacionIsOpen}
-            setIsOpenGenerator={setDireccionNotificacionIsOpen}
+          <DirecionResidenciaModal
+            isModalActive={direccionNotificacionIsOpen}
+            setIsModalActive={setDireccionNotificacionIsOpen}
             completeAddress={direccionNotificacionText}
             setCompleteAddress={setDireccionNotificacionText}
             reset={resetEmpresa}
             keyReset="direccionDeNotificacion"
-            totalValuesForm={watchEmpresa()}
+            watch={watchEmpresa}
           />
 
-          <GeneradorDeDirecciones
-            isOpenGenerator={direccionEmpresaIsOpen}
-            setIsOpenGenerator={setDireccionEmpresaIsOpen}
+          <DirecionResidenciaModal
+            isModalActive={direccionEmpresaIsOpen}
+            setIsModalActive={setDireccionEmpresaIsOpen}
             completeAddress={direccionEmpresaText}
             setCompleteAddress={setDireccionEmpresaText}
             reset={resetEmpresa}
             keyReset="direccionEmpresa"
-            totalValuesForm={watchEmpresa()}
+            watch={watchEmpresa}
           />
 
           <BusquedaAvanzadaJuridicaModal

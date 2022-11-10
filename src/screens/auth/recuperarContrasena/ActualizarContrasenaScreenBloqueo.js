@@ -6,7 +6,8 @@ import clienteAxios from "../../../config/clienteAxios";
 
 const params = new URLSearchParams(window.location.search)
 
-const ActualizarContrasenaScreen = () => {
+
+const ActualizarContrasenaScreenBloqueo = () => {
   const navigate = useNavigate();
   const token = params.get("?token");
   const uidb64 = params.get("uidb64");
@@ -18,8 +19,6 @@ const ActualizarContrasenaScreen = () => {
     formState: { errors },
   } = useForm();
 
-  // console.log(params.get("?token"), "Heloooooooooo", params.get("uidb64"))
-
   const onSubmitNewPassword = async (data) => {
     if (data.password !== data.password2) return setIsDiferentPasswords(true);
     setIsDiferentPasswords(false);
@@ -30,7 +29,7 @@ const ActualizarContrasenaScreen = () => {
     };
     try {
       const { data: dataResetPassword } = await clienteAxios.patch(
-        "users/pasword-reset-complete",
+        "users/password-unblock-complete/",
         axiosBody
       );
       console.log(dataResetPassword);
@@ -161,4 +160,4 @@ const ActualizarContrasenaScreen = () => {
     </div>
   );
 };
-export default ActualizarContrasenaScreen;
+export default ActualizarContrasenaScreenBloqueo;

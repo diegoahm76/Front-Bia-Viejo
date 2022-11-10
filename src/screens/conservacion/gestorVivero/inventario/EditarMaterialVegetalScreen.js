@@ -177,7 +177,7 @@ function EditarMaterialVegetalScreen() {
             <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row d-flex align-items-center mb-3">
               <div className="col col-sm-3 text-xxs align-content-end align-items-end">
-              <label>Seleccione vivero </label>
+              <label className="text-terciary">Seleccione vivero </label>
               <label className="text-danger">*</label>
                 
               <Select {...register('vivero')}

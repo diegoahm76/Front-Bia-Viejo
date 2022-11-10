@@ -1,5 +1,3 @@
-//import ReactQuill from "react-quill";
-//import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
@@ -83,7 +81,7 @@ const StockMaximoMinimoScreen = () => {
                   Nombre: <span className="text-danger">*</span>
                 </label>
                 <input
-                  disabled="true"
+                  disabled
                   type="text"
                   className="form-control border border-terciary rounded-pill px-3"
                 />
@@ -206,7 +204,7 @@ const StockMaximoMinimoScreen = () => {
           />
         </div>
       </div>
-    // </div>
+    </div>
   );
 };
 export default StockMaximoMinimoScreen;

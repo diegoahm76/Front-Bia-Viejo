@@ -18,6 +18,17 @@ const paisesOptions = [
   { label: "Venezuela", value: "VEN" },
 ];
 
+const defaultDataOverride = {
+  nombreUsuario: "",
+  password: "",
+  password2: "",
+  bloqueado: "",
+  activo: "",
+  tipoUsuario: "",
+  roles: [],
+  tipoTercero: [],
+};
+
 const AdministradosDeUsuario = () => {
   const { id_usuario } = useSelector((state) => state.user.user);
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
@@ -92,24 +103,9 @@ const AdministradosDeUsuario = () => {
         `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
       );
 
-      if (dataPersona?.Persona) {
-        Swal.fire({
-          title: "Este numero de documento no tiene un usuario asignado",
-          text: "¿Desea registrar un nuevo usuario?",
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            setActionForm("crear");
-            //console.log("dataPersonaAcccionConfirm", dataPersona?.Persona);
-            setPersonaData(dataPersona?.Persona);
-          }
-        });
-      } else if (dataPersona?.data) {
+      console.log(dataPersona, !dataPersona.success);
+
+      if (!dataPersona.success) {
         Swal.fire({
           title: "No existe una persona con este documento",
           text: "¿Desea registrar una nueva persona?",
@@ -139,7 +135,25 @@ const AdministradosDeUsuario = () => {
             });
           }
         });
-      } else if (dataPersona?.Usuario) {
+      } else if (!dataPersona.Usuario) {
+        Swal.fire({
+          title: "Este numero de documento no tiene un usuario asignado",
+          text: "¿Desea registrar un nuevo usuario?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setActionForm("crear");
+            resetUsuario(defaultDataOverride);
+            setPersonaData(dataPersona?.Persona);
+          }
+        });
+      } else {
+        console.log("entro aca a editar");
         setUserData(dataPersona?.Usuario);
         setActionForm("editar");
 
@@ -174,7 +188,96 @@ const AdministradosDeUsuario = () => {
 
         resetUsuario(usuarioOverrideData);
       }
+
+      // if (dataPersona?.Persona) {
+      //   Swal.fire({
+      //     title: "Este numero de documento no tiene un usuario asignado",
+      //     text: "¿Desea registrar un nuevo usuario?",
+      //     icon: "info",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Si",
+      //     cancelButtonText: "No",
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       setActionForm("crear");
+      //       setPersonaData(dataPersona?.Persona);
+      //     }
+      //   });
+      // } else if (dataPersona?.data) {
+      //   Swal.fire({
+      //     title: "No existe una persona con este documento",
+      //     text: "¿Desea registrar una nueva persona?",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Si",
+      //     cancelButtonText: "No",
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       Swal.fire({
+      //         title: "Elegir tipo persona",
+      //         text: "¿Que tipo de persona desea crear?",
+      //         icon: "info",
+      //         showCancelButton: true,
+      //         confirmButtonColor: "#3BA9E0",
+      //         cancelButtonColor: "#6c757d",
+      //         confirmButtonText: "Natural",
+      //         cancelButtonText: "Juridica",
+      //       }).then((result) => {
+      //         if (result.isConfirmed) {
+      //           navigate("/dashboard/seguridad/administradordepersonas");
+      //         } else {
+      //           navigate("/dashboard/seguridad/administradordeempresas");
+      //         }
+      //       });
+      //     }
+      //   });
+      // } else if (dataPersona?.Usuario) {
+      //   setUserData(dataPersona?.Usuario);
+      //   setActionForm("editar");
+
+      //   if (dataPersona?.Usuario.tipo_usuario === "I") {
+      //     setBloqueoTipoUsuario(true);
+      //   } else if (dataPersona?.Usuario.tipo_usuario === "E") {
+      //     setBloqueoTipoUsuario(false);
+      //   }
+
+      //   const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
+
+      //   const dataRolesIndex = getIndexBySelectOptions(
+      //     indexRoles,
+      //     rolesOptions
+      //   );
+
+      //   setFormValues({
+      //     roles: dataRolesIndex,
+      //   });
+
+      //   const optionsBySelect = dataRolesIndex.map(
+      //     (roleIndex) => rolesOptions[roleIndex]
+      //   );
+
+      //   const usuarioOverrideData = {
+      //     nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
+      //     bloqueado: dataPersona?.Usuario.is_blocked,
+      //     activo: dataPersona?.Usuario.is_active,
+      //     tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
+      //     roles: optionsBySelect,
+      //   };
+
+      //   resetUsuario(usuarioOverrideData);
+      // }
     } catch (err) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Algo pasó, intente de nuevo",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
       console.log(err);
     }
   };
@@ -194,6 +297,7 @@ const AdministradosDeUsuario = () => {
   }, [watch("password"), watch("password2")]);
 
   const onSubmitUsuario = async (data) => {
+    if (errorPassword) return;
     const accessToken = getTokenAccessLocalStorage();
     const config = {
       headers: {
@@ -217,6 +321,9 @@ const AdministradosDeUsuario = () => {
         };
 
         await clienteAxios.post("users/register/", nuevoUsuario, config);
+
+        setActionForm(null);
+        resetUsuario(defaultDataOverride);
 
         Swal.fire({
           title: "Usuario registrado correctamente",
@@ -256,6 +363,13 @@ const AdministradosDeUsuario = () => {
         );
       } catch (error) {
         console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Algo pasó, intente de nuevo",
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
       }
     }
   };
@@ -276,6 +390,10 @@ const AdministradosDeUsuario = () => {
       (option) => rolesOptions[option]
     );
     return defaultValues;
+  };
+
+  const handleCancelAction = () => {
+    setActionForm(null);
   };
 
   return (
@@ -364,6 +482,7 @@ const AdministradosDeUsuario = () => {
                     <input
                       type="text"
                       className="border border-terciary form-control border rounded-pill px-3"
+                      autoComplete="off"
                       {...registerUsuario("nombreUsuario", {
                         required: true,
                       })}
@@ -376,9 +495,9 @@ const AdministradosDeUsuario = () => {
                           Contraseña: <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="border border-terciary form-control"
+                          className="border border-terciary form-control border rounded-pill px-3"
                           type="password"
-                          placeholder="Contraseña"
+                          autoComplete="off"
                           {...registerUsuario("password", {
                             required: true,
                           })}
@@ -395,9 +514,8 @@ const AdministradosDeUsuario = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="border border-terciary form-control"
+                          className="border border-terciary form-control border rounded-pill px-3"
                           type="password"
-                          placeholder="Contraseña"
                           {...registerUsuario("password2", {
                             required: true,
                           })}
@@ -545,13 +663,23 @@ const AdministradosDeUsuario = () => {
                     )}
                   />
                 </div>
-                <button
-                  className="btn bg-gradient-primary mb-0 d-block ms-auto mt-4 text-capitalize"
-                  type="submit"
-                  onClick={handleClickSubmit}
-                >
-                  {actionForm === "editar" ? "Actualizar" : "Registrar"}
-                </button>
+                <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
+                  <button
+                    className="btn bg-gradient-light mb-0 d-block mt-4 text-capitalize"
+                    type="button"
+                    onClick={handleCancelAction}
+                  >
+                    Cancelar
+                  </button>
+
+                  <button
+                    className="btn bg-gradient-primary mb-0 d-block mt-4 text-capitalize"
+                    type="submit"
+                    onClick={handleClickSubmit}
+                  >
+                    {actionForm === "editar" ? "Actualizar" : "Registrar"}
+                  </button>
+                </div>
               </form>
             )}
           </div>

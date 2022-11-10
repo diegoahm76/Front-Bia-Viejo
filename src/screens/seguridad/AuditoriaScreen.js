@@ -70,13 +70,16 @@ const AuditoriaScreen = () => {
   const [auditorias, setAuditorias] = useState([]);
   const [subsistemasOptions, setSubsistemasOptions] = useState([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
-  const [page, setPage] = useState(1);
-  const [urlBasePagination, setUrlBasePagination] = useState("");
-  const [maxPage, setMaxPage] = useState(1);
   const [formValues, setFormValues] = useState({
     fechaIni: "",
     fechaEnd: "",
-  });
+    fechaNow: new Date(),
+    });
+
+      const fechaIniMenosEnd = (formValues.fechaEnd - formValues.fechaIni)/(1000 * 60 * 60 * 24);
+      console.log(fechaIniMenosEnd);
+      // const diasFechaIniMenosEnd = fechaIniMenosEnd/(1000 * 60 * 60 * 24);
+      // const fechaIniMenosEnd = formValues.fechaIni-formValues.fechaEnd;
 
   const {
     register,
@@ -86,7 +89,7 @@ const AuditoriaScreen = () => {
     // watch,
     formState: { errors },
   } = useForm();
-
+ 
   const onSubmit = async (data) => {
     const accessToken = getTokenAccessLocalStorage();
     const config = getConfigAuthBearer(accessToken);
@@ -97,12 +100,19 @@ const AuditoriaScreen = () => {
     const fechaEndNoFormat = formatISO(formValues.fechaEnd, {
       representation: "date",
     });
+    const fechaNowNoFormat = formatISO(formValues.fechaNow, {
+      representation: "date",
+    });
 
     const fechaIni = getDateFromAAAAMMDDToDDMMAAAA(fechaIniNoFormat);
     const fechaEnd = getDateFromAAAAMMDDToDDMMAAAA(fechaEndNoFormat);
-
+    const fechaNow = getDateFromAAAAMMDDToDDMMAAAA(fechaNowNoFormat);
+    console.log(fechaIni);
+    console.log(fechaEnd);
+    console.log(fechaNow);
+        
     try {
-      console.log("data submit", fechaIni, fechaEnd);
+      console.log("data submit", fechaIni, fechaEnd, fechaNow);
       const queryParamsUrl = `auditorias/get-by-query-params/?rango-inicial-fecha=${fechaIni}&rango-final-fecha=${fechaEnd}${
         data.numeroDocumento
           ? `&tipo-documento=${data.tipoDocumento.value}&numero-documento=${data.numeroDocumento}`
@@ -114,19 +124,12 @@ const AuditoriaScreen = () => {
       );
       console.log("data response auditorias, success", dataAuditorias);
       const dataSend = dataAuditorias.auditorias ?? [];
-      if (dataAuditorias.auditorias) {
-        setUrlBasePagination(queryParamsUrl);
-        setMaxPage(dataAuditorias.pages);
-      } else {
-        setUrlBasePagination("");
-      }
       setAuditorias(dataSend);
-      setPage(1);
     } catch (err) {
       console.log(err);
     }
   };
-
+   
   useEffect(() => {
     const getInfo = async () => {
       try {
@@ -145,44 +148,6 @@ const AuditoriaScreen = () => {
     };
     getInfo();
   }, []);
-
-  const getPageRequest = async (urlBase) => {
-    const accessToken = getTokenAccessLocalStorage();
-    const config = getConfigAuthBearer(accessToken);
-    const { data: dataAuditorias } = await clienteAxios.get(urlBase, config);
-    console.log(dataAuditorias);
-    setAuditorias(dataAuditorias.auditorias);
-  };
-
-  const nextPage = async () => {
-    const valueNextPage = page + 1;
-    if (valueNextPage <= maxPage) {
-      const completeUrl = urlBasePagination + `&page=${valueNextPage}`;
-      await getPageRequest(completeUrl);
-      setPage(valueNextPage);
-    }
-  };
-
-  const previousPage = async () => {
-    const valuePreviousPage = page - 1;
-    if (valuePreviousPage >= 1) {
-      const completeUrl = urlBasePagination + `&page=${valuePreviousPage}`;
-      await getPageRequest(completeUrl);
-      setPage(valuePreviousPage);
-    }
-  };
-
-  const lastPage = async () => {
-    const completeUrl = urlBasePagination + `&page=${maxPage}`;
-    await getPageRequest(completeUrl);
-    setPage(maxPage);
-  };
-
-  const firstPage = async () => {
-    const completeUrl = urlBasePagination + `&page=${1}`;
-    await getPageRequest(completeUrl);
-    setPage(1);
-  };
 
   return (
     <div className="row min-vh-100">
@@ -203,7 +168,10 @@ const AuditoriaScreen = () => {
                   <Controller
                     name="fechaIni"
                     control={control}
-                    rules={{ required: true }}
+                    rules={{ required: true, 
+                      validate: {
+                        fechaCorrecta: v => formValues.fechaIni <= formValues.fechaNow,
+                        }}}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -218,20 +186,31 @@ const AuditoriaScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaIni: e })
                         }
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
                         dateFormat="yyyy/MM/dd"
                       />
                     )}
                   />
-                  {errors.fechaIni && (
+                  {/* {formValues.fechaIni > formValues.fechaNow ? <small className="text-center text-danger">
+                        No puede ser mayor que la fecha actual
+                      </small> : ""}                   */}
+                  
+                  {errors.fechaIni?.type ==="required" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
                       </small>
                     </div>
                   )}
-                </div>
+                  {errors.fechaIni?.type ==="fechaCorrecta" && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                      No puede ser mayor que la fecha actual
+                      </small>
+                    </div>
+                  )}
+                  </div>
               </div>
               <div className="col-12 col-md-6">
                 <div className="flex-column col-12 mt-4">
@@ -241,7 +220,11 @@ const AuditoriaScreen = () => {
                   <Controller
                     name="fechaEnd"
                     control={control}
-                    rules={{ required: true }}
+                    rules={{ required: true, 
+                      validate: {
+                        fechaPosterior: v => formValues.fechaIni <= formValues.fechaEnd,
+                        fechaLimite: v => fechaIniMenosEnd < 8,
+                        }}}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -256,16 +239,37 @@ const AuditoriaScreen = () => {
                         onSelect={(e) =>
                           setFormValues({ ...formValues, fechaEnd: e })
                         }
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         placeholderText="aaaa/mm/dd"
                         dateFormat="yyyy/MM/dd"
                       />
                     )}
                   />
-                  {errors.fechaEnd && (
+                  {/* {formValues.fechaIni > formValues.fechaEnd ? <small className="text-center text-danger">
+                        Seleccione una fecha posterior a fecha inicio
+                      </small> : ""}  */}
+                      {/* {fechaIniMenosEnd > 7 ? <small className="text-center text-danger">
+                        No puede haber más de 8 días
+                      </small> : ""} 
+                       */}
+                  {errors.fechaEnd?.type ==="required" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  {errors.fechaEnd?.type ==="fechaPosterior" && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                      Seleccione una fecha igual o posterior a fecha inicio
+                      </small>
+                    </div>
+                  )}
+                  {errors.fechaEnd?.type ==="fechaLimite" && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                      No puede haber más de 8 días
                       </small>
                     </div>
                   )}
@@ -283,8 +287,8 @@ const AuditoriaScreen = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={subsistemasOptions}
-                    placeholder="Seleccionar"
+                   options={subsistemasOptions}
+                   placeholder="Seleccionar"
                   />
                 )}
               />
@@ -357,49 +361,9 @@ const AuditoriaScreen = () => {
                   columnDefs={columDefs}
                   rowData={auditorias}
                   defaultColDef={defaultColDef}
+                  paginationPageSize={10}
                 ></AgGridReact>
               </div>
-            </div>
-            <div className="d-flex justify-content-center gap-2">
-              <button
-                type="button"
-                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
-                disabled={urlBasePagination === ""}
-                onClick={firstPage}
-              >
-                {"<<"}
-              </button>
-              <button
-                type="button"
-                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
-                disabled={urlBasePagination === ""}
-                onClick={previousPage}
-              >
-                {"<"}
-              </button>
-              <button
-                type="button"
-                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
-                disabled
-              >
-                {page}
-              </button>
-              <button
-                type="button"
-                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
-                disabled={urlBasePagination === ""}
-                onClick={nextPage}
-              >
-                {">"}
-              </button>
-              <button
-                type="button"
-                className="btn btn-tablas bg-gradient-primary text-capitalize mt-3"
-                disabled={urlBasePagination === ""}
-                onClick={lastPage}
-              >
-                {">>"}
-              </button>
             </div>
           </form>
         </div>

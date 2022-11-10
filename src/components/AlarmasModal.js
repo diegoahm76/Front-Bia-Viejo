@@ -113,7 +113,7 @@ const AlarmasModal = ({
     >
       <div className="container p-3">
         <h4>{alarmaAction === "editar" ? "Editar Alarma" : "Nueva Alarma"}</h4>
-        <hr />
+        <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
             <label>
@@ -190,7 +190,7 @@ const AlarmasModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Mensaje Up: <span className="text-danger">*</span>
+              Mensaje Alarma: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
@@ -207,7 +207,7 @@ const AlarmasModal = ({
           </div>
           <div className="col-12 mb-3">
             <label>
-              Mensaje Down: <span className="text-danger">*</span>
+              Mensaje No Alarma: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3"
@@ -222,10 +222,78 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
+          <div className="col-12 mb-3">
+            <label>
+              Periodo: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006periodo", { required: true })}
+            />
+            {errors.t006periodo && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Base: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006periodoBase", { required: true })}
+            />
+            {errors.t006periodo && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Tolerancia: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006tolerancia", { required: true })}
+            />
+            {errors.t006tolerancia && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mb-3">
+            <label>
+              Desconexión: <span className="text-danger">*</span>
+            </label>
+            <input
+              className="form-control border rounded-pill px-3"
+              type="text"
+              {...register("t006periodoDesconexion", { required: true })}
+            />
+            {errors.t006periodoDesconexion && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
           <div className="d-flex justify-content-end gap-2 mt-3">
             <button
               type="button"
-              className="btn bg-gradient-light text-capitalize"
+              className="btn bg-gradient-light text-capitalize mb-0"
               disabled={loading}
               onClick={() => handleCloseModal()}
             >
@@ -244,7 +312,7 @@ const AlarmasModal = ({
             </button>
             <button
               type="submit"
-              className="btn bg-gradient-primary text-capitalize"
+              className="btn bg-gradient-primary text-capitalize mb-0"
               disabled={loading}
             >
               {loading ? (
