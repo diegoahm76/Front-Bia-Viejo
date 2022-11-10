@@ -277,7 +277,6 @@ const AdministradorDePersonasScreen = () => {
         },
       };
       try {
-        console.log("HGola", updatedPersona);
         const { data: dataUpdate } = await clienteAxios.patch(
           `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
           updatedPersona,
