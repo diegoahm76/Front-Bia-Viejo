@@ -468,6 +468,19 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
+                                to="almacen/configuracion/administrador-bodegas"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Administrador de Bodegas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
                                 to="almacen/configuracion/registroconductoresexternos"
                               >
                                 <span className="sidenav-mini-icon">
