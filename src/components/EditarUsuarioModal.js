@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
-import { crearNuevoUsuarioAction, editarUsuarioAction } from "../actions/estacionActions";
+import {
+  editarUsuarioAction,
+} from "../actions/estacionActions";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 
 const customStyles = {
@@ -65,13 +67,13 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   };
 
   useEffect(() => {
-    handleResetDataEdit()
-  }, [usuarioEditar])
+    handleResetDataEdit();
+  }, [usuarioEditar]);
 
   const onSumbitEstacion = async (data) => {
     const editarUsuario = {
-      t005Identificacion : data.t005Identificacion,
-      objectid : estacionesOptions[formValues.index_objectid].value,
+      t005Identificacion: data.t005Identificacion,
+      objectid: estacionesOptions[formValues.index_objectid].value,
       t005nombre: data.t005nombre,
       t005numeroCelular: data.t005numero,
       idUsuario: usuarioEditar.idUsuario,
@@ -99,7 +101,7 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12 mb-3">
-          <label>
+            <label>
               Nombre de usuario: <span className="text-danger">*</span>
             </label>
             <input
@@ -146,24 +148,6 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             />
             {errors.objectid && (
               <div className="col-12 mb-3">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
-              </div>
-            )}
-          </div>
-          <div className="col-12 mb-3">
-          <label>
-              Numero de identificación: <span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              disabled
-              className="form-control border rounded-pill px-3"
-              {...register("t005Identificacion", { required: true })}
-            />
-            {errors.t005Identificacion && (
-              <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
                 </small>

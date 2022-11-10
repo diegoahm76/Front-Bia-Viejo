@@ -22,6 +22,13 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
+const defaultValues = {
+  nombreUsuario: "",
+  estacion: "",
+  numeroDeTelefono: "",
+  observacion: "",
+};
+
 const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useDispatch();
   const [estacionesOptions, setEstacionesOptions] = useState([]);
@@ -30,6 +37,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -49,7 +57,6 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
   const onSumbitEstacion = async (data) => {
     const nuevoUsuario = {
-      t005Identificacion: data.numeroIdentificacion,
       objectid: data.estacion.value,
       t005nombre: data.nombreUsuario,
       t005numeroCelular: data.numeroDeTelefono,
@@ -59,6 +66,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     dispatch(crearNuevoUsuarioAction(nuevoUsuario));
 
     setIsModalActive(!isModalActive);
+    reset(defaultValues);
   };
 
   return (
@@ -76,7 +84,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12 mb-3">
             <label>
-              Nombre de usuario: <span className="text-danger">*</span>
+              Parte Interesada: <span className="text-danger">*</span>
             </label>
             <input
               type="text"
@@ -117,27 +125,9 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               </div>
             )}
           </div>
-          <div className="col-12 mb-3">
-            <label>
-              Numero de identificación: <span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              className="form-control border rounded-pill px-3"
-              {...register("numeroIdentificacion", { required: true })}
-            />
-            {errors.numeroIdentificacion && (
-              <div className="col-12">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
-              </div>
-            )}
-          </div>
-
           <div className="col-12">
             <label>
-              Numero de telefono: <span className="text-danger">*</span>
+              Número Celular: <span className="text-danger">*</span>
             </label>
             <input
               type="number"
@@ -172,7 +162,10 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="btn bg-gradient-light text-capitalize mt-4 mb-0"
               type="button"
-              onClick={() => setIsModalActive(!isModalActive)}
+              onClick={() => {
+                setIsModalActive(!isModalActive);
+                reset(defaultValues);
+              }}
             >
               Cerrar
             </button>
