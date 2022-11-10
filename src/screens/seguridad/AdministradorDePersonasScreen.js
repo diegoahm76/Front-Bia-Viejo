@@ -25,7 +25,7 @@ const AdministradorDePersonasScreen = () => {
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [actionForm, setActionForm] = useState(null);
-  const [yesOrNot, setYesOrNot] = useState(false)
+  const [yesOrNot, setYesOrNot] = useState(false);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
@@ -115,8 +115,8 @@ const AdministradorDePersonasScreen = () => {
       );
 
       const { data: dataPersona } = dataPersonaObject;
-      console.log("dataPersona", dataPersona)
-      if(dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona){
+      console.log("dataPersona", dataPersona);
+      if (dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona) {
         Swal.fire({
           title: "Este documento es de una persona juridica",
           text: "Quiere ir al administrador de empresas?",
@@ -128,10 +128,10 @@ const AdministradorDePersonasScreen = () => {
           cancelButtonText: "No",
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate("/dashboard/seguridad/administradordeempresas")
+            navigate("/dashboard/seguridad/administradordeempresas");
           }
         });
-        return setActionForm(null)
+        return setActionForm(null);
       }
 
       setActionForm("editar");
@@ -206,7 +206,8 @@ const AdministradorDePersonasScreen = () => {
       console.log(err);
       if (err.response.data.detail) {
         Swal.fire({
-          title: "No encontró ninguna persona natural con los parametros ingresados",
+          title:
+            "No encontró ninguna persona natural con los parametros ingresados",
           text: "Quiere crear una persona natural?",
           icon: "info",
           showCancelButton: true,
@@ -218,7 +219,7 @@ const AdministradorDePersonasScreen = () => {
           if (result.isConfirmed) {
             resetEmptyValues();
             setActionForm("Crear");
-          }else{
+          } else {
             setActionForm(null);
           }
         });
@@ -263,7 +264,7 @@ const AdministradorDePersonasScreen = () => {
       direccion_notificaciones: data.direccionNotificaciones,
       cod_municipio_laboral_nal:
         municipiosOptions[formValues.municipioDondeLabora]?.value,
-      ubicacion_georeferenciada: data.ubicacionGeografica,
+      ubicacion_georeferenciada: "mi casita 1",
     };
 
     console.log("updated persona", updatedPersona);
@@ -277,7 +278,6 @@ const AdministradorDePersonasScreen = () => {
         },
       };
       try {
-        console.log("HGola", updatedPersona);
         const { data: dataUpdate } = await clienteAxios.patch(
           `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
           updatedPersona,
@@ -372,7 +372,7 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const manejadorErroresSwitAlert = (err) => {
-    console.log(err)
+    console.log(err);
     if (err.response?.data?.email && err.response?.data?.numero_documento) {
       Swal.fire({
         title: "Este documento y correo ya estan relacionados",
@@ -413,8 +413,24 @@ const AdministradorDePersonasScreen = () => {
         cancelButtonColor: "#6c757d",
         confirmButtonText: "Aceptar",
       });
+    } else if (err.response?.data?.detail) {
+      Swal.fire({
+        title: err.response?.data?.detail,
+        //text: "Verifique los datos",
+        icon: "info",
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Aceptar",
+      });
     } else {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Algo pasó, intente de nuevo",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 
@@ -506,8 +522,8 @@ const AdministradorDePersonasScreen = () => {
                     type="submit"
                     className="btn bg-gradient-primary mb-0 text-capitalize"
                     onClick={() => {
-                      console.log("hice click")
-                      setActionForm(null)
+                      console.log("hice click");
+                      setActionForm(null);
                     }}
                   >
                     Buscar
@@ -544,6 +560,19 @@ const AdministradorDePersonasScreen = () => {
                           render={({ field }) => (
                             <Select
                               {...field}
+                              value={
+                                tipoDocumentoOptions[formValues.tipoDocumento]
+                              }
+                              onChange={(e) => {
+                                setFormValues({
+                                  ...formValues,
+                                  tipoDocumento: getIndexBySelectOptions(
+                                    e.value,
+                                    tipoDocumentoOptions
+                                  ),
+                                });
+                                resetPersona({...watchPersona(), tipoDocumento2: e.value})
+                              }}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
                             />
@@ -568,9 +597,7 @@ const AdministradorDePersonasScreen = () => {
                             className="form-control border rounded-pill px-3"
                             type="text"
                             value={
-                              tipoDocumentoOptions[formValues.tipoDocumento]
-                                .label
-                            }
+                              tipoDocumentoOptions[formValues.tipoDocumento].label}
                             disabled={actionForm === "editar"}
                             {...registerPersona("tipoDocumento2")}
                           />
@@ -614,13 +641,15 @@ const AdministradorDePersonasScreen = () => {
                           className="border border-terciary form-check-input mx-2"
                           type="checkbox"
                           id="flexCheckDefault"
-                          onClick={ e => setYesOrNot(e.target.checked)}
+                          onClick={(e) => setYesOrNot(e.target.checked)}
                         />
                       </div>
                     </div>
                     <div className="col-12 col-md-3 mt-2">
                       <div>
-                        <label className="text-terciary">Digito de verificación:</label>
+                        <label className="text-terciary">
+                          Digito de verificación:
+                        </label>
                         <input
                           className="border border-terciary hola form-control border rounded-pill px-3"
                           type="number"
@@ -643,7 +672,9 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3 mt-2">
                       <div>
-                        <label className="text-terciary">Nombre comercial:</label>
+                        <label className="text-terciary">
+                          Nombre comercial:
+                        </label>
                         <input
                           className="form-control border rounded-pill px-3"
                           type="text"
@@ -1245,6 +1276,8 @@ const AdministradorDePersonasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3"
                         type="email"
+                        disabled={actionForm === "editar"}
+                        readOnly={actionForm === "editar"}
                         placeholder="E-mail"
                         {...registerPersona("eMail", { required: true })}
                       />
@@ -1387,6 +1420,3 @@ const AdministradorDePersonasScreen = () => {
   );
 };
 export default AdministradorDePersonasScreen;
-
-
-    

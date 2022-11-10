@@ -280,6 +280,13 @@ const AdministradorDeEmpresasScreen = () => {
       });
     } else {
       console.log(err);
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Algo pasó, intente de nuevo",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
     }
   };
 

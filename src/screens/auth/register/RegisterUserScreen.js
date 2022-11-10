@@ -38,7 +38,6 @@ const RegisterUserScreen = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    data.redirect_url = process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/login" : "http://localhost:3000/#/login"
     try {
       console.log(data);
       /*
@@ -75,7 +74,10 @@ const RegisterUserScreen = () => {
         password: data.password,
         id_usuario_creador: null,
         tipo_usuario: "E", // Debería ser por defecto que se creara en E
+        redirect_url: process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/login" : "http://localhost:3000/#/login"
       };
+
+      console.log("data user post", user)
 
       const config2 = {
         headers: {
