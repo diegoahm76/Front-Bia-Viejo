@@ -62,7 +62,7 @@ const defaultValues = {
   numeroResidencia: "",
   complementoRural: "",
 
-  avenida: "",
+  principal: "",
   numero: "",
   letra1: "",
   bis: "",
@@ -97,7 +97,7 @@ const DirecionResidenciaModal = ({
     numeroResidencia: "",
     complementoRural: "",
 
-    avenida: "",
+    principal: "",
     numero: "",
     letra1: "",
     bis: "",
@@ -119,7 +119,7 @@ const DirecionResidenciaModal = ({
   ];
 
   const orderUrbano = [
-    "avenida",
+    "principal",
     "numero",
     "letra1",
     "bis",
@@ -140,8 +140,11 @@ const DirecionResidenciaModal = ({
   } = useForm();
 
   const onSubmit = (e) => {
-    e.preventDefault()
-    const completeAddressWithoutWhiteSpaces = completeAddress.trim().split("").filter((letter, index, arrFilter) => {
+    e.preventDefault();
+    const completeAddressWithoutWhiteSpaces = completeAddress
+      .trim()
+      .split("")
+      .filter((letter, index, arrFilter) => {
         if (index > 0) {
           if (arrFilter[index] === " " && arrFilter[index - 1] === " ") {
             return false;
@@ -151,13 +154,14 @@ const DirecionResidenciaModal = ({
         } else {
           return true;
         }
-    }).join("");
+      })
+      .join("");
     setCompleteAddress(completeAddressWithoutWhiteSpaces);
     const dataReset = {
       ...watch(),
       [keyReset]: completeAddressWithoutWhiteSpaces,
     };
-    console.log("object de reseteo", dataReset)
+    console.log("object de reseteo", dataReset);
     reset(dataReset);
     setIsModalActive(false);
   };
@@ -169,27 +173,6 @@ const DirecionResidenciaModal = ({
     }));
     return data;
   };
-
-  // const resetDefaultValues = () => {
-  //   resetDireccion({
-  //     ubicacion: "",
-  //     nombreUbicacion: "",
-  //     residencia: "",
-  //     numeroResidencia: "",
-  //     complementoRural: "",
-
-  //     avenida: "",
-  //     numero: "",
-  //     letra1: "",
-  //     orientacion: "",
-  //     numero2: "",
-  //     letra2: "",
-  //     numeroSecundario: "",
-  //     orientacion2: "",
-  //     complemento: "",
-  //     adicional: "",
-  //   });
-  // };
 
   useEffect(() => {
     const getDataDirecciones = async () => {
@@ -213,14 +196,37 @@ const DirecionResidenciaModal = ({
     };
     getDataDirecciones();
   }, []);
+  // const resetDefaultValues = () => {
+  //   resetDireccion({
+  //     ubicacion: "",
+  //     nombreUbicacion: "",
+  //     residencia: "",
+  //     numeroResidencia: "",
+  //     complementoRural: "",
 
+  //     principal: "",
+  //     numero: "",
+  //     letra1: "",
+  //     orientacion: "",
+  //     numero2: "",
+  //     letra2: "",
+  //     numeroSecundario: "",
+  //     orientacion2: "",
+  //     complemento: "",
+  //     adicional: "",
+  //   });
+  // };
   useEffect(() => {
     let fullAddress = "";
     if (selecDireccion.value === "urb") {
       orderUrbano.forEach((field) => {
         const dataField = formValues[field];
         const dataFieldTrim = dataField.trim();
-        if(dataFieldTrim){
+        if (field === "letra1" || field === "letra2") {
+          fullAddress = fullAddress + dataFieldTrim;
+        } else if(field === "numeroSecundario" && dataFieldTrim){
+          fullAddress = fullAddress + " No. " + dataFieldTrim;
+        } else {
           fullAddress = fullAddress + " " + dataFieldTrim;
         }
       });
@@ -229,7 +235,7 @@ const DirecionResidenciaModal = ({
       orderRural.forEach((field) => {
         const dataField = formValues[field];
         const dataFieldTrim = dataField?.trim() ?? "";
-        if(dataFieldTrim){
+        if (dataFieldTrim) {
           fullAddress = fullAddress + " " + dataFieldTrim;
         }
       });
@@ -392,7 +398,7 @@ const DirecionResidenciaModal = ({
                   <div className="col-12 col-md-6">
                     <label className="text-terciary">Principal:</label>
                     <Controller
-                      name="avenida"
+                      name="principal"
                       control={control}
                       render={({ field }) => (
                         <Select
@@ -401,7 +407,7 @@ const DirecionResidenciaModal = ({
                           onChange={(e) => {
                             setFormValues({
                               ...formValues,
-                              avenida: e.value,
+                              principal: e.value,
                             });
                           }}
                           placeholder="Selecciona"
