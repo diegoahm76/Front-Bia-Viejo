@@ -560,6 +560,19 @@ const AdministradorDePersonasScreen = () => {
                           render={({ field }) => (
                             <Select
                               {...field}
+                              value={
+                                tipoDocumentoOptions[formValues.tipoDocumento]
+                              }
+                              onChange={(e) => {
+                                setFormValues({
+                                  ...formValues,
+                                  tipoDocumento: getIndexBySelectOptions(
+                                    e.value,
+                                    tipoDocumentoOptions
+                                  ),
+                                });
+                                resetPersona({...watchPersona(), tipoDocumento2: e.value})
+                              }}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
                             />
@@ -584,9 +597,7 @@ const AdministradorDePersonasScreen = () => {
                             className="form-control border rounded-pill px-3"
                             type="text"
                             value={
-                              tipoDocumentoOptions[formValues.tipoDocumento]
-                                .label
-                            }
+                              tipoDocumentoOptions[formValues.tipoDocumento].label}
                             disabled={actionForm === "editar"}
                             {...registerPersona("tipoDocumento2")}
                           />
