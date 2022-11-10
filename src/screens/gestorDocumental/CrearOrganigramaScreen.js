@@ -4,30 +4,24 @@ import { useDispatch } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import ModalLocal from "../../components/ModalLocal";
+import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 // import IconoDocumento from '../../assets/document.svg'
 import { useForm, Controller } from "react-hook-form";
 
 function CrearOrganigramaScreen() {
-
-  const {
-    register,
-    handleSubmit,
+  const {register, handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    setSelecOpciones({
-      vivero: data.vivero,
-    });
-  };
 
-  const [selecOpciones, setSelecOpciones] = useState({
-    vivero: "",
-  });
+  const onSubmit = (data) => {};
 
+  const [selecOpciones, setSelecOpciones] = useState(
+    );
+
+    
   let gridApi;
 
   const columnDefsArticulos = [
@@ -108,7 +102,7 @@ function CrearOrganigramaScreen() {
             Ver
             {/* <img src={IconoDocumento} alt="documento" /> */}
           </button>
-          </div>
+        </div>
       ),
     },
     {
@@ -140,9 +134,7 @@ function CrearOrganigramaScreen() {
           <button
             className="btn my-2 btn-sm btn-tablas btn-outline-danger"
             type="button"
-            onClick={() => {
-              
-            }}
+            onClick={() => {}}
           >
             <img src={IconoEliminar} alt="eliminar" />
           </button>
@@ -162,7 +154,7 @@ function CrearOrganigramaScreen() {
       fechaRetiro: "20/12/2021",
       justificacionNuevaVersion: "Error del organigrama realizado",
       resolucion: "Botón ver",
-      },
+    },
     {
       item: 2,
       nombre: "Organigrama inicial",
@@ -173,8 +165,7 @@ function CrearOrganigramaScreen() {
       fechaRetiro: "20/12/2021",
       justificacionNuevaVersion: "Error del organigrama realizado",
       resolucion: "Botón ver",
-      },
-   
+    },
   ];
 
   const defaultColDef = {
@@ -197,24 +188,8 @@ function CrearOrganigramaScreen() {
   const dispatch = useDispatch();
 
   // PARA MODALES SE USA ESTE CODIGO
-  const [modal, setModal] = useState(false);
-  const handleOpenModal = () => {
-    setModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setModal(false);
-  };
-
-  const [crear, setCrear] = useState(false);
-
-  const handleOpenModalCrear = () => {
-    setCrear(true);
-  };
-
-  const handleCloseModalCrear = () => {
-    setCrear(false);
-  };
+  const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] =
+    useState(false);
 
   return (
     <div className="row min-vh-100">
@@ -230,39 +205,44 @@ function CrearOrganigramaScreen() {
           <h3 className="mt-3 text-start mb-3 fw-light ms-3">
             Crear Organigrama
           </h3>
-                   <button
-                    type="button"
-                    className="ms-3 mt-3 btn btn-primary flex-center text-capitalize border rounded-pill px-3"
-                  >
-                    Crear
-                  </button>
+          <button
+            className="ms-3 mt-3 btn btn-primary flex-center text-capitalize border rounded-pill px-3"
+            type="button"
+            title="Send"
+            form="configForm"
+            onClick={() => setCrearOrganigramaIsActive(true)}
+          >
+            Crear
+          </button>
 
-                  <label className="mt-4 form-control ms-0 fw-bolder text-white text-center" style={{
-          background: "#002c42",
-        }}>
-                  Organigramas
-                </label>
-              <div id="myGrid" className="ag-theme-alpine mt-2">
-                <div
-                  className="ag-theme-alpine my-1 mx-3"
-                  style={{ height: "450px" }}
-                >
-                  <AgGridReact
-                    columnDefs={columnDefsArticulos}
-                    rowData={rowDataArticulos}
-                    debounceVerticalScrollbar={true}
-                    defaultColDef={defaultColDef}
-                    onGridReady={onGridReady}
-                  ></AgGridReact>
-                </div>
-              </div>
+          <label
+            className="mt-4 form-control ms-0 fw-bolder text-white text-center"
+            style={{
+              background: "#002c42",
+            }}
+          >
+            Organigramas
+          </label>
+          <div id="myGrid" className="ag-theme-alpine mt-2">
+            <div
+              className="ag-theme-alpine my-1 mx-3"
+              style={{ height: "450px" }}
+            >
+              <AgGridReact
+                columnDefs={columnDefsArticulos}
+                rowData={rowDataArticulos}
+                debounceVerticalScrollbar={true}
+                defaultColDef={defaultColDef}
+                onGridReady={onGridReady}
+              ></AgGridReact>
+            </div>
+          </div>
         </form>
 
-
-        <ModalLocal localState={crear}>
-          
-        </ModalLocal>
-
+        <CrearItemOrganigramaModal
+          isModalActive={crearOrganigramaIsActive}
+          setIsModalActive={setCrearOrganigramaIsActive}
+        />
       </div>
     </div>
   );
