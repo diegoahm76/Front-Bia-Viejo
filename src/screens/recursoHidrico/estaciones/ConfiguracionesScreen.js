@@ -1,36 +1,34 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import Select from "react-select";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { formatISO } from "date-fns";
-import ConfiguracionModal from "../../../components/ConfiguracionModal";
+import {
+  obtenerConfiguracionEditarAction,
+  obtenerConfiguracionesAction,
+} from "../../../actions/configuracionesEstacionesActions";
+import EditarConfiguracionModal from "../../../components/EditarConfiguracionModal";
 
-const defaultValuesResetConfiguration = {
-  t003frecuencia: "",
-  t003temperaturaAmbienteMax: "",
-  t003temperaturaAmbienteMin: "",
-  t003humedadAmbienteMax: "",
-  t003humedadAmbienteMin: "",
-  t003presionBarometricaMax: "",
-  t003presionBarometricaMin: "",
-  t003velocidadVientoMax: "",
-  t003velocidadVientoMin: "",
-  t003direccionVientoMax: "",
-  t003direccionVientoMin: "",
-  t003precipitacionMax: "",
-  t003precipitacionMin: "",
-  t003luminocidadMax: "",
-  t003luminocidadMin: "",
-  t003nivelAguaMax: "",
-  t003nivelAguaMin: "",
-  t003velocidadAguaMax: "",
-  t003velocidadAguaMin: "",
-};
+// const defaultValuesResetConfiguration = {
+//   t003frecuencia: "",
+//   t003temperaturaAmbienteMax: "",
+//   t003temperaturaAmbienteMin: "",
+//   t003humedadAmbienteMax: "",
+//   t003humedadAmbienteMin: "",
+//   t003presionBarometricaMax: "",
+//   t003presionBarometricaMin: "",
+//   t003velocidadVientoMax: "",
+//   t003velocidadVientoMin: "",
+//   t003direccionVientoMax: "",
+//   t003direccionVientoMin: "",
+//   t003precipitacionMax: "",
+//   t003precipitacionMin: "",
+//   t003luminocidadMax: "",
+//   t003luminocidadMin: "",
+//   t003nivelAguaMax: "",
+//   t003nivelAguaMin: "",
+//   t003velocidadAguaMax: "",
+//   t003velocidadAguaMin: "",
+// };
 
 const defaultColDef = {
   sortable: true,
@@ -44,170 +42,25 @@ const defaultColDef = {
 };
 
 const ConfiguracionesScreen = () => {
-  const [typeAction, setTypeAction] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [estacionesOptions, setEstacionesOptions] = useState([]);
-  const [dataConfiguraciones, setDataConfiguraciones] = useState([]);
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
-  const { handleSubmit: handleSubmitBuscar } = useForm();
-  const {
-    register: registerConfiguracion,
-    reset: resetConfiguracion,
-    handleSubmit: handleSubmitConfiguracion,
-    control: controlConfiguracion,
-    formState: { errors: errorsConfiguracion },
-  } = useForm();
+  const dispatch = useDispatch();
+  const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
-  const onSubmitBuscar = (data) => {
-    console.log(data);
-  };
+  useEffect(() => {
+    const getConfiguraciones = async () =>
+      dispatch(obtenerConfiguracionesAction());
+    getConfiguraciones();
+  }, []);
 
-  const deleteAction = async (params) => {
-    Swal.fire({
-      title: "Estas seguro?",
-      text: "Una configuración que se elimina no se puede recuperar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, elminar!",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        deleteConfiguration(params);
-      }
-    });
-  };
-
-  const deleteConfiguration = async (params) => {
-    try {
-      setLoading(true);
-      await clienteEstaciones.delete(`Configuraciones/${params.data.objectid}`);
-      setLoading(false);
-      updateConfigs();
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Hubo un error, intenta de nuevo",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  };
-
-  const editAction = async (params) => {
-    setTypeAction("editar");
-    setIsModalOpen(true);
-    try {
-      setLoading(true);
-      const { data: dataConfig } = await clienteEstaciones.get(
-        `Configuraciones/${params.data.objectid}`
-      );
-      const { data: dataEstacion } = await clienteEstaciones.get(
-        `Estaciones/${params.data.objectid}`
-      );
-      dataConfig.t001nombre = dataEstacion.t001nombre;
-      resetConfiguracion(dataConfig);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Hubo un error, intenta de nuevo",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
-  };
-
-  const onSubmitConfiguracion = async (data) => {
-    if (typeAction === "editar") {
-      try {
-        setLoading(true);
-        await clienteEstaciones.put("Configuraciones", data);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Configuración de estación actualizada",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setLoading(false);
-        setIsModalOpen(false);
-        resetConfiguracion(defaultValuesResetConfiguration);
-        updateConfigs();
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Hubo un error, intenta de nuevo",
-          showConfirmButton: true,
-          confirmButtonText: "Aceptar",
-        });
-      }
-    } else {
-      try {
-        setLoading(true);
-        console.log("entro a subir config");
-        data.idConfiguracion = 0;
-        data.objectid = data.objectid.value.objectid;
-        data.t003userMod = nombre_de_usuario;
-        console.log("data para ver", data);
-        const { data: dataConfig } = await clienteEstaciones.post(
-          "Configuraciones",
-          data
-        );
-        console.log(dataConfig);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Configuración creada correctamente",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        setLoading(false);
-        setIsModalOpen(false);
-        resetConfiguracion(defaultValuesResetConfiguration);
-        updateConfigs();
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-        setIsModalOpen(false);
-        if (err.response?.data) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: `${err.response.data}, intente con una estación sin configuración`,
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              setIsModalOpen(true);
-            }
-          });
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Hubo un error, intenta de nuevo",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-          });
-        }
-      }
-    }
-  };
+  const { configuraciones } = useSelector(
+    (state) => state.configuracionesEstaciones
+  );
 
   const columnDefs = [
-    { headerName: "OBJECTID", field: "objectid", minWidth: 140 },
+    {
+      headerName: "Estacion",
+      field: "t001Estaciones.t001nombre",
+      minWidth: 140,
+    },
     { headerName: "Frecuencia", field: "t003frecuencia", minWidth: 140 },
     {
       headerName: "Temperatura Max",
@@ -300,87 +153,23 @@ const ConfiguracionesScreen = () => {
         <div className="d-flex justify-content-center align-items-center gap-2">
           <div>
             <button
-              className="btn btn-sm btn-outline-warning "
+              className="btn btn-sm btn-tablas btn-outline-warning "
               type="button"
               title="Send"
-              onClick={() => editAction(params)}
+              onClick={() => {
+                dispatch(obtenerConfiguracionEditarAction(params.data));
+                setIsModalEditarActivate(!isModalEditarActive);
+              }}
             >
               <img src={IconoEditar} alt="editar" />
             </button>
           </div>
-          <div>
-            <button
-              className="btn btn-sm btn-outline-danger"
-              type="button"
-              title="Send"
-              onClick={() => deleteAction(params)}
-            >
-              <img src={IconoEliminar} alt="eliminar" />
-            </button>
-          </div>
         </div>
       ),
-      minWidth: 160,
+      minWidth: 120,
     },
   ];
 
-  const updateConfigs = async () => {
-    try {
-      setLoading(true);
-
-      const { data: allConfig } = await clienteEstaciones.get(
-        "Configuraciones"
-      );
-
-      const formatFechaConfiguraciones = allConfig.map((config) => ({
-        ...config,
-        t003fechaMod: formatISO(new Date(config.t003fechaMod), {
-          representation: "date",
-        }),
-      }));
-
-      setDataConfiguraciones(formatFechaConfiguraciones);
-
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const getDataInitial = async () => {
-      try {
-        setLoading(true);
-
-        const { data: allConfig } = await clienteEstaciones.get(
-          "Configuraciones"
-        );
-
-        const formatFechaConfiguraciones = allConfig.map((config) => ({
-          ...config,
-          t003fechaMod: formatISO(new Date(config.t003fechaMod), {
-            representation: "date",
-          }),
-        }));
-
-        setDataConfiguraciones(formatFechaConfiguraciones);
-
-        const { data } = await clienteEstaciones.get("Estaciones");
-        const estacionesMaped = data.map((estacion) => ({
-          label: estacion.t001nombre,
-          value: estacion,
-        }));
-        setEstacionesOptions(estacionesMaped);
-
-        setLoading(false);
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-      }
-    };
-    getDataInitial();
-  }, []);
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -391,666 +180,26 @@ const ConfiguracionesScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <form className="row" onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
+          <form className="row">
             <div className="multisteps-form__content">
-              <div>
-                <button
-                  type="submit"
-                  className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
-                  disabled={loading}
-                  onClick={() => {
-                    setIsModalOpen(true);
-                    setTypeAction("crear");
-                  }}
-                >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Cargando...
-                    </>
-                  ) : (
-                    "Crear configuración"
-                  )}
-                </button>
-              </div>
-              <div>
-                <div
-                  className="ag-theme-alpine mt-auto mb-8 px-4"
-                  style={{ height: "470px" }}
-                >
-                  <AgGridReact
-                    columnDefs={columnDefs}
-                    rowData={dataConfiguraciones}
-                    defaultColDef={defaultColDef}
-                  ></AgGridReact>
-                </div>
+              <div
+                className="ag-theme-alpine mt-auto mb-8 px-4"
+                style={{ height: "470px" }}
+              >
+                <AgGridReact
+                  columnDefs={columnDefs}
+                  rowData={configuraciones}
+                  defaultColDef={defaultColDef}
+                ></AgGridReact>
               </div>
             </div>
           </form>
-          {isModalOpen && (
-            <ConfiguracionModal localState={isModalOpen}>
-              <form
-                className="row p-3"
-                onSubmit={handleSubmitConfiguracion(onSubmitConfiguracion)}
-              >
-                <h3 className="mt-3 mb-0 text-center mb-4">
-                  {typeAction === "editar" ? "Editar" : "Crear"} configuración
-                </h3>
-                {typeAction === "editar" ? (
-                  <div className="d-flex justify-content-center align-items-center gap-2">
-                    <label className="mt-3">Estación</label>
-                    <div className="col-2">
-                      <div className="ms-2">
-                        <label className="ms-2 mt-1">Nombre: </label>
-                        <input
-                          className="form-control border rounded-pill px-3 text-center"
-                          type="text"
-                          readOnly
-                          {...registerConfiguracion("t001nombre", {
-                            required: typeAction === "crear",
-                          })}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="d-flex justify-content-center align-items-center gap-2">
-                      <label className="form-label">
-                        Estación: <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="objectid"
-                        control={controlConfiguracion}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={estacionesOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    {errorsConfiguracion.objectid && (
-                      <div className="col-12 text-center">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
-                  </>
-                )}
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">Frecuencia</label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2 mt-1">
-                        Valor: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003frecuencia", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003frecuencia && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">Minutos</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">
-                    Temperatura ambiente
-                  </label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2 mt-1">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion(
-                          "t003temperaturaAmbienteMax",
-                          {
-                            required: true,
-                          }
-                        )}
-                      />
-                      {errorsConfiguracion.t003temperaturaAmbienteMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2 mt-1">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion(
-                          "t003temperaturaAmbienteMin",
-                          {
-                            required: true,
-                          }
-                        )}
-                      />
-                      {errorsConfiguracion.t003temperaturaAmbienteMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">°C</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">Humedad ambiente</label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2 mt-1">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003humedadAmbienteMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003humedadAmbienteMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003humedadAmbienteMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003humedadAmbienteMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">%</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">
-                    Presión barométrica
-                  </label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003presionBarometricaMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003presionBarometricaMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003presionBarometricaMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003presionBarometricaMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">hPa</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">
-                    Velocidad del viento
-                  </label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003velocidadVientoMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003velocidadVientoMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003velocidadVientoMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003velocidadVientoMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">m/s</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">
-                    Dirección del viento
-                  </label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003direccionVientoMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003direccionVientoMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        placeholder="t003direccionVientoMin"
-                        {...registerConfiguracion("t003direccionVientoMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003direccionVientoMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">°</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">Precipitación</label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003precipitacionMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003precipitacionMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003precipitacionMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003precipitacionMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">mm</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5  w-50 text-end">Luminosidad</label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003luminocidadMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003luminocidadMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003luminocidadMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003luminocidadMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">KLux</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5  w-50 text-end">
-                    Nivel de agua del rio por sensor radar
-                  </label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003nivelAguaMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003nivelAguaMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003nivelAguaMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003nivelAguaMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">m</label>
-                </div>
-                <div className="d-flex justify-content-start align-items-center gap-2">
-                  <label className="mt-5 w-50 text-end">
-                    Velocidad del agua por radar
-                  </label>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Min: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003velocidadAguaMax", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003velocidadAguaMax && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-2">
-                    <div className="ms-2">
-                      <label className="ms-2">
-                        Max: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3"
-                        type="number"
-                        {...registerConfiguracion("t003velocidadAguaMin", {
-                          required: true,
-                        })}
-                      />
-                      {errorsConfiguracion.t003velocidadAguaMin && (
-                        <div className="col-12">
-                          <small
-                            className="text-center text-danger"
-                            style={{ fontSize: "12px" }}
-                          >
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <label className="mt-5">m/s</label>
-                </div>
-                <div className="d-flex justify-content-end gap-2 mt-3">
-                  <button
-                    type="button"
-                    className="btn bg-gradient-light text-capitalize"
-                    disabled={loading}
-                    onClick={() => {
-                      setIsModalOpen(false);
-                      resetConfiguracion(defaultValuesResetConfiguration);
-                    }}
-                  >
-                    {loading ? (
-                      <>
-                        <span
-                          className="spinner-border spinner-border-sm me-1"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        Cargando...
-                      </>
-                    ) : (
-                      "Cancelar"
-                    )}
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn bg-gradient-primary text-capitalize"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <span
-                          className="spinner-border spinner-border-sm me-1"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        Cargando...
-                      </>
-                    ) : typeAction === "crear" ? (
-                      "Crear"
-                    ) : (
-                      "Actualizar"
-                    )}
-                  </button>
-                </div>
-              </form>
-            </ConfiguracionModal>
-          )}
         </div>
       </div>
+      <EditarConfiguracionModal
+        setIsModalActive={setIsModalEditarActivate}
+        isModalActive={isModalEditarActive}
+      />
     </div>
   );
 };

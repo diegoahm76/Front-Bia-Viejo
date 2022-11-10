@@ -71,18 +71,6 @@ const EliminarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               {...register("t001Estaciones.t001nombre")}
             />
           </div>
-          <div className="col-12 mb-3">
-            <label>
-              Numero de identificación: <span className="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              disabled
-              className="form-control border rounded-pill px-3"
-              {...register("t005Identificacion")}
-            />
-          </div>
-
           <div className="col-12">
             <label>
               Numero de telefono: <span className="text-danger">*</span>
