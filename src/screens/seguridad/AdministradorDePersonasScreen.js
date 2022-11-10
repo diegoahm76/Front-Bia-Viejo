@@ -264,7 +264,7 @@ const AdministradorDePersonasScreen = () => {
       direccion_notificaciones: data.direccionNotificaciones,
       cod_municipio_laboral_nal:
         municipiosOptions[formValues.municipioDondeLabora]?.value,
-      ubicacion_georeferenciada: data.ubicacionGeografica,
+      ubicacion_georeferenciada: "mi casita 1",
     };
 
     console.log("updated persona", updatedPersona);
