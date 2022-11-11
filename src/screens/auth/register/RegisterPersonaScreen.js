@@ -56,10 +56,13 @@ const RegisterPersonaScreen = () => {
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [tipoPersonaOptions, setTipoPersonaOptions] = useState([]);
+  const [idRepresentante, setIdRepresentante] = useState("");
   const [formValues, setFormValues] = useState({
     fechaNacimiento: "",
     tipo_persona: { label: "Natural", value: "N" },
+    digito_verificacion: "",
   });
+  const [tipoDocumentoFiltrado, setTipoDocumentoFiltrado] = useState([]);
 
   const navigate = useNavigate();
 
@@ -89,6 +92,7 @@ const RegisterPersonaScreen = () => {
         const tipoPersonaFormat = textChoiseAdapter(tipoPersonaNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
+        // setTipoDocumentoFiltrado(documentosFormat);
         setDepartamentosOptions(departamentosFormat);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
@@ -139,7 +143,7 @@ const RegisterPersonaScreen = () => {
       persona.tipo_persona = formValues.tipo_persona.value;
       persona.tipo_documento = data.tipoDocumento.value;
       persona.numero_documento = data.numero_documento;
-      persona.digito_verificacion = data.dv || null;
+      persona.digito_verificacion = formValues.digito_verificacion || null;
       persona.nombre_comercial = data.nombreComercial || null;
       persona.primer_nombre = data.primerNombre;
       persona.segundo_nombre = data.segundoNombre || null;
@@ -155,8 +159,9 @@ const RegisterPersonaScreen = () => {
       persona.tipo_persona = formValues.tipo_persona.value;
       persona.tipo_documento = data.tipoDocumento.value;
       persona.numero_documento = data.numero_documento;
-      persona.digito_verificacion = data.dv || null;
+      persona.digito_verificacion = formValues.digito_verificacion || null;
       persona.razon_social = data.razonSocial;
+      persona.representante_legal = idRepresentante;
       persona.email = data.eMail;
       persona.telefono_celular_empresa = "57" + data.celular;
       persona.direccion_notificaciones = data.direccionNotificacion;
@@ -173,6 +178,7 @@ const RegisterPersonaScreen = () => {
           "personas/persona-natural/create/",
           persona
         );
+        console.log("Retorno", dataRegisterPersona);
         Swal.fire({
           title: "Registrado como persona natural",
           text: "¿Desea registrarse como usuario?",
@@ -255,6 +261,37 @@ const RegisterPersonaScreen = () => {
       }
       setLoading(false);
     } else {
+      try {
+        const { data: dataRepresentante } = await clienteAxios.get(
+          `personas/get-personas-naturales-by-document/${data.tipoDocumentoRepresentante.value}/${data.numero_documento_representante}/`
+        );
+        //console.log("dataRepresentante", dataRepresentante)
+        setIdRepresentante(dataRepresentante?.data?.id_persona);
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          title: error?.response?.data?.data,
+          text: "¿Quiere crear una persona natural?",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleChangeTypePerson({ label: "Natural", value: "N" });
+            setFormValues({
+              ...formValues,
+              tipo_persona: { label: "Natural", value: "N" },
+            });
+            console.log("formValues", formValues);
+          }
+        });
+        setLoading(false);
+        return;
+      }
+
       try {
         console.log(persona);
         const { data: dataRegisterEmpresa } = await clienteAxios.post(
@@ -368,6 +405,37 @@ const RegisterPersonaScreen = () => {
     }
   };
 
+  useEffect(() => {
+    if (isUser) {
+      console.log("entro arriba")
+      const dataFiltered = tipoDocumentoOptions.filter(
+        (documento) => documento.value !== "NU"
+      );
+      setTipoDocumentoFiltrado(dataFiltered);
+    } else {
+      console.log("entro abajo")
+      const dataFiltered = tipoDocumentoOptions.filter(
+        (documento) => documento.value === "NU"
+      );
+      setTipoDocumentoFiltrado(dataFiltered);
+    }
+  }, [isUser, tipoDocumentoOptions]);
+
+  const handleMaxOneDigit = (e) => {
+    if (e.target.value.length > 1) {
+      e.target.value = e.target.value[0];
+      setFormValues({
+        ...formValues,
+        digito_verificacion: e.target.value[0],
+      });
+    } else {
+      setFormValues({
+        ...formValues,
+        digito_verificacion: e.target.value,
+      });
+    }
+  };
+
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -403,6 +471,7 @@ const RegisterPersonaScreen = () => {
                       Tipo de persona: <span className="text-danger">*</span>
                     </label>
                     <Select
+                      value={formValues.tipo_persona}
                       options={tipoPersonaOptions}
                       defaultValue={formValues.tipo_persona}
                       placeholder="Seleccionar"
@@ -423,11 +492,18 @@ const RegisterPersonaScreen = () => {
                         <Select
                           {...field}
                           // defaultValue={tipoDocumentoOptions[0]}
-                          options={tipoDocumentoOptions}
+                          options={tipoDocumentoFiltrado}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
+                    {errorsForm.tipoDocumento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
 
                   {isUser && (
@@ -477,14 +553,10 @@ const RegisterPersonaScreen = () => {
                         <div className="mt-3">
                           <label className="ms-2">Digito verificación:</label>
                           <input
-                            className="border border-terciary hola form-control border rounded-pill px-3"
+                            className="border border-terciary form-control border rounded-pill px-3"
                             type="number"
-                            max="9"
-                            min="0"
-                            maxLength="1"
-                            {...register("dv", {
-                              maxLength: 1,
-                            })}
+                            onChange={handleMaxOneDigit}
+                            //{...register("dv", {required: true})}
                           />
                         </div>
                         {errorsForm.dv && (
@@ -644,6 +716,65 @@ const RegisterPersonaScreen = () => {
                     </div>
                   )}
                 </div>
+
+                {!isUser && (
+                  <>
+                    <Subtitle title={"Representante Legal"} mt={4} mb={0} />
+                    <div className="row mx-1">
+                      <div className="col-12 col-md-6 mt-3">
+                        <label className="form-label">
+                          Tipo de documento:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="tipoDocumentoRepresentante"
+                          control={control}
+                          rules={{
+                            required: true,
+                          }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              // defaultValue={tipoDocumentoOptions[0]}
+                              options={tipoDocumentoOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                        {errorsForm.tipoDocumento && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                      <div className="col-md-6 col-12 mt-3">
+                        <div>
+                          <label className="ms-2">
+                            Número de documento:{" "}
+                            <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            className="border border-terciary form-control border rounded-pill px-3"
+                            type="text"
+                            {...register("numero_documento_representante", {
+                              required: true,
+                            })}
+                          />
+                        </div>
+                        {errorsForm.numero_documento && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 {/* DATOS DE NOTIFICACION */}
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
 
@@ -656,6 +787,8 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
+                        autoComplete="off"
+                        onCopy={(e) => e.preventDefault()}
                         {...register("eMail", { required: true })}
                       />
                     </div>
@@ -684,6 +817,8 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
+                        autoComplete="off"
+                        onPaste={(e) => e.preventDefault()}
                         {...register("cEmail", { required: true })}
                       />
                     </div>
@@ -710,6 +845,7 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
+                        onCopy={(e) => e.preventDefault()}
                         {...register("celular", { required: true })}
                       />
                     </div>
@@ -738,6 +874,7 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
+                        onPaste={(e) => e.preventDefault()}
                         {...register("cCelular", { required: true })}
                       />
                     </div>
@@ -780,8 +917,8 @@ const RegisterPersonaScreen = () => {
                             type="button"
                             className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
                             onClick={() => {
-                              setIsOpenGenerator(true)
-                              console.log(watch())
+                              setIsOpenGenerator(true);
+                              console.log(watch());
                             }}
                           >
                             Generar
@@ -892,6 +1029,25 @@ const RegisterPersonaScreen = () => {
                     notificaciones por SMS y/o vía correo electrónico.
                   </label>
                   <div className="d-flex justify-content-end mt-2">
+                    <button
+                      type="button"
+                      className="btn bg-gradient-light text-capitalize me-2"
+                      disabled={loading}
+                      onClick={() => navigate("/login")}
+                    >
+                      {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Cancelar"
+                      )}
+                    </button>
                     <button
                       type="submit"
                       className="btn bg-gradient-primary text-capitalize"
