@@ -137,6 +137,7 @@ const RegisterPersonaScreen = () => {
     }
 
     const persona = {};
+    const idPersonaRepresentante = idRepresentante
 
     //* Ingresado los datos al objeto persona dependiento de si es Natural o Juridica
     if (formValues.tipo_persona.value === "N") {
@@ -161,7 +162,7 @@ const RegisterPersonaScreen = () => {
       persona.numero_documento = data.numero_documento;
       persona.digito_verificacion = formValues.digito_verificacion || null;
       persona.razon_social = data.razonSocial;
-      persona.representante_legal = idRepresentante;
+      persona.representante_legal = idPersonaRepresentante;
       persona.email = data.eMail;
       persona.telefono_celular_empresa = "57" + data.celular;
       persona.direccion_notificaciones = data.direccionNotificacion;
@@ -270,7 +271,7 @@ const RegisterPersonaScreen = () => {
       } catch (error) {
         console.log(error);
         Swal.fire({
-          title: error?.response?.data?.data,
+          title: "No existe un representante legal registrado con el documento ingresado",
           text: "¿Quiere crear una persona natural?",
           icon: "info",
           showCancelButton: true,
@@ -293,7 +294,7 @@ const RegisterPersonaScreen = () => {
       }
 
       try {
-        console.log(persona);
+        console.log("persona antes de la peticion",persona);
         const { data: dataRegisterEmpresa } = await clienteAxios.post(
           "personas/persona-juridica/create/",
           persona
@@ -407,13 +408,11 @@ const RegisterPersonaScreen = () => {
 
   useEffect(() => {
     if (isUser) {
-      console.log("entro arriba")
       const dataFiltered = tipoDocumentoOptions.filter(
         (documento) => documento.value !== "NU"
       );
       setTipoDocumentoFiltrado(dataFiltered);
     } else {
-      console.log("entro abajo")
       const dataFiltered = tipoDocumentoOptions.filter(
         (documento) => documento.value === "NU"
       );
@@ -435,7 +434,7 @@ const RegisterPersonaScreen = () => {
       });
     }
   };
-
+  
   return (
     <div
       className="page-header align-items-start min-vh-100"
