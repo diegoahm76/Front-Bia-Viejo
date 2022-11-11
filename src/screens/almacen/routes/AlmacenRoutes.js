@@ -85,6 +85,7 @@ import ReporteDeFuncionarioPorConsumoScreen from "../reportes/ReporteDeFuncionar
 import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasConsumoScreen";
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 import AdministradorBodegasScreen from "../configuracion/AdministradorBodegasScreen";
+import EditarBodegaScreen from "../configuracion/EditarBodegaScreen";
 
 const AlmacenRoutes = () => {
   return (
@@ -347,6 +348,10 @@ const AlmacenRoutes = () => {
         path="administrador-bodegas"
         element={<AdministradorBodegasScreen />}
         />
+        <Route
+        path="editar-bodegas"
+        element={<EditarBodegaScreen />}
+        ></Route>
       </Route>
 
       <Route path="solicitudes-articulos">
