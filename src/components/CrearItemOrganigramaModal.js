@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import Select from "react-select";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Subtitle from './Subtitle'
 import { AgGridReact } from "ag-grid-react";
@@ -48,6 +49,8 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
+    const [organigrama, setOrganigrama] = useState([])
+    const [version, setVersion] = useState([])
 
     const handleOpenCrearOrganigrama = () => {
         setIsModalActive(true);
@@ -127,8 +130,10 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                                 <input
                                     type="text"
                                     className="form-control border border-terciary rounded-pill px-3"
-                                    // placeholder="Escribe el nombre"
-                                    {...register("nombreOrganigrama", { required: true })}
+                                    placeholder="Escribe el nombre"
+                                    value={organigrama}
+                                    onChange={(e) => setOrganigrama(e.target.value)}
+                                    // {...register("nombreOrganigrama", { required: true })}
                                 />
                                 {errors.nombreOrganigrama && (
                                     <div className="col-12">
@@ -143,10 +148,12 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                                     Version:
                                 </label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     className="form-control border border-terciary rounded-pill px-3"
-                                    // placeholder="Escribe el codigo"
-                                    {...register("versionOrganigrama", { required: true })}
+                                    placeholder="Escribe la version"
+                                    value={version}
+                                    onChange={(e) => setVersion(e.target.value)}
+                                    // {...register("versionOrganigrama", { required: true })}
                                 />
                                 {errors.versionOrganigrama && (
                                     <div className="col-12">

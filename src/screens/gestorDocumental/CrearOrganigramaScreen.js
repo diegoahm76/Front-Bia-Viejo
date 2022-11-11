@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -9,20 +10,91 @@ import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 // import IconoDocumento from '../../assets/document.svg'
 import { useForm, Controller } from "react-hook-form";
+import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import clienteAxios from "../../config/clienteAxios";
+import { getConfigAuthBearer } from "../../helpers/configAxios";
+
+const rowDataArticulos = [
+  {
+    item: 1,
+    nombre: "Organigrama inicial",
+    descripcion: "Organigrama de prueba",
+    version: 1.1,
+    fechaTerminado: "11/02/2021",
+    fechaPublicacion: "22/10/2021",
+    fechaRetiro: "20/12/2021",
+    justificacionNuevaVersion: "Error del organigrama realizado",
+    resolucion: "Botón ver",
+  },
+  {
+    item: 2,
+    nombre: "Organigrama inicial",
+    descripcion: "Organigrama de prueba",
+    version: 1.2,
+    fechaTerminado: "11/02/2021",
+    fechaPublicacion: "22/10/2021",
+    fechaRetiro: "20/12/2021",
+    justificacionNuevaVersion: "Error del organigrama realizado",
+    resolucion: "Botón ver",
+  },
+];
 
 function CrearOrganigramaScreen() {
-  const {register, handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
 
-  const onSubmit = (data) => {};
+  const [organigrama, setOrganigrama] = useState([]);
+  const [isCreate, setIsCreate] = useState(null);
 
-  const [selecOpciones, setSelecOpciones] = useState(
-    );
+  const { register, handleSubmit } = useForm();
 
-    
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const accessToken = getTokenAccessLocalStorage();
+  const config = getConfigAuthBearer(accessToken);
+
+  const getOrganigramasList = async () => {
+    try {
+      const { data: dataOrganigrama } = await clienteAxios.get(
+        "/almacen/organigrama/create",
+        config
+      );
+      setOrganigrama(dataOrganigrama);
+      console.log(dataOrganigrama)
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
+
+  const handleEditPage = () => {
+    navigate("/dashboard/gestorDocumental/organigrama/edicion-organigrama");
+  }
+
+
+  const onSubmit = (data) => { };
+
+
+
+
   let gridApi;
+
+  const onSubmitOrganigrama = async (data) => {
+    console.log(data, data.id);
+  }
+
+  const defaultColDef = {
+    sortable: true,
+    flex: 1,
+    filter: false,
+    floatingFilter: false,
+    resizable: true,
+    wrapHeaderText: true,
+    autoHeaderHeight: true,
+    rowSelection: "multiple",
+    suppressRowClickSelection: true,
+  };
 
   const columnDefsArticulos = [
     {
@@ -92,12 +164,13 @@ function CrearOrganigramaScreen() {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn my-2 btn-sm btn-tablas btn-outline-primary text-capitalize"
+            className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
-            onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
-              // setIsModalEditarActivate(!isModalActive);
-            }}
+          // handleOpenEditOrganigrama(params.data.id_Organigrama);
+          //   dispatch(obtenerEstacionEditarAction(params.data));
+          //   setIsModalEditarActivate(!isModalActive);
+          // }}
+          // onChange={}
           >
             Ver
             {/* <img src={IconoDocumento} alt="documento" /> */}
@@ -124,17 +197,20 @@ function CrearOrganigramaScreen() {
           <button
             className="btn my-2 btn-sm btn-tablas btn-outline-warning "
             type="button"
-            onClick={() => {
+            title="Send"
+            form="configForm"
+            onClick={() => handleEditPage()}
+
               // dispatch(obtenerEstacionEditarAction(params.data));
               // setIsModalEditarActivate(!isModalActive);
-            }}
+            
           >
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
             className="btn my-2 btn-sm btn-tablas btn-outline-danger"
             type="button"
-            onClick={() => {}}
+            onClick={() => { }}
           >
             <img src={IconoEliminar} alt="eliminar" />
           </button>
@@ -143,58 +219,28 @@ function CrearOrganigramaScreen() {
     },
   ];
 
-  const rowDataArticulos = [
-    {
-      item: 1,
-      nombre: "Organigrama inicial",
-      descripcion: "Organigrama de prueba",
-      version: 1.1,
-      fechaTerminado: "11/02/2021",
-      fechaPublicacion: "22/10/2021",
-      fechaRetiro: "20/12/2021",
-      justificacionNuevaVersion: "Error del organigrama realizado",
-      resolucion: "Botón ver",
-    },
-    {
-      item: 2,
-      nombre: "Organigrama inicial",
-      descripcion: "Organigrama de prueba",
-      version: 1.2,
-      fechaTerminado: "11/02/2021",
-      fechaPublicacion: "22/10/2021",
-      fechaRetiro: "20/12/2021",
-      justificacionNuevaVersion: "Error del organigrama realizado",
-      resolucion: "Botón ver",
-    },
-  ];
+  // const handleOpenEditOrganigrama = async (idOrganigrama) => {
+  //   try {
+  //     const {
+  //       data: { data },
+  //     } = await clienteAxios.get(
 
-  const defaultColDef = {
-    sortable: true,
-    editable: true,
-    flex: 1,
-    filter: false,
-    floatingFilter: false,
-    resizable: true,
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-    rowSelection: "multiple",
-    suppressRowClickSelection: true,
-  };
+  //     )
+  //   }
+  // }
+
+
 
   const onGridReady = (params) => {
     gridApi = params.api;
   };
 
-  const dispatch = useDispatch();
-
-  // PARA MODALES SE USA ESTE CODIGO
   const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] =
     useState(false);
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        {/*  CUERPO DEL FORMULARIO  */}
 
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
