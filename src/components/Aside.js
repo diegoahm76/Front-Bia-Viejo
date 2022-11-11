@@ -468,6 +468,19 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
+                                to="almacen/configuracion/administrador-bodegas"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Administrador de Bodegas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
                                 to="almacen/configuracion/registroconductoresexternos"
                               >
                                 <span className="sidenav-mini-icon">
@@ -2084,7 +2097,20 @@ const Aside = ({ showAside }) => {
                   </a>
                   <div className="collapse " id="authExamples">
                     <ul className="nav ">
-                      <li className="nav-item ">
+                    <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestorDocumental/organigrama/crearorganigrama"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Crear <br /> Organigrama
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item ">
                         <a
                           className="nav-link text-white "
                           href="../../pages/applications/wizard.html"
@@ -2096,6 +2122,17 @@ const Aside = ({ showAside }) => {
                           </span>
                         </a>
                       </li>
+                      <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestordocumental/edicion-organigrama"
+                              >
+                                <span className="sidenav-mini-icon"> V </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Edicion Organigrama
+                                </span>
+                              </Link>
+                            </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "
@@ -2250,7 +2287,7 @@ const Aside = ({ showAside }) => {
                             />
                           </span>
                           <span className="sidenav-normal  ms-2  ps-1">
-                            Estaciones <br /> meteorologicas
+                            Estaciones <br /> Hidrometereológicas
                           </span>
                         </a>
                         <div className="collapse " id="estaciones">
@@ -2264,46 +2301,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Administrador de estaciones
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/usuarios-estaciones"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Administrador de usuarios
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/alertas"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Alertas
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/configuraciones"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Alertas configuraciones
+                                  Estaciones
                                 </span>
                               </Link>
                             </li>
@@ -2323,6 +2321,58 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/configuraciones"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Configuración
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/usuarios-estaciones"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Partes Interesadas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/monitoreo"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Monitoreo
+                                </span>
+                              </Link>
+                            </li>
+                            {/* <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/alertas"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Alertas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/alarmas-configuraciones"
                               >
                                 <span className="sidenav-mini-icon">
@@ -2332,7 +2382,7 @@ const Aside = ({ showAside }) => {
                                   Alarmas Configuraciones
                                 </span>
                               </Link>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
