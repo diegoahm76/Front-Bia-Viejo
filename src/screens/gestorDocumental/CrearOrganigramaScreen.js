@@ -45,7 +45,7 @@ const rowDataArticulos = [
   },
 ];
 
-function CrearOrganigramaScreen() {
+const CrearOrganigramaScreen = () => {
 
   const { register, handleSubmit } = useForm();
 
