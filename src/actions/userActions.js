@@ -28,8 +28,7 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-    const { userinfo, permisos } = data;
-    userinfo.permisos = permisos;
+    const { userinfo } = data;
     dispatch(userLoginSuccess(userinfo));
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
