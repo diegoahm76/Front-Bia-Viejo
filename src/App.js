@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
+import store from "./store";
 
 import HomeScreen from "./screens/layout/HomeScreen";
 import LoginScreen from "./screens/auth/LoginScreen";

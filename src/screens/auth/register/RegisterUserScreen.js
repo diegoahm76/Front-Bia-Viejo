@@ -47,7 +47,6 @@ const RegisterUserScreen = () => {
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
-
       const { data: dataPersona } = dataPersonaObject;
 
       if (dataPersonaObject.detail) {
@@ -74,10 +73,13 @@ const RegisterUserScreen = () => {
         password: data.password,
         id_usuario_creador: null,
         tipo_usuario: "E", // Debería ser por defecto que se creara en E
-        redirect_url: process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/login" : "http://localhost:3000/#/login"
+        redirect_url:
+          process.env.NODE_ENV === "production"
+            ? "https://front-bia.netlify.app/#/login"
+            : "http://localhost:3000/#/login",
       };
 
-      console.log("data user post", user)
+      console.log("data user post", user);
 
       const config2 = {
         headers: {
@@ -122,7 +124,7 @@ const RegisterUserScreen = () => {
             navigate("/register");
           }
         });
-      } else if(error.response?.data?.detail){
+      } else if (error.response?.data?.detail) {
         Swal.fire({
           position: "center",
           icon: "warning",
@@ -130,7 +132,7 @@ const RegisterUserScreen = () => {
           showConfirmButton: false,
           timer: 2000,
         });
-      }else if (error.response?.data?.errors?.non_field_errors) {
+      } else if (error.response?.data?.errors?.non_field_errors) {
         Swal.fire({
           position: "center",
           icon: "warning",
@@ -250,6 +252,7 @@ const RegisterUserScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3"
                       type="password"
+                      onCopy={(e) => e.preventDefault()}
                       {...register("password", { required: true })}
                     />
                   </div>
@@ -269,6 +272,7 @@ const RegisterUserScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3"
                       type="password"
+                      onPaste={(e) => e.preventDefault()}
                       {...register("password2", { required: true })}
                     />
                   </div>
@@ -285,6 +289,13 @@ const RegisterUserScreen = () => {
                 </div>
 
                 <div className="d-flex justify-content-end">
+                  <button
+                    type="button"
+                    onClick={() => navigate("/login")}
+                    className="btn bg-gradient-light mt-3 text-capitalize me-2"
+                  >
+                    Cancelar
+                  </button>
                   <button
                     type="submit"
                     onClick={handleClickSubmit}

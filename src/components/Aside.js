@@ -2084,7 +2084,20 @@ const Aside = ({ showAside }) => {
                   </a>
                   <div className="collapse " id="authExamples">
                     <ul className="nav ">
-                      <li className="nav-item ">
+                    <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestorDocumental/organigrama/crearorganigrama"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Crear <br /> Organigrama
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item ">
                         <a
                           className="nav-link text-white "
                           href="../../pages/applications/wizard.html"
@@ -2096,6 +2109,17 @@ const Aside = ({ showAside }) => {
                           </span>
                         </a>
                       </li>
+                      <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestordocumental/edicion-organigrama"
+                              >
+                                <span className="sidenav-mini-icon"> V </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Edicion Organigrama
+                                </span>
+                              </Link>
+                            </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "

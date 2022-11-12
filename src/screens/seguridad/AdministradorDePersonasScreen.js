@@ -1481,3 +1481,6 @@ const AdministradorDePersonasScreen = () => {
   );
 };
 export default AdministradorDePersonasScreen;
+
+
+    

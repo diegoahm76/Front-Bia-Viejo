@@ -127,17 +127,23 @@ const BusquedaAvanzadaModal = ({
     const {
       numero_documento,
       tipo_documento: { cod_tipo_documento },
+      primer_apellido,
+      primer_nombre,
+      id_persona,
     } = dataSearch;
-    console.log(dataSearch, numero_documento, cod_tipo_documento);
+    const nombreCompleto= primer_nombre + " " + primer_apellido
+    console.log(dataSearch, numero_documento, cod_tipo_documento, nombreCompleto, id_persona);
     const index = getIndexBySelectOptions(
       cod_tipo_documento,
       tipoDocumentoOptions
     );
     console.log(index);
-    setFormValues({ index_tipo_documento: index });
+    setFormValues({ index_tipo_documento: index, id_persona, });
     reset({
       tipoDocumento: tipoDocumentoOptions[index],
       numeroDocumento: numero_documento,
+      nombreCompleto : nombreCompleto,
+      id_persona: id_persona,
     });
     setIsModalActive(false);
   };
