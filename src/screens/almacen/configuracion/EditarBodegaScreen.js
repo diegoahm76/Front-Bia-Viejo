@@ -41,6 +41,9 @@ const EditarBodegaScreen = () => {
     const [municipiosOptions, setMunicipiosOptions] = useState([]);
     const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
     const [es_principal, setEs_principal] = useState(false);
+    const [nombreCompleto, setNombreCompleto] = useState({
+        
+    })
   
     const dispatch = useDispatch();
     //cuando el usuario hace submit
@@ -48,15 +51,21 @@ const EditarBodegaScreen = () => {
     const submitEditarBodega = (data) => {
       //console.log("data", data);
   
-      const idPersona = data.id.responsable.personas.id_persona;
-  
+      const idPersona = formValuesSearch.id_persona;
+      const nombreCompleto= data.primer_nombre + " " + data.primer_apellido;
+      const tipo_documento=formValuesSearch.index_tipo_documento;
+      const cedula= data.numero_documento;
+      console.log("nombre", nombreCompleto)
       const bodegaEditar = {
         ...data,
         cod_municipio: data.cod_municipio.value,
+        tipo_documento: tipo_documento,
+        nombreCompleto: nombreCompleto,
+        cedula:cedula,
         id_responsable: idPersona,
-        es_principal: false,
+        es_principal,
       };
-      console.log(bodegaEditar);
+      console.log("bodega", bodegaEditar);
   
       //console.log("bodega", bodegaCreate);
       dispatch(editarBodegaAction(bodegaEditar));
@@ -140,7 +149,6 @@ const EditarBodegaScreen = () => {
                           formValuesSearch.index_tipo_documento
                         ]
                       }
-                      isDisabled
                       options={tipoDocumentoOptions}
                       placeholder="Seleccionar"
                     />
@@ -159,9 +167,8 @@ const EditarBodegaScreen = () => {
                   <label className="ms-2 text-terciary">Número de cedula</label>
                   <input
                     className="border border-terciary form-control border rounded-pill px-3"
-                    type="text"
-                    disabled
-                    {...registerBuscar("numeroDocumento", {
+                    type="number"
+                    {...registerBuscar("cedula", {
                       required: true,
                     })}
                   />
@@ -181,7 +188,6 @@ const EditarBodegaScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="nombre completo"
-                    disabled
                     {...registerBuscar("nombreCompleto", {
                       required: true,
                     })}
@@ -303,7 +309,7 @@ const EditarBodegaScreen = () => {
                   className="border border-terciary form-check-input mx-2"
                   type="checkbox"
                   id="flexCheckDefault"
-                  {...registerBodega("es_principal", { required: true })}
+                  {...registerBodega("es_principal")}
                 />
               </div>
   

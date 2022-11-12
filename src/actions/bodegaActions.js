@@ -123,6 +123,7 @@ export const editarBodegaAction = (id_bodega) => {
     dispatch(obtenerBodegaEditar());
     try {
       await clienteAxios.put(`almacen/bodega/update/${id_bodega}`, id_bodega);
+      dispatch(obtenerBodegasAction())
       dispatch(bodegaEditadaExito(id_bodega));
       Swal.fire("Correcto", "La bodega se actualizo correctamente", "success");
     } catch (error) {

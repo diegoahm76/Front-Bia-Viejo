@@ -9,6 +9,7 @@ import Subtitle from "../../../components/Subtitle";
 import {
   obtenerBodegasAction,
   eliminarBodegaAction,
+  editarBodegaAction,
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
 
@@ -27,7 +28,7 @@ const AdministradorBodegasScreen = () => {
   };
   const EditarBodega=()=>{
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
-
+    dispatch(editarBodegaAction())
   }
 
   const { bodega } = useSelector((state) => state.bodega);
@@ -67,7 +68,7 @@ const AdministradorBodegasScreen = () => {
             className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {EditarBodega()
-              // dispatch(obtenerBodegasAction(params.data));
+            dispatch(editarBodegaAction(params.data));
             }}
           >
             <img src={IconoEditar} alt="editar" />
