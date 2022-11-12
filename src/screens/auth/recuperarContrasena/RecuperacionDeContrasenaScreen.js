@@ -1,8 +1,12 @@
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 
 const RecuperacionDeContrasenaScreen = () => {
+
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -18,16 +22,24 @@ const RecuperacionDeContrasenaScreen = () => {
       "users/request-reset-email/",
       bodyAxios
     );
-    const textUpperCase =
-      dataRecoveryPassword.success[0].toUpperCase() +
-      dataRecoveryPassword.success.slice(1);
+
+    //console.log(dataRecoveryPassword)
+
     Swal.fire({
       position: "center",
       icon: "info",
-      title: textUpperCase,
+      title: dataRecoveryPassword?.detail,
       showConfirmButton: true,
       confirmButtonText: "Aceptar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/login");
+      }
     });
+
+    // const textUpperCase =
+    //   dataRecoveryPassword.success[0].toUpperCase() +
+    //   dataRecoveryPassword.success.slice(1);
   };
 
   return (
