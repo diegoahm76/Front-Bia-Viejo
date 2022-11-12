@@ -28,10 +28,12 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-      dispatch(userLoginSuccess(data));
-      localStorage.setItem("userInfo", JSON.stringify(data));
+    const { userinfo, permisos } = data;
+    userinfo.permisos = permisos;
+    dispatch(userLoginSuccess(userinfo));
+    localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
-      dispatch(userLoginInvalid(error.response.data));
+    dispatch(userLoginInvalid(error.response.data));
   }
 };
 
@@ -125,9 +127,9 @@ const userRegisterFail = (error) => ({
 });
 
 export const userRemoveErrorAction = () => async (dispatch) => {
-  dispatch(userRemoveError())
+  dispatch(userRemoveError());
 };
 
 const userRemoveError = () => ({
-  type: USER_REMOVE_ERROR
-})
+  type: USER_REMOVE_ERROR,
+});

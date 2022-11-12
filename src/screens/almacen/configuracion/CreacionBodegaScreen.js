@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
-import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 import Subtitle from "../../../components/Subtitle";
+import { Navigate, useNavigate } from "react-router-dom";
 
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import clienteAxios from "../../../config/clienteAxios";
 import { crearNuevaBodegaAction } from "../../../actions/bodegaActions";
 import { useDispatch } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
+import AdministradorBodegasScreen from "../configuracion/AdministradorBodegasScreen";
 
 const CreacionBodegaScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
@@ -39,22 +40,10 @@ const CreacionBodegaScreen = () => {
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
-  const [nombreBodega, setNombreBodega] = useState("");
-  const [direccionBodega, setDireccionBodega] = useState("");
-  const [bodegaPrincipal, setBodegaPrincipal] = useState(false);
-  const [bodega, setBodega] = useState([]);
+  const [es_principal, setEs_principal] = useState(false);
 
   const dispatch = useDispatch();
   //cuando el usuario hace submit
-
-  const [variables, setVariables] = useState({
-    nombreBodega: "",
-    departamento: "",
-    municipio: "",
-    direccion: "",
-    tipoDocumento: "",
-    numeroCedula: "",
-  });
 
   const submitBodega = (data) => {
     //console.log("data", data);
@@ -65,10 +54,12 @@ const CreacionBodegaScreen = () => {
       ...data,
       cod_municipio: data.cod_municipio.value,
       id_responsable: idPersona,
+      es_principal
     };
+    console.log(bodegaCreate);
 
     //console.log("bodega", bodegaCreate);
-   dispatch(crearNuevaBodegaAction(bodegaCreate))
+    dispatch(crearNuevaBodegaAction(bodegaCreate));
     // const datosBodega = {
     //   nombre: data.nombre,
     //   cod_municipio: data.municipio,
@@ -88,6 +79,10 @@ const CreacionBodegaScreen = () => {
     //   numeroCedula: data.numeroCedula,
     // });
   };
+   const navigate=useNavigate();
+   const AdministradorBodegas =()=>{
+    navigate("/dashboard/almacen/configuracion/administrador-bodegas")
+   }
 
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -304,11 +299,11 @@ const CreacionBodegaScreen = () => {
                 ¿La bodega es principal?
               </label>
               <input
-                name="yesOrNo"
+                name="es_principal"
                 className="border border-terciary form-check-input mx-2"
                 type="checkbox"
                 id="flexCheckDefault"
-                {...registerBodega("yesOrNo", { required: true })}
+                {...registerBodega("es_principal")}
               />
             </div>
 
@@ -321,9 +316,11 @@ const CreacionBodegaScreen = () => {
               </button>
               <button
                 type="button"
-                className="btn btn-danger mx-2 text-capitalize"
+                className="btn btn-secondary mx-2 text-capitalize"
+                onClick={()=>AdministradorBodegas()}
+                
               >
-                Salir
+                Administrador
               </button>
             </div>
           </div>

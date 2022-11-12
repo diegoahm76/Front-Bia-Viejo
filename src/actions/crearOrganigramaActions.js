@@ -15,7 +15,6 @@ import {
 } from "../types/crearOrganigramaTypes";
 import clienteAxios from "../config/clienteAxios";
 import Swal from "sweetalert2";
-// import { useNavigate } from "react-router-dom";
 
 export const obtenerOrganigramaAction = () => {
   return async (dispatch) => {
@@ -51,29 +50,23 @@ const descargarOrganigramaError = (estado) => ({
 });
 
 export const agregarOrganigramaAction = (organigrama) => {
-  // const navigate = useNavigate();
-
-  // const handlepage = () => {
-  //   navigate("/dashboard/gestorDocumental/organigrama/edicion-organigrama");
-  // };
   return async (dispatch) => {
     dispatch(agregarOrganigrama());
 
     try {
       await clienteAxios.post("almacen/organigrama/create/", organigrama);
-      
-      console.log(organigrama);
+
+      console.log("FUNCIONA", organigrama);      
       dispatch(agregarOrganigramaExito(organigrama));
-      
-      // handlepage();
+      Swal.fire("Correcto", "El usuario se agrego correctamente", "success");
     } catch (error) {
       console.log(error);
       dispatch(agregarOrganigramaError(true));
       Swal.fire({
         icon: "error",
         title: "hubo un error",
-        text: error.response.data,
-      });
+        // text: error.response.data,
+    })
     }
   };
 };

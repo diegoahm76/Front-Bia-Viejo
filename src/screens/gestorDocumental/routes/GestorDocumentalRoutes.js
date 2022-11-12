@@ -11,12 +11,15 @@ const GestionDocumentalRoutes = () => {
       <Route index element={<GestorDocumental />} />
       <Route path="organigrama">
         <Route path="crearorganigrama" element={<CrearOrganigramaScreen />} />
-        <Route
-          path="edicion-organigrama"
-          element={<EdicionOrganigramaScreen />}
-        />
+        <Route path="edicion-organigrama" element={<EdicionOrganigramaScreen/>}/>
+        
       </Route>
       <Route path="/*" element={<Navigate to="/dashboard" />} />
+
+      
+
+
+
     </Routes>
   );
 };

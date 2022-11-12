@@ -7,8 +7,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { agregarOrganigramaAction } from "../actions/crearOrganigramaActions";
 import { useDispatch } from "react-redux";
-import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
 const customStyles = {
   content: {
@@ -29,18 +28,16 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
     setIsModalActive(true);
   };
 
-  const dispatch = useDispatch ();
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const handlePage = () => {
-  handleCloseCrearOrganigrama()
-  Swal.fire("Correcto", "El usuario se agrego correctamente", "success").then((result) => {
-    if (result.isConfirmed) {
-      navigate ("/dashboard/gestorDocumental/organigrama/edicion-organigrama")
-    }
-  });
-  
-}
+  const handlePage = () => {
+    handleCloseCrearOrganigrama()
+    console.log("Ejecuta")
+      // navigate ("/dashboard/gestorDocumental/organigrama/edicion-organigrama")}
+  }  
+
+  const dispatch = useDispatch ();
+
   const handleCloseCrearOrganigrama = () => {
     setIsModalActive(false);
   };
@@ -134,8 +131,9 @@ const handlePage = () => {
               <div className="col-12 col-md-6 mb-3">
                 <label className="text-terciary">Resolucion: </label>
                 <button
-                  type="button"
+                  // type="submit"
                   className="border rounded-pill px-3 btn btn-primary text-capitalize ms-2 mb-0"
+                  type="button"
                 >
                   Cargar
                 </button>
@@ -174,7 +172,7 @@ const handlePage = () => {
                 <button
                   type="submit"
                   className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                  onClick={() => handlePage()}
+                  onClick={()=> handlePage()}
                 >
                   Guardar
                 </button>
