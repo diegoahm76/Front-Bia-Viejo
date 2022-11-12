@@ -1,6 +1,6 @@
 export const getTokenAccessLocalStorage = () => {
   const {
-    tokens: { access },
+    userinfo: { tokens },
   } = JSON.parse(localStorage.getItem("userInfo"));
-  return access;
+  return tokens.access;
 };
