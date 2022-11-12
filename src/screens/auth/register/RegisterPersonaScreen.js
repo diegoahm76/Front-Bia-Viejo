@@ -162,6 +162,7 @@ const RegisterPersonaScreen = () => {
       persona.numero_documento = data.numero_documento;
       persona.digito_verificacion = formValues.digito_verificacion || null;
       persona.razon_social = data.razonSocial;
+      persona.nombre_comercial = data.nombreComercial || null;
       persona.representante_legal = idPersonaRepresentante;
       persona.email = data.eMail;
       persona.telefono_celular_empresa = "57" + data.celular;
