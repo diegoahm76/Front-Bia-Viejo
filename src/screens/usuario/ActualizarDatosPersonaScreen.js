@@ -33,6 +33,7 @@ const ActualizarDatosPersonaScreen = () => {
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
   const [formValues, setFormValues] = useState({
+    digito_verificacion: "",
     fecha_nacimiento: "",
     index_pais_nacimiento: "",
     index_pais_residencia: "",
@@ -129,6 +130,7 @@ const ActualizarDatosPersonaScreen = () => {
                 getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
               )
             : "",
+          digito_verificacion: dataPersona.digito_verificacion
         });
         reset(dataPersona);
       } catch (err) {
@@ -165,7 +167,7 @@ const ActualizarDatosPersonaScreen = () => {
     const dataUpdate = {
       tipo_documento: tipo_documento ?? "",
       numero_documento: numero_documento ?? "",
-      digito_verificacion: digito_verificacion ?? "",
+      digito_verificacion: formValues.digito_verificacion ?? "",
       nombre_comercial: nombre_comercial ?? "",
       primer_nombre: primer_nombre ?? "",
       segundo_nombre: segundo_nombre ?? "",
@@ -226,6 +228,21 @@ const ActualizarDatosPersonaScreen = () => {
     }
   };
 
+  const handleMaxOneDigit = (e) => {
+    if(e.target.value.length > 1){
+      e.target.value = e.target.value[0]
+      setFormValues({
+        ...formValues,
+        digito_verificacion: e.target.value[0]
+      })
+    }else{
+      setFormValues({
+        ...formValues,
+        digito_verificacion: e.target.value
+      })
+    }
+  }
+
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
@@ -272,9 +289,11 @@ const ActualizarDatosPersonaScreen = () => {
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
                     type="number"
-                    {...register("digito_verificacion", {
-                      maxLength: 1,
-                    })}
+                    // {...register("digito_verificacion", {
+                    //   maxLength: 1,
+                    // })}
+                    value={formValues.digito_verificacion}
+                    onChange={handleMaxOneDigit}
                   />
                 </div>
                 <div className="row position-relative">
