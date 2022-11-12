@@ -4,6 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { useForm, Controller } from "react-hook-form";
+import Subtitle from "../../../../components/Subtitle";
 
 const PlantasEnCuarentenaScreen = () => {
   const [selectedVivero, setSelectedVivero] = useState();
@@ -129,16 +130,20 @@ const PlantasEnCuarentenaScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-sm-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">
-          Material vegetal en cuarentena
-        </h3>
+      <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
+        
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
         >
+<h3 className="mt-3 mb-0 text-start fw-light mb-3">
+          Material vegetal en cuarentena
+        </h3>
+
+<Subtitle
+title="Informacion de plantas en cuarentena"/>
           <div className="multisteps-form__content">
             <div className="mt-4 row">
               <div className="col-12 col-sm-6">

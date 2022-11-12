@@ -114,8 +114,6 @@ function AgregarViveroScreen() {
         </div>
       ),
     },
-
-
   ];
 
   const defaultColDef = {
