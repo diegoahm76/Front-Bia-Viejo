@@ -3,6 +3,7 @@ import { alarmasConfigReducer } from "./alarmasConfigReducer";
 import { alarmasReducer } from "./alarmasReducer";
 import { bodegaReducer } from "./bodegaReducer";
 import { configuracionesReducer } from "./configuracionesEstacionesReducer";
+import { crearOrganigramaReducer } from "./crearOrganigramaReducer";
 import { estacionesReducer } from "./estacionesReducer";
 import { modalReducer } from "./modalReducer";
 import { monitoreoReducer } from "./monitoreoReducer";
@@ -16,5 +17,6 @@ export default combineReducers({
   alarmasConfig: alarmasConfigReducer,
   bodega: bodegaReducer,
   configuracionesEstaciones: configuracionesReducer,
-  monitoreoEstaciones: monitoreoReducer
+  monitoreoEstaciones: monitoreoReducer,
+  organigrama: crearOrganigramaReducer,
 });
