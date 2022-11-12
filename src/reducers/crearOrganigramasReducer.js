@@ -6,6 +6,7 @@ import {
     EDITAR_ORGANIGRAMA_OBTENER,
     EDITAR_ORGANIGRAMA_ERROR,
     EDITAR_ORGANIGRAMA_EXITO,
+    ELIMINAR_OBTENER_ORGANIGRAMA,
     ELIMINAR_ORGANIGRAMA,
     ELIMINAR_ORGANIGRAMA_ERROR,
     ELIMINAR_ORGANIGRAMA_EXITO,
@@ -73,5 +74,10 @@ export const crearOrganigramaReducer = (state = initialState, action) => {
                 error: null,
                 usuarios: action.payload,
             };
+        case ELIMINAR_OBTENER_ORGANIGRAMA:
+            return {
+                ...state,
+                organigramaEliminar: action.payload
+            };
     }
-}
+};

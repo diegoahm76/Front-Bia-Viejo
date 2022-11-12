@@ -5,6 +5,7 @@ import {
     DESCARGAR_ORGANIGRAMA,
     DESCARGAR_ORGANIGRAMA_ERROR,
     DESCARGAR_ORGANIGRAMA_EXITO,
+    ELIMINAR_OBTENER_ORGANIGRAMA,
     ELIMINAR_ORGANIGRAMA,
     ELIMINAR_ORGANIGRAMA_ERROR,
     ELIMINAR_ORGANIGRAMA_EXITO,
@@ -12,11 +13,9 @@ import {
     EDITAR_ORGANIGRAMA_ERROR,
     EDITAR_ORGANIGRAMA_EXITO,
     EDITAR_ORGANIGRAMA_OBTENER,
-} from "../types/crearOrganigramaTypes";
+} from "../types/crearOrganigramasTypes";
 import clienteAxios from '../config/clienteAxios';
 import Swal from "sweetalert2";
-
-
 
 
 export const obtenerOrganigramaAction = () => {
@@ -24,7 +23,7 @@ export const obtenerOrganigramaAction = () => {
         dispatch(descargarOrganigrama(true))
 
         try {
-            const { data: dataGetOrganigrama } = await clienteAxios.get("organigrama");
+            const { data: dataGetOrganigrama } = await clienteAxios.get("/almacen/organigrama/get/");
             dispatch(descargarOrganigramaExito(dataGetOrganigrama));
         } catch (error) {
             console.log(error);
@@ -102,11 +101,21 @@ export const obtenerOrganigramaEliminarAction = (organigrama) => {
 };
 
 const ObtenerOrganigramaEliminar = (organigrama) => ({
-    type: ELIMINAR_ORGANIGRAMA,
+    type: ELIMINAR_OBTENER_ORGANIGRAMA,
     payload: organigrama,
 });
 
 
+
+// export const obtenerOrganigramaEliminarAction = (organigrama) => {
+//     return (dispatch) => {
+//         dispatch(obtenerOrganigramaEliminar(organigrama));
+//     }
+// }
+
+// const obtenerOrganigramaEliminar = (organigrama) => ({
+//     type: 
+// })
 
 
 export const eliminarOrganigramaAction = (id) => {

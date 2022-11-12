@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
@@ -13,6 +13,12 @@ import { useForm, Controller } from "react-hook-form";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import clienteAxios from "../../config/clienteAxios";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
+import {
+  obtenerOrganigramaAction,
+  obtenerOrganigramaEliminarAction,
+  // obtenerOrganigramaEditarAction,
+}
+ from '../../actions/crearOrganigramaActions'
 
 const rowDataArticulos = [
   {
@@ -41,30 +47,33 @@ const rowDataArticulos = [
 
 function CrearOrganigramaScreen() {
 
-  const [organigrama, setOrganigrama] = useState([]);
-  const [isCreate, setIsCreate] = useState(null);
-
   const { register, handleSubmit } = useForm();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(obtenerOrganigramaAction());
+  }, []);
 
-  const accessToken = getTokenAccessLocalStorage();
-  const config = getConfigAuthBearer(accessToken);
+  // const { organigrama } = useSelector((state) => state.organigrama);
 
-  const getOrganigramasList = async () => {
-    try {
-      const { data: dataOrganigrama } = await clienteAxios.get(
-        "/almacen/organigrama/create",
-        config
-      );
-      setOrganigrama(dataOrganigrama);
-      console.log(dataOrganigrama)
-    } catch (err) {
-      console.log(err);
-    }
-  }
+
+  // const accessToken = getTokenAccessLocalStorage();
+  // const config = getConfigAuthBearer(accessToken);
+
+  // const getOrganigramasList = async () => {
+  //   try {
+  //     const { data: dataOrganigrama } = await clienteAxios.get(
+  //       "/almacen/organigrama/create",
+  //       config
+  //     );
+  //     setOrganigrama(dataOrganigrama);
+  //     console.log(dataOrganigrama)
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
 
 
