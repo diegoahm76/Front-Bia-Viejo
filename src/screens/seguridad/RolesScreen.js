@@ -85,7 +85,11 @@ const RolesScreen = () => {
   } = useForm();
 
   const columDefs = [
-    { headerName: "Nombre", field: "nombre_rol", minWidth: 150, maxWidth: 220 },
+    { headerName: "Nombre",
+      field: "nombre_rol",
+      minWidth: 150,
+      maxWidth: 220
+    },
     {
       headerName: "Descripcion",
       field: "descripcion_rol",

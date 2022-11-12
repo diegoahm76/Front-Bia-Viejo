@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -9,25 +9,33 @@ import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 // import IconoDocumento from '../../assets/document.svg'
 import { useForm, Controller } from "react-hook-form";
+import { obtenerOrganigramaAction } from "../../actions/crearOrganigramaActions";
 
 function CrearOrganigramaScreen() {
-  const {register, handleSubmit,
-    control,
+  const {
+    //register,
+    handleSubmit,
+    //control,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {};
 
-  const [selecOpciones, setSelecOpciones] = useState(
-    );
+  //const [selecOpciones, setSelecOpciones] = useState();
 
-    
+  useEffect(() => {
+    const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
+    getOrganigrama();
+  }, []);
+
+  const { organigrama } = useSelector((state) => state.organigrama);
+
   let gridApi;
 
-  const columnDefsArticulos = [
+  const columnDefs = [
     {
       headerName: "Item",
-      field: "item",
+      field: "id_organigrama",
       minWidth: 65,
       maxWidth: 100,
       wrapText: true,
@@ -39,7 +47,7 @@ function CrearOrganigramaScreen() {
       minWidth: 120,
       maxWidth: 200,
       wrapText: true,
-      autoHeight: true,
+      autoHeight: false,
     },
     {
       headerName: "Descripción",
@@ -47,7 +55,7 @@ function CrearOrganigramaScreen() {
       minWidth: 120,
       maxWidth: 200,
       wrapText: true,
-      autoHeight: true,
+      autoHeight: false,
     },
     {
       headerName: "Versión",
@@ -58,52 +66,52 @@ function CrearOrganigramaScreen() {
     },
     {
       headerName: "Fecha Terminado",
-      field: "fechaTerminado",
+      field: "fecha_terminado",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
       headerName: "Fecha Publicación",
-      field: "fechaPublicacion",
+      field: "fecha_puesta_produccion",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
       headerName: "Fecha Retiro",
-      field: "fechaRetiro",
+      field: "fecha_retiro_produccion",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
       headerName: "Justificación Nueva Versión",
-      field: "justificacionNuevaVersion",
+      field: "justificacion_nueva_version",
       minWidth: 100,
       wrapText: true,
     },
     {
       headerName: "Resolución",
-      field: "resolución",
+      field: "ruta_resolucion",
       minWidth: 105,
       maxWidth: 120,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div className="d-flex gap-1">
-          <button
-            className="btn my-2 btn-sm btn-tablas btn-outline-primary text-capitalize"
-            type="button"
-            onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
-              // setIsModalEditarActivate(!isModalActive);
-            }}
-          >
-            Ver
-            {/* <img src={IconoDocumento} alt="documento" /> */}
-          </button>
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div className="d-flex gap-1">
+      //     <button
+      //       className="btn my-2 btn-sm btn-tablas btn-outline-primary text-capitalize"
+      //       type="button"
+      //       onClick={() => {
+      //         // dispatch(obtenerEstacionEditarAction(params.data));
+      //         // setIsModalEditarActivate(!isModalActive);
+      //       }}
+      //     >
+      //       Ver
+      //       {/* <img src={IconoDocumento} alt="documento" /> */}
+      //     </button>
+      //   </div>
+      // ),
     },
     {
       headerName: "Actual",
@@ -111,8 +119,8 @@ function CrearOrganigramaScreen() {
       minWidth: 75,
       maxWidth: 100,
       headerCheckboxSelection: false,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
+      checkboxSelection: false,
+      showDisabledCheckboxes: false,
     },
 
     {
@@ -122,7 +130,7 @@ function CrearOrganigramaScreen() {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn my-2 btn-sm btn-tablas btn-outline-warning "
+            className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
               // dispatch(obtenerEstacionEditarAction(params.data));
@@ -132,7 +140,7 @@ function CrearOrganigramaScreen() {
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            className="btn my-2 btn-sm btn-tablas btn-outline-danger"
+            className="btn my-1 btn-sm btn-tablas btn-outline-danger"
             type="button"
             onClick={() => {}}
           >
@@ -140,31 +148,6 @@ function CrearOrganigramaScreen() {
           </button>
         </div>
       ),
-    },
-  ];
-
-  const rowDataArticulos = [
-    {
-      item: 1,
-      nombre: "Organigrama inicial",
-      descripcion: "Organigrama de prueba",
-      version: 1.1,
-      fechaTerminado: "11/02/2021",
-      fechaPublicacion: "22/10/2021",
-      fechaRetiro: "20/12/2021",
-      justificacionNuevaVersion: "Error del organigrama realizado",
-      resolucion: "Botón ver",
-    },
-    {
-      item: 2,
-      nombre: "Organigrama inicial",
-      descripcion: "Organigrama de prueba",
-      version: 1.2,
-      fechaTerminado: "11/02/2021",
-      fechaPublicacion: "22/10/2021",
-      fechaRetiro: "20/12/2021",
-      justificacionNuevaVersion: "Error del organigrama realizado",
-      resolucion: "Botón ver",
     },
   ];
 
@@ -229,8 +212,8 @@ function CrearOrganigramaScreen() {
               style={{ height: "450px" }}
             >
               <AgGridReact
-                columnDefs={columnDefsArticulos}
-                rowData={rowDataArticulos}
+                columnDefs={columnDefs}
+                rowData={organigrama}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
                 onGridReady={onGridReady}

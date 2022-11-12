@@ -1,0 +1,131 @@
+import {
+  AGREGAR_ORGANIGRAMA,
+  AGREGAR_ORGANIGRAMA_ERROR,
+  AGREGAR_ORGANIGRAMA_EXITO,
+  DESCARGAR_ORGANIGRAMA,
+  DESCARGAR_ORGANIGRAMA_ERROR,
+  DESCARGAR_ORGANIGRAMA_EXITO,
+  EDITAR_ORGANIGRAMA,
+  EDITAR_ORGANIGRAMA_ERROR,
+  EDITAR_ORGANIGRAMA_EXITO,
+  EDITAR_ORGANIGRAMA_OBTENER,
+  ELIMINAR_ORGANIGRAMA,
+  ELIMINAR_ORGANIGRAMA_ERROR,
+  ELIMINAR_ORGANIGRAMA_EXITO,
+} from "../types/crearOrganigramaTypes";
+import clienteAxios from "../config/clienteAxios";
+import Swal from "sweetalert2";
+// import { useNavigate } from "react-router-dom";
+
+export const obtenerOrganigramaAction = () => {
+  return async (dispatch) => {
+    dispatch(descargarOrganigrama(true));
+
+    try {
+      const { data: dataGetOrganigrama } = await clienteAxios.get(
+        "almacen/organigrama/get/"
+      );
+      //console.log("dataGetOrganigrama", dataGetOrganigrama.Organigramas);
+
+      dispatch(descargarOrganigramaExito(dataGetOrganigrama.Organigramas));
+    } catch (error) {
+      console.log(error);
+      dispatch(descargarOrganigramaError(true));
+    }
+  };
+};
+
+const descargarOrganigrama = (estado) => ({
+  type: DESCARGAR_ORGANIGRAMA,
+  payload: estado,
+});
+
+const descargarOrganigramaExito = (organigrama) => ({
+  type: DESCARGAR_ORGANIGRAMA_EXITO,
+  payload: organigrama,
+});
+
+const descargarOrganigramaError = (estado) => ({
+  type: DESCARGAR_ORGANIGRAMA_ERROR,
+  payload: estado,
+});
+
+export const agregarOrganigramaAction = (organigrama) => {
+  // const navigate = useNavigate();
+
+  // const handlepage = () => {
+  //   navigate("/dashboard/gestorDocumental/organigrama/edicion-organigrama");
+  // };
+  return async (dispatch) => {
+    dispatch(agregarOrganigrama());
+
+    try {
+      await clienteAxios.post("almacen/organigrama/create/", organigrama);
+      
+      console.log(organigrama);
+      dispatch(agregarOrganigramaExito(organigrama));
+      
+      // handlepage();
+    } catch (error) {
+      console.log(error);
+      dispatch(agregarOrganigramaError(true));
+      Swal.fire({
+        icon: "error",
+        title: "hubo un error",
+        text: error.response.data,
+      });
+    }
+  };
+};
+
+const agregarOrganigrama = () => ({
+  type: AGREGAR_ORGANIGRAMA,
+});
+
+const agregarOrganigramaExito = (organigrama) => ({
+  type: AGREGAR_ORGANIGRAMA_EXITO,
+  payload: organigrama,
+});
+const agregarOrganigramaError = (estado) => ({
+  type: AGREGAR_ORGANIGRAMA_ERROR,
+  payload: estado,
+});
+
+export const editarOrganigramaObtenerAction = (organigrama) => {
+  return (dispatch) => {
+    dispatch(editarOrganigramaObtener(organigrama));
+  };
+};
+
+const editarOrganigramaObtener = (organigrama) => ({
+  type: EDITAR_ORGANIGRAMA_OBTENER,
+  payload: organigrama,
+});
+
+export const eliminarOrganigramaAction = (id_organigrama) => {
+  return async (dispatch) => {
+    dispatch(obtenerOrganigramaEliminar());
+
+    try {
+      await clienteAxios.delete(`Organigrama/${id_organigrama}`);
+      dispatch(organigramaEliminadaExito());
+    } catch (error) {
+      console.log(error);
+      dispatch(organigramaEliminarError(true));
+    }
+  };
+};
+
+const obtenerOrganigramaEliminar = (id_organigrama) => ({
+  type: ELIMINAR_ORGANIGRAMA,
+  payload: id_organigrama,
+});
+
+const organigramaEliminadaExito = () => ({
+  type: ELIMINAR_ORGANIGRAMA_EXITO,
+});
+
+const organigramaEliminarError = (estado) => ({
+  type: ELIMINAR_ORGANIGRAMA_ERROR,
+  payload: estado,
+});
