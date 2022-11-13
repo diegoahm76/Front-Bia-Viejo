@@ -5,11 +5,9 @@ import GestorDocumental from "..";
 import CrearOrganigramaScreen from "../CrearOrganigramaScreen";
 import { EdicionOrganigramaScreen } from "../EdicionOrganigramaScreen";
 
-
 const GestionDocumentalRoutes = () => {
   return (
     <Routes>
-
       <Route index element={<GestorDocumental />} />
       <Route path="organigrama">
         <Route path="crearorganigrama" element={<CrearOrganigramaScreen />} />
