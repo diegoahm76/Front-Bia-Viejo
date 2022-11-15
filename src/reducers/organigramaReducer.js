@@ -21,20 +21,13 @@ const initialState = {
   organigramaEliminar: null,
 };
 
-export const crearOrganigramaReducer = (state = initialState, action) => {
+export const organigramaReducer = (state = initialState, action) => {
   switch (action.type) {
     case AGREGAR_ORGANIGRAMA:
     case DESCARGAR_ORGANIGRAMA:
       return {
         ...state,
         loading: action.payload,
-      };
-    case AGREGAR_ORGANIGRAMA_EXITO:
-      return {
-        ...state,
-        loading: false,
-        organigrama: [...state.organigrama, action.payload],
-        error: null,
       };
 
     case AGREGAR_ORGANIGRAMA_ERROR:
