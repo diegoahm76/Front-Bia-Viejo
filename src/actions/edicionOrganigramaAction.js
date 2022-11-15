@@ -34,7 +34,7 @@ export const agregarNivelAction = () => {
     dispatch(agregarNivel(true));
 
     try{
-      const{data:createNivel} = await clienteAxios.post("almacen/organigrama/niveles/create/", nivel);
+      const{data:createNivel} = await clienteAxios.post("almacen/organigrama/niveles/create/", );
    
 console.log(createNivel);
    
