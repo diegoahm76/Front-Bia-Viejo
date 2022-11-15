@@ -39,41 +39,38 @@ export const EdicionOrganigramaScreen = () => {
   const columnasOrganigrama = [
     { headerName: "Niveles", field: "level", minWidth: 100, maxWidth: 100 },
     { headerName: "Nombre", field: "nameLevel", minWidth: 355, maxWidth: 355 },
-    { headerName: "", field: "editar", minWidth: 140, maxWidth: 140, cellRendererFramework: (params) => (
-      <div className="d-flex gap-1">
-        <button
-          className="btn btn-sm btn-tablas btn-outline-warning "
-          type="button"
-          onClick={() => {
-            // dispatch(obtenerEstacionEditarAction(params.data));
-            // setIsModalEditarActivate(!isModalActive);
-          }}
-        >
-          <img src={IconoEditar} alt="editar" />
-        </button>
-        <button
-          className="btn btn-sm btn-tablas btn-outline-danger"
-          type="button"
-          onClick={() => {
-          // confirmarEliminarRol(params.data.id_rol);
-          }}
-        >
-          <img src={IconoEliminar} alt="eliminar" />
-        </button>
-      </div>
-    ), },
+    {
+      headerName: "",
+      field: "editar",
+      minWidth: 140,
+      maxWidth: 140,
+      cellRendererFramework: (params) => (
+        <div className="d-flex gap-1">
+          <button
+            className="btn btn-sm btn-tablas btn-outline-warning "
+            type="button"
+            onClick={() => {
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              // setIsModalEditarActivate(!isModalActive);
+            }}
+          >
+            <img src={IconoEditar} alt="editar" />
+          </button>
+          <button
+            className="btn btn-sm btn-tablas btn-outline-danger"
+            type="button"
+            onClick={() => {
+              // confirmarEliminarRol(params.data.id_rol);
+            }}
+          >
+            <img src={IconoEliminar} alt="eliminar" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
-  const [rowDataOrganigrama] = useState([
-    {
-      level: "1",
-      nameLevel: "Direccion General",
-    },
-    {
-      level: "2",
-      nameLevel: "Oficina Juridica",
-    },
-  ]);
+  const [rowDataOrganigrama] = useState([]);
 
   const rowData = [
     { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
@@ -103,32 +100,37 @@ export const EdicionOrganigramaScreen = () => {
   ];
 
   const columnDefs = [
-    { headerName: "Código", field: "CO", minWidth:100,maxWidth:100},
+    { headerName: "Código", field: "CO", minWidth: 100, maxWidth: 100 },
     { headerName: "Nombre", field: "NO" },
-    { headerName: "", field: "editar", minWidth: 140, maxWidth: 140, cellRendererFramework: (params) => (
-      <div className="d-flex gap-1">
-        <button
-          className="btn btn-sm btn-tablas btn-outline-warning "
-          type="button"
-          onClick={() => {
-            // dispatch(obtenerEstacionEditarAction(params.data));
-            // setIsModalEditarActivate(!isModalActive);
-          }}
-        >
-          <img src={IconoEditar} alt="editar" />
-        </button>
-        <button
-          className="btn btn-sm btn-tablas btn-outline-danger"
-          type="button"
-          onClick={() => setCount((count) => count - 1)}
-         //</div> onClick={() => {
-          // confirmarEliminarRol(params.data.id_rol);
-         // }}
-        >
-          <img src={IconoEliminar} alt="eliminar" />
-        </button>
-      </div>
-    ), },
+    {
+      headerName: "",
+      field: "editar",
+      minWidth: 140,
+      maxWidth: 140,
+      cellRendererFramework: (params) => (
+        <div className="d-flex gap-1">
+          <button
+            className="btn btn-sm btn-tablas btn-outline-warning "
+            type="button"
+            onClick={() => {
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              // setIsModalEditarActivate(!isModalActive);
+            }}
+          >
+            <img src={IconoEditar} alt="editar" />
+          </button>
+          <button
+            className="btn btn-sm btn-tablas btn-outline-danger"
+            type="button"
+            onClick={() => {
+              // confirmarEliminarRol(params.data.id_rol);
+            }}
+          >
+            <img src={IconoEliminar} alt="eliminar" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
   const [count, setCount] = useState(1)
@@ -205,9 +207,7 @@ export const EdicionOrganigramaScreen = () => {
               {" "}
               Niveles Organizacionales
             </div>
-            
-            
-            
+
             <div className="row mt-3 ms-2 collapse" id="Niveles">
               <div className="col-12  col-md-4">
                 <label className="text-terciary fw-bolder">Niveles</label>
@@ -245,7 +245,7 @@ export const EdicionOrganigramaScreen = () => {
 
           <div className="row mt-3 ">
             <div
-              className="border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-10 ms-1" 
+              className="border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-10 ms-1"
               style={{
                 backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
               }}
@@ -331,7 +331,7 @@ export const EdicionOrganigramaScreen = () => {
                 </div>
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
-              <div className="col-12 col-md-6 mb-3">
+                <div className="col-12 col-md-6 mb-3">
                   <label className="text-terciary">Unidad Raiz:</label>
                   <Controller
                     name="unidadRaiz"
@@ -349,8 +349,7 @@ export const EdicionOrganigramaScreen = () => {
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
-               
-               
+
                 <div className="col-12 col-md-6 mb-3">
                   <label className="text-terciary">
                     Agrupación documental:
@@ -373,10 +372,9 @@ export const EdicionOrganigramaScreen = () => {
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
-                
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
-              <div className="col-12 col-md-6 mb-3">
+                <div className="col-12 col-md-6 mb-3">
                   <label className="text-terciary">Unidad padre:</label>
                   <Controller
                     name="nivelPadre"
@@ -412,7 +410,6 @@ export const EdicionOrganigramaScreen = () => {
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
-               
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div

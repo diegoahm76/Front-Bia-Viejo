@@ -8,7 +8,6 @@ import Select from "react-select";
 import Swal from "sweetalert2";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
-import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
@@ -26,17 +25,39 @@ const ActualizarDatosPersonaScreen = () => {
   const [isOpenDireccionNotificacion, setIsOpenDireccionNotificacion] =
     useState(false);
   const [isOpenDireccionLaboral, setIsOpenDireccionLaboral] = useState(false);
+
+  const [municipioResidenciaFiltered, setmunicipioResidenciaFiltered] =
+    useState([]);
+  const [municipioDondeLaboraFiltered, setMunicipioDondeLaboraFiltered] =
+    useState([]);
+  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
+    useState([]);
+
+  const [primeraVez, setPrimeraVez] = useState(true);
+  const [counter, setCounter] = useState(1)
   const navigate = useNavigate();
+
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
+  const [lugarResidencia, setLugarResidencia] = useState({
+    departamento: "",
+  });
+  const [datosLaborales, setDatosLaborales] = useState({
+    departamento: "",
+  });
+  const [datosNotificacion, setDatosNotificacion] = useState({
+    departamento: "",
+  });
   const [formValues, setFormValues] = useState({
     digito_verificacion: "",
     fecha_nacimiento: "",
     index_pais_nacimiento: "",
     index_pais_residencia: "",
+    index_pais_laboral: "",
+    index_pais_notificacion: "",
     index_municipio_residencia: "",
     index_sexo: "",
     index_estado_civil: "",
@@ -85,9 +106,11 @@ const ActualizarDatosPersonaScreen = () => {
 
         //TODO Trayendo los datos de la persona
         const personaNatural = "N";
-        const { data: dataPersona } = await clienteAxios.get(
+        const { data } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
         );
+
+        const { data: dataPersona } = data;
 
         console.log("data useEffect", dataPersona);
 
@@ -95,8 +118,15 @@ const ActualizarDatosPersonaScreen = () => {
           navigate("/dashboard/usuario/actualizar-datos-empresa");
         }
 
+        setPrimeraVez(false);
+
+        resetDepartamentoYMunicipio(dataPersona.municipio_residencia, setLugarResidencia, municipiosFormat, departamentosFormat)
+        const indexPaisLaboral = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_laboral_nal, setDatosLaborales, municipiosFormat, departamentosFormat, paisesFormat)
+        const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_notificacion_nal, setDatosNotificacion, municipiosFormat, departamentosFormat, paisesFormat)
+        console.log("paises", indexPaisLaboral, indexPaisNotificacion)
         dataPersona.telefono_celular = dataPersona.telefono_celular.slice(2);
-        dataPersona.tipo_documento = dataPersona.tipo_documento.cod_tipo_documento;
+        dataPersona.tipo_documento =
+          dataPersona.tipo_documento.cod_tipo_documento;
 
         setFormValues({
           ...formValues,
@@ -104,6 +134,8 @@ const ActualizarDatosPersonaScreen = () => {
             dataPersona.pais_residencia,
             paisesFormat
           ),
+          index_pais_laboral: indexPaisLaboral,
+          index_pais_notificacion: indexPaisNotificacion,
           index_pais_nacimiento: getIndexBySelectOptions(
             dataPersona.pais_nacimiento,
             paisesFormat
@@ -130,7 +162,7 @@ const ActualizarDatosPersonaScreen = () => {
                 getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
               )
             : "",
-          digito_verificacion: dataPersona.digito_verificacion
+          digito_verificacion: dataPersona.digito_verificacion,
         });
         reset(dataPersona);
       } catch (err) {
@@ -139,6 +171,47 @@ const ActualizarDatosPersonaScreen = () => {
     };
     getSelectsOptions();
   }, []);
+
+  const resetDepartamentoYMunicipio = (municipioResidencia, setDepartamento, municipiosOptions, departamentosOptions) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
+    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
+    console.log("indexMunicipioResidencia", departamentoIdentifier)
+
+    let indexDepartamento = null
+    departamentosOptions.forEach((departamento, index) => {
+      if(departamento.value === departamentoIdentifier){
+        indexDepartamento = index
+      }
+    })
+    if(indexDepartamento !== null){
+      console.log("departamentosOptions[indexDepartamento]", departamentosOptions[indexDepartamento])
+      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+    }
+  }
+
+  const resetPaisDepartamentoYMunicipio = (municipioResidencia, setDepartamento, municipiosOptions, departamentosOptions, paisesOptions) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
+    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
+    let indexDepartamento = null
+    departamentosOptions.forEach((departamento, index) => {
+      if(departamento.value === departamentoIdentifier){
+        indexDepartamento = index
+      }
+    })
+    console.log("comprobacion", indexDepartamento !== null)
+    if(indexDepartamento !== null){
+      let indexColombia = null
+      paisesOptions.forEach((pais, index) => {
+        if(pais.value === "CO"){
+          indexColombia = index
+        }
+      })
+      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+      return indexColombia
+    }else {
+      return null
+    }
+  }
 
   const submit = async (data) => {
     //TODO Ojo para la fecha de nacimiento del actualizar datos
@@ -180,7 +253,7 @@ const ActualizarDatosPersonaScreen = () => {
       direccion_notificaciones: direccion_notificaciones ?? "",
       direccion_laboral: direccion_laboral ?? "",
       ubicacion_georeferenciada: ubicacion_georeferenciada ?? "",
-      telefono_celular: ("57" + telefono_celular) ?? "",
+      telefono_celular: "57" + telefono_celular ?? "",
       telefono_fijo_residencial: telefono_fijo_residencial ?? "",
       telefono_empresa_2: telefono_empresa_2 ?? "",
       tipo_persona: tipo_persona ?? "",
@@ -229,19 +302,153 @@ const ActualizarDatosPersonaScreen = () => {
   };
 
   const handleMaxOneDigit = (e) => {
-    if(e.target.value.length > 1){
-      e.target.value = e.target.value[0]
+    if (e.target.value.length > 1) {
+      e.target.value = e.target.value[0];
       setFormValues({
         ...formValues,
-        digito_verificacion: e.target.value[0]
-      })
-    }else{
+        digito_verificacion: e.target.value[0],
+      });
+    } else {
       setFormValues({
         ...formValues,
-        digito_verificacion: e.target.value
-      })
+        digito_verificacion: e.target.value,
+      });
     }
-  }
+  };
+
+  const handleChangePaisResidencia = (e) => {
+    const objectSend = {
+      index_pais_residencia: getIndexBySelectOptions(e.value, paisesOptions),
+    };
+    if (e.value !== "CO" || !e.value) {
+      objectSend.municipio = null;
+      reset({
+        ...watch(),
+        municipio: "",
+      });
+      setLugarResidencia({ ...lugarResidencia, departamento: "" });
+    }
+    setFormValues({
+      ...formValues,
+      ...objectSend,
+    });
+  };
+
+  const handleChangePaisDondeLabora = (e) => {
+    const objectSend = {
+      index_pais_laboral: getIndexBySelectOptions(e.value, paisesOptions),
+    };
+    if (e.value !== "CO" || !e.value) {
+      objectSend.cod_municipio_laboral_nal = null;
+      reset({
+        ...watch(),
+        cod_municipio_laboral_nal: "",
+      });
+      setDatosLaborales({ ...datosLaborales, departamento: "" });
+    }
+    setFormValues({
+      ...formValues,
+      ...objectSend,
+    });
+  };
+
+  const handleChangePaisNotificacion = (e) => {
+    const objectSend = {
+      index_pais_notificacion: getIndexBySelectOptions(e.value, paisesOptions),
+    };
+    if (e.value !== "CO" || !e.value) {
+      objectSend.municipioNotificacion = null;
+      reset({
+        ...watch(),
+        municipioNotificacion: "",
+      });
+      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
+    }
+    setFormValues({
+      ...formValues,
+      ...objectSend,
+    });
+  };
+
+  const getIndexColombia = () => {
+    let indexColombia = null;
+    paisesOptions.forEach((pais, index) => {
+      if (pais.value === "CO") {
+        indexColombia = index;
+      }
+    });
+    return indexColombia;
+  };
+
+  useEffect(() => {
+    if(counter < 3) {
+      const newValueCounter = counter + 1
+      setCounter(newValueCounter)
+      return
+    }
+    if (lugarResidencia.departamento === "") {
+      setmunicipioResidenciaFiltered([]);
+      setFormValues({ ...formValues, index_municipio_residencia: "" });
+    } else {
+      const municipioIndicadores = lugarResidencia.departamento?.value?.slice(0,2);
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
+      setmunicipioResidenciaFiltered(municipiosCoincidentes);
+      setFormValues({ ...formValues, index_municipio_residencia: 0 });
+    }
+  }, [lugarResidencia]);
+
+  useEffect(() => {
+    if(counter < 3) {
+      const newValueCounter = counter + 1
+      setCounter(newValueCounter)
+      return
+    }
+    if (datosLaborales.departamento === "") {
+      setMunicipioDondeLaboraFiltered([]);
+      setFormValues({ ...formValues, index_cod_municipio_laboral_nal: "" });
+    } else {
+      const municipioIndicadores = datosLaborales.departamento?.value?.slice(
+        0,
+        2
+      );
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
+      setMunicipioDondeLaboraFiltered(municipiosCoincidentes);
+      setFormValues({ ...formValues, index_cod_municipio_laboral_nal: 0 });
+    }
+  }, [datosLaborales.departamento]);
+
+  useEffect(() => {
+    if(counter < 3) {
+      const newValueCounter = counter + 1
+      setCounter(newValueCounter)
+      return
+    }
+    // if (!primeraVez) return;
+    if (datosNotificacion.departamento === "") {
+      setMunicipioNotificacionFiltered([]);
+      setFormValues({
+        ...formValues,
+        index_cod_municipio_notificacion_nal: "",
+      });
+    } else {
+      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(
+        0,
+        2
+      );
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
+      setMunicipioNotificacionFiltered(municipiosCoincidentes);
+      setFormValues({ ...formValues, index_cod_municipio_notificacion_nal: 0 });
+    }
+  }, [datosNotificacion.departamento]);
 
   return (
     <div className="row min-vh-100">
@@ -492,7 +699,9 @@ const ActualizarDatosPersonaScreen = () => {
             <Subtitle title={"Lugar de residencia"} mt={4} mb={2} />
             <div className="row align-items-end mx-1">
               <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">País:</label>
+                <label className="form-label text-terciary">
+                  País de residencia:
+                </label>
                 <Controller
                   name="pais_residencia"
                   control={control}
@@ -500,85 +709,88 @@ const ActualizarDatosPersonaScreen = () => {
                     <Select
                       {...field}
                       options={paisesOptions}
-                      // value={paisesOptions[formValues.index_pais_residencia]}
-                      // onChange={(e) =>
-                      //   setFormValues({
-                      //     ...formValues,
-                      //     index_pais_residencia: getIndexBySelectOptions(
-                      //       e.value,
-                      //       paisesOptions
-                      //     ),
-                      //   })
-                      // }
+                      value={paisesOptions[formValues.index_pais_residencia]}
+                      onChange={handleChangePaisResidencia}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
-              <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Departamento:{" "}
-                </label>
-                <Controller
-                  name="Departamento_residencia"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={departamentosOptions}
-                      // value={
-                      //   municipiosOptions[formValues.index_municipio_residencia]
-                      // }
-                      // onChange={(e) =>
-                      //   setFormValues({
-                      //     ...formValues,
-                      //     index_municipio_residencia: getIndexBySelectOptions(
-                      //       e.value,
-                      //       municipiosOptions
-                      //     ),
-                      //   })
-                      // }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Municipio: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="municipio_residencia"
-                  control={control}
-                  //rules={{ required: true }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={municipiosOptions}
-                      value={
-                        municipiosOptions[formValues.index_municipio_residencia]
-                      }
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_municipio_residencia: getIndexBySelectOptions(
-                            e.value,
-                            municipiosOptions
-                          ),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.municipio_residencia && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
+              {formValues.index_pais_residencia === getIndexColombia() ? (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label text-terciary">
+                    Departamento de residencia:{" "}
+                  </label>
+                  <Select
+                    options={departamentosOptions}
+                    isDisabled={
+                      paisesOptions[formValues.index_pais_residencia]?.value !==
+                      "CO"
+                    }
+                    onChange={(e) => setLugarResidencia({ departamento: e })}
+                    value={departamentosOptions[getIndexBySelectOptions(lugarResidencia.departamento?.value, departamentosOptions)]}
+                    placeholder="Seleccionar"
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label text-terciary">
+                    Departamento de residencia:{" "}
+                  </label>
+                  <Select
+                    isDisabled
+                    placeholder="Seleccionar"
+                    value={"Seleccionar"}
+                  />
+                </div>
+              )}
+              {formValues.index_pais_residencia === getIndexColombia() ? (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label">
+                    Municipio de residencia:{" "}
+                  </label>
+                  <Controller
+                    name="municipio_residencia"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        isDisabled={
+                          paisesOptions[formValues.index_pais_residencia]
+                            ?.value !== "CO"
+                        }
+                        value={
+                          municipiosOptions[
+                            formValues.index_municipio_residencia
+                          ]
+                        }
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            index_municipio_residencia: getIndexBySelectOptions(
+                              e.value,
+                              municipiosOptions
+                            ),
+                          })
+                        }
+                        options={municipioResidenciaFiltered}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label">
+                    Municipio de residencia:{" "}
+                  </label>
+                  <Select
+                    isDisabled
+                    placeholder="Seleccionar"
+                    value={"Seleccionar"}
+                  />
+                </div>
+              )}
               <div className="col-md-8 col-10 mt-3">
                 <div className="mt-3 d-flex align-items-end">
                   <div className="col-10">
@@ -626,97 +838,95 @@ const ActualizarDatosPersonaScreen = () => {
             <Subtitle title={"Datos laborales"} mt={4} mb={2} />
             <div className="row align-items-end mx-1">
               <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Pais Donde Labora:{" "}
-                </label>
+                <label className="form-label">País donde labora:</label>
                 <Controller
                   name="pais_laboral"
                   control={control}
                   render={({ field }) => (
                     <Select
                       {...field}
+                      value={paisesOptions[formValues.index_pais_laboral]}
+                      onChange={handleChangePaisDondeLabora}
                       options={paisesOptions}
-                      // value={
-                      //   municipiosOptions[formValues.index_municipio_residencia]
-                      // }
-                      // onChange={(e) =>
-                      //   setFormValues({
-                      //     ...formValues,
-                      //     index_municipio_residencia: getIndexBySelectOptions(
-                      //       e.value,
-                      //       municipiosOptions
-                      //     ),
-                      //   })
-                      // }
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
-              <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Departamento Donde Labora:{" "}
-                </label>
-                <Controller
-                  name="Departamento_laboral"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={departamentosOptions}
-                      // value={
-                      //   municipiosOptions[formValues.index_municipio_residencia]
-                      // }
-                      // onChange={(e) =>
-                      //   setFormValues({
-                      //     ...formValues,
-                      //     index_municipio_residencia: getIndexBySelectOptions(
-                      //       e.value,
-                      //       municipiosOptions
-                      //     ),
-                      //   })
-                      // }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Municipio Donde Labora: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="cod_municipio_laboral_nal"
-                  control={control}
-                  //rules={{ required: true }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={municipiosOptions}
-                      value={
-                        municipiosOptions[
-                          formValues.index_cod_municipio_laboral_nal
-                        ]
-                      }
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_cod_municipio_laboral_nal:
-                            getIndexBySelectOptions(e.value, municipiosOptions),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.cod_municipio_laboral_nal && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
+              {formValues.index_pais_laboral === getIndexColombia() ? (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label text-terciary">
+                    Departamento donde labora:{" "}
+                  </label>
+                  <Select
+                    options={departamentosOptions}
+                    isDisabled={
+                      paisesOptions[formValues.index_pais_laboral]?.value !==
+                      "CO"
+                    }
+                    onChange={(e) => {
+                      setDatosLaborales({ ...datosLaborales, departamento: e });
+                    }}
+                    value={datosLaborales.departamento}
+                    placeholder="Seleccionar"
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label text-terciary">
+                    Departamento donde labora:{" "}
+                  </label>
+                  <Select
+                    isDisabled
+                    placeholder="Seleccionar"
+                    value={"Seleccionar"}
+                  />
+                </div>
+              )}
+              {formValues.index_pais_laboral === getIndexColombia() ? (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label">Municipio donde labora: </label>
+                  <Controller
+                    name="cod_municipio_laboral_nal"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        isDisabled={
+                          paisesOptions[formValues.index_pais_laboral]
+                            ?.value !== "CO"
+                        }
+                        value={
+                          municipiosOptions[
+                            formValues.index_cod_municipio_laboral_nal
+                          ]
+                        }
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            index_cod_municipio_laboral_nal:
+                              getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                          })
+                        }
+                        options={municipioDondeLaboraFiltered}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label">Municipio donde labora: </label>
+                  <Select
+                    isDisabled
+                    placeholder="Seleccionar"
+                    value={"Seleccionar"}
+                  />
+                </div>
+              )}
               <div className="col-12 col-md-3">
                 <div className="mt-4">
                   <label className="text-terciary">Teléfono laboral:</label>
@@ -765,7 +975,7 @@ const ActualizarDatosPersonaScreen = () => {
             <div className={"row mx-1"}>
               <div className="col-12 col-md-3 mt-3">
                 <label className="form-label text-terciary">
-                  Pais notificación:
+                  País notificación:
                 </label>
                 <Controller
                   name="cod_pais_notificacion_nal"
@@ -773,88 +983,94 @@ const ActualizarDatosPersonaScreen = () => {
                   render={({ field }) => (
                     <Select
                       {...field}
+                      value={paisesOptions[formValues.index_pais_notificacion]}
                       options={paisesOptions}
-                      // value={
-                      //   municipiosOptions[
-                      //     formValues.index_cod_municipio_notificacion_nal
-                      //   ]
-                      // }
-                      // onChange={(e) =>
-                      //   setFormValues({
-                      //     ...formValues,
-                      //     index_cod_municipio_notificacion_nal:
-                      //       getIndexBySelectOptions(e.value, municipiosOptions),
-                      //   })
-                      // }
+                      onChange={handleChangePaisNotificacion}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
-              <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Departamento notificación:
-                </label>
-                <Controller
-                  name="cod_departamento_notificacion_nal"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={departamentosOptions}
-                      // value={
-                      //   municipiosOptions[
-                      //     formValues.index_cod_municipio_notificacion_nal
-                      //   ]
-                      // }
-                      // onChange={(e) =>
-                      //   setFormValues({
-                      //     ...formValues,
-                      //     index_cod_municipio_notificacion_nal:
-                      //       getIndexBySelectOptions(e.value, municipiosOptions),
-                      //   })
-                      // }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-12 col-md-3 mt-3">
-                <label className="form-label text-terciary">
-                  Municipio notificación: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="cod_municipio_notificacion_nal"
-                  control={control}
-                  //rules={{required: true}}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={municipiosOptions}
-                      value={
-                        municipiosOptions[
-                          formValues.index_cod_municipio_notificacion_nal
-                        ]
-                      }
-                      onChange={(e) =>
-                        setFormValues({
-                          ...formValues,
-                          index_cod_municipio_notificacion_nal:
-                            getIndexBySelectOptions(e.value, municipiosOptions),
-                        })
-                      }
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.cod_municipio_notificacion_nal && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
+
+              {formValues.index_pais_notificacion === getIndexColombia() ? (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label text-terciary">
+                    Departamento notificación:{" "}
+                  </label>
+                  <Select
+                    options={departamentosOptions}
+                    isDisabled={
+                      paisesOptions[formValues.index_pais_notificacion]
+                        ?.value !== "CO"
+                    }
+                    onChange={(e) => {
+                      setDatosNotificacion({
+                        ...datosNotificacion,
+                        departamento: e,
+                      });
+                    }}
+                    value={datosNotificacion.departamento}
+                    placeholder="Seleccionar"
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label text-terciary">
+                    Departamento notificación:{" "}
+                  </label>
+                  <Select
+                    isDisabled
+                    placeholder="Seleccionar"
+                    value={"Seleccionar"}
+                  />
+                </div>
+              )}
+
+              {formValues.index_pais_notificacion === getIndexColombia() ? (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label">Municipio notificación: </label>
+                  <Controller
+                    name="cod_municipio_notificacion_nal"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        isDisabled={
+                          paisesOptions[formValues.index_pais_notificacion]
+                            ?.value !== "CO"
+                        }
+                        value={
+                          municipiosOptions[
+                            formValues.index_cod_municipio_notificacion_nal
+                          ]
+                        }
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            index_cod_municipio_notificacion_nal:
+                              getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                          })
+                        }
+                        options={municipioNotificacionFiltered}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-3 mt-3">
+                  <label className="form-label">Municipio notificación: </label>
+                  <Select
+                    isDisabled
+                    placeholder="Seleccionar"
+                    value={"Seleccionar"}
+                  />
+                </div>
+              )}
+
               <div className="col-12 col-md-3 mt-3">
                 <div>
                   <label className="text-terciary">Teléfono fijo:</label>
