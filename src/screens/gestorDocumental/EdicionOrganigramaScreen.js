@@ -120,15 +120,19 @@ export const EdicionOrganigramaScreen = () => {
         <button
           className="btn btn-sm btn-tablas btn-outline-danger"
           type="button"
-          onClick={() => {
+          onClick={() => setCount((count) => count - 1)}
+         //</div> onClick={() => {
           // confirmarEliminarRol(params.data.id_rol);
-          }}
+         // }}
         >
           <img src={IconoEliminar} alt="eliminar" />
         </button>
       </div>
     ), },
   ];
+
+  const [count, setCount] = useState(1)
+
 
   return (
     <div className="row min-vh-100">
@@ -208,7 +212,7 @@ export const EdicionOrganigramaScreen = () => {
               <div className="col-12  col-md-4">
                 <label className="text-terciary fw-bolder">Niveles</label>
                 <br />
-                <label className="text terciary">Nivel 3</label>
+                <label className="text terciary">Nivel {count}</label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
@@ -216,7 +220,7 @@ export const EdicionOrganigramaScreen = () => {
                   rules={{ required: true }}
                   {...register("nivel")}
                 />
-                <button className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
+                <button onClick={() => setCount((count) => count + 1)} className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
                   agregar
                 </button>
               </div>
@@ -287,8 +291,8 @@ export const EdicionOrganigramaScreen = () => {
                     </div>
                   )}
                 </div>
-              </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
+              
+              
                 <div className="col-12 col-md-6 mb-3">
                   <label className="text-terciary">Tipo de unidad:</label>
                   <Controller

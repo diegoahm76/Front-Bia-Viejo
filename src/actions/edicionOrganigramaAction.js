@@ -1,8 +1,11 @@
+import clienteAxios from "../config/clienteAxios";
 import {
   EDITAR_NIVEL_ORGANIZACIONAL,
+  EDITAR_NIVEL_ORGANIZACIONAL_OBTENER,
   EDITAR_NIVEL_ORGANIZACIONAL_EXITO,
   EDITAR_NIVEL_ORGANIZACIONAL_ERROR,
   EDITAR_UNIDAD_ORGANIZACIONAL,
+  EDITAR_UNIDAD_ORGANIZACIONAL_OBTENER,
   EDITAR_UNIDAD_ORGANIZACIONAL_EXITO,
   EDITAR_UNIDAD_ORGANIZACIONAL_ERROR,
   AGREGAR_NIVEL_ORGANIZACIONAL,
@@ -17,10 +20,30 @@ import {
   ELIMINAR_UNIDAD_ORGANIZACIONAL,
   ELIMINAR_UNIDAD_ORGANIZACIONAL_ERROR,
   ELIMINAR_UNIDAD_ORGANIZACIONAL_EXITO,
+  DESCARGAR_NIVEL_ORGANIZACIONAL,
+  DESCARGAR_NIVEL_ORGANIZACIONAL_ERROR,
+  DESCARGAR_NIVEL_ORGANIZACIONAL_EXITO,
+  DESCARGAR_UNIDAD_ORGANIZACIONAL,
+  DESCARGAR_UNIDAD_ORGANIZACIONAL_ERROR,
+  DESCARGAR_UNIDAD_ORGANIZACIONAL_EXITO,
 } from "../types/edicionOrganigramaTypes";
 
-export const editarEstacionAction = () => {
+
+export const agregarNivelAction = () => {
   return async (dispatch) => {
-    dispatch()
+    dispatch(agregarNivel(true));
+
+    try{
+      const{data:createNivel} = await clienteAxios.post("almacen/organigrama/niveles/create/", nivel);
+   
+console.log(createNivel);
+   
+      }catch(error){
+        console.log(error);
+      }
   };
 };
+
+const agregarNivel = () =>({
+  type: AGREGAR_NIVEL_ORGANIZACIONAL,
+});
