@@ -1,333 +1,210 @@
 import React from "react";
-import img1 from "../assets/imgs/img1.png";
-import img2 from "../assets/imgs/img2.png";
-import img3 from "../assets/imgs/img3.png";
-import img6 from "../assets/imgs/img6.png";
-import img4 from "../assets/imgs/img4.png";
-import img5 from "../assets/imgs/img5.png";
-import Logo from "../assets/logos/eps/LogoHorizontalByMacarenia.svg";
+import img1 from "../assets/imgs/1.png";
+import img3 from "../assets/imgs/3.png";
+import img6 from "../assets/imgs/6.png";
+import img4 from "../assets/imgs/4.png";
+import img5 from "../assets/imgs/5.png";
+
+import almacen from "../assets/subsitemas/almacen.png";
+import analiticaDeDatos from "../assets/subsitemas/analitica-de-datos.png";
+import estacionesHidrometeorologicas from "../assets/subsitemas/estaciones-hidrometerologicas.png";
+import gestionDeViveros from "../assets/subsitemas/gestion-de-vivieros.png";
+import gestionDocumental from "../assets/subsitemas/gestion-documental.png";
+import mandoControlAmbiental from "../assets/subsitemas/Mando-y-control-ambiental.png";
+import recursoHidrico from "../assets/subsitemas/recurso-hidrico.png";
+import rentas from "../assets/subsitemas/rentas.png";
+import seguimientoPlanes from "../assets/subsitemas/seguimiento-a-planes.png";
+import tramites from "../assets/subsitemas/tramites.png";
+
 function LogoScreen() {
   return (
     <div className="container">
-      <div className="pt-3 pb-5">
-        <img src={Logo} alt="logo"/>
-      </div>
-      <div className="row mt-5">
-        <div className="col-lg-4 col-md-6">
-          <div className="card" data-animation="true">
-            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <a className="d-block blur-shadow-image" href="asd">
-                <img
-                  src={img1}
-                  alt="img-blur-shadow"
-                  className="img-fluid shadow border-radius-lg"
-                />
-              </a>
-              <div className="colored-shadow"></div>
+      <div
+        className="container"
+        style={{ height: "280px", overflow: "hidden", objectFit: "fill" }}
+      >
+        <div
+          id="carouselExampleDark"
+          className="carousel carousel-dark slide"
+          data-bs-ride="carousel"
+        >
+          <div className="carousel-inner">
+            <div className="carousel-item active" data-bs-interval="10000">
+              <img
+                src={img1}
+                className="d-block w-100 aspect-ratio"
+                alt="..."
+              />
             </div>
-            <div className="card-body text-center">
-              <div className="d-flex mt-n6 mx-auto">
-                <a
-                  className="btn btn-link text-primary ms-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Refresh"
-                  href="asd"
-                >
-                  <i className="material-icons text-lg">refresh</i>
-                </a>
-                <button
-                  className="btn btn-link text-info me-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Edit"
-                >
-                  <i className="material-icons text-lg">edit</i>
-                </button>
-              </div>
-              <h5 className="font-weight-normal mt-3">
-                <a href="https">Recaudo</a>
-              </h5>
-              <p className="mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                dictum nisl. Aenean tortor quam, accumsan at nunc at, pulvinar
-                posuere justo. Quisque fermentum, risus quis aliquam ultricies,
-                nisi{" "}
-              </p>
+            <div className="carousel-item" data-bs-interval="10000">
+              <img
+                src={img3}
+                className="d-block w-100 aspect-ratio"
+                alt="..."
+              />
             </div>
-            <hr className="dark horizontal my-0" />
-            <div className="card-footer d-flex">
-              <p className="font-weight-normal my-auto"></p>
-              <i className="material-icons position-relative ms-auto text-lg me-1 my-auto">
-                place
-              </i>
-              <p className="text-sm my-auto"> </p>
+            <div className="carousel-item" data-bs-interval="10000">
+              <img
+                src={img4}
+                className="d-block w-100 aspect-ratio"
+                alt="..."
+              />
             </div>
-          </div>
-        </div>
-        <div className="col-lg-4 col-md-6 mt-5 mt-md-0">
-          <div className="card" data-animation="true">
-            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <a className="d-block blur-shadow-image" href="asd">
-                <img
-                  src={img2}
-                  alt="img-blur-shadow"
-                  className="img-fluid shadow border-radius-lg"
-                />
-              </a>
-              <div className="colored-shadow"></div>
+            <div className="carousel-item" data-bs-interval="10000">
+              <img
+                src={img5}
+                className="d-block w-100 aspect-ratio"
+                alt="..."
+              />
             </div>
-            <div className="card-body text-center">
-              <div className="d-flex mt-n6 mx-auto">
-                <a
-                  className="btn btn-link text-primary ms-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Refresh"
-                  href="ad"
-                >
-                  <i className="material-icons text-lg">refresh</i>
-                </a>
-                <button
-                  className="btn btn-link text-info me-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Edit"
-                >
-                  <i className="material-icons text-lg">edit</i>
-                </button>
-              </div>
-              <h5 className="font-weight-normal mt-3">
-                <a href="https">Seguimiento Planes</a>
-              </h5>
-              <p className="mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                dictum nisl. Aenean tortor quam, accumsan at nunc at, pulvinar
-                posuere justo. Quisque fermentum, risus quis aliquam ultricies,
-                nisi{" "}
-              </p>
-            </div>
-            <hr className="dark horizontal my-0" />
-            <div className="card-footer d-flex">
-              <p className="font-weight-normal my-auto"></p>
-              <i className="material-icons position-relative ms-auto text-lg me-1 my-auto">
-                place
-              </i>
-              <p className="text-sm my-auto"> </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 mt-5 mt-lg-0">
-          <div className="card" data-animation="true">
-            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <a className="d-block blur-shadow-image" href="asd">
-                <img
-                  src={img3}
-                  alt="img-blur-shadow"
-                  className="img-fluid shadow border-radius-lg"
-                />
-              </a>
-              <div className="colored-shadow"></div>
-            </div>
-            <div className="card-body text-center">
-              <div className="d-flex mt-n6 mx-auto">
-                <a
-                  className="btn btn-link text-primary ms-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Refresh"
-                  href="asd"
-                >
-                  <i className="material-icons text-lg">refresh</i>
-                </a>
-                <button
-                  className="btn btn-link text-info me-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Edit"
-                >
-                  <i className="material-icons text-lg">edit</i>
-                </button>
-              </div>
-              <h5 className="font-weight-normal mt-3">
-                <a href="https">Conservación</a>
-              </h5>
-              <p className="mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                dictum nisl. Aenean tortor quam, accumsan at nunc at, pulvinar
-                posuere justo. Quisque fermentum, risus quis aliquam ultricies,
-                nisi{" "}
-              </p>
-            </div>
-            <hr className="dark horizontal my-0" />
-            <div className="card-footer d-flex">
-              <p className="font-weight-normal my-auto"></p>
-              <i className="material-icons position-relative ms-auto text-lg me-1 my-auto">
-                place
-              </i>
-              <p className="text-sm my-auto"> </p>
+            <div className="carousel-item" data-bs-interval="10000">
+              <img
+                src={img6}
+                className="d-block w-100 aspect-ratio"
+                alt="..."
+              />
             </div>
           </div>
         </div>
       </div>
-      <div className="row mt-5">
-        <div className="col-lg-4 col-md-6">
-          <div className="card" data-animation="true">
-            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <a className="d-block blur-shadow-image" href="asd">
+      <div className="container position-relative w-50">
+        <div
+          className="container mt-6 align-items-center"
+          style={{ overflow: "hidden", width: "400px" }}
+        >
+          <div
+            id="carouselExampleCaptions"
+            className="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div className="carousel-inner">
+              <div className="carousel-item active" data-bs-interval="10000">
                 <img
-                  src={img4}
-                  alt="img-blur-shadow"
-                  className="img-fluid shadow border-radius-lg"
-                  
+                  src={almacen}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
                 />
-              </a>
-              <div className="colored-shadow"></div>
-            </div>
-            <div className="card-body text-center">
-              <div className="d-flex mt-n6 mx-auto">
-                <a
-                  className="btn btn-link text-primary ms-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Refresh"
-                  href="asd"
-                >
-                  <i className="material-icons text-lg">refresh</i>
-                </a>
-                <button
-                  className="btn btn-link text-info me-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Edit"
-                >
-                  <i className="material-icons text-lg">edit</i>
-                </button>
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Almacen</h5>
+                </div>
               </div>
-              <h5 className="font-weight-normal mt-3">
-                <a href="https">Gestión Documental</a>
-              </h5>
-              <p className="mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                dictum nisl. Aenean tortor quam, accumsan at nunc at, pulvinar
-                posuere justo. Quisque fermentum, risus quis aliquam ultricies,
-                nisi{" "}
-              </p>
-            </div>
-            <hr className="dark horizontal my-0" />
-            <div className="card-footer d-flex">
-              <p className="font-weight-normal my-auto"></p>
-              <i className="material-icons position-relative ms-auto text-lg me-1 my-auto">
-                place
-              </i>
-              <p className="text-sm my-auto"> </p>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={analiticaDeDatos}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Analitica de datos</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={estacionesHidrometeorologicas}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Estaciones hidrometerologicas</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={gestionDeViveros}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Gestion de viveros</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={gestionDocumental}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Gestion documental</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={mandoControlAmbiental}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Mando de control ambiental</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={recursoHidrico}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Recurso hidrico</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={rentas}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Rentas</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={seguimientoPlanes}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Seguimiento a planes</h5>
+                </div>
+              </div>
+              <div className="carousel-item" data-bs-interval="10000">
+                <img
+                  src={tramites}
+                  className="d-block w-100 aspect-ratio"
+                  alt="..."
+                />
+                <div className="carousel-caption d-none d-md-block">
+                  <h5 className="text-white">Tramites</h5>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-lg-4 col-md-6 mt-5 mt-md-0">
-          <div className="card" data-animation="true">
-            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <a className="d-block blur-shadow-image" href="asd">
-                <img
-                  src={img5}
-                  alt="img-blur-shadow"
-                  className="img-fluid shadow border-radius-lg"
-                />
-              </a>
-              <div className="colored-shadow"></div>
-            </div>
-            <div className="card-body text-center">
-              <div className="d-flex mt-n6 mx-auto">
-                <a
-                  className="btn btn-link text-primary ms-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Refresh"
-                  href="asd"
-                >
-                  <i className="material-icons text-lg">refresh</i>
-                </a>
-                <button
-                  className="btn btn-link text-info me-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Edit"
-                >
-                  <i className="material-icons text-lg">edit</i>
-                </button>
-              </div>
-              <h5 className="font-weight-normal mt-3">
-                <a href="https">Recurso hídrico</a>
-              </h5>
-              <p className="mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                dictum nisl. Aenean tortor quam, accumsan at nunc at, pulvinar
-                posuere justo. Quisque fermentum, risus quis aliquam ultricies,
-                nisi{" "}
-              </p>
-            </div>
-            <hr className="dark horizontal my-0" />
-            <div className="card-footer d-flex">
-              <p className="font-weight-normal my-auto"></p>
-              <i className="material-icons position-relative ms-auto text-lg me-1 my-auto">
-                place
-              </i>
-              <p className="text-sm my-auto"> </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-4 mt-5 mt-lg-0">
-          <div className="card" data-animation="true">
-            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <a className="d-block blur-shadow-image" href="asd">
-                <img
-                  src={img6}
-                  alt="img-blur-shadow"
-                  className="img-fluid shadow border-radius-lg"
-                />
-              </a>
-              <div className="colored-shadow"></div>
-            </div>
-            <div className="card-body text-center">
-              <div className="d-flex mt-n6 mx-auto">
-                <a
-                  className="btn btn-link text-primary ms-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Refresh"
-                  href="ad"
-                >
-                  <i className="material-icons text-lg">refresh</i>
-                </a>
-                <button
-                  className="btn btn-link text-info me-auto border-0"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  title="Edit"
-                >
-                  <i className="material-icons text-lg">edit</i>
-                </button>
-              </div>
-              <h5 className="font-weight-normal mt-3">
-                <a href="https">Almacén</a>
-              </h5>
-              <p className="mb-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nec
-                dictum nisl. Aenean tortor quam, accumsan at nunc at, pulvinar
-                posuere justo. Quisque fermentum, risus quis aliquam ultricies,
-                nisi{" "}
-              </p>
-            </div>
-            <hr className="dark horizontal my-0" />
-            <div className="card-footer d-flex">
-              <p className="font-weight-normal my-auto"></p>
-              <i className="material-icons position-relative ms-auto text-lg me-1 my-auto">
-                place
-              </i>
-              <p className="text-sm my-auto"> </p>
-            </div>
-          </div>
-        </div>
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev"
+        >
+          <span
+            className="carousel-control-prev-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next"
+        >
+          <span
+            className="carousel-control-next-icon"
+            aria-hidden="true"
+          ></span>
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
     </div>
   );
