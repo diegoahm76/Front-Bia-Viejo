@@ -103,16 +103,17 @@ const ActualizarDatosEmpresaScreen = () => {
 
         //TODO Trayendo los datos del usuario y montandolos en los campos
         const COD_PERSONA_JURIDICA = "J";
-        const { data } = await clienteAxios.get(
+        const { data: dataPersona } = await clienteAxios.get(
           `personas/get-by-email/${emailLogin}/`
         );
-        console.log(data);
+        const { data } = dataPersona
+        console.log("data", data);
         if (data.tipo_persona !== COD_PERSONA_JURIDICA) {
           navigate("/dashboard/usuario/actualizar-datos-persona");
         }
 
         data.tipo_documento = data.tipo_documento.cod_tipo_documento;
-        data.telefono_celular_empresa = data.telefono_celular_empresa.slice(2);
+        data.telefono_celular_empresa = data.telefono_celular_empresa?.slice(2);
 
         console.log("data useEffect", data);
 

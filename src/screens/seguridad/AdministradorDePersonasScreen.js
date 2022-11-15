@@ -11,6 +11,7 @@ import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
+import { getArrayFromStringDateAAAAMMDD } from "../../helpers/dateHelpers";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -24,8 +25,11 @@ const AdministradorDePersonasScreen = () => {
   const [direccionLaboralIsOpen, setDireccionLaboralIsOpen] = useState(false);
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
+
   const [actionForm, setActionForm] = useState(null);
   const [yesOrNot, setYesOrNot] = useState(false);
+  const [primeraVez, setPrimeraVez] = useState(true)
+
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
@@ -123,7 +127,7 @@ const AdministradorDePersonasScreen = () => {
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    console.log(data);
+    // console.log(data);
     try {
       const { data: dataPersonaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
@@ -149,6 +153,7 @@ const AdministradorDePersonasScreen = () => {
         return setActionForm(null);
       }
 
+      setPrimeraVez(false);
       setActionForm("editar");
 
       const defaultValuesOverrite = {
@@ -177,18 +182,11 @@ const AdministradorDePersonasScreen = () => {
         direccionNotificaciones: dataPersona.direccion_notificaciones,
         municipioDondeLabora: dataPersona.cod_municipio_laboral_nal,
         municipioNotificacion: dataPersona.cod_municipio_notificacion_nal,
+        fechaNacimiento: dataPersona.fecha_nacimiento
       };
-      const indexMunicipioResidencia = getIndexBySelectOptions(dataPersona.municipio_residencia, municipiosOptions)
-      const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
-      let indexDepartamento = null
-      departamentosOptions.forEach((departamento, index) => {
-        if(departamento.value === departamentoIdentifier){
-          indexDepartamento = index
-        }
-      })
-      if(indexDepartamento !== null){
-        setLugarResidencia({departamento: departamentosOptions[indexDepartamento]})
-      }
+      resetDepartamentoYMunicipio(dataPersona.municipio_residencia, setLugarResidencia)
+      const indexPaisLaboral = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_laboral_nal, setDatosLaborales)
+      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_notificacion_nal, setDatosNotificacion)
       setFormValues({
         ...formValues,
         tipoDocumento: getIndexBySelectOptions(
@@ -208,6 +206,8 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.pais_residencia,
           paisesOptions
         ),
+        paisLaboral: indexPaisLaboral,
+        paisNotificacion: indexPaisNotificacion,
         municipio: getIndexBySelectOptions(
           dataPersona.municipio_residencia,
           municipiosOptions
@@ -220,9 +220,7 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.cod_municipio_notificacion_nal,
           municipiosOptions
         ),
-        fechaNacimiento: dataPersona.fecha_nacimiento
-          ? new Date(dataPersona.fecha_nacimiento)
-          : "",
+        fechaNacimiento: dataPersona.fecha_nacimiento ? new Date(getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)): "",
         id_persona: dataPersona.id_persona,
         tipoPersona: dataPersona.tipo_persona,
         digitoVerificacion: dataPersona.digito_verificacion,
@@ -254,6 +252,43 @@ const AdministradorDePersonasScreen = () => {
     }
   };
 
+  const resetDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
+    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
+    let indexDepartamento = null
+    departamentosOptions.forEach((departamento, index) => {
+      if(departamento.value === departamentoIdentifier){
+        indexDepartamento = index
+      }
+    })
+    if(indexDepartamento !== null){
+      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+    }
+  }
+
+  const resetPaisDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
+    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
+    let indexDepartamento = null
+    departamentosOptions.forEach((departamento, index) => {
+      if(departamento.value === departamentoIdentifier){
+        indexDepartamento = index
+      }
+    })
+    if(indexDepartamento !== null){
+      let indexColombia = null
+      paisesOptions.forEach((pais, index) => {
+        if(pais.value === "CO"){
+          indexColombia = index
+        }
+      })
+      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+      return indexColombia
+    }else {
+      return null
+    }
+  }
+
   const onSubmitPersona = async (data) => {
     console.log("data para submit", data);
     const indicativo = "57";
@@ -281,14 +316,12 @@ const AdministradorDePersonasScreen = () => {
       telefono_empresa_2: data.telefonoEmpresa2,
       pais_residencia: paisesOptions[formValues.paisResidencia]?.value,
       municipio_residencia: municipiosOptions[formValues.municipio]?.value,
-      cod_municipio_notificacion_nal:
-        municipiosOptions[formValues.municipioNotificacion]?.value,
+      cod_municipio_notificacion_nal: municipiosOptions[formValues.municipioNotificacion]?.value || null,
+      cod_municipio_laboral_nal: municipiosOptions[formValues.municipioDondeLabora]?.value || null,
       direccion_residencia: data.direccion_residencia,
       direccion_residencia_ref: data.referenciaAdicional,
       direccion_laboral: data.direccionLaboral,
       direccion_notificaciones: data.direccionNotificaciones,
-      cod_municipio_laboral_nal:
-        municipiosOptions[formValues.municipioDondeLabora]?.value,
       ubicacion_georeferenciada: "mi casita 1",
     };
 
@@ -308,6 +341,7 @@ const AdministradorDePersonasScreen = () => {
           updatedPersona,
           config
         );
+        console.log("dataUpdate", dataUpdate)
         Swal.fire({
           position: "center",
           icon: "success",
@@ -524,7 +558,7 @@ const AdministradorDePersonasScreen = () => {
         ...watchPersona(),
         municipioNotificacion: "",
       });
-      setDatosLaborales({...datosNotificacion, departamento: ""})
+      setDatosNotificacion({...datosNotificacion, departamento: ""})
     }
     setFormValues({
       ...formValues,
@@ -558,7 +592,7 @@ const AdministradorDePersonasScreen = () => {
   };
 
   useEffect(() => {
-    // if(actionForm === "editar") return
+    if(!primeraVez) return
     if (lugarResidencia.departamento === "") {
       setmunicipioResidenciaFiltered([]);
       setFormValues({...formValues, municipio: ""})
@@ -575,6 +609,7 @@ const AdministradorDePersonasScreen = () => {
   }, [lugarResidencia]);
 
   useEffect(() => {
+    if(!primeraVez) return
     if (datosLaborales.departamento === "") {
       setMunicipioDondeLaboraFiltered([]);
       setFormValues({...formValues, municipioDondeLabora: ""})
@@ -591,6 +626,7 @@ const AdministradorDePersonasScreen = () => {
   }, [datosLaborales.departamento]);
 
   useEffect(() => {
+    if(!primeraVez) return
     if (datosNotificacion.departamento === "") {
       setMunicipioNotificacionFiltered([]);
       setFormValues({...formValues, municipioNotificacion: ""})
@@ -605,6 +641,10 @@ const AdministradorDePersonasScreen = () => {
       setFormValues({...formValues, municipioNotificacion: 0})
     }
   }, [datosNotificacion.departamento]);
+
+  useEffect(() => {
+    setPrimeraVez(true)
+  }, [actionForm])
 
   return (
     <div className="row min-vh-100">
@@ -1085,13 +1125,6 @@ const AdministradorDePersonasScreen = () => {
                           />
                         )}
                       />
-                      {errorsPersona.municipio && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
                     </div>
                   ) : (
                     <div className="col-12 col-md-3 mt-3">
