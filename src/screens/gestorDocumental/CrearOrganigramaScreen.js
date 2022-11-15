@@ -8,46 +8,29 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-// import IconoDocumento from '../../assets/document.svg'
-import { useForm, Controller } from "react-hook-form";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
-import clienteAxios from "../../config/clienteAxios";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
+import EliminarUsuarioModal from "../../components/EliminarUsuarioModal";
+import NuevoUsuarioModal from "../../components/NuevoUsuarioModal";
+
+import EditarUsuarioModal from "../../components/EditarUsuarioModal";
+import { useForm } from "react-hook-form";
+// import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+// import clienteAxios from "../../config/clienteAxios";
+// import { getConfigAuthBearer } from "../../helpers/configAxios";
 import {
   obtenerOrganigramaAction,
-  obtenerOrganigramaEliminarAction,
+  eliminarOrganigramaAction,
   // obtenerOrganigramaEditarAction,
 }
- from '../../actions/crearOrganigramaActions'
+  from '../../actions/crearOrganigramaActions'
 
-const rowDataArticulos = [
-  {
-    item: 1,
-    nombre: "Organigrama inicial",
-    descripcion: "Organigrama de prueba",
-    version: 1.1,
-    fechaTerminado: "11/02/2021",
-    fechaPublicacion: "22/10/2021",
-    fechaRetiro: "20/12/2021",
-    justificacionNuevaVersion: "Error del organigrama realizado",
-    resolucion: "Botón ver",
-  },
-  {
-    item: 2,
-    nombre: "Organigrama inicial",
-    descripcion: "Organigrama de prueba",
-    version: 1.2,
-    fechaTerminado: "11/02/2021",
-    fechaPublicacion: "22/10/2021",
-    fechaRetiro: "20/12/2021",
-    justificacionNuevaVersion: "Error del organigrama realizado",
-    resolucion: "Botón ver",
-  },
-];
 
 const CrearOrganigramaScreen = () => {
 
-  const { register, handleSubmit } = useForm();
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isModalEditarActive, setIsModalEditarActive] = useState(false);
+  const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
+
+  const {  handleSubmit } = useForm();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -86,29 +69,19 @@ const CrearOrganigramaScreen = () => {
 
 
 
+  //const [selecOpciones, setSelecOpciones] = useState();
 
-  let gridApi;
+  useEffect(() => {
+    const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
+    getOrganigrama();
+  }, []);
 
-  const onSubmitOrganigrama = async (data) => {
-    console.log(data, data.id);
-  }
+  const { organigrama } = useSelector((state) => state.organigrama);
 
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: false,
-    floatingFilter: false,
-    resizable: true,
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-    rowSelection: "multiple",
-    suppressRowClickSelection: true,
-  };
-
-  const columnDefsArticulos = [
+  const columnDefs = [
     {
       headerName: "Item",
-      field: "item",
+      field: "id_organigrama",
       minWidth: 65,
       maxWidth: 100,
       wrapText: true,
@@ -120,7 +93,7 @@ const CrearOrganigramaScreen = () => {
       minWidth: 120,
       maxWidth: 200,
       wrapText: true,
-      autoHeight: true,
+      autoHeight: false,
     },
     {
       headerName: "Descripción",
@@ -128,7 +101,7 @@ const CrearOrganigramaScreen = () => {
       minWidth: 120,
       maxWidth: 200,
       wrapText: true,
-      autoHeight: true,
+      autoHeight: false,
     },
     {
       headerName: "Versión",
@@ -139,53 +112,52 @@ const CrearOrganigramaScreen = () => {
     },
     {
       headerName: "Fecha Terminado",
-      field: "fechaTerminado",
+      field: "fecha_terminado",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
       headerName: "Fecha Publicación",
-      field: "fechaPublicacion",
+      field: "fecha_puesta_produccion",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
       headerName: "Fecha Retiro",
-      field: "fechaRetiro",
+      field: "fecha_retiro_produccion",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
       headerName: "Justificación Nueva Versión",
-      field: "justificacionNuevaVersion",
+      field: "justificacion_nueva_version",
       minWidth: 100,
       wrapText: true,
     },
     {
       headerName: "Resolución",
-      field: "resolución",
+      field: "ruta_resolucion",
       minWidth: 105,
       maxWidth: 120,
       wrapText: true,
-      cellRendererFramework: (params) => (
-        <div className="d-flex gap-1">
-          <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
-            type="button"
-          // handleOpenEditOrganigrama(params.data.id_Organigrama);
-          //   dispatch(obtenerEstacionEditarAction(params.data));
-          //   setIsModalEditarActivate(!isModalActive);
-          // }}
-          // onChange={}
-          >
-            Ver
-            {/* <img src={IconoDocumento} alt="documento" /> */}
-          </button>
-        </div>
-      ),
+      // cellRendererFramework: (params) => (
+      //   <div className="d-flex gap-1">
+      //     <button
+      //       className="btn my-2 btn-sm btn-tablas btn-outline-primary text-capitalize"
+      //       type="button"
+      //       onClick={() => {
+      //         // dispatch(obtenerEstacionEditarAction(params.data));
+      //         // setIsModalEditarActivate(!isModalActive);
+      //       }}
+      //     >
+      //       Ver
+      //       {/* <img src={IconoDocumento} alt="documento" /> */}
+      //     </button>
+      //   </div>
+      // ),
     },
     {
       headerName: "Actual",
@@ -193,8 +165,8 @@ const CrearOrganigramaScreen = () => {
       minWidth: 75,
       maxWidth: 100,
       headerCheckboxSelection: false,
-      checkboxSelection: true,
-      showDisabledCheckboxes: true,
+      checkboxSelection: false,
+      showDisabledCheckboxes: false,
     },
 
     {
@@ -204,22 +176,28 @@ const CrearOrganigramaScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn my-2 btn-sm btn-tablas btn-outline-warning "
+            className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
             title="Send"
             form="configForm"
-            onClick={() => handleEditPage()}
+            onClick={() => {
+              handleEditPage();
+              setIsModalEditarActive(!isModalEditarActive);
+            }}
 
-              // dispatch(obtenerEstacionEditarAction(params.data));
-              // setIsModalEditarActivate(!isModalActive);
-            
+          // dispatch(obtenerEstacionEditarAction(params.data));
+          // setIsModalEditarActivate(!isModalActive);
+
           >
             <img src={IconoEditar} alt="editar" />
           </button>
           <button
-            className="btn my-2 btn-sm btn-tablas btn-outline-danger"
+            className="btn my-1 btn-sm btn-tablas btn-outline-danger"
             type="button"
-            onClick={() => { }}
+            onClick={() => {
+              dispatch(eliminarOrganigramaAction(params.data));
+              // setIsModalEliminarActive(!isModalActive);
+            }}
           >
             <img src={IconoEliminar} alt="eliminar" />
           </button>
@@ -228,21 +206,19 @@ const CrearOrganigramaScreen = () => {
     },
   ];
 
-  // const handleOpenEditOrganigrama = async (idOrganigrama) => {
-  //   try {
-  //     const {
-  //       data: { data },
-  //     } = await clienteAxios.get(
-
-  //     )
-  //   }
-  // }
-
-
-
-  const onGridReady = (params) => {
-    gridApi = params.api;
+  const defaultColDef = {
+    sortable: true,
+    editable: true,
+    flex: 1,
+    filter: false,
+    floatingFilter: false,
+    resizable: true,
+    wrapHeaderText: true,
+    autoHeaderHeight: true,
+    rowSelection: "multiple",
+    suppressRowClickSelection: true,
   };
+
 
   const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] =
     useState(false);
@@ -284,11 +260,11 @@ const CrearOrganigramaScreen = () => {
               style={{ height: "450px" }}
             >
               <AgGridReact
-                columnDefs={columnDefsArticulos}
-                rowData={rowDataArticulos}
+                columnDefs={columnDefs}
+                rowData={organigrama}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
-                onGridReady={onGridReady}
+                // onGridReady={onGridReady}
               ></AgGridReact>
             </div>
           </div>
@@ -297,6 +273,15 @@ const CrearOrganigramaScreen = () => {
         <CrearItemOrganigramaModal
           isModalActive={crearOrganigramaIsActive}
           setIsModalActive={setCrearOrganigramaIsActive}
+        />
+        <NuevoUsuarioModal
+          setIsModalActive={setIsModalActive}
+          isModalActive={isModalActive}
+        />
+
+        <EliminarUsuarioModal
+          setIsModalActive={setIsModalEliminarActive}
+          isModalActive={isModalEliminarActive}
         />
       </div>
     </div>
