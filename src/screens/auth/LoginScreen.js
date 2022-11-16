@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
-import LogoCormacarena from "../../assets/LogosBIAPNG/Web-Bia-logo.png";
+import LogoCormacarena from "../../assets/LogosBIAPNG/logoBia.svg";
+import Cormacarena from "../../assets/LogosBIAPNG/corma.svg";
+import Macarenia from "../../assets/LogosBIAPNG/maca.svg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -44,6 +46,7 @@ function LoginScreen() {
         is_active: true,
       });
     } else if (error?.detail) {
+      console.log("Entro aca")
       Swal.fire({
         position: "center",
         icon: "warning",
@@ -78,8 +81,12 @@ function LoginScreen() {
                 boxShadow: "none",
               }}
             >
-              <div className="mb-4" style={{width: "200px"}}>
-                <img src={LogoCormacarena} className="aspect-ratio" alt="logo cormacarena"/>
+              <div className="my-4">
+                <img
+                  src={LogoCormacarena}
+                  className="aspect-ratio"
+                  alt="logo cormacarena"
+                />
               </div>
             </div>
             <div
@@ -165,6 +172,10 @@ function LoginScreen() {
                   </Link>
                 </div>
               </div>
+            </div>
+            <div>
+              <img src={Cormacarena} alt="" />
+              <img src={Macarenia} alt="" />
             </div>
           </div>
         </div>
