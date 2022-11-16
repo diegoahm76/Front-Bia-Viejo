@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import {
   USER_LOGIN_REQUEST,
@@ -33,6 +34,15 @@ export const userLoginAction = (email, password) => async (dispatch) => {
     dispatch(userLoginSuccess(userinfo));
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+    if(typeof error.response.data === "string"){
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: "Credenciales invalidas",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
+    }
     dispatch(userLoginInvalid(error.response.data));
   }
 };
@@ -66,6 +76,7 @@ export const getDataFromLocalStorage = () => (dispatch) => {
   const dataUserJSON = localStorage.getItem("userInfo");
   if (dataUserJSON) {
     const dataUser = JSON.parse(dataUserJSON);
+    console.log(dataUser)
     dataUser.userinfo.permisos = dataUser.permisos
     dispatch(getDataLocalStorageSuccess(dataUser.userinfo));
   } else {

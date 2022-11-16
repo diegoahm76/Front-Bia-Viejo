@@ -16,6 +16,7 @@ import { getIndexBySelectOptions } from "../../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 const ActualizarDatosPersonaScreen = () => {
+  const [loading, setLoading] = useState(false)
   const { email: emailLogin } = useSelector((state) => state.user.user);
   const [completeAddress, setCompleteAddress] = useState("");
   const [completeAddress2, setCompleteAddress2] = useState("");
@@ -76,6 +77,7 @@ const ActualizarDatosPersonaScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true)
       try {
         const { data: sexoNoFormat } = await clienteAxios.get("choices/sexo/");
 
@@ -168,6 +170,7 @@ const ActualizarDatosPersonaScreen = () => {
       } catch (err) {
         console.log(err);
       }
+      setLoading(false)
     };
     getSelectsOptions();
   }, []);
@@ -214,6 +217,7 @@ const ActualizarDatosPersonaScreen = () => {
   }
 
   const submit = async (data) => {
+    setLoading(true)
     //TODO Ojo para la fecha de nacimiento del actualizar datos
     const {
       tipo_documento,
@@ -299,6 +303,7 @@ const ActualizarDatosPersonaScreen = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false)
   };
 
   const handleMaxOneDigit = (e) => {
@@ -1190,8 +1195,20 @@ const ActualizarDatosPersonaScreen = () => {
                 onClick={() => {
                   console.log(watch());
                 }}
+                disabled={loading}
               >
-                Actualizar
+                {loading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-1"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Cargando...
+                  </>
+                ) : (
+                  "Actualizar"
+                )}
               </button>
             </div>
           </form>

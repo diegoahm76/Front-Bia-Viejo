@@ -4,24 +4,14 @@ import img3 from "../assets/imgs/3.png";
 import img6 from "../assets/imgs/6.png";
 import img4 from "../assets/imgs/4.png";
 import img5 from "../assets/imgs/5.png";
-
-import almacen from "../assets/subsitemas/almacen.png";
-import analiticaDeDatos from "../assets/subsitemas/analitica-de-datos.png";
-import estacionesHidrometeorologicas from "../assets/subsitemas/estaciones-hidrometerologicas.png";
-import gestionDeViveros from "../assets/subsitemas/gestion-de-vivieros.png";
-import gestionDocumental from "../assets/subsitemas/gestion-documental.png";
-import mandoControlAmbiental from "../assets/subsitemas/Mando-y-control-ambiental.png";
-import recursoHidrico from "../assets/subsitemas/recurso-hidrico.png";
-import rentas from "../assets/subsitemas/rentas.png";
-import seguimientoPlanes from "../assets/subsitemas/seguimiento-a-planes.png";
-import tramites from "../assets/subsitemas/tramites.png";
+import biaCormacarena from '../assets/LogosBIAPNG/logoBia.svg'
 
 function LogoScreen() {
   return (
-    <div className="container">
+    <div style={{ height: "80vh" }}>
       <div
         className="container"
-        style={{ height: "280px", overflow: "hidden", objectFit: "fill" }}
+        style={{ height: "40%", overflow: "hidden", objectFit: "fill" }}
       >
         <div
           id="carouselExampleDark"
@@ -67,7 +57,10 @@ function LogoScreen() {
           </div>
         </div>
       </div>
-      <div className="container position-relative w-50">
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "70%" }}>
+        <img src={biaCormacarena} alt="" style={{ width: "300px", height: "300px" }} />
+      </div>
+      {/* <div className="container position-relative w-50">
         <div
           className="container mt-6 align-items-center"
           style={{ overflow: "hidden", width: "400px" }}
@@ -205,7 +198,7 @@ function LogoScreen() {
           ></span>
           <span className="visually-hidden">Next</span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

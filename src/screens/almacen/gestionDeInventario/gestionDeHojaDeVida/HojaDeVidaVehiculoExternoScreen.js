@@ -361,9 +361,11 @@ const HojaDeVidaVehiculoExternoScreen = () => {
                 </div>
               </div>
 
-              <div className="row col-12 col-md-4 ms-2">
-                <Subtitle title="3) Póliza todo riesgo" mt={3} />
+              <div className="row col-12 col-md-4 ms-2 mb-0">
+                {/* <Subtitle title="3) Póliza todo riesgo" mt={3} /> */}
+                <h5>Póliza todo riesgo</h5>
               </div>
+              <hr className="rounded-pill hr-modal mt-0" />
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
