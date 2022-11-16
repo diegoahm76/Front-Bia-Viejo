@@ -127,6 +127,7 @@ const AdministradorDeEmpresasScreen = () => {
       resetEmpresa(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
+      setLoading(false)
       if (err.response.data) {
         const result = await Swal.fire({
           title: err.response.data.detail,
@@ -142,8 +143,6 @@ const AdministradorDeEmpresasScreen = () => {
           resetEmptyValues();
           setFormValues(defaulValuesForm)
           return setActionForm(ACTION_CREAR);
-        } else {
-          return;
         }
       }
     }
@@ -333,6 +332,7 @@ const AdministradorDeEmpresasScreen = () => {
         setMunicipiosOptions(municipiosFormat);
       } catch (err) {
         console.log(err);
+        setLoading(false)
       }
       setLoading(false)
     };
