@@ -2,7 +2,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogoutAction } from "../actions/userActions";
-import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
+import LogoCormacarena from "../assets/logos/eps/LogoVertical.svg";
 import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
 import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
 import IconoSeguimientoPlanes from "../assets/planning-svgrepo-com.svg";
@@ -26,7 +26,7 @@ import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-veh
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
 import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
-import IconoUser from "../assets/logos/user-svgrepo-com.svg";
+import IconoUser from "../assets/user-svgrepo-com.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
@@ -52,49 +52,48 @@ const Aside = ({ showAside }) => {
       }}
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
-        <div className="sidenav-header text-center mb-2">
-          <Link className="m-0 text-center" to="/dashboard">
+        <div className="sidenav-header">
+          <Link className="navbar-brand m-0" to="/dashboard">
             <img
               src={LogoCormacarena}
-              className="h-100"
+              className="navbar-brand-img h-100"
               alt="main_logo"
-              style={{padding: "15px 0"}}
             />
+            <span className="ms-1 font-weight-bold text-white">
+              Bia - Cormacarena
+            </span>
           </Link>
         </div>
+        <hr className="horizontal light mt-0 mb-2" />
         <div
           className="collapse navbar-collapse w-auto h-auto"
           id="sidenav-collapse-main"
         >
           <ul className="navbar-nav">
-            <img src={IconoUser} className="px-5 mb-3" alt="user" />
             <li className="nav-item mb-2 mt-0">
               <a
                 data-bs-toggle="collapse"
                 href="#ProfileNav"
-                className="text-white text-center"
+                className="nav-link text-white"
                 aria-controls="ProfileNav"
                 role="button"
                 aria-expanded="false"
               >
-                {/* <span className="sidenav-mini-icon">
+                <span className="sidenav-mini-icon">
                   <img src={IconoUser} alt="user" />
                 </span>
                 <span className="nav-link-text ms-2 ps-1">
-                  {userInfo.nombre_de_usuario}
-                </span> */}
-                <span className="nav-link-text ms-2 ps-1 d-block text-center">
                   {userInfo.nombre_de_usuario}
                 </span>
               </a>
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
-                  <li className="nav-item d-flex justify-content-center">
+                  <li className="nav-item">
                     <div
                       className="nav-link text-white "
                       onClick={logoutHandler}
                     >
-                      
+                      <span className="sidenav-mini-icon"> L </span>
                       <span className="sidenav-normal  ms-3  ps-1">Logout</span>
                     </div>
                   </li>
@@ -105,7 +104,7 @@ const Aside = ({ showAside }) => {
                           to="usuario/actualizar-datos-persona"
                           className="nav-link text-white"
                         >
-                          
+                          <span className="sidenav-mini-icon"> P </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             Actualizar Datos
                           </span>
@@ -116,6 +115,7 @@ const Aside = ({ showAside }) => {
                           to="usuario/actualizar-datos-empresa"
                           className="nav-link text-white"
                         >
+                          <span className="sidenav-mini-icon"> E </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             Actualizar Datos
                           </span>
@@ -158,6 +158,7 @@ const Aside = ({ showAside }) => {
                           to="tablerosdecontrol/conservacion"
                           className="nav-link text-white"
                         >
+                          <span className="sidenav-mini-icon"> C </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             Conservacion
                           </span>
@@ -170,40 +171,47 @@ const Aside = ({ showAside }) => {
                           aria-expanded="false"
                           href="#panelAlmacen"
                         >
+                          <span className="sidenav-mini-icon"> A </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             Almacen
                           </span>
                         </a>
                         <div className="collapse " id="panelAlmacen">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/tablero-de-control/stock"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Stock
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/tablero-de-control/busqueda-articulos-prestados"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Busqueda de articulos prestados
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/tablero-de-control/tabla-inventario"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Tabla inventario
                                 </span>
@@ -254,78 +262,92 @@ const Aside = ({ showAside }) => {
                           id="entradaYSalidaDeArticulos"
                         >
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
-                                className="nav-link  text-white "
+                                className="nav-link text-white "
                                 to="almacen/entrada-y-salida-de-articulos/entrada-articulo"
                               >
-                                
-                                <span className="sidenav-normal ms-2  ps-1">
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
                                   Entrada de Articulos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/entrada-y-salida-de-articulos/apropiacion-articulo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Apropiación de Articulos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/entrada-y-salida-de-articulos/creacion-articulo-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Creación de Articulos Consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/entrada-y-salida-de-articulos/creacion-articulo-devolutivo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Creación de Articulos Devolutivo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/entrada-y-salida-de-articulos/visualizar-articulos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Visualizar Articulos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/entrada-y-salida-de-articulos/salida-articulos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Salida de Articulos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/entrada-y-salida-de-articulos/registro-baja"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Registro de Baja
                                 </span>
@@ -350,45 +372,53 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="configuracionAlmacen">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/alertasmantenimientoactivo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas para mantenimiento <br /> de activos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/configuracion/alertasdevolucionprestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas para devolución <br /> de préstamos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/alertasmantenimientovehiculo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas para mantenimiento <br /> de vehículos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/alertasvencimientodocumentacionvehiculos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas para vencimiento <br /> de
                                   documentación <br />
@@ -396,56 +426,66 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/alertasllegadavehiculos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas para la llegada <br /> de vehículos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/busquedapersonal"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Búsqueda de Personal <br /> de la corporación
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/creacionbodega"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Creación de Bodegas
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/registroconductoresexternos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Registro de conductores <br /> Externos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/traspasoelementosbodegas"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Traspaso de Elementos <br />
                                   en Bodegas
@@ -475,201 +515,237 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="gestionDeInventario">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/busqueda-activos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Busqueda de activos a <br /> subdelegados
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/gestion-de-inventario/reasignacion-elementos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reasignacion elementos <br /> subasignados
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/subasignar-elementos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Subasignar elementos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-vehiculo-externo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Hoja de vida <br /> un vehiculo externo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-otros-activos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Hoja de vida de <br /> otros activos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-vehiculo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Hoja de vida de <br /> un vehiculo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Hoja de vida de <br /> activos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/programacion-mantenimiento"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Programacion de mantenimiento
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/traspasoelementosbodegas"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Transpaso de Elementos <br />
                                   en Bodegas
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/asignaractivo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Asignación de <br /> activos fijos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/reasignarelementosentrefuncionarios"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reasignar elementos <br /> entre funcionarios
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/gestion-de-inventario/despacharelementosconsumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Despachar elementos <br /> para consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/asignaractivoscalidadprestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Asignar activos en <br /> calidad de prestamos
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/despachoelementossinsolicitud"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Despacho de elementos <br /> sin solicitud
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/devolverelementossubasignadosresponsable"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Devolver elementos <br /> subasignados al
                                   responsable
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/devolveractivoasignado"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Devolver activo <br /> asignado
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/devolveractivocalidadprestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Devolver activo en <br /> calidad de préstamo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/formulariorevisioninventario"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Formulario de revisión de inventario
                                 </span>
@@ -697,130 +773,152 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="solicitudesArticulos">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitud-asignacion-articulo-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitud de asignación <br /> un artículo
                                   activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/solicitudes-articulos/autorizar-solicitud-asignacion-articulo-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Autorizar solicitud de <br /> asignación de un
                                   artículo <br /> activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitar-articulos-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitud de artículo <br />
                                   de consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitar-elemento-consumo-vivero"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitud de artículo <br />
                                   de consumo para vivero
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/autorizar-solicitudes-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Autorización de solicitud <br /> de consumo
                                   por jefe
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitud-activo-prestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitud de Activo <br />
                                   en Préstamo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/autorizar-solicitud-activo-prestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Autorización de solicitud <br />
                                   de activo en préstamo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitud-vehiculo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitud de vehiculo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitudes-asignacion-pendientes"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitudes de asignación
                                   <br /> pendientes
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitudes-pendientes-autorizar"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitudes de prestamo <br /> pendientes
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/solicitudes-articulos/solicitudes-autorizadas-pendientes"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitudes autorizadas <br />
                                   pendientes
@@ -849,286 +947,336 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="reportesAlmacen">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-historico-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte historico de un activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/reportes/consulta-paz-y-salvo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Consultar paz y salvo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-inventario"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de inventario
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-inventario-por-persona-o-grupo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de inventario <br /> por persona o
                                   grupo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-entrada-de-almacen"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de entrada de activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-solicitud-de-asiganacion"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de solicitud de
                                   <br /> asignacion de activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-asignacion-de-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de asignacion <br />
                                   de activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-devolucion-de-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de devolucion <br /> de activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-baja"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de baja
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-reasigancion-funcionarios"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de reasigancion <br /> entre
                                   funcionarios
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-estado-de-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte segun el estado <br /> de activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-prestamos-pendientes-por-devolucion"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de prestamos <br /> pendiente por
                                   devolucion
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-solicitudes-de-vehiculos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de solicitud <br /> de vehiculo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-solicitudes-de-vehiculos-completada"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de solicitud <br /> de vehiculo
                                   ejecutada
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/registro-de-mantenimiento-de-computo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Registro de mantenimiento <br /> de computo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-estado-de-mantenimiento-de-un-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de estado de <br /> mantenimiento de
                                   un activo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-solicitud-de-prestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de solicitud <br /> de prestamo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-despacho-de-prestamo-de-activo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de despacho de <br />
                                   activo en calidad de prestamo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-devolucion-de-prestamo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de devolucion de <br />
                                   activo en calidad de prestamo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-entrada-de-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de entrada <br />
                                   de consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-solicitud-de-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de solicitud <br /> de consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-despacho-de-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de despacho <br /> de consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-de-consumo-por-funcionario"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de consumo <br /> por funcionario
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-existencias-de-consumo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de existencias <br /> de consumo
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/reportes/reporte-stock-de-articulos"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reporte de stock <br /> maximo y minimo
                                 </span>
@@ -1156,23 +1304,27 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="gestionVehiculos">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-vehiculos/asignacion-vehiculo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Solicitud de asignación
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="almacen/gestion-de-vehiculos/reprogramar-solicitud-vehiculo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reprogramar solicitud
                                   <br /> de vehiculo
@@ -1218,7 +1370,7 @@ const Aside = ({ showAside }) => {
                           className="nav-link text-white "
                           to="recaudo/pagosenlinea"
                         >
-                          
+                          <span className="sidenav-mini-icon"> P </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             {" "}
                             Pagos en linea{" "}
@@ -1278,7 +1430,7 @@ const Aside = ({ showAside }) => {
                           className="nav-link text-white "
                           to="recaudo/portalreportes"
                         >
-                          
+                          <span className="sidenav-mini-icon"> P </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             {" "}
                             Portal reportes{" "}
@@ -1369,7 +1521,7 @@ const Aside = ({ showAside }) => {
                     </ul>
                   </div>
                 </li>
-                <li className="nav-item ">
+                <li className="nav-item">
                   <a
                     data-bs-toggle="collapse"
                     href="#conservacion"
@@ -1403,7 +1555,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="Gestor-vivero">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/gestorvivero/agregarvivero"
@@ -1418,7 +1570,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/gestorvivero/editarvivero"
@@ -1446,7 +1598,7 @@ const Aside = ({ showAside }) => {
                               </a>
                               <div className="collapse " id="inventario">
                                 <ul className="nav nav-sm flex-column">
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/propagacion"
@@ -1456,7 +1608,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/produccionpropia"
@@ -1466,7 +1618,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/plantasencuarentena"
@@ -1476,7 +1628,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/compensacion"
@@ -1486,7 +1638,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/donacion"
@@ -1497,7 +1649,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/medidasderesarcimiento"
@@ -1507,7 +1659,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/insumos"
@@ -1517,7 +1669,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/herramientas"
@@ -1527,7 +1679,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/gestorvivero/inventario/disponiblematerialvegetal"
@@ -1559,18 +1711,18 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="GestorMaterialVegetal">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/gestormaterialvegetal/crearproduccionpropia"
                               >
-                                
+                                <span className="sidenav-mini-icon"> p </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Crear produccion propia
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="conservacion/gestormaterialvegetal/crearmaterialvegetalsembrado"
@@ -1581,7 +1733,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/gestormaterialvegetal/editarmaterialvegetal"
@@ -1592,7 +1744,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/gestormaterialvegetal/cuarentenadematerialvegetal"
@@ -1603,7 +1755,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/gestormaterialvegetal/activarmaterialvegetal"
@@ -1633,7 +1785,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="Produccion">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white"
                                 to="conservacion/produccion/controlyseguimientodematerialvegetal"
@@ -1645,7 +1797,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/produccion/etapasdematerialvegetal"
@@ -1676,7 +1828,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="projectsExample">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/solicitudes/solicitudesrealizadasavivero"
@@ -1687,7 +1839,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/solicitudes/historialdesolicitudes"
@@ -1698,7 +1850,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/solicitudes/consultainformesdecaracterizacion"
@@ -1729,7 +1881,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="Distrubucion">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/distribucion/solicitudesdematerial"
@@ -1741,7 +1893,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/distribucion/movermaterialvegetal"
@@ -1752,19 +1904,18 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/distribucion/recepcionsolicitudes"
                               >
                                 <span className="sidenav-mini-icon"> V </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Gestion de Solicitudes de Material <br />{" "}
-                                  Vegetal
+                                  Gestion de Solicitudes de Material <br/> Vegetal
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="conservacion/distribucion/historialdemovimientos"
@@ -1791,7 +1942,7 @@ const Aside = ({ showAside }) => {
                               </a>
                               <div className="collapse " id="entregaDeMaterial">
                                 <ul className="nav nav-sm flex-column">
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/distribucion/entregamv/entregados"
@@ -1801,7 +1952,7 @@ const Aside = ({ showAside }) => {
                                       </span>
                                     </Link>
                                   </li>
-                                  <li className="nav-item d-flex justify-content-center">
+                                  <li className="nav-item">
                                     <Link
                                       className="nav-link text-white "
                                       to="conservacion/distribucion/entregamv/pendientes"
@@ -1881,7 +2032,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="CentroNotificaciones">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <a
                                 className="nav-link text-white "
                                 href="../../pages/pages/vr/vr-default.html"
@@ -1893,7 +2044,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </a>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <a
                                 className="nav-link text-white "
                                 href="../../pages/pages/vr/vr-info.html"
@@ -1933,20 +2084,20 @@ const Aside = ({ showAside }) => {
                   </a>
                   <div className="collapse " id="authExamples">
                     <ul className="nav ">
-                      <li className="nav-item">
-                        <Link
-                          className="nav-link text-white "
-                          to="gestordocumental/organigrama/crearorganigrama"
-                        >
-                          <span className="sidenav-mini-icon">
-                            <img src={Vineta} alt="vineta" />
-                          </span>
-                          <span className="sidenav-normal  ms-2  ps-1">
-                            Crear <br /> Organigrama
-                          </span>
-                        </Link>
-                      </li>
-                      <li className="nav-item ">
+                    <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestorDocumental/organigrama/crearorganigrama"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Crear <br /> Organigrama
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item ">
                         <a
                           className="nav-link text-white "
                           href="../../pages/applications/wizard.html"
@@ -1959,16 +2110,16 @@ const Aside = ({ showAside }) => {
                         </a>
                       </li>
                       <li className="nav-item">
-                        <Link
-                          className="nav-link text-white "
-                          to="gestordocumental/edicion-organigrama"
-                        >
-                          <span className="sidenav-mini-icon"> V </span>
-                          <span className="sidenav-normal  ms-2  ps-1">
-                            Edicion Organigrama
-                          </span>
-                        </Link>
-                      </li>
+                              <Link
+                                className="nav-link text-white "
+                                to="gestordocumental/edicion-organigrama"
+                              >
+                                <span className="sidenav-mini-icon"> V </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Edicion Organigrama
+                                </span>
+                              </Link>
+                            </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "
@@ -2053,7 +2204,7 @@ const Aside = ({ showAside }) => {
                           target="_blank"
                           rel="noreferrer"
                         >
-                          
+                          <span className="sidenav-mini-icon"> P </span>
                           <span className="sidenav-normal  ms-2  ps-1">
                             {" "}
                             PQRSD{" "}
@@ -2128,89 +2279,105 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="estaciones">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/administrador-de-estaciones"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Estaciones
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/alarmas-estaciones"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alarmas
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/configuraciones"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Configuración
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/usuarios-estaciones"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Partes Interesadas
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/monitoreo"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Monitoreo
                                 </span>
                               </Link>
                             </li>
-                            {/* <li className="nav-item d-flex justify-content-center">
+                            {/* <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/alertas"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alertas
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/alarmas-configuraciones"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Alarmas Configuraciones
                                 </span>
                               </Link>
                             </li> */}
-                            <li className="nav-item d-flex justify-content-center">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/reportes"
                               >
-                                
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Reportes
                                 </span>
@@ -2226,7 +2393,7 @@ const Aside = ({ showAside }) => {
             )}
             {userInfo.is_superuser && (
               <>
-                <li className="nav-item d-flex justify-content-center">
+                <li className="nav-item">
                   <a
                     data-bs-toggle="collapse"
                     href="#seguridad"
