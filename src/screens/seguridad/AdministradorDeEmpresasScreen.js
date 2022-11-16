@@ -296,6 +296,7 @@ const AdministradorDeEmpresasScreen = () => {
       direccionDeNotificacion: "",
       direccionEmpresa: "",
       municipioNotificacion: "",
+      digito_verificacion: ""
     };
     resetEmpresa(emptyValues);
     setFormValues({
@@ -372,7 +373,7 @@ const AdministradorDeEmpresasScreen = () => {
   useEffect(() => {
     if(!watchEmpresa("digito_verificacion")) return
     if(watchEmpresa("digito_verificacion").length > 1) {
-      resetEmpresa({...watchEmpresa, digito_verificacion: watchEmpresa("digito_verificacion")[0]})
+      resetEmpresa({...watchEmpresa(), digito_verificacion: watchEmpresa("digito_verificacion")[0]})
     }
   }, [watchEmpresa("digito_verificacion")])
 
