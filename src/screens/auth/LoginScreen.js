@@ -44,6 +44,7 @@ function LoginScreen() {
         is_active: true,
       });
     } else if (error?.detail) {
+      console.log("Entro aca")
       Swal.fire({
         position: "center",
         icon: "warning",
