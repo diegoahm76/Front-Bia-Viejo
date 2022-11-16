@@ -188,88 +188,6 @@ const AdministradosDeUsuario = () => {
 
         resetUsuario(usuarioOverrideData);
       }
-
-      // if (dataPersona?.Persona) {
-      //   Swal.fire({
-      //     title: "Este numero de documento no tiene un usuario asignado",
-      //     text: "¿Desea registrar un nuevo usuario?",
-      //     icon: "info",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Si",
-      //     cancelButtonText: "No",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       setActionForm("crear");
-      //       setPersonaData(dataPersona?.Persona);
-      //     }
-      //   });
-      // } else if (dataPersona?.data) {
-      //   Swal.fire({
-      //     title: "No existe una persona con este documento",
-      //     text: "¿Desea registrar una nueva persona?",
-      //     icon: "warning",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Si",
-      //     cancelButtonText: "No",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       Swal.fire({
-      //         title: "Elegir tipo persona",
-      //         text: "¿Que tipo de persona desea crear?",
-      //         icon: "info",
-      //         showCancelButton: true,
-      //         confirmButtonColor: "#3BA9E0",
-      //         cancelButtonColor: "#6c757d",
-      //         confirmButtonText: "Natural",
-      //         cancelButtonText: "Juridica",
-      //       }).then((result) => {
-      //         if (result.isConfirmed) {
-      //           navigate("/dashboard/seguridad/administradordepersonas");
-      //         } else {
-      //           navigate("/dashboard/seguridad/administradordeempresas");
-      //         }
-      //       });
-      //     }
-      //   });
-      // } else if (dataPersona?.Usuario) {
-      //   setUserData(dataPersona?.Usuario);
-      //   setActionForm("editar");
-
-      //   if (dataPersona?.Usuario.tipo_usuario === "I") {
-      //     setBloqueoTipoUsuario(true);
-      //   } else if (dataPersona?.Usuario.tipo_usuario === "E") {
-      //     setBloqueoTipoUsuario(false);
-      //   }
-
-      //   const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
-
-      //   const dataRolesIndex = getIndexBySelectOptions(
-      //     indexRoles,
-      //     rolesOptions
-      //   );
-
-      //   setFormValues({
-      //     roles: dataRolesIndex,
-      //   });
-
-      //   const optionsBySelect = dataRolesIndex.map(
-      //     (roleIndex) => rolesOptions[roleIndex]
-      //   );
-
-      //   const usuarioOverrideData = {
-      //     nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
-      //     bloqueado: dataPersona?.Usuario.is_blocked,
-      //     activo: dataPersona?.Usuario.is_active,
-      //     tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
-      //     roles: optionsBySelect,
-      //   };
-
-      //   resetUsuario(usuarioOverrideData);
-      // }
     } catch (err) {
       Swal.fire({
         position: "center",
@@ -318,6 +236,10 @@ const AdministradosDeUsuario = () => {
           id_usuario_creador: id_usuario,
           tipo_usuario: "I",
           roles: rolesFormat,
+          redirect_url:
+            process.env.NODE_ENV === "production"
+              ? "https://front-bia.netlify.app/#/login"
+              : "http://localhost:3000/#/login",
         };
 
         await clienteAxios.post("users/register/", nuevoUsuario, config);

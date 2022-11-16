@@ -67,7 +67,7 @@ const Aside = ({ showAside }) => {
           id="sidenav-collapse-main"
         >
           <ul className="navbar-nav">
-            <img src={IconoUser} className="px-5 mb-3" alt="user" />
+            <img src={IconoUser} className="px-5 mb-3 rounded rounded-circle" alt="user" />
             <li className="nav-item mb-2 mt-0">
               <a
                 data-bs-toggle="collapse"
