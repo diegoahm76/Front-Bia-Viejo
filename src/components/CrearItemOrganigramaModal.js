@@ -1,14 +1,11 @@
 import Modal from "react-modal";
-import Select from "react-select";
-import { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Subtitle from "./Subtitle";
-import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { agregarOrganigramaAction } from "../actions/crearOrganigramaActions";
+import { agregarOrganigramaAction } from "../actions/organigramaActions";
 import { useDispatch } from "react-redux";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 
 const customStyles = {
@@ -26,19 +23,13 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
-  const handleOpenCrearOrganigrama = () => {
-    setIsModalActive(true);
-  };
-
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handlePage = () => {
-    handleCloseCrearOrganigrama()
-    console.log("Ejecuta")
-      // navigate ("/dashboard/gestorDocumental/organigrama/edicion-organigrama")}
-  }  
+    handleCloseCrearOrganigrama();
+  };
 
-  const dispatch = useDispatch ();
+  const dispatch = useDispatch();
 
   const handleCloseCrearOrganigrama = () => {
     setIsModalActive(false);
@@ -47,26 +38,21 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm();
 
   const onSumbitOrganigrama = async (data) => {
     const nuevoOrganigrama = {
-        ...data,
+      ...data,
       nombre: data.nombre,
       version: data.version,
       descripcion: data.descripcion,
-
-
     };
 
-    console.log(data)
-    dispatch(agregarOrganigramaAction(nuevoOrganigrama))
-    
+    console.log(data);
+    dispatch(agregarOrganigramaAction(nuevoOrganigrama));
+    navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
   };
-
-
 
   return (
     <Modal
@@ -90,7 +76,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
 
             <Subtitle title="Insertar datos" mt={3} />
 
-            <div className="row d-flex align-items-end mt-2 mx-2">
+            
               <div className="col-12 col-md-6 mb-3">
                 <label className="text-terciary">
                   Nombre<span className="text-danger">*</span>
@@ -128,8 +114,8 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                   </div>
                 )}
               </div>
-            </div>
-            <div className="row d-flex align-items-end mt-2 mx-2">
+            
+            {/* <div className="row d-flex align-items-end mt-2 mx-2">
               <div className="col-12 col-md-6 mb-3">
                 <label className="text-terciary">Resolucion: </label>
                 <button
@@ -147,8 +133,8 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                   </div>
                 )}
               </div>
-            </div>
-            <div className="row d-flex align-items-end mt-2 mx-2">
+            </div> */}
+            
               <div className="col-12">
                 <label className="text-terciary">
                   Descripción<span className="text-danger">*</span>
@@ -168,13 +154,13 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                   </div>
                 )}
               </div>
-            </div>
+            
             <div className="row d-flex align-items-end mt-2 mx-2">
               <div className="d-flex justify-content-end gap-4 ">
                 <button
                   type="submit"
                   className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                  onClick={()=> handlePage()}
+                  onClick={() => handlePage()}
                 >
                   Guardar
                 </button>
@@ -182,7 +168,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                   className="btn bg-gradient-primary text-white text-capitalize border rounded-pill px-3"
                   type="button"
                   onClick={handleCloseCrearOrganigrama}
-                  title="Send"
                 >
                   Regresar
                 </button>

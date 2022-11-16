@@ -15,6 +15,15 @@ import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
+const defaulValuesForm = {
+  tipoDocumento: null,
+  paisEmpresa: "",
+  id_persona: "",
+  tipoPersona: "",
+  municipioNotificacion: "",
+  digito_verificacion: ""
+}
+
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
@@ -31,13 +40,7 @@ const AdministradorDeEmpresasScreen = () => {
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
-  const [formValues, setFormValues] = useState({
-    tipoDocumento: null,
-    paisEmpresa: "",
-    id_persona: "",
-    tipoPersona: "",
-    municipioNotificacion: "",
-  });
+  const [formValues, setFormValues] = useState(defaulValuesForm);
   const {
     register: registerEmpresa,
     handleSubmit: handleSubmitEmpresa,
@@ -135,6 +138,7 @@ const AdministradorDeEmpresasScreen = () => {
         ),
         id_persona: dataEmpresa.id_persona,
         tipoPersona: dataEmpresa.tipo_persona,
+        digito_verificacion: dataEmpresa.digito_verificacion || ""
       });
       console.log("override data", defaultValuesOverrite);
       resetEmpresa(defaultValuesOverrite);
@@ -153,6 +157,7 @@ const AdministradorDeEmpresasScreen = () => {
         });
         if (!result.isConfirmed) {
           resetEmptyValues();
+          setFormValues(defaulValuesForm)
           return setActionForm(ACTION_CREAR);
         } else {
           return;
@@ -172,6 +177,7 @@ const AdministradorDeEmpresasScreen = () => {
         paisesOptions[formValues.paisEmpresa]?.value,
       cod_municipio_notificacion_nal:
         municipiosOptions[formValues.municipioNotificacion]?.value,
+      digito_verificacion: formValues.digito_verificacion
     };
 
     console.log("updated persona", updateEmpresa);
@@ -361,6 +367,21 @@ const AdministradorDeEmpresasScreen = () => {
     setActionForm(null);
   };
 
+  const handleMaxOneDigit = (e) => {
+    if(e.target.value.length > 1){
+      e.target.value = e.target.value[0]
+      setFormValues({
+        ...formValues,
+        digito_verificacion: e.target.value[0]
+      })
+    }else{
+      setFormValues({
+        ...formValues,
+        digito_verificacion: e.target.value
+      })
+    }
+  }
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -519,14 +540,16 @@ const AdministradorDeEmpresasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
-                        <label className="ms-2">Cod. verificacion:</label>
+                        <label className="ms-2">Digito verificacion:</label>
                         <input
                           className="form-control border rounded-pill px-3"
                           type="number"
+                          value={formValues.digito_verificacion}
                           disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("codVerificacion", {
-                            maxLength: 1,
-                          })}
+                          onChange={handleMaxOneDigit}
+                          // {...registerEmpresa("codVerificacion", {
+                          //   maxLength: 1,
+                          // })}
                         />
                         {errorsEmpresa.codVerificacion && (
                           <div className="col-12">

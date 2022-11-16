@@ -2,7 +2,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogoutAction } from "../actions/userActions";
-import LogoCormacarena from "../assets/logos/eps/LogoVertical.svg";
+import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
 import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
 import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
 import IconoSeguimientoPlanes from "../assets/planning-svgrepo-com.svg";
@@ -26,7 +26,7 @@ import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-veh
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
 import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
-import IconoUser from "../assets/user-svgrepo-com.svg";
+import IconoUser from "../assets/logos/user-svgrepo-com.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
@@ -52,37 +52,38 @@ const Aside = ({ showAside }) => {
       }}
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
-        <div className="sidenav-header">
-          <Link className="navbar-brand m-0" to="/dashboard">
+        <div className="sidenav-header text-center mb-2">
+          <Link className="m-0 text-center" to="/dashboard">
             <img
               src={LogoCormacarena}
-              className="navbar-brand-img h-100"
+              className="h-100"
               alt="main_logo"
+              style={{padding: "15px 0"}}
             />
-            <span className="ms-1 font-weight-bold text-white">
-              Bia - Cormacarena
-            </span>
           </Link>
         </div>
-        <hr className="horizontal light mt-0 mb-2" />
         <div
           className="collapse navbar-collapse w-auto h-auto"
           id="sidenav-collapse-main"
         >
           <ul className="navbar-nav">
+            <img src={IconoUser} className="px-5 mb-3" alt="user" />
             <li className="nav-item mb-2 mt-0">
               <a
                 data-bs-toggle="collapse"
                 href="#ProfileNav"
-                className="nav-link text-white"
+                className="text-white text-center"
                 aria-controls="ProfileNav"
                 role="button"
                 aria-expanded="false"
               >
-                <span className="sidenav-mini-icon">
+                {/* <span className="sidenav-mini-icon">
                   <img src={IconoUser} alt="user" />
                 </span>
                 <span className="nav-link-text ms-2 ps-1">
+                  {userInfo.nombre_de_usuario}
+                </span> */}
+                <span className="nav-link-text ms-2 ps-1 d-block text-center">
                   {userInfo.nombre_de_usuario}
                 </span>
               </a>
@@ -1911,7 +1912,8 @@ const Aside = ({ showAside }) => {
                               >
                                 <span className="sidenav-mini-icon"> V </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Gestion de Solicitudes de Material <br/> Vegetal
+                                  Gestion de Solicitudes de Material <br />{" "}
+                                  Vegetal
                                 </span>
                               </Link>
                             </li>
@@ -2084,20 +2086,20 @@ const Aside = ({ showAside }) => {
                   </a>
                   <div className="collapse " id="authExamples">
                     <ul className="nav ">
-                    <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="gestorDocumental/organigrama/crearorganigrama"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Crear <br /> Organigrama
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item ">
+                      <li className="nav-item">
+                        <Link
+                          className="nav-link text-white "
+                          to="gestordocumental/organigrama/crearorganigrama"
+                        >
+                          <span className="sidenav-mini-icon">
+                            <img src={Vineta} alt="vineta" />
+                          </span>
+                          <span className="sidenav-normal  ms-2  ps-1">
+                            Crear <br /> Organigrama
+                          </span>
+                        </Link>
+                      </li>
+                      <li className="nav-item ">
                         <a
                           className="nav-link text-white "
                           href="../../pages/applications/wizard.html"
@@ -2110,16 +2112,16 @@ const Aside = ({ showAside }) => {
                         </a>
                       </li>
                       <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="gestordocumental/edicion-organigrama"
-                              >
-                                <span className="sidenav-mini-icon"> V </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Edicion Organigrama
-                                </span>
-                              </Link>
-                            </li>
+                        <Link
+                          className="nav-link text-white "
+                          to="gestordocumental/organigrama/edicion-organigrama"
+                        >
+                          <span className="sidenav-mini-icon"> V </span>
+                          <span className="sidenav-normal  ms-2  ps-1">
+                            Edicion Organigrama
+                          </span>
+                        </Link>
+                      </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "

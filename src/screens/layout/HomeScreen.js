@@ -27,7 +27,7 @@ function HomeScreen() {
   }, []);
 
   return (
-    <div className="g-sidenav-show  bg-gray-200">
+    <div className="g-sidenav-show bg-terciary">
       <Aside showAside={showAside} />
       <main
         className={`main-content position-relative h-100 border-radius-lg pb-5 ${
@@ -35,7 +35,7 @@ function HomeScreen() {
         }`}
       >
         <Navbar setShowAside={setShowAside} showAside={showAside} />
-        <div className="container-fluid ">
+        <div className="container-fluid">
           {/* aqui debe ir lo que se renderiza condicional */}
           <Outlet />
         </div>

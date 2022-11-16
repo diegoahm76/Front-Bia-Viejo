@@ -29,7 +29,7 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       config
     );
     const { userinfo, permisos } = data;
-    userinfo.permisos = permisos;
+    userinfo.permisos = permisos
     dispatch(userLoginSuccess(userinfo));
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
@@ -64,10 +64,10 @@ export const getDataFromLocalStorage = () => (dispatch) => {
   dispatch(getDataLocalStorageRequest());
 
   const dataUserJSON = localStorage.getItem("userInfo");
-
   if (dataUserJSON) {
     const dataUser = JSON.parse(dataUserJSON);
-    dispatch(getDataLocalStorageSuccess(dataUser));
+    dataUser.userinfo.permisos = dataUser.permisos
+    dispatch(getDataLocalStorageSuccess(dataUser.userinfo));
   } else {
     dispatch(getDataLocalStorageNotFound());
   }

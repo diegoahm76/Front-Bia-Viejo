@@ -54,19 +54,18 @@ export const agregarOrganigramaAction = (organigrama) => {
     dispatch(agregarOrganigrama());
 
     try {
-      await clienteAxios.post("almacen/organigrama/create/", organigrama);
-
-      console.log("FUNCIONA", organigrama);      
-      dispatch(agregarOrganigramaExito(organigrama));
-      Swal.fire("Correcto", "El usuario se agrego correctamente", "success");
+      const {data: dataCreateOrganimgrama } = await clienteAxios.post("almacen/organigrama/create/", organigrama);
+      console.log("dataCreate", dataCreateOrganimgrama);
+      dispatch(obtenerOrganigramaAction())
+      Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
     } catch (error) {
       console.log(error);
       dispatch(agregarOrganigramaError(true));
       Swal.fire({
         icon: "error",
         title: "hubo un error",
-        // text: error.response.data,
-    })
+        text: error?.response?.data?.detail,
+      });
     }
   };
 };
@@ -75,10 +74,6 @@ const agregarOrganigrama = () => ({
   type: AGREGAR_ORGANIGRAMA,
 });
 
-const agregarOrganigramaExito = (organigrama) => ({
-  type: AGREGAR_ORGANIGRAMA_EXITO,
-  payload: organigrama,
-});
 const agregarOrganigramaError = (estado) => ({
   type: AGREGAR_ORGANIGRAMA_ERROR,
   payload: estado,

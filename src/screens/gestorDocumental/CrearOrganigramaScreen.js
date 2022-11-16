@@ -1,75 +1,21 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import EliminarUsuarioModal from "../../components/EliminarUsuarioModal";
-import NuevoUsuarioModal from "../../components/NuevoUsuarioModal";
+import { obtenerOrganigramaAction } from "../../actions/organigramaActions";
 
-import EditarUsuarioModal from "../../components/EditarUsuarioModal";
-import { useForm } from "react-hook-form";
-// import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
-// import clienteAxios from "../../config/clienteAxios";
-// import { getConfigAuthBearer } from "../../helpers/configAxios";
-import {
-  obtenerOrganigramaAction,
-  eliminarOrganigramaAction,
-  // obtenerOrganigramaEditarAction,
-}
-  from '../../actions/crearOrganigramaActions'
+function CrearOrganigramaScreen() {
 
-
-const CrearOrganigramaScreen = () => {
-
-  const [isModalActive, setIsModalActive] = useState(false);
-  const [isModalEditarActive, setIsModalEditarActive] = useState(false);
-  const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
-
-  const {  handleSubmit } = useForm();
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(obtenerOrganigramaAction());
-  }, []);
-
-  // const { organigrama } = useSelector((state) => state.organigrama);
+  const dispatch = useDispatch();
 
 
-  // const accessToken = getTokenAccessLocalStorage();
-  // const config = getConfigAuthBearer(accessToken);
-
-  // const getOrganigramasList = async () => {
-  //   try {
-  //     const { data: dataOrganigrama } = await clienteAxios.get(
-  //       "/almacen/organigrama/create",
-  //       config
-  //     );
-  //     setOrganigrama(dataOrganigrama);
-  //     console.log(dataOrganigrama)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-
-
-  const handleEditPage = () => {
-    navigate("/dashboard/gestorDocumental/organigrama/edicion-organigrama");
-  }
-
-
-  const onSubmit = (data) => { };
-
-
-
-  //const [selecOpciones, setSelecOpciones] = useState();
 
   useEffect(() => {
     const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
@@ -143,21 +89,6 @@ const CrearOrganigramaScreen = () => {
       minWidth: 105,
       maxWidth: 120,
       wrapText: true,
-      // cellRendererFramework: (params) => (
-      //   <div className="d-flex gap-1">
-      //     <button
-      //       className="btn my-2 btn-sm btn-tablas btn-outline-primary text-capitalize"
-      //       type="button"
-      //       onClick={() => {
-      //         // dispatch(obtenerEstacionEditarAction(params.data));
-      //         // setIsModalEditarActivate(!isModalActive);
-      //       }}
-      //     >
-      //       Ver
-      //       {/* <img src={IconoDocumento} alt="documento" /> */}
-      //     </button>
-      //   </div>
-      // ),
     },
     {
       headerName: "Actual",
@@ -178,28 +109,14 @@ const CrearOrganigramaScreen = () => {
           <button
             className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
-            title="Send"
-            form="configForm"
             onClick={() => {
-              handleEditPage();
-              setIsModalEditarActive(!isModalEditarActive);
+              navigate("/dashboard/gestordocumental/organigrama/edicion-organigrama");
+
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              // setIsModalEditarActivate(!isModalActive);
             }}
-
-          // dispatch(obtenerEstacionEditarAction(params.data));
-          // setIsModalEditarActivate(!isModalActive);
-
           >
             <img src={IconoEditar} alt="editar" />
-          </button>
-          <button
-            className="btn my-1 btn-sm btn-tablas btn-outline-danger"
-            type="button"
-            onClick={() => {
-              dispatch(eliminarOrganigramaAction(params.data));
-              // setIsModalEliminarActive(!isModalActive);
-            }}
-          >
-            <img src={IconoEliminar} alt="eliminar" />
           </button>
         </div>
       ),
@@ -208,30 +125,27 @@ const CrearOrganigramaScreen = () => {
 
   const defaultColDef = {
     sortable: true,
-    editable: true,
     flex: 1,
-    filter: false,
-    floatingFilter: false,
-    resizable: true,
+    filter: true,
     wrapHeaderText: true,
-    autoHeaderHeight: true,
-    rowSelection: "multiple",
-    suppressRowClickSelection: true,
+    resizable: true,
+    initialWidth: 200,
+    autoHeaderHeight: false,
+    suppressMovable: true,
   };
 
-
+  // PARA MODALES SE USA ESTE CODIGO
   const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] =
     useState(false);
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
+        {/*  CUERPO DEL FORMULARIO  */}
 
-        <form
+        <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
-          onSubmit={handleSubmit(onSubmit)}
-          id="configForm"
         >
           <h3 className="mt-3 text-start mb-3 fw-light ms-3">
             Crear Organigrama
@@ -257,31 +171,23 @@ const CrearOrganigramaScreen = () => {
           <div id="myGrid" className="ag-theme-alpine mt-2">
             <div
               className="ag-theme-alpine my-1 mx-3"
-              style={{ height: "450px" }}
+              style={{ height: "550px" }}
             >
               <AgGridReact
                 columnDefs={columnDefs}
                 rowData={organigrama}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
-                // onGridReady={onGridReady}
+                pagination = { true }
+                paginationPageSize={10}
               ></AgGridReact>
             </div>
           </div>
-        </form>
+        </div>
 
         <CrearItemOrganigramaModal
           isModalActive={crearOrganigramaIsActive}
           setIsModalActive={setCrearOrganigramaIsActive}
-        />
-        <NuevoUsuarioModal
-          setIsModalActive={setIsModalActive}
-          isModalActive={isModalActive}
-        />
-
-        <EliminarUsuarioModal
-          setIsModalActive={setIsModalEliminarActive}
-          isModalActive={isModalEliminarActive}
         />
       </div>
     </div>

@@ -1,12 +1,25 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import EditarUnidadesModal from '../../components/EditarUnidadesOrganizacionalesModal'
+import EliminarUnidadModal from "../../components/EliminarUnidadesOrganizacionales";
+import NuevoUsuarioModal from "../../components/NuevoUsuarioModal";
+
 
 export const EdicionOrganigramaScreen = () => {
+
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
+  const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] = useState(false);
+
+  const dispatch = useDispatch();
+
+
   const {
     register,
     setError,
@@ -16,6 +29,9 @@ export const EdicionOrganigramaScreen = () => {
   } = useForm();
 
   const submit = (data) => {
+    console.log(data);
+  };
+  const submit2 = (data) => {
     console.log(data);
   };
 
@@ -36,46 +52,58 @@ export const EdicionOrganigramaScreen = () => {
     gridApi = params.api;
   };
 
+  // useEffect(() => {
+  //   const getDatosOrganigrama = () => dispatch(obtenerOrganigramaAction());
+  //   getDatosOrganigrama();
+  // }, []);
+
+  // const { unidad } = useSelector((state) => state.unidad);
+
   const columnasOrganigrama = [
     { headerName: "Niveles", field: "level", minWidth: 100, maxWidth: 100 },
     { headerName: "Nombre", field: "nameLevel", minWidth: 355, maxWidth: 355 },
-    { headerName: "", field: "editar", minWidth: 140, maxWidth: 140, cellRendererFramework: (params) => (
-      <div className="d-flex gap-1">
-        <button
-          className="btn btn-sm btn-tablas btn-outline-warning "
-          type="button"
-          onClick={() => {
-            // dispatch(obtenerEstacionEditarAction(params.data));
-            // setIsModalEditarActivate(!isModalActive);
-          }}
-        >
-          <img src={IconoEditar} alt="editar" />
-        </button>
-        <button
-          className="btn btn-sm btn-tablas btn-outline-danger"
-          type="button"
-          onClick={() => {
-          // confirmarEliminarRol(params.data.id_rol);
-          }}
-        >
-          <img src={IconoEliminar} alt="eliminar" />
-        </button>
-      </div>
-    ), },
+    {
+      headerName: "",
+      field: "editar",
+      minWidth: 140,
+      maxWidth: 140,
+      cellRendererFramework: (params) => (
+        <div className="d-flex gap-1">
+          <button
+            className="btn btn-sm btn-tablas btn-outline-warning "
+            type="button"
+            onClick={() => {
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              // setIsModalEditarActivate(!isModalActive);
+            }}
+          >
+            <img src={IconoEditar} alt="editar" />
+          </button>
+          <button
+            className="btn btn-sm btn-tablas btn-outline-danger"
+            type="button"
+            onClick={() => {
+              // confirmarEliminarRol(params.data.id_rol);
+            }}
+          >
+            <img src={IconoEliminar} alt="eliminar" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
-  const [rowDataOrganigrama] = useState([
-    {
-      level: "1",
-      nameLevel: "Direccion General",
-    },
-    {
-      level: "2",
-      nameLevel: "Oficina Juridica",
-    },
-  ]);
+  const [rowDataOrganigrama] = useState([]);
 
   const rowData = [
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
     { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
     { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
   ];
@@ -103,42 +131,42 @@ export const EdicionOrganigramaScreen = () => {
   ];
 
   const columnDefs = [
-    { headerName: "Código", field: "CO", minWidth:100,maxWidth:100},
+    { headerName: "Código", field: "CO", minWidth: 100, maxWidth: 100 },
     { headerName: "Nombre", field: "NO" },
-    { headerName: "", field: "editar", minWidth: 140, maxWidth: 140, cellRendererFramework: (params) => (
-      <div className="d-flex gap-1">
-        <button
-          className="btn btn-sm btn-tablas btn-outline-warning "
-          type="button"
-          onClick={() => {
-            // dispatch(obtenerEstacionEditarAction(params.data));
-            // setIsModalEditarActivate(!isModalActive);
-          }}
-        >
-          <img src={IconoEditar} alt="editar" />
-        </button>
-        <button
-          className="btn btn-sm btn-tablas btn-outline-danger"
-          type="button"
-          onClick={() => {
-          // confirmarEliminarRol(params.data.id_rol);
-          }}
-        >
-          <img src={IconoEliminar} alt="eliminar" />
-        </button>
-      </div>
-    ), },
+    {
+      headerName: "",
+      field: "editar",
+      minWidth: 140,
+      maxWidth: 140,
+      cellRendererFramework: (params) => (
+        <div className="d-flex gap-1">
+          <button
+            className="btn btn-sm btn-tablas btn-outline-warning "
+            type="button"
+            onClick={() => setCrearOrganigramaIsActive(true)}
+
+          >
+            <img src={IconoEditar} alt="editar" />
+          </button>
+          <button
+            className="btn btn-sm btn-tablas btn-outline-danger"
+            type="button"
+            onClick={() => {
+              setIsModalEliminarActive(!isModalActive);
+            }}
+          >
+            <img src={IconoEliminar} alt="eliminar" />
+          </button>
+        </div>
+      ),
+    },
   ];
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <form
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-          data-animation="FadeIn"
-          onSubmit={handleSubmit(submit)}
-          id="configForm"
-        >
+      <div className="col-lg-12 mx-auto">
+        <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+
           <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">
             Edición de Organigrama
           </h3>
@@ -188,244 +216,248 @@ export const EdicionOrganigramaScreen = () => {
               <p className="text-danger">Este campo es obligatorio</p>
             )}
           </div>
-          <div className="row mt-3 ">
-            <div
-              className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-5 ms-1"
-              style={{
-                backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
-              }}
-              data-bs-toggle="collapse"
-              aria-expanded="false"
-              href="#Niveles"
-            >
-              {" "}
-              Niveles Organizacionales
-            </div>
-            
-            
-            
-            <div className="row mt-3 ms-2 collapse" id="Niveles">
-              <div className="col-12  col-md-4">
-                <label className="text-terciary fw-bolder">Niveles</label>
-                <br />
-                <label className="text terciary">Nivel 3</label>
-                <input
-                  className="form-control border rounded-pill px-3 border border-terciary"
-                  type="text"
-                  placeholder="Nombre nivel organizacional"
-                  rules={{ required: true }}
-                  {...register("nivel")}
-                />
-                <button className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
-                  agregar
-                </button>
+          <form className="row" onSubmit={handleSubmit(submit)}>
+
+            <div className="row mt-3 ">
+              <div
+                className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-5 ms-1"
+                style={{
+                  backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
+                }}
+                data-bs-toggle="collapse"
+                aria-expanded="false"
+                href="#Niveles"
+              >
+                {" "}
+                Niveles Organizacionales
               </div>
-              <div className="col ">
-                <label className="text-terciary fw-bolder">Resumen</label>
-                <div id="myGrid" className="ag-theme-alpine ">
+
+              <div className="row mt-3 ms-2 collapse" id="Niveles">
+                <div className="col-12  col-md-4">
+                  <label className="text-terciary fw-bolder">Niveles</label>
+                  <br />
+                  <label className="text terciary">Nivel 3</label>
+                  <input
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    type="text"
+                    placeholder="Nombre nivel organizacional"
+                    rules={{ required: true }}
+                    {...register("nivel")}
+                  />
+                  <button className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
+                    agregar
+                  </button>
+                </div>
+                <div className="col ">
+                  <label className="text-terciary fw-bolder">Resumen</label>
+                  <div id="myGrid" className="ag-theme-alpine ">
+                    <div
+                      className="ag-theme-alpine"
+                      style={{ height: "250px", maxWidth: "600px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnasOrganigrama}
+                        rowData={rowDataOrganigrama}
+                        defaultColDef={defaultColDef}
+                        onGridReady={onGridReady}
+                      ></AgGridReact>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+
+          <form className="row" onSubmit={handleSubmit(submit)}>
+
+            <div className="row mt-3 ">
+              <div
+                className="border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-10 ms-1"
+                style={{
+                  backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
+                }}
+                data-bs-toggle="collapse"
+                aria-expanded="false"
+                href="#Unidades"
+              >
+                {" "}
+                Unidades Organizacionales
+              </div>
+
+              <div className="row mt-3 ms-2 collapse" id="Unidades">
+                <div className="row d-flex align-items-end mt-2 mx-2">
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Código:</label>
+                    <input
+                      type="text"
+                      className="form-control border border-terciary rounded-pill px-3"
+                      // placeholder="Escribe el nombre"
+                      {...register("codigo", { required: true })}
+                    />
+                    {errors.nombreVivero && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Nombre:</label>
+                    <input
+                      type="text"
+                      className="form-control border border-terciary rounded-pill px-3"
+                      // placeholder="Escribe el codigo"
+                      {...register("nombre", { required: true })}
+                    />
+                    {errors.nombreVivero && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="row d-flex align-items-end mt-2 mx-2">
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Tipo de unidad:</label>
+                    <Controller
+                      name="tipoUnidad"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={options}
+                          placeholder="Seleccionar"
+                          {...register("tipoUnidad", { required: true })}
+                        />
+                      )}
+                    />
+                    {errors.municipioOpcion && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Nivel de la unidad:</label>
+                    <Controller
+                      name="nivelUnidad"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionLevel}
+                          placeholder="Seleccionar"
+                          {...register("nivelUnidad", { required: true })}
+                        />
+                      )}
+                    />
+                    {errors.municipioOpcion && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+                </div>
+                <div className="row d-flex align-items-end mt-2 mx-2">
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Unidad Raiz:</label>
+                    <Controller
+                      name="unidadRaiz"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionRaiz}
+                          placeholder="Seleccionar"
+                          {...register("unidadRaiz", { required: true })}
+                        />
+                      )}
+                    />
+                    {errors.municipioOpcion && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">
+                      Agrupación documental:
+                    </label>
+                    <Controller
+                      name="agrupacionDocumental"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionGroup}
+                          placeholder="Seleccionar"
+                          {...register("agrupacionDocumental", {
+                            required: true,
+                          })}
+                        />
+                      )}
+                    />
+                    {errors.municipioOpcion && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+                </div>
+                <div className="row d-flex align-items-end mt-2 mx-2">
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Unidad padre:</label>
+                    <Controller
+                      name="nivelPadre"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionLevel}
+                          placeholder="Seleccionar"
+                          {...register("Seleccionar", { required: true })}
+                        />
+                      )}
+                    />
+                    {errors.municipioOpcion && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+                  <div className="col-12 col-md-6 mb-3">
+                    <label className="text-terciary">Unidad:</label>
+                    <Controller
+                      name="unidadPadre"
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          options={optionLevel}
+                          placeholder="Seleccionar"
+                          {...register("unidadPadre", { required: true })}
+                        />
+                      )}
+                    />
+                    {errors.municipioOpcion && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
+                  </div>
+                </div>
+                <div className="row d-flex align-items-end mt-2 mx-2">
                   <div
-                    className="ag-theme-alpine"
-                    style={{ height: "250px", maxWidth: "600px" }}
+                    className="ag-theme-alpine mb-3 "
+                    style={{ height: "520px" }}
                   >
                     <AgGridReact
-                      columnDefs={columnasOrganigrama}
-                      rowData={rowDataOrganigrama}
+                      columnDefs={columnDefs}
+                      rowData={rowData}
+                      debounceVerticalScrollbar={true}
                       defaultColDef={defaultColDef}
-                      onGridReady={onGridReady}
+                      pagination={true}
+                      paginationPageSize={10}
                     ></AgGridReact>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
 
-          <div className="row mt-3 ">
-            <div
-              className="border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-10 ms-1" 
-              style={{
-                backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
-              }}
-              data-bs-toggle="collapse"
-              aria-expanded="false"
-              href="#Unidades"
-            >
-              {" "}
-              Unidades Organizacionales
-            </div>
-
-            <div className="row mt-3 ms-2 collapse" id="Unidades">
-              <div className="row d-flex align-items-end mt-2 mx-2">
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Código:</label>
-                  <input
-                    type="text"
-                    className="form-control border border-terciary rounded-pill px-3"
-                    // placeholder="Escribe el nombre"
-                    {...register("codigo", { required: true })}
-                  />
-                  {errors.nombreVivero && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Nombre:</label>
-                  <input
-                    type="text"
-                    className="form-control border border-terciary rounded-pill px-3"
-                    // placeholder="Escribe el codigo"
-                    {...register("nombre", { required: true })}
-                  />
-                  {errors.nombreVivero && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Tipo de unidad:</label>
-                  <Controller
-                    name="tipoUnidad"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={options}
-                        placeholder="Seleccionar"
-                        {...register("tipoUnidad", { required: true })}
-                      />
-                    )}
-                  />
-                  {errors.municipioOpcion && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Nivel de la unidad:</label>
-                  <Controller
-                    name="nivelUnidad"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionLevel}
-                        placeholder="Seleccionar"
-                        {...register("nivelUnidad", { required: true })}
-                      />
-                    )}
-                  />
-                  {errors.municipioOpcion && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-              </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
-              <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Unidad Raiz:</label>
-                  <Controller
-                    name="unidadRaiz"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionRaiz}
-                        placeholder="Seleccionar"
-                        {...register("unidadRaiz", { required: true })}
-                      />
-                    )}
-                  />
-                  {errors.municipioOpcion && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-               
-               
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">
-                    Agrupación documental:
-                  </label>
-                  <Controller
-                    name="agrupacionDocumental"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionGroup}
-                        placeholder="Seleccionar"
-                        {...register("agrupacionDocumental", {
-                          required: true,
-                        })}
-                      />
-                    )}
-                  />
-                  {errors.municipioOpcion && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-                
-              </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
-              <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Unidad padre:</label>
-                  <Controller
-                    name="nivelPadre"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionLevel}
-                        placeholder="Seleccionar"
-                        {...register("Seleccionar", { required: true })}
-                      />
-                    )}
-                  />
-                  {errors.municipioOpcion && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Unidad:</label>
-                  <Controller
-                    name="unidadPadre"
-                    control={control}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={optionLevel}
-                        placeholder="Seleccionar"
-                        {...register("unidadPadre", { required: true })}
-                      />
-                    )}
-                  />
-                  {errors.municipioOpcion && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-               
-              </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
-                <div
-                  className="ag-theme-alpine mb-3 "
-                  style={{ height: "225px" }}
-                >
-                  <AgGridReact
-                    columnDefs={columnDefs}
-                    rowData={rowData}
-                    defaultColDef={defaultColDef}
-                    onGridReady={onGridReady}
-                    // handleAddGrid={handleAddGrid}
-                  ></AgGridReact>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div className="row mt-3">
             <div className="d-flex justify-content-end gap-2 mt-4">
@@ -450,7 +482,19 @@ export const EdicionOrganigramaScreen = () => {
               </button>
             </div>
           </div>
-        </form>
+        </div>
+        <NuevoUsuarioModal
+        setIsModalActive={setIsModalActive}
+        isModalActive={isModalActive}
+      />
+        <EditarUnidadesModal
+          isModalActive={crearOrganigramaIsActive}
+          setIsModalActive={setCrearOrganigramaIsActive}
+        />
+        <EliminarUnidadModal
+          setIsModalActive={setIsModalEliminarActive}
+          isModalActive={isModalEliminarActive}
+        />
       </div>
     </div>
   );

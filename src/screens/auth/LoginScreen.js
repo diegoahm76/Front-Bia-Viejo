@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
-import LogoCormacarena from "../../assets/LogosBIAPNG/manualbia-14.png";
+import LogoCormacarena from "../../assets/LogosBIAPNG/Web-Bia-logo.png";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -71,14 +71,16 @@ function LoginScreen() {
         <div className="row">
           <div className="col-lg-4 col-md-8 col-12 mx-auto">
             <div
-              className="card fadeIn3 fadeInBottom"
+              className="card fadeIn3 fadeInBottom align-items-center"
               style={{
                 backgroundColor: "rgb(4,47,74)",
                 border: "none",
                 boxShadow: "none",
               }}
             >
-              <img src={LogoCormacarena} alt="logo cormacarena" />
+              <div className="mb-4" style={{width: "200px"}}>
+                <img src={LogoCormacarena} className="aspect-ratio" alt="logo cormacarena"/>
+              </div>
             </div>
             <div
               className="card z-index-0 fadeIn3 fadeInBottom"
