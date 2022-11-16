@@ -70,7 +70,7 @@ const AdministradorDeEmpresasScreen = () => {
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
-      const { data: dataEmpresa } = dataEmpresa-Object;
+      const { data: dataEmpresa } = dataEmpresaObject;
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
@@ -121,7 +121,6 @@ const AdministradorDeEmpresasScreen = () => {
         ),
         id_persona: dataEmpresa.id_persona,
         tipoPersona: dataEmpresa.tipo_persona,
-        digito_verificacion: dataEmpresa.digito_verificacion || ""
       });
       console.log("override data", defaultValuesOverrite);
       resetEmpresa(defaultValuesOverrite);
@@ -161,7 +160,7 @@ const AdministradorDeEmpresasScreen = () => {
         paisesOptions[formValues.paisEmpresa]?.value,
       cod_municipio_notificacion_nal:
         municipiosOptions[formValues.municipioNotificacion]?.value,
-      digito_verificacion: formValues.digito_verificacion
+      digito_verificacion: data.digito_verificacion
     };
 
     console.log("updated persona", updateEmpresa);
@@ -370,6 +369,13 @@ const AdministradorDeEmpresasScreen = () => {
     }
   }
 
+  useEffect(() => {
+    if(!watchEmpresa("digito_verificacion")) return
+    if(watchEmpresa("digito_verificacion").length > 1) {
+      resetEmpresa({...watchEmpresa, digito_verificacion: watchEmpresa("digito_verificacion")[0]})
+    }
+  }, [watchEmpresa("digito_verificacion")])
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -528,22 +534,22 @@ const AdministradorDeEmpresasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
-                        <label className="ms-2">Digito verificacion:</label>
+                        <label className="ms-2">Digito verificacion: <span className="text-danger">*</span></label>
                         <input
                           className="form-control border rounded-pill px-3"
                           type="number"
-                          value={formValues.digito_verificacion}
                           disabled={actionForm === ACTION_EDITAR}
-                          onChange={handleMaxOneDigit}
-                          // {...registerEmpresa("codVerificacion", {
-                          //   maxLength: 1,
-                          // })}
+                          // value={formValues.digito_verificacion}
+                          // onChange={handleMaxOneDigit}
+                          {...registerEmpresa("digito_verificacion", {
+                            required: true,
+                            maxLength: 1
+                          })}
                         />
-                        {errorsEmpresa.codVerificacion && (
+                        {errorsEmpresa.digito_verificacion && (
                           <div className="col-12">
                             <small className="text-center text-danger">
-                              Este campo es obligatorio, con numeros y de un
-                              carácter
+                              Este campo es obligatorio y de un caracter
                             </small>
                           </div>
                         )}
@@ -642,6 +648,13 @@ const AdministradorDeEmpresasScreen = () => {
                         })}
                       />
                     </div>
+                    {errorsEmpresa.celular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio y de un caracter
+                        </small>
+                      </div>
+                    )}
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
