@@ -133,14 +133,15 @@ const DirecionResidenciaModal = ({
   ];
 
   const {
-    handleSubmit,
     control,
-    reset: resetDireccion,
+    handleSubmit,
+    register,
+    reset: resetDirection,
+    watch: watchDirection,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (e) => {
-    e.preventDefault();
     const completeAddressWithoutWhiteSpaces = completeAddress
       .trim()
       .split("")
@@ -161,9 +162,16 @@ const DirecionResidenciaModal = ({
       ...watch(),
       [keyReset]: completeAddressWithoutWhiteSpaces,
     };
-    console.log("object de reseteo", dataReset);
+
     reset(dataReset);
     setIsModalActive(false);
+    resetDirection({
+      direccion: "",
+      ubicacion: "",
+      nombre: "",
+      residencia: ""
+    })
+    setSelecDireccion("")
   };
 
   const formatChoisesJuanDavid = (objectChoise) => {
@@ -173,6 +181,11 @@ const DirecionResidenciaModal = ({
     }));
     return data;
   };
+
+  const handleChangeTypeLocation = (e) => {
+    setSelecDireccion(e)
+    resetDirection({...watchDirection(), direccion: e})
+  }
 
   useEffect(() => {
     const getDataDirecciones = async () => {
@@ -196,26 +209,7 @@ const DirecionResidenciaModal = ({
     };
     getDataDirecciones();
   }, []);
-  // const resetDefaultValues = () => {
-  //   resetDireccion({
-  //     ubicacion: "",
-  //     nombreUbicacion: "",
-  //     residencia: "",
-  //     numeroResidencia: "",
-  //     complementoRural: "",
 
-  //     principal: "",
-  //     numero: "",
-  //     letra1: "",
-  //     orientacion: "",
-  //     numero2: "",
-  //     letra2: "",
-  //     numeroSecundario: "",
-  //     orientacion2: "",
-  //     complemento: "",
-  //     adicional: "",
-  //   });
-  // };
   useEffect(() => {
     let fullAddress = "";
     if (selecDireccion.value === "urb") {
@@ -233,6 +227,7 @@ const DirecionResidenciaModal = ({
       setCompleteAddress(fullAddress);
     } else if (selecDireccion.value === "rur") {
       orderRural.forEach((field) => {
+        console.log(field)
         const dataField = formValues[field];
         const dataFieldTrim = dataField?.trim() ?? "";
         if (dataFieldTrim) {
@@ -262,16 +257,16 @@ const DirecionResidenciaModal = ({
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
-              Direccion de recidencia
+              Dirección de residencia
             </h3>
 
             <div className="row ">
               <div className="col-12 col-md-6">
                 <label className="text-terciary form-control ms-0">
-                  Selecione :
+                  Selecione: <span className="text-danger">*</span>
                 </label>
                 <Controller
                   name="direccion"
@@ -280,7 +275,7 @@ const DirecionResidenciaModal = ({
                   render={({ field }) => (
                     <Select
                       {...field}
-                      onChange={setSelecDireccion}
+                      onChange={handleChangeTypeLocation}
                       options={valores1}
                       placeholder="Seleccionar"
                     />
@@ -300,6 +295,7 @@ const DirecionResidenciaModal = ({
                     <Controller
                       name="ubicacion"
                       control={control}
+                      rules={{required: true}}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -309,33 +305,41 @@ const DirecionResidenciaModal = ({
                               ...formValues,
                               ubicacion: e.value,
                             });
+                            resetDirection({...watchDirection(), ubicacion: e})
                           }}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
-                    {errors.municipioOpcion && (
+                    {errors.ubicacion && (
                       <p className="text-danger">Este campo es obligatorio</p>
                     )}
                   </div>
                   <div className="col-12 col-md-6 mb-3">
-                    <label className="text-terciary">Nombre:</label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          nombreUbicacion: e.target.value,
-                        });
-                      }}
-                    />
+                    <div>
+                      <label className="text-terciary">Nombre: <span className="text-danger">*</span></label>
+                      <input
+                        type="text"
+                        className="form-control border border-terciary rounded-pill px-3"
+                        {...register("nombre", {required: true})}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            nombreUbicacion: e.target.value,
+                          });
+                          resetDirection({...watchDirection(), nombre: e.target.value})
+                        }}
+                      />
+                    </div>
+                    {errors.nombre && (
+                      <p className="text-danger">Este campo es obligatorio</p>
+                    )}
                   </div>
                 </div>
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-6 mb-3">
                     <label className="text-terciary">
-                      Residencia: <span className="text-danger">*</span>
+                      Residencia:
                     </label>
                     <Controller
                       name="residencia"
@@ -396,10 +400,11 @@ const DirecionResidenciaModal = ({
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Principal:</label>
+                    <label className="text-terciary">Principal: <span className="text-danger">*</span></label>
                     <Controller
                       name="principal"
                       control={control}
+                      rules={{required: true}}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -409,25 +414,44 @@ const DirecionResidenciaModal = ({
                               ...formValues,
                               principal: e.value,
                             });
+                            resetDirection({...watchDirection(), principal: e})
                           }}
                           placeholder="Selecciona"
                         />
                       )}
                     />
+                    {errors.principal && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Numero:</label>
-                    <input
-                      type="number"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      onChange={(e) => {
-                        setFormValues({
-                          ...formValues,
-                          numero: e.target.value,
-                        });
-                      }}
-                    />
+                    <div>
+                      <label className="text-terciary">Numero: <span className="text-danger">*</span></label>
+                      <input
+                        type="number"
+                        className="form-control border border-terciary rounded-pill px-3"
+                        {...register("numero", {required: true})}
+                        onChange={(e) => {
+                          setFormValues({
+                            ...formValues,
+                            numero: e.target.value,
+                          });
+                          resetDirection({...watchDirection(), numero: e.target.value})
+                        }}
+                      />
+                    </div>
+                    {errors.numero && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -636,7 +660,16 @@ const DirecionResidenciaModal = ({
             <div className="mt-3 d-flex justify-content-end gap-2">
               <button
                 type="button"
-                onClick={() => setIsModalActive(false)}
+                onClick={() => {
+                  setIsModalActive(false)
+                  resetDirection({
+                    direccion: "",
+                    ubicacion: "",
+                    nombre: "",
+                    residencia: ""
+                  })
+                  setSelecDireccion("")
+                }}
                 className="btn bg-gradient-light text-capitalize"
               >
                 Cancelar

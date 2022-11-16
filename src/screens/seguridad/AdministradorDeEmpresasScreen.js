@@ -26,6 +26,7 @@ const defaulValuesForm = {
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
     useState(false);
   const [direccionEmpresaIsOpen, setDireccionEmpresaIsOpen] = useState(false);
@@ -63,31 +64,13 @@ const AdministradorDeEmpresasScreen = () => {
   const ACTION_CREAR = "crear";
 
   const onSubmitBuscar = async (data) => {
+    setLoading(true)
     try {
       const { data: dataEmpresaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
       const { data: dataEmpresa } = dataEmpresaObject;
-
-      // if (!dataEmpresa) {
-      //   const result = await Swal.fire({
-      //     title: "No existe una empresa con estos datos",
-      //     text: "¿Quiere seguir buscando o quiere crear una empresa?",
-      //     icon: "warning",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Seguir",
-      //     cancelButtonText: "Crear",
-      //   });
-      //   if (!result.isConfirmed) {
-      //     resetEmptyValues();
-      //     return setActionForm(ACTION_CREAR);
-      //   } else {
-      //     return;
-      //   }
-      // }
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
@@ -164,9 +147,11 @@ const AdministradorDeEmpresasScreen = () => {
         }
       }
     }
+    setLoading(false)
   };
 
   const onSubmitEmpresa = async (data) => {
+    setLoading(true)
     const dataUpdateInputs = dataUpdateEmpresaAdapter(data);
     const updateEmpresa = {
       ...dataUpdateInputs,
@@ -224,6 +209,7 @@ const AdministradorDeEmpresasScreen = () => {
         manejadorErroresSwitAlert(err);
       }
     }
+    setLoading(false)
   };
 
   const manejadorErroresSwitAlert = (err) => {
@@ -326,6 +312,7 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true)
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -347,6 +334,7 @@ const AdministradorDeEmpresasScreen = () => {
       } catch (err) {
         console.log(err);
       }
+      setLoading(false)
     };
     getSelectsOptions();
   }, []);
@@ -777,16 +765,40 @@ const AdministradorDeEmpresasScreen = () => {
                   <button
                     className="btn bg-gradient-light mb-0 d-block text-capitalize"
                     type="button"
+                    disabled={loading}
                     onClick={handleCancelAction}
                   >
-                    Cancelar
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Cancelar"
+                      )}
                   </button>
 
                   <button
                     className="btn bg-gradient-primary mb-0 d-block text-capitalize"
                     type="submit"
+                    disabled={loading}
                   >
-                    {actionForm === ACTION_EDITAR ? "Actualizar" : "Crear"}
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        actionForm === ACTION_EDITAR ? "Actualizar" : "Crear"
+                      )}
                   </button>
                 </div>
               </form>
