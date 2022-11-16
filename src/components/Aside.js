@@ -2035,16 +2035,16 @@ const Aside = ({ showAside }) => {
                         <div className="collapse " id="CentroNotificaciones">
                           <ul className="nav nav-sm flex-column">
                             <li className="nav-item">
-                              <a
+                              <Link
                                 className="nav-link text-white "
-                                href="../../pages/pages/vr/vr-default.html"
+                                to="conservacion/notificaciones/centrodenotificaciones"
                               >
                                 <span className="sidenav-mini-icon"> V </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   {" "}
-                                  VR Default{" "}
+                                  Notificaciones{" "}
                                 </span>
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
                               <a
@@ -2114,7 +2114,7 @@ const Aside = ({ showAside }) => {
                       <li className="nav-item">
                         <Link
                           className="nav-link text-white "
-                          to="gestordocumental/edicion-organigrama"
+                          to="gestordocumental/organigrama/edicion-organigrama"
                         >
                           <span className="sidenav-mini-icon"> V </span>
                           <span className="sidenav-normal  ms-2  ps-1">
