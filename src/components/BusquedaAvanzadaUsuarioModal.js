@@ -145,7 +145,7 @@ const BusquedaAvanzadaUsuarioModal = ({
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
-      <div className="row ">
+      <div className="row position-relative">
         <div className="col-12 mx-auto">
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -232,6 +232,14 @@ const BusquedaAvanzadaUsuarioModal = ({
                 </button>
               </div>
             </div>
+            <p
+              className="text-danger cursor-click text-capitalize position-absolute top-0 end-0 fs-4"
+              onClick={() => handleCloseModal()}
+            >
+              <b>
+                X
+              </b>
+            </p>
           </form>
         </div>
       </div>

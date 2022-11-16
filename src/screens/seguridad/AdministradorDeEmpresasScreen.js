@@ -70,7 +70,7 @@ const AdministradorDeEmpresasScreen = () => {
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
-      const { data: dataEmpresa } = dataEmpresaObject;
+      const { data: dataEmpresa } = dataEmpresa-Object;
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
