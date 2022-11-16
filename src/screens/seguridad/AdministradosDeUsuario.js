@@ -31,6 +31,7 @@ const defaultDataOverride = {
 
 const AdministradosDeUsuario = () => {
   const { id_usuario } = useSelector((state) => state.user.user);
+  const [loading, setLoading] = useState(false);
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -69,6 +70,7 @@ const AdministradosDeUsuario = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true)
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -89,15 +91,17 @@ const AdministradosDeUsuario = () => {
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
+        setLoading(false)
       } catch (err) {
         console.log(err);
+        setLoading(false)
       }
     };
     getSelectsOptions();
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    //console.log("Buscar", data);
+    setLoading(true)
     try {
       const { data: dataPersona } = await clienteAxios.get(
         `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
@@ -188,7 +192,9 @@ const AdministradosDeUsuario = () => {
 
         resetUsuario(usuarioOverrideData);
       }
+      setLoading(false)
     } catch (err) {
+      setLoading(false)
       Swal.fire({
         position: "center",
         icon: "error",
@@ -223,7 +229,7 @@ const AdministradosDeUsuario = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-
+    setLoading(true)
     if (actionForm === "crear") {
       try {
         const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
@@ -272,12 +278,12 @@ const AdministradosDeUsuario = () => {
           roles: rolesReFormat,
         };
 
-        const { data: dataEditar } = await clienteAxios.patch(
+        await clienteAxios.patch(
           `users/update/${userData.id_usuario}/`,
           editarUsuario,
           config
         );
-        //console.log("editado", dataEditar)
+
         Swal.fire(
           "Correcto",
           "El usuario se actualizo correctamente",
@@ -294,6 +300,7 @@ const AdministradosDeUsuario = () => {
         });
       }
     }
+    setLoading(false)
   };
 
   const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
@@ -398,17 +405,27 @@ const AdministradosDeUsuario = () => {
                 <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
                 <div className="row mt-3 ms-1">
                   <div className="col-12 col-md-3">
-                    <label className="text-terciary">
-                      Nombre de usuario:<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      autoComplete="off"
-                      {...registerUsuario("nombreUsuario", {
-                        required: true,
-                      })}
-                    />
+                    <div>
+                      <label className="text-terciary">
+                        Nombre de usuario:<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        autoComplete="off"
+                        {...registerUsuario("nombreUsuario", {
+                          required: true,
+                          minLength: 6
+                        })}
+                      />
+                    </div>
+                    {errorsUsuario.nombreUsuario && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio y de 6 caracteres
+                        </small>
+                      </div>
+                    )}
                   </div>
                   {actionForm === "crear" && (
                     <>
@@ -591,7 +608,18 @@ const AdministradosDeUsuario = () => {
                     type="button"
                     onClick={handleCancelAction}
                   >
-                    Cancelar
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Cancelar"
+                      )}
                   </button>
 
                   <button
@@ -599,7 +627,18 @@ const AdministradosDeUsuario = () => {
                     type="submit"
                     onClick={handleClickSubmit}
                   >
-                    {actionForm === "editar" ? "Actualizar" : "Registrar"}
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        actionForm === "editar" ? "Actualizar" : "Registrar"
+                      )}
                   </button>
                 </div>
               </form>

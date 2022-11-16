@@ -110,3 +110,7 @@ code {
   object-fit: cover !important; /* Recorta la imagen sin deformarla */
   object-position: center !important;
 }
+
+.cursor-click {
+  cursor: pointer;
+}

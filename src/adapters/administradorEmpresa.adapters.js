@@ -28,6 +28,7 @@ export const dataOverriteEmpresaAdapter = (dataEmpresa) => {
     telefonoEmpresa: dataEmpresa.telefono_empresa,
     telefonoAlterno: dataEmpresa.telefono_empresa_2,
     direccionDeNotificacion: dataEmpresa.direccion_notificaciones,
+    digito_verificacion: dataEmpresa.digito_verificacion
   };
   return overriteData;
 };
