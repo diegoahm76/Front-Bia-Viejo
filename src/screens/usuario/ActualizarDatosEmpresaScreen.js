@@ -182,6 +182,7 @@ const ActualizarDatosEmpresaScreen = () => {
       setDepartamento({departamento: departamentosOptions[indexDepartamento]})
       return indexColombia
     }else {
+      setDepartamento({departamento: null})
       return null
     }
   }
@@ -435,41 +436,6 @@ const ActualizarDatosEmpresaScreen = () => {
                   <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
                 </div>
               )}
-              {/* <div className="col-12 col-md-4 mt-3">
-                <label className="text-terciary text-terciary form-label">
-                  Municipio notificación: <span className="text-danger">*</span>
-                </label>
-                <Controller
-                  name="cod_municipio_notificacion_nal"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={municipiosOptions}
-                      value={
-                        municipiosOptions[
-                          formValues.index_cod_municipio_notificacion_nal
-                        ]
-                      }
-                      onChange={(e) => {
-                        reset({
-                          ...watch(),
-                          cod_municipio_notificacion_nal: e.value,
-                        });
-                        setFormValues({
-                          ...formValues,
-                          index_cod_municipio_notificacion_nal:
-                            getIndexBySelectOptions(e.value, municipiosOptions),
-                        });
-                      }}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-              </div> */}
               {formValues.paisNotificacion === getIndexColombia() ? (
                 <div className="col-12 col-md-4 mt-2">
                   <label className="form-label">
