@@ -17,7 +17,7 @@ import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 const ActualizarDatosPersonaScreen = () => {
   const [loading, setLoading] = useState(false)
-  const { email: emailLogin } = useSelector((state) => state.user.user);
+  const { userinfo: {email: emailLogin} } = useSelector((state) => state.user.user);
   const [completeAddress, setCompleteAddress] = useState("");
   const [completeAddress2, setCompleteAddress2] = useState("");
   const [completeAddressLaboral, setCompleteAddressLaboral] = useState("");

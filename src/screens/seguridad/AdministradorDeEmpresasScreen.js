@@ -21,23 +21,30 @@ const defaulValuesForm = {
   id_persona: "",
   tipoPersona: "",
   municipioNotificacion: "",
-  digito_verificacion: ""
+  digito_verificacion: "",
+  paisNotificacion: ""
 }
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
+  const [primeraVez, setPrimeraVez] = useState(true)
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
     useState(false);
   const [direccionEmpresaIsOpen, setDireccionEmpresaIsOpen] = useState(false);
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
+  const [datosNotificacion, setDatosNotificacion] = useState({
+    departamento: ""
+  })
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
   const [actionForm, setActionForm] = useState(null);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] = useState([])
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
@@ -91,6 +98,8 @@ const AdministradorDeEmpresasScreen = () => {
         return;
       } else {
         setActionForm(ACTION_EDITAR);
+        setPrimeraVez(false);
+
       }
 
       console.log("Data get del buscar empresa", dataEmpresa);
@@ -105,6 +114,7 @@ const AdministradorDeEmpresasScreen = () => {
           ],
         ...dataOverriteInputs,
       };
+      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(dataEmpresa.cod_municipio_notificacion_nal, setDatosNotificacion)
       setFormValues({
         ...formValues,
         tipoDocumento: getIndexBySelectOptions(
@@ -121,6 +131,7 @@ const AdministradorDeEmpresasScreen = () => {
         ),
         id_persona: dataEmpresa.id_persona,
         tipoPersona: dataEmpresa.tipo_persona,
+        paisNotificacion: indexPaisNotificacion
       });
       console.log("override data", defaultValuesOverrite);
       resetEmpresa(defaultValuesOverrite);
@@ -148,6 +159,29 @@ const AdministradorDeEmpresasScreen = () => {
     setLoading(false)
   };
 
+  const resetPaisDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
+    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
+    let indexDepartamento = null
+    departamentosOptions.forEach((departamento, index) => {
+      if(departamento.value === departamentoIdentifier){
+        indexDepartamento = index
+      }
+    })
+    if(indexDepartamento !== null){
+      let indexColombia = null
+      paisesOptions.forEach((pais, index) => {
+        if(pais.value === "CO"){
+          indexColombia = index
+        }
+      })
+      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+      return indexColombia
+    }else {
+      return null
+    }
+  }
+
   const onSubmitEmpresa = async (data) => {
     setLoading(true)
     const dataUpdateInputs = dataUpdateEmpresaAdapter(data);
@@ -157,9 +191,9 @@ const AdministradorDeEmpresasScreen = () => {
       id_persona: formValues.id_persona,
       tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
       cod_pais_nacionalidad_empresa:
-        paisesOptions[formValues.paisEmpresa]?.value,
+        paisesOptions[formValues.paisEmpresa]?.value || null,
       cod_municipio_notificacion_nal:
-        municipiosOptions[formValues.municipioNotificacion]?.value,
+        municipiosOptions[formValues.municipioNotificacion]?.value || null,
       digito_verificacion: data.digito_verificacion
     };
 
@@ -169,6 +203,7 @@ const AdministradorDeEmpresasScreen = () => {
       const access = getTokenAccessLocalStorage();
       const config = getConfigAuthBearer(access);
       try {
+        console.log("updateEmpresa", updateEmpresa)
         const { data: dataResponse } = await clienteAxios.patch(
           `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
           updateEmpresa,
@@ -322,14 +357,19 @@ const AdministradorDeEmpresasScreen = () => {
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
+        setDepartamentosOptions(departamentosFormat);
       } catch (err) {
         console.log(err);
         setLoading(false)
@@ -354,21 +394,34 @@ const AdministradorDeEmpresasScreen = () => {
   const handleCancelAction = () => {
     setActionForm(null);
   };
-
-  const handleMaxOneDigit = (e) => {
-    if(e.target.value.length > 1){
-      e.target.value = e.target.value[0]
-      setFormValues({
-        ...formValues,
-        digito_verificacion: e.target.value[0]
-      })
-    }else{
-      setFormValues({
-        ...formValues,
-        digito_verificacion: e.target.value
-      })
+  
+  const handleChangePaisNotificacion = (e) => {
+    const objectSend = {
+      paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
+    };
+    if (e.value !== "CO" || !e.value) {
+      objectSend.municipioNotificacion = null;
+      resetEmpresa({
+        ...watchEmpresa(),
+        municipioNotificacion: "",
+      });
+      setDatosNotificacion({...datosNotificacion, departamento: ""})
     }
+    setFormValues({
+      ...formValues,
+      ...objectSend,
+    });
   }
+
+  const getIndexColombia = () => {
+    let indexColombia = null;
+    paisesOptions.forEach((pais, index) => {
+      if (pais.value === "CO") {
+        indexColombia = index;
+      }
+    });
+    return indexColombia;
+  };
 
   useEffect(() => {
     if(!watchEmpresa("digito_verificacion")) return
@@ -376,6 +429,27 @@ const AdministradorDeEmpresasScreen = () => {
       resetEmpresa({...watchEmpresa(), digito_verificacion: watchEmpresa("digito_verificacion")[0]})
     }
   }, [watchEmpresa("digito_verificacion")])
+
+  useEffect(() => {
+    if(!primeraVez) return
+    if (datosNotificacion.departamento === "") {
+      setMunicipioNotificacionFiltered([]);
+      setFormValues({...formValues, municipioNotificacion: ""})
+    } else {
+      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(0, 2);
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+          const indicator = municipio.value.slice(0, 2);
+          return municipioIndicadores === indicator;
+        }
+      );
+      setMunicipioNotificacionFiltered(municipiosCoincidentes);
+      setFormValues({...formValues, municipioNotificacion: 0})
+    }
+  }, [datosNotificacion.departamento]);
+
+  useEffect(() => {
+    setPrimeraVez(true)
+  }, [actionForm])
 
   return (
     <div className="row min-vh-100">
@@ -459,7 +533,7 @@ const AdministradorDeEmpresasScreen = () => {
               <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
                 <Subtitle title={"Datos personales"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
-                <div className="mt-4 row mx-1">
+                <div className="mt-2 row mx-1">
                   <div className="row col-12 ">
                     {actionForm !== ACTION_EDITAR ? (
                       <div className="col-12 col-md-3">
@@ -595,7 +669,7 @@ const AdministradorDeEmpresasScreen = () => {
                 </div>
                 <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
                 <hr className="dark horizontal my-0" />
-                <div className="mt-4 row mx-1">
+                <div className="row mx-1 mt-2">
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País:</label>
                     <Controller
@@ -691,40 +765,88 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-md-3">
-                    <label className="form-label">
-                      Municipio de notificacion:
+                  <div className="col-12 col-md-3 mt-2">
+                    <label className="form-label text-terciary">
+                      País notificación:
                     </label>
                     <Controller
-                      name="municipioNotificacion"
+                      name="cod_pais_notificacion_nal"
                       control={controlEmpresa}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          value={
-                            municipiosOptions[
-                              formValues.municipioNotificacion
-                            ]
-                          }
-                          onChange={(e) => {
-                            resetEmpresa({
-                              ...watchEmpresa(),
-                              municipioNotificacion: e.value,
-                            });
-                            setFormValues({
-                              ...formValues,
-                              municipioNotificacion: getIndexBySelectOptions(
-                                e.value,
-                                municipiosOptions
-                              ),
-                            });
-                          }}
-                          options={municipiosOptions}
+                          value={paisesOptions[formValues.paisNotificacion]}
+                          options={paisesOptions}
+                          onChange={handleChangePaisNotificacion}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
                   </div>
+                  {formValues.paisNotificacion === getIndexColombia() ? (
+                    <div className="col-12 col-md-3 mt-2">
+                      <label className="form-label text-terciary">
+                        Departamento notificación:{" "}
+                      </label>
+                      <Select
+                        options={departamentosOptions}
+                        isDisabled={
+                          paisesOptions[formValues.paisNotificacion]?.value !==
+                          "CO"
+                        }
+                        onChange={(e) => {
+                          setDatosNotificacion({...datosNotificacion, departamento: e})
+                        }}
+                        value={datosNotificacion.departamento}
+                        placeholder="Seleccionar"
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-12 col-md-3 mt-2">
+                      <label className="form-label text-terciary">
+                        Departamento notificación:{" "}
+                      </label>
+                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                    </div>
+                  )}
+                  {formValues.paisNotificacion === getIndexColombia() ? (
+                    <div className="col-12 col-md-3 mt-2">
+                      <label className="form-label">
+                        Municipio notificación:{" "}
+                      </label>
+                      <Controller
+                        name="municipioNotificacion"
+                        control={controlEmpresa}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            isDisabled={
+                              paisesOptions[formValues.paisNotificacion]?.value !== "CO"
+                            }
+                            value={municipiosOptions[formValues.municipioNotificacion]}
+                            onChange={(e) =>
+                              setFormValues({
+                                ...formValues,
+                                municipioNotificacion: getIndexBySelectOptions(
+                                  e.value,
+                                  municipiosOptions
+                                ),
+                              })
+                            }
+                            options={municipioNotificacionFiltered}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  ) : (
+                    <div className="col-12 col-md-3 mt-2">
+                      <label className="form-label">
+                        Municipio notificación:{" "}
+                      </label>
+                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                    </div>
+                  )}
                   <div className="col-md-8 col-12 mt-3 ms-1">
                     <div className="form-floating input-group input-group-dynamic mt-2">
                       <input
