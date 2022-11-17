@@ -50,6 +50,11 @@ const RegisterPersonaScreen = () => {
   const [completeAddress, setCompleteAddress] = useState("");
   const [errors, setErrors] = useState(defaultErrors);
   const [yesOrNo, setYesOrNo] = useState(false);
+  const [primeraVez, setPrimeraVez] = useState(true)
+  const [datosNotificacion, setDatosNotificacion] = useState({
+    departamento: ""
+  })
+  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] = useState([])
   const [isUser, setIsUser] = useState(true);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [paisesOptions, setPaisesOptions] = useState([]);
@@ -61,6 +66,7 @@ const RegisterPersonaScreen = () => {
     fechaNacimiento: "",
     tipo_persona: { label: "Natural", value: "N" },
     digito_verificacion: "",
+    municipioNotificacion: ""
   });
   const [tipoDocumentoFiltrado, setTipoDocumentoFiltrado] = useState([]);
 
@@ -168,7 +174,7 @@ const RegisterPersonaScreen = () => {
       persona.telefono_celular_empresa = "57" + data.celular;
       persona.direccion_notificaciones = data.direccionNotificacion;
       // persona.departamento_residencia = data.departamento?.value;
-      persona.cod_municipio_notificacion_nal = data.municipio?.value;
+      persona.cod_municipio_notificacion_nal = municipiosOptions[formValues.municipioNotificacion]?.value || null;
       persona.ubicacion_georeferenciada = "mi casita";
     }
 
@@ -435,6 +441,62 @@ const RegisterPersonaScreen = () => {
       });
     }
   };
+
+  const getIndexColombia = () => {
+    let indexColombia = null;
+    paisesOptions.forEach((pais, index) => {
+      if (pais.value === "CO") {
+        indexColombia = index;
+      }
+    });
+    return indexColombia;
+  };
+
+  const handleChangePaisNotificacion = (e) => {
+    const objectSend = {
+      paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
+    };
+    if (e.value !== "CO" || !e.value) {
+      objectSend.municipioNotificacion = null;
+      reset({
+        ...watch(),
+        municipioNotificacion: null,
+      });
+      setDatosNotificacion({...datosNotificacion, departamento: ""})
+    }
+    setFormValues({
+      ...formValues,
+      ...objectSend,
+    });
+  }
+
+  const getIndexBySelectOptions = (valueSelect, selectOptions) => {
+    let indexValue = null;
+    selectOptions.filter((selectOption, index) => {
+      if (selectOption.value === valueSelect) {
+        indexValue = index;
+        return true;
+      }
+      return false;
+    });
+    return indexValue;
+  };
+
+  useEffect(() => {
+    if (datosNotificacion.departamento === "") {
+      setMunicipioNotificacionFiltered([]);
+      setFormValues({...formValues, municipioNotificacion: ""})
+    } else {
+      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(0, 2);
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+          const indicator = municipio.value.slice(0, 2);
+          return municipioIndicadores === indicator;
+        }
+      );
+      setMunicipioNotificacionFiltered(municipiosCoincidentes);
+      setFormValues({...formValues, municipioNotificacion: 0})
+    }
+  }, [datosNotificacion.departamento]);
   
   return (
     <div
@@ -932,31 +994,7 @@ const RegisterPersonaScreen = () => {
                           </small>
                         </div>
                       )}
-                      {/* <div className="col-12 col-md-6">
-                      <label className="form-label">
-                        Departamento: <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="departamento"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={departamentosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                    {errorsForm.departamento && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )} */}
-                      <div className="col-12 col-md-6 mt-3">
+                      {/* <div className="col-12 col-md-6 mt-3">
                         <label className="form-label">
                           Pais: <span className="text-danger">*</span>
                         </label>
@@ -974,8 +1012,26 @@ const RegisterPersonaScreen = () => {
                             />
                           )}
                         />
-                      </div>
+                      </div> */}
                       <div className="col-12 col-md-6 mt-3">
+                        <label className="form-label text-terciary">
+                          País notificación:
+                        </label>
+                        <Controller
+                          name="cod_pais_notificacion_nal"
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={paisesOptions[formValues.paisNotificacion]}
+                              options={paisesOptions}
+                              onChange={handleChangePaisNotificacion}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                      </div>
+                      {/* <div className="col-12 col-md-6 mt-3">
                         <label className="form-label">
                           Departamento: <span className="text-danger">*</span>
                         </label>
@@ -993,8 +1049,34 @@ const RegisterPersonaScreen = () => {
                             />
                           )}
                         />
-                      </div>
-                      <div className="col-12 col-md-6 mt-3">
+                      </div> */}
+                      {formValues.paisNotificacion === getIndexColombia() ? (
+                        <div className="col-12 col-md-6 mt-3">
+                          <label className="form-label text-terciary">
+                            Departamento notificación:{" "}
+                          </label>
+                          <Select
+                            options={departamentosOptions}
+                            isDisabled={
+                              paisesOptions[formValues.paisNotificacion]?.value !==
+                              "CO"
+                            }
+                            onChange={(e) => {
+                              setDatosNotificacion({...datosNotificacion, departamento: e})
+                            }}
+                            value={datosNotificacion.departamento}
+                            placeholder="Seleccionar"
+                          />
+                        </div>
+                      ) : (
+                        <div className="col-12 col-md-6 mt-3">
+                          <label className="form-label text-terciary">
+                            Departamento notificación:{" "}
+                          </label>
+                          <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                        </div>
+                      )}
+                      {/* <div className="col-12 col-md-6 mt-3">
                         <label className="form-label">
                           Municipio: <span className="text-danger">*</span>
                         </label>
@@ -1019,6 +1101,44 @@ const RegisterPersonaScreen = () => {
                             Este campo es obligatorio
                           </small>
                         </div>
+                      )} */}
+                      {formValues.paisNotificacion === getIndexColombia() ? (
+                        <div className="col-12 col-md-6 mt-3">
+                          <label className="form-label">
+                            Municipio notificación:{" "}
+                          </label>
+                          <Controller
+                            name="municipioNotificacion"
+                            control={control}
+                            render={({ field }) => (
+                              <Select
+                                {...field}
+                                isDisabled={
+                                  paisesOptions[formValues.paisNotificacion]?.value !== "CO"
+                                }
+                                value={municipiosOptions[formValues.municipioNotificacion]}
+                                onChange={(e) =>
+                                  setFormValues({
+                                    ...formValues,
+                                    municipioNotificacion: getIndexBySelectOptions(
+                                      e.value,
+                                      municipiosOptions
+                                    ),
+                                  })
+                                }
+                                options={municipioNotificacionFiltered}
+                                placeholder="Seleccionar"
+                              />
+                            )}
+                          />
+                        </div>
+                      ) : (
+                        <div className="col-12 col-md-6 mt-3">
+                          <label className="form-label">
+                            Municipio notificación:{" "}
+                          </label>
+                          <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                        </div>
                       )}
                     </>
                   )}
@@ -1028,7 +1148,7 @@ const RegisterPersonaScreen = () => {
                     privacidad y política de cookies. Es posible que te enviemos
                     notificaciones por SMS y/o vía correo electrónico.
                   </label>
-                  <div className="d-flex justify-content-end mt-2">
+                  <div className="d-flex justify-content-end mt-3">
                     <button
                       type="button"
                       className="btn bg-gradient-light text-capitalize me-2"
