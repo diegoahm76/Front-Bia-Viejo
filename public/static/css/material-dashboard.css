@@ -52,7 +52,7 @@
   --bs-black-rgb: 0, 0, 0;
   --bs-body-color-rgb: 123, 128, 154;
   --bs-body-bg-rgb: 255, 255, 255;
-  --bs-font-sans-serif: "Product Sans", "Visby", "Roboto", Helvetica, Arial, sans-serif;
+  --bs-font-sans-serif: "Visby", "Product Sans", "Roboto", Helvetica, Arial, sans-serif;
   --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
   --bs-body-font-family: var(--bs-font-sans-serif);
@@ -17869,7 +17869,7 @@ textarea.form-control-lg {
   padding: 1.5rem;
 }
 .card .card-body {
-  font-family: "Product Sans", "Visby", "Roboto", Helvetica, Arial, sans-serif;
+  font-family: "Visby", "Product Sans", "Roboto", Helvetica, Arial, sans-serif;
   padding: 1.5rem;
 }
 .card.card-plain {
@@ -21804,6 +21804,7 @@ h4, .h4 {
 }
 
 a {
+  font-family: "Visby", sans-serif;
   letter-spacing: 0rem;
   color: #344767;
 }
@@ -21850,7 +21851,7 @@ p {
 }
 
 .text-sans-serif {
-  font-family: "Product Sans", "Visby", "Roboto", Helvetica, Arial, sans-serif !important;
+  font-family: "Visby", "Product Sans", "Roboto", Helvetica, Arial, sans-serif !important;
 }
 
 .text-monospace {
