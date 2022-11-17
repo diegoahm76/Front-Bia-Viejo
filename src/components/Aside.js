@@ -35,6 +35,8 @@ import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/c
 const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
 
+  console.log("userInfo", userInfo)
+
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
@@ -84,7 +86,7 @@ const Aside = ({ showAside }) => {
                   {userInfo.nombre_de_usuario}
                 </span> */}
                 <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userInfo.nombre_de_usuario}
+                  {userInfo.userinfo.nombre_de_usuario}
                 </span>
               </a>
               <div className="collapse" id="ProfileNav">
@@ -98,7 +100,7 @@ const Aside = ({ showAside }) => {
                       <span className="sidenav-normal  ms-3  ps-1">Logout</span>
                     </div>
                   </li>
-                  {!userInfo.is_superuser && (
+                  {!userInfo.userinfo.is_superuser && (
                     <>
                       <li className="nav-item active">
                         <Link
@@ -129,7 +131,7 @@ const Aside = ({ showAside }) => {
             </li>
             <hr className="horizontal light mt-0" />
 
-            {!userInfo.is_superuser && (
+            {!userInfo.userinfo.is_superuser && (
               <>
                 <li className="nav-item mb-2 mt-0">
                   <a
@@ -2393,7 +2395,7 @@ const Aside = ({ showAside }) => {
                 </li>
               </>
             )}
-            {userInfo.is_superuser && (
+            {userInfo.userinfo.is_superuser && (
               <>
                 <li className="nav-item">
                   <a

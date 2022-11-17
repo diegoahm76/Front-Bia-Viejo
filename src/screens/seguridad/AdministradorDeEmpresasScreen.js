@@ -691,58 +691,40 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   </div>
-                  {actionForm !== ACTION_EDITAR ? (
-                    <div className="col-12 col-md-3">
-                      <label className="form-label">
-                        Municipio de notificacion:
-                      </label>
-                      <Controller
-                        name="municipioNotificacion"
-                        control={controlEmpresa}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={
-                              municipiosOptions[
-                                formValues.municipioNotificacion
-                              ]
-                            }
-                            onChange={(e) => {
-                              resetEmpresa({
-                                municipioNotificacion: e.value,
-                              });
-                              setFormValues({
-                                ...formValues,
-                                municipioNotificacion: getIndexBySelectOptions(
-                                  e.value,
-                                  municipiosOptions
-                                ),
-                              });
-                            }}
-                            options={municipiosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  ) : (
-                    <div className="col-12 col-md-3">
-                      <div className="mt-2">
-                        <label className="ms-2">
-                          Municipio de notificacion:
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
+                  <div className="col-12 col-md-3">
+                    <label className="form-label">
+                      Municipio de notificacion:
+                    </label>
+                    <Controller
+                      name="municipioNotificacion"
+                      control={controlEmpresa}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
                           value={
-                            municipiosOptions[formValues.municipioNotificacion]
-                              ?.label
+                            municipiosOptions[
+                              formValues.municipioNotificacion
+                            ]
                           }
-                          disabled
+                          onChange={(e) => {
+                            resetEmpresa({
+                              ...watchEmpresa(),
+                              municipioNotificacion: e.value,
+                            });
+                            setFormValues({
+                              ...formValues,
+                              municipioNotificacion: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            });
+                          }}
+                          options={municipiosOptions}
+                          placeholder="Seleccionar"
                         />
-                      </div>
-                    </div>
-                  )}
+                      )}
+                    />
+                  </div>
                   <div className="col-md-8 col-12 mt-3 ms-1">
                     <div className="form-floating input-group input-group-dynamic mt-2">
                       <input

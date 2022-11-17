@@ -1,30 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Aside from "../../components/Aside";
 import Navbar from "../../components/Navbar";
-import clienteAxios from "../../config/clienteAxios";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 
 function HomeScreen() {
   const [showAside, setShowAside] = useState(true);
-
-  useEffect(() => {
-    const getRepresentante = async () => {
-      try {
-        const access = getTokenAccessLocalStorage();
-        const config = getConfigAuthBearer(access);
-        const { data: dataRepresentante } = await clienteAxios.get(
-          "personas/get-persona-juridica/representante-legal/",
-          config
-        );
-        console.log("representante", dataRepresentante.detail);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRepresentante();
-  }, []);
 
   return (
     <div className="g-sidenav-show bg-terciary">
