@@ -112,3 +112,11 @@ code {
 .cursor-click {
   cursor: pointer;
 }
+
+input[type="password"] {
+  font-family: sans-serif;
+}
+
+label {
+  font-weight: 600 !important;
+}

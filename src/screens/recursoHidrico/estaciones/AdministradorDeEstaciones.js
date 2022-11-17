@@ -1,8 +1,7 @@
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import IconoEliminarBia from "../../../assets/iconosBotones/borrar.png";
+import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
 import NuevaEstacionModal from "../../../components/NuevaEstacionModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
