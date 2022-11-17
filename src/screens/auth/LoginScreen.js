@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/logoBia.svg";
-import Cormacarena from "../../assets/LogosBIAPNG/corma.svg";
-import Macarenia from "../../assets/LogosBIAPNG/maca.svg";
+import Cormacarena from "../../assets/LogosBIAPNG/logoCorma.svg";
+import Macarenia from "../../assets/LogosBIAPNG/logoMaca.svg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -166,16 +166,17 @@ function LoginScreen() {
                     <p>Registro usuario</p>
                   </Link>
                 </div>
-                <div className="d-flex justify-content-center mb-4">
+                <div className="d-flex justify-content-center mb-2">
                   <Link className="text-white" to="/recuperar-contrasena">
                     <p>Olvidó su contraseña</p>
                   </Link>
                 </div>
               </div>
             </div>
-            <div>
-              <img src={Cormacarena} alt="" />
+            <div className="d-flex justify-content-center align-items-center gap-3 mt-2">
+              <span className="text-white">by:</span>
               <img src={Macarenia} alt="" />
+              <img src={Cormacarena} alt="" />
             </div>
           </div>
         </div>
