@@ -5,6 +5,4 @@ const clienteAxios = axios.create({
   
 });
 
-//https://web-production-4514.up.railway.app/api/
-
 export default clienteAxios;
