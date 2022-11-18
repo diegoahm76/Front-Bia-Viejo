@@ -35,6 +35,8 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       config
     );
 
+    console.log(data, "data login")
+
     const { userinfo, permisos } = data;
     userinfo.permisos = permisos
 

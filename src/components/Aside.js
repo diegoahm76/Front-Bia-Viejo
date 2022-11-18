@@ -78,14 +78,8 @@ const Aside = ({ showAside }) => {
                 role="button"
                 aria-expanded="false"
               >
-                {/* <span className="sidenav-mini-icon">
-                  <img src={IconoUser} alt="user" />
-                </span>
-                <span className="nav-link-text ms-2 ps-1">
-                  {userInfo.nombre_de_usuario}
-                </span> */}
                 <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userSesion.dataSesion.userName ? userSesion.dataSesion.userName : userInfo.userinfo.nombre_de_usuario}
+                  {userSesion?.dataSesion?.userName ? userSesion?.dataSesion?.userName : userInfo?.userinfo?.nombre_de_usuario ? userInfo?.userinfo?.nombre_de_usuario : userInfo?.nombre_de_usuario}
                 </span>
               </a>
               <div className="collapse" id="ProfileNav">
@@ -99,7 +93,7 @@ const Aside = ({ showAside }) => {
                       <span className="sidenav-normal  ms-3  ps-1">Logout</span>
                     </div>
                   </li>
-                  {!userInfo.userinfo.is_superuser && (
+                  {!userInfo.userinfo?.is_superuser && (
                     <>
                       <li className="nav-item active">
                         <Link
@@ -130,7 +124,7 @@ const Aside = ({ showAside }) => {
             </li>
             <hr className="horizontal light mt-0" />
 
-            {!userInfo.userinfo.is_superuser && (
+            {!userInfo.userinfo?.is_superuser && (
               <>
                 <li className="nav-item mb-2 mt-0">
                   <a
@@ -2394,7 +2388,7 @@ const Aside = ({ showAside }) => {
                 </li>
               </>
             )}
-            {userInfo.userinfo.is_superuser && (
+            {userInfo.userinfo?.is_superuser && (
               <>
                 <li className="nav-item">
                   <a
