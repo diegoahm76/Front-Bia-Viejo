@@ -6,6 +6,9 @@ import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
+import botonCancelar from "../assets/iconosBotones/cancelar.svg"
+import botonBuscar from "../assets/iconosBotones/buscar.svg"
+
 import Subtitle from "./Subtitle";
 
 const customStyles = {
@@ -160,10 +163,10 @@ const BusquedaAvanzadaJuridicaModal = ({
             <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
             <Subtitle title={"Información general"} mt={3} mb={3} />
 
-            <div className="row">
+            <div className="row align-items-end">
               <div className="col-12 col-md-4">
                 <div>
-                  <label className="ms-2">
+                  <label className="text-terciary">
                     Razón social: <span className="text-danger">*</span>
                   </label>
                   <input
@@ -180,10 +183,10 @@ const BusquedaAvanzadaJuridicaModal = ({
                   </div>
                 )}
               </div>
-              <div className="col-12 mt-2">
+              <div className="col-12 col-md-4 mt-2">
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize"
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   disabled={loading}
                 >
                   {loading ? (
@@ -196,7 +199,7 @@ const BusquedaAvanzadaJuridicaModal = ({
                       Cargando...
                     </>
                   ) : (
-                    "Buscar"
+                    <img src={botonBuscar} alt="" />
                   )}
                 </button>
               </div>
@@ -214,10 +217,10 @@ const BusquedaAvanzadaJuridicaModal = ({
                   </div>
                 </div>
               </div>
-              <div className="d-flex justify-content-end gap-2 mt-3">
+              {/* <div className="d-flex justify-content-end gap-2 mt-3">
                 <button
                   type="button"
-                  className="btn bg-gradient-light text-capitalize"
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   disabled={loading}
                   onClick={() => handleCloseModal()}
                 >
@@ -231,18 +234,16 @@ const BusquedaAvanzadaJuridicaModal = ({
                       Cargando...
                     </>
                   ) : (
-                    "Cancelar"
+                    <img src={botonCancelar} alt="" />
                   )}
                 </button>
-              </div>
+              </div> */}
             </div>
             <p
               className="text-danger cursor-click text-capitalize position-absolute top-0 end-0 fs-4"
               onClick={() => handleCloseModal()}
             >
-              <b>
-                X
-              </b>
+              <img src={botonCancelar} alt="" />
             </p>
           </form>
         </div>
