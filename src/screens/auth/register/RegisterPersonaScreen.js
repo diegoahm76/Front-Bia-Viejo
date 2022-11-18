@@ -512,7 +512,7 @@ const RegisterPersonaScreen = () => {
               {isUser ? (
                 <>
                   <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">
-                    Registro de Persona
+                    Registro de persona
                   </h3>
                 </>
               ) : (
@@ -570,7 +570,7 @@ const RegisterPersonaScreen = () => {
 
                   {isUser && (
                     <div className="col-12 mt-4 mt-md-5 d-flex justify-content-center">
-                      <div className="form-check">
+                      <div className="form-check p-0">
                         <label
                           className="form-check-label text-terciary me-2"
                           htmlFor="flexCheckDefault"
