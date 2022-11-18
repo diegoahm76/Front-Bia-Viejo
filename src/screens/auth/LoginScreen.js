@@ -46,7 +46,7 @@ function LoginScreen() {
         is_active: true,
       });
     } else if (error?.detail) {
-      console.log("Entro aca")
+      console.log("Entro aca");
       Swal.fire({
         position: "center",
         icon: "warning",
@@ -106,7 +106,12 @@ function LoginScreen() {
                   onSubmit={handleSubmit(submitHandler)}
                 >
                   <div className="col-12 mb-3 mt-3">
-                    <label className="text-white fw-lighter fs-5">Email</label>
+                    <label
+                      className="text-white"
+                      style={{ fontSize: "1.2rem" }}
+                    >
+                      Email
+                    </label>
                     <input
                       type="email"
                       className="form-control border rounded-pill px-3 bg-white border border-0"
@@ -114,7 +119,10 @@ function LoginScreen() {
                     />
                   </div>
                   <div className="col-12 mb-3 mt-3">
-                    <label className="text-white fw-lighter fs-5">
+                    <label
+                      className="text-white"
+                      style={{ fontSize: "1.2rem" }}
+                    >
                       Contraseña
                     </label>
                     <input
@@ -152,7 +160,8 @@ function LoginScreen() {
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal text-capitalize"
+                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 text-capitalize"
+                      style={{ fontSize: ".9rem" }}
                     >
                       Iniciar sesión
                     </button>
@@ -175,8 +184,10 @@ function LoginScreen() {
             </div>
             <div className="d-flex justify-content-center align-items-center gap-3 mt-2">
               <span className="text-white">by:</span>
-              <img src={Macarenia} alt="" />
-              <img src={Cormacarena} alt="" />
+              <div className="d-flex align-items-end gap-3">
+                <img src={Macarenia} alt="" />
+                <img src={Cormacarena} alt="" />
+              </div>
             </div>
           </div>
         </div>

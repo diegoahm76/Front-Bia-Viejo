@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { crearNuevaEstacionAction } from "../actions/estacionActions";
-import iconoCancelar from '../assets/iconosBotones/cancelar.png'
-import iconoAgregar from '../assets/iconosBotones/agregar.png'
+import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
+import iconoAgregar from '../assets/iconosBotones/agregar.svg'
 
 
 const customStyles = {
