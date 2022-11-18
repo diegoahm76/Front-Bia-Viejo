@@ -12,8 +12,8 @@ import { getConfigAuthBearer } from "../../helpers/configAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
-import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
+import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
