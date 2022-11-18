@@ -14,6 +14,11 @@ import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg"
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg"
+import botonActualizar from "../../assets/iconosBotones/actualizar.svg"
+import botonAgregar from "../../assets/iconosBotones/agregar.svg"
+
 
 const defaulValuesForm = {
   tipoDocumento: null,
@@ -584,9 +589,9 @@ const AdministradorDeEmpresasScreen = () => {
                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Buscar
+                    <img src={botonBuscar} alt="" />
                   </button>
                   <button
                     type="button"
@@ -726,17 +731,6 @@ const AdministradorDeEmpresasScreen = () => {
                         />
                       </div>
                     </div>
-                    {/* <div className="col-12 col-md-3">
-                      <div className="mt-2">
-                        <label className="ms-2">Representante legal:</label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
-                          disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("representanteLegal")}
-                        />
-                      </div>
-                    </div> */}
                   </div>
                 </div>
                 <Subtitle title={"Representante Legal"} mt={4} mb={0} />
@@ -1034,12 +1028,12 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                 </div>
 
-                <div className="d-flex justify-content-end mx-1 gap-2 mt-3">
-                  <button
-                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                <div className="d-flex justify-content-end mx-1 gap-2 mt-4">
+                <button
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
-                    disabled={loading}
                     onClick={handleCancelAction}
+                    disabled={loading}
                   >
                     {loading ? (
                       <>
@@ -1051,12 +1045,12 @@ const AdministradorDeEmpresasScreen = () => {
                         Cargando...
                       </>
                     ) : (
-                      "Cancelar"
+                      <img src={botonCancelar} alt="" />
                     )}
                   </button>
 
                   <button
-                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="submit"
                     disabled={loading}
                   >
@@ -1070,9 +1064,9 @@ const AdministradorDeEmpresasScreen = () => {
                         Cargando...
                       </>
                     ) : actionForm === ACTION_EDITAR ? (
-                      "Actualizar"
+                        <img src={botonActualizar} alt="" />
                     ) : (
-                      "Crear"
+                      <img src={botonAgregar} alt="" />
                     )}
                   </button>
                 </div>

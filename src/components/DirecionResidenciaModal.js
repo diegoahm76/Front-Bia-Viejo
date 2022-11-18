@@ -7,6 +7,9 @@ import Subtitle from "./Subtitle";
 import Select from "react-select";
 import { useEffect } from "react";
 import clienteAxios from "../config/clienteAxios";
+import botonCancelar from "../assets/iconosBotones/cancelar.svg"
+import botonGuardar from "../assets/iconosBotones/guardar.svg"
+
 
 const customStyles = {
   content: {
@@ -670,15 +673,15 @@ const DirecionResidenciaModal = ({
                   })
                   setSelecDireccion("")
                 }}
-                className="btn bg-gradient-light text-capitalize"
+                className="mb-0 btn-image text-capitalize bg-white border boder-none"
               >
-                Cancelar
+                <img src={botonCancelar} alt="" />
               </button>
               <button
                 type="submit"
-                className="btn bg-gradient-primary text-capitalize"
+                className="mb-0 btn-image text-capitalize bg-white border boder-none"
               >
-                Guardar
+                <img src={botonGuardar} alt="" />
               </button>
             </div>
           </form>
