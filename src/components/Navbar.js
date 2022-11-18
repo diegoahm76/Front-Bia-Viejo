@@ -28,7 +28,7 @@ const Navbar = ({ setShowAside, showAside }) => {
             </button>
             
             <button
-              className="btn btn-tablas bg-gradient-primary mb-0 d-block ms-auto text-capitalize"
+              className="btn btn-tablas btn-entorno bg-gradient-primary mb-0 d-block text-capitalize"
               type="button"
               onClick={handleChangeEntorno}
             >
