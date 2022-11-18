@@ -12,6 +12,11 @@ import {
   USER_REGISTER_SUCCESS,
   USER_LOGIN_INVALID,
   USER_REMOVE_ERROR,
+  CHANGE_SESION_REQUEST,
+  CHANGE_SESION_SUCCESS,
+  CHANGE_SESION_FAIL,
+  OPEN_MODAL_SESION,
+  CLOSE_MODAL_SESION,
 } from "../types/userTypes";
 
 export const userLoginAction = (email, password) => async (dispatch) => {
@@ -29,10 +34,12 @@ export const userLoginAction = (email, password) => async (dispatch) => {
       { email, password },
       config
     );
-    console.log("data login", data)
+
     const { userinfo, permisos } = data;
     userinfo.permisos = permisos
+
     dispatch(userLoginSuccess(userinfo));
+    dispatch(openModalSesion())
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
     if(typeof error.response.data === "string"){
@@ -77,7 +84,6 @@ export const getDataFromLocalStorage = () => (dispatch) => {
   const dataUserJSON = localStorage.getItem("userInfo");
   if (dataUserJSON) {
     const dataUser = JSON.parse(dataUserJSON);
-    console.log(dataUser)
     dataUser.userinfo.permisos = dataUser.permisos
     dispatch(getDataLocalStorageSuccess(dataUser.userinfo));
   } else {
@@ -145,3 +151,46 @@ export const userRemoveErrorAction = () => async (dispatch) => {
 const userRemoveError = () => ({
   type: USER_REMOVE_ERROR,
 });
+
+export const changeSesionAction = (dataSesion) => async (dispatch) => {
+  dispatch(changeSesionRequest())
+  try{
+    dispatch(changeSesionSuccess(dataSesion))
+    dispatch(closeModalSesion())
+  }catch(err){
+    dispatch(changeSesionFail())
+  }
+}
+
+const changeSesionRequest = () => ({
+  type: CHANGE_SESION_REQUEST,
+});
+
+const changeSesionSuccess = (dataSesion) => ({
+  type: CHANGE_SESION_SUCCESS,
+  payload: dataSesion,
+});
+
+const changeSesionFail = (error) => ({
+  type: CHANGE_SESION_FAIL,
+  payload: error
+});
+
+
+export const openModalSesionAction = () => async (dispatch) => {
+  dispatch(openModalSesion())
+}
+
+const openModalSesion = () => ({
+  type: OPEN_MODAL_SESION,
+  payload: true
+})
+
+export const closeModalSesionAction = () => async (dispatch) => {
+  dispatch(closeModalSesion())
+}
+
+const closeModalSesion = () => ({
+  type: CLOSE_MODAL_SESION,
+  payload: false
+})

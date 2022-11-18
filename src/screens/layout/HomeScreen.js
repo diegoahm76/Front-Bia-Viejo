@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Aside from "../../components/Aside";
 import Navbar from "../../components/Navbar";
+import SelectSesionModal from "../../components/SelectSesionModal";
 
 function HomeScreen() {
   const [showAside, setShowAside] = useState(true);
@@ -20,6 +21,7 @@ function HomeScreen() {
           <Outlet />
         </div>
       </main>
+      <SelectSesionModal />
     </div>
   );
 }
