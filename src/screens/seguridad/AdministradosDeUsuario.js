@@ -10,6 +10,10 @@ import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg";
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
+import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
+import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
@@ -70,7 +74,7 @@ const AdministradosDeUsuario = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -91,17 +95,17 @@ const AdministradosDeUsuario = () => {
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
-        setLoading(false)
+        setLoading(false);
       } catch (err) {
         console.log(err);
-        setLoading(false)
+        setLoading(false);
       }
     };
     getSelectsOptions();
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const { data: dataPersona } = await clienteAxios.get(
         `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
@@ -192,9 +196,9 @@ const AdministradosDeUsuario = () => {
 
         resetUsuario(usuarioOverrideData);
       }
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
-      setLoading(false)
+      setLoading(false);
       Swal.fire({
         position: "center",
         icon: "error",
@@ -229,7 +233,7 @@ const AdministradosDeUsuario = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-    setLoading(true)
+    setLoading(true);
     if (actionForm === "crear") {
       try {
         const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
@@ -300,7 +304,7 @@ const AdministradosDeUsuario = () => {
         });
       }
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
@@ -335,7 +339,7 @@ const AdministradosDeUsuario = () => {
           <div className="row">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
               <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
-                Administrador De Usuarios
+                Administrador de usuarios
               </h3>
               <Subtitle title={"Buscar persona"} mt={3} />
               <div className="mt-4 row align-items-end ms-1">
@@ -385,16 +389,16 @@ const AdministradosDeUsuario = () => {
                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Buscar
+                    <img src={botonBuscar} alt="" />
                   </button>
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
-                    Busqueda avanzada
+                    Búsqueda avanzada
                   </button>
                 </div>
               </div>
@@ -415,7 +419,7 @@ const AdministradosDeUsuario = () => {
                         autoComplete="off"
                         {...registerUsuario("nombreUsuario", {
                           required: true,
-                          minLength: 6
+                          minLength: 6,
                         })}
                       />
                     </div>
@@ -479,7 +483,7 @@ const AdministradosDeUsuario = () => {
                       <p className="font-weight-bolder text-terciary">
                         Estado del usuario
                       </p>
-                      <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                      <div className="form-check col-md-5 col-12 col-xs-6 ps-0 pe-10 ms-3 d-flex">
                         <label
                           className="form-check-label text-terciary"
                           htmlFor="flexCheckDefault"
@@ -494,7 +498,7 @@ const AdministradosDeUsuario = () => {
                           {...registerUsuario("bloqueado")}
                         />
                       </div>
-                      <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                      <div className="form-check col-md-5 col-xs-6 col-12 ps-0 pe-10 ms-3 d-flex">
                         <label
                           className="form-check-label text-terciary"
                           htmlFor="flexCheckDefault"
@@ -530,7 +534,7 @@ const AdministradosDeUsuario = () => {
                       Tipo de usuario
                     </p>
                     <div className="row flex-column">
-                      <div className="col-6 col-md-3">
+                      <div className="col-6 col-md-4">
                         <div className="form-check form-switch d-flex gap-2 ps-0 ms-3">
                           <label className="me-5 text-terciary">Externo</label>
                           <input
@@ -562,7 +566,7 @@ const AdministradosDeUsuario = () => {
                 </div> */}
                   </>
                 )}
-                <Subtitle title={"Modulos / Grupos / Roles"} mt={4} mb={0} />
+                <Subtitle title={"Módulos / Grupos / Roles"} mt={4} mb={0} />
                 <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">Roles:</label>
                   <Controller
@@ -584,7 +588,7 @@ const AdministradosDeUsuario = () => {
                     )}
                   />
                 </div>
-                <div className="col-12 col-md-3 ms-3 mt-4">
+                {/* <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">
                     Tipo de tercero:
                   </label>
@@ -601,44 +605,47 @@ const AdministradosDeUsuario = () => {
                       />
                     )}
                   />
-                </div>
+                </div> */}
                 <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
                   <button
-                    className="btn bg-gradient-light mb-0 d-block mt-4 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
+                    disabled={loading}
                   >
                     {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        "Cancelar"
-                      )}
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      <img src={botonCancelar} alt="" />
+                    )}
                   </button>
 
                   <button
-                    className="btn bg-gradient-primary mb-0 d-block mt-4 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="submit"
                     onClick={handleClickSubmit}
                   >
                     {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        actionForm === "editar" ? "Actualizar" : "Registrar"
-                      )}
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : actionForm === "editar" ? (
+                      <img src={botonActualizar} alt="" />
+                    ) : (
+                      <img src={botonAgregar} alt="" />
+                    )}
                   </button>
                 </div>
               </form>
