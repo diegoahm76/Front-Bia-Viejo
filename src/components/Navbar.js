@@ -32,7 +32,7 @@ const Navbar = ({ setShowAside, showAside }) => {
               type="button"
               onClick={handleChangeEntorno}
             >
-              Cambiar Entorno
+              Cambiar entorno
             </button>
           </div>
         </div>
