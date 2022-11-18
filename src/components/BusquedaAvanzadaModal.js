@@ -87,7 +87,7 @@ const BusquedaAvanzadaModal = ({
       minWidth: 180,
     },
     {
-      headerName: "Numero documento",
+      headerName: "Número documento",
       field: "numero_documento",
       minWidth: 180,
     },
@@ -102,7 +102,7 @@ const BusquedaAvanzadaModal = ({
       minWidth: 140,
     },
     {
-      headerName: "Accion",
+      headerName: "Acción",
       field: "accion",
       cellRendererFramework: (params) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
@@ -168,15 +168,15 @@ const BusquedaAvanzadaModal = ({
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="mt-2 mb-0 ms-3 mb-0">Busqueda avanzada</h3>
-            <Subtitle title={"Informacion general"} mt={3} mb={3} />
+            <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
+            <Subtitle title={"Información general"} mt={3} mb={3} />
 
             <div className="row">
               <div className="col-12 col-md-4">
                 <div>
                   <label className="ms-2">Primer nombre:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     type="text"
                     {...register("primerNombre")}
                   />
@@ -186,7 +186,7 @@ const BusquedaAvanzadaModal = ({
                 <div>
                   <label className="ms-2">Primer apellido:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     type="text"
                     {...register("primerApellido")}
                   />

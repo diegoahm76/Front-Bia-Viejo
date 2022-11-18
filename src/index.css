@@ -91,6 +91,7 @@ code {
 .btn {
   min-width: 100px;
   border-radius: 20px;
+  text-transform: none!important;
 }
 
 /* Correcion botones para las tablas */
