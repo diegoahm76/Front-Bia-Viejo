@@ -2,7 +2,6 @@ import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
@@ -50,7 +49,6 @@ const BusquedaAvanzadaJuridicaModal = ({
 }) => {
   const [empresaSearched, setEmpresaSearched] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [warning, setWarning] = useState(false);
 
   const {
     handleSubmit,
@@ -64,13 +62,6 @@ const BusquedaAvanzadaJuridicaModal = ({
     const accessToken = getTokenAccessLocalStorage();
     const config = getConfigAuthBearer(accessToken);
 
-    // if (!data.razonSocial && !data.nombreComercial) {
-    //   setWarning(true);
-    //   setTimeout(() => {
-    //     setWarning(false);
-    //   }, 2000);
-    //   return;
-    // }
     try {
       const queryParams = `?search=${data.razonSocial ?? ""}`;
       console.log(queryParams);
@@ -92,7 +83,7 @@ const BusquedaAvanzadaJuridicaModal = ({
       minWidth: 180,
     },
     {
-      headerName: "Numero documento",
+      headerName: "Número documento",
       field: "numero_documento",
       minWidth: 180,
     },
@@ -107,7 +98,7 @@ const BusquedaAvanzadaJuridicaModal = ({
       minWidth: 140,
     },
     {
-      headerName: "Accion",
+      headerName: "Acción",
       field: "accion",
       cellRendererFramework: (params) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
@@ -166,8 +157,8 @@ const BusquedaAvanzadaJuridicaModal = ({
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="mt-2 mb-0 ms-3 mb-0">Busqueda avanzada</h3>
-            <Subtitle title={"Informacion general"} mt={3} mb={3} />
+            <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
+            <Subtitle title={"Información general"} mt={3} mb={3} />
 
             <div className="row">
               <div className="col-12 col-md-4">
@@ -176,7 +167,7 @@ const BusquedaAvanzadaJuridicaModal = ({
                     Razón social: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     {...register("razonSocial", { required: true })}
                   />
@@ -189,24 +180,6 @@ const BusquedaAvanzadaJuridicaModal = ({
                   </div>
                 )}
               </div>
-              {/* <div className="col-12 col-md-4">
-                <div>
-                  <label className="ms-2">Nombre comercial:</label>
-                  <input
-                    className="form-control border rounded-pill px-3"
-                    type="text"
-                    {...register("nombreComercial")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 mt-3">
-                {warning && (
-                  <small className="text-center text-danger">
-                    Complete alguno de los datos, razón social o nombre
-                    comercial
-                  </small>
-                )}
-              </div> */}
               <div className="col-12 mt-2">
                 <button
                   type="submit"
