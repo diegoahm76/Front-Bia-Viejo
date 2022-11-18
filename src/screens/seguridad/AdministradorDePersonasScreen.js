@@ -12,6 +12,8 @@ import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 import { getArrayFromStringDateAAAAMMDD } from "../../helpers/dateHelpers";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg"
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg"
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -723,12 +725,12 @@ const AdministradorDePersonasScreen = () => {
                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={() => {
                       setActionForm(null);
                     }}
                   >
-                    Buscar
+                    <img src={botonBuscar} alt="" />
                   </button>
                   <button
                     type="button"
@@ -1504,23 +1506,23 @@ const AdministradorDePersonasScreen = () => {
 
                 <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
                   <button
-                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
                     disabled={loading}
                   >
                     {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        "Cancelar"
-                      )}
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      <img src={botonCancelar} alt="" />
+                    )}
                   </button>
 
                   <button
