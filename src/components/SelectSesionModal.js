@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Select from "react-select"
 import { changeSesionAction, closeModalSesionAction } from "../actions/userActions";
+import { set } from "date-fns/esm";
 
 const customStyles = {
   content: {
@@ -33,7 +34,7 @@ const SelectSesionModal = () => {
   const { handleSubmit, control, formState: {errors} } = useForm();
 
   const getSesions = () => {
-    const sesionsFromRepresentante = userInfo.representante_legal.map(
+    const sesionsFromRepresentante = userInfo.representante_legal?.map(
       (representante) => ({
         label: `Representante ${representante["razon social"]}`,
         value: {
@@ -44,12 +45,17 @@ const SelectSesionModal = () => {
     );
 
     const userSesion = {
-      label: `Usuario ${userInfo.userinfo.nombre_de_usuario}`,
+      label: `Usuario ${userInfo?.nombre_de_usuario}`,
       value: {
-        userName: userInfo.userinfo.nombre_de_usuario,
+        userName: userInfo?.nombre_de_usuario,
         type: "usuario"
       }
     }
+
+    console.log(userSesion)
+
+    if(!userInfo.representante_legal) return setSesions([userSesion])
+
     setSesions([...sesionsFromRepresentante, userSesion])
   };
 
@@ -82,11 +88,11 @@ const SelectSesionModal = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="mt-3 mb-4 mb-2 fw-light text-terciary text-center">
-              Sesiones disponibles
+              Entornos disponibles
             </h3>
             <div className="col-12 mt-2 mx-auto">
               <label className="form-label">
-                Selecciona una sesión:{" "}
+                Selecciona un entorno:{" "}
                 <span className="text-danger">*</span>
               </label>
               <Controller
