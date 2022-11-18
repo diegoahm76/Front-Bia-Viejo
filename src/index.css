@@ -89,11 +89,20 @@ code {
 .btn {
   min-width: 100px;
   border-radius: 20px;
+  text-transform: none!important;
 }
 
 /* Correcion botones para las tablas */
 .btn.btn-tablas {
   min-width: 0;
+}
+
+.btn.btn-entorno {
+  min-width: 150px;
+}
+
+.btn-image {
+  border: none!important;
 }
 
 /* Linea para los titulo de los modales */

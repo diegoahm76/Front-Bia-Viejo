@@ -125,7 +125,7 @@ const ActualizarDatosPersonaScreen = () => {
         resetDepartamentoYMunicipio(dataPersona.municipio_residencia, setLugarResidencia, municipiosFormat, departamentosFormat)
         const indexPaisLaboral = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_laboral_nal, setDatosLaborales, municipiosFormat, departamentosFormat, paisesFormat)
         const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_notificacion_nal, setDatosNotificacion, municipiosFormat, departamentosFormat, paisesFormat)
-        console.log("paises", indexPaisLaboral, indexPaisNotificacion)
+
         dataPersona.telefono_celular = dataPersona.telefono_celular.slice(2);
         dataPersona.tipo_documento =
           dataPersona.tipo_documento.cod_tipo_documento;
@@ -178,7 +178,6 @@ const ActualizarDatosPersonaScreen = () => {
   const resetDepartamentoYMunicipio = (municipioResidencia, setDepartamento, municipiosOptions, departamentosOptions) => {
     const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
     const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
-    console.log("indexMunicipioResidencia", departamentoIdentifier)
 
     let indexDepartamento = null
     departamentosOptions.forEach((departamento, index) => {
@@ -201,7 +200,7 @@ const ActualizarDatosPersonaScreen = () => {
         indexDepartamento = index
       }
     })
-    console.log("comprobacion", indexDepartamento !== null)
+
     if(indexDepartamento !== null){
       let indexColombia = null
       paisesOptions.forEach((pais, index) => {

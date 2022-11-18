@@ -1,4 +1,12 @@
+import { useDispatch } from "react-redux";
+import { openModalSesionAction } from "../actions/userActions";
+
 const Navbar = ({ setShowAside, showAside }) => {
+  const dispatch = useDispatch()
+
+  const handleChangeEntorno = () => {
+    dispatch(openModalSesionAction())
+  }
   return (
     <nav
       className="navbar navbar-main navbar-expand-lg top-1 px-0 mx-4 shadow-none border-radius-xl z-index-sticky pt-3"
@@ -7,16 +15,26 @@ const Navbar = ({ setShowAside, showAside }) => {
     >
       <div className="container-fluid py-1 px-3">
         <div className="sidenav-toggler sidenav-toggler-inner d-xl-block d-none">
-          <button
-            onClick={() => setShowAside(!showAside)}
-            className="btn border-none"
-          >
-            <div className="sidenav-toggler-inner">
-              <i className="sidenav-toggler-line"></i>
-              <i className="sidenav-toggler-line"></i>
-              <i className="sidenav-toggler-line"></i>
-            </div>
-          </button>
+          <div className="d-flex justify-content-center align-items-baseline">
+            <button
+              onClick={() => setShowAside(!showAside)}
+              className="btn border-none ms-10 mb-0"
+            >
+              <div className="sidenav-toggler-inner">
+                <i className="sidenav-toggler-line"></i>
+                <i className="sidenav-toggler-line"></i>
+                <i className="sidenav-toggler-line"></i>
+              </div>
+            </button>
+            
+            <button
+              className="btn btn-tablas btn-entorno bg-gradient-primary mb-0 d-block text-capitalize"
+              type="button"
+              onClick={handleChangeEntorno}
+            >
+              Cambiar Entorno
+            </button>
+          </div>
         </div>
         <div
           className="collapse justify-content-end navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4"

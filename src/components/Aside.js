@@ -34,8 +34,7 @@ import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/c
 
 const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
-
-  console.log("userInfo", userInfo)
+  const userSesion = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -86,7 +85,7 @@ const Aside = ({ showAside }) => {
                   {userInfo.nombre_de_usuario}
                 </span> */}
                 <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userInfo.userinfo.nombre_de_usuario}
+                  {userSesion.dataSesion.userName ? userSesion.dataSesion.userName : userInfo.userinfo.nombre_de_usuario}
                 </span>
               </a>
               <div className="collapse" id="ProfileNav">

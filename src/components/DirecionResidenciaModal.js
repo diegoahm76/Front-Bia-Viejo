@@ -266,7 +266,7 @@ const DirecionResidenciaModal = ({
             <div className="row ">
               <div className="col-12 col-md-6">
                 <label className="text-terciary form-control ms-0">
-                  Selecione: <span className="text-danger">*</span>
+                  Seleccione: <span className="text-danger">*</span>
                 </label>
                 <Controller
                   name="direccion"
@@ -286,7 +286,7 @@ const DirecionResidenciaModal = ({
 
             {selecDireccion.value === "rur" ? (
               <div className="multisteps-form__content row">
-                <Subtitle title="Datos de la direccion rural" mt="3" />
+                <Subtitle title="Datos de la dirección rural" mt="3" />
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-6 mb-3">
                     <label className="text-terciary">
@@ -360,7 +360,7 @@ const DirecionResidenciaModal = ({
                     />
                   </div>
                   <div className="col-12 col-md-6 mb-3">
-                    <label className="text-terciary">Numero:</label>
+                    <label className="text-terciary">Número:</label>
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -378,7 +378,7 @@ const DirecionResidenciaModal = ({
                   <div className="col-12 col-md-12">
                     <label className="text-terciary">Complemento</label>
                     <textarea
-                      className="form-control border rounded-pill px-5"
+                      className="form-control border rounded-pill px-5 border-terciary"
                       rows={3}
                       onChange={(e) => {
                         setFormValues({
@@ -396,7 +396,7 @@ const DirecionResidenciaModal = ({
 
             {selecDireccion.value === "urb" ? (
               <div className="multisteps-form__content row">
-                <Subtitle title="Datos de la direccion urbano" mt="3" />
+                <Subtitle title="Datos de la dirección urbano" mt="3" />
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
@@ -431,7 +431,7 @@ const DirecionResidenciaModal = ({
 
                   <div className="col-12 col-md-6">
                     <div>
-                      <label className="text-terciary">Numero: <span className="text-danger">*</span></label>
+                      <label className="text-terciary">Número: <span className="text-danger">*</span></label>
                       <input
                         type="number"
                         className="form-control border border-terciary rounded-pill px-3"
@@ -533,7 +533,7 @@ const DirecionResidenciaModal = ({
                 </div>
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Numero:</label>
+                    <label className="text-terciary">Número:</label>
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -569,7 +569,7 @@ const DirecionResidenciaModal = ({
                 </div>
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Numero Secundario:</label>
+                    <label className="text-terciary">Número Secundario:</label>
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -606,7 +606,7 @@ const DirecionResidenciaModal = ({
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6 mb-5">
-                    <label className="text-terciary">complemento :</label>
+                    <label className="text-terciary">Complemento:</label>
                     <Controller
                       name="complemento"
                       control={control}
@@ -629,7 +629,7 @@ const DirecionResidenciaModal = ({
                   <div className="col-12 col-md-6">
                     <label className="text-terciary">Adicional</label>
                     <textarea
-                      className="form-control border rounded-pill px-5"
+                      className="form-control border rounded-pill px-5 border-terciary"
                       onChange={(e) => {
                         setFormValues({
                           ...formValues,
