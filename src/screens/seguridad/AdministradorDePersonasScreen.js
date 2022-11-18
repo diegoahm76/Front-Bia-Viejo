@@ -1060,7 +1060,7 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                 </div>
                 <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
-                <div className="row mb-3 mt-2 mx-1">
+                <div className="row mb-3 mt-2 mx-1 align-items-end">
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label">País de residencia:</label>
                     <Controller
