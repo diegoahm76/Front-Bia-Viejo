@@ -22,6 +22,7 @@ export const dataOverriteEmpresaAdapter = (dataEmpresa) => {
     nombreComercial: dataEmpresa.nombre_comercial,
     razonSocial: dataEmpresa.razon_social,
     representanteLegal: dataEmpresa.representante_legal,
+    numero_documento_representante: dataEmpresa.representante_legal.numero_documento,
     eMail: dataEmpresa.email,
     emailNotificacion: dataEmpresa.email_empresarial,
     celular: dataEmpresa.telefono_celular_empresa.slice(2),

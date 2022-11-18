@@ -17,18 +17,19 @@ import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
 const defaulValuesForm = {
   tipoDocumento: null,
+  tipoDocumentoRepresentante: null,
   paisEmpresa: "",
   id_persona: "",
   tipoPersona: "",
   municipioNotificacion: "",
   digito_verificacion: "",
-  paisNotificacion: ""
-}
+  paisNotificacion: "",
+};
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
-  const [primeraVez, setPrimeraVez] = useState(true)
+  const [loading, setLoading] = useState(false);
+  const [primeraVez, setPrimeraVez] = useState(true);
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
     useState(false);
   const [direccionEmpresaIsOpen, setDireccionEmpresaIsOpen] = useState(false);
@@ -36,14 +37,15 @@ const AdministradorDeEmpresasScreen = () => {
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
   const [datosNotificacion, setDatosNotificacion] = useState({
-    departamento: ""
-  })
+    departamento: "",
+  });
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
   const [actionForm, setActionForm] = useState(null);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
-  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] = useState([])
+  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
+    useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
@@ -71,7 +73,7 @@ const AdministradorDeEmpresasScreen = () => {
   const ACTION_CREAR = "crear";
 
   const onSubmitBuscar = async (data) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const { data: dataEmpresaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
@@ -99,7 +101,6 @@ const AdministradorDeEmpresasScreen = () => {
       } else {
         setActionForm(ACTION_EDITAR);
         setPrimeraVez(false);
-
       }
 
       console.log("Data get del buscar empresa", dataEmpresa);
@@ -112,13 +113,27 @@ const AdministradorDeEmpresasScreen = () => {
               tipoDocumentoOptions
             )
           ],
+        tipoDocumentoRepresentante:
+          tipoDocumentoOptions[
+            getIndexBySelectOptions(
+              dataEmpresa.representante_legal.tipo_documento,
+              tipoDocumentoOptions
+            )
+          ],
         ...dataOverriteInputs,
       };
-      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(dataEmpresa.cod_municipio_notificacion_nal, setDatosNotificacion)
+      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(
+        dataEmpresa.cod_municipio_notificacion_nal,
+        setDatosNotificacion
+      );
       setFormValues({
         ...formValues,
         tipoDocumento: getIndexBySelectOptions(
           dataEmpresa.tipo_documento?.cod_tipo_documento,
+          tipoDocumentoOptions
+        ),
+        tipoDocumentoRepresentante: getIndexBySelectOptions(
+          dataEmpresa.representante_legal.tipo_documento,
           tipoDocumentoOptions
         ),
         paisEmpresa: getIndexBySelectOptions(
@@ -131,13 +146,13 @@ const AdministradorDeEmpresasScreen = () => {
         ),
         id_persona: dataEmpresa.id_persona,
         tipoPersona: dataEmpresa.tipo_persona,
-        paisNotificacion: indexPaisNotificacion
+        paisNotificacion: indexPaisNotificacion,
       });
       console.log("override data", defaultValuesOverrite);
       resetEmpresa(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
-      setLoading(false)
+      setLoading(false);
       if (err.response.data) {
         const result = await Swal.fire({
           title: err.response.data.detail,
@@ -151,40 +166,90 @@ const AdministradorDeEmpresasScreen = () => {
         });
         if (!result.isConfirmed) {
           resetEmptyValues();
-          setFormValues(defaulValuesForm)
+          setFormValues(defaulValuesForm);
           return setActionForm(ACTION_CREAR);
         }
       }
     }
-    setLoading(false)
+    setLoading(false);
   };
 
-  const resetPaisDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
-    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
-    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
-    let indexDepartamento = null
+  const resetPaisDepartamentoYMunicipio = (
+    municipioResidencia,
+    setDepartamento
+  ) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(
+      municipioResidencia,
+      municipiosOptions
+    );
+    const departamentoIdentifier = municipiosOptions[
+      indexMunicipioResidencia
+    ]?.value.slice(0, 2);
+    let indexDepartamento = null;
     departamentosOptions.forEach((departamento, index) => {
-      if(departamento.value === departamentoIdentifier){
-        indexDepartamento = index
+      if (departamento.value === departamentoIdentifier) {
+        indexDepartamento = index;
       }
-    })
-    if(indexDepartamento !== null){
-      let indexColombia = null
+    });
+    if (indexDepartamento !== null) {
+      let indexColombia = null;
       paisesOptions.forEach((pais, index) => {
-        if(pais.value === "CO"){
-          indexColombia = index
+        if (pais.value === "CO") {
+          indexColombia = index;
         }
-      })
-      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
-      return indexColombia
-    }else {
-      return null
+      });
+      setDepartamento({
+        departamento: departamentosOptions[indexDepartamento],
+      });
+      return indexColombia;
+    } else {
+      return null;
     }
-  }
+  };
 
   const onSubmitEmpresa = async (data) => {
-    setLoading(true)
-    const dataUpdateInputs = dataUpdateEmpresaAdapter(data);
+    setLoading(true);
+
+    let idPersonaRepresentante = null;
+
+    try {
+      const { data: dataRepresentante } = await clienteAxios.get(
+        `personas/get-personas-naturales-by-document/${data.tipoDocumentoRepresentante.value}/${data.numero_documento_representante}/`
+      );
+      console.log("dataRepresentante", dataRepresentante);
+      idPersonaRepresentante = dataRepresentante?.data?.id_persona;
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title:
+          "No existe un representante legal registrado con el documento ingresado",
+        text: "¿Quiere crear una persona natural?",
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/dashboard/seguridad/administradordepersonas");
+        }
+      });
+      setLoading(false);
+      return;
+    }
+
+    //const idPersonaRepresentante = idRepresentante;
+    console.log("id", idPersonaRepresentante);
+
+    const dataEmpresa = {
+      ...data,
+      representanteLegal: idPersonaRepresentante,
+    };
+
+    console.log("dataEmpresa", dataEmpresa);
+
+    const dataUpdateInputs = dataUpdateEmpresaAdapter(dataEmpresa);
     const updateEmpresa = {
       ...dataUpdateInputs,
       tipo_persona: formValues.tipoPersona,
@@ -194,7 +259,7 @@ const AdministradorDeEmpresasScreen = () => {
         paisesOptions[formValues.paisEmpresa]?.value || null,
       cod_municipio_notificacion_nal:
         municipiosOptions[formValues.municipioNotificacion]?.value || null,
-      digito_verificacion: data.digito_verificacion
+      digito_verificacion: data.digito_verificacion,
     };
 
     console.log("updated persona", updateEmpresa);
@@ -203,7 +268,7 @@ const AdministradorDeEmpresasScreen = () => {
       const access = getTokenAccessLocalStorage();
       const config = getConfigAuthBearer(access);
       try {
-        console.log("updateEmpresa", updateEmpresa)
+        console.log("updateEmpresa", updateEmpresa);
         const { data: dataResponse } = await clienteAxios.patch(
           `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
           updateEmpresa,
@@ -242,7 +307,7 @@ const AdministradorDeEmpresasScreen = () => {
         manejadorErroresSwitAlert(err);
       }
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   const manejadorErroresSwitAlert = (err) => {
@@ -331,7 +396,7 @@ const AdministradorDeEmpresasScreen = () => {
       direccionDeNotificacion: "",
       direccionEmpresa: "",
       municipioNotificacion: "",
-      digito_verificacion: ""
+      digito_verificacion: "",
     };
     resetEmpresa(emptyValues);
     setFormValues({
@@ -346,7 +411,7 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
-      setLoading(true)
+      setLoading(true);
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -372,9 +437,9 @@ const AdministradorDeEmpresasScreen = () => {
         setDepartamentosOptions(departamentosFormat);
       } catch (err) {
         console.log(err);
-        setLoading(false)
+        setLoading(false);
       }
-      setLoading(false)
+      setLoading(false);
     };
     getSelectsOptions();
   }, []);
@@ -394,7 +459,7 @@ const AdministradorDeEmpresasScreen = () => {
   const handleCancelAction = () => {
     setActionForm(null);
   };
-  
+
   const handleChangePaisNotificacion = (e) => {
     const objectSend = {
       paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
@@ -405,13 +470,13 @@ const AdministradorDeEmpresasScreen = () => {
         ...watchEmpresa(),
         municipioNotificacion: "",
       });
-      setDatosNotificacion({...datosNotificacion, departamento: ""})
+      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
     }
     setFormValues({
       ...formValues,
       ...objectSend,
     });
-  }
+  };
 
   const getIndexColombia = () => {
     let indexColombia = null;
@@ -424,32 +489,37 @@ const AdministradorDeEmpresasScreen = () => {
   };
 
   useEffect(() => {
-    if(!watchEmpresa("digito_verificacion")) return
-    if(watchEmpresa("digito_verificacion").length > 1) {
-      resetEmpresa({...watchEmpresa(), digito_verificacion: watchEmpresa("digito_verificacion")[0]})
+    if (!watchEmpresa("digito_verificacion")) return;
+    if (watchEmpresa("digito_verificacion").length > 1) {
+      resetEmpresa({
+        ...watchEmpresa(),
+        digito_verificacion: watchEmpresa("digito_verificacion")[0],
+      });
     }
-  }, [watchEmpresa("digito_verificacion")])
+  }, [watchEmpresa("digito_verificacion")]);
 
   useEffect(() => {
-    if(!primeraVez) return
+    if (!primeraVez) return;
     if (datosNotificacion.departamento === "") {
       setMunicipioNotificacionFiltered([]);
-      setFormValues({...formValues, municipioNotificacion: ""})
+      setFormValues({ ...formValues, municipioNotificacion: "" });
     } else {
-      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(0, 2);
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-          const indicator = municipio.value.slice(0, 2);
-          return municipioIndicadores === indicator;
-        }
+      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(
+        0,
+        2
       );
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
       setMunicipioNotificacionFiltered(municipiosCoincidentes);
-      setFormValues({...formValues, municipioNotificacion: 0})
+      setFormValues({ ...formValues, municipioNotificacion: 0 });
     }
   }, [datosNotificacion.departamento]);
 
   useEffect(() => {
-    setPrimeraVez(true)
-  }, [actionForm])
+    setPrimeraVez(true);
+  }, [actionForm]);
 
   return (
     <div className="row min-vh-100">
@@ -458,7 +528,7 @@ const AdministradorDeEmpresasScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <div className="row">
+          <div className="row align-items-end">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
               <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">
                 Administrador de empresas
@@ -498,7 +568,7 @@ const AdministradorDeEmpresasScreen = () => {
                       <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border border-terciary rounded-pill px-3"
                       type="text"
                       {...registerBuscar("numeroDocumento", { required: true })}
                     />
@@ -523,7 +593,7 @@ const AdministradorDeEmpresasScreen = () => {
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
-                    Busqueda avanzada
+                    Búsqueda avanzada
                   </button>
                 </div>
               </div>
@@ -532,9 +602,8 @@ const AdministradorDeEmpresasScreen = () => {
             {actionForm && (
               <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
                 <Subtitle title={"Datos personales"} mt={4} mb={0} />
-                <hr className="dark horizontal my-0" />
-                <div className="mt-2 row mx-1">
-                  <div className="row col-12 ">
+                <div className="mt-2 row mx-1 align-items-end">
+                  <div className="row col-12 align-items-end">
                     {actionForm !== ACTION_EDITAR ? (
                       <div className="col-12 col-md-3">
                         <label className="form-label">
@@ -573,7 +642,7 @@ const AdministradorDeEmpresasScreen = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border border-terciary rounded-pill px-3"
                             type="text"
                             value={
                               tipoDocumentoOptions[formValues.tipoDocumento]
@@ -591,7 +660,7 @@ const AdministradorDeEmpresasScreen = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           disabled={actionForm === ACTION_EDITAR}
                           {...registerEmpresa("numeroDocumento2", {
@@ -609,16 +678,19 @@ const AdministradorDeEmpresasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
-                        <label className="ms-2">Digito verificacion: <span className="text-danger">*</span></label>
+                        <label className="ms-2">
+                          Digito verificación:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border border-terciary rounded-pill px-3"
                           type="number"
                           disabled={actionForm === ACTION_EDITAR}
                           // value={formValues.digito_verificacion}
                           // onChange={handleMaxOneDigit}
                           {...registerEmpresa("digito_verificacion", {
                             required: true,
-                            maxLength: 1
+                            maxLength: 1,
                           })}
                         />
                         {errorsEmpresa.digito_verificacion && (
@@ -634,7 +706,7 @@ const AdministradorDeEmpresasScreen = () => {
                       <div className="mt-2">
                         <label className="ms-2">Nombre comercial:</label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           disabled={actionForm === ACTION_EDITAR}
                           {...registerEmpresa("nombreComercial")}
@@ -644,17 +716,17 @@ const AdministradorDeEmpresasScreen = () => {
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
-                          Razon social: <span className="text-danger">*</span>
+                          Razón social: <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           disabled={actionForm === ACTION_EDITAR}
                           {...registerEmpresa("razonSocial")}
                         />
                       </div>
                     </div>
-                    <div className="col-12 col-md-3">
+                    {/* <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">Representante legal:</label>
                         <input
@@ -664,12 +736,77 @@ const AdministradorDeEmpresasScreen = () => {
                           {...registerEmpresa("representanteLegal")}
                         />
                       </div>
+                    </div> */}
+                  </div>
+                </div>
+                <Subtitle title={"Representante Legal"} mt={4} mb={0} />
+                <div className="row mx-1 align-items-end">
+                  <div className="col-12 col-md-3 mt-3">
+                    <label className="form-label">
+                      Tipo de documento: <span className="text-danger">*</span>
+                    </label>
+                    <Controller
+                      name="tipoDocumentoRepresentante"
+                      control={controlEmpresa}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={
+                            tipoDocumentoOptions[
+                              formValues.tipoDocumentoRepresentante
+                            ]
+                          }
+                          onChange={(e) => {
+                            setFormValues({
+                              ...formValues,
+                              tipoDocumentoRepresentante:
+                                getIndexBySelectOptions(
+                                  e.value,
+                                  tipoDocumentoOptions
+                                ),
+                            });
+                          }}
+                          options={tipoDocumentoOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                    {errorsEmpresa.tipoDocumento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-md-3 col-12 mt-3">
+                    <div>
+                      <label className="ms-2">
+                        Número de documento:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="border border-terciary form-control rounded-pill px-3"
+                        type="text"
+                        {...registerEmpresa("numero_documento_representante", {
+                          required: true,
+                        })}
+                      />
                     </div>
+                    {errorsEmpresa.numero_documento && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <Subtitle title={"Datos de contacto"} mt={4} mb={0} />
-                <hr className="dark horizontal my-0" />
-                <div className="row mx-1 mt-2">
+                <div className="row mx-1 mt-2 align-items-end">
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País:</label>
                     <Controller
@@ -700,7 +837,7 @@ const AdministradorDeEmpresasScreen = () => {
                         E-mail: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         type="email"
                         disabled={actionForm === ACTION_EDITAR}
                         readOnly={actionForm === ACTION_EDITAR}
@@ -714,7 +851,7 @@ const AdministradorDeEmpresasScreen = () => {
                         Celular: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         type="tel"
                         {...registerEmpresa("celular", {
                           required: true,
@@ -733,9 +870,9 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
-                      <label className="ms-2">Telefono empresa:</label>
+                      <label className="ms-2">Teléfono empresa:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         type="text"
                         {...registerEmpresa("telefonoEmpresa")}
                       />
@@ -744,12 +881,12 @@ const AdministradorDeEmpresasScreen = () => {
                 </div>
 
                 <Subtitle title={"Datos de notificacion"} mt={4} mb={0} />
-                <div className="row mx-1">
+                <div className="row mx-1 align-items-end">
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
-                      <label className="ms-2">Telefono alterno:</label>
+                      <label className="ms-2">Teléfono alterno:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         type="text"
                         {...registerEmpresa("telefonoAlterno")}
                       />
@@ -757,9 +894,9 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
-                      <label className="ms-2">E-mail de notificacion:</label>
+                      <label className="ms-2">E-mail de notificación:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border border-terciary rounded-pill px-3"
                         type="email"
                         {...registerEmpresa("emailNotificacion")}
                       />
@@ -795,7 +932,10 @@ const AdministradorDeEmpresasScreen = () => {
                           "CO"
                         }
                         onChange={(e) => {
-                          setDatosNotificacion({...datosNotificacion, departamento: e})
+                          setDatosNotificacion({
+                            ...datosNotificacion,
+                            departamento: e,
+                          });
                         }}
                         value={datosNotificacion.departamento}
                         placeholder="Seleccionar"
@@ -806,7 +946,11 @@ const AdministradorDeEmpresasScreen = () => {
                       <label className="form-label text-terciary">
                         Departamento notificación:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
                   {formValues.paisNotificacion === getIndexColombia() ? (
@@ -821,9 +965,14 @@ const AdministradorDeEmpresasScreen = () => {
                           <Select
                             {...field}
                             isDisabled={
-                              paisesOptions[formValues.paisNotificacion]?.value !== "CO"
+                              paisesOptions[formValues.paisNotificacion]
+                                ?.value !== "CO"
                             }
-                            value={municipiosOptions[formValues.municipioNotificacion]}
+                            value={
+                              municipiosOptions[
+                                formValues.municipioNotificacion
+                              ]
+                            }
                             onChange={(e) =>
                               setFormValues({
                                 ...formValues,
@@ -844,23 +993,29 @@ const AdministradorDeEmpresasScreen = () => {
                       <label className="form-label">
                         Municipio notificación:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
-                  <div className="col-md-8 col-12 mt-3 ms-1">
-                    <div className="form-floating input-group input-group-dynamic mt-2">
+                  <div className="col-md-8 col-10 mt-3">
+                    <div className="mt-3 d-flex align-items-end">
+                      <div className="col-10">
+                      <label className="ms-2">
+                        Dirección de notificación:{" "}
+                        <span className="text-danger">*</span>
+                      </label>
                       <input
-                        className="form-control"
+                        className="form-control rounded-pill px-3 border border-terciary"
                         type="text"
                         readOnly
                         {...registerEmpresa("direccionDeNotificacion", {
                           required: true,
                         })}
                       />
-                      <label className="ms-2">
-                        Dirección de notificación:{" "}
-                        <span className="text-danger">*</span>
-                      </label>
+                      </div>
                       <button
                         type="button"
                         className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
@@ -887,17 +1042,17 @@ const AdministradorDeEmpresasScreen = () => {
                     onClick={handleCancelAction}
                   >
                     {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        "Cancelar"
-                      )}
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      "Cancelar"
+                    )}
                   </button>
 
                   <button
@@ -906,17 +1061,19 @@ const AdministradorDeEmpresasScreen = () => {
                     disabled={loading}
                   >
                     {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        actionForm === ACTION_EDITAR ? "Actualizar" : "Crear"
-                      )}
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : actionForm === ACTION_EDITAR ? (
+                      "Actualizar"
+                    ) : (
+                      "Crear"
+                    )}
                   </button>
                 </div>
               </form>
