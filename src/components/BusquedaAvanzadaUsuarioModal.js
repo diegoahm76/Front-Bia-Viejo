@@ -2,11 +2,12 @@ import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
+import botonCancelar from "../assets/iconosBotones/cancelar.svg";
+import botonBuscar from "../assets/iconosBotones/buscar.svg";
 import Subtitle from "./Subtitle";
 
 const customStyles = {
@@ -86,7 +87,7 @@ const BusquedaAvanzadaUsuarioModal = ({
       minWidth: 180,
     },
     {
-      headerName: "Numero documento",
+      headerName: "Número documento",
       field: "persona.numero_documento",
       minWidth: 180,
     },
@@ -96,7 +97,7 @@ const BusquedaAvanzadaUsuarioModal = ({
       minWidth: 140,
     },
     {
-      headerName: "Accion",
+      headerName: "Acción",
       field: "accion",
       cellRendererFramework: (params) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
@@ -153,17 +154,17 @@ const BusquedaAvanzadaUsuarioModal = ({
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="mt-2 mb-0 ms-3 mb-0">Busqueda avanzada</h3>
-            <Subtitle title={"Informacion general"} mt={3} mb={3} />
+            <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
+            <Subtitle title={"Información general"} mt={3} mb={3} />
 
-            <div className="row">
+            <div className="row align-items-end">
               <div className="col-12 col-md-4">
                 <div>
                   <label className="ms-2">
                     Email: <span className="text-danger">*</span>
                   </label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     {...register("email", { required: true })}
                   />
@@ -176,10 +177,10 @@ const BusquedaAvanzadaUsuarioModal = ({
                   </div>
                 )}
               </div>
-              <div className="col-12 mt-2">
+              <div className="col-12 col-md-4 mt-2">
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize"
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   disabled={loading}
                 >
                   {loading ? (
@@ -192,7 +193,7 @@ const BusquedaAvanzadaUsuarioModal = ({
                       Cargando...
                     </>
                   ) : (
-                    "Buscar"
+                    <img src={botonBuscar} alt="" />
                   )}
                 </button>
               </div>
@@ -210,7 +211,7 @@ const BusquedaAvanzadaUsuarioModal = ({
                   </div>
                 </div>
               </div>
-              <div className="d-flex justify-content-end gap-2 mt-3">
+              {/* <div className="d-flex justify-content-end gap-2 mt-3">
                 <button
                   type="button"
                   className="btn bg-gradient-light text-capitalize"
@@ -230,15 +231,13 @@ const BusquedaAvanzadaUsuarioModal = ({
                     "Cancelar"
                   )}
                 </button>
-              </div>
+              </div> */}
             </div>
             <p
               className="text-danger cursor-click text-capitalize position-absolute top-0 end-0 fs-4"
               onClick={() => handleCloseModal()}
             >
-              <b>
-                X
-              </b>
+              <img src={botonCancelar} alt="" />
             </p>
           </form>
         </div>
