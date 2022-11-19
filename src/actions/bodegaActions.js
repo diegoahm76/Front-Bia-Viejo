@@ -71,6 +71,7 @@ export const obtenerBodegasAction = () => {
       const { data: dataGetBodegas } = await clienteAxios.get(
         "almacen/bodega/get-list/"
       );
+      console.log("datos bodega que trae", dataGetBodegas)
       dispatch(descargarBodegaExito(dataGetBodegas));
     } catch (error) {
       console.log(error);

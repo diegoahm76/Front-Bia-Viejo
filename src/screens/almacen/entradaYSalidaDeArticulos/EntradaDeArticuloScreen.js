@@ -8,6 +8,7 @@ import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 import Subtitle from "../../../components/Subtitle";
+import CrearUnidadMedidaModal from "../../../components/CrearUnidadMedidaModal";
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -221,15 +222,7 @@ export const EntradaDeArticuloScreen = () => {
     gridApi = params.api;
   };
 
-  const [crearUnidad, setCrearUnidad] = useState(false);
-
-  const handleOpenModalCrearUnidad = () => {
-    setCrearUnidad(true);
-  };
-
-  const handleCloseModalCrearUnidad = () => {
-    setCrearUnidad(false);
-  };
+  const [crearUnidadMedidaOpen, setCrearUnidadMedidaOpen] = useState(false);
 
   const [crearMarca, setCrearMarca] = useState(false);
 
@@ -293,12 +286,12 @@ export const EntradaDeArticuloScreen = () => {
           id="configForm"
         >
           <MarcaDeAgua1>
-            <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">Entrada de Articulos</h3>
+            <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">
+              Entrada de Articulos
+            </h3>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <Subtitle
-                  title={"Datos generales"}
-                />
+                <Subtitle title={"Datos generales"} />
                 <div className="row ms-1 mt-4">
                   <div className="col-6 col-sm-3 mt-3">
                     <label className="text-terciary">
@@ -318,7 +311,10 @@ export const EntradaDeArticuloScreen = () => {
                   </div>
 
                   <div className="col-6 col-sm-3 mt-3">
-                    <label htmlFor="exampleFormControlInput1 " className="text-terciary">
+                    <label
+                      htmlFor="exampleFormControlInput1 "
+                      className="text-terciary"
+                    >
                       Fecha de Ingreso: <span className="text-danger">*</span>
                     </label>
                     <Controller
@@ -398,9 +394,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
 
               <div className="row mt-3">
-              <Subtitle
-                  title={"Informacion de terceros"}
-                />
+                <Subtitle title={"Informacion de terceros"} />
                 <div className="row ms-1 mt-2">
                   <div className="col-6 col-sm-3">
                     <label className="text-terciary">
@@ -440,7 +434,9 @@ export const EntradaDeArticuloScreen = () => {
                   <div className="col-6 col-sm-3">
                     <label className="text-terciary">Nombre: </label>
                     <br />
-                    <label className="text-terciary">Profesional de cormacarena</label>
+                    <label className="text-terciary">
+                      Profesional de cormacarena
+                    </label>
                   </div>
                   <div className="  mt-3 col-6 col-sm-3">
                     <button
@@ -522,9 +518,7 @@ export const EntradaDeArticuloScreen = () => {
 
               <div className="row">
                 <div className="col">
-                <Subtitle
-                  title={"Identificacion de articulos"}
-                />
+                  <Subtitle title={"Identificacion de articulos"} />
                 </div>
               </div>
               <div className="row ms-1 align-items-end">
@@ -541,7 +535,9 @@ export const EntradaDeArticuloScreen = () => {
                   />
                 </div>
                 <div className="col-6 col-sm-3">
-                  <label className="ms-2 text-terciary">Nombre de articulo:</label>
+                  <label className="ms-2 text-terciary">
+                    Nombre de articulo:
+                  </label>
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
@@ -550,17 +546,15 @@ export const EntradaDeArticuloScreen = () => {
                     disabled="true"
                   />
                 </div>
-                <div
-                  className="col-6 col-sm-3 mt-4"
-                >
+                <div className="col-6 col-sm-3 mt-4">
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize border rounded-pill px-3 mb-0"
                   >
                     buscar
                   </button>
-                  </div>
-                  <div className="col-6 col-sm-3">
+                </div>
+                <div className="col-6 col-sm-3">
                   <button
                     type="button"
                     className="btn btn-primary text-capitalize ms-1 border rounded-pill px-3 mb-0"
@@ -572,9 +566,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
               <div className="row mt-4">
                 <div>
-                <Subtitle
-                  title={"Informacion de articulo"}
-                />
+                  <Subtitle title={"Informacion de articulo"} />
                 </div>
 
                 <div>
@@ -582,7 +574,7 @@ export const EntradaDeArticuloScreen = () => {
                     <div className="col-6 col-sm-3">
                       <div>
                         <label className="text-terciary">
-                          Unidad de Medida:{" "}
+                          Unidad de Medida{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <br />
@@ -595,9 +587,18 @@ export const EntradaDeArticuloScreen = () => {
                         />
                       </div>
                     </div>
+                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                        onClick={() => setCrearUnidadMedidaOpen(true)}
+                      >
+                        Crear
+                      </button>
+                    </div>
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
-                        Cantidad: <span className="text-danger">*</span>{" "}
+                        Cantidad <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
@@ -609,7 +610,7 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
-                        Valor unitario: <span className="text-danger">*</span>{" "}
+                        Valor unitario <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
@@ -621,7 +622,7 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
-                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                        Porcentaje IVA <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
@@ -631,22 +632,9 @@ export const EntradaDeArticuloScreen = () => {
                         {...register("PorceIVA")}
                       />
                     </div>
-                  </div>
-                  <div className=" row ms-2 mb-2">
-                    <div className="col-2">
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
-                        onClick={handleOpenModalCrearUnidad}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                  </div>
-                  <div className="row ms-2 align-items-end">
                     <div className="col-6 col-sm-3 mt-1">
                       <label className="ms-2 text-terciary">
-                        Valor IVA: <span className="text-danger">*</span>{" "}
+                        Valor IVA <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 mt-2 border border-terciary"
@@ -658,7 +646,9 @@ export const EntradaDeArticuloScreen = () => {
                       />
                     </div>
                     <div className="col-6 col-sm-3">
-                      <label className="ms-2 text-terciary">Valor unitario Total:</label>
+                      <label className="ms-2 text-terciary">
+                        Valor unitario Total
+                      </label>
                       <input
                         className="form-control border rounded-pill px-3 mt-2 border border-terciary"
                         type="numb"
@@ -670,7 +660,7 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
-                        Estado del articulo: :{" "}
+                        Estado del articulo{" "}
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
@@ -693,8 +683,7 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="text-terciary">
-                        Nombre Cientifico (viveros):{" "}
-                        <span className="text-danger">*</span>
+                        Nombre Cientifico <span className="text-danger">*</span>
                       </label>
                       <br />
                       <input
@@ -705,16 +694,10 @@ export const EntradaDeArticuloScreen = () => {
                         {...register("NombreCient")}
                       />
                     </div>
-                  </div>
-
-                  <div className="row ms-2 justify-content-end">
-                    <div
-                      className="col-2"
-                     
-                    >
+                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
                       <button
                         type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                         onClick={handleOpenModalCrearNombreCientifico}
                       >
                         Agregar
@@ -737,6 +720,7 @@ export const EntradaDeArticuloScreen = () => {
 
                 <div>
                   <div className="row ms-2 mt-5">
+                    <Subtitle title={"Entrada de activo"} mb={4} />
                     <div className="col-6 col-sm-3">
                       <div>
                         <label className="ms-2 text-terciary">
@@ -752,6 +736,15 @@ export const EntradaDeArticuloScreen = () => {
                         />
                       </div>
                     </div>
+                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                        onClick={() => setCrearUnidadMedidaOpen(true)}
+                      >
+                        Crear
+                      </button>
+                    </div>
                     <div className="col-6 col-sm-3">
                       <div>
                         <label className="ms-2 me-2 text-terciary ">
@@ -766,6 +759,19 @@ export const EntradaDeArticuloScreen = () => {
                         />
                       </div>
                     </div>
+
+                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                      <button
+                        type="button"
+                        className=" btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                        onClick={handleOpenModalCrearMarca}
+                      >
+                        Crear
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="row ms-2 align-items-end">
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
                         Modelo: <span className="text-danger">*</span>{" "}
@@ -791,30 +797,6 @@ export const EntradaDeArticuloScreen = () => {
                         {...register("Cant")}
                       />
                     </div>
-                  </div>
-
-                  <div className="row ms-2">
-                    <div className="col-3">
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
-                        onClick={handleOpenModalCrearUnidad}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                    <div className="col-3">
-                      <button
-                        type="button"
-                        className=" ms-2 btn btn-primary text-capitalize border rounded-pill px-3 mt-1"
-                        onClick={handleOpenModalCrearMarca}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="row ms-2 align-items-end">
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
                         Vida util: <span className="text-danger">*</span>{" "}
@@ -862,12 +844,10 @@ export const EntradaDeArticuloScreen = () => {
                         disabled="true"
                       />
                     </div>
-                  </div>
-
-                  
-                  <div className="row ms-2 align-items-end">
                     <div className="col-6 col-md-3 mt-2">
-                      <label className="ms-2 text-terciary">Valor unitario Total: </label>
+                      <label className="ms-2 text-terciary">
+                        Valor unitario Total:{" "}
+                      </label>
                       <input
                         className="form-control border rounded-pill px-3 mt-1 border border-terciary"
                         type="float"
@@ -925,8 +905,6 @@ export const EntradaDeArticuloScreen = () => {
                         {...register("Garantia")}
                       />
                     </div>
-                  </div>
-                  <div className="row ms-2 mt-3">
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
                         Dias de uso: <span className="text-danger">*</span>{" "}
@@ -939,6 +917,8 @@ export const EntradaDeArticuloScreen = () => {
                         {...register("DiasUso")}
                       />
                     </div>
+                  </div>
+                  <div className="row ms-2 mt-3">
                     <div className="col ">
                       <label className="ms-2 text-terciary">
                         Observaciones: <span className="text-danger">*</span>{" "}
@@ -1028,9 +1008,7 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
                 <div className="row">
                   <div className="col">
-                  <Subtitle
-                  title={"Articulos a ingresar"}
-                />
+                    <Subtitle title={"Articulos a ingresar"} />
                   </div>
                 </div>
                 <div className="row">
@@ -1121,66 +1099,6 @@ export const EntradaDeArticuloScreen = () => {
             isModalActive={modalArticulos}
             setIsModalActive={setModalArticulos}
           />
-          <ModalLocal localState={crearUnidad}>
-            <div className="row">
-              <div className="col">
-                <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
-                  Registro Unidad
-                </label>
-              </div>
-
-              <div className="row">
-              <Subtitle
-                  title={"Informacion de la unidad de medida"}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <label className="text-terciary">Codigo:</label>
-                <input
-                  className="form-control border rounded-pill px-3 border border-terciary"
-                  type="text"
-                  placeholder="Codigo"
-                  {...register("Cod")}
-                />
-              </div>
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <label className="text-terciary">Nombre:</label>
-                <input
-                  className="form-control border rounded-pill px-3 border border-terciary"
-                  type="text"
-                  placeholder="Nombre"
-                  {...register("Nombre")}
-                />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill px-3"
-                >
-                  Limpiar
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger text-capitalize border rounded-pill px-3"
-                  onClick={handleCloseModalCrearUnidad}
-                >
-                  Cancelar
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill px-3"
-                >
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </ModalLocal>
           <ModalLocal localState={crearMarca}>
             <div className="row">
               <div className="col">
@@ -1190,9 +1108,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row">
-            <Subtitle
-                  title={"Informacion de la marca"}
-                />
+              <Subtitle title={"Informacion de la marca"} />
             </div>
             <div className="row">
               <div className="col-12 col-md-4 mt-4 ms-4">
@@ -1248,9 +1164,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </div>
             <div className="row">
-            <Subtitle
-                  title={"Informacion del Articulo"}
-                />
+              <Subtitle title={"Informacion del Articulo"} />
             </div>
             <div className="row mt-4">
               <div className="col-12 col-md-4 ms-2">
@@ -1324,6 +1238,10 @@ export const EntradaDeArticuloScreen = () => {
           </ModalLocal>
         </form>
       </div>
+      <CrearUnidadMedidaModal
+        isModalActive={crearUnidadMedidaOpen}
+        setIsModalActive={setCrearUnidadMedidaOpen}
+      />
     </div>
   );
 };
