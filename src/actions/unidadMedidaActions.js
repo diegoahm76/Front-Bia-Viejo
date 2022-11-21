@@ -6,6 +6,9 @@ import {
   COMENZAR_DESCARGA_UNIDADMEDIDA,
   DESCARGA_UNIDADMEDIDA_EXITO,
   DESCARGA_UNIDADMEDIDA_ERROR,
+  OBTENER_UNIDADMEDIDA_ELIMINAR,
+  ELIMINAR_UNIDADMEDIDA_EXITO,
+  ELIMINAR_UNIDADMEDIDA_ERROR,
 } from "../../src/types/unidadMedidaTypes";
 import Swal from "sweetalert2";
 
@@ -79,5 +82,33 @@ export const obtenerUnidadMedidaAction = () => {
   
   const descargarUnidadMedidaError = (estado) => ({
     type: DESCARGA_UNIDADMEDIDA_ERROR,
+    payload: estado,
+  });
+
+  export const eliminarUnidadMedidaAction = (id_unidad_medida) => {
+    return async (dispatch) => {
+      dispatch(obtenerUnidadMedidaEliminar(id_unidad_medida));
+  
+      try {
+        await clienteAxios.delete(`almacen/unidades-medida/delete/${id_unidad_medida}`);
+        dispatch(unidadMedidaEliminadaExito());
+        Swal.fire("Correcto", "La unidad de medida se elimino correctamente", "success");
+      } catch (error) {
+        console.log(error);
+        dispatch(unidadMedidaEliminarError(true));
+      }
+    };
+  };
+  
+  const obtenerUnidadMedidaEliminar = (id_unidad_medida) => ({
+    type: OBTENER_UNIDADMEDIDA_ELIMINAR,
+    payload: id_unidad_medida,
+  });
+  const unidadMedidaEliminadaExito = () => ({
+    type:ELIMINAR_UNIDADMEDIDA_EXITO,
+  });
+  
+  const unidadMedidaEliminarError = (estado) => ({
+    type: ELIMINAR_UNIDADMEDIDA_ERROR,
     payload: estado,
   });

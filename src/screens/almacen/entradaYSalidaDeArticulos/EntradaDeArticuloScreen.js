@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
@@ -9,9 +9,37 @@ import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal
 import MarcaDeAgua1 from "../../../components/MarcaDeAgua1";
 import Subtitle from "../../../components/Subtitle";
 import CrearUnidadMedidaModal from "../../../components/CrearUnidadMedidaModal";
+import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
+import clienteAxios from "../../../config/clienteAxios";
+import IconoGuardar from "../../../assets/iconosBotones/guardar.svg";
+import IconoCancelar from "../../../assets/iconosBotones/cancelar.svg";
+import IconoBuscar from "../../../assets/iconosBotones/buscar.svg";
+import IconoAgregar from "../../../assets/iconosBotones/agregar.svg";
+import IconoLimpiar from "../../../assets/iconosBotones/limpiar.svg";
+import IconoSiguiente from "../../../assets/iconosBotones/continuar.svg";
+import IconoAtras from "../../../assets/iconosBotones/atrás.svg";
+import IconoVer from "../../../assets/iconosBotones/ver.svg";
+import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
+  const [EstadoArticulos, setEstadoArticulos] = useState([]);
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      try {
+        const { data: EstadoArticulosNoFormat } = await clienteAxios.get(
+          "almacen/choices/estados-articulo/"
+        );
+        const estadosArticulosFormat = textChoiseAdapter(
+          EstadoArticulosNoFormat
+        );
+        setEstadoArticulos(estadosArticulosFormat);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getSelectsOptions();
+  }, []);
   const opcEntrada = [
     { label: "Compra", value: "Comp" },
     { label: "Convenio", value: "Conv" },
@@ -30,12 +58,6 @@ export const EntradaDeArticuloScreen = () => {
     { label: "Cedula de extranjeria", value: "CE" },
     { label: "Pasaporte", value: "PP" },
     { label: "NIT", value: "NIT" },
-  ];
-
-  const [estado, setEstado] = useState({});
-  const opcEstado = [
-    { label: "Bueno", value: "GOOD" },
-    { label: "Averiado/Defectuoso", value: "A/D" },
   ];
 
   const [selectedBodega, setSelectedBodega] = useState({});
@@ -250,7 +272,7 @@ export const EntradaDeArticuloScreen = () => {
     setModal(true);
   };
 
-  const handleOpenModalBusquedaPersonal = () => {
+  const handleOpenModalAvanzadaModal = () => {
     setModalPersonal(true);
   };
 
@@ -431,26 +453,22 @@ export const EntradaDeArticuloScreen = () => {
                       {...register("NumeroDoc")}
                     />
                   </div>
-                  <div className="col-6 col-sm-3">
-                    <label className="text-terciary">Nombre: </label>
-                    <br />
-                    <label className="text-terciary">
-                      Profesional de cormacarena
-                    </label>
-                  </div>
-                  <div className="  mt-3 col-6 col-sm-3">
+                  <div className="col-6 col-sm-2 mt-2">
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize border rounded-pill px-3"
+                      className="btn  text-capitalize btn-outline-ligth px-3 mt-4"
+                      title="Buscar profesional cormacarena"
                     >
-                      buscar
+                      <img src={IconoBuscar} alt="buscar" />
                     </button>
+                  </div>
+                  <div className="col-6 col-sm-3 mt-2">
                     <button
                       type="button"
-                      className="btn btn-primary text-capitalize border rounded-pill px-3"
-                      onClick={handleOpenModalBusquedaPersonal}
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                      onClick={handleOpenModalAvanzadaModal}
                     >
-                      busqueda de tercero
+                      busqueda avanzada
                     </button>
                   </div>
                 </div>
@@ -546,12 +564,16 @@ export const EntradaDeArticuloScreen = () => {
                     disabled="true"
                   />
                 </div>
-                <div className="col-6 col-sm-3 mt-4">
+                <div
+                  className="col-6 col-sm-3 mt-4 d-inline-block"
+                  tabindex="0"
+                  title="Buscar"
+                >
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mb-0"
+                    className="btn text-capitalize btn-outline-ligth px-3 mb-0"
                   >
-                    buscar
+                    <img src={IconoBuscar} alt="buscar" />
                   </button>
                 </div>
                 <div className="col-6 col-sm-3">
@@ -564,6 +586,7 @@ export const EntradaDeArticuloScreen = () => {
                   </button>
                 </div>
               </div>
+
               <div className="row mt-4">
                 <div>
                   <Subtitle title={"Informacion de articulo"} />
@@ -670,7 +693,7 @@ export const EntradaDeArticuloScreen = () => {
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={opcEstado}
+                            options={EstadoArticulos}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -697,10 +720,11 @@ export const EntradaDeArticuloScreen = () => {
                     <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
                       <button
                         type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                        className="btn text-capitalize btn-outline-ligth px-3 mt-4 btn-min-width"
+                        title="Agregar"
                         onClick={handleOpenModalCrearNombreCientifico}
                       >
-                        Agregar
+                        <img src={IconoAgregar} alt="agregar" />
                       </button>
                     </div>
                   </div>
@@ -870,7 +894,7 @@ export const EntradaDeArticuloScreen = () => {
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={opcEstado}
+                            options={EstadoArticulos}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -936,25 +960,24 @@ export const EntradaDeArticuloScreen = () => {
                 <div className="col-4">
                   <button
                     type="button"
-                    className="col-3 col-md-4 ms-4 mt-4 btn btn-secondary text-capitalize border rounded-pill px-3"
+                    className="col-3 col-md-4 ms-4 mt-4 btn  text-capitalize btn-outline-ligth px-3"
+                    title="Agregar"
                   >
-                    Agregar
+                    <img src={IconoAgregar} alt="agregar" />
                   </button>
                 </div>
                 <div className="row">
                   <div className="d-flex justify-content-end gap-4 mt-4">
-                    <label className="mt-3 fw-bolder text-center">
-                      Resumen de la entrada:
-                    </label>
                     <button
                       type="button"
-                      className={`btn btn-primary text-capitalize border rounded-pill px-3 ${
+                      className={`btn text-capitalize btn-outline-ligth px-3 ${
                         page === 1 && "d-none"
                       }`}
                       style={{ minWidth: "100px" }}
                       onClick={handleOpenModal}
+                      title="Ver resumen de entrada"
                     >
-                      Ver
+                      <img src={IconoVer} alt="ver" />
                     </button>
                   </div>
                 </div>
@@ -965,35 +988,44 @@ export const EntradaDeArticuloScreen = () => {
               <div className="d-flex justify-content-end gap-4 mt-4">
                 <button
                   type="button"
-                  className="btn btn-light text-capitalize border rounded-pill px-3"
+                  className="btn  text-capitalize btn-outline-ligth px-3"
+                  title="Cancelar"
                 >
-                  Cancelar
+                  <img src={IconoCancelar} alt="cancelar" />
                 </button>
                 <button
                   type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill px-3"
+                  className="btn btn-outline-ligth text-capitalize  px-3"
+                  aria-label="Cancelar"
+                  title="Limpiar"
                 >
-                  Limpiar
+                  <img src={IconoLimpiar} alt="limpiar" />
                 </button>
 
                 <button
-                  className={`btn btn-danger text-capitalize border rounded-pill px-3 ${
+                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${
                     page === 1 && "d-none"
                   }`}
                   type="button"
                   title="Regresar a la pagina anterior"
                   onClick={handlePreviousPage}
                 >
-                  {" "}
-                  {"<< Atrás"}{" "}
+                  <img src={IconoAtras} alt="atras" />
                 </button>
                 <button
-                  className="btn btn-primary text-capitalize border rounded-pill px-3"
+                  className="btn  text-capitalize btn-outline-ligth px-3"
                   type="submit"
-                  title="Finalizar"
                   form="configForm"
                 >
-                  {page === 1 ? "Siguiente >>" : "Continuar"}{" "}
+                  {page === 1 ? (
+                    <img
+                      src={IconoSiguiente}
+                      title="Siguiente"
+                      alt="siguiente"
+                    />
+                  ) : (
+                    "Continuar"
+                  )}{" "}
                 </button>
               </div>
             </div>
@@ -1091,7 +1123,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
             </MarcaDeAgua1>
           </ModalLocal>
-          <BusquedaDePersonalModal
+          <BusquedaAvanzadaModal
             isModalActive={modalPersonal}
             setIsModalActive={setModalPersonal}
           />

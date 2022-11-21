@@ -15,6 +15,7 @@ import { getArrayFromStringDateAAAAMMDD } from "../../helpers/dateHelpers";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [direccionResidenciaIsOpen, setDireccionResidenciaIsOpen] =
     useState(false);
   const [direccionResidenciaText, setDireccionResidenciaText] = useState("");
@@ -88,6 +89,7 @@ const AdministradorDePersonasScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true)
       try {
         const { data: sexoNoFormat } = await clienteAxios.get("choices/sexo/");
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
@@ -122,12 +124,14 @@ const AdministradorDePersonasScreen = () => {
       } catch (err) {
         console.log(err);
       }
+      setLoading(false)
     };
     getSelectsOptions();
   }, []);
 
   const onSubmitBuscar = async (data) => {
     // console.log(data);
+    setLoading(true)
     try {
       const { data: dataPersonaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
@@ -172,7 +176,7 @@ const AdministradorDePersonasScreen = () => {
         segundoApellido: dataPersona.segundo_apellido,
         eMail: dataPersona.email,
         celular: dataPersona.telefono_celular.slice(2),
-        emailEmpresarial: dataPersona.email_empresarial,
+        emailEmpresarial: dataPersona.email_empresarial || null,
         telefonoFijo: dataPersona.telefono_fijo_residencial,
         telefonoEmpresa2: dataPersona.telefono_empresa_2,
         referenciaAdicional: dataPersona.direccion_residencia_ref,
@@ -250,6 +254,7 @@ const AdministradorDePersonasScreen = () => {
         });
       }
     }
+    setLoading(false)
   };
 
   const resetDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
@@ -290,6 +295,7 @@ const AdministradorDePersonasScreen = () => {
   }
 
   const onSubmitPersona = async (data) => {
+    setLoading(true)
     console.log("data para submit", data);
     const indicativo = "57";
     const updatedPersona = {
@@ -310,7 +316,7 @@ const AdministradorDePersonasScreen = () => {
         representation: "date",
       }),
       email: data.eMail, //Queda por comprobar si mejor se bloquea
-      email_empresarial: data.emailEmpresarial,
+      email_empresarial: data.emailEmpresarial || null,
       telefono_celular: indicativo + data.celular,
       telefono_fijo_residencial: data.telefonoFijo,
       telefono_empresa_2: data.telefonoEmpresa2,
@@ -389,6 +395,7 @@ const AdministradorDePersonasScreen = () => {
     setLugarResidencia({departamento: ""})
     setDatosLaborales({departamento: ""})
     setDatosNotificacion({departamento: ""})
+    setLoading(false)
   };
 
   const resetEmptyValues = () => {
@@ -1500,15 +1507,39 @@ const AdministradorDePersonasScreen = () => {
                     className="btn bg-gradient-light mb-0 d-block text-capitalize"
                     type="button"
                     onClick={handleCancelAction}
+                    disabled={loading}
                   >
-                    Cancelar
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Cancelar"
+                      )}
                   </button>
 
                   <button
                     className="btn bg-gradient-primary mb-0 d-block text-capitalize"
                     type="submit"
+                    disabled={loading}
                   >
-                    {actionForm === "editar" ? "Actualizar" : "Crear"}
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        actionForm === "editar" ? "Actualizar" : "Crear"
+                      )}
                   </button>
                 </div>
               </form>

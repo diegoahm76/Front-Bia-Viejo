@@ -26,6 +26,7 @@ const defaulValuesForm = {
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const [direccionNotificacionIsOpen, setDireccionNotificacionIsOpen] =
     useState(false);
   const [direccionEmpresaIsOpen, setDireccionEmpresaIsOpen] = useState(false);
@@ -63,31 +64,13 @@ const AdministradorDeEmpresasScreen = () => {
   const ACTION_CREAR = "crear";
 
   const onSubmitBuscar = async (data) => {
+    setLoading(true)
     try {
       const { data: dataEmpresaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       );
 
       const { data: dataEmpresa } = dataEmpresaObject;
-
-      // if (!dataEmpresa) {
-      //   const result = await Swal.fire({
-      //     title: "No existe una empresa con estos datos",
-      //     text: "¿Quiere seguir buscando o quiere crear una empresa?",
-      //     icon: "warning",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Seguir",
-      //     cancelButtonText: "Crear",
-      //   });
-      //   if (!result.isConfirmed) {
-      //     resetEmptyValues();
-      //     return setActionForm(ACTION_CREAR);
-      //   } else {
-      //     return;
-      //   }
-      // }
 
       if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
         Swal.fire({
@@ -138,12 +121,12 @@ const AdministradorDeEmpresasScreen = () => {
         ),
         id_persona: dataEmpresa.id_persona,
         tipoPersona: dataEmpresa.tipo_persona,
-        digito_verificacion: dataEmpresa.digito_verificacion || ""
       });
       console.log("override data", defaultValuesOverrite);
       resetEmpresa(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
+      setLoading(false)
       if (err.response.data) {
         const result = await Swal.fire({
           title: err.response.data.detail,
@@ -159,14 +142,14 @@ const AdministradorDeEmpresasScreen = () => {
           resetEmptyValues();
           setFormValues(defaulValuesForm)
           return setActionForm(ACTION_CREAR);
-        } else {
-          return;
         }
       }
     }
+    setLoading(false)
   };
 
   const onSubmitEmpresa = async (data) => {
+    setLoading(true)
     const dataUpdateInputs = dataUpdateEmpresaAdapter(data);
     const updateEmpresa = {
       ...dataUpdateInputs,
@@ -177,7 +160,7 @@ const AdministradorDeEmpresasScreen = () => {
         paisesOptions[formValues.paisEmpresa]?.value,
       cod_municipio_notificacion_nal:
         municipiosOptions[formValues.municipioNotificacion]?.value,
-      digito_verificacion: formValues.digito_verificacion
+      digito_verificacion: data.digito_verificacion
     };
 
     console.log("updated persona", updateEmpresa);
@@ -224,6 +207,7 @@ const AdministradorDeEmpresasScreen = () => {
         manejadorErroresSwitAlert(err);
       }
     }
+    setLoading(false)
   };
 
   const manejadorErroresSwitAlert = (err) => {
@@ -312,6 +296,7 @@ const AdministradorDeEmpresasScreen = () => {
       direccionDeNotificacion: "",
       direccionEmpresa: "",
       municipioNotificacion: "",
+      digito_verificacion: ""
     };
     resetEmpresa(emptyValues);
     setFormValues({
@@ -326,6 +311,7 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true)
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -346,7 +332,9 @@ const AdministradorDeEmpresasScreen = () => {
         setMunicipiosOptions(municipiosFormat);
       } catch (err) {
         console.log(err);
+        setLoading(false)
       }
+      setLoading(false)
     };
     getSelectsOptions();
   }, []);
@@ -381,6 +369,13 @@ const AdministradorDeEmpresasScreen = () => {
       })
     }
   }
+
+  useEffect(() => {
+    if(!watchEmpresa("digito_verificacion")) return
+    if(watchEmpresa("digito_verificacion").length > 1) {
+      resetEmpresa({...watchEmpresa(), digito_verificacion: watchEmpresa("digito_verificacion")[0]})
+    }
+  }, [watchEmpresa("digito_verificacion")])
 
   return (
     <div className="row min-vh-100">
@@ -540,22 +535,22 @@ const AdministradorDeEmpresasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
-                        <label className="ms-2">Digito verificacion:</label>
+                        <label className="ms-2">Digito verificacion: <span className="text-danger">*</span></label>
                         <input
                           className="form-control border rounded-pill px-3"
                           type="number"
-                          value={formValues.digito_verificacion}
                           disabled={actionForm === ACTION_EDITAR}
-                          onChange={handleMaxOneDigit}
-                          // {...registerEmpresa("codVerificacion", {
-                          //   maxLength: 1,
-                          // })}
+                          // value={formValues.digito_verificacion}
+                          // onChange={handleMaxOneDigit}
+                          {...registerEmpresa("digito_verificacion", {
+                            required: true,
+                            maxLength: 1
+                          })}
                         />
-                        {errorsEmpresa.codVerificacion && (
+                        {errorsEmpresa.digito_verificacion && (
                           <div className="col-12">
                             <small className="text-center text-danger">
-                              Este campo es obligatorio, con numeros y de un
-                              carácter
+                              Este campo es obligatorio y de un caracter
                             </small>
                           </div>
                         )}
@@ -654,6 +649,13 @@ const AdministradorDeEmpresasScreen = () => {
                         })}
                       />
                     </div>
+                    {errorsEmpresa.celular && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio y de un caracter
+                        </small>
+                      </div>
+                    )}
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
@@ -689,58 +691,40 @@ const AdministradorDeEmpresasScreen = () => {
                       />
                     </div>
                   </div>
-                  {actionForm !== ACTION_EDITAR ? (
-                    <div className="col-12 col-md-3">
-                      <label className="form-label">
-                        Municipio de notificacion:
-                      </label>
-                      <Controller
-                        name="municipioNotificacion"
-                        control={controlEmpresa}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            value={
-                              municipiosOptions[
-                                formValues.municipioNotificacion
-                              ]
-                            }
-                            onChange={(e) => {
-                              resetEmpresa({
-                                municipioNotificacion: e.value,
-                              });
-                              setFormValues({
-                                ...formValues,
-                                municipioNotificacion: getIndexBySelectOptions(
-                                  e.value,
-                                  municipiosOptions
-                                ),
-                              });
-                            }}
-                            options={municipiosOptions}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  ) : (
-                    <div className="col-12 col-md-3">
-                      <div className="mt-2">
-                        <label className="ms-2">
-                          Municipio de notificacion:
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3"
-                          type="text"
+                  <div className="col-12 col-md-3">
+                    <label className="form-label">
+                      Municipio de notificacion:
+                    </label>
+                    <Controller
+                      name="municipioNotificacion"
+                      control={controlEmpresa}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
                           value={
-                            municipiosOptions[formValues.municipioNotificacion]
-                              ?.label
+                            municipiosOptions[
+                              formValues.municipioNotificacion
+                            ]
                           }
-                          disabled
+                          onChange={(e) => {
+                            resetEmpresa({
+                              ...watchEmpresa(),
+                              municipioNotificacion: e.value,
+                            });
+                            setFormValues({
+                              ...formValues,
+                              municipioNotificacion: getIndexBySelectOptions(
+                                e.value,
+                                municipiosOptions
+                              ),
+                            });
+                          }}
+                          options={municipiosOptions}
+                          placeholder="Seleccionar"
                         />
-                      </div>
-                    </div>
-                  )}
+                      )}
+                    />
+                  </div>
                   <div className="col-md-8 col-12 mt-3 ms-1">
                     <div className="form-floating input-group input-group-dynamic mt-2">
                       <input
@@ -777,16 +761,40 @@ const AdministradorDeEmpresasScreen = () => {
                   <button
                     className="btn bg-gradient-light mb-0 d-block text-capitalize"
                     type="button"
+                    disabled={loading}
                     onClick={handleCancelAction}
                   >
-                    Cancelar
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Cancelar"
+                      )}
                   </button>
 
                   <button
                     className="btn bg-gradient-primary mb-0 d-block text-capitalize"
                     type="submit"
+                    disabled={loading}
                   >
-                    {actionForm === ACTION_EDITAR ? "Actualizar" : "Crear"}
+                    {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        actionForm === ACTION_EDITAR ? "Actualizar" : "Crear"
+                      )}
                   </button>
                 </div>
               </form>

@@ -43,6 +43,7 @@ const EditarBodegaScreen = () => {
 
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [municipioFiltered, setMunicipioFiltered] = useState([])
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [es_principal, setEs_principal] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -132,9 +133,9 @@ const EditarBodegaScreen = () => {
 
         let coddep = bodegaEditar.cod_municipio.slice(0, 2);
 
-        departamentosNoFormat.forEach((dep) => {
-          if (dep[0] === coddep) {
-            coddep = dep[0];
+        departamentosFormat.forEach((dep) => {
+          if (dep.value === coddep) {
+            coddep = dep;
           }
         });
 
@@ -157,6 +158,23 @@ const EditarBodegaScreen = () => {
     };
     getSelectsOptions();
   }, []);
+
+  useEffect(() => {
+    if (watchBodega("departamento")?.value) {
+      setMunicipioFiltered([]);
+      resetBodega({...watchBodega(), cod_municipio: ""})
+    } else {
+      const municipioIndicadores = watchBodega("departamento")?.value;
+      console.log("prueba", municipiosOptions, municipioIndicadores, watchBodega())
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+          const indicator = municipio.value.slice(0, 2);
+          return municipioIndicadores === indicator;
+        }
+      );
+      setMunicipioFiltered(municipiosCoincidentes);
+      resetBodega({...watchBodega(), cod_municipio: 0})
+    }
+  }, [watchBodega("departamento")]);
 
   return (
     <div className="row min-vh-100">
@@ -309,7 +327,7 @@ const EditarBodegaScreen = () => {
                     <Select
                       {...field}
                       className="col-12 mt-2"
-                      options={municipiosOptions}
+                      options={municipioFiltered}
                       placeholder="Seleccionar"
                     />
                   )}

@@ -1,7 +1,9 @@
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
-import LogoCormacarena from "../../assets/LogosBIAPNG/Web-Bia-logo.png";
+import LogoCormacarena from "../../assets/LogosBIAPNG/logoBia.svg";
+import Cormacarena from "../../assets/LogosBIAPNG/logoCorma.svg";
+import Macarenia from "../../assets/LogosBIAPNG/logoMaca.svg";
 import ReCaptcha from "react-google-recaptcha";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -44,6 +46,7 @@ function LoginScreen() {
         is_active: true,
       });
     } else if (error?.detail) {
+      console.log("Entro aca");
       Swal.fire({
         position: "center",
         icon: "warning",
@@ -78,8 +81,12 @@ function LoginScreen() {
                 boxShadow: "none",
               }}
             >
-              <div className="mb-4" style={{width: "200px"}}>
-                <img src={LogoCormacarena} className="aspect-ratio" alt="logo cormacarena"/>
+              <div className="my-4">
+                <img
+                  src={LogoCormacarena}
+                  className="aspect-ratio"
+                  alt="logo cormacarena"
+                />
               </div>
             </div>
             <div
@@ -99,7 +106,12 @@ function LoginScreen() {
                   onSubmit={handleSubmit(submitHandler)}
                 >
                   <div className="col-12 mb-3 mt-3">
-                    <label className="text-white fw-lighter fs-5">Email</label>
+                    <label
+                      className="text-white"
+                      style={{ fontSize: "1.2rem" }}
+                    >
+                      Email
+                    </label>
                     <input
                       type="email"
                       className="form-control border rounded-pill px-3 bg-white border border-0"
@@ -107,7 +119,10 @@ function LoginScreen() {
                     />
                   </div>
                   <div className="col-12 mb-3 mt-3">
-                    <label className="text-white fw-lighter fs-5">
+                    <label
+                      className="text-white"
+                      style={{ fontSize: "1.2rem" }}
+                    >
                       Contraseña
                     </label>
                     <input
@@ -145,7 +160,8 @@ function LoginScreen() {
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
-                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 fw-normal text-capitalize"
+                      className="btn bg-gradient-primary rounded-pill px-5 my-4 mb-2 text-capitalize"
+                      style={{ fontSize: ".9rem" }}
                     >
                       Iniciar sesión
                     </button>
@@ -159,11 +175,18 @@ function LoginScreen() {
                     <p>Registro usuario</p>
                   </Link>
                 </div>
-                <div className="d-flex justify-content-center mb-4">
+                <div className="d-flex justify-content-center mb-2">
                   <Link className="text-white" to="/recuperar-contrasena">
                     <p>Olvidó su contraseña</p>
                   </Link>
                 </div>
+              </div>
+            </div>
+            <div className="d-flex justify-content-center align-items-center gap-3 mt-2">
+              <span className="text-white">by:</span>
+              <div className="d-flex align-items-end gap-3">
+                <img src={Macarenia} alt="" />
+                <img src={Cormacarena} alt="" />
               </div>
             </div>
           </div>

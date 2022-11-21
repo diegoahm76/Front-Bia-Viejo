@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
 const ActualizarDatosEmpresaScreen = () => {
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const { email: emailLogin } = useSelector((state) => state.user.user);
   const [completeAddress2, setCompleteAddress2] = useState("");
@@ -34,6 +35,7 @@ const ActualizarDatosEmpresaScreen = () => {
   } = useForm();
 
   const submit = async (data) => {
+    setLoading(true)
     const {
       digito_verificacion,
       nombre_comercial,
@@ -83,10 +85,12 @@ const ActualizarDatosEmpresaScreen = () => {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false)
   };
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true)
       try {
         const { data: paisesNoFormat } = await clienteAxios.get(
           "choices/paises/"
@@ -132,6 +136,7 @@ const ActualizarDatosEmpresaScreen = () => {
       } catch (err) {
         console.log(err);
       }
+      setLoading(false)
     };
     getSelectsOptions();
   }, []);
@@ -395,8 +400,20 @@ const ActualizarDatosEmpresaScreen = () => {
                 <button
                   type="submit"
                   className="btn bg-gradient-primary text-capitalize"
+                  disabled={loading}
                 >
-                  Actualizar
+                  {loading ? (
+                        <>
+                          <span
+                            className="spinner-border spinner-border-sm me-1"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>
+                          Cargando...
+                        </>
+                      ) : (
+                        "Actualizar"
+                      )}
                 </button>
               </div>
             </div>
