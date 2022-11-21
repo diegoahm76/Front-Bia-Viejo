@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import clienteAxios from "../config/clienteAxios";
 import botonCancelar from "../assets/iconosBotones/cancelar.svg"
 import botonGuardar from "../assets/iconosBotones/guardar.svg"
+import useEscapeKey from "../hooks/useEscapeKey";
 
 
 const customStyles = {
@@ -243,6 +244,12 @@ const DirecionResidenciaModal = ({
     }
   }, [formValues]);
 
+  const handleCloseModalESC = (e) => {
+    setIsModalActive(false)
+  }
+
+  useEscapeKey(handleCloseModalESC)
+
   useEffect(() => {
     setFormValues(defaultValues);
   }, [selecDireccion]);
@@ -261,6 +268,7 @@ const DirecionResidenciaModal = ({
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
+          
           >
             <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
               Dirección de residencia

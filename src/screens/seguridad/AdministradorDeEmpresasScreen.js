@@ -28,7 +28,7 @@ const defaulValuesForm = {
   tipoPersona: "",
   municipioNotificacion: "",
   digito_verificacion: "",
-  paisNotificacion: "",
+  paisNotificacion: 43,
 };
 
 const AdministradorDeEmpresasScreen = () => {
@@ -47,6 +47,7 @@ const AdministradorDeEmpresasScreen = () => {
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
   const [actionForm, setActionForm] = useState(null);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+  const [tipoDocumentoOptionsRepresentante, setTipoDocumentoOptionsRepresentante] = useState([]);
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
@@ -139,7 +140,7 @@ const AdministradorDeEmpresasScreen = () => {
         ),
         tipoDocumentoRepresentante: getIndexBySelectOptions(
           dataEmpresa.representante_legal.tipo_documento,
-          tipoDocumentoOptions
+          tipoDocumentoOptionsRepresentante
         ),
         paisEmpresa: getIndexBySelectOptions(
           dataEmpresa.cod_pais_nacionalidad_empresa,
@@ -299,12 +300,26 @@ const AdministradorDeEmpresasScreen = () => {
           "personas/persona-juridica/create/",
           updateEmpresa
         );
+        // Swal.fire({
+        //   position: "center",
+        //   icon: "success",
+        //   title: "Empresa creada",
+        //   showConfirmButton: false,
+        //   timer: 1500,
+        // });
         Swal.fire({
-          position: "center",
+          title: "Empresa creada correctamente",
+          text: "¿Desea registrarse como usuario?",
           icon: "success",
-          title: "Empresa creada",
-          showConfirmButton: false,
-          timer: 1500,
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/dashboard/seguridad/administradordeusuario");
+          }
         });
         resetBuscar({ numeroDocumento: "" });
         setActionForm(null);
@@ -436,7 +451,12 @@ const AdministradorDeEmpresasScreen = () => {
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
 
-        setTipoDocumentoOptions(documentosFormat);
+        const VALUE_NUIP = "NU"
+        
+        const documentosFormatFiltered = documentosFormat.filter(documento => documento.value === VALUE_NUIP)
+
+        setTipoDocumentoOptionsRepresentante(documentosFormat)
+        setTipoDocumentoOptions(documentosFormatFiltered);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
         setDepartamentosOptions(departamentosFormat);
@@ -618,6 +638,7 @@ const AdministradorDeEmpresasScreen = () => {
                         <Controller
                           name="tipoDocumento2"
                           control={controlEmpresa}
+                          rules={{required: true}}
                           render={({ field }) => (
                             <Select
                               {...field}
@@ -632,12 +653,20 @@ const AdministradorDeEmpresasScreen = () => {
                                     tipoDocumentoOptions
                                   ),
                                 });
+                                resetEmpresa({...watchEmpresa(), tipoDocumento2: e})
                               }}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
+                        {errorsEmpresa.tipoDocumento2 && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="col-12 col-md-3">
@@ -648,7 +677,7 @@ const AdministradorDeEmpresasScreen = () => {
                           </label>
                           <input
                             className="form-control border border-terciary rounded-pill px-3"
-                            type="text"
+                            type="number"
                             value={
                               tipoDocumentoOptions[formValues.tipoDocumento]
                                 ?.label
@@ -727,9 +756,16 @@ const AdministradorDeEmpresasScreen = () => {
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("razonSocial")}
+                          {...registerEmpresa("razonSocial", {required: true})}
                         />
                       </div>
+                      {errorsEmpresa.razonSocial && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio y de un caracter
+                            </small>
+                          </div>
+                        )}
                     </div>
                   </div>
                 </div>
@@ -749,7 +785,7 @@ const AdministradorDeEmpresasScreen = () => {
                         <Select
                           {...field}
                           value={
-                            tipoDocumentoOptions[
+                            tipoDocumentoOptionsRepresentante[
                               formValues.tipoDocumentoRepresentante
                             ]
                           }
@@ -759,16 +795,17 @@ const AdministradorDeEmpresasScreen = () => {
                               tipoDocumentoRepresentante:
                                 getIndexBySelectOptions(
                                   e.value,
-                                  tipoDocumentoOptions
+                                  tipoDocumentoOptionsRepresentante
                                 ),
                             });
+                            resetEmpresa({...watchEmpresa(), tipoDocumentoRepresentante: e})
                           }}
-                          options={tipoDocumentoOptions}
+                          options={tipoDocumentoOptionsRepresentante}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
-                    {errorsEmpresa.tipoDocumento && (
+                    {errorsEmpresa.tipoDocumentoRepresentante && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
@@ -784,13 +821,13 @@ const AdministradorDeEmpresasScreen = () => {
                       </label>
                       <input
                         className="border border-terciary form-control rounded-pill px-3"
-                        type="text"
+                        type={watchEmpresa("tipoDocumentoRepresentante")?.value === "PA" ? "text" : "number"}
                         {...registerEmpresa("numero_documento_representante", {
                           required: true,
                         })}
                       />
                     </div>
-                    {errorsEmpresa.numero_documento && (
+                    {errorsEmpresa.numero_documento_representante && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio
@@ -827,15 +864,11 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
-                      <label className="ms-2">
-                        E-mail: <span className="text-danger">*</span>
-                      </label>
+                      <label className="ms-2">E-mail:</label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
                         type="email"
-                        disabled={actionForm === ACTION_EDITAR}
-                        readOnly={actionForm === ACTION_EDITAR}
-                        {...registerEmpresa("eMail")}
+                        {...registerEmpresa("emailNotificacion")}
                       />
                     </div>
                   </div>
@@ -846,7 +879,7 @@ const AdministradorDeEmpresasScreen = () => {
                       </label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
-                        type="tel"
+                        type="number"
                         {...registerEmpresa("celular", {
                           required: true,
                           maxLength: 10,
@@ -857,7 +890,7 @@ const AdministradorDeEmpresasScreen = () => {
                     {errorsEmpresa.celular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
-                          Este campo es obligatorio y de un caracter
+                          Este campo es obligatorio y de 10 caracteres
                         </small>
                       </div>
                     )}
@@ -867,7 +900,7 @@ const AdministradorDeEmpresasScreen = () => {
                       <label className="ms-2">Teléfono empresa:</label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
-                        type="text"
+                        type="number"
                         {...registerEmpresa("telefonoEmpresa")}
                       />
                     </div>
@@ -888,13 +921,24 @@ const AdministradorDeEmpresasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
-                      <label className="ms-2">E-mail de notificación:</label>
+                      <label className="ms-2">
+                        E-mail de notificación: <span className="text-danger">*</span>
+                      </label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
                         type="email"
-                        {...registerEmpresa("emailNotificacion")}
+                        disabled={actionForm === ACTION_EDITAR}
+                        readOnly={actionForm === ACTION_EDITAR}
+                        {...registerEmpresa("eMail", {required: true})}
                       />
                     </div>
+                    {errorsEmpresa.eMail && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label text-terciary">

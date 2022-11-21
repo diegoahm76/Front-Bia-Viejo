@@ -85,13 +85,13 @@ const Aside = ({ showAside }) => {
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
                   <li className="nav-item">
-                    <div
-                      className="nav-link text-white "
+                    <Link
+                      className="nav-link text-white"
                       onClick={logoutHandler}
                     >
-                      <span className="sidenav-mini-icon"> L </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Logout</span>
-                    </div>
+                      <span className="sidenav-mini-icon"> F </span>
+                      <span className="sidenav-normal  ms-3  ps-1">Finalizar sesión</span>
+                    </Link>
                   </li>
                   {!userInfo.userinfo?.is_superuser && (
                     <>

@@ -1,8 +1,10 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { openModalSesionAction } from "../actions/userActions";
 
 const Navbar = ({ setShowAside, showAside }) => {
   const dispatch = useDispatch()
+
+  const { userinfo } = useSelector((state) => state.user.user);
 
   const handleChangeEntorno = () => {
     dispatch(openModalSesionAction())
@@ -27,13 +29,17 @@ const Navbar = ({ setShowAside, showAside }) => {
               </div>
             </button>
             
-            <button
-              className="btn btn-tablas btn-entorno bg-gradient-primary mb-0 d-block text-capitalize"
-              type="button"
-              onClick={handleChangeEntorno}
-            >
-              Cambiar entorno
-            </button>
+            {
+              !userinfo?.is_superuser && (
+                <button
+                  className="btn btn-tablas btn-entorno bg-gradient-primary mb-0 d-block text-capitalize"
+                  type="button"
+                  onClick={handleChangeEntorno}
+                >
+                  Cambiar entorno
+                </button>
+              )
+            }
           </div>
         </div>
         <div

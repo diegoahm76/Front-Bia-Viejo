@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Select from "react-select"
 import { changeSesionAction, closeModalSesionAction } from "../actions/userActions";
-import { set } from "date-fns/esm";
 
 const customStyles = {
   content: {
