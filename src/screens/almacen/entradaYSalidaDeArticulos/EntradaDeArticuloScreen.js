@@ -20,6 +20,7 @@ import IconoSiguiente from "../../../assets/iconosBotones/continuar.svg";
 import IconoAtras from "../../../assets/iconosBotones/atrás.svg";
 import IconoVer from "../../../assets/iconosBotones/ver.svg";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
+import CrearMarcaModal from "../../../components/CrearMarcaModal";
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -245,16 +246,7 @@ export const EntradaDeArticuloScreen = () => {
   };
 
   const [crearUnidadMedidaOpen, setCrearUnidadMedidaOpen] = useState(false);
-
-  const [crearMarca, setCrearMarca] = useState(false);
-
-  const handleOpenModalCrearMarca = () => {
-    setCrearMarca(true);
-  };
-
-  const handleCloseModalCrearMarca = () => {
-    setCrearMarca(false);
-  };
+  const [crearMarcaOpen, setCrearMarcaOpen] = useState(false);
 
   const [crearNombreCientifico, setCrearNombreCientifico] = useState(false);
 
@@ -788,7 +780,7 @@ export const EntradaDeArticuloScreen = () => {
                       <button
                         type="button"
                         className=" btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
-                        onClick={handleOpenModalCrearMarca}
+                        onClick={() => setCrearMarcaOpen(true)}
                       >
                         Crear
                       </button>
@@ -1131,62 +1123,7 @@ export const EntradaDeArticuloScreen = () => {
             isModalActive={modalArticulos}
             setIsModalActive={setModalArticulos}
           />
-          <ModalLocal localState={crearMarca}>
-            <div className="row">
-              <div className="col">
-                <label className="mt-3 ms-3 form-control ms-0 fw-bolder text-start">
-                  Registro Marca
-                </label>
-              </div>
-            </div>
-            <div className="row">
-              <Subtitle title={"Informacion de la marca"} />
-            </div>
-            <div className="row">
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <label className="text-terciary">Codigo:</label>
-                <input
-                  className="form-control border rounded-pill px-3 border border-terciary"
-                  type="text"
-                  placeholder="Codigo"
-                  {...register("Cod")}
-                />
-              </div>
-              <div className="col-12 col-md-4 mt-4 ms-4">
-                <label className="text-terciary">Nombre:</label>
-                <input
-                  className="form-control border rounded-pill px-3 border border-terciary"
-                  type="text"
-                  placeholder="Nombre"
-                  {...register("Nombre")}
-                />
-              </div>
-            </div>
-            <div className="row">
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill px-3"
-                >
-                  Limpiar
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger text-capitalize border rounded-pill px-3"
-                  onClick={handleCloseModalCrearMarca}
-                >
-                  Cancelar
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill px-3"
-                >
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </ModalLocal>
+          
           <ModalLocal localState={crearNombreCientifico}>
             <div className="row">
               <div className="col">
@@ -1273,6 +1210,10 @@ export const EntradaDeArticuloScreen = () => {
       <CrearUnidadMedidaModal
         isModalActive={crearUnidadMedidaOpen}
         setIsModalActive={setCrearUnidadMedidaOpen}
+      />
+      <CrearMarcaModal
+        isModalActive={crearMarcaOpen}
+        setIsModalActive={setCrearMarcaOpen}
       />
     </div>
   );
