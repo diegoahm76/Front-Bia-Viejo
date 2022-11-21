@@ -9,8 +9,11 @@ import Subtitle from "../../../components/Subtitle";
 import {
   obtenerBodegasAction,
   eliminarBodegaAction,
+  editarBodegaAction,
+  obtenerBodegaByEditAction,
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
+
 
 const AdministradorBodegasScreen = () => {
   const dispatch = useDispatch();
@@ -25,9 +28,9 @@ const AdministradorBodegasScreen = () => {
   const RegresarCreacion = () => {
     navigate("/dashboard/almacen/configuracion/creacionbodega");
   };
-  const EditarBodega=()=>{
+  const EditarBodega = (data) =>{
+    dispatch(obtenerBodegaByEditAction(data))
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
-
   }
 
   const { bodega } = useSelector((state) => state.bodega);
@@ -66,9 +69,7 @@ const AdministradorBodegasScreen = () => {
           <button
             className="btn btn-sm btn-tablas btn-outline-warning "
             type="button"
-            onClick={() => {EditarBodega()
-              // dispatch(obtenerBodegasAction(params.data));
-            }}
+            onClick={() => EditarBodega(params.data)}
           >
             <img src={IconoEditar} alt="editar" />
           </button>

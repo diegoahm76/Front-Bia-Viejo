@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,7 +12,10 @@ import { obtenerOrganigramaAction } from "../../actions/organigramaActions";
 
 function CrearOrganigramaScreen() {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
 
   useEffect(() => {
     const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
@@ -106,6 +110,8 @@ function CrearOrganigramaScreen() {
             className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
             onClick={() => {
+              navigate("/dashboard/gestordocumental/organigrama/edicion-organigrama");
+
               // dispatch(obtenerEstacionEditarAction(params.data));
               // setIsModalEditarActivate(!isModalActive);
             }}

@@ -7,6 +7,7 @@ import { agregarOrganigramaAction } from "../actions/organigramaActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 const customStyles = {
   content: {
     top: "50%",

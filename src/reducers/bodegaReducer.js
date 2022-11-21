@@ -8,9 +8,12 @@ import {
   OBTENER_BODEGA_ELIMINAR,
   ELIMINAR_BODEGA_EXITO,
   ELIMINAR_BODEGA_ERROR,
+  EDITAR_BODEGA_ERROR,
   OBTENER_BODEGA_EDITAR,
   EDITAR_BODEGA_EXITO,
-  EDITAR_BODEGA_ERROR,
+  OBTENER_BODEGA_BY_EDIT_REQUEST,
+  OBTENER_BODEGA_BY_EDIT_FAIL,
+  OBTENER_BODEGA_BY_EDIT_SUCCESS,
 } from "../../src/types/bodegasTypes";
 
 const initialState = {
@@ -18,9 +21,7 @@ const initialState = {
   error: null,
   loading: false,
   bodegaEliminar: null,
-  // estacionEditar: null,
-  // usuarioEliminar: null,
-  // usuarioEditar: null,
+  bodegaEditar: null,
 };
 
 export const bodegaReducer = (state = initialState, action) => {
@@ -32,6 +33,14 @@ export const bodegaReducer = (state = initialState, action) => {
         loading: action.payload,
       };
 
+    case OBTENER_BODEGA_BY_EDIT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        bodegaEditar: null,
+      }
+
     case AGREGAR_BODEGA_EXITO:
       return {
         ...state,
@@ -39,6 +48,14 @@ export const bodegaReducer = (state = initialState, action) => {
         error: null,
         bodega: [...state.bodega, action.payload],
       };
+
+    case OBTENER_BODEGA_BY_EDIT_SUCCESS: 
+    return {
+      ...state,
+      bodegaEditar: action.payload,
+      loading: false,
+      error: null
+    }
 
     case OBTENER_BODEGA_EDITAR:
       return {
@@ -59,6 +76,7 @@ export const bodegaReducer = (state = initialState, action) => {
     case DESCARGA_BODEGAS_ERROR:
     case ELIMINAR_BODEGA_ERROR:
     case EDITAR_BODEGA_ERROR:
+    case OBTENER_BODEGA_BY_EDIT_FAIL:
       return {
         ...state,
         loading: false,
