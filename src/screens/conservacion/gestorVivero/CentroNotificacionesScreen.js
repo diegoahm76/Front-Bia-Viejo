@@ -12,7 +12,7 @@ const InventarioViveroCompensacion = () => {
 
 
     // Each Column Definition results in one Column.
-    let gridApi
+    // let gridApi
     const columnDefs = [
         { headerName: "Nombre", field: "nombre" },
         { headerName: "Descripción", field: "descripcion" },
@@ -36,45 +36,47 @@ const InventarioViveroCompensacion = () => {
 
     ]
     const defaultColDef = { sortable: true, flex: 1, filter: true, wrapHeaderText: true, resizable: true, initialWidth: 200, autoHeaderHeight: true, suppressMovable: true }
-    const onGridReady = (params) => {
-        gridApi = params.api
-    }
-    const onExportClick = () => {
-        gridApi.exportDataAsCsv();
-    }
+    // const onGridReady = (params) => {
+    //     gridApi = params.api
+    // }
+    // const onExportClick = () => {
+    //     gridApi.exportDataAsCsv();
+    // }
 
 
     return (
 
-        <div className="min-vh-100">
-            <div className="row">
-                <div className="col col-lg-12 col-md-12 col-12 mx-auto">
-                    <h3 className="text-center my-4">Producción Propia</h3>
-                </div>
-            </div>
-            <div className="card col-lg-12 col-md-12 col-12 mx-auto">
-                <form className="multisteps-form__form">
-                    <div
-                        className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                        data-animation="FadeIn"
-                    >
+        <div className="row min-vh-100">
+            <div className="col-lg-12 mx-auto">
+                <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+                    <form className="row">
 
-                        <div className="ag-theme-alpine mx-auto my-auto" style={{ height: '500px' }}>
-                            <AgGridReact
-                                columnDefs={columnDefs}
-                                rowData={rowData}
-                                defaultColDef={defaultColDef}
-                                onGridReady={onGridReady}
+                        <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
+                            Centro de notificaciones
+                        </h3>
+                        <div className="row d-flex align-items-end my-auto mx-auto">
+                            <div
+                                className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                                data-animation="FadeIn"
                             >
 
-                            </AgGridReact>
+                                <div className="ag-theme-alpine mx-auto my-auto" style={{ height: '500px' }}>
+                                    <AgGridReact
+                                        columnDefs={columnDefs}
+                                        rowData={rowData}
+                                        defaultColDef={defaultColDef}
+                                    >
+
+                                    </AgGridReact>
+                                </div>
+
+                            </div>
                         </div>
+                    </form>
 
-
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </div >
     );
 };
 export default InventarioViveroCompensacion;
