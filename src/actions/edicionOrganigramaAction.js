@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import {
   EDITAR_NIVEL_ORGANIZACIONAL,
@@ -28,22 +29,39 @@ import {
   DESCARGAR_UNIDAD_ORGANIZACIONAL_EXITO,
 } from "../types/edicionOrganigramaTypes";
 
-
-export const agregarNivelAction = () => {
+export const agregarNivelAction = (id_organigrama) => {
   return async (dispatch) => {
-    dispatch(agregarNivel(true));
+    dispatch(agregarNivel());
 
-    try{
-      const{data:createNivel} = await clienteAxios.post("almacen/organigrama/niveles/create/", );
-   
-console.log(createNivel);
-   
-      }catch(error){
-        console.log(error);
-      }
+    try {
+      const { data: createNivel } = await clienteAxios.patch(
+        `/almacen/organigrama/niveles/update/${id_organigrama}/`
+      );
+      dispatch(agregarNivelExito());
+      Swal.fire("Se ha agregado un nuevo nivel organizacional");
+     
+    } catch (error) {
+      console.log(error);
+      dispatch(agregarNivelError(true));
+      Swal.fire({
+        icon: "error",
+        title: "hubo un error",
+        text: error?.response?.data?.detail,
+      });
+    }
   };
 };
 
-const agregarNivel = () =>({
+const agregarNivel = () => ({
   type: AGREGAR_NIVEL_ORGANIZACIONAL,
+});
+
+const agregarNivelError = (estado) => ({
+  type: AGREGAR_NIVEL_ORGANIZACIONAL_ERROR,
+  payload: estado,
+});
+
+const agregarNivelExito = (nivel) => ({
+  type: AGREGAR_NIVEL_ORGANIZACIONAL_EXITO,
+  payload: nivel,
 });

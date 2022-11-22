@@ -19,6 +19,7 @@ const initialState = {
   loading: false,
   error: null,
   organigramaEliminar: null,
+  organigramaEditar: null,
 };
 
 export const organigramaReducer = (state = initialState, action) => {
@@ -62,6 +63,13 @@ export const organigramaReducer = (state = initialState, action) => {
         ),
         organigramaEliminar: null,
       };
+
+      case EDITAR_ORGANIGRAMA_OBTENER:
+        return {
+          ...state,
+          organigramaEditar: action.payload,
+        };
+
     default:
       return state;
   }

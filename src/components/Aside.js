@@ -2114,7 +2114,7 @@ const Aside = ({ showAside }) => {
                       <li className="nav-item">
                         <Link
                           className="nav-link text-white "
-                          to="gestordocumental/edicion-organigrama"
+                          to="gestordocumental/organigrama/edicion-organigrama"
                         >
                           <span className="sidenav-mini-icon"> V </span>
                           <span className="sidenav-normal  ms-2  ps-1">
