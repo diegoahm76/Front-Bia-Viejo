@@ -14,6 +14,7 @@ import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
+import { Form, Button } from "react-bootstrap";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
@@ -51,6 +52,7 @@ const AdministradosDeUsuario = () => {
   const [formValues, setFormValues] = useState({
     roles: [],
   });
+  const [image, setImage] = useState();
   const navigate = useNavigate();
   const {
     register: registerBuscar,
@@ -277,6 +279,7 @@ const AdministradosDeUsuario = () => {
         const editarUsuario = {
           nombre_de_usuario: data.nombreUsuario,
           tipo_usuario: data.tipoUsuario ? "I" : "E",
+          profile_img: image,
           is_active: data.activo,
           is_blocked: data.bloqueado,
           roles: rolesReFormat,
@@ -327,6 +330,34 @@ const AdministradosDeUsuario = () => {
 
   const handleCancelAction = () => {
     setActionForm(null);
+  };
+
+  const uploadFileHandler = async (e) => {
+    console.log("event", e)
+    const file = e.target.files[0];
+    const formData = new FormData();
+
+    formData.append("profile_img", file);
+    formData.append("id_usuario", userData.id_usuario);
+
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      const { data: dataImage } = await clienteAxios.post(
+        "users/upload/",
+        formData,
+        config
+      );
+
+      console.log("apiImage", dataImage);
+      setImage(dataImage);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -391,7 +422,7 @@ const AdministradosDeUsuario = () => {
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" title="Buscar"/>
+                    <img src={botonBuscar} alt="" title="Buscar" />
                   </button>
                   <button
                     type="button"
@@ -408,6 +439,12 @@ const AdministradosDeUsuario = () => {
               <form onSubmit={handleSubmitUsuario(onSubmitUsuario)}>
                 <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
                 <div className="row mt-3 ms-1">
+                  <input
+                    type="file"
+                    id="image-file"
+                    label="Choose File"
+                    onChange={uploadFileHandler}
+                  />
                   <div className="col-12 col-md-3">
                     <div>
                       <label className="text-terciary">
@@ -623,7 +660,7 @@ const AdministradosDeUsuario = () => {
                         Cargando...
                       </>
                     ) : (
-                      <img src={botonCancelar} alt="" title="Cancelar"/>
+                      <img src={botonCancelar} alt="" title="Cancelar" />
                     )}
                   </button>
 
@@ -642,9 +679,9 @@ const AdministradosDeUsuario = () => {
                         Cargando...
                       </>
                     ) : actionForm === "editar" ? (
-                      <img src={botonActualizar} alt="" title="Actualizar"/>
+                      <img src={botonActualizar} alt="" title="Actualizar" />
                     ) : (
-                      <img src={botonAgregar} alt="" title="Crear"/>
+                      <img src={botonAgregar} alt="" title="Crear" />
                     )}
                   </button>
                 </div>
