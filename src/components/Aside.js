@@ -81,6 +81,12 @@ const Aside = ({ showAside }) => {
                 role="button"
                 aria-expanded="false"
               >
+                <span className="sidenav-mini-icon">
+                  <img src={IconoUser} alt="user" />
+                </span>
+                <span className="nav-link-text ms-2 ps-1">
+                  {userInfo.nombre_de_usuario}
+              </span>
                 <span className="nav-link-text ms-2 ps-1 d-block text-center">
                   {userSesion?.dataSesion?.userName ? userSesion?.dataSesion?.userName : userInfo?.userinfo?.nombre_de_usuario ? userInfo?.userinfo?.nombre_de_usuario : userInfo?.nombre_de_usuario}
                 </span>
