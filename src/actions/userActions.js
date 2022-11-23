@@ -86,7 +86,7 @@ export const getDataFromLocalStorage = () => (dispatch) => {
   const dataUserJSON = localStorage.getItem("userInfo");
   if (dataUserJSON) {
     const dataUser = JSON.parse(dataUserJSON);
-    dataUser.userinfo.permisos = dataUser.permisos
+    dataUser.permisos = dataUser.userInfo?.permisos;
     dispatch(getDataLocalStorageSuccess(dataUser.userinfo));
   } else {
     dispatch(getDataLocalStorageNotFound());
