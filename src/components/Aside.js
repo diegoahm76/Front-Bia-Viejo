@@ -2,7 +2,7 @@ import Scrollbars from "react-custom-scrollbars";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { userLogoutAction } from "../actions/userActions";
-import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
+import LogoCormacarena from "../assets/logos/eps/LogoVertical.svg";
 import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
 import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
 import IconoSeguimientoPlanes from "../assets/planning-svgrepo-com.svg";
@@ -26,7 +26,7 @@ import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-veh
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
 import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
-import IconoUser from "../assets/logos/user-svgrepo-com.svg";
+import IconoUser from "../assets/user-svgrepo-com.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
@@ -34,6 +34,7 @@ import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/c
 
 const Aside = ({ showAside }) => {
   const userInfo = useSelector((state) => state.user.user);
+  const userSesion = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -52,53 +53,56 @@ const Aside = ({ showAside }) => {
       }}
     >
       <Scrollbars style={{ width: "100%", height: "100%" }} autoHide>
-        <div className="sidenav-header text-center mb-2">
-          <Link className="m-0 text-center" to="/dashboard">
+        <div className="sidenav-header">
+          <Link className="navbar-brand m-0" to="/dashboard">
             <img
               src={LogoCormacarena}
-              className="h-100"
+              className="navbar-brand-img h-100"
               alt="main_logo"
-              style={{padding: "15px 0"}}
             />
+            <span className="ms-1 font-weight-bold text-white">
+              Bia - Cormacarena
+            </span>
           </Link>
         </div>
+        <hr className="horizontal light mt-0 mb-2" />
         <div
           className="collapse navbar-collapse w-auto h-auto"
           id="sidenav-collapse-main"
         >
           <ul className="navbar-nav">
-            <img src={IconoUser} className="px-5 mb-3" alt="user" />
+            <img src={IconoUser} className="px-5 mb-3 rounded rounded-circle" alt="user" />
             <li className="nav-item mb-2 mt-0">
               <a
                 data-bs-toggle="collapse"
                 href="#ProfileNav"
-                className="text-white text-center"
+                className="nav-link text-white"
                 aria-controls="ProfileNav"
                 role="button"
                 aria-expanded="false"
               >
-                {/* <span className="sidenav-mini-icon">
+                <span className="sidenav-mini-icon">
                   <img src={IconoUser} alt="user" />
                 </span>
                 <span className="nav-link-text ms-2 ps-1">
                   {userInfo.nombre_de_usuario}
-                </span> */}
+              </span>
                 <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userInfo.nombre_de_usuario}
+                  {userSesion?.dataSesion?.userName ? userSesion?.dataSesion?.userName : userInfo?.userinfo?.nombre_de_usuario ? userInfo?.userinfo?.nombre_de_usuario : userInfo?.nombre_de_usuario}
                 </span>
               </a>
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
                   <li className="nav-item">
-                    <div
-                      className="nav-link text-white "
+                    <Link
+                      className="nav-link text-white"
                       onClick={logoutHandler}
                     >
-                      <span className="sidenav-mini-icon"> L </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Logout</span>
-                    </div>
+                      <span className="sidenav-mini-icon"> F </span>
+                      <span className="sidenav-normal  ms-3  ps-1">Finalizar sesión</span>
+                    </Link>
                   </li>
-                  {!userInfo.is_superuser && (
+                  {!userInfo.userinfo?.is_superuser && (
                     <>
                       <li className="nav-item active">
                         <Link
@@ -129,7 +133,7 @@ const Aside = ({ showAside }) => {
             </li>
             <hr className="horizontal light mt-0" />
 
-            {!userInfo.is_superuser && (
+            {!userInfo.userinfo?.is_superuser && (
               <>
                 <li className="nav-item mb-2 mt-0">
                   <a
@@ -1912,8 +1916,7 @@ const Aside = ({ showAside }) => {
                               >
                                 <span className="sidenav-mini-icon"> V </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Gestion de Solicitudes de Material <br />{" "}
-                                  Vegetal
+                                  Gestion de Solicitudes de Material <br/> Vegetal
                                 </span>
                               </Link>
                             </li>
@@ -2035,16 +2038,16 @@ const Aside = ({ showAside }) => {
                         <div className="collapse " id="CentroNotificaciones">
                           <ul className="nav nav-sm flex-column">
                             <li className="nav-item">
-                              <a
+                              <Link
                                 className="nav-link text-white "
-                                href="../../pages/pages/vr/vr-default.html"
+                                to="conservacion/notificaciones/centrodenotificaciones"
                               >
                                 <span className="sidenav-mini-icon"> V </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   {" "}
-                                  VR Default{" "}
+                                  Notificaciones{" "}
                                 </span>
-                              </a>
+                              </Link>
                             </li>
                             <li className="nav-item">
                               <a
@@ -2086,20 +2089,20 @@ const Aside = ({ showAside }) => {
                   </a>
                   <div className="collapse " id="authExamples">
                     <ul className="nav ">
-                      <li className="nav-item">
-                        <Link
-                          className="nav-link text-white "
-                          to="gestordocumental/organigrama/crearorganigrama"
-                        >
-                          <span className="sidenav-mini-icon">
-                            <img src={Vineta} alt="vineta" />
-                          </span>
-                          <span className="sidenav-normal  ms-2  ps-1">
-                            Crear <br /> Organigrama
-                          </span>
-                        </Link>
-                      </li>
-                      <li className="nav-item ">
+                    <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="gestorDocumental/organigrama/crearorganigrama"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Crear <br /> Organigrama
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item ">
                         <a
                           className="nav-link text-white "
                           href="../../pages/applications/wizard.html"
@@ -2393,7 +2396,7 @@ const Aside = ({ showAside }) => {
                 </li>
               </>
             )}
-            {userInfo.is_superuser && (
+            {userInfo.userinfo?.is_superuser && (
               <>
                 <li className="nav-item">
                   <a

@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Aside from "../../components/Aside";
 import Navbar from "../../components/Navbar";
-import clienteAxios from "../../config/clienteAxios";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import SelectSesionModal from "../../components/SelectSesionModal";
 
 function HomeScreen() {
+  const { userinfo } = useSelector((state) => state.user.user);
   const [showAside, setShowAside] = useState(true);
-
-  useEffect(() => {
-    const getRepresentante = async () => {
-      try {
-        const access = getTokenAccessLocalStorage();
-        const config = getConfigAuthBearer(access);
-        const { data: dataRepresentante } = await clienteAxios.get(
-          "personas/get-persona-juridica/representante-legal/",
-          config
-        );
-        console.log("representante", dataRepresentante.detail);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getRepresentante();
-  }, []);
 
   return (
     <div className="g-sidenav-show bg-terciary">
@@ -40,6 +23,11 @@ function HomeScreen() {
           <Outlet />
         </div>
       </main>
+      {
+        !userinfo?.is_superuser && (
+          <SelectSesionModal />
+        )
+      }
     </div>
   );
 }

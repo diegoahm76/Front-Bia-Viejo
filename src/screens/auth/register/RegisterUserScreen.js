@@ -7,6 +7,8 @@ import clienteAxios from "../../../config/clienteAxios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
+import botonCancelar from "../../../assets/iconosBotones/cancelar.svg";
+//import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
 const RegisterUserScreen = () => {
   const navigate = useNavigate();
@@ -215,7 +217,7 @@ const RegisterUserScreen = () => {
                       <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border border-terciary rounded-pill px-3"
                       type="text"
                       {...register("numeroDocumento", { required: true })}
                     />
@@ -232,7 +234,7 @@ const RegisterUserScreen = () => {
                       Nombre de usuario: <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border border-terciary rounded-pill px-3"
                       type="text"
                       {...register("nombreDeUsuario", { required: true })}
                     />
@@ -250,7 +252,7 @@ const RegisterUserScreen = () => {
                       Contraseña: <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border border-terciary rounded-pill px-3"
                       type="password"
                       onCopy={(e) => e.preventDefault()}
                       {...register("password", { required: true })}
@@ -270,7 +272,7 @@ const RegisterUserScreen = () => {
                       <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border border-terciary rounded-pill px-3"
                       type="password"
                       onPaste={(e) => e.preventDefault()}
                       {...register("password2", { required: true })}
@@ -292,9 +294,9 @@ const RegisterUserScreen = () => {
                   <button
                     type="button"
                     onClick={() => navigate("/login")}
-                    className="btn bg-gradient-light mt-3 text-capitalize me-2"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Cancelar
+                    <img src={botonCancelar} alt="" />
                   </button>
                   <button
                     type="submit"

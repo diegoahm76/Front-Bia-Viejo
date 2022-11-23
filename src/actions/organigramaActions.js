@@ -86,16 +86,25 @@ export const eliminarOrganigramaAction = (id_organigrama) => {
     try {
       await clienteAxios.delete(`Organigrama/${id_organigrama}`);
       dispatch(organigramaEliminadaExito());
+      Swal.fire(
+        "Correcto",
+        "El organigrama se elimino correctamente",
+        "success"
+      );
     } catch (error) {
       console.log(error);
       dispatch(organigramaEliminarError(true));
+      Swal.fire({
+        icon: "error",
+        title: "Hubo un error",
+        text: error.response.data,
+      });
     }
   };
 };
 
-const obtenerOrganigramaEliminar = (id_organigrama) => ({
+const obtenerOrganigramaEliminar = () => ({
   type: ELIMINAR_ORGANIGRAMA,
-  payload: id_organigrama,
 });
 
 const organigramaEliminadaExito = () => ({

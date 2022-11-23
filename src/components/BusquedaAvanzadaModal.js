@@ -2,7 +2,6 @@ import { AgGridReact } from "ag-grid-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import Swal from "sweetalert2";
 import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
@@ -88,7 +87,7 @@ const BusquedaAvanzadaModal = ({
       minWidth: 180,
     },
     {
-      headerName: "Numero documento",
+      headerName: "Número documento",
       field: "numero_documento",
       minWidth: 180,
     },
@@ -103,7 +102,7 @@ const BusquedaAvanzadaModal = ({
       minWidth: 140,
     },
     {
-      headerName: "Accion",
+      headerName: "Acción",
       field: "accion",
       cellRendererFramework: (params) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
@@ -161,7 +160,7 @@ const BusquedaAvanzadaModal = ({
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
-      <div className="row ">
+      <div className="row position-relative">
         <div className="col-12 mx-auto">
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -169,15 +168,15 @@ const BusquedaAvanzadaModal = ({
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="mt-2 mb-0 ms-3 mb-0">Busqueda avanzada</h3>
-            <Subtitle title={"Informacion general"} mt={3} mb={3} />
+            <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
+            <Subtitle title={"Información general"} mt={3} mb={3} />
 
             <div className="row">
               <div className="col-12 col-md-4">
                 <div>
                   <label className="ms-2">Primer nombre:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     type="text"
                     {...register("primerNombre")}
                   />
@@ -187,7 +186,7 @@ const BusquedaAvanzadaModal = ({
                 <div>
                   <label className="ms-2">Primer apellido:</label>
                   <input
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     type="text"
                     {...register("primerApellido")}
                   />
@@ -257,6 +256,14 @@ const BusquedaAvanzadaModal = ({
                 </button>
               </div>
             </div>
+            <p
+              className="text-danger cursor-click text-capitalize position-absolute top-0 end-0 fs-4"
+              onClick={() => handleCloseModal()}
+            >
+              <b>
+                X
+              </b>
+            </p>
           </form>
         </div>
       </div>

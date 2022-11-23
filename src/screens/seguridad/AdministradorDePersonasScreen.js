@@ -12,9 +12,14 @@ import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 import { getArrayFromStringDateAAAAMMDD } from "../../helpers/dateHelpers";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg";
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
+import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
+import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [direccionResidenciaIsOpen, setDireccionResidenciaIsOpen] =
     useState(false);
   const [direccionResidenciaText, setDireccionResidenciaText] = useState("");
@@ -28,7 +33,7 @@ const AdministradorDePersonasScreen = () => {
 
   const [actionForm, setActionForm] = useState(null);
   const [yesOrNot, setYesOrNot] = useState(false);
-  const [primeraVez, setPrimeraVez] = useState(true)
+  const [primeraVez, setPrimeraVez] = useState(true);
 
   const [sexoOptions, setSexoOptions] = useState([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
@@ -36,9 +41,12 @@ const AdministradorDePersonasScreen = () => {
   const [paisesOptions, setPaisesOptions] = useState([]);
   const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
-  const [municipioResidenciaFiltered, setmunicipioResidenciaFiltered] = useState([]);
-  const [municipioDondeLaboraFiltered, setMunicipioDondeLaboraFiltered] = useState([])
-  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] = useState([])
+  const [municipioResidenciaFiltered, setmunicipioResidenciaFiltered] =
+    useState([]);
+  const [municipioDondeLaboraFiltered, setMunicipioDondeLaboraFiltered] =
+    useState([]);
+  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
+    useState([]);
   const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
   });
@@ -46,18 +54,18 @@ const AdministradorDePersonasScreen = () => {
     departamento: "",
   });
   const [datosLaborales, setDatosLaborales] = useState({
-    departamento: ""
-  })
+    departamento: "",
+  });
   const [datosNotificacion, setDatosNotificacion] = useState({
-    departamento: ""
-  })
+    departamento: "",
+  });
   const [formValues, setFormValues] = useState({
     tipoDocumento: null,
     digitoVerificacion: "",
     fechaNacimiento: "",
     estadoCivil: "",
     sexo: "",
-    paisLaboral: "", 
+    paisLaboral: "",
     paisNacimiento: "",
     paisResidencia: "",
     paisNotificacion: "",
@@ -88,6 +96,7 @@ const AdministradorDePersonasScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true);
       try {
         const { data: sexoNoFormat } = await clienteAxios.get("choices/sexo/");
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
@@ -122,12 +131,14 @@ const AdministradorDePersonasScreen = () => {
       } catch (err) {
         console.log(err);
       }
+      setLoading(false);
     };
     getSelectsOptions();
   }, []);
 
   const onSubmitBuscar = async (data) => {
     // console.log(data);
+    setLoading(true);
     try {
       const { data: dataPersonaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
@@ -172,7 +183,7 @@ const AdministradorDePersonasScreen = () => {
         segundoApellido: dataPersona.segundo_apellido,
         eMail: dataPersona.email,
         celular: dataPersona.telefono_celular.slice(2),
-        emailEmpresarial: dataPersona.email_empresarial,
+        emailEmpresarial: dataPersona.email_empresarial || null,
         telefonoFijo: dataPersona.telefono_fijo_residencial,
         telefonoEmpresa2: dataPersona.telefono_empresa_2,
         referenciaAdicional: dataPersona.direccion_residencia_ref,
@@ -182,11 +193,20 @@ const AdministradorDePersonasScreen = () => {
         direccionNotificaciones: dataPersona.direccion_notificaciones,
         municipioDondeLabora: dataPersona.cod_municipio_laboral_nal,
         municipioNotificacion: dataPersona.cod_municipio_notificacion_nal,
-        fechaNacimiento: dataPersona.fecha_nacimiento
+        fechaNacimiento: dataPersona.fecha_nacimiento,
       };
-      resetDepartamentoYMunicipio(dataPersona.municipio_residencia, setLugarResidencia)
-      const indexPaisLaboral = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_laboral_nal, setDatosLaborales)
-      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(dataPersona.cod_municipio_notificacion_nal, setDatosNotificacion)
+      resetDepartamentoYMunicipio(
+        dataPersona.municipio_residencia,
+        setLugarResidencia
+      );
+      const indexPaisLaboral = resetPaisDepartamentoYMunicipio(
+        dataPersona.cod_municipio_laboral_nal,
+        setDatosLaborales
+      );
+      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(
+        dataPersona.cod_municipio_notificacion_nal,
+        setDatosNotificacion
+      );
       setFormValues({
         ...formValues,
         tipoDocumento: getIndexBySelectOptions(
@@ -220,12 +240,16 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.cod_municipio_notificacion_nal,
           municipiosOptions
         ),
-        fechaNacimiento: dataPersona.fecha_nacimiento ? new Date(getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)): "",
+        fechaNacimiento: dataPersona.fecha_nacimiento
+          ? new Date(
+              getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
+            )
+          : "",
         id_persona: dataPersona.id_persona,
         tipoPersona: dataPersona.tipo_persona,
         digitoVerificacion: dataPersona.digito_verificacion,
       });
-      
+
       resetPersona(defaultValuesOverrite);
     } catch (err) {
       console.log(err);
@@ -250,46 +274,68 @@ const AdministradorDePersonasScreen = () => {
         });
       }
     }
+    setLoading(false);
   };
 
-  const resetDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
-    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
-    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
-    let indexDepartamento = null
+  const resetDepartamentoYMunicipio = (
+    municipioResidencia,
+    setDepartamento
+  ) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(
+      municipioResidencia,
+      municipiosOptions
+    );
+    const departamentoIdentifier = municipiosOptions[
+      indexMunicipioResidencia
+    ]?.value.slice(0, 2);
+    let indexDepartamento = null;
     departamentosOptions.forEach((departamento, index) => {
-      if(departamento.value === departamentoIdentifier){
-        indexDepartamento = index
+      if (departamento.value === departamentoIdentifier) {
+        indexDepartamento = index;
       }
-    })
-    if(indexDepartamento !== null){
-      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+    });
+    if (indexDepartamento !== null) {
+      setDepartamento({
+        departamento: departamentosOptions[indexDepartamento],
+      });
     }
-  }
+  };
 
-  const resetPaisDepartamentoYMunicipio = (municipioResidencia, setDepartamento) => {
-    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
-    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
-    let indexDepartamento = null
+  const resetPaisDepartamentoYMunicipio = (
+    municipioResidencia,
+    setDepartamento
+  ) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(
+      municipioResidencia,
+      municipiosOptions
+    );
+    const departamentoIdentifier = municipiosOptions[
+      indexMunicipioResidencia
+    ]?.value.slice(0, 2);
+    let indexDepartamento = null;
     departamentosOptions.forEach((departamento, index) => {
-      if(departamento.value === departamentoIdentifier){
-        indexDepartamento = index
+      if (departamento.value === departamentoIdentifier) {
+        indexDepartamento = index;
       }
-    })
-    if(indexDepartamento !== null){
-      let indexColombia = null
+    });
+    if (indexDepartamento !== null) {
+      let indexColombia = null;
       paisesOptions.forEach((pais, index) => {
-        if(pais.value === "CO"){
-          indexColombia = index
+        if (pais.value === "CO") {
+          indexColombia = index;
         }
-      })
-      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
-      return indexColombia
-    }else {
-      return null
+      });
+      setDepartamento({
+        departamento: departamentosOptions[indexDepartamento],
+      });
+      return indexColombia;
+    } else {
+      return null;
     }
-  }
+  };
 
   const onSubmitPersona = async (data) => {
+    setLoading(true);
     console.log("data para submit", data);
     const indicativo = "57";
     const updatedPersona = {
@@ -310,14 +356,16 @@ const AdministradorDePersonasScreen = () => {
         representation: "date",
       }),
       email: data.eMail, //Queda por comprobar si mejor se bloquea
-      email_empresarial: data.emailEmpresarial,
+      email_empresarial: data.emailEmpresarial || null,
       telefono_celular: indicativo + data.celular,
       telefono_fijo_residencial: data.telefonoFijo,
       telefono_empresa_2: data.telefonoEmpresa2,
       pais_residencia: paisesOptions[formValues.paisResidencia]?.value,
       municipio_residencia: municipiosOptions[formValues.municipio]?.value,
-      cod_municipio_notificacion_nal: municipiosOptions[formValues.municipioNotificacion]?.value || null,
-      cod_municipio_laboral_nal: municipiosOptions[formValues.municipioDondeLabora]?.value || null,
+      cod_municipio_notificacion_nal:
+        municipiosOptions[formValues.municipioNotificacion]?.value || null,
+      cod_municipio_laboral_nal:
+        municipiosOptions[formValues.municipioDondeLabora]?.value || null,
       direccion_residencia: data.direccion_residencia,
       direccion_residencia_ref: data.referenciaAdicional,
       direccion_laboral: data.direccionLaboral,
@@ -341,7 +389,7 @@ const AdministradorDePersonasScreen = () => {
           updatedPersona,
           config
         );
-        console.log("dataUpdate", dataUpdate)
+        console.log("dataUpdate", dataUpdate);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -386,9 +434,10 @@ const AdministradorDePersonasScreen = () => {
         manejadorErroresSwitAlert(err);
       }
     }
-    setLugarResidencia({departamento: ""})
-    setDatosLaborales({departamento: ""})
-    setDatosNotificacion({departamento: ""})
+    setLugarResidencia({ departamento: "" });
+    setDatosLaborales({ departamento: "" });
+    setDatosNotificacion({ departamento: "" });
+    setLoading(false);
   };
 
   const resetEmptyValues = () => {
@@ -421,7 +470,7 @@ const AdministradorDePersonasScreen = () => {
       estadoCivil: "",
       paisNacimiento: "",
       paisResidencia: "",
-      paisLaboral: "", 
+      paisLaboral: "",
       paisNotificacion: "",
       municipio: "",
       municipioDondeLabora: "",
@@ -522,7 +571,7 @@ const AdministradorDePersonasScreen = () => {
         ...watchPersona(),
         municipio: "",
       });
-      setLugarResidencia({...lugarResidencia, departamento: ""})
+      setLugarResidencia({ ...lugarResidencia, departamento: "" });
     }
     setFormValues({
       ...formValues,
@@ -540,13 +589,13 @@ const AdministradorDePersonasScreen = () => {
         ...watchPersona(),
         municipioDondeLabora: "",
       });
-      setDatosLaborales({...datosLaborales, departamento: ""})
+      setDatosLaborales({ ...datosLaborales, departamento: "" });
     }
     setFormValues({
       ...formValues,
       ...objectSend,
     });
-  }
+  };
 
   const handleChangePaisNotificacion = (e) => {
     const objectSend = {
@@ -558,13 +607,13 @@ const AdministradorDePersonasScreen = () => {
         ...watchPersona(),
         municipioNotificacion: "",
       });
-      setDatosNotificacion({...datosNotificacion, departamento: ""})
+      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
     }
     setFormValues({
       ...formValues,
       ...objectSend,
     });
-  }
+  };
 
   const getIndexColombia = () => {
     let indexColombia = null;
@@ -592,59 +641,65 @@ const AdministradorDePersonasScreen = () => {
   };
 
   useEffect(() => {
-    if(!primeraVez) return
+    if (!primeraVez) return;
     if (lugarResidencia.departamento === "") {
       setmunicipioResidenciaFiltered([]);
-      setFormValues({...formValues, municipio: ""})
+      setFormValues({ ...formValues, municipio: "" });
     } else {
-      const municipioIndicadores = lugarResidencia.departamento?.value?.slice(0, 2);
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-          const indicator = municipio.value.slice(0, 2);
-          return municipioIndicadores === indicator;
-        }
+      const municipioIndicadores = lugarResidencia.departamento?.value?.slice(
+        0,
+        2
       );
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
       setmunicipioResidenciaFiltered(municipiosCoincidentes);
-      setFormValues({...formValues, municipio: 0})
+      setFormValues({ ...formValues, municipio: 0 });
     }
   }, [lugarResidencia]);
 
   useEffect(() => {
-    if(!primeraVez) return
+    if (!primeraVez) return;
     if (datosLaborales.departamento === "") {
       setMunicipioDondeLaboraFiltered([]);
-      setFormValues({...formValues, municipioDondeLabora: ""})
+      setFormValues({ ...formValues, municipioDondeLabora: "" });
     } else {
-      const municipioIndicadores = datosLaborales.departamento?.value?.slice(0, 2);
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-          const indicator = municipio.value.slice(0, 2);
-          return municipioIndicadores === indicator;
-        }
+      const municipioIndicadores = datosLaborales.departamento?.value?.slice(
+        0,
+        2
       );
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
       setMunicipioDondeLaboraFiltered(municipiosCoincidentes);
-      setFormValues({...formValues, municipioDondeLabora: 0})
+      setFormValues({ ...formValues, municipioDondeLabora: 0 });
     }
   }, [datosLaborales.departamento]);
 
   useEffect(() => {
-    if(!primeraVez) return
+    if (!primeraVez) return;
     if (datosNotificacion.departamento === "") {
       setMunicipioNotificacionFiltered([]);
-      setFormValues({...formValues, municipioNotificacion: ""})
+      setFormValues({ ...formValues, municipioNotificacion: "" });
     } else {
-      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(0, 2);
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-          const indicator = municipio.value.slice(0, 2);
-          return municipioIndicadores === indicator;
-        }
+      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(
+        0,
+        2
       );
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+        const indicator = municipio.value.slice(0, 2);
+        return municipioIndicadores === indicator;
+      });
       setMunicipioNotificacionFiltered(municipiosCoincidentes);
-      setFormValues({...formValues, municipioNotificacion: 0})
+      setFormValues({ ...formValues, municipioNotificacion: 0 });
     }
   }, [datosNotificacion.departamento]);
 
   useEffect(() => {
-    setPrimeraVez(true)
-  }, [actionForm])
+    setPrimeraVez(true);
+  }, [actionForm]);
 
   return (
     <div className="row min-vh-100">
@@ -698,7 +753,7 @@ const AdministradorDePersonasScreen = () => {
                       <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
                       {...registerBuscar("numeroDocumento", {
                         required: true,
@@ -716,19 +771,19 @@ const AdministradorDePersonasScreen = () => {
                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={() => {
                       setActionForm(null);
                     }}
                   >
-                    Buscar
+                    <img src={botonBuscar} alt="" title="Buscar" />
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-uppercase"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
-                    Busqueda avanzada
+                    Búsqueda avanzada
                   </button>
                 </div>
               </div>
@@ -792,7 +847,7 @@ const AdministradorDePersonasScreen = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border rounded-pill px-3  border-terciary"
                             type="text"
                             value={
                               tipoDocumentoOptions[formValues.tipoDocumento]
@@ -812,7 +867,7 @@ const AdministradorDePersonasScreen = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("numeroDocumento2", {
@@ -851,7 +906,7 @@ const AdministradorDePersonasScreen = () => {
                           Digito de verificación:
                         </label>
                         <input
-                          className="border border-terciary hola form-control border rounded-pill px-3"
+                          className="border border-terciary hola form-control border rounded-pill px-3 border-terciary"
                           type="number"
                           disabled={!yesOrNot}
                           // {...registerPersona("digitoVerificacion", {
@@ -868,7 +923,7 @@ const AdministradorDePersonasScreen = () => {
                           Nombre comercial:
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={!yesOrNot}
                           {...registerPersona("nombreComercial")}
@@ -881,7 +936,7 @@ const AdministradorDePersonasScreen = () => {
                           Primer nombre: <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("primerNombre", {
@@ -901,7 +956,7 @@ const AdministradorDePersonasScreen = () => {
                       <div>
                         <label className="ms-2">Segundo nombre:</label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("segundoNombre")}
@@ -915,7 +970,7 @@ const AdministradorDePersonasScreen = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("primerApellido", {
@@ -935,7 +990,7 @@ const AdministradorDePersonasScreen = () => {
                       <div>
                         <label className="ms-2">Segundo apellido:</label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("segundoApellido")}
@@ -1011,7 +1066,7 @@ const AdministradorDePersonasScreen = () => {
                                 fechaNacimiento: e,
                               });
                             }}
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border rounded-pill px-3 border-terciary"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}
@@ -1051,7 +1106,7 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                 </div>
                 <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
-                <div className="row mb-3 mt-2 mx-1">
+                <div className="row mb-3 mt-2 mx-1 align-items-end">
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label">País de residencia:</label>
                     <Controller
@@ -1080,7 +1135,7 @@ const AdministradorDePersonasScreen = () => {
                           "CO"
                         }
                         onChange={(e) => {
-                          setLugarResidencia({departamento: e})
+                          setLugarResidencia({ departamento: e });
                         }}
                         value={lugarResidencia.departamento}
                         placeholder="Seleccionar"
@@ -1091,7 +1146,11 @@ const AdministradorDePersonasScreen = () => {
                       <label className="form-label text-terciary">
                         Departamento de residencia:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
                   {formValues.paisResidencia === getIndexColombia() ? (
@@ -1131,7 +1190,11 @@ const AdministradorDePersonasScreen = () => {
                       <label className="form-label">
                         Municipio de residencia:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
                   <div className="col-md-8 col-10 mt-3">
@@ -1205,11 +1268,13 @@ const AdministradorDePersonasScreen = () => {
                       <Select
                         options={departamentosOptions}
                         isDisabled={
-                          paisesOptions[formValues.paisLaboral]?.value !==
-                          "CO"
+                          paisesOptions[formValues.paisLaboral]?.value !== "CO"
                         }
                         onChange={(e) => {
-                          setDatosLaborales({...datosLaborales, departamento: e})
+                          setDatosLaborales({
+                            ...datosLaborales,
+                            departamento: e,
+                          });
                         }}
                         value={datosLaborales.departamento}
                         placeholder="Seleccionar"
@@ -1220,7 +1285,11 @@ const AdministradorDePersonasScreen = () => {
                       <label className="form-label text-terciary">
                         Departamento donde labora:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
 
@@ -1236,9 +1305,12 @@ const AdministradorDePersonasScreen = () => {
                           <Select
                             {...field}
                             isDisabled={
-                              paisesOptions[formValues.paisLaboral]?.value !== "CO"
+                              paisesOptions[formValues.paisLaboral]?.value !==
+                              "CO"
                             }
-                            value={municipiosOptions[formValues.municipioDondeLabora]}
+                            value={
+                              municipiosOptions[formValues.municipioDondeLabora]
+                            }
                             onChange={(e) =>
                               setFormValues({
                                 ...formValues,
@@ -1259,14 +1331,18 @@ const AdministradorDePersonasScreen = () => {
                       <label className="form-label">
                         Municipio donde labora:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
                   <div className="col-12 col-md-3 mt-2">
                     <div>
                       <label className="ms-2">Email empresarial:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="text"
                         {...registerPersona("emailEmpresarial")}
                       />
@@ -1274,9 +1350,9 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div>
-                      <label className="ms-2">Telefono empresa:</label>
+                      <label className="ms-2">Teléfono empresa:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
                         {...registerPersona("telefonoEmpresa2")}
                       />
@@ -1354,7 +1430,10 @@ const AdministradorDePersonasScreen = () => {
                           "CO"
                         }
                         onChange={(e) => {
-                          setDatosNotificacion({...datosNotificacion, departamento: e})
+                          setDatosNotificacion({
+                            ...datosNotificacion,
+                            departamento: e,
+                          });
                         }}
                         value={datosNotificacion.departamento}
                         placeholder="Seleccionar"
@@ -1365,7 +1444,11 @@ const AdministradorDePersonasScreen = () => {
                       <label className="form-label text-terciary">
                         Departamento notificación:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
                   {formValues.paisNotificacion === getIndexColombia() ? (
@@ -1380,9 +1463,14 @@ const AdministradorDePersonasScreen = () => {
                           <Select
                             {...field}
                             isDisabled={
-                              paisesOptions[formValues.paisNotificacion]?.value !== "CO"
+                              paisesOptions[formValues.paisNotificacion]
+                                ?.value !== "CO"
                             }
-                            value={municipiosOptions[formValues.municipioNotificacion]}
+                            value={
+                              municipiosOptions[
+                                formValues.municipioNotificacion
+                              ]
+                            }
                             onChange={(e) =>
                               setFormValues({
                                 ...formValues,
@@ -1403,7 +1491,11 @@ const AdministradorDePersonasScreen = () => {
                       <label className="form-label">
                         Municipio notificación:{" "}
                       </label>
-                      <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                      <Select
+                        isDisabled
+                        placeholder="Seleccionar"
+                        value={"Seleccionar"}
+                      />
                     </div>
                   )}
                   <div className="col-12 col-md-3 mt-2">
@@ -1412,7 +1504,7 @@ const AdministradorDePersonasScreen = () => {
                         E-mail: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="email"
                         disabled={actionForm === "editar"}
                         readOnly={actionForm === "editar"}
@@ -1434,7 +1526,7 @@ const AdministradorDePersonasScreen = () => {
                         Celular: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
                         {...registerPersona("celular", {
                           required: true,
@@ -1453,9 +1545,9 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div>
-                      <label className="ms-2">Telefono fijo:</label>
+                      <label className="ms-2">Teléfono fijo:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
                         {...registerPersona("telefonoFijo")}
                       />
@@ -1497,18 +1589,44 @@ const AdministradorDePersonasScreen = () => {
 
                 <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
                   <button
-                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
+                    disabled={loading}
                   >
-                    Cancelar
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      <img src={botonCancelar} alt="" title="Cancelar" />
+                    )}
                   </button>
 
                   <button
-                    className="btn bg-gradient-primary mb-0 d-block text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="submit"
+                    disabled={loading}
                   >
-                    {actionForm === "editar" ? "Actualizar" : "Crear"}
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : actionForm === "editar" ? (
+                      <img src={botonActualizar} alt="" title="Actualizar" />
+                    ) : (
+                      <img src={botonAgregar} alt="" title="Crear" />
+                    )}
                   </button>
                 </div>
               </form>
@@ -1558,6 +1676,3 @@ const AdministradorDePersonasScreen = () => {
   );
 };
 export default AdministradorDePersonasScreen;
-
-
-    

@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { crearNuevaEstacionAction } from "../actions/estacionActions";
+import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
+import iconoAgregar from '../assets/iconosBotones/agregar.svg'
+
 
 const customStyles = {
   content: {
@@ -143,14 +146,14 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              Cerrar
+              <img src={iconoCancelar} alt=""  style={{height: "20px", width: "20px"}}/>
             </button>
             <button
               className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Guardar
+              <img src={iconoAgregar} alt="" style={{height: "20px", width: "20px"}}/>
             </button>
           </div>
         </form>

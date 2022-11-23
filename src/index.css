@@ -4,9 +4,7 @@ html {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: 'Visby','Roboto', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -83,6 +81,12 @@ code {
   border: 1px solid #042F4A !important;
 }
 
+.css-1insrsq-control {
+  border-radius: 20px !important;
+  padding: 0 4px 0 4px !important;
+  border: 1px solid #042F4A !important;
+}
+
 .ccs-1pahdxg-control:hover {
   border-radius: 20px !important;
 }
@@ -91,11 +95,20 @@ code {
 .btn {
   min-width: 100px;
   border-radius: 20px;
+  text-transform: none!important;
 }
 
 /* Correcion botones para las tablas */
 .btn.btn-tablas {
   min-width: 0;
+}
+
+.btn.btn-entorno {
+  min-width: 150px;
+}
+
+.btn-image {
+  border: none!important;
 }
 
 /* Linea para los titulo de los modales */
@@ -109,4 +122,16 @@ code {
   width: 100% !important;
   object-fit: cover !important; /* Recorta la imagen sin deformarla */
   object-position: center !important;
+}
+
+.cursor-click {
+  cursor: pointer;
+}
+
+input[type="password"] {
+  font-family: sans-serif;
+}
+
+label {
+  font-weight: 600 !important;
 }

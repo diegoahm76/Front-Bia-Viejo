@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../components/CalendarModal";
-import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import {
   activeModalAction,
   desactiveModalAction,
@@ -20,6 +18,12 @@ import {
   getPermisosAdapterSelect,
   getPermisosRolPost,
 } from "../../adapters/roles.adapters";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg"
+import botonAgregar from "../../assets/iconosBotones/agregar.svg"
+import botonEditar from "../../assets/iconosBotones/editar.svg"
+import botonEliminar from "../../assets/iconosBotones/eliminar.svg"
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
+import botonGuardar from "../../assets/iconosBotones/guardar.svg";
 
 const defaultColDef = {
   sortable: true,
@@ -91,7 +95,7 @@ const RolesScreen = () => {
       maxWidth: 220
     },
     {
-      headerName: "Descripcion",
+      headerName: "Descripción",
       field: "descripcion_rol",
       minWidth: 200,
       maxWidth: 450,
@@ -103,22 +107,22 @@ const RolesScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
+            className="btn btn-sm btn-tablas "
             type="button"
             onClick={() => {
               handleOpenEditRol(params.data.id_rol);
             }}
           >
-            <img src={IconoEditar} alt="editar" />
+            <img src={botonEditar} alt="editar" title="Editar"/>
           </button>
           <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
+            className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
               confirmarEliminarRol(params.data.id_rol);
             }}
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <img src={botonEliminar} alt="eliminar" title="Eliminar"/>
           </button>
         </div>
       ),
@@ -351,26 +355,24 @@ const RolesScreen = () => {
           <form onSubmit={handleSubmit(onSubmitByName)}>
             <div className="row">
               <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
-                Administrador De Roles
+                Administrador de roles
               </h3>
-              <Subtitle title="Informacion general" mt={3} />
-              <div className="d-flex align-items-end gap-4 mb-0 mt-4 ms-3">
-                <div className="col-12 col-md-3 mb-3">
+              <Subtitle title="Información general" mt={3} />
+              <div className="d-flex align-items-center gap-4 mb-0 mt-4 ms-3">
+                <div className="col-8 col-md-3 mb-3">
                   <label className="text-terciary">Nombre del rol</label>
                   <input
                     type="text"
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     {...register("nombreRol")}
                   />
                 </div>
-                <div>
-                  <button
-                    type="submit"
-                    className="btn bg-gradient-primary text-capitalize rounded-pill"
-                  >
-                    Buscar
-                  </button>
-                </div>
+                <button
+                  type="submit"
+                  className="mb-0 mt-2 btn-image text-capitalize bg-white border boder-none"
+                >
+                  <img src={botonBuscar} alt="" title="Buscar"/>
+                </button>
               </div>
               <div id="myGrid" className="ag-theme-alpine mt-3">
                 <div
@@ -389,13 +391,13 @@ const RolesScreen = () => {
                   ></AgGridReact>
                 </div>
               </div>
-              <div className="d-flex justify-content-end">
+              <div className="d-flex justify-content-end mt-2">
                 <button
                   type="button"
-                  className="btn bg-gradient-primary text-capitalize mt-3 rounded-pill"
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   onClick={handleCreateRole}
                 >
-                  Crear rol
+                  <img src={botonAgregar} alt="" title="Crear rol"/>
                 </button>
               </div>
             </div>
@@ -406,7 +408,7 @@ const RolesScreen = () => {
                 className="row p-3"
                 onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
               >
-                <h4>{isCreate === "crear" ? "Crear Rol" : "Editar Rol"}</h4>
+                <h4>{isCreate === "crear" ? "Crear rol" : "Editar rol"}</h4>
                 <hr className="rounded-pill hr-modal" />
                 <div className="col-12 col-md-5 mb-3">
                   <label>
@@ -414,7 +416,7 @@ const RolesScreen = () => {
                   </label>
                   <input
                     type="text"
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     {...registerRolPermiso("nombreRol", { required: true })}
                   />
                   {errorsRolPermiso.nombreRol && (
@@ -430,7 +432,7 @@ const RolesScreen = () => {
                     Descripción: <span className="text-danger">*</span>
                   </label>
                   <textarea
-                    className="form-control border rounded-pill px-3"
+                    className="form-control border rounded-pill px-3 border-terciary"
                     {...registerRolPermiso("descripcionRol", {
                       required: true,
                     })}
@@ -469,19 +471,19 @@ const RolesScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="d-flex justify-content-end gap-2">
+                <div className="d-flex justify-content-end gap-2 mt-3">
                   <button
                     type="button"
-                    className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleCloseModal}
                   >
-                    Cerrar
+                    <img src={botonCancelar} alt="" title="Cancelar" />
                   </button>
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Guardar
+                    <img src={botonGuardar} alt="" title="Guardar" />
                   </button>
                 </div>
               </form>
@@ -569,19 +571,19 @@ const RolesScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="d-flex justify-content-end gap-2">
+                <div className="d-flex justify-content-end gap-2 mt-3">
                   <button
                     type="button"
-                    className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleCloseModal}
                   >
-                    Cerrar
+                    <img src={botonCancelar} alt="" title="Cancelar" />
                   </button>
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Guardar
+                    <img src={botonGuardar} alt="" title="Guardar" />
                   </button>
                 </div>
               </form>

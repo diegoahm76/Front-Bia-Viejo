@@ -10,6 +10,10 @@ import Subtitle from "../../components/Subtitle";
 import clienteAxios from "../../config/clienteAxios";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg";
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
+import botonAgregar from "../../assets/iconosBotones/agregar.svg";
+import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
@@ -31,6 +35,7 @@ const defaultDataOverride = {
 
 const AdministradosDeUsuario = () => {
   const { id_usuario } = useSelector((state) => state.user.user);
+  const [loading, setLoading] = useState(false);
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -69,6 +74,7 @@ const AdministradosDeUsuario = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
+      setLoading(true);
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -89,15 +95,17 @@ const AdministradosDeUsuario = () => {
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
+        setLoading(false);
       } catch (err) {
         console.log(err);
+        setLoading(false);
       }
     };
     getSelectsOptions();
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    //console.log("Buscar", data);
+    setLoading(true);
     try {
       const { data: dataPersona } = await clienteAxios.get(
         `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
@@ -188,89 +196,9 @@ const AdministradosDeUsuario = () => {
 
         resetUsuario(usuarioOverrideData);
       }
-
-      // if (dataPersona?.Persona) {
-      //   Swal.fire({
-      //     title: "Este numero de documento no tiene un usuario asignado",
-      //     text: "¿Desea registrar un nuevo usuario?",
-      //     icon: "info",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Si",
-      //     cancelButtonText: "No",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       setActionForm("crear");
-      //       setPersonaData(dataPersona?.Persona);
-      //     }
-      //   });
-      // } else if (dataPersona?.data) {
-      //   Swal.fire({
-      //     title: "No existe una persona con este documento",
-      //     text: "¿Desea registrar una nueva persona?",
-      //     icon: "warning",
-      //     showCancelButton: true,
-      //     confirmButtonColor: "#3BA9E0",
-      //     cancelButtonColor: "#6c757d",
-      //     confirmButtonText: "Si",
-      //     cancelButtonText: "No",
-      //   }).then((result) => {
-      //     if (result.isConfirmed) {
-      //       Swal.fire({
-      //         title: "Elegir tipo persona",
-      //         text: "¿Que tipo de persona desea crear?",
-      //         icon: "info",
-      //         showCancelButton: true,
-      //         confirmButtonColor: "#3BA9E0",
-      //         cancelButtonColor: "#6c757d",
-      //         confirmButtonText: "Natural",
-      //         cancelButtonText: "Juridica",
-      //       }).then((result) => {
-      //         if (result.isConfirmed) {
-      //           navigate("/dashboard/seguridad/administradordepersonas");
-      //         } else {
-      //           navigate("/dashboard/seguridad/administradordeempresas");
-      //         }
-      //       });
-      //     }
-      //   });
-      // } else if (dataPersona?.Usuario) {
-      //   setUserData(dataPersona?.Usuario);
-      //   setActionForm("editar");
-
-      //   if (dataPersona?.Usuario.tipo_usuario === "I") {
-      //     setBloqueoTipoUsuario(true);
-      //   } else if (dataPersona?.Usuario.tipo_usuario === "E") {
-      //     setBloqueoTipoUsuario(false);
-      //   }
-
-      //   const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
-
-      //   const dataRolesIndex = getIndexBySelectOptions(
-      //     indexRoles,
-      //     rolesOptions
-      //   );
-
-      //   setFormValues({
-      //     roles: dataRolesIndex,
-      //   });
-
-      //   const optionsBySelect = dataRolesIndex.map(
-      //     (roleIndex) => rolesOptions[roleIndex]
-      //   );
-
-      //   const usuarioOverrideData = {
-      //     nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
-      //     bloqueado: dataPersona?.Usuario.is_blocked,
-      //     activo: dataPersona?.Usuario.is_active,
-      //     tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
-      //     roles: optionsBySelect,
-      //   };
-
-      //   resetUsuario(usuarioOverrideData);
-      // }
+      setLoading(false);
     } catch (err) {
+      setLoading(false);
       Swal.fire({
         position: "center",
         icon: "error",
@@ -305,7 +233,7 @@ const AdministradosDeUsuario = () => {
         Authorization: `Bearer ${accessToken}`,
       },
     };
-
+    setLoading(true);
     if (actionForm === "crear") {
       try {
         const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
@@ -318,6 +246,10 @@ const AdministradosDeUsuario = () => {
           id_usuario_creador: id_usuario,
           tipo_usuario: "I",
           roles: rolesFormat,
+          redirect_url:
+            process.env.NODE_ENV === "production"
+              ? "https://front-bia.netlify.app/#/login"
+              : "http://localhost:3000/#/login",
         };
 
         await clienteAxios.post("users/register/", nuevoUsuario, config);
@@ -350,12 +282,12 @@ const AdministradosDeUsuario = () => {
           roles: rolesReFormat,
         };
 
-        const { data: dataEditar } = await clienteAxios.patch(
+        await clienteAxios.patch(
           `users/update/${userData.id_usuario}/`,
           editarUsuario,
           config
         );
-        //console.log("editado", dataEditar)
+
         Swal.fire(
           "Correcto",
           "El usuario se actualizo correctamente",
@@ -372,6 +304,7 @@ const AdministradosDeUsuario = () => {
         });
       }
     }
+    setLoading(false);
   };
 
   const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
@@ -406,7 +339,7 @@ const AdministradosDeUsuario = () => {
           <div className="row">
             <form onSubmit={handleSubmitBuscar(onSubmitBuscar)}>
               <h3 className="mt-3 mb-0 ms-3 fw-light text-terciary">
-                Administrador De Usuarios
+                Administrador de usuarios
               </h3>
               <Subtitle title={"Buscar persona"} mt={3} />
               <div className="mt-4 row align-items-end ms-1">
@@ -456,16 +389,16 @@ const AdministradosDeUsuario = () => {
                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Buscar
+                    <img src={botonBuscar} alt="" title="Buscar"/>
                   </button>
                   <button
                     type="button"
                     className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
-                    Busqueda avanzada
+                    Búsqueda avanzada
                   </button>
                 </div>
               </div>
@@ -476,17 +409,27 @@ const AdministradosDeUsuario = () => {
                 <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
                 <div className="row mt-3 ms-1">
                   <div className="col-12 col-md-3">
-                    <label className="text-terciary">
-                      Nombre de usuario:<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      autoComplete="off"
-                      {...registerUsuario("nombreUsuario", {
-                        required: true,
-                      })}
-                    />
+                    <div>
+                      <label className="text-terciary">
+                        Nombre de usuario:<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        autoComplete="off"
+                        {...registerUsuario("nombreUsuario", {
+                          required: true,
+                          minLength: 6,
+                        })}
+                      />
+                    </div>
+                    {errorsUsuario.nombreUsuario && (
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio y de 6 caracteres
+                        </small>
+                      </div>
+                    )}
                   </div>
                   {actionForm === "crear" && (
                     <>
@@ -540,7 +483,7 @@ const AdministradosDeUsuario = () => {
                       <p className="font-weight-bolder text-terciary">
                         Estado del usuario
                       </p>
-                      <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                      <div className="form-check col-md-5 col-12 col-xs-6 ps-0 pe-10 ms-3 d-flex">
                         <label
                           className="form-check-label text-terciary"
                           htmlFor="flexCheckDefault"
@@ -555,7 +498,7 @@ const AdministradosDeUsuario = () => {
                           {...registerUsuario("bloqueado")}
                         />
                       </div>
-                      <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
+                      <div className="form-check col-md-5 col-xs-6 col-12 ps-0 pe-10 ms-3 d-flex">
                         <label
                           className="form-check-label text-terciary"
                           htmlFor="flexCheckDefault"
@@ -591,7 +534,7 @@ const AdministradosDeUsuario = () => {
                       Tipo de usuario
                     </p>
                     <div className="row flex-column">
-                      <div className="col-6 col-md-3">
+                      <div className="col-6 col-md-4">
                         <div className="form-check form-switch d-flex gap-2 ps-0 ms-3">
                           <label className="me-5 text-terciary">Externo</label>
                           <input
@@ -623,7 +566,7 @@ const AdministradosDeUsuario = () => {
                 </div> */}
                   </>
                 )}
-                <Subtitle title={"Modulos / Grupos / Roles"} mt={4} mb={0} />
+                <Subtitle title={"Módulos / Grupos / Roles"} mt={4} mb={0} />
                 <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">Roles:</label>
                   <Controller
@@ -645,7 +588,7 @@ const AdministradosDeUsuario = () => {
                     )}
                   />
                 </div>
-                <div className="col-12 col-md-3 ms-3 mt-4">
+                {/* <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">
                     Tipo de tercero:
                   </label>
@@ -662,22 +605,47 @@ const AdministradosDeUsuario = () => {
                       />
                     )}
                   />
-                </div>
+                </div> */}
                 <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
                   <button
-                    className="btn bg-gradient-light mb-0 d-block mt-4 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
+                    disabled={loading}
                   >
-                    Cancelar
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      <img src={botonCancelar} alt="" title="Cancelar"/>
+                    )}
                   </button>
 
                   <button
-                    className="btn bg-gradient-primary mb-0 d-block mt-4 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="submit"
                     onClick={handleClickSubmit}
                   >
-                    {actionForm === "editar" ? "Actualizar" : "Registrar"}
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : actionForm === "editar" ? (
+                      <img src={botonActualizar} alt="" title="Actualizar"/>
+                    ) : (
+                      <img src={botonAgregar} alt="" title="Crear"/>
+                    )}
                   </button>
                 </div>
               </form>

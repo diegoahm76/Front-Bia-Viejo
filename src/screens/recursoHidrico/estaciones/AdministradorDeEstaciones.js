@@ -1,7 +1,7 @@
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
 import NuevaEstacionModal from "../../../components/NuevaEstacionModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -63,7 +63,7 @@ const AdministradorDeEstaciones = () => {
             type="button"
             onClick={() => confirmarEliminarEstacion(params.data.objectid)}
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <img src={IconoEliminarBia} alt="eliminar" style={{ height: "18px" }} />
           </button>
         </div>
       ),

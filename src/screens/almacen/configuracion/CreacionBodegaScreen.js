@@ -57,27 +57,7 @@ const CreacionBodegaScreen = () => {
       es_principal
     };
     console.log(bodegaCreate);
-
-    //console.log("bodega", bodegaCreate);
     dispatch(crearNuevaBodegaAction(bodegaCreate));
-    // const datosBodega = {
-    //   nombre: data.nombre,
-    //   cod_municipio: data.municipio,
-    //   direccion: data.direccion,
-    //   es_principal: data.yesOrNo,
-    //   id_responsable: data.numeroCedula,
-    // };
-
-    // dispatch(crearNuevaBodegaAction(datosBodega));
-    // setVariables({
-    //   ...variables,
-    //   nombreBodega: data.nombre,
-    //   departamento: data.departamento.value,
-    //   municipio: data.municipio.value,
-    //   direccion: data.direccion,
-    //   tipoDocumento: data.tipoDocumento,
-    //   numeroCedula: data.numeroCedula,
-    // });
   };
    const navigate=useNavigate();
    const AdministradorBodegas =()=>{

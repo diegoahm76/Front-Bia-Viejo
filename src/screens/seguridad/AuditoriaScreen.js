@@ -12,6 +12,7 @@ import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import { getConfigAuthBearer } from "../../helpers/configAxios";
 import { formatISO } from "date-fns";
 import { getDateFromAAAAMMDDToDDMMAAAA } from "../../helpers/dateHelpers";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg"
 
 const columDefs = [
   {
@@ -30,7 +31,7 @@ const columDefs = [
     minWidth: 150,
   },
   {
-    headerName: "Modulo",
+    headerName: "Módulo",
     field: "id_modulo.nombre_modulo",
     minWidth: 150,
   },
@@ -158,7 +159,7 @@ const AuditoriaScreen = () => {
         >
           <h3 className="mt-3 ms-3 mb-4 fw-light text-terciary">Auditoria</h3>
           <Subtitle title={"Información general"} mt={0} mb={0} />
-          <form className="mt-4 row mx-1" onSubmit={handleSubmit(onSubmit)}>
+          <form className="mt-4 row mx-1 align-items-end" onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
               <div className="col-12 col-md-6">
                 <div className="flex-column col-12 mt-4">
@@ -328,7 +329,7 @@ const AuditoriaScreen = () => {
               <div>
                 <label className="ms-2">Número de documento:</label>
                 <input
-                  className="form-control border rounded-pill px-3"
+                  className="form-control border rounded-pill px-3 border-terciary"
                   type="text"
                   {...register("numeroDocumento", { required: false })}
                 />
@@ -344,9 +345,9 @@ const AuditoriaScreen = () => {
             <div>
               <button
                 type="submit"
-                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
+                className="mb-0 btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-4 me-2"
               >
-                Consultar
+                <img src={botonBuscar} alt="" title="Buscar"/>
               </button>
             </div>
             <div id="myGrid" className="ag-theme-alpine mt-3">
