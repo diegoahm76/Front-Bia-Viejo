@@ -347,7 +347,7 @@ const AuditoriaScreen = () => {
                 type="submit"
                 className="mb-0 btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-4 me-2"
               >
-                <img src={botonBuscar} alt="" />
+                <img src={botonBuscar} alt="" title="Buscar"/>
               </button>
             </div>
             <div id="myGrid" className="ag-theme-alpine mt-3">

@@ -611,7 +611,7 @@ const AdministradorDeEmpresasScreen = () => {
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" />
+                    <img src={botonBuscar} alt="" title="Buscar"/>
                   </button>
                   <button
                     type="button"
@@ -1089,7 +1089,7 @@ const AdministradorDeEmpresasScreen = () => {
                         Cargando...
                       </>
                     ) : (
-                      <img src={botonCancelar} alt="" />
+                      <img src={botonCancelar} alt="" title="Cancelar"/>
                     )}
                   </button>
 
@@ -1108,9 +1108,9 @@ const AdministradorDeEmpresasScreen = () => {
                         Cargando...
                       </>
                     ) : actionForm === ACTION_EDITAR ? (
-                        <img src={botonActualizar} alt="" />
+                        <img src={botonActualizar} alt="" title="Actualizar"/>
                     ) : (
-                      <img src={botonAgregar} alt="" />
+                      <img src={botonAgregar} alt="" title="Crear"/>
                     )}
                   </button>
                 </div>

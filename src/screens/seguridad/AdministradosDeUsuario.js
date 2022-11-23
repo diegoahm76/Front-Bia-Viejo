@@ -391,7 +391,7 @@ const AdministradosDeUsuario = () => {
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" />
+                    <img src={botonBuscar} alt="" title="Buscar"/>
                   </button>
                   <button
                     type="button"
@@ -623,7 +623,7 @@ const AdministradosDeUsuario = () => {
                         Cargando...
                       </>
                     ) : (
-                      <img src={botonCancelar} alt="" />
+                      <img src={botonCancelar} alt="" title="Cancelar"/>
                     )}
                   </button>
 
@@ -642,9 +642,9 @@ const AdministradosDeUsuario = () => {
                         Cargando...
                       </>
                     ) : actionForm === "editar" ? (
-                      <img src={botonActualizar} alt="" />
+                      <img src={botonActualizar} alt="" title="Actualizar"/>
                     ) : (
-                      <img src={botonAgregar} alt="" />
+                      <img src={botonAgregar} alt="" title="Crear"/>
                     )}
                   </button>
                 </div>
