@@ -1,5 +1,4 @@
 import {
-  USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGOUT,
@@ -11,12 +10,19 @@ import {
   USER_REGISTER_FAIL,
   USER_LOGIN_INVALID,
   USER_REMOVE_ERROR,
+  CHANGE_SESION_REQUEST,
+  CHANGE_SESION_SUCCESS,
+  CHANGE_SESION_FAIL,
+  OPEN_MODAL_SESION,
+  CLOSE_MODAL_SESION,
 } from "../types/userTypes";
 
 const initialState = {
   user: {},
   loading: false,
   error: null,
+  modalSesion: false,
+  dataSesion: {}
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -41,8 +47,22 @@ export const userReducer = (state = initialState, action) => {
         error: null,
       };
 
+    case CHANGE_SESION_REQUEST:
+      return {
+        ...state,
+        dataSesion: {}
+      }
+
+    case CHANGE_SESION_SUCCESS:
+      return {
+        ...state,
+        modalSesion: false,
+        dataSesion: action.payload
+      }
+
     case USER_LOGIN_INVALID:
     case USER_REGISTER_FAIL:
+    case CHANGE_SESION_FAIL:
       return {
         ...state,
         loading: false,
@@ -55,6 +75,8 @@ export const userReducer = (state = initialState, action) => {
         loading: false,
         error: null,
         user: {},
+        dataSesion: {},
+        modalSesion: false
       };
 
     case USER_LOCALSTORAGE_NOT_FOUND:
@@ -68,6 +90,13 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         error: null,
       };
+
+    case OPEN_MODAL_SESION:
+    case CLOSE_MODAL_SESION:
+      return {
+        ...state,
+        modalSesion: action.payload
+      }
 
     default:
       return state;

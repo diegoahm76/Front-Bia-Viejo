@@ -67,7 +67,7 @@ const RecuperacionDeContrasenaScreen = () => {
                   </label>
                   <div className="mt-3">
                     <label className="text-terciary text-terciary ms-2">
-                      Correo electronico
+                      Correo electrónico 
                     </label>
                     <input
                       type="email"

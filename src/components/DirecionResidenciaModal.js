@@ -7,6 +7,10 @@ import Subtitle from "./Subtitle";
 import Select from "react-select";
 import { useEffect } from "react";
 import clienteAxios from "../config/clienteAxios";
+import botonCancelar from "../assets/iconosBotones/cancelar.svg"
+import botonGuardar from "../assets/iconosBotones/guardar.svg"
+import useEscapeKey from "../hooks/useEscapeKey";
+
 
 const customStyles = {
   content: {
@@ -240,6 +244,12 @@ const DirecionResidenciaModal = ({
     }
   }, [formValues]);
 
+  const handleCloseModalESC = (e) => {
+    setIsModalActive(false)
+  }
+
+  useEscapeKey(handleCloseModalESC)
+
   useEffect(() => {
     setFormValues(defaultValues);
   }, [selecDireccion]);
@@ -258,6 +268,7 @@ const DirecionResidenciaModal = ({
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
+          
           >
             <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
               Dirección de residencia
@@ -266,7 +277,7 @@ const DirecionResidenciaModal = ({
             <div className="row ">
               <div className="col-12 col-md-6">
                 <label className="text-terciary form-control ms-0">
-                  Selecione: <span className="text-danger">*</span>
+                  Seleccione: <span className="text-danger">*</span>
                 </label>
                 <Controller
                   name="direccion"
@@ -286,7 +297,7 @@ const DirecionResidenciaModal = ({
 
             {selecDireccion.value === "rur" ? (
               <div className="multisteps-form__content row">
-                <Subtitle title="Datos de la direccion rural" mt="3" />
+                <Subtitle title="Datos de la dirección rural" mt="3" />
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-6 mb-3">
                     <label className="text-terciary">
@@ -360,7 +371,7 @@ const DirecionResidenciaModal = ({
                     />
                   </div>
                   <div className="col-12 col-md-6 mb-3">
-                    <label className="text-terciary">Numero:</label>
+                    <label className="text-terciary">Número:</label>
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -378,7 +389,7 @@ const DirecionResidenciaModal = ({
                   <div className="col-12 col-md-12">
                     <label className="text-terciary">Complemento</label>
                     <textarea
-                      className="form-control border rounded-pill px-5"
+                      className="form-control border rounded-pill px-5 border-terciary"
                       rows={3}
                       onChange={(e) => {
                         setFormValues({
@@ -396,7 +407,7 @@ const DirecionResidenciaModal = ({
 
             {selecDireccion.value === "urb" ? (
               <div className="multisteps-form__content row">
-                <Subtitle title="Datos de la direccion urbano" mt="3" />
+                <Subtitle title="Datos de la dirección urbano" mt="3" />
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
@@ -431,7 +442,7 @@ const DirecionResidenciaModal = ({
 
                   <div className="col-12 col-md-6">
                     <div>
-                      <label className="text-terciary">Numero: <span className="text-danger">*</span></label>
+                      <label className="text-terciary">Número: <span className="text-danger">*</span></label>
                       <input
                         type="number"
                         className="form-control border border-terciary rounded-pill px-3"
@@ -533,7 +544,7 @@ const DirecionResidenciaModal = ({
                 </div>
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Numero:</label>
+                    <label className="text-terciary">Número:</label>
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -569,7 +580,7 @@ const DirecionResidenciaModal = ({
                 </div>
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
-                    <label className="text-terciary">Numero Secundario:</label>
+                    <label className="text-terciary">Número Secundario:</label>
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -606,7 +617,7 @@ const DirecionResidenciaModal = ({
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6 mb-5">
-                    <label className="text-terciary">complemento :</label>
+                    <label className="text-terciary">Complemento:</label>
                     <Controller
                       name="complemento"
                       control={control}
@@ -629,7 +640,7 @@ const DirecionResidenciaModal = ({
                   <div className="col-12 col-md-6">
                     <label className="text-terciary">Adicional</label>
                     <textarea
-                      className="form-control border rounded-pill px-5"
+                      className="form-control border rounded-pill px-5 border-terciary"
                       onChange={(e) => {
                         setFormValues({
                           ...formValues,
@@ -670,15 +681,15 @@ const DirecionResidenciaModal = ({
                   })
                   setSelecDireccion("")
                 }}
-                className="btn bg-gradient-light text-capitalize"
+                className="mb-0 btn-image text-capitalize bg-white border boder-none"
               >
-                Cancelar
+                <img src={botonCancelar} alt="" />
               </button>
               <button
                 type="submit"
-                className="btn bg-gradient-primary text-capitalize"
+                className="mb-0 btn-image text-capitalize bg-white border boder-none"
               >
-                Guardar
+                <img src={botonGuardar} alt="" />
               </button>
             </div>
           </form>
