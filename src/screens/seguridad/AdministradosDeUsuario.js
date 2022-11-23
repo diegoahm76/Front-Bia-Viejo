@@ -14,6 +14,7 @@ import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
+import botonBuscar2 from "../../assets/iconosBotones/buscar.svg"
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
@@ -391,7 +392,7 @@ const AdministradosDeUsuario = () => {
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" title="Buscar"/>
+                    <img src={botonBuscar2} alt="" title="Buscar"/>
                   </button>
                   <button
                     type="button"
