@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
+import botonGuardar from "../../../assets/iconosBotones/guardar.svg"
 
 const params = new URLSearchParams(window.location.search)
 
@@ -146,10 +147,10 @@ const ActualizarContrasenaScreen = () => {
 
                   <div className="text-center">
                     <button
+                      className="mb-0 btn-image text-capitalize bg-white border boder-none d-block mt-4 ms-auto"
                       type="submit"
-                      className="btn bg-gradient-primary w-100 my-4 mb-2 text-capitalize"
                     >
-                      Guardar
+                      <img src={botonGuardar} alt="" title="Guardar" />
                     </button>
                   </div>
                 </form>

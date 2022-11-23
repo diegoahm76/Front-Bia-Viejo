@@ -9,14 +9,12 @@ import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModa
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 // import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import { obtenerOrganigramaAction, editarOrganigramaObtenerAction } from "../../actions/organigramaActions";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 function CrearOrganigramaScreen() {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const navigate = useNavigate()
 
   const {
     register,

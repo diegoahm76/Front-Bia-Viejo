@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
+import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg"
 
 const RecuperacionDeContrasenaScreen = () => {
 
@@ -91,12 +92,12 @@ const RecuperacionDeContrasenaScreen = () => {
                     </small>
                   )}
 
-                  <div className="text-center">
+                  <div className="text-center mt-4">
                     <button
+                      className="mb-0 btn-image text-capitalize d-block ms-auto bg-white border boder-none"
                       type="submit"
-                      className="btn bg-gradient-primary w-100 my-4 mb-2 text-capitalize"
                     >
-                      Validar
+                      <img src={botonRegistrarse} alt="" title="Validar" />
                     </button>
                   </div>
                 </form>
