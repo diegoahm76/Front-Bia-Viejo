@@ -611,7 +611,7 @@ const AdministradorDeEmpresasScreen = () => {
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" title="Buscar"/>
+                    <img src={botonBuscar} alt="" />
                   </button>
                   <button
                     type="button"
@@ -1074,45 +1074,45 @@ const AdministradorDeEmpresasScreen = () => {
 
                 <div className="d-flex justify-content-end mx-1 gap-2 mt-4">
                 <button
-                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                    type="button"
-                    onClick={handleCancelAction}
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <span
-                          className="spinner-border spinner-border-sm me-1"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        Cargando...
-                      </>
-                    ) : (
-                      <img src={botonCancelar} alt="" title="Cancelar"/>
-                    )}
-                  </button>
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                  type="button"
+                  onClick={handleCancelAction}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-1"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Cargando...
+                    </>
+                  ) : (
+                    <img src={botonCancelar} alt="" />
+                  )}
+                </button>
 
-                  <button
-                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                    type="submit"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <span
-                          className="spinner-border spinner-border-sm me-1"
-                          role="status"
-                          aria-hidden="true"
-                        ></span>
-                        Cargando...
-                      </>
-                    ) : actionForm === ACTION_EDITAR ? (
-                        <img src={botonActualizar} alt="" title="Actualizar"/>
-                    ) : (
-                      <img src={botonAgregar} alt="" title="Crear"/>
-                    )}
-                  </button>
+                <button
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-1"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Cargando...
+                    </>
+                  ) : actionForm === ACTION_EDITAR ? (
+                      <img src={botonActualizar} alt="" />
+                  ) : (
+                    <img src={botonAgregar} alt="" />
+                  )}
+                </button>
                 </div>
               </form>
             )}

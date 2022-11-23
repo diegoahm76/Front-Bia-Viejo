@@ -10,9 +10,13 @@ import {
   OBTENER_BODEGA_ELIMINAR,
   ELIMINAR_BODEGA_EXITO,
   ELIMINAR_BODEGA_ERROR,
+  EDITAR_BODEGA_ERROR,
   OBTENER_BODEGA_EDITAR,
   EDITAR_BODEGA_EXITO,
-  EDITAR_BODEGA_ERROR,
+  OBTENER_BODEGA_BY_EDIT_REQUEST,
+  OBTENER_BODEGA_BY_EDIT_FAIL,
+  OBTENER_BODEGA_BY_EDIT_SUCCESS,
+
 } from "../../src/types/bodegasTypes";
 import Swal from "sweetalert2";
 import { formatISO } from "date-fns";
@@ -67,6 +71,7 @@ export const obtenerBodegasAction = () => {
       const { data: dataGetBodegas } = await clienteAxios.get(
         "almacen/bodega/get-list/"
       );
+      console.log("datos bodega que trae", dataGetBodegas)
       dispatch(descargarBodegaExito(dataGetBodegas));
     } catch (error) {
       console.log(error);
@@ -118,11 +123,42 @@ const bodegaEliminarError = (estado) => ({
   payload: estado,
 });
 
+export const obtenerBodegaByEditAction = (bodega) => {
+  return async (dispatch) => {
+    console.log("Esta es la bodega", bodega)
+    // let dep=bodega.cod_municipio
+    // dep=dep.slice(0,2)
+    // console.log("Estcccccccc", dep)
+    dispatch(obtenerBodegaByEditRequest())
+    try{
+      dispatch(obtenerBodegaByEditSuccess(bodega))
+    }catch(err){
+      console.log(err)
+      dispatch(obtenerBodegaByEditFail(err.data))
+    }
+  }
+}
+
+const obtenerBodegaByEditRequest = () => ({
+  type: OBTENER_BODEGA_BY_EDIT_REQUEST
+})
+
+const obtenerBodegaByEditSuccess = (bodegaEdit) => ({
+  type: OBTENER_BODEGA_BY_EDIT_SUCCESS,
+  payload: bodegaEdit
+})
+
+const obtenerBodegaByEditFail = (error) => ({
+  type: OBTENER_BODEGA_BY_EDIT_FAIL,
+  payload: error
+})
+
 export const editarBodegaAction = (id_bodega) => {
   return async (dispatch) => {
     dispatch(obtenerBodegaEditar());
     try {
       await clienteAxios.put(`almacen/bodega/update/${id_bodega}`, id_bodega);
+      dispatch(obtenerBodegasAction())
       dispatch(bodegaEditadaExito(id_bodega));
       Swal.fire("Correcto", "La bodega se actualizo correctamente", "success");
     } catch (error) {

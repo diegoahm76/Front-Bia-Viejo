@@ -1,10 +1,14 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import { obtenerOrganigramaAction } from "../../actions/organigramaActions";
+import { agregarNivelAction } from "../../actions/edicionOrganigramaAction";
+import { useDispatch, useSelector } from "react-redux";
+
 
 export const EdicionOrganigramaScreen = () => {
   const {
@@ -12,13 +16,23 @@ export const EdicionOrganigramaScreen = () => {
     setError,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
+  } = useForm();
+
+  const {
+    register: registerOrganigrama,
+    handleSubmit: handleSubmitOrganigrama,
+    control: controlOrganigrama,
+    reset: resetOrganigrama,
+    formState: { errors:errorsOrganigrama },
   } = useForm();
 
   const submit = (data) => {
     console.log(data);
   };
 
+  
   let gridApi;
   const defaultColDef = {
     sortable: true,
@@ -36,8 +50,8 @@ export const EdicionOrganigramaScreen = () => {
     gridApi = params.api;
   };
 
-  const columnasOrganigrama = [
-    { headerName: "Niveles", field: "level", minWidth: 100, maxWidth: 100 },
+  const columnasNivel = [
+    { headerName: "Niveles", field: "nivel", minWidth: 100, maxWidth: 100 },
     { headerName: "Nombre", field: "nameLevel", minWidth: 355, maxWidth: 355 },
     {
       headerName: "",
@@ -133,13 +147,56 @@ export const EdicionOrganigramaScreen = () => {
     },
   ];
 
+  const [orden_nivel, setOrden_nivel] = useState(1)
+
+  const { organigramaEditar } = useSelector((state) => state.organigrama);
+  useEffect(() => {
+    //console.log("modal editar effect")
+    reset(organigramaEditar);
+  }, [organigramaEditar]);
+
+  const onSumbitOrganigrama = async (data) => {
+    const updateOrganigrama = {
+      id: data.id_organigrama,
+      nombre: data.nombre,
+      version: data.version,
+      descripcion: data.descripcion,
+      };
+
+    //console.log("Nueva Estacion", updateEstacion);
+
+    // dispatch(editarEstacionAction(updateOrganigrama));
+console.log(data)
+  };  
+  const dispatch = useDispatch();
+
+
+  useEffect(() => {
+    const getNivel = () => dispatch(agregarNivelAction());
+    getNivel();
+  }, []);
+
+  
+
+  const onSumbitNivel = async (data) => {
+    const nuevoNivel = {
+      ...data,
+      nombre_nivel: data.nombre,
+      nivel: data.orden_nivel,
+      id: data.id_organigrama,
+    };
+    dispatch(agregarNivelAction(nuevoNivel));
+  }
+
+
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-        <form
+      <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
-          onSubmit={handleSubmit(submit)}
+          onSubmit={handleSubmit(onSumbitNivel)}
           id="configForm"
         >
           <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">
@@ -158,7 +215,8 @@ export const EdicionOrganigramaScreen = () => {
               placeholder="Nombre de organigrama"
               disabled="true"
               rules={{ required: true }}
-              {...register("nombreOrganigrama")}
+              {...register("nombre")}
+            
             />
           </div>
           <div className="col-12 col-md-4 ms-3">
@@ -171,7 +229,8 @@ export const EdicionOrganigramaScreen = () => {
               placeholder="Version de organigrama"
               disabled="true"
               rules={{ required: true }}
-              {...register("versionOrganigrama")}
+              {...register("version")}
+              
             />
           </div>
           <div className="col-12 col-md-4 ms-3">
@@ -184,13 +243,15 @@ export const EdicionOrganigramaScreen = () => {
               placeholder="Descripcion de organigrama"
               disabled="true"
               rules={{ required: true }}
-              {...register("descripcionOrganigrama")}
+              {...register("descripcion")}
+          
             />
 
             {errors.Consecutivo && (
               <p className="text-danger">Este campo es obligatorio</p>
             )}
           </div>
+          
           <div className="row mt-3 ">
             <div
               className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-5 ms-1"
@@ -209,15 +270,17 @@ export const EdicionOrganigramaScreen = () => {
               <div className="col-12  col-md-4">
                 <label className="text-terciary fw-bolder">Niveles</label>
                 <br />
-                <label className="text terciary">Nivel 3</label>
+                <label className="text terciary">Nivel {orden_nivel}</label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre nivel organizacional"
                   rules={{ required: true }}
-                  {...register("nivel")}
+                  {...register("nombre_nivel")}
                 />
-                <button className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
+                <button type= "submit" 
+                onClick={() => setOrden_nivel((orden_nivel) => orden_nivel + 1)} 
+                className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
                   agregar
                 </button>
               </div>
@@ -229,7 +292,7 @@ export const EdicionOrganigramaScreen = () => {
                     style={{ height: "250px", maxWidth: "600px" }}
                   >
                     <AgGridReact
-                      columnDefs={columnasOrganigrama}
+                      columnDefs={columnasNivel}
                       rowData={rowDataOrganigrama}
                       defaultColDef={defaultColDef}
                       onGridReady={onGridReady}
@@ -239,7 +302,16 @@ export const EdicionOrganigramaScreen = () => {
               </div>
             </div>
           </div>
+</form>
 
+{/* 
+ */}
+ <form
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          data-animation="FadeIn"
+          onSubmit={handleSubmit(submit)}
+          id="configForm"
+        >
           <div className="row mt-3 ">
             <div
               className="border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-10 ms-1"
@@ -288,8 +360,8 @@ export const EdicionOrganigramaScreen = () => {
                     </div>
                   )}
                 </div>
-              </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
+              
+              
                 <div className="col-12 col-md-6 mb-3">
                   <label className="text-terciary">Tipo de unidad:</label>
                   <Controller

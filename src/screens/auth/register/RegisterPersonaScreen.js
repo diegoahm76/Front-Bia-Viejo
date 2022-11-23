@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import Subtitle from "../../../components/Subtitle";
 import DirecionResidenciaModal from "../../../components/DirecionResidenciaModal";
+import botonCancelar from "../../../assets/iconosBotones/cancelar.svg"
+import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg"
 
 const defaultValues = {
   tipo_persona: "",
@@ -1150,10 +1152,10 @@ const RegisterPersonaScreen = () => {
                   </label>
                   <div className="d-flex justify-content-end mt-3">
                     <button
+                      className="mb-0 btn-image text-capitalize bg-white border boder-none"
                       type="button"
-                      className="btn bg-gradient-light text-capitalize me-2"
-                      disabled={loading}
                       onClick={() => navigate("/login")}
+                      disabled={loading}
                     >
                       {loading ? (
                         <>
@@ -1165,12 +1167,12 @@ const RegisterPersonaScreen = () => {
                           Cargando...
                         </>
                       ) : (
-                        "Cancelar"
+                        <img src={botonCancelar} alt="" title="Cancelar" />
                       )}
                     </button>
                     <button
+                      className="mb-0 btn-image text-capitalize bg-white border boder-none"
                       type="submit"
-                      className="btn bg-gradient-primary text-capitalize"
                       disabled={loading}
                     >
                       {loading ? (
@@ -1183,7 +1185,7 @@ const RegisterPersonaScreen = () => {
                           Cargando...
                         </>
                       ) : (
-                        "Registrarse"
+                        <img src={botonRegistrarse} alt="" title="Registrarse" />
                       )}
                     </button>
                   </div>

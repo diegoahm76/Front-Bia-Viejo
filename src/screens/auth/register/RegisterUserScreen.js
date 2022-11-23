@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import botonCancelar from "../../../assets/iconosBotones/cancelar.svg";
+import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg"
 //import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
 const RegisterUserScreen = () => {
@@ -290,20 +291,20 @@ const RegisterUserScreen = () => {
                   )}
                 </div>
 
-                <div className="d-flex justify-content-end">
+                <div className="d-flex justify-content-end mt-4">
                   <button
                     type="button"
                     onClick={() => navigate("/login")}
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonCancelar} alt="" />
+                    <img src={botonCancelar} alt="" title="Cancelar" />
                   </button>
                   <button
-                    type="submit"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleClickSubmit}
-                    className="btn bg-gradient-primary mt-3 text-capitalize"
+                    type="submit"
                   >
-                    Registrar
+                    <img src={botonRegistrarse} alt="" title="Registrar" />
                   </button>
                 </div>
               </form>

@@ -22,6 +22,9 @@ import {
   USUARIO_EDITADO_EXITO,
   USUARIO_ELIMINADO_ERROR,
   USUARIO_ELIMINADO_EXITO,
+  EDITAR_BODEGA_ERROR,
+  OBTENER_BODEGA_EDITAR,
+  EDITAR_BODEGA_EXITO,
 } from "../types/estacionesTypes";
 
 const initialState = {

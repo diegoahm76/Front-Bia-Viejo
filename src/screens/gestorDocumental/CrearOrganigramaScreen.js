@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
@@ -6,12 +7,36 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerOrganigramaAction } from "../../actions/organigramaActions";
+// import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import { obtenerOrganigramaAction, editarOrganigramaObtenerAction } from "../../actions/organigramaActions";
+import { useForm } from "react-hook-form";
 
 function CrearOrganigramaScreen() {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSumbitNiveles = async (data) => {
+    const nuevoOrganigramaNiveles = {
+      ...data,
+      id_organigrama: data.id_organigrama,
+      nombre: data.nombre,
+      version: data.version,
+      descripcion: data.descripcion,
+    };
+
+    console.log(data);
+    // dispatch(agregarOrganigramaAction(nuevoOrganigramaNiveles));
+    navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
+  };
+
+
 
   useEffect(() => {
     const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
@@ -105,8 +130,10 @@ function CrearOrganigramaScreen() {
           <button
             className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
-            onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
+            // onSubmit={handleSubmit(onSumbitNiveles)}
+           onClick={() => {
+              dispatch(editarOrganigramaObtenerAction(params.data));
+              navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
               // setIsModalEditarActivate(!isModalActive);
             }}
           >

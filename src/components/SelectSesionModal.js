@@ -21,6 +21,7 @@ const customStyles = {
     height: "400px"
   },
 };
+
 Modal.setAppElement("#root");
 
 const SelectSesionModal = () => {
@@ -44,7 +45,7 @@ const SelectSesionModal = () => {
     );
 
     const userSesion = {
-      label: `Usuario ${userInfo?.nombre_de_usuario}`,
+      label: `Usuario ${userInfo?.userinfo?.nombre_de_usuario}`,
       value: {
         userName: userInfo?.nombre_de_usuario,
         type: "usuario"
