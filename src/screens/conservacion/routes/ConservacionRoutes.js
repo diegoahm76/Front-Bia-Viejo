@@ -46,8 +46,6 @@ const ConservacionRoutes = () => {
 
         <Route path="editarvivero" element={<EditarViveroScreen />} />
 
-        <Route path="centronotificaciones" element={<CentroNotificacionesScreen />} />
-
         
 
         <Route path="inventario">
@@ -180,9 +178,17 @@ const ConservacionRoutes = () => {
 
       <Route path="configuracion" element={<ConfiguracionScreen />} />
 
-      {/**
-       * Centro de notificacion
-       */}
+      <Route path="notificaciones">
+        <Route
+          path="centrodenotificaciones"
+          element={<CentroNotificacionesScreen />}
+        />
+
+        {/* <Route
+          path="etapasdematerialvegetal"
+          element={<EtapasDeMaterialVegetalScreen />}
+        /> */}
+      </Route>
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
     </Routes>

@@ -18,13 +18,13 @@ import Swal from "sweetalert2";
 
 export const obtenerOrganigramaAction = () => {
   return async (dispatch) => {
-    dispatch(descargarOrganigrama(true));
+    dispatch(descargarOrganigrama(true)); 
 
     try {
       const { data: dataGetOrganigrama } = await clienteAxios.get(
         "almacen/organigrama/get/"
       );
-      //console.log("dataGetOrganigrama", dataGetOrganigrama.Organigramas);
+      console.log("dataGetOrganigrama", dataGetOrganigrama.organigramas);
 
       dispatch(descargarOrganigramaExito(dataGetOrganigrama.Organigramas));
     } catch (error) {
@@ -79,17 +79,6 @@ const agregarOrganigramaError = (estado) => ({
   payload: estado,
 });
 
-export const editarOrganigramaObtenerAction = (organigrama) => {
-  return (dispatch) => {
-    dispatch(editarOrganigramaObtener(organigrama));
-  };
-};
-
-const editarOrganigramaObtener = (organigrama) => ({
-  type: EDITAR_ORGANIGRAMA_OBTENER,
-  payload: organigrama,
-});
-
 export const eliminarOrganigramaAction = (id_organigrama) => {
   return async (dispatch) => {
     dispatch(obtenerOrganigramaEliminar());
@@ -97,16 +86,25 @@ export const eliminarOrganigramaAction = (id_organigrama) => {
     try {
       await clienteAxios.delete(`Organigrama/${id_organigrama}`);
       dispatch(organigramaEliminadaExito());
+      Swal.fire(
+        "Correcto",
+        "El organigrama se elimino correctamente",
+        "success"
+      );
     } catch (error) {
       console.log(error);
       dispatch(organigramaEliminarError(true));
+      Swal.fire({
+        icon: "error",
+        title: "Hubo un error",
+        text: error.response.data,
+      });
     }
   };
 };
 
-const obtenerOrganigramaEliminar = (id_organigrama) => ({
+const obtenerOrganigramaEliminar = () => ({
   type: ELIMINAR_ORGANIGRAMA,
-  payload: id_organigrama,
 });
 
 const organigramaEliminadaExito = () => ({
@@ -116,4 +114,20 @@ const organigramaEliminadaExito = () => ({
 const organigramaEliminarError = (estado) => ({
   type: ELIMINAR_ORGANIGRAMA_ERROR,
   payload: estado,
+});
+
+export const editarOrganigramaObtenerAction = (organigrama) => {
+  return (dispatch) => {
+    dispatch(editarOrganigramaObtener(organigrama));
+  };
+};
+
+  const editarOrganigramaObtener = (organigrama) => ({
+  type: EDITAR_ORGANIGRAMA_OBTENER,
+  payload: organigrama
+});
+
+const editarOrganigramaObtenerError = (error) => ({
+  type: EDITAR_ORGANIGRAMA_ERROR,
+  payload: error
 });
