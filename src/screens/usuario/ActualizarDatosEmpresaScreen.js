@@ -1,7 +1,6 @@
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { useEffect, useState } from "react";
-import GeneradorDeDirecciones from "../../components/GeneradorDeDirecciones";
 import clienteAxios from "../../config/clienteAxios";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import { useSelector } from "react-redux";
@@ -15,16 +14,27 @@ import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 const ActualizarDatosEmpresaScreen = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const { email: emailLogin } = useSelector((state) => state.user.user);
+
+  const [primeraVez, setPrimeraVez] = useState(true)
+  const [counter, setCounter] = useState(1)
+
+  const { userinfo: {email: emailLogin} } = useSelector((state) => state.user.user);
   const [completeAddress2, setCompleteAddress2] = useState("");
   const [isOpenDireccionNotificacion, setIsOpenDireccionNotificacion] =
     useState(false);
   const [paisesOptions, setPaisesOptions] = useState([]);
+  const [datosNotificacion, setDatosNotificacion] = useState({
+    departamento: ""
+  })
   const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] = useState([])
+  const [departamentosOptions, setDepartamentosOptions] = useState([]);
   const [formValues, setFormValues] = useState({
     index_cod_pais_nacionalidad_empresa: "",
     index_cod_municipio_notificacion_nal: "",
+    paisNotificacion: ""
   });
+
   const {
     register,
     control,
@@ -33,6 +43,71 @@ const ActualizarDatosEmpresaScreen = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  useEffect(() => {
+    const getSelectsOptions = async () => {
+      setLoading(true)
+      try {
+        const { data: paisesNoFormat } = await clienteAxios.get(
+          "choices/paises/"
+        );
+        const { data: municipiosNoFormat } = await clienteAxios.get(
+          "choices/municipios/"
+        );
+        const { data: departamentosNoFormat } = await clienteAxios.get(
+          "choices/departamentos/"
+        );
+
+        const paisesFormat = textChoiseAdapter(paisesNoFormat);
+        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+
+
+        setPaisesOptions(paisesFormat);
+        setMunicipiosOptions(municipiosFormat);
+        setDepartamentosOptions(departamentosFormat);
+
+        //TODO Trayendo los datos del usuario y montandolos en los campos
+        const COD_PERSONA_JURIDICA = "J";
+        console.log("emailLogin", emailLogin)
+        const { data: dataPersona } = await clienteAxios.get(
+          `personas/get-by-email/${emailLogin}/`
+        );
+        const { data } = dataPersona
+        console.log("data", data);
+        if (data.tipo_persona !== COD_PERSONA_JURIDICA) {
+          navigate("/dashboard/usuario/actualizar-datos-persona");
+        }
+
+        data.tipo_documento = data.tipo_documento.cod_tipo_documento;
+        data.telefono_celular_empresa = data.telefono_celular_empresa?.slice(2);
+
+        console.log("data useEffect", data);
+
+        setPrimeraVez(false);
+
+        const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(data.cod_municipio_notificacion_nal, setDatosNotificacion, municipiosFormat, departamentosFormat, paisesFormat)
+
+        setFormValues({
+          ...formValues,
+          index_cod_pais_nacionalidad_empresa: getIndexBySelectOptions(
+            data.cod_pais_nacionalidad_empresa,
+            paisesFormat
+          ),
+          index_cod_municipio_notificacion_nal: getIndexBySelectOptions(
+            data.cod_municipio_notificacion_nal,
+            municipiosFormat
+          ),
+          paisNotificacion: indexPaisNotificacion
+        });
+        reset(data);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading(false)
+    };
+    getSelectsOptions();
+  }, []);
 
   const submit = async (data) => {
     setLoading(true)
@@ -55,7 +130,7 @@ const ActualizarDatosEmpresaScreen = () => {
         paisesOptions[formValues.index_cod_pais_nacionalidad_empresa]?.value,
       cod_municipio_notificacion_nal:
         municipiosOptions[formValues.index_cod_municipio_notificacion_nal]
-          ?.value,
+          ?.value || null,
       direccion_notificaciones,
       email,
       email_empresarial,
@@ -68,7 +143,7 @@ const ActualizarDatosEmpresaScreen = () => {
     const config = getConfigAuthBearer(accessToken);
 
     try {
-      console.log("data update", dataUpdate, watch());
+      console.log("data update", dataUpdate);
       const { data } = await clienteAxios.patch(
         "personas/persona-juridica/usuario-externo/self/update/",
         dataUpdate,
@@ -88,58 +163,29 @@ const ActualizarDatosEmpresaScreen = () => {
     setLoading(false)
   };
 
-  useEffect(() => {
-    const getSelectsOptions = async () => {
-      setLoading(true)
-      try {
-        const { data: paisesNoFormat } = await clienteAxios.get(
-          "choices/paises/"
-        );
-        const { data: municipiosNoFormat } = await clienteAxios.get(
-          "choices/municipios/"
-        );
-
-        const paisesFormat = textChoiseAdapter(paisesNoFormat);
-        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
-
-        setPaisesOptions(paisesFormat);
-        setMunicipiosOptions(municipiosFormat);
-
-        //TODO Trayendo los datos del usuario y montandolos en los campos
-        const COD_PERSONA_JURIDICA = "J";
-        const { data: dataPersona } = await clienteAxios.get(
-          `personas/get-by-email/${emailLogin}/`
-        );
-        const { data } = dataPersona
-        console.log("data", data);
-        if (data.tipo_persona !== COD_PERSONA_JURIDICA) {
-          navigate("/dashboard/usuario/actualizar-datos-persona");
-        }
-
-        data.tipo_documento = data.tipo_documento.cod_tipo_documento;
-        data.telefono_celular_empresa = data.telefono_celular_empresa?.slice(2);
-
-        console.log("data useEffect", data);
-
-        setFormValues({
-          ...formValues,
-          index_cod_pais_nacionalidad_empresa: getIndexBySelectOptions(
-            data.cod_pais_nacionalidad_empresa,
-            paisesFormat
-          ),
-          index_cod_municipio_notificacion_nal: getIndexBySelectOptions(
-            data.cod_municipio_notificacion_nal,
-            municipiosFormat
-          ),
-        });
-        reset(data);
-      } catch (err) {
-        console.log(err);
+  const resetPaisDepartamentoYMunicipio = (municipioResidencia, setDepartamento, municipiosOptions, departamentosOptions, paisesOptions) => {
+    const indexMunicipioResidencia = getIndexBySelectOptions(municipioResidencia, municipiosOptions)
+    const departamentoIdentifier = municipiosOptions[indexMunicipioResidencia]?.value.slice(0,2)
+    let indexDepartamento = null
+    departamentosOptions.forEach((departamento, index) => {
+      if(departamento.value === departamentoIdentifier){
+        indexDepartamento = index
       }
-      setLoading(false)
-    };
-    getSelectsOptions();
-  }, []);
+    })
+    if(indexDepartamento !== null){
+      let indexColombia = null
+      paisesOptions.forEach((pais, index) => {
+        if(pais.value === "CO"){
+          indexColombia = index
+        }
+      })
+      setDepartamento({departamento: departamentosOptions[indexDepartamento]})
+      return indexColombia
+    }else {
+      setDepartamento({departamento: null})
+      return null
+    }
+  }
 
   const getIndexBySelectOptions = (valueSelect, selectOptions) => {
     let indexValue = null;
@@ -152,6 +198,61 @@ const ActualizarDatosEmpresaScreen = () => {
     });
     return indexValue;
   };
+
+  const handleChangePaisNotificacion = (e) => {
+    const objectSend = {
+      paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
+    };
+    if (e.value !== "CO" || !e.value) {
+      objectSend.index_cod_municipio_notificacion_nal = null;
+      reset({
+        ...watch(),
+        index_cod_municipio_notificacion_nal: null,
+      });
+      setDatosNotificacion({...datosNotificacion, departamento: ""})
+    }
+    setFormValues({
+      ...formValues,
+      ...objectSend,
+    });
+  }
+
+  const getIndexColombia = () => {
+    let indexColombia = null;
+    paisesOptions.forEach((pais, index) => {
+      if (pais.value === "CO") {
+        indexColombia = index;
+      }
+    });
+    return indexColombia;
+  };
+
+  useEffect(() => {
+    console.log("counter", counter)
+    if(counter < 3) {
+      const newValueCounter = counter + 1
+      setCounter(newValueCounter)
+      return
+    }
+    // if(!primeraVez) return
+    if (datosNotificacion.departamento === "") {
+      setMunicipioNotificacionFiltered([]);
+      setFormValues({...formValues, index_cod_municipio_notificacion_nal: ""})
+    } else {
+      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(0, 2);
+      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+          const indicator = municipio.value.slice(0, 2);
+          return municipioIndicadores === indicator;
+        }
+      );
+      setMunicipioNotificacionFiltered(municipiosCoincidentes);
+      setFormValues({...formValues, index_cod_municipio_notificacion_nal: 0})
+    }
+  }, [datosNotificacion.departamento]);
+
+  // useEffect(() => {
+  //   setPrimeraVez(true)
+  // }, [actionForm])
 
   return (
     <div className="row min-vh-100">
@@ -291,41 +392,88 @@ const ActualizarDatosEmpresaScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-md-4 mt-3">
-                <label className="text-terciary text-terciary form-label">
-                  Municipio notificación: <span className="text-danger">*</span>
+              <div className="col-12 col-md-4 mt-2">
+                <label className="form-label text-terciary">
+                  País notificación:
                 </label>
                 <Controller
-                  name="cod_municipio_notificacion_nal"
+                  name="paisNotificacion"
                   control={control}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={municipiosOptions}
-                      value={
-                        municipiosOptions[
-                          formValues.index_cod_municipio_notificacion_nal
-                        ]
-                      }
-                      onChange={(e) => {
-                        reset({
-                          ...watch(),
-                          cod_municipio_notificacion_nal: e.value,
-                        });
-                        setFormValues({
-                          ...formValues,
-                          index_cod_municipio_notificacion_nal:
-                            getIndexBySelectOptions(e.value, municipiosOptions),
-                        });
-                      }}
+                      value={paisesOptions[formValues.paisNotificacion]}
+                      options={paisesOptions}
+                      onChange={handleChangePaisNotificacion}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
               </div>
+              {formValues.paisNotificacion === getIndexColombia() ? (
+                <div className="col-12 col-md-4 mt-2">
+                  <label className="form-label text-terciary">
+                    Departamento notificación:{" "}
+                  </label>
+                  <Select
+                    options={departamentosOptions}
+                    isDisabled={
+                      paisesOptions[formValues.paisNotificacion]?.value !==
+                      "CO"
+                    }
+                    onChange={(e) => {
+                      setDatosNotificacion({...datosNotificacion, departamento: e})
+                    }}
+                    value={datosNotificacion.departamento}
+                    placeholder="Seleccionar"
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-4 mt-2">
+                  <label className="form-label text-terciary">
+                    Departamento notificación:{" "}
+                  </label>
+                  <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                </div>
+              )}
+              {formValues.paisNotificacion === getIndexColombia() ? (
+                <div className="col-12 col-md-4 mt-2">
+                  <label className="form-label">
+                    Municipio notificación:{" "}
+                  </label>
+                  <Controller
+                    name="index_cod_municipio_notificacion_nal"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        isDisabled={
+                          paisesOptions[formValues.paisNotificacion]?.value !== "CO"
+                        }
+                        value={municipiosOptions[formValues.index_cod_municipio_notificacion_nal]}
+                        onChange={(e) =>
+                          setFormValues({
+                            ...formValues,
+                            index_cod_municipio_notificacion_nal: getIndexBySelectOptions(
+                              e.value,
+                              municipiosOptions
+                            ),
+                          })
+                        }
+                        options={municipioNotificacionFiltered}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                </div>
+              ) : (
+                <div className="col-12 col-md-4 mt-2">
+                  <label className="form-label">
+                    Municipio notificación:{" "}
+                  </label>
+                  <Select isDisabled placeholder="Seleccionar" value={"Seleccionar"} />
+                </div>
+              )}
               <div className="col-12 col-md-4">
                 <div className="mt-3">
                   <label className="text-terciary text-terciary ms-2">

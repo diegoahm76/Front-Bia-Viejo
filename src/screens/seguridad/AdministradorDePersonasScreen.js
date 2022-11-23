@@ -12,6 +12,8 @@ import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 import { getArrayFromStringDateAAAAMMDD } from "../../helpers/dateHelpers";
+import botonBuscar from "../../assets/iconosBotones/buscar.svg"
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg"
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -705,7 +707,7 @@ const AdministradorDePersonasScreen = () => {
                       <span className="text-danger">*</span>
                     </label>
                     <input
-                      className="form-control border rounded-pill px-3"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
                       {...registerBuscar("numeroDocumento", {
                         required: true,
@@ -723,19 +725,19 @@ const AdministradorDePersonasScreen = () => {
                 <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary mb-0 text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={() => {
                       setActionForm(null);
                     }}
                   >
-                    Buscar
+                    <img src={botonBuscar} alt="" />
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-uppercase"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
-                    Busqueda avanzada
+                    Búsqueda avanzada
                   </button>
                 </div>
               </div>
@@ -799,7 +801,7 @@ const AdministradorDePersonasScreen = () => {
                             <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border rounded-pill px-3  border-terciary"
                             type="text"
                             value={
                               tipoDocumentoOptions[formValues.tipoDocumento]
@@ -819,7 +821,7 @@ const AdministradorDePersonasScreen = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("numeroDocumento2", {
@@ -858,7 +860,7 @@ const AdministradorDePersonasScreen = () => {
                           Digito de verificación:
                         </label>
                         <input
-                          className="border border-terciary hola form-control border rounded-pill px-3"
+                          className="border border-terciary hola form-control border rounded-pill px-3 border-terciary"
                           type="number"
                           disabled={!yesOrNot}
                           // {...registerPersona("digitoVerificacion", {
@@ -875,7 +877,7 @@ const AdministradorDePersonasScreen = () => {
                           Nombre comercial:
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={!yesOrNot}
                           {...registerPersona("nombreComercial")}
@@ -888,7 +890,7 @@ const AdministradorDePersonasScreen = () => {
                           Primer nombre: <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("primerNombre", {
@@ -908,7 +910,7 @@ const AdministradorDePersonasScreen = () => {
                       <div>
                         <label className="ms-2">Segundo nombre:</label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("segundoNombre")}
@@ -922,7 +924,7 @@ const AdministradorDePersonasScreen = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("primerApellido", {
@@ -942,7 +944,7 @@ const AdministradorDePersonasScreen = () => {
                       <div>
                         <label className="ms-2">Segundo apellido:</label>
                         <input
-                          className="form-control border rounded-pill px-3"
+                          className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
                           disabled={actionForm === "editar"}
                           {...registerPersona("segundoApellido")}
@@ -1018,7 +1020,7 @@ const AdministradorDePersonasScreen = () => {
                                 fechaNacimiento: e,
                               });
                             }}
-                            className="form-control border rounded-pill px-3"
+                            className="form-control border rounded-pill px-3 border-terciary"
                             placeholderText="dd/mm/aaaa"
                           />
                         )}
@@ -1058,7 +1060,7 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                 </div>
                 <Subtitle title={"Lugar de residencia"} mt={4} mb={0} />
-                <div className="row mb-3 mt-2 mx-1">
+                <div className="row mb-3 mt-2 mx-1 align-items-end">
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label">País de residencia:</label>
                     <Controller
@@ -1273,7 +1275,7 @@ const AdministradorDePersonasScreen = () => {
                     <div>
                       <label className="ms-2">Email empresarial:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="text"
                         {...registerPersona("emailEmpresarial")}
                       />
@@ -1281,9 +1283,9 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div>
-                      <label className="ms-2">Telefono empresa:</label>
+                      <label className="ms-2">Teléfono empresa:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
                         {...registerPersona("telefonoEmpresa2")}
                       />
@@ -1419,7 +1421,7 @@ const AdministradorDePersonasScreen = () => {
                         E-mail: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="email"
                         disabled={actionForm === "editar"}
                         readOnly={actionForm === "editar"}
@@ -1441,7 +1443,7 @@ const AdministradorDePersonasScreen = () => {
                         Celular: <span className="text-danger">*</span>
                       </label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
                         {...registerPersona("celular", {
                           required: true,
@@ -1460,9 +1462,9 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div>
-                      <label className="ms-2">Telefono fijo:</label>
+                      <label className="ms-2">Teléfono fijo:</label>
                       <input
-                        className="form-control border rounded-pill px-3"
+                        className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
                         {...registerPersona("telefonoFijo")}
                       />
@@ -1504,23 +1506,23 @@ const AdministradorDePersonasScreen = () => {
 
                 <div className="d-flex justify-content-end gap-2 mt-4 mx-1">
                   <button
-                    className="btn bg-gradient-light mb-0 d-block text-capitalize"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
                     disabled={loading}
                   >
                     {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        "Cancelar"
-                      )}
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      <img src={botonCancelar} alt="" />
+                    )}
                   </button>
 
                   <button

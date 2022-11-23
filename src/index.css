@@ -81,6 +81,12 @@ code {
   border: 1px solid #042F4A !important;
 }
 
+.css-1insrsq-control {
+  border-radius: 20px !important;
+  padding: 0 4px 0 4px !important;
+  border: 1px solid #042F4A !important;
+}
+
 .ccs-1pahdxg-control:hover {
   border-radius: 20px !important;
 }
@@ -89,11 +95,20 @@ code {
 .btn {
   min-width: 100px;
   border-radius: 20px;
+  text-transform: none!important;
 }
 
 /* Correcion botones para las tablas */
 .btn.btn-tablas {
   min-width: 0;
+}
+
+.btn.btn-entorno {
+  min-width: 150px;
+}
+
+.btn-image {
+  border: none!important;
 }
 
 /* Linea para los titulo de los modales */
