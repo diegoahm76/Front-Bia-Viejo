@@ -97,7 +97,7 @@ function App() {
           path="/recuperar-contrasena"
           element={<RecuperacionDeContrasenaScreen />}
         />
-        
+
         <Route path="/actualizar-contrasena" element={<ActualizarContrasenaScreen />} />
 
         <Route path="/actualizar-contrasena-bloqueo" element={<ActualizarContrasenaScreenBloqueo />} />

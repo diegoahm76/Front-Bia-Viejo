@@ -137,8 +137,7 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
-          >
+            onSubmit={handleSubmit(onSubmit)} >
             <MarcaDeAgua1>
               <div className="row">
 
