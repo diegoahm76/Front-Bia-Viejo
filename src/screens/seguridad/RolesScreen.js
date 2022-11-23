@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../components/CalendarModal";
-import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 import {
   activeModalAction,
   desactiveModalAction,
@@ -22,6 +20,10 @@ import {
 } from "../../adapters/roles.adapters";
 import botonBuscar from "../../assets/iconosBotones/buscar.svg"
 import botonAgregar from "../../assets/iconosBotones/agregar.svg"
+import botonEditar from "../../assets/iconosBotones/editar.svg"
+import botonEliminar from "../../assets/iconosBotones/eliminar.svg"
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
+import botonGuardar from "../../assets/iconosBotones/guardar.svg";
 
 const defaultColDef = {
   sortable: true,
@@ -105,22 +107,22 @@ const RolesScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
+            className="btn btn-sm btn-tablas "
             type="button"
             onClick={() => {
               handleOpenEditRol(params.data.id_rol);
             }}
           >
-            <img src={IconoEditar} alt="editar" />
+            <img src={botonEditar} alt="editar" title="Editar"/>
           </button>
           <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
+            className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
               confirmarEliminarRol(params.data.id_rol);
             }}
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <img src={botonEliminar} alt="eliminar" title="Eliminar"/>
           </button>
         </div>
       ),
@@ -369,7 +371,7 @@ const RolesScreen = () => {
                   type="submit"
                   className="mb-0 mt-2 btn-image text-capitalize bg-white border boder-none"
                 >
-                  <img src={botonBuscar} alt="" />
+                  <img src={botonBuscar} alt="" title="Buscar"/>
                 </button>
               </div>
               <div id="myGrid" className="ag-theme-alpine mt-3">
@@ -395,7 +397,7 @@ const RolesScreen = () => {
                   className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   onClick={handleCreateRole}
                 >
-                  <img src={botonAgregar} alt="" />
+                  <img src={botonAgregar} alt="" title="Crear rol"/>
                 </button>
               </div>
             </div>
@@ -469,19 +471,19 @@ const RolesScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="d-flex justify-content-end gap-2">
+                <div className="d-flex justify-content-end gap-2 mt-3">
                   <button
                     type="button"
-                    className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleCloseModal}
                   >
-                    Cerrar
+                    <img src={botonCancelar} alt="" title="Cancelar" />
                   </button>
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Guardar
+                    <img src={botonGuardar} alt="" title="Guardar" />
                   </button>
                 </div>
               </form>
@@ -569,19 +571,19 @@ const RolesScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="d-flex justify-content-end gap-2">
+                <div className="d-flex justify-content-end gap-2 mt-3">
                   <button
                     type="button"
-                    className="btn bg-gradient-light text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleCloseModal}
                   >
-                    Cerrar
+                    <img src={botonCancelar} alt="" title="Cancelar" />
                   </button>
                   <button
                     type="submit"
-                    className="btn bg-gradient-primary text-capitalize mt-3 mb-0 rounded-pill"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    Guardar
+                    <img src={botonGuardar} alt="" title="Guardar" />
                   </button>
                 </div>
               </form>
