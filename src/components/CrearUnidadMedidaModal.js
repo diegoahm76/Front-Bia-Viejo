@@ -118,7 +118,6 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   })
   register('id_magnitud', {
     onChange: (e) => {
-      debugger
       const magnitud = { ...unidadMedidaEdit };
       magnitud.magnitud = e.target.value;
       setUnidadMedidaEdit(magnitud)
