@@ -17,6 +17,8 @@ import clienteAxios from "../config/clienteAxios";
 import { textChoiseAdapter } from "../adapters/textChoices.adapter";
 import Axios from "axios";
 import Swal from "sweetalert2";
+import { UseEditUnidadMedida } from "../hooks/editUnidadMedida";
+import { set } from "date-fns";
 const customStyles = {
   content: {
     top: "50%",
@@ -31,39 +33,39 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
-const UnidadMedidaEdit = {
-  id_unidad_medida: "",
-  nombre: "",
+const UnidadMedidaEdit ={
+  id_unidad_medida:"",
+  nombre:"",
   abreviatura: "",
-  magnitud: { value: "", label: "Seleccionar" },
-}
+  magnitud:{value:"",label:"Seleccionar"},
+ }
 
 function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   const [botonAdministrador, setBotonAdministrador] = useState(false);
   const [magnitudesOptions, setMagnitudesOptions] = useState([]);
   const [unidadMedidaEdit, setUnidadMedidaEdit] = useState(UnidadMedidaEdit);
-  const [edit, setEdit] = useState(false);
 
 
-  const editarUnidad = (data) => {
+  const editarUnidad=(data)=>{
     setUnidadMedidaEdit({
-      nombre: data.nombre,
-      abreviatura: data.abreviatura,
-      id_unidad_medida: data.id_unidad_medida,
-      magnitud: magnitudesOptions.find((item) => item.value === data.id_magnitud)
+      nombre:data.nombre,
+      abreviatura:data.abreviatura,
+      id_unidad_medida:data.id,
+      magnitud:magnitudesOptions.find((item)=>item.value===data.id_magnitud)
     });
-    setEdit(true);
+
+    UseEditUnidadMedida(unidadMedidaEdit);
+
   }
 
-  // const changeSelect = (event) => {
-  //   let edit = { ...unidadMedidaEdit }
-  //   edit.magnitud = {
-  //     value: event.value,
-  //     label: event.label
-  //   }
-  //   setUnidadMedidaEdit(edit)
-  //   setEdit(true);
-  // }
+  const changeSelect=(event)=>{
+    let edit={...unidadMedidaEdit}
+    edit.magnitud={
+      value:event.value,
+      label:event.label
+    }
+    setUnidadMedidaEdit(edit)
+  }
 
   const confirmarEliminarUnidadMedida = (id_unidad_medida) => {
     Swal.fire({
@@ -91,27 +93,13 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   } = useForm();
 
   const dispatch = useDispatch();
-  const onSubmit = async (data) => {
-    if (!edit) {
-      const unidadMedidaCreate = {
-        ...data,
-        id_magnitud: data.id_magnitud.value,
-      };
-      console.log("viene de accion", unidadMedidaCreate);
-      dispatch(crearNuevaUnidadMedidaAction({ unidadMedidaCreate, fetchData }));
-    } else {
-      // UseEditUnidadMedida(unidadMedidaEdit);
-      await Axios({
-        method: "PUT",
-        url: `https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/update/${unidadMedidaEdit.id_unidad_medida}/`,
-        data: { unidadMedidaEdit },
-      }).then(response => {
-        console.log(response.data)
-      }).catch(err => {
-        console.error(err)
-      });
-    }
-
+  const onSubmit = (data) => {
+    const unidadMedidaCreate = {
+      ...data,
+      id_magnitud: data.id_magnitud.value,
+    };
+    console.log("viene de accion", unidadMedidaCreate);
+    dispatch(crearNuevaUnidadMedidaAction({unidadMedidaCreate,fetchData}));
   };
 
   register('nombre', {
@@ -137,22 +125,24 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     }
   })
   const [unidades, setUnidades] = useState([]);
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
 
   const fetchData = async () => {
     try {
+      setBotonAdministrador(true);
       const response = await Axios({
         url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
       });
-
-      setUnidades(response);
+      setUnidades(response.data);
+      console.log("obtener lista")
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   const columnUnidadMedida = [
     {
       headerName: "Id unidad medida",
@@ -171,7 +161,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth "
             type="button"
-          // onClick={() => EditarBodega(params.data)}
+            onClick={() => editarUnidad(params.data)}
           >
             <img src={IconoEditar} alt="editar" />
           </button>
@@ -232,6 +222,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
+      id="modal-unidad-medida"
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
@@ -251,6 +242,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
+                  value={unidadMedidaEdit.nombre}
                   placeholder="Nombre"
                   {...register("nombre")}
                 />
@@ -260,6 +252,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
+                  value={unidadMedidaEdit.abreviatura}
                   placeholder="abreviatura"
                   {...register("abreviatura")}
                 />
@@ -278,6 +271,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                       options={magnitudesOptions}
                       value={unidadMedidaEdit.magnitud}
                       placeholder="Seleccionar"
+                      onChange={changeSelect }
                     />
                   )}
                 />
@@ -295,7 +289,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
               <button
                 type="button"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
-                onClick={() => setBotonAdministrador(!botonAdministrador)}
+                onClick={() => fetchData()}
               >
                 Administrador
               </button>
@@ -325,7 +319,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnUnidadMedida}
-                      rowData={unidades?.data}
+                      rowData={unidades}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>

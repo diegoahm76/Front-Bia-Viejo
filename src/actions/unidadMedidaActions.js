@@ -13,6 +13,7 @@ import {
 import Swal from "sweetalert2";
 
 export const crearNuevaUnidadMedidaAction = ({unidadMedidaCreate,fetchData}) => {
+  debugger
   return async (dispatch) => {
     dispatch(agregarUnidadMedida());
     try {
@@ -20,17 +21,22 @@ export const crearNuevaUnidadMedidaAction = ({unidadMedidaCreate,fetchData}) => 
         "almacen/unidades-medida/create/",
         unidadMedidaCreate
       );
-      console.log(data + "ghj");
       dispatch(agregarUnidadMedidaExito(unidadMedidaCreate));
-      Swal.fire(
-        "Correcto",
-        "La unidad de medida se agrego correctamente",
-        "success"
+      fetchData();
+
+      Swal.fire({
+        target: document.getElementById('modal-unidad-medida'),
+        title:"Correcto",
+        text:"La unidad de medida se agrego correctamente",
+        icon:"success"
+      }
+       
       );
     } catch (error) {
         console.log(error)
       dispatch(agregarUnidadMedidaError(true));
       Swal.fire({
+        target: document.getElementById('modal-unidad-medida'),
         icon: "error",
         title: "Hubo un error",
         text: "Hubo un error, intenta de nuevo",
