@@ -101,6 +101,28 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     console.log("viene de accion", unidadMedidaCreate);
     dispatch(crearNuevaUnidadMedidaAction({unidadMedidaCreate,fetchData}));
   };
+
+  register('nombre', {
+    onChange: (e) => {
+      const name = { ...unidadMedidaEdit };
+      name.nombre = e.target.value;
+      setUnidadMedidaEdit(name)
+    }
+  })
+  register('abreviatura', {
+    onChange: (e) => {
+      const abreviatura = { ...unidadMedidaEdit };
+      abreviatura.abreviatura = e.target.value;
+      setUnidadMedidaEdit(abreviatura)
+    }
+  })
+  register('id_magnitud', {
+    onChange: (e) => {
+      const magnitud = { ...unidadMedidaEdit };
+      magnitud.magnitud = e.target.value;
+      setUnidadMedidaEdit(magnitud)
+    }
+  })
   const [unidades, setUnidades] = useState([]);
   // useEffect(() => {
   //   fetchData();
@@ -246,8 +268,8 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                     <Select
                       {...field}
                       options={magnitudesOptions}
-                      placeholder="Seleccionar"
                       value={unidadMedidaEdit.magnitud}
+                      placeholder="Seleccionar"
                       onChange={changeSelect }
                     />
                   )}
@@ -276,7 +298,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 onClick={() => setIsModalActive(false)}
                 placeholder="Cancelar"
               >
-                
+
                 <img src={IconoCancelar} alt="cancelar" />
               </button>
 
@@ -284,7 +306,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 type="submit"
                 className="btn btn-sm btn-tablas btn-outline-ligth"
               >
-               
+
                 <img src={IconoGuardar} alt="guardar" />
               </button>
             </div>
