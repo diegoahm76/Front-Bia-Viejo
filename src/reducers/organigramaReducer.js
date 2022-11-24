@@ -12,7 +12,9 @@ import {
   DESCARGAR_ORGANIGRAMA,
   DESCARGAR_ORGANIGRAMA_ERROR,
   DESCARGAR_ORGANIGRAMA_EXITO,
-} from "../types/crearOrganigramaTypes";
+  OBTENER_NIVELES_ORGANIGRAMA_OBTENER,
+  OBTENER_NIVELES_ORGANIGRAMA_ERROR,
+} from "../types/organigramaTypes";
 
 const initialState = {
   organigrama: [],
@@ -20,6 +22,7 @@ const initialState = {
   error: null,
   organigramaEliminar: null,
   organigramaEditar: null,
+  nivelesOrganigrama: []
 };
 
 export const organigramaReducer = (state = initialState, action) => {
@@ -64,12 +67,23 @@ export const organigramaReducer = (state = initialState, action) => {
         organigramaEliminar: null,
       };
 
-      case EDITAR_ORGANIGRAMA_OBTENER:
-        return {
-          ...state,
-          organigramaEditar: action.payload,
-        };
-
+    case EDITAR_ORGANIGRAMA_OBTENER:
+      return {
+        ...state,
+        organigramaEditar: action.payload,
+      };
+    case OBTENER_NIVELES_ORGANIGRAMA_OBTENER:
+      return {
+        ...state,
+        nivelesOrganigrama: action.payload
+      };
+    case OBTENER_NIVELES_ORGANIGRAMA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        nivelesOrganigrama: [],
+      };
     default:
       return state;
   }

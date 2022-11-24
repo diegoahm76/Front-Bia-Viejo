@@ -5,12 +5,15 @@ import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerOrganigramaAction } from "../../actions/organigramaActions";
+import { obtenerNivelesAction, obtenerOrganigramaAction } from "../../actions/organigramaActions";
 import { agregarNivelAction } from "../../actions/edicionOrganigramaAction";
 import { useDispatch, useSelector } from "react-redux";
 
 
 export const EdicionOrganigramaScreen = () => {
+
+  const { nivelesOrganigrama } = useSelector((state) => state.organigrama);
+
   const {
     register,
     setError,
@@ -25,14 +28,14 @@ export const EdicionOrganigramaScreen = () => {
     handleSubmit: handleSubmitOrganigrama,
     control: controlOrganigrama,
     reset: resetOrganigrama,
-    formState: { errors:errorsOrganigrama },
+    formState: { errors: errorsOrganigrama },
   } = useForm();
 
   const submit = (data) => {
     console.log(data);
   };
 
-  
+
   let gridApi;
   const defaultColDef = {
     sortable: true,
@@ -51,8 +54,8 @@ export const EdicionOrganigramaScreen = () => {
   };
 
   const columnasNivel = [
-    { headerName: "Niveles", field: "nivel", minWidth: 100, maxWidth: 100 },
-    { headerName: "Nombre", field: "nameLevel", minWidth: 355, maxWidth: 355 },
+    { headerName: "Niveles", field: "orden_nivel", minWidth: 100, maxWidth: 100 },
+    { headerName: "Nombre", field: "nombre", minWidth: 355, maxWidth: 355 },
     {
       headerName: "",
       field: "editar",
@@ -147,51 +150,48 @@ export const EdicionOrganigramaScreen = () => {
     },
   ];
 
+  const { organigramaEditar } = useSelector((state) => state.organigrama);
   const [orden_nivel, setOrden_nivel] = useState(1)
 
-  const { organigramaEditar } = useSelector((state) => state.organigrama);
   useEffect(() => {
-    //console.log("modal editar effect")
     reset(organigramaEditar);
   }, [organigramaEditar]);
 
   const onSumbitOrganigrama = async (data) => {
     const updateOrganigrama = {
-      id: data.id_organigrama,
-      nombre: data.nombre,
-      version: data.version,
-      descripcion: data.descripcion,
-      };
+      // id: data.id_organigrama,
+      // nombre: data.nombre,
+      // version: data.version,
+      // descripcion: data.descripcion,
+    };
 
     //console.log("Nueva Estacion", updateEstacion);
 
     // dispatch(editarEstacionAction(updateOrganigrama));
-console.log(data)
-  };  
+  };
   const dispatch = useDispatch();
 
 
-  // useEffect(() => {
-  //   const getNivel = () => dispatch(agregarNivelAction());
-  //   getNivel();
-  // }, []);
+  useEffect(() => {
+    dispatch(obtenerNivelesAction(2));
+  }, []);
 
   const onSumbitNivel = async (data) => {
     const nuevoNivel = {
-      ...data,
-      nombre_nivel: data.nombre,
+      nombre_nivel: data.nombre_nivel,
       nivel: data.orden_nivel,
       id: data.id_organigrama,
     };
-    dispatch(agregarNivelAction(nuevoNivel));
-  }
+    // dispatch(agregarNivelAction(nuevoNivel));
+    // setOrden_nivel((orden_nivel) => orden_nivel + 1)
+  };
 
 
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-      <form
+        <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(onSumbitNivel)}
@@ -214,7 +214,6 @@ console.log(data)
               disabled="true"
               rules={{ required: true }}
               {...register("nombre")}
-            
             />
           </div>
           <div className="col-12 col-md-4 ms-3">
@@ -227,8 +226,9 @@ console.log(data)
               placeholder="Version de organigrama"
               disabled="true"
               rules={{ required: true }}
+              name="version"
               {...register("version")}
-              
+
             />
           </div>
           <div className="col-12 col-md-4 ms-3">
@@ -240,16 +240,17 @@ console.log(data)
               type="text"
               placeholder="Descripcion de organigrama"
               disabled="true"
+              name="descripcion"
               rules={{ required: true }}
               {...register("descripcion")}
-          
+
             />
 
             {errors.Consecutivo && (
               <p className="text-danger">Este campo es obligatorio</p>
             )}
           </div>
-          
+
           <div className="row mt-3 ">
             <div
               className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-5 ms-1"
@@ -270,16 +271,33 @@ console.log(data)
                 <br />
                 <label className="text terciary">Nivel {orden_nivel}</label>
                 <input
+                  type="text"
+                  name="nombre_nivel"
+                  className="form-control border border-terciary rounded-pill px-3"
+                  placeholder="Escribe el nombre"
+                  // {...register("nombre_nivel", { required: true })}
+                  {...register("nombre_nivel", { required: "Please enter your first name." })}
+
+                />
+                {/* <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
+                  name="nombre_nivel"
                   placeholder="Nombre nivel organizacional"
                   rules={{ required: true }}
                   {...register("nombre_nivel")}
-                />
-                <button type= "submit" 
-                onClick={() => setOrden_nivel((orden_nivel) => orden_nivel + 1)} 
-                className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
-                  agregar
+                /> */}
+                {/* <button
+                  type="submit"
+                  // onClick={() => onSumbitNivel}
+                  className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
+                  Agregar
+                </button> */}
+                <button
+                  type="submit"
+                  className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
+                >
+                  Agregar
                 </button>
               </div>
               <div className="col ">
@@ -291,23 +309,21 @@ console.log(data)
                   >
                     <AgGridReact
                       columnDefs={columnasNivel}
-                      rowData={rowDataOrganigrama}
+                      rowData={nivelesOrganigrama}
                       defaultColDef={defaultColDef}
                       onGridReady={onGridReady}
-                    ></AgGridReact>
+                    />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-</form>
+        </form>
 
-{/* 
- */}
- <form
+        <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
-          onSubmit={handleSubmit(submit)}
+          onSubmit={handleSubmitOrganigrama(submit)}
           id="configForm"
         >
           <div className="row mt-3 ">
@@ -332,7 +348,7 @@ console.log(data)
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
                     // placeholder="Escribe el nombre"
-                    {...register("codigo", { required: true })}
+                    {...registerOrganigrama("codigo", { required: true })}
                   />
                   {errors.nombreVivero && (
                     <div className="col-12">
@@ -348,7 +364,7 @@ console.log(data)
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
                     // placeholder="Escribe el codigo"
-                    {...register("nombre", { required: true })}
+                    {...registerOrganigrama("nombre", { required: true })}
                   />
                   {errors.nombreVivero && (
                     <div className="col-12">
@@ -358,19 +374,18 @@ console.log(data)
                     </div>
                   )}
                 </div>
-              
-              
+
                 <div className="col-12 col-md-6 mb-3">
                   <label className="text-terciary">Tipo de unidad:</label>
                   <Controller
                     name="tipoUnidad"
-                    control={control}
+                    control={controlOrganigrama}
                     render={({ field }) => (
                       <Select
                         {...field}
                         options={options}
                         placeholder="Seleccionar"
-                        {...register("tipoUnidad", { required: true })}
+                        {...registerOrganigrama("tipoUnidad", { required: true })}
                       />
                     )}
                   />
@@ -382,13 +397,13 @@ console.log(data)
                   <label className="text-terciary">Nivel de la unidad:</label>
                   <Controller
                     name="nivelUnidad"
-                    control={control}
+                    control={controlOrganigrama}
                     render={({ field }) => (
                       <Select
                         {...field}
                         options={optionLevel}
                         placeholder="Seleccionar"
-                        {...register("nivelUnidad", { required: true })}
+                        {...registerOrganigrama("nivelUnidad", { required: true })}
                       />
                     )}
                   />
@@ -402,13 +417,13 @@ console.log(data)
                   <label className="text-terciary">Unidad Raiz:</label>
                   <Controller
                     name="unidadRaiz"
-                    control={control}
+                    control={controlOrganigrama}
                     render={({ field }) => (
                       <Select
                         {...field}
                         options={optionRaiz}
                         placeholder="Seleccionar"
-                        {...register("unidadRaiz", { required: true })}
+                        {...registerOrganigrama("unidadRaiz", { required: true })}
                       />
                     )}
                   />
@@ -423,13 +438,13 @@ console.log(data)
                   </label>
                   <Controller
                     name="agrupacionDocumental"
-                    control={control}
+                    control={controlOrganigrama}
                     render={({ field }) => (
                       <Select
                         {...field}
                         options={optionGroup}
                         placeholder="Seleccionar"
-                        {...register("agrupacionDocumental", {
+                        {...registerOrganigrama("agrupacionDocumental", {
                           required: true,
                         })}
                       />
@@ -445,13 +460,13 @@ console.log(data)
                   <label className="text-terciary">Unidad padre:</label>
                   <Controller
                     name="nivelPadre"
-                    control={control}
+                    control={controlOrganigrama}
                     render={({ field }) => (
                       <Select
                         {...field}
                         options={optionLevel}
                         placeholder="Seleccionar"
-                        {...register("Seleccionar", { required: true })}
+                        {...registerOrganigrama("Seleccionar", { required: true })}
                       />
                     )}
                   />
@@ -463,13 +478,13 @@ console.log(data)
                   <label className="text-terciary">Unidad:</label>
                   <Controller
                     name="unidadPadre"
-                    control={control}
+                    control={controlOrganigrama}
                     render={({ field }) => (
                       <Select
                         {...field}
                         options={optionLevel}
                         placeholder="Seleccionar"
-                        {...register("unidadPadre", { required: true })}
+                        {...registerOrganigrama("unidadPadre", { required: true })}
                       />
                     )}
                   />
@@ -488,7 +503,7 @@ console.log(data)
                     rowData={rowData}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
-                    // handleAddGrid={handleAddGrid}
+                  // handleAddGrid={handleAddGrid}
                   ></AgGridReact>
                 </div>
               </div>

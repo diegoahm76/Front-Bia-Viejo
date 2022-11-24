@@ -39,8 +39,7 @@ function CrearOrganigramaScreen() {
 
 
   useEffect(() => {
-    const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
-    getOrganigrama();
+    dispatch(obtenerOrganigramaAction());
   }, []);
 
   const { organigrama } = useSelector((state) => state.organigrama);
@@ -131,7 +130,7 @@ function CrearOrganigramaScreen() {
             className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
             // onSubmit={handleSubmit(onSumbitNiveles)}
-           onClick={() => {
+            onClick={() => {
               dispatch(editarOrganigramaObtenerAction(params.data));
               navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
               // setIsModalEditarActivate(!isModalActive);
@@ -199,7 +198,7 @@ function CrearOrganigramaScreen() {
                 rowData={organigrama}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
-                pagination = { true }
+                pagination={true}
                 paginationPageSize={10}
               ></AgGridReact>
             </div>

@@ -29,10 +29,10 @@ import {
 
 const initialState = {
     nivel: [],
-    unidades:[],
-    loading:false,
+    unidades: [],
+    loading: false,
     error: null,
-    nivelEliminar:null,
+    nivelEliminar: null,
     unidadEliminar: null,
 };
 
@@ -46,7 +46,6 @@ export const edicionOrganigramaReducer = (state = initialState, action) => {
                 ...state,
                 loading: action.payload,
             };
-        
         case EDITAR_NIVEL_ORGANIZACIONAL_ERROR:
         case EDITAR_UNIDAD_ORGANIZACIONAL_ERROR:
         case AGREGAR_NIVEL_ORGANIZACIONAL_ERROR:
@@ -59,69 +58,59 @@ export const edicionOrganigramaReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
-                nivelEliminar:null,
+                nivelEliminar: null,
                 unidadEliminar: null,
-              };
-
+            };
         case ELIMINAR_NIVEL_ORGANIZACIONAL:
-        return {
-            ...state,
+            return {
+                ...state,
                 nivelEliminar: action.payload,
-        };
-
+            };
         case ELIMINAR_UNIDAD_ORGANIZACIONAL:
-        return {
-            ...state,
+            return {
+                ...state,
                 unidadEliminar: action.payload,
-        };
-    
+            };
         case ELIMINAR_NIVEL_ORGANIZACIONAL_EXITO:
-        return {
-            ...state,
-            nivel: state.nivel.filter(
-            (nivel) =>
-                nivel.id_organigrama !== state.nivelEliminar
-            ),
-            nivelEliminar: null,
-        };
-
+            return {
+                ...state,
+                nivel: state.nivel.filter(
+                    (nivel) =>
+                        nivel.id_organigrama !== state.nivelEliminar
+                ),
+                nivelEliminar: null,
+            };
         case ELIMINAR_UNIDAD_ORGANIZACIONAL_EXITO:
-        return {
-            ...state,
-            unidades: state.unidades.filter(
-            (unidades) =>
-                unidades.id_organigrama !== state.unidadEliminar
-            ),
-            unidadEliminar: null,
-        };
-
+            return {
+                ...state,
+                unidades: state.unidades.filter(
+                    (unidades) =>
+                        unidades.id_organigrama !== state.unidadEliminar
+                ),
+                unidadEliminar: null,
+            };
         case DESCARGAR_NIVEL_ORGANIZACIONAL_EXITO:
-        return {
-            ...state,
-            loading: false,
-            error: null,
-            nivel: action.payload,
-        };
-
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                nivel: action.payload,
+            };
         case DESCARGAR_UNIDAD_ORGANIZACIONAL_EXITO:
-        return {
-            ...state,
-            loading: false,
-            error: null,
-            unidades: action.payload,
-        };
-
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                unidades: action.payload,
+            };
         case AGREGAR_NIVEL_ORGANIZACIONAL_EXITO:
-        return {
-            ...state,
-            loading: false,
-            error: null,
-            nivel: [...state.nivel, action.payload],
-        };
-
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                nivel: [...state.nivel, action.payload],
+            };
         default:
-        return state;
-
-
+            return state;
     }
 };
