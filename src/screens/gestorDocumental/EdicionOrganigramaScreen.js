@@ -171,12 +171,10 @@ console.log(data)
   const dispatch = useDispatch();
 
 
-  useEffect(() => {
-    const getNivel = () => dispatch(agregarNivelAction());
-    getNivel();
-  }, []);
-
-  
+  // useEffect(() => {
+  //   const getNivel = () => dispatch(agregarNivelAction());
+  //   getNivel();
+  // }, []);
 
   const onSumbitNivel = async (data) => {
     const nuevoNivel = {

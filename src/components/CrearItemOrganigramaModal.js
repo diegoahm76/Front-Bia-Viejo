@@ -25,10 +25,6 @@ Modal.setAppElement("#root");
 const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
   const navigate = useNavigate()
 
-  const handlePage = () => {
-    handleCloseCrearOrganigrama();
-  };
-
   const dispatch = useDispatch();
 
   const handleCloseCrearOrganigrama = () => {
@@ -51,7 +47,8 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
 
     console.log(data);
     dispatch(agregarOrganigramaAction(nuevoOrganigrama));
-    navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
+    handleCloseCrearOrganigrama();
+    navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama') 
   };
 
   return (
@@ -160,7 +157,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                 <button
                   type="submit"
                   className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                  onClick={() => handlePage()}
                 >
                   Guardar
                 </button>

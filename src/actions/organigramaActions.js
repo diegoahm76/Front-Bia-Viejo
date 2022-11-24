@@ -16,6 +16,7 @@ import {
 import clienteAxios from "../config/clienteAxios";
 import Swal from "sweetalert2";
 
+
 export const obtenerOrganigramaAction = () => {
   return async (dispatch) => {
     dispatch(descargarOrganigrama(true)); 
@@ -50,9 +51,9 @@ const descargarOrganigramaError = (estado) => ({
 });
 
 export const agregarOrganigramaAction = (organigrama) => {
+
   return async (dispatch) => {
     dispatch(agregarOrganigrama());
-
     try {
       const {data: dataCreateOrganimgrama } = await clienteAxios.post("almacen/organigrama/create/", organigrama);
       console.log("dataCreate", dataCreateOrganimgrama);
