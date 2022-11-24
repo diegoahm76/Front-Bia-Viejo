@@ -31,9 +31,39 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
+const UnidadMedidaEdit = {
+  id_unidad_medida: "",
+  nombre: "",
+  abreviatura: "",
+  magnitud: { value: "", label: "Seleccionar" },
+}
+
 function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   const [botonAdministrador, setBotonAdministrador] = useState(false);
   const [magnitudesOptions, setMagnitudesOptions] = useState([]);
+  const [unidadMedidaEdit, setUnidadMedidaEdit] = useState(UnidadMedidaEdit);
+  const [edit, setEdit] = useState(false);
+
+
+  const editarUnidad = (data) => {
+    setUnidadMedidaEdit({
+      nombre: data.nombre,
+      abreviatura: data.abreviatura,
+      id_unidad_medida: data.id_unidad_medida,
+      magnitud: magnitudesOptions.find((item) => item.value === data.id_magnitud)
+    });
+    setEdit(true);
+  }
+
+  // const changeSelect = (event) => {
+  //   let edit = { ...unidadMedidaEdit }
+  //   edit.magnitud = {
+  //     value: event.value,
+  //     label: event.label
+  //   }
+  //   setUnidadMedidaEdit(edit)
+  //   setEdit(true);
+  // }
 
   const confirmarEliminarUnidadMedida = (id_unidad_medida) => {
     Swal.fire({
@@ -61,30 +91,68 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   } = useForm();
 
   const dispatch = useDispatch();
-  const onSubmit = (data) => {
-    const unidadMedidaCreate = {
-      ...data,
-      id_magnitud: data.id_magnitud.value,
-    };
-    console.log("viene de accion", unidadMedidaCreate);
-    dispatch(crearNuevaUnidadMedidaAction(unidadMedidaCreate));
+  const onSubmit = async (data) => {
+    if (!edit) {
+      const unidadMedidaCreate = {
+        ...data,
+        id_magnitud: data.id_magnitud.value,
+      };
+      console.log("viene de accion", unidadMedidaCreate);
+      dispatch(crearNuevaUnidadMedidaAction({ unidadMedidaCreate, fetchData }));
+    } else {
+      // UseEditUnidadMedida(unidadMedidaEdit);
+      await Axios({
+        method: "PUT",
+        url: `https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/update/${unidadMedidaEdit.id_unidad_medida}/`,
+        data: { unidadMedidaEdit },
+      }).then(response => {
+        console.log(response.data)
+      }).catch(err => {
+        console.error(err)
+      });
+    }
+
   };
+
+  register('nombre', {
+    onChange: (e) => {
+      const name = { ...unidadMedidaEdit };
+      name.nombre = e.target.value;
+      setUnidadMedidaEdit(name)
+    }
+  })
+  register('abreviatura', {
+    onChange: (e) => {
+      const abreviatura = { ...unidadMedidaEdit };
+      abreviatura.abreviatura = e.target.value;
+      setUnidadMedidaEdit(abreviatura)
+    }
+  })
+  register('id_magnitud', {
+    onChange: (e) => {
+      debugger
+      const magnitud = { ...unidadMedidaEdit };
+      magnitud.magnitud = e.target.value;
+      setUnidadMedidaEdit(magnitud)
+    }
+  })
   const [unidades, setUnidades] = useState([]);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios({
-          url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
-        });
-
-        setUnidades(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchData();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await Axios({
+        url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
+      });
+
+      setUnidades(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   const columnUnidadMedida = [
     {
       headerName: "Id unidad medida",
@@ -103,7 +171,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth "
             type="button"
-            // onClick={() => EditarBodega(params.data)}
+          // onClick={() => EditarBodega(params.data)}
           >
             <img src={IconoEditar} alt="editar" />
           </button>
@@ -208,6 +276,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                     <Select
                       {...field}
                       options={magnitudesOptions}
+                      value={unidadMedidaEdit.magnitud}
                       placeholder="Seleccionar"
                     />
                   )}
@@ -236,7 +305,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 onClick={() => setIsModalActive(false)}
                 placeholder="Cancelar"
               >
-                
+
                 <img src={IconoCancelar} alt="cancelar" />
               </button>
 
@@ -244,7 +313,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 type="submit"
                 className="btn btn-sm btn-tablas btn-outline-ligth"
               >
-               
+
                 <img src={IconoGuardar} alt="guardar" />
               </button>
             </div>
