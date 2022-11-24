@@ -12,25 +12,31 @@ import {
 } from "../../src/types/unidadMedidaTypes";
 import Swal from "sweetalert2";
 
-export const crearNuevaUnidadMedidaAction = (unidadMedida) => {
+export const crearNuevaUnidadMedidaAction = ({unidadMedidaCreate,fetchData}) => {
+  debugger
   return async (dispatch) => {
     dispatch(agregarUnidadMedida());
     try {
       const { data } = await clienteAxios.post(
         "almacen/unidades-medida/create/",
-        unidadMedida
+        unidadMedidaCreate
       );
-      console.log(data + "ghj");
-      dispatch(agregarUnidadMedidaExito(unidadMedida));
-      Swal.fire(
-        "Correcto",
-        "La unidad de medida se agrego correctamente",
-        "success"
+      dispatch(agregarUnidadMedidaExito(unidadMedidaCreate));
+      fetchData();
+
+      Swal.fire({
+        target: document.getElementById('modal-unidad-medida'),
+        title:"Correcto",
+        text:"La unidad de medida se agrego correctamente",
+        icon:"success"
+      }
+       
       );
     } catch (error) {
         console.log(error)
       dispatch(agregarUnidadMedidaError(true));
       Swal.fire({
+        target: document.getElementById('modal-unidad-medida'),
         icon: "error",
         title: "Hubo un error",
         text: "Hubo un error, intenta de nuevo",

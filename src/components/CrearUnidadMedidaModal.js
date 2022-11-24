@@ -17,6 +17,8 @@ import clienteAxios from "../config/clienteAxios";
 import { textChoiseAdapter } from "../adapters/textChoices.adapter";
 import Axios from "axios";
 import Swal from "sweetalert2";
+import { UseEditUnidadMedida } from "../hooks/editUnidadMedida";
+import { set } from "date-fns";
 const customStyles = {
   content: {
     top: "50%",
@@ -31,9 +33,39 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
+const UnidadMedidaEdit ={
+  id_unidad_medida:"",
+  nombre:"",
+  abreviatura: "",
+  magnitud:{value:"",label:"Seleccionar"},
+ }
+
 function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   const [botonAdministrador, setBotonAdministrador] = useState(false);
   const [magnitudesOptions, setMagnitudesOptions] = useState([]);
+  const [unidadMedidaEdit, setUnidadMedidaEdit] = useState(UnidadMedidaEdit);
+
+
+  const editarUnidad=(data)=>{
+    setUnidadMedidaEdit({
+      nombre:data.nombre,
+      abreviatura:data.abreviatura,
+      id_unidad_medida:data.id,
+      magnitud:magnitudesOptions.find((item)=>item.value===data.id_magnitud)
+    });
+
+    UseEditUnidadMedida(unidadMedidaEdit);
+
+  }
+
+  const changeSelect=(event)=>{
+    let edit={...unidadMedidaEdit}
+    edit.magnitud={
+      value:event.value,
+      label:event.label
+    }
+    setUnidadMedidaEdit(edit)
+  }
 
   const confirmarEliminarUnidadMedida = (id_unidad_medida) => {
     Swal.fire({
@@ -67,23 +99,26 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       id_magnitud: data.id_magnitud.value,
     };
     console.log("viene de accion", unidadMedidaCreate);
-    dispatch(crearNuevaUnidadMedidaAction(unidadMedidaCreate));
+    dispatch(crearNuevaUnidadMedidaAction({unidadMedidaCreate,fetchData}));
   };
   const [unidades, setUnidades] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios({
-          url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
-        });
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
-        setUnidades(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+
+  const fetchData = async () => {
+    try {
+      setBotonAdministrador(true);
+      const response = await Axios({
+        url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
+      });
+      setUnidades(response.data);
+      console.log("obtener lista")
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const columnUnidadMedida = [
     {
@@ -103,7 +138,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth "
             type="button"
-            // onClick={() => EditarBodega(params.data)}
+            onClick={() => editarUnidad(params.data)}
           >
             <img src={IconoEditar} alt="editar" />
           </button>
@@ -164,6 +199,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
+      id="modal-unidad-medida"
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
@@ -183,6 +219,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
+                  value={unidadMedidaEdit.nombre}
                   placeholder="Nombre"
                   {...register("nombre")}
                 />
@@ -192,6 +229,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
+                  value={unidadMedidaEdit.abreviatura}
                   placeholder="abreviatura"
                   {...register("abreviatura")}
                 />
@@ -209,6 +247,8 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                       {...field}
                       options={magnitudesOptions}
                       placeholder="Seleccionar"
+                      value={unidadMedidaEdit.magnitud}
+                      onChange={changeSelect }
                     />
                   )}
                 />
@@ -226,7 +266,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
               <button
                 type="button"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
-                onClick={() => setBotonAdministrador(!botonAdministrador)}
+                onClick={() => fetchData()}
               >
                 Administrador
               </button>
@@ -256,7 +296,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnUnidadMedida}
-                      rowData={unidades?.data}
+                      rowData={unidades}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>
