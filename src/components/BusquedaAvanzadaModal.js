@@ -6,6 +6,7 @@ import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
+import useEscapeKey from "../hooks/useEscapeKey";
 import Subtitle from "./Subtitle";
 
 const customStyles = {
@@ -152,6 +153,8 @@ const BusquedaAvanzadaModal = ({
     resetSearch(defaultValues);
   };
 
+  useEscapeKey(handleCloseModal)
+
   return (
     <Modal
       isOpen={isModalActive}
@@ -171,7 +174,7 @@ const BusquedaAvanzadaModal = ({
             <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
             <Subtitle title={"Información general"} mt={3} mb={3} />
 
-            <div className="row">
+            <div className="row align-items-end">
               <div className="col-12 col-md-4">
                 <div>
                   <label className="ms-2">Primer nombre:</label>
@@ -192,18 +195,10 @@ const BusquedaAvanzadaModal = ({
                   />
                 </div>
               </div>
-              <div className="col-12 mt-3">
-                {warning && (
-                  <small className="text-center text-danger">
-                    Complete alguno de los datos, primer nombre o primer
-                    apellido
-                  </small>
-                )}
-              </div>
-              <div className="col-12 mt-3">
+              <div className="col-12 col-md-4">
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize"
+                  className="btn bg-gradient-primary text-capitalize mt-4 m-md-0 d-block ms-auto"
                   disabled={loading}
                 >
                   {loading ? (
@@ -219,6 +214,14 @@ const BusquedaAvanzadaModal = ({
                     "Buscar"
                   )}
                 </button>
+              </div>
+              <div className="col-12 mt-3">
+                {warning && (
+                  <small className="text-center text-danger">
+                    Complete alguno de los datos, primer nombre o primer
+                    apellido
+                  </small>
+                )}
               </div>
               <div className="multisteps-form__content mt-4">
                 <div>
