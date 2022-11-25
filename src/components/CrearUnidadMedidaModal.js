@@ -61,7 +61,6 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   }
 
   const changeSelect = (event) => {
-    debugger
     let edit = { ...unidadMedidaEdit }
     edit.magnitud = {
       value: event.value,
@@ -97,7 +96,6 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
 
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
-    debugger
     if (!edit) {
       const unidadMedidaCreate = {
         ...data,
