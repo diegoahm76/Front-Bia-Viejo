@@ -269,6 +269,24 @@ const AdministradosDeUsuario = () => {
         console.log(error);
       }
     } else if (actionForm === "editar") {
+      console.log("image", image);
+      let form_data = new FormData();
+      form_data.append("image", image);
+      form_data.append("id_usuario", userData.id_usuario)
+
+      const configImage = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      clienteAxios
+        .post("users/upload/", form_data, configImage)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+
       try {
         const rolesReFormat = data.roles.map((rol) => ({
           nombre_rol: rol.label,
@@ -278,7 +296,7 @@ const AdministradosDeUsuario = () => {
         const editarUsuario = {
           nombre_de_usuario: data.nombreUsuario,
           tipo_usuario: data.tipoUsuario ? "I" : "E",
-          profile_img: image,
+          //profile_img: image,
           is_active: data.activo,
           is_blocked: data.bloqueado,
           roles: rolesReFormat,
@@ -331,32 +349,8 @@ const AdministradosDeUsuario = () => {
     setActionForm(null);
   };
 
-  const uploadFileHandler = async (e) => {
-    console.log("event", e)
-    const file = e.target.files[0];
-    const formData = new FormData();
-
-    formData.append("profile_img", file);
-    formData.append("id_usuario", userData.id_usuario);
-
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      const { data: dataImage } = await clienteAxios.post(
-        "users/upload/",
-        formData,
-        config
-      );
-
-      console.log("apiImage", dataImage);
-      setImage(dataImage);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleImageChange = async (e) => {
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -440,9 +434,9 @@ const AdministradosDeUsuario = () => {
                 <div className="row mt-3 ms-1">
                   <input
                     type="file"
-                    id="image-file"
-                    label="Choose File"
-                    onChange={uploadFileHandler}
+                    id="image"
+                    accept="image/png, image/jpeg"
+                    onChange={handleImageChange}
                   />
                   <div className="col-12 col-md-3">
                     <div>
