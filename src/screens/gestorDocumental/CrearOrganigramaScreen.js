@@ -103,13 +103,13 @@ function CrearOrganigramaScreen() {
       minWidth: 100,
       wrapText: true,
     },
-    {
-      headerName: "Resolución",
-      field: "ruta_resolucion",
-      minWidth: 105,
-      maxWidth: 120,
-      wrapText: true,
-    },
+    // {
+    //   headerName: "Resolución",
+    //   field: "ruta_resolucion",
+    //   minWidth: 105,
+    //   maxWidth: 120,
+    //   wrapText: true,
+    // },
     {
       headerName: "Actual",
       field: "actual",
@@ -119,7 +119,6 @@ function CrearOrganigramaScreen() {
       checkboxSelection: false,
       showDisabledCheckboxes: false,
     },
-
     {
       headerName: "Acciones",
       field: "acciones",
@@ -200,11 +199,10 @@ function CrearOrganigramaScreen() {
                 defaultColDef={defaultColDef}
                 pagination={true}
                 paginationPageSize={10}
-              ></AgGridReact>
+              />
             </div>
           </div>
         </div>
-
         <CrearItemOrganigramaModal
           isModalActive={crearOrganigramaIsActive}
           setIsModalActive={setCrearOrganigramaIsActive}

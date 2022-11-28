@@ -1,192 +1,65 @@
+//Bookstores
 import { AgGridReact } from "ag-grid-react";
-import React, { useState, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import Select from "react-select";
-import Subtitle from "../../components/Subtitle";
-import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerNivelesAction, obtenerOrganigramaAction } from "../../actions/organigramaActions";
-import { agregarNivelAction } from "../../actions/edicionOrganigramaAction";
 import { useDispatch, useSelector } from "react-redux";
+//Components
+import Subtitle from "../../components/Subtitle";
+//Hooks
+import useEdicionOrganigrama from "../../hooks/useEdicionOrganigrama";
+//Actions
+import { finalizarOrganigramaAction } from "../../actions/organigramaActions";
 
 
 export const EdicionOrganigramaScreen = () => {
 
-  const { nivelesOrganigrama } = useSelector((state) => state.organigrama);
-
-  const {
-    register,
-    setError,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm();
-
-  const {
-    register: registerOrganigrama,
-    handleSubmit: handleSubmitOrganigrama,
-    control: controlOrganigrama,
-    reset: resetOrganigrama,
-    formState: { errors: errorsOrganigrama },
-  } = useForm();
-
-  const submit = (data) => {
-    console.log(data);
-  };
-
-
-  let gridApi;
-  const defaultColDef = {
-    sortable: true,
-    editable: false,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  const columnasNivel = [
-    { headerName: "Niveles", field: "orden_nivel", minWidth: 100, maxWidth: 100 },
-    { headerName: "Nombre", field: "nombre", minWidth: 355, maxWidth: 355 },
-    {
-      headerName: "",
-      field: "editar",
-      minWidth: 140,
-      maxWidth: 140,
-      cellRendererFramework: (params) => (
-        <div className="d-flex gap-1">
-          <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
-            type="button"
-            onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
-              // setIsModalEditarActivate(!isModalActive);
-            }}
-          >
-            <img src={IconoEditar} alt="editar" />
-          </button>
-          <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
-            type="button"
-            onClick={() => {
-              // confirmarEliminarRol(params.data.id_rol);
-            }}
-          >
-            <img src={IconoEliminar} alt="eliminar" />
-          </button>
-        </div>
-      ),
-    },
-  ];
-
-  const [rowDataOrganigrama] = useState([]);
-
-  const rowData = [
-    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
-    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
-  ];
-
-  const optionRaiz = [
-    { label: "Si", value: "Si" },
-    { label: "No", value: "No" },
-  ];
-
-  const optionLevel = [
-    { label: "Nivel 1", value: "N1" },
-    { label: "Nivel 2", value: "N2" },
-    { label: "Nivel 3", value: "N3" },
-  ];
-
-  const optionGroup = [
-    { label: "Sección", value: "SE" },
-    { label: "Subsección", value: "SU" },
-  ];
-
-  const options = [
-    { label: "De linea", value: "Li" },
-    { label: "De apoyo", value: "Ap" },
-    { label: "De soporte", value: "So" },
-  ];
-
-  const columnDefs = [
-    { headerName: "Código", field: "CO", minWidth: 100, maxWidth: 100 },
-    { headerName: "Nombre", field: "NO" },
-    {
-      headerName: "",
-      field: "editar",
-      minWidth: 140,
-      maxWidth: 140,
-      cellRendererFramework: (params) => (
-        <div className="d-flex gap-1">
-          <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
-            type="button"
-            onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
-              // setIsModalEditarActivate(!isModalActive);
-            }}
-          >
-            <img src={IconoEditar} alt="editar" />
-          </button>
-          <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
-            type="button"
-            onClick={() => {
-              // confirmarEliminarRol(params.data.id_rol);
-            }}
-          >
-            <img src={IconoEliminar} alt="eliminar" />
-          </button>
-        </div>
-      ),
-    },
-  ];
-
-  const { organigramaEditar } = useSelector((state) => state.organigrama);
-  const [orden_nivel, setOrden_nivel] = useState(1)
-
-  useEffect(() => {
-    reset(organigramaEditar);
-  }, [organigramaEditar]);
-
-  const onSumbitOrganigrama = async (data) => {
-    const updateOrganigrama = {
-      // id: data.id_organigrama,
-      // nombre: data.nombre,
-      // version: data.version,
-      // descripcion: data.descripcion,
-    };
-
-    //console.log("Nueva Estacion", updateEstacion);
-
-    // dispatch(editarEstacionAction(updateOrganigrama));
-  };
+  // Dispatch Instance
   const dispatch = useDispatch();
 
+  // Redux State Extraction
+  const { organigramaEditar, nivelesOrganigrama, unidadesOrganigrama } = useSelector((state) => state.organigrama);
 
-  useEffect(() => {
-    dispatch(obtenerNivelesAction(2));
-  }, []);
+  //Hooks
+  const {
+    //States
+    columnsNivel,
+    columnsUnidades,
+    controlOrganigrama,
+    controlUnidades,
+    defaultColDefOrganigrama,
+    errorsNivel,
+    errorsOrganigrama,
+    errorsUnidades,
+    optionGrupo,
+    optionNivel,
+    optionRaiz,
+    optionsTipoUnidad,
+    orden_nivel,
+    title_nivel,
+    //Edita States
 
-  const onSumbitNivel = async (data) => {
-    const nuevoNivel = {
-      nombre_nivel: data.nombre_nivel,
-      nivel: data.orden_nivel,
-      id: data.id_organigrama,
-    };
-    // dispatch(agregarNivelAction(nuevoNivel));
-    // setOrden_nivel((orden_nivel) => orden_nivel + 1)
-  };
+    //Functions
+    handleSubmitOrganigrama,
+    onSubmitEditOrganigrama,
+    registerOrganigrama,
+    resetOrganigrama,
 
+    deleteLevel,
+    handleSubmitNivel,
+    registerNivel,
+    resetNivel,
+    submitNivel,
 
+    handleSubmitUnidades,
+    registerUnidades,
+    resetUnidades,
+    submitUnidades,
+    watchUnidades,
+
+    onGridReady
+  } = useEdicionOrganigrama()
+
+  // console.log()
 
   return (
     <div className="row min-vh-100">
@@ -194,7 +67,7 @@ export const EdicionOrganigramaScreen = () => {
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
-          onSubmit={handleSubmit(onSumbitNivel)}
+          onSubmit={handleSubmitOrganigrama(onSubmitEditOrganigrama)}
           id="configForm"
         >
           <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">
@@ -213,7 +86,7 @@ export const EdicionOrganigramaScreen = () => {
               placeholder="Nombre de organigrama"
               disabled="true"
               rules={{ required: true }}
-              {...register("nombre")}
+              {...registerOrganigrama("nombre")}
             />
           </div>
           <div className="col-12 col-md-4 ms-3">
@@ -227,7 +100,7 @@ export const EdicionOrganigramaScreen = () => {
               disabled="true"
               rules={{ required: true }}
               name="version"
-              {...register("version")}
+              {...registerOrganigrama("version")}
 
             />
           </div>
@@ -242,29 +115,29 @@ export const EdicionOrganigramaScreen = () => {
               disabled="true"
               name="descripcion"
               rules={{ required: true }}
-              {...register("descripcion")}
-
+              {...registerOrganigrama("descripcion")}
             />
-
-            {errors.Consecutivo && (
+            {errorsOrganigrama.Consecutivo && (
               <p className="text-danger">Este campo es obligatorio</p>
             )}
           </div>
+        </form>
 
-          <div className="row mt-3 ">
-            <div
-              className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-5 ms-1"
-              style={{
-                backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
-              }}
-              data-bs-toggle="collapse"
-              aria-expanded="false"
-              href="#Niveles"
-            >
-              {" "}
-              Niveles Organizacionales
-            </div>
+        <div className="row m-0 my-3 multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
+          <div
+            className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 ms-1"
+            style={{
+              backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
+            }}
+            data-bs-toggle="collapse"
+            aria-expanded="false"
+            href="#Niveles"
+          >
+            {" "}
+            Niveles Organizacionales
+          </div>
 
+          <form onSubmit={handleSubmitNivel(submitNivel)}>
             <div className="row mt-3 ms-2 collapse" id="Niveles">
               <div className="col-12  col-md-4">
                 <label className="text-terciary fw-bolder">Niveles</label>
@@ -272,32 +145,19 @@ export const EdicionOrganigramaScreen = () => {
                 <label className="text terciary">Nivel {orden_nivel}</label>
                 <input
                   type="text"
-                  name="nombre_nivel"
+                  name="nombre"
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Escribe el nombre"
-                  // {...register("nombre_nivel", { required: true })}
-                  {...register("nombre_nivel", { required: "Please enter your first name." })}
-
+                  {...registerNivel("nombre", { required: "El nombre es obligatorio" })}
                 />
-                {/* <input
-                  className="form-control border rounded-pill px-3 border border-terciary"
-                  type="text"
-                  name="nombre_nivel"
-                  placeholder="Nombre nivel organizacional"
-                  rules={{ required: true }}
-                  {...register("nombre_nivel")}
-                /> */}
-                {/* <button
-                  type="submit"
-                  // onClick={() => onSumbitNivel}
-                  className="btn btn-primary border rounded-pill px-3 text-capitalize mt-2">
-                  Agregar
-                </button> */}
+                {errorsOrganigrama.nombre && (
+                  <p className="text-danger">{errorsOrganigrama.nombre.message}</p>
+                )}
                 <button
                   type="submit"
-                  className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
+                  className="border rounded-pill px-3 btn bg-gradient-primary my-3 text-capitalize"
                 >
-                  Agregar
+                  {title_nivel}
                 </button>
               </div>
               <div className="col ">
@@ -308,22 +168,23 @@ export const EdicionOrganigramaScreen = () => {
                     style={{ height: "250px", maxWidth: "600px" }}
                   >
                     <AgGridReact
-                      columnDefs={columnasNivel}
+                      columnDefs={columnsNivel}
                       rowData={nivelesOrganigrama}
-                      defaultColDef={defaultColDef}
+                      defaultColDefOrganigrama={defaultColDefOrganigrama}
                       onGridReady={onGridReady}
                     />
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+
+        </div>
 
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
-          onSubmit={handleSubmitOrganigrama(submit)}
+          onSubmit={handleSubmitUnidades(submitUnidades)}
           id="configForm"
         >
           <div className="row mt-3 ">
@@ -347,10 +208,10 @@ export const EdicionOrganigramaScreen = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                    // placeholder="Escribe el nombre"
-                    {...registerOrganigrama("codigo", { required: true })}
+                    placeholder="Escribe el codigo"
+                    {...registerNivel("codigo", { required: true })}
                   />
-                  {errors.nombreVivero && (
+                  {errorsUnidades.codigo && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
@@ -363,10 +224,10 @@ export const EdicionOrganigramaScreen = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                    // placeholder="Escribe el codigo"
-                    {...registerOrganigrama("nombre", { required: true })}
+                    placeholder="Escribe el nombre"
+                    {...registerNivel("nombre", { required: true })}
                   />
-                  {errors.nombreVivero && (
+                  {errorsUnidades.nonmbre && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
@@ -379,17 +240,26 @@ export const EdicionOrganigramaScreen = () => {
                   <label className="text-terciary">Tipo de unidad:</label>
                   <Controller
                     name="tipoUnidad"
-                    control={controlOrganigrama}
+                    control={controlUnidades}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={options}
+                        isDisabled={unidadesOrganigrama.length === 0 ? true : false}
+                        value={field.value}
+                        onChange={(e) => {
+                          console.log(e)
+                          resetUnidades({
+                            ...watchUnidades(),
+                            tipoUnidad: e,
+                          });
+                        }}
+                        options={optionsTipoUnidad}
                         placeholder="Seleccionar"
-                        {...registerOrganigrama("tipoUnidad", { required: true })}
                       />
                     )}
                   />
-                  {errors.municipioOpcion && (
+                  {errorsUnidades.tipoUnidad && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
@@ -397,37 +267,69 @@ export const EdicionOrganigramaScreen = () => {
                   <label className="text-terciary">Nivel de la unidad:</label>
                   <Controller
                     name="nivelUnidad"
-                    control={controlOrganigrama}
+                    control={controlUnidades}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionLevel}
+                        value={field.value}
+                        onChange={(e) => {
+                          if (e.value === 'N1') {
+                            resetUnidades({
+                              ...watchUnidades(),
+                              unidadRaiz: {
+                                label: "Si",
+                                value: "Si"
+                              }
+                            });
+                          } else {
+                            resetUnidades({
+                              ...watchUnidades(),
+                              unidadRaiz: {
+                                label: "No",
+                                value: "No"
+                              }
+                            });
+                          }
+                          resetUnidades({
+                            ...watchUnidades(),
+                            nivelUnidad: e,
+                          });
+                        }}
+                        options={optionNivel}
                         placeholder="Seleccionar"
-                        {...registerOrganigrama("nivelUnidad", { required: true })}
                       />
                     )}
                   />
-                  {errors.municipioOpcion && (
+                  {errorsUnidades.nivelUnidad && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Unidad Raiz:</label>
+                  <label className="text-terciary">Unidad Raíz:</label>
                   <Controller
                     name="unidadRaiz"
-                    control={controlOrganigrama}
+                    control={controlUnidades}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionRaiz}
+                        isDisabled={true}
+                        value={field.value}
+                        onChange={(e) => {
+                          resetUnidades({
+                            ...watchUnidades(),
+                            unidadRaiz: e,
+                          });
+                        }}
+                        options={optionNivel}
                         placeholder="Seleccionar"
-                        {...registerOrganigrama("unidadRaiz", { required: true })}
                       />
                     )}
                   />
-                  {errors.municipioOpcion && (
+                  {errorsUnidades.unidadRaiz && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
@@ -438,19 +340,24 @@ export const EdicionOrganigramaScreen = () => {
                   </label>
                   <Controller
                     name="agrupacionDocumental"
-                    control={controlOrganigrama}
+                    control={controlUnidades}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionGroup}
+                        value={field.value}
+                        onChange={(e) => {
+                          resetUnidades({
+                            ...watchUnidades(),
+                            agrupacionDocumental: e,
+                          });
+                        }}
+                        options={optionNivel}
                         placeholder="Seleccionar"
-                        {...registerOrganigrama("agrupacionDocumental", {
-                          required: true,
-                        })}
                       />
                     )}
                   />
-                  {errors.municipioOpcion && (
+                  {errorsUnidades.agrupacionDocumental && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
@@ -460,17 +367,24 @@ export const EdicionOrganigramaScreen = () => {
                   <label className="text-terciary">Unidad padre:</label>
                   <Controller
                     name="nivelPadre"
-                    control={controlOrganigrama}
+                    control={controlUnidades}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionLevel}
+                        value={field.value}
+                        onChange={(e) => {
+                          resetUnidades({
+                            ...watchUnidades(),
+                            nivelPadre: e,
+                          });
+                        }}
+                        options={optionNivel}
                         placeholder="Seleccionar"
-                        {...registerOrganigrama("Seleccionar", { required: true })}
                       />
                     )}
                   />
-                  {errors.municipioOpcion && (
+                  {errorsUnidades.nivelPadre && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
@@ -478,17 +392,24 @@ export const EdicionOrganigramaScreen = () => {
                   <label className="text-terciary">Unidad:</label>
                   <Controller
                     name="unidadPadre"
-                    control={controlOrganigrama}
+                    control={controlUnidades}
+                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={optionLevel}
+                        value={field.value}
+                        onChange={(e) => {
+                          resetUnidades({
+                            ...watchUnidades(),
+                            unidadPadre: e,
+                          });
+                        }}
+                        options={optionNivel}
                         placeholder="Seleccionar"
-                        {...registerOrganigrama("unidadPadre", { required: true })}
                       />
                     )}
                   />
-                  {errors.municipioOpcion && (
+                  {errorsUnidades.unidadPadre && (
                     <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
@@ -499,12 +420,11 @@ export const EdicionOrganigramaScreen = () => {
                   style={{ height: "225px" }}
                 >
                   <AgGridReact
-                    columnDefs={columnDefs}
-                    rowData={rowData}
-                    defaultColDef={defaultColDef}
+                    columnDefs={columnsUnidades}
+                    rowData={unidadesOrganigrama}
+                    defaultColDefOrganigrama={defaultColDefOrganigrama}
                     onGridReady={onGridReady}
-                  // handleAddGrid={handleAddGrid}
-                  ></AgGridReact>
+                  />
                 </div>
               </div>
             </div>
@@ -520,13 +440,14 @@ export const EdicionOrganigramaScreen = () => {
               </button>
 
               <button
-                type="button"
+                type="submit"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
               >
                 Guardar
               </button>
               <button
                 type="button"
+                onClick={() => dispatch(finalizarOrganigramaAction(organigramaEditar.id_organigrama))}
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
               >
                 Finalizar

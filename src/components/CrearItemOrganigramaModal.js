@@ -52,7 +52,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
   return (
     <Modal
       isOpen={isModalActive}
-      //onRequestClose={onCloseModal}
+      onRequestClose={handleCloseCrearOrganigrama}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
