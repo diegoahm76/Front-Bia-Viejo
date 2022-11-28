@@ -21,6 +21,7 @@ import IconoAtras from "../../../assets/iconosBotones/atrás.svg";
 import IconoVer from "../../../assets/iconosBotones/ver.svg";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import CrearMarcaModal from "../../../components/CrearMarcaModal";
+import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal";
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({});
@@ -246,6 +247,8 @@ export const EntradaDeArticuloScreen = () => {
   };
 
   const [crearUnidadMedidaOpen, setCrearUnidadMedidaOpen] = useState(false);
+  const [crearPorcentajeOpen, setCrearPorcentajeOpen] = useState(false);
+
   const [crearMarcaOpen, setCrearMarcaOpen] = useState(false);
 
   const [crearNombreCientifico, setCrearNombreCientifico] = useState(false);
@@ -259,6 +262,10 @@ export const EntradaDeArticuloScreen = () => {
   };
 
   const [modal, setModal] = useState(false);
+
+  const handleOpenModalIva = () => {
+    setCrearPorcentajeOpen(true);
+  };
 
   const handleOpenModal = () => {
     setModal(true);
@@ -647,6 +654,15 @@ export const EntradaDeArticuloScreen = () => {
                         {...register("PorceIVA")}
                       />
                     </div>
+                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                        onClick={handleOpenModalIva}
+                      >
+                        Crear
+                      </button>
+                    </div>
                     <div className="col-6 col-sm-3 mt-1">
                       <label className="ms-2 text-terciary">
                         Valor IVA <span className="text-danger">*</span>{" "}
@@ -962,9 +978,8 @@ export const EntradaDeArticuloScreen = () => {
                   <div className="d-flex justify-content-end gap-4 mt-4">
                     <button
                       type="button"
-                      className={`btn text-capitalize btn-outline-ligth px-3 ${
-                        page === 1 && "d-none"
-                      }`}
+                      className={`btn text-capitalize btn-outline-ligth px-3 ${page === 1 && "d-none"
+                        }`}
                       style={{ minWidth: "100px" }}
                       onClick={handleOpenModal}
                       title="Ver resumen de entrada"
@@ -995,9 +1010,8 @@ export const EntradaDeArticuloScreen = () => {
                 </button>
 
                 <button
-                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${
-                    page === 1 && "d-none"
-                  }`}
+                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${page === 1 && "d-none"
+                    }`}
                   type="button"
                   title="Regresar a la pagina anterior"
                   onClick={handlePreviousPage}
@@ -1123,7 +1137,7 @@ export const EntradaDeArticuloScreen = () => {
             isModalActive={modalArticulos}
             setIsModalActive={setModalArticulos}
           />
-          
+
           <ModalLocal localState={crearNombreCientifico}>
             <div className="row">
               <div className="col">
@@ -1215,6 +1229,10 @@ export const EntradaDeArticuloScreen = () => {
         isModalActive={crearMarcaOpen}
         setIsModalActive={setCrearMarcaOpen}
       />
+      <CrearPorcentajeIvaModal
+        isModalActive={crearPorcentajeOpen}
+        setIsModalActive={setCrearPorcentajeOpen}>
+      </CrearPorcentajeIvaModal>
     </div>
   );
 };

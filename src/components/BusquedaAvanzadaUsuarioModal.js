@@ -9,6 +9,7 @@ import { getTokenAccessLocalStorage } from "../helpers/localStorage";
 import botonCancelar from "../assets/iconosBotones/cancelar.svg";
 import botonBuscar from "../assets/iconosBotones/buscar.svg";
 import Subtitle from "./Subtitle";
+import useEscapeKey from "../hooks/useEscapeKey";
 
 const customStyles = {
   content: {
@@ -138,6 +139,8 @@ const BusquedaAvanzadaUsuarioModal = ({
     setIsModalActive(false);
     resetSearch(defaultValues);
   };
+
+  useEscapeKey(handleCloseModal)
   return (
     <Modal
       isOpen={isModalActive}
