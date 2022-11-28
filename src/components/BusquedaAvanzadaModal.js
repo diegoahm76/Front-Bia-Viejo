@@ -8,6 +8,7 @@ import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
 import useEscapeKey from "../hooks/useEscapeKey";
 import Subtitle from "./Subtitle";
+import botonBuscar from "../assets/iconosBotones/buscar.svg";
 
 const customStyles = {
   content: {
@@ -198,21 +199,9 @@ const BusquedaAvanzadaModal = ({
               <div className="col-12 col-md-4">
                 <button
                   type="submit"
-                  className="btn bg-gradient-primary text-capitalize mt-4 m-md-0 d-block ms-auto"
-                  disabled={loading}
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
                 >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Cargando...
-                    </>
-                  ) : (
-                    "Buscar"
-                  )}
+                  <img src={botonBuscar} alt="" title="Buscar" />
                 </button>
               </div>
               <div className="col-12 mt-3">
