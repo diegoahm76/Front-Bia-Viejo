@@ -39,8 +39,7 @@ function CrearOrganigramaScreen() {
 
 
   useEffect(() => {
-    const getOrganigrama = () => dispatch(obtenerOrganigramaAction());
-    getOrganigrama();
+    dispatch(obtenerOrganigramaAction());
   }, []);
 
   const { organigrama } = useSelector((state) => state.organigrama);
@@ -104,13 +103,13 @@ function CrearOrganigramaScreen() {
       minWidth: 100,
       wrapText: true,
     },
-    {
-      headerName: "Resolución",
-      field: "ruta_resolucion",
-      minWidth: 105,
-      maxWidth: 120,
-      wrapText: true,
-    },
+    // {
+    //   headerName: "Resolución",
+    //   field: "ruta_resolucion",
+    //   minWidth: 105,
+    //   maxWidth: 120,
+    //   wrapText: true,
+    // },
     {
       headerName: "Actual",
       field: "actual",
@@ -120,7 +119,6 @@ function CrearOrganigramaScreen() {
       checkboxSelection: false,
       showDisabledCheckboxes: false,
     },
-
     {
       headerName: "Acciones",
       field: "acciones",
@@ -131,7 +129,7 @@ function CrearOrganigramaScreen() {
             className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
             // onSubmit={handleSubmit(onSumbitNiveles)}
-           onClick={() => {
+            onClick={() => {
               dispatch(editarOrganigramaObtenerAction(params.data));
               navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
               // setIsModalEditarActivate(!isModalActive);
@@ -199,13 +197,12 @@ function CrearOrganigramaScreen() {
                 rowData={organigrama}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
-                pagination = { true }
+                pagination={true}
                 paginationPageSize={10}
-              ></AgGridReact>
+              />
             </div>
           </div>
         </div>
-
         <CrearItemOrganigramaModal
           isModalActive={crearOrganigramaIsActive}
           setIsModalActive={setCrearOrganigramaIsActive}

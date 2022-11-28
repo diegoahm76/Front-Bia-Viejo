@@ -1,18 +1,26 @@
 import {
+  //Organigrama
   AGREGAR_ORGANIGRAMA,
   AGREGAR_ORGANIGRAMA_ERROR,
-  AGREGAR_ORGANIGRAMA_EXITO,
-  EDITAR_ORGANIGRAMA,
-  EDITAR_ORGANIGRAMA_OBTENER,
-  EDITAR_ORGANIGRAMA_ERROR,
-  EDITAR_ORGANIGRAMA_EXITO,
-  ELIMINAR_ORGANIGRAMA,
-  ELIMINAR_ORGANIGRAMA_ERROR,
-  ELIMINAR_ORGANIGRAMA_EXITO,
   DESCARGAR_ORGANIGRAMA,
   DESCARGAR_ORGANIGRAMA_ERROR,
   DESCARGAR_ORGANIGRAMA_EXITO,
-} from "../types/crearOrganigramaTypes";
+  EDITAR_ORGANIGRAMA_OBTENER,
+  ELIMINAR_ORGANIGRAMA,
+  ELIMINAR_ORGANIGRAMA_ERROR,
+  ELIMINAR_ORGANIGRAMA_EXITO,
+  FINALIZAR_ORGANIGRAMA,
+  FINALIZAR_ORGANIGRAMA_ERROR,
+  //Niveles
+  OBTENER_NIVELES_ORGANIGRAMA_OBTENER,
+  OBTENER_NIVELES_ORGANIGRAMA_ERROR,
+  AGREGAR_NIVEL_ORGANIZACIONAL,
+  AGREGAR_NIVEL_ORGANIZACIONAL_ERROR,
+  AGREGAR_NIVEL_ORGANIZACIONAL_EXITO,
+  //Unidades
+  OBTENER_UNIDADES_ORGANIGRAMA_OBTENER,
+  OBTENER_UNIDADES_ORGANIGRAMA_ERROR,
+} from "../types/organigramaTypes";
 
 const initialState = {
   organigrama: [],
@@ -20,6 +28,8 @@ const initialState = {
   error: null,
   organigramaEliminar: null,
   organigramaEditar: null,
+  nivelesOrganigrama: [],
+  unidadesOrganigrama: []
 };
 
 export const organigramaReducer = (state = initialState, action) => {
@@ -64,12 +74,46 @@ export const organigramaReducer = (state = initialState, action) => {
         organigramaEliminar: null,
       };
 
-      case EDITAR_ORGANIGRAMA_OBTENER:
-        return {
-          ...state,
-          organigramaEditar: action.payload,
-        };
-
+    case EDITAR_ORGANIGRAMA_OBTENER:
+      return {
+        ...state,
+        organigramaEditar: action.payload,
+        nivelesOrganigrama: []
+      };
+    case OBTENER_NIVELES_ORGANIGRAMA_OBTENER:
+      return {
+        ...state,
+        nivelesOrganigrama: action.payload
+      };
+    case OBTENER_NIVELES_ORGANIGRAMA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        nivelesOrganigrama: [],
+      };
+    case
+      OBTENER_UNIDADES_ORGANIGRAMA_OBTENER:
+      return {
+        ...state,
+        unidadesOrganigrama: action.payload
+      };
+    case
+      OBTENER_UNIDADES_ORGANIGRAMA_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        unidadesOrganigrama: [],
+      };
+    case FINALIZAR_ORGANIGRAMA:
+      return {
+        ...state,
+      };
+    case FINALIZAR_ORGANIGRAMA_ERROR:
+      return {
+        ...state,
+      };
     default:
       return state;
   }
