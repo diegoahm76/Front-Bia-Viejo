@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/logoBia.svg";
 import Cormacarena from "../../assets/LogosBIAPNG/logoCorma.svg";
@@ -9,59 +9,64 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
+import { loginUser } from "../../store/slices/Login";
+import { RootState, useAppDispatch } from "../../store/store";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
-  const { error } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const stateLogin = useSelector((state: RootState) => state.login);
+  const dispatch = useAppDispatch();
+  // const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
 
   const submitHandler = (dataForm) => {
-    const token = captchaRef.current.getValue();
-    if (token) {
-      dispatch(userLoginAction(dataForm.email, dataForm.password));
-    } else {
-      Swal.fire({
-        position: "center",
-        icon: "info",
-        title: "Es necesario validar el captcha, para poder ingresar",
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-        is_active: true,
-      });
-    }
+
+
+    loginUser(dispatch, dataForm.email, dataForm.password);
+    // const token = captchaRef.current.getValue();
+    // if (token) {
+    //   loginUser(dispatch, dataForm.email, dataForm.password);
+    // } else {
+    //   // Swal.fire({
+    //   //   position: "center",
+    //   //   icon: "info",
+    //   //   title: "Es necesario validar el captcha, para poder ingresar",
+    //   //   confirmButtonText: "Aceptar",
+    //   //   confirmButtonColor: "#3085d6",
+    //   //   is_active: true,
+    //   // });
+    // }
   };
 
-  useEffect(() => {
-    //console.log("useEffect error", error)
-    if (error?.login_erroneo?.contador) {
-      Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: `Intento Número ${error?.login_erroneo?.contador} de 3, su cuenta será bloqueada al tercer intento`,
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-        is_active: true,
-      });
-    } else if (error?.detail) {
-      console.log("Entro aca");
-      Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: error.detail,
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-        is_active: true,
-      });
-    } else {
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   //console.log("useEffect error", error)
+  //   if (error?.login_erroneo?.contador) {
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "warning",
+  //       title: `Intento Número ${error?.login_erroneo?.contador} de 3, su cuenta será bloqueada al tercer intento`,
+  //       confirmButtonText: "Aceptar",
+  //       confirmButtonColor: "#3085d6",
+  //       is_active: true,
+  //     });
+  //   } else if (error?.detail) {
+  //     console.log("Entro aca");
+  //     Swal.fire({
+  //       position: "center",
+  //       icon: "warning",
+  //       title: error.detail,
+  //       confirmButtonText: "Aceptar",
+  //       confirmButtonColor: "#3085d6",
+  //       is_active: true,
+  //     });
+  //   } else {
+  //   }
+  // }, [error]);
 
-  const handleClickToDesbloqueo = () => {
-    navigate("/desbloqueo-usuario");
-  };
+  // const handleClickToDesbloqueo = () => {
+  //   navigate("/desbloqueo-usuario");
+  // };
 
   return (
     <div
@@ -131,7 +136,7 @@ function LoginScreen() {
                       {...register("password")}
                     />
                   </div>
-                  {error?.detail ===
+                  {/* {error?.detail ===
                   "Su usuario está bloqueado, debe comunicarse con el administrador" ? (
                     <div>
                       <label className="text-white text-center fw-lighter fs-5">
@@ -148,15 +153,15 @@ function LoginScreen() {
                     </div>
                   ) : (
                     ""
-                  )}
+                  )} */}
 
-                  <div className="mt-4 d-flex justify-content-center">
+                  {/* <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
                       hl="es"
                     />
-                  </div>
+                  </div> */}
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"
