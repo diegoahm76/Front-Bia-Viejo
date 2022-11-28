@@ -35,45 +35,45 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginScreen />} />
-
-      <Route path="/dashboard" element={<HomeScreen />}/>
-        {/* </Route> <Route index element={<LogoScreen />} /> */}
+      {/* </Route> <Route index element={<LogoScreen />} /> */}
 
       <Route element={<UserProtectedRoutes />}>
-            <Route
-              path="tablerosdecontrol/*"
-              element={<TablerosDeControlRoutes />}
-            />
 
-            <Route path="almacen/*" element={<AlmacenRoutes />} />
+        <Route path="/dashboard" element={<HomeScreen />} />
+        <Route
+          path="tablerosdecontrol/*"
+          element={<TablerosDeControlRoutes />}
+        />
 
-            <Route path="recaudo/*" element={<RecaudoRoutes />} />
+        <Route path="almacen/*" element={<AlmacenRoutes />} />
 
-            <Route path="conservacion/*" element={<ConservacionRoutes />} />
+        <Route path="recaudo/*" element={<RecaudoRoutes />} />
 
-            <Route path="usuario/*" element={<UsuarioRoutes />} />
+        <Route path="conservacion/*" element={<ConservacionRoutes />} />
 
-            <Route
-              path="recurso-hidrico/*"
-              element={<RecursoHidricoRoutes />}
-            />
+        <Route path="usuario/*" element={<UsuarioRoutes />} />
 
-            <Route
-              path="gestordocumental/*"
-              element={<GestorDocumentalRoutes />}
-            />
+        <Route
+          path="recurso-hidrico/*"
+          element={<RecursoHidricoRoutes />}
+        />
 
-            <Route
-              path="tramitesyservicios/*"
-              element={<TramitesYServiciosRoutes />}
-            />
-          </Route>
+        <Route
+          path="gestordocumental/*"
+          element={<GestorDocumentalRoutes />}
+        />
+
+        <Route
+          path="tramitesyservicios/*"
+          element={<TramitesYServiciosRoutes />}
+        />
+      </Route>
     </Routes>
     // <Routes>
     //   <Route>
     //     {/* 
 
-   
+
 
     //       <Route element={<AdminProtectedRoutes />}>
     //         <Route path="seguridad/*" element={<SeguridadRoutes />} />

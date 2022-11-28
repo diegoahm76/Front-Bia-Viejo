@@ -51,8 +51,6 @@ export const { setUserInfo } = loginSlice.actions;
 export default loginSlice.reducer;
 
 export const loginUser = async (dispatch, email: string, password: string) => {
-
-    debugger;
     await clienteAxios.post(
         "users/login/",
         { email, password },

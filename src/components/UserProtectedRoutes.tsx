@@ -5,7 +5,7 @@ import { useAppSelector } from "../store/store";
 
 const UserProtectedRoutes = () => {
   const userInfo = useAppSelector((state ) => state.login.initialState.user_info);
-
+  debugger
   if (!userInfo.is_superuser) {
     return <Outlet />;
     
