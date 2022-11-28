@@ -8,7 +8,7 @@ import {
   obtenerAlarmaEditAction,
   obternerAlarmasAction,
 } from "../../../actions/alarmasActions";
-import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
 import AlarmasModal from "../../../components/AlarmasModal";
 import Subtitle from "../../../components/Subtitle";
 
@@ -62,12 +62,11 @@ const AlarmasScreen = () => {
         <div className="d-flex justify-content-center align-items-center gap-2">
           <div>
             <button
-              className="btn btn-sm btn-tablas btn-outline-warning "
+              className="btn btn-sm btn-tablas "
               type="button"
-              title="Send"
               onClick={() => editarAction(params.data.objectid)}
             >
-              <img src={IconoEditar} alt="editar" />
+              <img src={IconoEditarBia} alt="editar" title="Editar"/>
             </button>
           </div>
         </div>
