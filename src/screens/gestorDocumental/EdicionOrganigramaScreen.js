@@ -172,8 +172,7 @@ console.log(data)
 
 
   // useEffect(() => {
-  //   const getNivel = () => dispatch(agregarNivelAction());
-  //   getNivel();
+    // dispatch(agregarNivelAction());
   // }, []);
 
   const onSumbitNivel = async (data) => {

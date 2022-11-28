@@ -25,7 +25,6 @@ export const obtenerOrganigramaAction = () => {
       const { data: dataGetOrganigrama } = await clienteAxios.get(
         "almacen/organigrama/get/"
       );
-      console.log("dataGetOrganigrama", dataGetOrganigrama.organigramas);
 
       dispatch(descargarOrganigramaExito(dataGetOrganigrama.Organigramas));
     } catch (error) {
