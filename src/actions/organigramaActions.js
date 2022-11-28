@@ -229,7 +229,7 @@ const agregarNivelExito = (nivel) => ({
 
 // UNIDADES
 
-//Obtener Niveles
+//Obtener Unidades
 export const obtenerUnidadesAction = () => {
   return async (dispatch) => {
     try {

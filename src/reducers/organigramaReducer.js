@@ -28,7 +28,8 @@ const initialState = {
   error: null,
   organigramaEliminar: null,
   organigramaEditar: null,
-  nivelesOrganigrama: []
+  nivelesOrganigrama: [],
+  unidadesOrganigrama: []
 };
 
 export const organigramaReducer = (state = initialState, action) => {

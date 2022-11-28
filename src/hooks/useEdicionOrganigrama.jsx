@@ -54,7 +54,6 @@ const useEdicionOrganigrama = () => {
         formState: { errors: errorsUnidades },
     } = useForm();
     const datosUnidades = watchUnidades();
-    console.log(datosUnidades, 'datosUnidades');
 
     useEffect(() => {
         resetOrganigrama(organigramaEditar);
@@ -78,7 +77,7 @@ const useEdicionOrganigrama = () => {
     }, [unidadesOrganigrama]);
 
     useEffect(() => {
-        if (['Ap', 'So'].includes(datosUnidades.tipoUnidad.value)) {
+        if (['Ap', 'So'].includes(datosUnidades?.tipoUnidad?.value)) {
             setOptionNivel([
                 { label: "Nivel 1", value: "N1", isDisabled: true },
                 { label: "Nivel 2", value: "N2" },
