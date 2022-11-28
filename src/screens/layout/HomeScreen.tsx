@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Aside from "../../components/Aside";
 import Navbar from "../../components/Navbar";
 import SelectSesionModal from "../../components/SelectSesionModal";
+import { useAppSelector } from "../../store/store";
 
 function HomeScreen() {
-  const { userinfo } = useSelector((state) => state.user.user);
+  const  user_info  = useAppSelector((state) => state.login.initialState.user_info);
+
   const [showAside, setShowAside] = useState(true);
 
   return (
@@ -24,7 +25,7 @@ function HomeScreen() {
         </div>
       </main>
       {
-        !userinfo?.is_superuser && (
+        !user_info?.is_superuser && (
           <SelectSesionModal />
         )
       }

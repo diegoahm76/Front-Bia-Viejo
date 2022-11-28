@@ -1,13 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 import clienteAxios from "../../../config/clienteAxios";
 
+export interface IUserInfo{
+    permisos:[],
+    representante_legal:{},
+    user_info:{
+        email:string;
+        id_usuario:number;
+        is_superuser:boolean;
+        nombre_de_usuario:string;
+        tokens:{
+            access:string;
+            refresh:string;
+        }
+    },
+    reintentos:number;
 
-const initialState = {
-    user: {},
-    loading: false,
-    error: null,
-    modalSesion: false,
-    dataSesion: {}
+}
+const initialState:IUserInfo ={
+    user_info:{
+        email:"",
+        id_usuario:0,
+        is_superuser:false,
+        nombre_de_usuario:"",
+        tokens:{
+            access:"",
+            refresh:"",
+        }
+    },
+    permisos: [],
+    representante_legal: false,
+    reintentos:0
+  
 };
 
 
@@ -28,6 +52,7 @@ export default loginSlice.reducer;
 
 export const loginUser = async (dispatch, email: string, password: string) => {
 
+    debugger;
     await clienteAxios.post(
         "users/login/",
         { email, password },

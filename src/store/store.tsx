@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch } from "react-redux";
+
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import Login from "./slices/Login";
 // import thunk from "redux-thunk";
 
@@ -17,3 +18,4 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 
 // Selector
 export type RootState = ReturnType<typeof store.getState>
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
