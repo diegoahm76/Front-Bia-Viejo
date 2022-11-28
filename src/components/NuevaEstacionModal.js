@@ -70,6 +70,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
+                placeholder="Id"
                 {...register("objectId", { required: true })}
               />
             </div>
@@ -89,6 +90,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
+                placeholder="Nombre"
                 {...register("estacion", { required: true })}
               />
             </div>
@@ -142,18 +144,18 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
           </div>
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoCancelar} alt=""  style={{height: "20px", width: "20px"}}/>
+              <img src={iconoCancelar} alt="" title="Cancelar"/>
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoAgregar} alt="" style={{height: "20px", width: "20px"}}/>
+              <img src={iconoAgregar} alt="" title="Agregar" />
             </button>
           </div>
         </form>
