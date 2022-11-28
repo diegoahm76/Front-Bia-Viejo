@@ -6,7 +6,9 @@ import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
+import useEscapeKey from "../hooks/useEscapeKey";
 import Subtitle from "./Subtitle";
+import botonBuscar from "../assets/iconosBotones/buscar.svg";
 
 const customStyles = {
   content: {
@@ -152,6 +154,8 @@ const BusquedaAvanzadaModal = ({
     resetSearch(defaultValues);
   };
 
+  useEscapeKey(handleCloseModal)
+
   return (
     <Modal
       isOpen={isModalActive}
@@ -171,7 +175,7 @@ const BusquedaAvanzadaModal = ({
             <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
             <Subtitle title={"Información general"} mt={3} mb={3} />
 
-            <div className="row">
+            <div className="row align-items-end">
               <div className="col-12 col-md-4">
                 <div>
                   <label className="ms-2">Primer nombre:</label>
@@ -192,6 +196,14 @@ const BusquedaAvanzadaModal = ({
                   />
                 </div>
               </div>
+              <div className="col-12 col-md-4">
+                <button
+                  type="submit"
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                >
+                  <img src={botonBuscar} alt="" title="Buscar" />
+                </button>
+              </div>
               <div className="col-12 mt-3">
                 {warning && (
                   <small className="text-center text-danger">
@@ -199,26 +211,6 @@ const BusquedaAvanzadaModal = ({
                     apellido
                   </small>
                 )}
-              </div>
-              <div className="col-12 mt-3">
-                <button
-                  type="submit"
-                  className="btn bg-gradient-primary text-capitalize"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Cargando...
-                    </>
-                  ) : (
-                    "Buscar"
-                  )}
-                </button>
               </div>
               <div className="multisteps-form__content mt-4">
                 <div>

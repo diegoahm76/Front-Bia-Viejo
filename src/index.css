@@ -2,9 +2,19 @@ html {
   background: #042F4A;
 }
 
+@font-face {
+  font-family: "Visby";
+  src: url("/public/visby/VisbyCF-Regular.otf") format("truetype");
+}
+
+@font-face {
+  font-family: "VisbyB";
+  src: url("/public/visby/VisbyCF-Bold.otf") format("truetype");
+}
+
 body {
   margin: 0;
-  font-family: 'Visby','Roboto', Helvetica, Arial, sans-serif;
+  font-family: 'Visby','Roboto', Helvetica, Arial, sans-serif!important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -12,6 +22,10 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+h3, h4 {
+  font-family: "visbyB";
 }
 
 /* Modal */
@@ -134,4 +148,14 @@ input[type="password"] {
 
 label {
   font-weight: 600 !important;
+}
+
+/* Cambio fuente para titulos de las tablas */
+
+.ag-theme-alpine .ag-header-cell-label {
+  font-family: "visby";
+}
+
+.ag-cell {
+  font-family: "visby";
 }

@@ -26,7 +26,7 @@ import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-veh
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
 import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
-import IconoUser from "../assets/logos/user-svgrepo-com.svg";
+import IconoUser from "../assets/imgs/perfil.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
@@ -89,8 +89,8 @@ const Aside = ({ showAside }) => {
                       className="nav-link text-white"
                       onClick={logoutHandler}
                     >
-                      <span className="sidenav-mini-icon"> F </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Finalizar sesión</span>
+                      <span className="sidenav-mini-icon"> C </span>
+                      <span className="sidenav-normal  ms-3  ps-1">Cerrar sesión</span>
                     </Link>
                   </li>
                   {!userInfo.userinfo?.is_superuser && (
