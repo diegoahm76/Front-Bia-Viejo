@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import clienteAxios from "../config/clienteAxios";
@@ -41,14 +41,20 @@ const defaultValues = {
 
 Modal.setAppElement("#root");
 
+interface IBusquedaAvanzadaModal {
+  isModalActive: Boolean;
+  setIsModalActive: any;
+  setFormValues?: any;
+  reset?: any;
+  tipoDocumentoOptions?: any
+}
 const BusquedaAvanzadaModal = ({
   isModalActive,
   setIsModalActive,
-  formValues,
   setFormValues,
   reset,
   tipoDocumentoOptions,
-}) => {
+}: IBusquedaAvanzadaModal) => {
   const [personaSearched, setPersonaSearched] = useState([]);
   const [loading, setLoading] = useState(false);
   const [warning, setWarning] = useState(false);
@@ -67,9 +73,8 @@ const BusquedaAvanzadaModal = ({
       return;
     }
     try {
-      const queryParams = `?search=${data.primerNombre ?? ""} ${
-        data.primerApellido ?? ""
-      }`;
+      const queryParams = `?search=${data.primerNombre ?? ""} ${data.primerApellido ?? ""
+        }`;
       console.log(queryParams);
       const { data: dataPersonas } = await clienteAxios(
         `personas/get-personas-naturales/${queryParams}`,
@@ -132,7 +137,7 @@ const BusquedaAvanzadaModal = ({
       primer_nombre,
       id_persona,
     } = dataSearch;
-    const nombreCompleto= primer_nombre + " " + primer_apellido
+    const nombreCompleto = primer_nombre + " " + primer_apellido
     console.log(dataSearch, numero_documento, cod_tipo_documento, nombreCompleto, id_persona);
     const index = getIndexBySelectOptions(
       cod_tipo_documento,
@@ -143,7 +148,7 @@ const BusquedaAvanzadaModal = ({
     reset({
       tipoDocumento: tipoDocumentoOptions[index],
       numeroDocumento: numero_documento,
-      nombreCompleto : nombreCompleto,
+      nombreCompleto: nombreCompleto,
       id_persona: id_persona,
     });
     setIsModalActive(false);

@@ -24,7 +24,7 @@ import CrearMarcaModal from "../../../components/CrearMarcaModal";
 import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal";
 
 export const EntradaDeArticuloScreen = () => {
-  const [selectedEntrada, setSelectedEntrada] = useState({});
+  const [selectedEntrada, setSelectedEntrada] = useState({ value: "" });
   const [EstadoArticulos, setEstadoArticulos] = useState([]);
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -322,7 +322,7 @@ export const EntradaDeArticuloScreen = () => {
                       className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="Consecutivo"
-                      rules={{ required: true }}
+                      required
                       {...register("Consecutivo")}
                     />
 
@@ -479,7 +479,7 @@ export const EntradaDeArticuloScreen = () => {
                   </label>
                   <textarea
                     className="form-control border rounded-pill px-3 border border-terciary"
-                    type="text"
+                    typeof="text"
                     placeholder="Concepto"
                     {...register("Concepto")}
                   />
@@ -519,7 +519,7 @@ export const EntradaDeArticuloScreen = () => {
                       className="form-control form-control-lg border rounded-pill px-3 border border-terciary"
                       id="formFileLg"
                       type="file"
-                      rules={{ required: true }}
+                      required
                     />
                   </div>
                 </div>
@@ -560,12 +560,11 @@ export const EntradaDeArticuloScreen = () => {
                     type="text"
                     required={page === 2}
                     placeholder="Nombre Articulo"
-                    disabled="true"
+                    disabled={true}
                   />
                 </div>
                 <div
                   className="col-6 col-sm-3 mt-4 d-inline-block"
-                  tabindex="0"
                   title="Buscar"
                 >
                   <button
@@ -673,7 +672,7 @@ export const EntradaDeArticuloScreen = () => {
                         required={page === 2}
                         placeholder="Valor IVA"
                         {...register("ValorIVA")}
-                        disabled="true"
+                        disabled={true}
                       />
                     </div>
                     <div className="col-6 col-sm-3">
@@ -686,7 +685,7 @@ export const EntradaDeArticuloScreen = () => {
                         required={page === 2}
                         placeholder="Valor unitario Total"
                         {...register("ValUni")}
-                        disabled="true"
+                        disabled={true}
                       />
                     </div>
                     <div className="col-6 col-sm-3">
@@ -742,7 +741,7 @@ export const EntradaDeArticuloScreen = () => {
                     </label>
                     <textarea
                       className="form-control border rounded-pill px-3 border border-terciary"
-                      type="text"
+                      typeof="text"
                       required={page === 2}
                       placeholder="Observaciones"
                       {...register("Observaciones")}
@@ -873,7 +872,7 @@ export const EntradaDeArticuloScreen = () => {
                         required={page === 2}
                         placeholder="Valor IVA"
                         {...register("ValorIVA")}
-                        disabled="true"
+                        disabled={true}
                       />
                     </div>
                     <div className="col-6 col-md-3 mt-2">
@@ -886,7 +885,7 @@ export const EntradaDeArticuloScreen = () => {
                         required={page === 2}
                         placeholder="Valor unitario Total"
                         {...register("ValUniTotal")}
-                        disabled="true"
+                        disabled={true}
                       />
                     </div>
 
@@ -957,7 +956,7 @@ export const EntradaDeArticuloScreen = () => {
                       </label>
                       <textarea
                         className="form-control border rounded-pill px-3 border border-terciary"
-                        type="text"
+                        typeof="text"
                         required={page === 2}
                         placeholder="Observaciones"
                         {...register("Observ")}
@@ -1160,7 +1159,7 @@ export const EntradaDeArticuloScreen = () => {
                 />
               </div>
               <div className="col-12 col-md-4 ms-1">
-                <labe className="text-terciary">Nombre:</labe>
+                <label className="text-terciary">Nombre:</label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
