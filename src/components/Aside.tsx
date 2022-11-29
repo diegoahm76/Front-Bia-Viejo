@@ -25,7 +25,7 @@ import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-veh
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
 import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
 import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
-import IconoUser from "../assets/logos/user-svgrepo-com.svg";
+import IconoUser from "../assets/imgs/perfil.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 

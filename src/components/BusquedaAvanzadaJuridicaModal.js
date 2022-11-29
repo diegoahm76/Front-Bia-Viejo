@@ -10,6 +10,7 @@ import botonCancelar from "../assets/iconosBotones/cancelar.svg"
 import botonBuscar from "../assets/iconosBotones/buscar.svg"
 
 import Subtitle from "./Subtitle";
+import useEscapeKey from "../hooks/useEscapeKey";
 
 const customStyles = {
   content: {
@@ -144,6 +145,8 @@ const BusquedaAvanzadaJuridicaModal = ({
     setIsModalActive(false);
     resetSearch(defaultValues);
   };
+
+  useEscapeKey(handleCloseModal)
   return (
     <Modal
       isOpen={isModalActive}
