@@ -13,6 +13,7 @@ export interface IUserInfo {
             refresh: string;
         }
     },
+    userSesion: string;
     reintentos: number;
 
 }
@@ -27,6 +28,7 @@ const initialState: IUserInfo = {
             refresh: "",
         }
     },
+    userSesion: "",
     permisos: [],
     representante_legal: [],
     reintentos: 0
@@ -48,11 +50,14 @@ const loginSlice = createSlice({
             state.representante_legal = initialState.representante_legal;
             state.permisos = initialState.permisos;
             state.reintentos = initialState.reintentos;
+        },
+        nameSesionUpdate: (state, action) => {
+            state.userSesion = action.payload
         }
     }
 });
 
-export const { setUserInfo, logout } = loginSlice.actions;
+export const { setUserInfo, logout, nameSesionUpdate } = loginSlice.actions;
 export default loginSlice.reducer;
 
 export const loginUser = async (dispatch, email: string, password: string) => {
@@ -76,3 +81,7 @@ export const getUserFromLocalStorage = () => () => {
         dataUser.permisos = dataUser.userInfo?.permisos;
     }
 };
+
+export const changeNameSesion = (dispatch, name: string) => {
+    dispatch(nameSesionUpdate(name));
+}

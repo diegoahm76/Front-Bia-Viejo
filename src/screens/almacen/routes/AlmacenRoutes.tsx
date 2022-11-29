@@ -1,6 +1,7 @@
+import React from "react";
 import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import Almacen from "../";
+import Almacen from "..";
 import AsignarActivosCalidadPrestamoScreen from "../gestionInventario/AsignarActivosCalidadPrestamoScreen";
 import AsignarActivoScreen from "../gestionInventario/AsignarActivoScreen";
 import DespacharElementosConsumoScreen from "../gestionInventario/DespacharElementosConsumoScreen";
@@ -86,6 +87,7 @@ import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasC
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 import AdministradorBodegasScreen from "../configuracion/AdministradorBodegasScreen";
 import EditarBodegaScreen from "../configuracion/EditarBodegaScreen";
+
 
 const AlmacenRoutes = () => {
   return (
