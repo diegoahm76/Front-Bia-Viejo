@@ -1,19 +1,19 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom/dist";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const ProtectedRoutes = ({ redirectTo, negate }) => {
+  const userInfo = useAppSelector((state) => state.login.userinfo);
 
-  // const userInfo = useAppSelector((state) => state.login.initialState.user_info);
+  let validation = userInfo.tokens.access !== "";
 
-  // let validation = userInfo.tokens.access !== "";
+  if (negate) {
+    validation = !validation;
+  }
 
-  // if (negate) {
-  //   validation = !validation;
-  // }
-
-  // if (validation) {
-  //   return <Outlet />;
-  // }
+  if (validation) {
+    return <Outlet />;
+  }
   return <Navigate to={redirectTo} />;
 };
 

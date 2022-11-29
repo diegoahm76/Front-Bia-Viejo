@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Select from "react-select"
 import { changeSesionAction, closeModalSesionAction } from "../actions/userActions";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -25,8 +26,8 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const SelectSesionModal = () => {
-  const userInfo = useSelector((state) => state.user.user);
-  const userSesion = useSelector((state) => state.user);
+  const  userinfo  = useAppSelector((state) => state.login);
+  const userSesion = useAppSelector((state) => state.login);
   const [sesions, setSesions] = useState([])
 
   const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const SelectSesionModal = () => {
   const { handleSubmit, control, formState: {errors} } = useForm();
 
   const getSesions = () => {
-    const sesionsFromRepresentante = userInfo.representante_legal?.map(
+    const sesionsFromRepresentante = userinfo.representante_legal?.map(
       (representante) => ({
         label: `Representante ${representante["razon social"]}`,
         value: {
@@ -45,36 +46,40 @@ const SelectSesionModal = () => {
     );
 
     const userSesion = {
-      label: `Usuario ${userInfo?.userinfo?.nombre_de_usuario}`,
+      label: `Usuario ${userinfo?.userinfo.nombre_de_usuario}`,
       value: {
-        userName: userInfo?.nombre_de_usuario,
+        userName: userinfo?.userinfo.nombre_de_usuario,
         type: "usuario"
       }
     }
 
     console.log(userSesion)
 
-    if(!userInfo.representante_legal) return setSesions([userSesion])
+    // REVISAR
+    // if(!userinfo.representante_legal) return setSesions([userSesion])
 
-    setSesions([...sesionsFromRepresentante, userSesion])
+    // setSesions([...sesionsFromRepresentante, userSesion])
   };
 
   const onSubmit = (data) => {
     console.log(data)
-    dispatch(changeSesionAction(data.selectSesion?.value))
+    // dispatch(changeSesionAction(data.selectSesion?.value))
   };
 
   const handleCloseModal = () => {
-    dispatch(closeModalSesionAction())
+    // REVISAR
+    // dispatch(closeModalSesionAction())
   };
 
   useEffect(() => {
     getSesions()
   }, [])
-
+  
+  // REVISAR 
+  // isOpen={userSesion.modalopen}
   return (
     <Modal
-      isOpen={userSesion.modalSesion}
+      isOpen={userSesion}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"

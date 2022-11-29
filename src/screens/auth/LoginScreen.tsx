@@ -11,12 +11,11 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { loginUser } from "../../store/slices/Login";
 import { RootState, useAppDispatch } from "../../store/store";
-import { useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks/hooks";
 
 function LoginScreen() {
   const captchaRef = useRef(null);
-  const stateLogin = useSelector((state: RootState) => state.login.initialState.user_info);
-  const todos = useAppSelector((state) => state.login);
+  const userInfoEmail = useAppSelector((state) => state.login.userinfo.email);
   const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
@@ -24,7 +23,6 @@ function LoginScreen() {
 
   const submitHandler = (dataForm) => {
 
-    console.log("email", todos);
     loginUser(dispatch, dataForm.email, dataForm.password);
     // const token = captchaRef.current.getValue();
     // if (token) {

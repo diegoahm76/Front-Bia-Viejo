@@ -1,10 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import clienteAxios from "../../../config/clienteAxios";
-
 export interface IUserInfo {
     permisos: [],
-    representante_legal: {},
-    user_info: {
+    representante_legal: [],
+    userinfo: {
         email: string;
         id_usuario: number;
         is_superuser: boolean;
@@ -18,7 +17,7 @@ export interface IUserInfo {
 
 }
 const initialState: IUserInfo = {
-    user_info: {
+    userinfo: {
         email: "cris",
         id_usuario: 0,
         is_superuser: false,
@@ -29,7 +28,7 @@ const initialState: IUserInfo = {
         }
     },
     permisos: [],
-    representante_legal: false,
+    representante_legal: [],
     reintentos: 0
 
 };
@@ -37,17 +36,23 @@ const initialState: IUserInfo = {
 
 const loginSlice = createSlice({
     name: 'login',
-    initialState: {
-        initialState
-    },
+    initialState,
     reducers: {
         setUserInfo: (state, action) => {
-            state.initialState = action.payload.userinfo;
+            state.userinfo = action.payload.userinfo;
+            state.permisos = action.payload.permisos;
+            state.representante_legal = action.payload.representante_legal
+        },
+        logout: (state) => {
+            state.userinfo = initialState.userinfo;
+            state.representante_legal = initialState.representante_legal;
+            state.permisos = initialState.permisos;
+            state.reintentos = initialState.reintentos;
         }
     }
 });
 
-export const { setUserInfo } = loginSlice.actions;
+export const { setUserInfo, logout } = loginSlice.actions;
 export default loginSlice.reducer;
 
 export const loginUser = async (dispatch, email: string, password: string) => {
@@ -55,16 +60,17 @@ export const loginUser = async (dispatch, email: string, password: string) => {
         "users/login/",
         { email, password },
     ).then((response) => {
-        dispatch(setUserInfo(response.data));
+        dispatch(setUserInfo(response.data.userinfo));
         localStorage.setItem("userInfo", response.data);
     }).catch(() => {
         console.log("LoginError");
     });
 }
-
+export const logoutUser = async (dispatch) => {
+    await dispatch(logout());
+}
 export const getUserFromLocalStorage = () => () => {
     const dataUserJSON = localStorage.getItem("userInfo");
-    debugger
     if (dataUserJSON) {
         const dataUser = JSON.parse(dataUserJSON);
         dataUser.permisos = dataUser.userInfo?.permisos;

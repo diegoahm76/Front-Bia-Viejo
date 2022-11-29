@@ -1,4 +1,4 @@
-import React from "react";
+import react from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -26,18 +26,18 @@ import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
 import UserProtectedRoutes from "./components/UserProtectedRoutes";
 import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
 import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
-import { getUserFromLocalStorage } from "./store/slices/Login";
+import React from "react";
 
 function App() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  getUserFromLocalStorage();
+  // dispatch(getDataFromLocalStorage());
 
   return (
     <Routes>
-      <Route >
-        {/* <Route path="/dashboard" element={<HomeScreen />}> */}
-          {/* <Route index element={<LogoScreen />} />
+      <Route element={<ProtectedRoutes redirectTo={"/login"} />}>
+        <Route path="/dashboard" element={<HomeScreen />}>
+          <Route index element={<LogoScreen />} />
 
           <Route element={<UserProtectedRoutes />}>
             <Route
@@ -71,14 +71,14 @@ function App() {
 
           <Route element={<AdminProtectedRoutes />}>
             <Route path="seguridad/*" element={<SeguridadRoutes />} />
-          </Route> */}
-        {/* </Route> */}
+          </Route>
+        </Route>
 
         <Route path="/*" element={<Navigate to="/dashboard" />} />
       </Route>
 
       <Route
-       >
+        element={<ProtectedRoutes negate={true} redirectTo={"/dashboard"} />}>
         <Route path="/login" element={<LoginScreen />} />
 
         <Route path="/register" element={<RegisterPersonaScreen />} />
@@ -111,3 +111,5 @@ function App() {
 }
 
 export default App;
+
+

@@ -1,13 +1,16 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { openModalSesionAction } from "../actions/userActions";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const Navbar = ({ setShowAside, showAside }) => {
   const dispatch = useDispatch()
 
-  const { userinfo } = useSelector((state) => state.user.user);
+  const { userinfo } = useAppSelector((state) => state.login);
 
   const handleChangeEntorno = () => {
-    dispatch(openModalSesionAction())
+    // REVISAR
+   // dispatch(openModalSesionAction())
   }
   return (
     <nav
@@ -28,7 +31,7 @@ const Navbar = ({ setShowAside, showAside }) => {
                 <i className="sidenav-toggler-line"></i>
               </div>
             </button>
-            
+
             {
               !userinfo?.is_superuser && (
                 <button
