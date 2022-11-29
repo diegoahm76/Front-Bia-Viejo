@@ -14,11 +14,8 @@ import {
   //Niveles
   OBTENER_NIVELES_ORGANIGRAMA_OBTENER,
   OBTENER_NIVELES_ORGANIGRAMA_ERROR,
-  AGREGAR_NIVEL_ORGANIZACIONAL,
-  AGREGAR_NIVEL_ORGANIZACIONAL_ERROR,
-  AGREGAR_NIVEL_ORGANIZACIONAL_EXITO,
   //Unidades
-  OBTENER_UNIDADES_ORGANIGRAMA_OBTENER,
+  OBTENER_UNIDADES_ORGANIGRAMA,
   OBTENER_UNIDADES_ORGANIGRAMA_ERROR,
 } from "../types/organigramaTypes";
 
@@ -93,7 +90,7 @@ export const organigramaReducer = (state = initialState, action) => {
         nivelesOrganigrama: [],
       };
     case
-      OBTENER_UNIDADES_ORGANIGRAMA_OBTENER:
+      OBTENER_UNIDADES_ORGANIGRAMA:
       return {
         ...state,
         unidadesOrganigrama: action.payload

@@ -14,12 +14,14 @@ import {
   //Niveles
   OBTENER_NIVELES_ORGANIGRAMA_OBTENER,
   OBTENER_NIVELES_ORGANIGRAMA_ERROR,
-  AGREGAR_NIVEL_ORGANIZACIONAL,
-  AGREGAR_NIVEL_ORGANIZACIONAL_ERROR,
-  AGREGAR_NIVEL_ORGANIZACIONAL_EXITO,
+  ACTUALIZAR_NIVEL_ORGANIGRAMA,
+  ACTUALIZAR_NIVEL_ORGANIGRAMA_ERROR,
+  ACTUALIZAR_NIVEL_ORGANIGRAMA_EXITO,
   //Unidades
-  OBTENER_UNIDADES_ORGANIGRAMA_OBTENER,
+  OBTENER_UNIDADES_ORGANIGRAMA,
   OBTENER_UNIDADES_ORGANIGRAMA_ERROR,
+  ACTUALIZAR_UNIDADES_ORGANIGRAMA,
+  ACTUALIZAR_UNIDADES_ORGANIGRAMA_ERROR
 } from "../types/organigramaTypes";
 import clienteAxios from "../config/clienteAxios";
 import Swal from "sweetalert2";
@@ -56,12 +58,13 @@ const descargarOrganigramaError = (estado) => ({
 });
 
 //Agregar Organigrama
-export const agregarOrganigramaAction = (organigrama) => {
+export const agregarOrganigramaAction = (organigrama, navigate) => {
   return async (dispatch) => {
     dispatch(agregarOrganigrama());
     try {
-      const { data: dataCreateOrganimgrama } = await clienteAxios.post("almacen/organigrama/create/", organigrama);
+      const { data } = await clienteAxios.post("almacen/organigrama/create/", organigrama);
       dispatch(obtenerOrganigramaAction())
+      dispatch(editarOrganigramaObtenerAction(data.detail));
       Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
     } catch (error) {
       console.log(error);
@@ -71,6 +74,7 @@ export const agregarOrganigramaAction = (organigrama) => {
         title: "hubo un error",
         text: error?.response?.data?.detail,
       });
+      navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')
     }
   };
 };
@@ -135,16 +139,13 @@ const editarOrganigramaObtener = (organigrama) => ({
 });
 
 //Finalizar Organigrama
-export const finalizarOrganigramaAction = (id_organigrama) => {
+export const finalizarOrganigramaAction = (id_organigrama, navigate) => {
   return async (dispatch) => {
     try {
       const { data } = await clienteAxios.put(`almacen/organigrama/finalizar/${id_organigrama}/`);
       dispatch(finalizarOrganigrama());
-      // {
-      //   "success": true,
-      //     "detail": "Se Finalizo el organigrama correctamente"
-      // }
-      Swal.fire(`${data.success === true ? 'Correcto' : 'Incorrecto'}`, data.detail, `info`);
+      Swal.fire("info", 'Atención', data.detail);
+      navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')
     } catch (error) {
       dispatch(finalizarOrganigramaError(true));
       Swal.fire({
@@ -169,13 +170,11 @@ const finalizarOrganigramaError = (estado) => ({
 //NIVELES
 
 //Obtener Niveles
-export const obtenerNivelesAction = (idPk) => {
+export const obtenerNivelesAction = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await clienteAxios.get(
-        `almacen/organigrama/niveles/get-list/?pk=${idPk}`
-      );
-      dispatch(obtenerNiveles(data.Nivel));
+      const { data } = await clienteAxios.get(`almacen/organigrama/niveles/get-by-organigrama/${id}/`);
+      dispatch(obtenerNiveles(data.data));
     } catch (error) {
       console.log(error);
       dispatch(obtenerNivelesError(true));
@@ -197,7 +196,7 @@ export const actualizarNivelAction = (id_organigrama, nuevoNivel) => {
   return async (dispatch) => {
     dispatch(agregarNivel());
     try {
-      const { data } = await clienteAxios.put(`/almacen/organigrama/niveles/update/${id_organigrama}/`, nuevoNivel);
+      const { data } = await clienteAxios.put(`almacen/organigrama/niveles/update/${id_organigrama}/`, nuevoNivel);
       dispatch(agregarNivelExito());
       dispatch(obtenerNivelesAction(id_organigrama));
       Swal.fire("Se ha agregado un nuevo nivel organizacional");
@@ -214,27 +213,27 @@ export const actualizarNivelAction = (id_organigrama, nuevoNivel) => {
 };
 
 const agregarNivel = () => ({
-  type: AGREGAR_NIVEL_ORGANIZACIONAL,
+  type: ACTUALIZAR_NIVEL_ORGANIGRAMA,
 });
 
 const agregarNivelError = (estado) => ({
-  type: AGREGAR_NIVEL_ORGANIZACIONAL_ERROR,
+  type: ACTUALIZAR_NIVEL_ORGANIGRAMA_ERROR,
   payload: estado,
 });
 
 const agregarNivelExito = (nivel) => ({
-  type: AGREGAR_NIVEL_ORGANIZACIONAL_EXITO,
+  type: ACTUALIZAR_NIVEL_ORGANIGRAMA_EXITO,
   payload: nivel,
 });
 
 // UNIDADES
 
 //Obtener Unidades
-export const obtenerUnidadesAction = () => {
+export const obtenerUnidadesAction = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await clienteAxios.get('almacen/organigrama/unidades/get-list/');
-      dispatch(obtenerUnidades(data.Unidades));
+      const { data } = await clienteAxios.get(`almacen/organigrama/unidades/get-by-organigrama/${id}/`);
+      dispatch(obtenerUnidadesExito(data.data));
     } catch (error) {
       console.log(error);
       dispatch(obtenerUnidadesError(true));
@@ -242,12 +241,37 @@ export const obtenerUnidadesAction = () => {
   };
 };
 
-const obtenerUnidades = (unidadesOrganigrama) => ({
-  type: OBTENER_UNIDADES_ORGANIGRAMA_OBTENER,
+const obtenerUnidadesExito = (unidadesOrganigrama) => ({
+  type: OBTENER_UNIDADES_ORGANIGRAMA,
   payload: unidadesOrganigrama
 });
 
 const obtenerUnidadesError = (error) => ({
   type: OBTENER_UNIDADES_ORGANIGRAMA_ERROR,
+  payload: error
+});
+
+//Actualizar Unidades
+export const actualizarUnidadesAction = (id, newUnidades) => {
+  console.log(id, newUnidades);
+  return async (dispatch) => {
+    try {
+      const { data } = await clienteAxios.put(`almacen/organigrama/unidades/update/${id}/`, newUnidades);
+      dispatch(obtenerUnidadesAction(id));
+      Swal.fire("Se ha agregado un nuevo nivel organizacional");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "hubo un error",
+        text: error?.response?.data?.detail,
+      });
+      dispatch(actualizarUnidadesError(true));
+    }
+  };
+};
+
+const actualizarUnidadesError = (error) => ({
+  type: ACTUALIZAR_UNIDADES_ORGANIGRAMA_ERROR,
   payload: error
 });

@@ -3,6 +3,7 @@ import { AgGridReact } from "ag-grid-react";
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 //Components
 import Subtitle from "../../components/Subtitle";
 //Hooks
@@ -16,6 +17,9 @@ export const EdicionOrganigramaScreen = () => {
   // Dispatch Instance
   const dispatch = useDispatch();
 
+  // navigate instance
+  const navigate = useNavigate()
+
   // Redux State Extraction
   const { organigramaEditar, nivelesOrganigrama, unidadesOrganigrama } = useSelector((state) => state.organigrama);
 
@@ -24,30 +28,28 @@ export const EdicionOrganigramaScreen = () => {
     //States
     columnsNivel,
     columnsUnidades,
-    controlOrganigrama,
     controlUnidades,
     defaultColDefOrganigrama,
     errorsNivel,
     errorsOrganigrama,
     errorsUnidades,
-    optionGrupo,
     optionNivel,
     optionRaiz,
+    optionsAgrupacionD,
     optionsTipoUnidad,
+    optionUnidadPadre,
     orden_nivel,
     title_nivel,
+    title_unidades,
     //Edita States
 
     //Functions
     handleSubmitOrganigrama,
     onSubmitEditOrganigrama,
     registerOrganigrama,
-    resetOrganigrama,
 
-    deleteLevel,
     handleSubmitNivel,
     registerNivel,
-    resetNivel,
     submitNivel,
 
     handleSubmitUnidades,
@@ -58,8 +60,6 @@ export const EdicionOrganigramaScreen = () => {
 
     onGridReady
   } = useEdicionOrganigrama()
-
-  // console.log()
 
   return (
     <div className="row min-vh-100">
@@ -150,8 +150,8 @@ export const EdicionOrganigramaScreen = () => {
                   placeholder="Escribe el nombre"
                   {...registerNivel("nombre", { required: "El nombre es obligatorio" })}
                 />
-                {errorsOrganigrama.nombre && (
-                  <p className="text-danger">{errorsOrganigrama.nombre.message}</p>
+                {errorsNivel.nombre && (
+                  <p className="text-danger">{errorsNivel.nombre.message}</p>
                 )}
                 <button
                   type="submit"
@@ -209,7 +209,8 @@ export const EdicionOrganigramaScreen = () => {
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Escribe el codigo"
-                    {...registerNivel("codigo", { required: true })}
+                    name="codigo"
+                    {...registerUnidades("codigo", { required: true })}
                   />
                   {errorsUnidades.codigo && (
                     <div className="col-12">
@@ -225,9 +226,10 @@ export const EdicionOrganigramaScreen = () => {
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Escribe el nombre"
-                    {...registerNivel("nombre", { required: true })}
+                    name="nombre"
+                    {...registerUnidades("nombre", { required: true })}
                   />
-                  {errorsUnidades.nonmbre && (
+                  {errorsUnidades.nombre && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
@@ -245,7 +247,6 @@ export const EdicionOrganigramaScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
-                        isDisabled={unidadesOrganigrama.length === 0 ? true : false}
                         value={field.value}
                         onChange={(e) => {
                           console.log(e)
@@ -254,7 +255,7 @@ export const EdicionOrganigramaScreen = () => {
                             tipoUnidad: e,
                           });
                         }}
-                        options={optionsTipoUnidad}
+                        options={optionsTipoUnidad.map((item) => (item.value !== 'LI' && unidadesOrganigrama.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -274,12 +275,12 @@ export const EdicionOrganigramaScreen = () => {
                         {...field}
                         value={field.value}
                         onChange={(e) => {
-                          if (e.value === 'N1') {
+                          if (e.orden === 1) {
                             resetUnidades({
                               ...watchUnidades(),
                               unidadRaiz: {
                                 label: "Si",
-                                value: "Si"
+                                value: true
                               }
                             });
                           } else {
@@ -287,7 +288,7 @@ export const EdicionOrganigramaScreen = () => {
                               ...watchUnidades(),
                               unidadRaiz: {
                                 label: "No",
-                                value: "No"
+                                value: false
                               }
                             });
                           }
@@ -324,7 +325,7 @@ export const EdicionOrganigramaScreen = () => {
                             unidadRaiz: e,
                           });
                         }}
-                        options={optionNivel}
+                        options={optionRaiz}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -341,7 +342,6 @@ export const EdicionOrganigramaScreen = () => {
                   <Controller
                     name="agrupacionDocumental"
                     control={controlUnidades}
-                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -352,14 +352,11 @@ export const EdicionOrganigramaScreen = () => {
                             agrupacionDocumental: e,
                           });
                         }}
-                        options={optionNivel}
+                        options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unidadesOrganigrama.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
                       />
                     )}
                   />
-                  {errorsUnidades.agrupacionDocumental && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
                 </div>
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
@@ -368,7 +365,6 @@ export const EdicionOrganigramaScreen = () => {
                   <Controller
                     name="nivelPadre"
                     control={controlUnidades}
-                    rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
@@ -379,39 +375,11 @@ export const EdicionOrganigramaScreen = () => {
                             nivelPadre: e,
                           });
                         }}
-                        options={optionNivel}
+                        options={optionUnidadPadre}
                         placeholder="Seleccionar"
                       />
                     )}
                   />
-                  {errorsUnidades.nivelPadre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
-                </div>
-                <div className="col-12 col-md-6 mb-3">
-                  <label className="text-terciary">Unidad:</label>
-                  <Controller
-                    name="unidadPadre"
-                    control={controlUnidades}
-                    rules={{ required: true }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        value={field.value}
-                        onChange={(e) => {
-                          resetUnidades({
-                            ...watchUnidades(),
-                            unidadPadre: e,
-                          });
-                        }}
-                        options={optionNivel}
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                  {errorsUnidades.unidadPadre && (
-                    <p className="text-danger">Este campo es obligatorio</p>
-                  )}
                 </div>
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
@@ -435,6 +403,7 @@ export const EdicionOrganigramaScreen = () => {
               <button
                 type="button"
                 className="btn btn-light text-capitalize border rounded-pill px-3"
+                onClick={() => navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')}
               >
                 Regresar
               </button>
@@ -443,14 +412,14 @@ export const EdicionOrganigramaScreen = () => {
                 type="submit"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
               >
-                Guardar
+                {title_unidades}
               </button>
               <button
                 type="button"
-                onClick={() => dispatch(finalizarOrganigramaAction(organigramaEditar.id_organigrama))}
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
+                onClick={() => dispatch(finalizarOrganigramaAction(organigramaEditar.id_organigrama, navigate))}
               >
-                Finalizar
+                Finalizar Organigrama
               </button>
             </div>
           </div>

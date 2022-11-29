@@ -2,11 +2,13 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { actualizarNivelAction, obtenerNivelesAction, obtenerUnidadesAction } from "../actions/organigramaActions";
+import { textChoiseAdapter } from "../adapters/textChoices.adapter";
+import clienteAxios from "../config/clienteAxios";
 //Icons
 import IconoEditar from "../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 //Actions
+import { actualizarNivelAction, actualizarUnidadesAction, obtenerNivelesAction, obtenerUnidadesAction } from "../actions/organigramaActions";
 
 const useEdicionOrganigrama = () => {
 
@@ -19,11 +21,54 @@ const useEdicionOrganigrama = () => {
     //Local State
     const [orden_nivel, setOrden_nivel] = useState(0);
     const [title_nivel, setTitle_nivel] = useState('Agregar');
-    const [optionNivel, setOptionNivel] = useState([
-        { label: "Nivel 1", value: "N1" },
-        { label: "Nivel 2", value: "N2" },
-        { label: "Nivel 3", value: "N3" },
-    ]);
+    const [title_unidades, setTitle_unidades] = useState('Agregar Unidades');
+    const [optionNivel, setOptionNivel] = useState([]);
+    const [optionUnidadPadre, setOptionUnidadPadre] = useState([]);
+    const [optionsTipoUnidad, setOptionTipoUnidad] = useState([]);
+    const [optionsAgrupacionD, setOptionAgrupacionD] = useState([]);
+    const optionRaiz = [
+        { label: "Si", value: true },
+        { label: "No", value: false },
+    ];
+    const initialStateUnidades = {
+        "unidadRaiz": {
+            "label": 'si',
+            "value": true
+        },
+        "codigo": '',
+        "nombre": '',
+        "tipoUnidad": {
+            "label": '',
+            "value": null,
+            "isDisabled": false
+        },
+        "nivelUnidad": {
+            "label": '',
+            "value": null,
+            "orden": ''
+        },
+        "agrupacionDocumental": {
+            "label": '',
+            "value": null,
+            "isDisabled": false
+        },
+        "nivelPadre": {
+            "label": '',
+            "value": null
+        }
+    }
+    //configuración de tabla por defecto
+    const defaultColDefOrganigrama = {
+        sortable: true,
+        editable: false,
+        flex: 1,
+        filter: true,
+        wrapHeaderText: true,
+        resizable: true,
+        initialWidth: 200,
+        autoHeaderHeight: true,
+        suppressMovable: true,
+    };
 
     //useForm Organigrama
     const {
@@ -39,10 +84,8 @@ const useEdicionOrganigrama = () => {
         register: registerNivel,
         handleSubmit: handleSubmitNivel,
         reset: resetNivel,
-        watch: watchNivel,
         formState: { errors: errorsNivel },
     } = useForm();
-    const datosNivel = watchNivel();
 
     //useForm Unidades
     const {
@@ -55,48 +98,172 @@ const useEdicionOrganigrama = () => {
     } = useForm();
     const datosUnidades = watchUnidades();
 
+    //columnas  unidaddes
+    const columnsUnidades = [
+        { headerName: "Código", field: "codigo", minWidth: 100, maxWidth: 100 },
+        { headerName: "Nombre", field: "nombre" },
+        { headerName: "Tipo unidad", field: "cod_tipo_unidad", minWidth: 130, maxWidth: 130 },
+        { headerName: "Agrupacion Documental", field: "cod_agrupacion_documental", minWidth: 200, maxWidth: 200 },
+        {
+            headerName: "Unidad raíz",
+            field: "unidad_raiz",
+            wrapText: true,
+            headerAlign: "center",
+            minWidth: 130,
+            maxWidth: 130,
+            headerCheckboxSelection: false,
+            checkboxSelection: false,
+            showDisabledCheckboxes: false,
+            cellRendererFramework: ({ data: { unidad_raiz } }) => (
+                { unidad_raiz } ? <i className="fa-solid fa-circle-check fs-3"></i> : <i class="fa-regular fa-xmark fs-3"></i>
+            ),
+        },
+        {
+            headerName: "Acciones",
+            field: "editar",
+            minWidth: 140,
+            maxWidth: 140,
+            cellRendererFramework: ({ data }) => (
+                <div className="d-flex gap-1">
+                    <button
+                        style={{ border: "none", background: "none" }}
+                        type="button"
+                        onClick={() => {
+                            resetUnidades({
+                                "unidadRaiz": {
+                                    "label": optionRaiz.filter((item) => item.value === data.unidad_raiz)[0].label,
+                                    "value": data.unidad_raiz
+                                },
+                                "codigo": data.codigo,
+                                "nombre": data.nombre,
+                                "tipoUnidad": {
+                                    "label": optionsTipoUnidad.filter((tipo) => tipo.value === data.cod_tipo_unidad)[0].label,
+                                    "value": data.cod_tipo_unidad,
+                                    "isDisabled": false
+                                },
+                                "nivelUnidad": {
+                                    "label": optionNivel.filter((nivel) => nivel.value === data.id_nivel_organigrama)[0].label,
+                                    "value": data.id_nivel_organigrama,
+                                    "orden": optionNivel.filter((nivel) => nivel.value === data.id_nivel_organigrama)[0].orden
+                                },
+                                "agrupacionDocumental": {
+                                    "label": data.cod_agrupacion_documental ? optionsAgrupacionD.filter((agrupacion) => agrupacion.value === data.cod_agrupacion_documental)[0].label : '',
+                                    "value": data.cod_agrupacion_documental,
+                                    "isDisabled": false
+                                },
+                                "nivelPadre": {
+                                    "label": data.nombre,
+                                    "value": data.codigo
+                                }
+                            })
+                            setTitle_unidades('Editar Unidad');
+                        }}
+                    >
+                        <i class="fa-regular fa-pen-to-square fs-3"></i>
+                    </button>
+                    <button
+                        type="button"
+                        style={{ border: "none", background: "none" }}
+                        onClick={() => deleteUnidades(data.codigo)}
+                    >
+                        <i class="fa-light fa-trash-can fs-3"></i>
+                    </button>
+                </div>
+            ),
+        },
+    ];
+    //columnas nivel
+    const columnsNivel = [
+        { headerName: "Nivel", field: "orden_nivel", minWidth: 100 },
+        { headerName: "Nombre", field: "nombre", minWidth: 200 },
+        {
+            headerName: "Acciones",
+            field: "editar",
+            minWidth: 140,
+            cellRendererFramework: ({ data }) => (
+                <div className="d-flex justify-content-center gap-1">
+                    <button
+                        type="button"
+                        style={{ border: "none", background: "none" }}
+                        onClick={() => {
+                            setTitle_nivel('Editar');
+                            resetNivel(data)
+                        }}
+                    >
+                        <i className="fa-regular fa-pen-to-square fs-3"></i>
+                    </button>
+                    <button
+                        className={`${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}
+                        type="button"
+                        onClick={() => {
+                            deleteLevel(data.orden_nivel)
+                        }}
+                    >
+                        {/* <i className={`fa-light fa-trash-can fs-3 ${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}></i> */}
+                        <i className="fa-light fa-trash-can fs-3"></i>
+                    </button>
+                </div>
+            ),
+        },
+    ];
+
+    //ueeEffect para obtener el organigrama a editar
     useEffect(() => {
         resetOrganigrama(organigramaEditar);
     }, [organigramaEditar]);
 
     useEffect(() => {
         setOrden_nivel(nivelesOrganigrama.length + 1);
+        setOptionNivel(nivelesOrganigrama.map((item) => ({ label: item.nombre, value: item.id_nivel_organigrama, orden: item.orden_nivel })));
     }, [nivelesOrganigrama]);
 
     useEffect(() => {
         resetUnidades({
-            tipoUnidad: {
-                label: "De linea",
-                value: "Li"
-            },
-            unidadRaiz: {
-                label: "Si",
-                value: "Si"
-            },
+            unidadRaiz: { label: "Si", value: true },
         });
+        setOptionUnidadPadre(unidadesOrganigrama.map((item) => ({ label: item.nombre, value: item.codigo })));
     }, [unidadesOrganigrama]);
 
+    //useEffect para deshabilitar el nivel 1 cuando el tipo de unidad es de apoyo o soporte
     useEffect(() => {
-        if (['Ap', 'So'].includes(datosUnidades?.tipoUnidad?.value)) {
-            setOptionNivel([
-                { label: "Nivel 1", value: "N1", isDisabled: true },
-                { label: "Nivel 2", value: "N2" },
-                { label: "Nivel 3", value: "N3" },
-            ])
+        if (['AP', 'AS'].includes(datosUnidades?.tipoUnidad?.value)) {
+            setOptionNivel(prev => prev.map((item) => item.value === 'N1' ? { ...item, isDisabled: true } : item));
         } else {
-            setOptionNivel([
-                { label: "Nivel 1", value: "N1", isDisabled: false },
-                { label: "Nivel 2", value: "N2" },
-                { label: "Nivel 3", value: "N3" },
-            ])
+            setOptionNivel(prev => prev.map((item) => item.value === 'N1' ? { ...item, isDisabled: false } : item));
         }
     }, [datosUnidades.tipoUnidad]);
 
+    //useEffect para consultar los niveles y unidades
     useEffect(() => {
         if (organigramaEditar?.id_organigrama) dispatch(obtenerNivelesAction(organigramaEditar.id_organigrama));
         if (organigramaEditar?.id_organigrama) dispatch(obtenerUnidadesAction(organigramaEditar.id_organigrama));
     }, [organigramaEditar?.id_organigrama]);
 
+    //useEffect para consultar  options
+    useEffect(() => {
+        const getSelectsOptions = async () => {
+            try {
+                const { data: agrupacionDocumentalNoFormat } = await clienteAxios.get(
+                    "almacen/choices/agrupacion-documental/"
+                );
+                const { data: tipoUnidadNoFormat } = await clienteAxios.get(
+                    "almacen/choices/tipo-unidad/"
+                );
+
+                const agrupacionDocumentalFormat = textChoiseAdapter(agrupacionDocumentalNoFormat);
+                const tipoUnidadFormat = textChoiseAdapter(tipoUnidadNoFormat);
+
+                setOptionAgrupacionD(agrupacionDocumentalFormat.map((item) => ({ ...item, isDisabled: false })));
+                setOptionTipoUnidad(tipoUnidadFormat.map((item) => ({ ...item, isDisabled: false })));
+
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getSelectsOptions();
+    }, []);
+
+    //Funcion para actualizar un nivel
     const submitNivel = ({ nombre, id_nivel_organigrama = '' }) => {
         let newNiveles = []
         if (title_nivel === 'Agregar') {
@@ -113,153 +280,96 @@ const useEdicionOrganigrama = () => {
                 }
                 return nivel;
             });
+            setTitle_nivel('Agregar');
         }
+        resetNivel({
+            nombre: ''
+        });
         dispatch(actualizarNivelAction(organigramaEditar?.id_organigrama, newNiveles));
-        resetNivel()
     };
-    const submitUnidades = () => {
-        console.log("submitUnidades")
+
+    //Funcion para actualizar un unidades
+    const submitUnidades = ({ codigo, nombre, nivelPadre, tipoUnidad, agrupacionDocumental, unidadRaiz, nivelUnidad }) => {
+        let newUnidades = []
+        if (title_unidades === 'Agregar Unidades') {
+            newUnidades = [...unidadesOrganigrama, {
+                id_nivel_organigrama: nivelUnidad.value,
+                nombre,
+                codigo,
+                cod_tipo_unidad: tipoUnidad.value,
+                cod_agrupacion_documental: agrupacionDocumental.value,
+                unidad_raiz: unidadRaiz.value,
+                id_organigrama: organigramaEditar.id_organigrama,
+                cod_unidad_org_padre: nivelPadre ? nivelPadre.value : null,
+            }]
+        } else {
+            newUnidades = unidadesOrganigrama.map(unidad => {
+                if (unidad.codigo === codigo) {
+                    return {
+                        id_nivel_organigrama: nivelUnidad.value,
+                        nombre: nombre,
+                        codigo: codigo,
+                        cod_tipo_unidad: tipoUnidad.value,
+                        cod_agrupacion_documental: agrupacionDocumental.value,
+                        unidad_raiz: unidadRaiz.value,
+                        id_organigrama: organigramaEditar.id_organigrama,
+                        cod_unidad_org_padre: nivelPadre ? nivelPadre.value : null,
+                    }
+                }
+                return unidad;
+            });
+            setTitle_unidades('Agregar Unidades');
+        }
+        resetUnidades(initialStateUnidades);
+        dispatch(actualizarUnidadesAction(organigramaEditar?.id_organigrama, newUnidades));
     };
 
     const onGridReady = (params) => {
         console.log(params, 'params');
     };
 
+    //Funcion para eliminar un nivel
     const deleteLevel = (levelRow) => {
         const newNiveles = nivelesOrganigrama.filter(nivel => nivel.orden_nivel !== levelRow);
         dispatch(actualizarNivelAction(organigramaEditar?.id_organigrama, newNiveles));
     }
 
+    //Funcion para eliminar una unidad
+    const deleteUnidades = (codigoUnidad) => {
+        const newUnidades = unidadesOrganigrama.filter(unidad => unidad.codigo !== codigoUnidad);
+        dispatch(actualizarUnidadesAction(organigramaEditar.id_organigrama, newUnidades));
+    }
+
     const onSubmitEditOrganigrama = async ({ nombre, id_organigrama }) => {
-        console.log('hola', nombre, id_organigrama);
+        console.log('Editar', nombre, id_organigrama);
     };
-
-    const defaultColDefOrganigrama = {
-        sortable: true,
-        editable: false,
-        flex: 1,
-        filter: true,
-        wrapHeaderText: true,
-        resizable: true,
-        initialWidth: 200,
-        autoHeaderHeight: true,
-        suppressMovable: true,
-    };
-
-    const optionRaiz = [
-        { label: "Si", value: "Si" },
-        { label: "No", value: "No" },
-    ];
-
-    const optionGrupo = [
-        { label: "Sección", value: "SE" },
-        { label: "Subsección", value: "SU" },
-    ];
-
-    const optionsTipoUnidad = [
-        { label: "De linea", value: "Li" },
-        { label: "De apoyo", value: "Ap" },
-        { label: "De soporte", value: "So" },
-    ];
-
-    const columnsUnidades = [
-        { headerName: "Código", field: "codigo", minWidth: 100, maxWidth: 100 },
-        { headerName: "Nombre", field: "nombre" },
-        { headerName: "Tipo unidad", field: "cod_tipo_unidad", minWidth: 130, maxWidth: 130 },
-        { headerName: "Agrupacion Documental", field: "cod_agrupacion_documental", minWidth: 200, maxWidth: 200 },
-        { headerName: "Unidad raíz", field: "unidad_raiz", minWidth: 130, maxWidth: 130 },
-        {
-            headerName: "Acciones",
-            field: "editar",
-            minWidth: 140,
-            maxWidth: 140,
-            cellRendererFramework: (params) => (
-                <div className="d-flex gap-1">
-                    <button
-                        className="btn btn-sm btn-tablas btn-outline-warning "
-                        type="button"
-                        onClick={() => {
-                            // dispatch(obtenerEstacionEditarAction(params.data));
-                            // setIsModalEditarActivate(!isModalActive);
-                        }}
-                    >
-                        <img src={IconoEditar} alt="editar" />
-                    </button>
-                    <button
-                        className="btn btn-sm btn-tablas btn-outline-danger"
-                        type="button"
-                        onClick={() => {
-                            // confirmarEliminarRol(params.data.id_rol);
-                        }}
-                    >
-                        <img src={IconoEliminar} alt="eliminar" />
-                    </button>
-                </div>
-            ),
-        },
-    ];
-
-    const columnsNivel = [
-        { headerName: "Nivel", field: "orden_nivel", minWidth: 100 },
-        { headerName: "Nombre", field: "nombre", minWidth: 200 },
-        {
-            headerName: "Acciones",
-            field: "editar",
-            minWidth: 140,
-            cellRendererFramework: ({ data }) => (
-                <div className="d-flex justify-content-center gap-1">
-                    <button
-                        className="btn btn-sm btn-tablas btn-outline-warning "
-                        type="button"
-                        onClick={() => {
-                            setTitle_nivel('Editar');
-                            resetNivel(data)
-                        }}
-                    >
-                        <img src={IconoEditar} alt="editar" />
-                    </button>
-                    <button
-                        className={`btn btn-sm btn-tablas btn-outline-danger ${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}
-                        type="button"
-                        onClick={() => {
-                            deleteLevel(data.orden_nivel)
-                        }}
-                    >
-                        <img src={IconoEliminar} alt="eliminar" />
-                    </button>
-                </div>
-            ),
-        },
-    ];
 
     return {
         //States
         columnsNivel,
         columnsUnidades,
-        controlOrganigrama,
         controlUnidades,
         defaultColDefOrganigrama,
         errorsNivel,
         errorsOrganigrama,
         errorsUnidades,
-        optionGrupo,
         optionNivel,
         optionRaiz,
+        optionsAgrupacionD,
         optionsTipoUnidad,
+        optionUnidadPadre,
         orden_nivel,
         title_nivel,
+        title_unidades,
         //Edita States
 
         //Functions
         handleSubmitOrganigrama,
         onSubmitEditOrganigrama,
         registerOrganigrama,
-        resetOrganigrama,
 
-        deleteLevel,
         handleSubmitNivel,
         registerNivel,
-        resetNivel,
         submitNivel,
 
         handleSubmitUnidades,
