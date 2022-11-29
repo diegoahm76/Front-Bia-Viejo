@@ -1,3 +1,4 @@
+import react from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -25,11 +26,12 @@ import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
 import UserProtectedRoutes from "./components/UserProtectedRoutes";
 import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
 import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
+import React from "react";
 
 function App() {
   const dispatch = useDispatch();
 
-  dispatch(getDataFromLocalStorage());
+  // dispatch(getDataFromLocalStorage());
 
   return (
     <Routes>
@@ -109,3 +111,5 @@ function App() {
 }
 
 export default App;
+
+

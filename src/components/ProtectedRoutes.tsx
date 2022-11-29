@@ -1,12 +1,13 @@
-import { useSelector } from "react-redux";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom/dist";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const ProtectedRoutes = ({ redirectTo, negate }) => {
-  const userInfo = useSelector((state) => state.user.user);
+  const userInfo = useAppSelector((state) => state.login.userinfo);
 
-  let validation = Object.entries(userInfo).length !== 0;
+  let validation = userInfo.tokens.access !== "";
 
-  if(negate){
+  if (negate) {
     validation = !validation;
   }
 

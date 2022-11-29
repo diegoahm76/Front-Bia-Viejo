@@ -41,7 +41,6 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
     // Form 
 
     const handleChange = (e) => {
-        debugger
         const { name, value } = e.target.value;
         setStateInput({ ...stateInput, [name]: value });
     }

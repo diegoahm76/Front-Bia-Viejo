@@ -1,7 +1,6 @@
+import React from "react";
 import Scrollbars from "react-custom-scrollbars";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { userLogoutAction } from "../actions/userActions";
 import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
 import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
 import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
@@ -31,22 +30,21 @@ import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.s
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
 import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/climate-change-svgrepo-com.svg";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import { logoutUser } from "../store/slices/Login";
 
 const Aside = ({ showAside }) => {
-  const userInfo = useSelector((state) => state.user.user);
-  const userSesion = useSelector((state) => state.user);
-
-  const dispatch = useDispatch();
+  const userInfo = useAppSelector((state) => state.login.userinfo);
+  const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
-    dispatch(userLogoutAction());
+    logoutUser(dispatch);
   };
 
   return (
     <aside
-      className={`collapse sidenav navbar navbar-vertical ${
-        showAside && "navbar-expand-xs"
-      } fixed-start bg-terciary`}
+      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"
+        } fixed-start bg-terciary`}
       id="sidenav-main"
       style={{
         minWidth: "273px",
@@ -59,7 +57,7 @@ const Aside = ({ showAside }) => {
               src={LogoCormacarena}
               className="h-100"
               alt="main_logo"
-              style={{padding: "15px 0"}}
+              style={{ padding: "15px 0" }}
             />
           </Link>
         </div>
@@ -78,22 +76,21 @@ const Aside = ({ showAside }) => {
                 role="button"
                 aria-expanded="false"
               >
-                <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userSesion?.dataSesion?.userName ? userSesion?.dataSesion?.userName : userInfo?.userinfo?.nombre_de_usuario ? userInfo?.userinfo?.nombre_de_usuario : userInfo?.nombre_de_usuario}
-                </span>
+                {/* <span className="nav-link-text ms-2 ps-1 d-block text-center">
+                  {userInfo?.userName ? userSesion?.dataSesion?.userName : userInfo?.userinfo?.nombre_de_usuario ? userInfo?.userinfo?.nombre_de_usuario : userInfo?.nombre_de_usuario}
+                </span> */}
               </a>
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
                   <li className="nav-item">
                     <Link
                       className="nav-link text-white"
-                      onClick={logoutHandler}
-                    >
-                      <span className="sidenav-mini-icon"> C </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Cerrar sesión</span>
+                      onClick={logoutHandler} to={""}                    >
+                      <span className="sidenav-mini-icon"> F </span>
+                      <span className="sidenav-normal  ms-3  ps-1">Finalizar sesión</span>
                     </Link>
                   </li>
-                  {!userInfo.userinfo?.is_superuser && (
+                  {!userInfo?.is_superuser && (
                     <>
                       <li className="nav-item active">
                         <Link
@@ -124,7 +121,7 @@ const Aside = ({ showAside }) => {
             </li>
             <hr className="horizontal light mt-0" />
 
-            {!userInfo.userinfo?.is_superuser && (
+            {!userInfo?.is_superuser && (
               <>
                 <li className="nav-item mb-2 mt-0">
                   <a
@@ -2388,7 +2385,7 @@ const Aside = ({ showAside }) => {
                 </li>
               </>
             )}
-            {userInfo.userinfo?.is_superuser && (
+            {userInfo?.is_superuser && (
               <>
                 <li className="nav-item">
                   <a
