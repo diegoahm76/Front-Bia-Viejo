@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import modalReducer  from "./slices/modal/indexModal";
+import { useDispatch } from "react-redux";
+import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
+import alarmasReducer from "./slices/alarmas/indexAlarma";
 // import thunk from "redux-thunk";
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
-    modalSelector: modalReducer
+    modalSelector: modalReducer,
+    alarma: alarmasReducer
   }
 });
 

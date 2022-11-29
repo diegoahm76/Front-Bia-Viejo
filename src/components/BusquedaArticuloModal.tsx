@@ -1,6 +1,7 @@
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import Subtitle from "./Subtitle";
+import React from "react";
 
 
 const customStyles = {
@@ -33,7 +34,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
   const handleCloseAgregarProducto = () => {
     setIsModalActive(false);
   };
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => { };
 
   return (
     <Modal
@@ -54,8 +55,8 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
           >
             <div className="row">
 
-            <Subtitle title="Información del articulo" mb="3" />
-            <div className="col-12 col-sm-6 mt-2">
+              <Subtitle title="Información del articulo" mb={3} />
+              <div className="col-12 col-sm-6 mt-2">
                 <div>
                   <label className="ms-3 text-terciary">Código</label>
                   <input

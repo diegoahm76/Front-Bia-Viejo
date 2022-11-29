@@ -1,13 +1,14 @@
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
-import botonCancelar from "../assets/iconosBotones/cancelar.svg";
-import botonBuscar from "../assets/iconosBotones/buscar.svg";
+import botonCancelar from "../assets/iconosBotones/cancelar.svg"
+import botonBuscar from "../assets/iconosBotones/buscar.svg"
+
 import Subtitle from "./Subtitle";
 import useEscapeKey from "../hooks/useEscapeKey";
 
@@ -42,7 +43,7 @@ const defaultValues = {
 
 Modal.setAppElement("#root");
 
-const BusquedaAvanzadaUsuarioModal = ({
+const BusquedaAvanzadaJuridicaModal = ({
   isModalActive,
   setIsModalActive,
   formValues,
@@ -50,7 +51,7 @@ const BusquedaAvanzadaUsuarioModal = ({
   reset,
   tipoDocumentoOptions,
 }) => {
-  const [usuarioSearched, setUsuarioSearched] = useState([]);
+  const [empresaSearched, setEmpresaSearched] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -66,16 +67,14 @@ const BusquedaAvanzadaUsuarioModal = ({
     const config = getConfigAuthBearer(accessToken);
 
     try {
-      const { data: dataUsuarios } = await clienteAxios(
-        `users/get-by-email/${data.email}/`,
+      const queryParams = `?search=${data.razonSocial ?? ""}`;
+      console.log(queryParams);
+      const { data: dataPersonas } = await clienteAxios(
+        `personas/get-personas-juridicas/${queryParams}`,
         config
       );
-      console.log(dataUsuarios.Usuario);
-      if (dataUsuarios.Usuario) {
-        setUsuarioSearched([dataUsuarios.Usuario]);
-      } else {
-        setUsuarioSearched([]);
-      }
+      console.log(dataPersonas);
+      setEmpresaSearched(dataPersonas);
     } catch (err) {
       console.log(err);
     }
@@ -84,17 +83,22 @@ const BusquedaAvanzadaUsuarioModal = ({
   const columnDefs = [
     {
       headerName: "Tipo documento",
-      field: "persona.tipo_documento.nombre",
+      field: "tipo_documento.nombre",
       minWidth: 180,
     },
     {
       headerName: "Número documento",
-      field: "persona.numero_documento",
+      field: "numero_documento",
       minWidth: 180,
     },
     {
-      headerName: "Email",
-      field: "persona.email",
+      headerName: "Razón social",
+      field: "razon_social",
+      minWidth: 140,
+    },
+    {
+      headerName: "Nombre comercial",
+      field: "nombre_comercial",
       minWidth: 140,
     },
     {
@@ -122,11 +126,13 @@ const BusquedaAvanzadaUsuarioModal = ({
     const {
       numero_documento,
       tipo_documento: { cod_tipo_documento },
-    } = dataSearch.persona;
+    } = dataSearch;
+    console.log(dataSearch, numero_documento, cod_tipo_documento);
     const index = getIndexBySelectOptions(
       cod_tipo_documento,
       tipoDocumentoOptions
     );
+    console.log(index);
     setFormValues({ index_tipo_documento: index });
     reset({
       tipoDocumento: tipoDocumentoOptions[index],
@@ -163,16 +169,16 @@ const BusquedaAvanzadaUsuarioModal = ({
             <div className="row align-items-end">
               <div className="col-12 col-md-4">
                 <div>
-                  <label className="ms-2">
-                    Email: <span className="text-danger">*</span>
+                  <label className="text-terciary">
+                    Razón social: <span className="text-danger">*</span>
                   </label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    {...register("email", { required: true })}
+                    {...register("razonSocial", { required: true })}
                   />
                 </div>
-                {errors.email && (
+                {errors.razonSocial && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -208,7 +214,7 @@ const BusquedaAvanzadaUsuarioModal = ({
                   >
                     <AgGridReact
                       columnDefs={columnDefs}
-                      rowData={usuarioSearched}
+                      rowData={empresaSearched}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>
@@ -217,7 +223,7 @@ const BusquedaAvanzadaUsuarioModal = ({
               {/* <div className="d-flex justify-content-end gap-2 mt-3">
                 <button
                   type="button"
-                  className="btn bg-gradient-light text-capitalize"
+                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   disabled={loading}
                   onClick={() => handleCloseModal()}
                 >
@@ -231,7 +237,7 @@ const BusquedaAvanzadaUsuarioModal = ({
                       Cargando...
                     </>
                   ) : (
-                    "Cancelar"
+                    <img src={botonCancelar} alt="" />
                   )}
                 </button>
               </div> */}
@@ -248,4 +254,4 @@ const BusquedaAvanzadaUsuarioModal = ({
     </Modal>
   );
 };
-export default BusquedaAvanzadaUsuarioModal;
+export default BusquedaAvanzadaJuridicaModal;
