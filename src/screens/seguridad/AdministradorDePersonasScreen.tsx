@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
@@ -17,6 +18,84 @@ import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
+interface formValuesInterface {
+  tipoDocumento: number;
+  digitoVerificacion: number;
+  fechaNacimiento: Date | number;
+  estadoCivil: number;
+  sexo: number;
+  paisLaboral: number;
+  paisNacimiento: number;
+  paisResidencia: number;
+  paisNotificacion: number;
+  municipio: number;
+  municipioDondeLabora: number;
+  municipioNotificacion: number;
+  id_persona: number;
+  tipoPersona: string;
+  indicativoPais: number;
+  digito_verificacion: number;
+}
+
+interface ImunicipioResidenciaFiltered {
+  label: string;
+  value: string;
+}
+
+interface ImunicipioDondeLaboraFiltered {
+  label: string;
+  value: string;
+}
+
+interface ImunicipioNotificacionFiltered {
+  label: string;
+  value: string;
+}
+
+interface paisesInterface {
+  label: string;
+  value: string;
+}
+
+interface municipiosInterface {
+  label: string;
+  value: string;
+}
+
+interface departamentosInterface {
+  label: string;
+  value: string;
+}
+
+interface tipoDocumentoInterface {
+  label: string;
+  value: string;
+}
+
+interface estadoCivilInterface {
+  label: string;
+  value: string;
+}
+
+const defaultValues: formValuesInterface = {
+  tipoDocumento: 0,
+  digitoVerificacion: 0,
+  fechaNacimiento: new Date(),
+  estadoCivil: 0,
+  sexo: 0,
+  paisLaboral: 0,
+  paisNacimiento: 0,
+  paisResidencia: 0,
+  paisNotificacion: 0,
+  municipio: 0,
+  municipioDondeLabora: 0,
+  municipioNotificacion: 0,
+  id_persona: 0,
+  tipoPersona: "",
+  indicativoPais: 0,
+  digito_verificacion: 0,
+};
+
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -31,51 +110,52 @@ const AdministradorDePersonasScreen = () => {
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
 
-  const [actionForm, setActionForm] = useState(null);
+  const [actionForm, setActionForm] = useState("");
   const [yesOrNot, setYesOrNot] = useState(false);
   const [primeraVez, setPrimeraVez] = useState(true);
 
   const [sexoOptions, setSexoOptions] = useState([]);
-  const [estadoCivilOptions, setEstadoCivilOptions] = useState([]);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
-  const [paisesOptions, setPaisesOptions] = useState([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
-  const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [estadoCivilOptions, setEstadoCivilOptions] = useState<
+    estadoCivilInterface[]
+  >([]);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<
+    tipoDocumentoInterface[]
+  >([]);
+  const [paisesOptions, setPaisesOptions] = useState<paisesInterface[]>([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState<
+    departamentosInterface[]
+  >([]);
+  const [municipiosOptions, setMunicipiosOptions] = useState<
+    municipiosInterface[]
+  >([]);
   const [municipioResidenciaFiltered, setmunicipioResidenciaFiltered] =
-    useState([]);
+    useState<ImunicipioResidenciaFiltered[]>([]);
   const [municipioDondeLaboraFiltered, setMunicipioDondeLaboraFiltered] =
-    useState([]);
+    useState<ImunicipioDondeLaboraFiltered[]>([]);
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
-    useState([]);
+    useState<ImunicipioNotificacionFiltered[]>([]);
   const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
   });
   const [lugarResidencia, setLugarResidencia] = useState({
-    departamento: "",
+    departamento: {
+      label: "",
+      value: "",
+    },
   });
   const [datosLaborales, setDatosLaborales] = useState({
-    departamento: "",
+    departamento: {
+      label: "",
+      value: "",
+    },
   });
   const [datosNotificacion, setDatosNotificacion] = useState({
-    departamento: "",
+    departamento: {
+      label: "",
+      value: "",
+    },
   });
-  const [formValues, setFormValues] = useState({
-    tipoDocumento: null,
-    digitoVerificacion: "",
-    fechaNacimiento: "",
-    estadoCivil: "",
-    sexo: "",
-    paisLaboral: "",
-    paisNacimiento: "",
-    paisResidencia: "",
-    paisNotificacion: "",
-    municipio: "",
-    municipioDondeLabora: "",
-    municipioNotificacion: "",
-    id_persona: "",
-    tipoPersona: "",
-    indicativoPais: "",
-  });
+  const [formValues, setFormValues] = useState(defaultValues);
 
   const {
     reset: resetPersona,
@@ -161,7 +241,7 @@ const AdministradorDePersonasScreen = () => {
             navigate("/dashboard/seguridad/administradordeempresas");
           }
         });
-        return setActionForm(null);
+        return setActionForm("");
       }
 
       setPrimeraVez(false);
@@ -244,14 +324,14 @@ const AdministradorDePersonasScreen = () => {
           ? new Date(
               getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
             )
-          : "",
+          : 0,
         id_persona: dataPersona.id_persona,
         tipoPersona: dataPersona.tipo_persona,
         digitoVerificacion: dataPersona.digito_verificacion,
       });
 
       resetPersona(defaultValuesOverrite);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       if (err.response.data.detail) {
         Swal.fire({
@@ -269,7 +349,7 @@ const AdministradorDePersonasScreen = () => {
             resetEmptyValues();
             setActionForm("Crear");
           } else {
-            setActionForm(null);
+            setActionForm("");
           }
         });
       }
@@ -288,7 +368,7 @@ const AdministradorDePersonasScreen = () => {
     const departamentoIdentifier = municipiosOptions[
       indexMunicipioResidencia
     ]?.value.slice(0, 2);
-    let indexDepartamento = null;
+    let indexDepartamento = -1;
     departamentosOptions.forEach((departamento, index) => {
       if (departamento.value === departamentoIdentifier) {
         indexDepartamento = index;
@@ -312,14 +392,14 @@ const AdministradorDePersonasScreen = () => {
     const departamentoIdentifier = municipiosOptions[
       indexMunicipioResidencia
     ]?.value.slice(0, 2);
-    let indexDepartamento = null;
+    let indexDepartamento = -1;
     departamentosOptions.forEach((departamento, index) => {
       if (departamento.value === departamentoIdentifier) {
         indexDepartamento = index;
       }
     });
-    if (indexDepartamento !== null) {
-      let indexColombia = null;
+    if (indexDepartamento !== -1) {
+      let indexColombia = -1;
       paisesOptions.forEach((pais, index) => {
         if (pais.value === "CO") {
           indexColombia = index;
@@ -330,7 +410,7 @@ const AdministradorDePersonasScreen = () => {
       });
       return indexColombia;
     } else {
-      return null;
+      return -1;
     }
   };
 
@@ -349,7 +429,7 @@ const AdministradorDePersonasScreen = () => {
       segundo_nombre: data.segundoNombre,
       primer_apellido: data.primerApellido,
       segundo_apellido: data.segundoApellido,
-      sexo: formValues.sexo?.value,
+      sexo: formValues.sexo[0].value,
       estado_civil: estadoCivilOptions[formValues.estadoCivil]?.value,
       pais_nacimiento: paisesOptions[formValues.paisNacimiento]?.value,
       fecha_nacimiento: formatISO(formValues.fechaNacimiento, {
@@ -398,7 +478,7 @@ const AdministradorDePersonasScreen = () => {
           timer: 1500,
         });
         resetBuscar({ ...watchPersona(), numeroDocumento: "" });
-        setActionForm(null);
+        setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
@@ -427,16 +507,16 @@ const AdministradorDePersonasScreen = () => {
             navigate("/dashboard/seguridad/administradordeusuario");
           } else {
             resetBuscar({ numeroDocumento: "" });
-            setActionForm(null);
+            setActionForm("");
           }
         });
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
     }
-    setLugarResidencia({ departamento: "" });
-    setDatosLaborales({ departamento: "" });
-    setDatosNotificacion({ departamento: "" });
+    setLugarResidencia({ departamento: { label: "", value: "" } });
+    setDatosLaborales({ departamento: { label: "", value: "" } });
+    setDatosNotificacion({ departamento: { label: "", value: "" } });
     setLoading(false);
   };
 
@@ -464,21 +544,21 @@ const AdministradorDePersonasScreen = () => {
     resetPersona(emptyValues);
     setFormValues({
       ...formValues,
-      tipoDocumento: "",
-      digitoVerificacion: "",
-      sexo: "",
-      estadoCivil: "",
-      paisNacimiento: "",
-      paisResidencia: "",
-      paisLaboral: "",
-      paisNotificacion: "",
-      municipio: "",
-      municipioDondeLabora: "",
-      municipioNotificacion: "",
-      fechaNacimiento: "",
-      id_persona: "",
+      tipoDocumento: 0,
+      digitoVerificacion: 0,
+      sexo: 0,
+      estadoCivil: 0,
+      paisNacimiento: 0,
+      paisResidencia: 0,
+      paisLaboral: 0,
+      paisNotificacion: 0,
+      municipio: 0,
+      municipioDondeLabora: 0,
+      municipioNotificacion: 0,
+      fechaNacimiento: 0,
+      id_persona: 0,
       tipoPersona: "",
-      indicativoPais: "",
+      indicativoPais: 0,
     });
   };
 
@@ -546,7 +626,7 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const getIndexBySelectOptions = (valueSelect, selectOptions) => {
-    let indexValue = null;
+    let indexValue = -1;
     selectOptions.filter((selectOption, index) => {
       if (selectOption.value === valueSelect) {
         indexValue = index;
@@ -558,20 +638,24 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const handleCancelAction = () => {
-    setActionForm(null);
+    setActionForm("");
   };
 
   const handleChangePaisResidencia = (e) => {
     const objectSend = {
       paisResidencia: getIndexBySelectOptions(e.value, paisesOptions),
+      municipio: -1,
     };
     if (e.value !== "CO" || !e.value) {
-      objectSend.municipio = null;
+      objectSend.municipio = -1;
       resetPersona({
         ...watchPersona(),
         municipio: "",
       });
-      setLugarResidencia({ ...lugarResidencia, departamento: "" });
+      setLugarResidencia({
+        ...lugarResidencia,
+        departamento: { label: "", value: "" },
+      });
     }
     setFormValues({
       ...formValues,
@@ -582,14 +666,18 @@ const AdministradorDePersonasScreen = () => {
   const handleChangePaisDondeLabora = (e) => {
     const objectSend = {
       paisLaboral: getIndexBySelectOptions(e.value, paisesOptions),
+      municipioDondeLabora: -1,
     };
     if (e.value !== "CO" || !e.value) {
-      objectSend.municipioDondeLabora = null;
+      objectSend.municipioDondeLabora = -1;
       resetPersona({
         ...watchPersona(),
         municipioDondeLabora: "",
       });
-      setDatosLaborales({ ...datosLaborales, departamento: "" });
+      setDatosLaborales({
+        ...datosLaborales,
+        departamento: { label: "", value: "" },
+      });
     }
     setFormValues({
       ...formValues,
@@ -600,14 +688,18 @@ const AdministradorDePersonasScreen = () => {
   const handleChangePaisNotificacion = (e) => {
     const objectSend = {
       paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
+      municipioNotificacion: -1,
     };
     if (e.value !== "CO" || !e.value) {
-      objectSend.municipioNotificacion = null;
+      objectSend.municipioNotificacion = -1;
       resetPersona({
         ...watchPersona(),
         municipioNotificacion: "",
       });
-      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
+      setDatosNotificacion({
+        ...datosNotificacion,
+        departamento: { label: "", value: "" },
+      });
     }
     setFormValues({
       ...formValues,
@@ -616,7 +708,7 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const getIndexColombia = () => {
-    let indexColombia = null;
+    let indexColombia = -1;
     paisesOptions.forEach((pais, index) => {
       if (pais.value === "CO") {
         indexColombia = index;
@@ -642,16 +734,16 @@ const AdministradorDePersonasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (lugarResidencia.departamento === "") {
+    if (lugarResidencia.departamento.label === "") {
       setmunicipioResidenciaFiltered([]);
-      setFormValues({ ...formValues, municipio: "" });
+      setFormValues({ ...formValues, municipio: 0 });
     } else {
-      const municipioIndicadores = lugarResidencia.departamento?.value?.slice(
+      const municipioIndicadores: string = lugarResidencia.departamento?.value?.slice(
         0,
-        2
+        1
       );
       const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-        const indicator = municipio.value.slice(0, 2);
+        const indicator: string = municipio.value.slice(0, 1);
         return municipioIndicadores === indicator;
       });
       setmunicipioResidenciaFiltered(municipiosCoincidentes);
@@ -661,16 +753,16 @@ const AdministradorDePersonasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (datosLaborales.departamento === "") {
+    if (datosLaborales.departamento.label === "") {
       setMunicipioDondeLaboraFiltered([]);
-      setFormValues({ ...formValues, municipioDondeLabora: "" });
+      setFormValues({ ...formValues, municipioDondeLabora: 0 });
     } else {
       const municipioIndicadores = datosLaborales.departamento?.value?.slice(
         0,
         2
       );
       const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-        const indicator = municipio.value.slice(0, 2);
+        const indicator: string = municipio.value.slice(0, 2);
         return municipioIndicadores === indicator;
       });
       setMunicipioDondeLaboraFiltered(municipiosCoincidentes);
@@ -680,9 +772,9 @@ const AdministradorDePersonasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (datosNotificacion.departamento === "") {
+    if (datosNotificacion.departamento.label === "") {
       setMunicipioNotificacionFiltered([]);
-      setFormValues({ ...formValues, municipioNotificacion: "" });
+      setFormValues({ ...formValues, municipioNotificacion: 0 });
     } else {
       const municipioIndicadores = datosNotificacion.departamento?.value?.slice(
         0,
@@ -773,7 +865,7 @@ const AdministradorDePersonasScreen = () => {
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={() => {
-                      setActionForm(null);
+                      setActionForm("");
                     }}
                   >
                     <img src={botonBuscar} alt="" title="Buscar" />
@@ -813,7 +905,7 @@ const AdministradorDePersonasScreen = () => {
                               value={
                                 tipoDocumentoOptions[formValues.tipoDocumento]
                               }
-                              onChange={(e) => {
+                              onChange={(e: any) => {
                                 setFormValues({
                                   ...formValues,
                                   tipoDocumento: getIndexBySelectOptions(
@@ -896,7 +988,7 @@ const AdministradorDePersonasScreen = () => {
                           className="border border-terciary form-check-input mx-2"
                           type="checkbox"
                           id="flexCheckDefault"
-                          onClick={(e) => setYesOrNot(e.target.checked)}
+                          onClick={(e: any) => setYesOrNot(e.target.checked)}
                         />
                       </div>
                     </div>
@@ -1007,7 +1099,7 @@ const AdministradorDePersonasScreen = () => {
                             {...field}
                             options={sexoOptions}
                             value={sexoOptions[formValues.sexo]}
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({ ...formValues, sexo: e })
                             }
                             placeholder="Seleccionar"
@@ -1024,7 +1116,7 @@ const AdministradorDePersonasScreen = () => {
                           <Select
                             {...field}
                             value={estadoCivilOptions[formValues.estadoCivil]}
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({
                                 ...formValues,
                                 estadoCivil: getIndexBySelectOptions(
@@ -1088,7 +1180,7 @@ const AdministradorDePersonasScreen = () => {
                           <Select
                             {...field}
                             value={paisesOptions[formValues.paisNacimiento]}
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({
                                 ...formValues,
                                 paisNacimiento: getIndexBySelectOptions(
@@ -1134,7 +1226,7 @@ const AdministradorDePersonasScreen = () => {
                           paisesOptions[formValues.paisResidencia]?.value !==
                           "CO"
                         }
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                           setLugarResidencia({ departamento: e });
                         }}
                         value={lugarResidencia.departamento}
@@ -1170,7 +1262,7 @@ const AdministradorDePersonasScreen = () => {
                                 ?.value !== "CO"
                             }
                             value={municipiosOptions[formValues.municipio]}
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({
                                 ...formValues,
                                 municipio: getIndexBySelectOptions(
@@ -1270,7 +1362,7 @@ const AdministradorDePersonasScreen = () => {
                         isDisabled={
                           paisesOptions[formValues.paisLaboral]?.value !== "CO"
                         }
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                           setDatosLaborales({
                             ...datosLaborales,
                             departamento: e,
@@ -1311,7 +1403,7 @@ const AdministradorDePersonasScreen = () => {
                             value={
                               municipiosOptions[formValues.municipioDondeLabora]
                             }
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({
                                 ...formValues,
                                 municipioDondeLabora: getIndexBySelectOptions(
@@ -1429,7 +1521,7 @@ const AdministradorDePersonasScreen = () => {
                           paisesOptions[formValues.paisNotificacion]?.value !==
                           "CO"
                         }
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                           setDatosNotificacion({
                             ...datosNotificacion,
                             departamento: e,
@@ -1471,7 +1563,7 @@ const AdministradorDePersonasScreen = () => {
                                 formValues.municipioNotificacion
                               ]
                             }
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({
                                 ...formValues,
                                 municipioNotificacion: getIndexBySelectOptions(
