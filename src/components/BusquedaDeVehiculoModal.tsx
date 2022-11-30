@@ -1,8 +1,7 @@
 import Modal from "react-modal";
-import Select from "react-select";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import MarcaDeAgua1 from "./MarcaDeAgua1";
 
 const customStyles = {

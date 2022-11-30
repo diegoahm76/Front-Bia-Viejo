@@ -10,6 +10,7 @@ import clienteAxios from "../config/clienteAxios";
 import botonCancelar from "../assets/iconosBotones/cancelar.svg"
 import botonGuardar from "../assets/iconosBotones/guardar.svg"
 import useEscapeKey from "../hooks/useEscapeKey";
+import { IGeneric } from "../Interfaces/Generic";
 
 
 const customStyles = {
@@ -78,6 +79,13 @@ const defaultValues = {
   complemento: "",
   adicional: "",
 };
+const genericInitial: IGeneric[] = [
+  {
+    label: "",
+    value: ""
+  }
+]
+
 
 const DirecionResidenciaModal = ({
   isModalActive,
@@ -88,12 +96,12 @@ const DirecionResidenciaModal = ({
   keyReset,
   watch,
 }) => {
-  const [principalRuralOptions, setPrincipalRuralOptionsOptions] = useState([]);
-  const [complementoRuralOptions, setComplementoRuralOptions] = useState([]);
-  const [principalUrbanoOptions, setPrincipalUrbanoOptions] = useState([]);
-  const [complementoUrbanoOptions, setComplementoUrbanoOptions] = useState([]);
-  const [orientacionUrbanoOptions, setOrientacionUrbanoOptions] = useState([]);
-  const [selecDireccion, setSelecDireccion] = useState({});
+  const [principalRuralOptions, setPrincipalRuralOptionsOptions] = useState(genericInitial);
+  const [complementoRuralOptions, setComplementoRuralOptions] = useState(genericInitial);
+  const [principalUrbanoOptions, setPrincipalUrbanoOptions] = useState(genericInitial);
+  const [complementoUrbanoOptions, setComplementoUrbanoOptions] = useState(genericInitial);
+  const [orientacionUrbanoOptions, setOrientacionUrbanoOptions] = useState(genericInitial);
+  const [selecDireccion, setSelecDireccion] = useState({ value: "" });
   const [formValues, setFormValues] = useState({
     ubicacion: "",
     nombreUbicacion: "",
@@ -175,26 +183,30 @@ const DirecionResidenciaModal = ({
       nombre: "",
       residencia: ""
     })
-    setSelecDireccion("")
+    setSelecDireccion({ value: "" })
   };
 
-  const formatChoisesJuanDavid = (objectChoise) => {
+  const formatChoisesJuanDavid = (objectChoise: IGeneric) => {
+    const formatGeneric = genericInitial;
     const data = Object.entries(objectChoise).map((value) => ({
       label: value[0],
       value: value[1],
     }));
-    return data;
+    formatGeneric.push({
+      label: data[0].label,
+      value: data[0].value
+    });
+    return formatGeneric;
   };
 
   const handleChangeTypeLocation = (e) => {
     setSelecDireccion(e)
-    resetDirection({...watchDirection(), direccion: e})
+    resetDirection({ ...watchDirection(), direccion: e })
   }
 
   useEffect(() => {
     const getDataDirecciones = async () => {
-      const { data } = await clienteAxios.get("choices/direcciones/");
-
+      const { data } = await clienteAxios.get<IGeneric>("choices/direcciones/");
       setPrincipalRuralOptionsOptions(
         formatChoisesJuanDavid(data["Principal rural"])
       );
@@ -222,7 +234,7 @@ const DirecionResidenciaModal = ({
         const dataFieldTrim = dataField.trim();
         if (field === "letra1" || field === "letra2") {
           fullAddress = fullAddress + dataFieldTrim;
-        } else if(field === "numeroSecundario" && dataFieldTrim){
+        } else if (field === "numeroSecundario" && dataFieldTrim) {
           fullAddress = fullAddress + " No. " + dataFieldTrim;
         } else {
           fullAddress = fullAddress + " " + dataFieldTrim;
@@ -268,7 +280,7 @@ const DirecionResidenciaModal = ({
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
-          
+
           >
             <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
               Dirección de residencia
@@ -297,7 +309,7 @@ const DirecionResidenciaModal = ({
 
             {selecDireccion.value === "rur" ? (
               <div className="multisteps-form__content row">
-                <Subtitle title="Datos de la dirección rural" mt="3" />
+                <Subtitle title="Datos de la dirección rural" mt={3} />
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-6 mb-3">
                     <label className="text-terciary">
@@ -306,7 +318,7 @@ const DirecionResidenciaModal = ({
                     <Controller
                       name="ubicacion"
                       control={control}
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -316,7 +328,7 @@ const DirecionResidenciaModal = ({
                               ...formValues,
                               ubicacion: e.value,
                             });
-                            resetDirection({...watchDirection(), ubicacion: e})
+                            resetDirection({ ...watchDirection(), ubicacion: e })
                           }}
                           placeholder="Seleccionar"
                         />
@@ -332,13 +344,13 @@ const DirecionResidenciaModal = ({
                       <input
                         type="text"
                         className="form-control border border-terciary rounded-pill px-3"
-                        {...register("nombre", {required: true})}
+                        {...register("nombre", { required: true })}
                         onChange={(e) => {
                           setFormValues({
                             ...formValues,
                             nombreUbicacion: e.target.value,
                           });
-                          resetDirection({...watchDirection(), nombre: e.target.value})
+                          resetDirection({ ...watchDirection(), nombre: e.target.value })
                         }}
                       />
                     </div>
@@ -407,7 +419,7 @@ const DirecionResidenciaModal = ({
 
             {selecDireccion.value === "urb" ? (
               <div className="multisteps-form__content row">
-                <Subtitle title="Datos de la dirección urbano" mt="3" />
+                <Subtitle title="Datos de la dirección urbano" mt={3} />
 
                 <div className="row d-flex align-items-end mt-2 mx-auto">
                   <div className="col-12 col-md-6">
@@ -415,7 +427,7 @@ const DirecionResidenciaModal = ({
                     <Controller
                       name="principal"
                       control={control}
-                      rules={{required: true}}
+                      rules={{ required: true }}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -425,7 +437,7 @@ const DirecionResidenciaModal = ({
                               ...formValues,
                               principal: e.value,
                             });
-                            resetDirection({...watchDirection(), principal: e})
+                            resetDirection({ ...watchDirection(), principal: e })
                           }}
                           placeholder="Selecciona"
                         />
@@ -446,13 +458,13 @@ const DirecionResidenciaModal = ({
                       <input
                         type="number"
                         className="form-control border border-terciary rounded-pill px-3"
-                        {...register("numero", {required: true})}
+                        {...register("numero", { required: true })}
                         onChange={(e) => {
                           setFormValues({
                             ...formValues,
                             numero: e.target.value,
                           });
-                          resetDirection({...watchDirection(), numero: e.target.value})
+                          resetDirection({ ...watchDirection(), numero: e.target.value })
                         }}
                       />
                     </div>
@@ -679,7 +691,7 @@ const DirecionResidenciaModal = ({
                     nombre: "",
                     residencia: ""
                   })
-                  setSelecDireccion("")
+                  setSelecDireccion({ value: "" })
                 }}
                 className="mb-0 btn-image text-capitalize bg-white border boder-none"
               >

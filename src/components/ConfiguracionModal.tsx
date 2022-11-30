@@ -1,3 +1,4 @@
+import React from "react";
 import Modal from "react-modal";
 
 const customStyles = {
@@ -9,14 +10,14 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     zIndex: "9999",
-    width: "999px",
+    width: "500px",
     height: "auto",
   },
 };
 
 Modal.setAppElement("#root");
 
-const ModalLocal = ({ children, localState }) => {
+const ConfiguracionModal = ({ children, localState }) => {
   return (
     <Modal
       isOpen={localState}
@@ -31,4 +32,4 @@ const ModalLocal = ({ children, localState }) => {
   );
 };
 
-export default ModalLocal;
+export default ConfiguracionModal;

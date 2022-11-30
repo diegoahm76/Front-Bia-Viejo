@@ -5,6 +5,7 @@ import Subtitle from './Subtitle'
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import React from "react";
 
 const rowData = [
   { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },

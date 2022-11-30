@@ -4,13 +4,15 @@ import { useDispatch } from "react-redux";
 import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
+import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 // import thunk from "redux-thunk";
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
     modalSelector: modalReducer,
-    alarma: alarmasReducer
+    alarma: alarmasReducer,
+    alarmasConfig: alarmasConfigReducer
   }
 });
 
