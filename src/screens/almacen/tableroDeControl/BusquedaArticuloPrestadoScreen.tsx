@@ -181,11 +181,12 @@ const BusquedaArticuloPrestadoScreen = () => {
                 </label>
                 <Controller
                   name="dependencia"
-                  onClick={() => setRenderParcial(true)}
+                  // REVISAR onClick={() => setRenderParcial(true)}
                   control={control}
                   render={({ field }) => (
                     <Select
                       {...field}
+                      onChange={() => setRenderParcial(true)}
                       options={optionDependencia}
                       placeholder="Administrativa y financiera"
 

@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import MarcaDeAgua1 from "./MarcaDeAgua1";
 import Subtitle from "./Subtitle";
 
@@ -34,7 +34,7 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => { };
 
   const [rowBuscar] = useState([
     {
@@ -141,95 +141,95 @@ const BusquedaDePersonalModal = ({ isModalActive, setIsModalActive }) => {
             <MarcaDeAgua1>
               <div className="row">
 
-              <Subtitle title="Información de la persona" mb="3" />
+                <Subtitle title="Información de la persona" mb={3} />
                 <div className="col-12 col-sm-6">
                   <label className="form-floating text-terciary  input-group input-group-dynamic ms-3">
                     Tipo de documento{" "}
                   </label>
-                    <div className="col-12 ">
-                      <Controller
-                        name="tipoDocumento"
-                        control={control}
-                        defaultValue={optionsTipoDocumento[0]}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            className="mt-3"
-                            options={optionsTipoDocumento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+                  <div className="col-12 ">
+                    <Controller
+                      name="tipoDocumento"
+                      control={control}
+                      defaultValue={optionsTipoDocumento[0]}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          className="mt-3"
+                          options={optionsTipoDocumento}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
                 <div className="col-12 col-sm-6">
-                <div>
-                  <label className="ms-2 text-terciary">Número de cedula</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="number"
-                    placeholder="numero cedula"
-                    {...register("numeroCedula")}
-                  />
+                  <div>
+                    <label className="ms-2 text-terciary">Número de cedula</label>
+                    <input
+                      className="form-control border border-terciary rounded-pill px-3"
+                      type="number"
+                      placeholder="numero cedula"
+                      {...register("numeroCedula")}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="col-12 col-sm-6 mt-2">
-                <div>
-                  <label className="ms-3 text-terciary">Nombre completo</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
-                    placeholder="nombre completo"
-                    {...register("nombreCompleto")}
-                  />
+                <div className="col-12 col-sm-6 mt-2">
+                  <div>
+                    <label className="ms-3 text-terciary">Nombre completo</label>
+                    <input
+                      className="form-control border border-terciary rounded-pill px-3"
+                      type="text"
+                      placeholder="nombre completo"
+                      {...register("nombreCompleto")}
+                    />
+                  </div>
                 </div>
-              </div>
                 <div className="col-12 col-sm-6">
                   <label className="form-floating text-terciary mt-2 input-group input-group-dynamic ms-2">
                     Dependecia{" "}
                   </label>
-                    <div className="col-12">
-                      <Controller
-                        name="dependencia"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            className="mt-2"
-                            options={optionsDependencia}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+                  <div className="col-12">
+                    <Controller
+                      name="dependencia"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          className="mt-2"
+                          options={optionsDependencia}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
                 <div className="col-12 col-sm-6">
                   <label className="form-floating mt-2 text-terciary input-group input-group-dynamic ms-3">
                     Grupo{" "}
                   </label>
-                    <div className="col-12">
-                      <Controller
-                        name="grupo"
-                        control={control}
-                        rules={{
-                          required: true,
-                        }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            className="mt-2"
-                            options={optionsGrupo}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
+                  <div className="col-12">
+                    <Controller
+                      name="grupo"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          className="mt-2"
+                          options={optionsGrupo}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+                  </div>
                 </div>
                 <div
                   className="ag-theme-alpine mt-4 mb-4"

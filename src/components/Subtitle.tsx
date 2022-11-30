@@ -1,3 +1,5 @@
+import React from "react";
+
 const Subtitle = ({ title, mt = 0, mb = 0 }) => {
   return (
     <div className="row">

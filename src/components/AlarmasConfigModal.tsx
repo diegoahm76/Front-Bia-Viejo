@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { editarAlarmaConfigAction } from "../actions/alarmasConfigActions";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import { editarAlarmasConfig } from "../store/slices/alarmasConfig/indexAlarmasConfig";
 
 const defaultValues = {
   t001nombre: "",
@@ -36,14 +38,14 @@ const AlarmasConfigModal = ({
   errors,
   watch,
 }) => {
-  const { loading, dataEdit } = useSelector((state) => state.alarmas);
+  const { loading, dataEdit } = useAppSelector((state) => state.alarma);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onSubmit = (data) => {
     data.t007periodoBase = Number(data.t007periodoBase);
     console.log("data en el submit", data);
-    dispatch(editarAlarmaConfigAction(data));
+    editarAlarmasConfig(dispatch, data);
     setIsModalActive(false);
   };
 

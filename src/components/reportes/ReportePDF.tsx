@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
                     <ReporteTitulo title='Reporte'/>
                     <ReporteNo reporte={reporte}/>
                    
-                    <ReporteItemsTabla invoice={reporte} />
+                    <ReporteItemsTabla reporte={reporte} />
                  
                 </Page>
             </Document>

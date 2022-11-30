@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import IconoEditar from "../assets/iconosBotones/editar.svg";
@@ -8,6 +8,7 @@ import IconoCancelar from '../assets/iconosBotones/cancelar.svg'
 import { AgGridReact } from "ag-grid-react";
 import clienteAxios from "../config/clienteAxios";
 import Swal from "sweetalert2";
+import { parametersIvaModal } from "../Interfaces/parametersPorcentajeIvaModal";
 
 
 const customStyles = {
@@ -24,7 +25,8 @@ const customStyles = {
 };
 Modal.setAppElement("#root");
 
-function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
+function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parametersIvaModal) {
+    const elementModalId = (document.getElementById("modal-porcentaje-id"))!;
     const stateInterface = {
         id_porcentaje_iva: "",
         porcentaje: "",
@@ -90,14 +92,14 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
             ).then(() => {
                 fetchData();
                 Swal.fire({
-                    target: document.getElementById('modal-porcentaje-id'),
+                    target: elementModalId,
                     title: "Correcto",
                     text: "El porcentaje de iva se agrego correctamente",
                     icon: "success"
                 });
             }).catch(() => {
                 Swal.fire({
-                    target: document.getElementById('modal-porcentaje-id'),
+                    target: elementModalId,
                     icon: "error",
                     title: "Hubo un error",
                     text: "Hubo un error, intenta de nuevo",
@@ -114,14 +116,14 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
                 setEdit(false);
                 setStateInput(stateInterface);
                 Swal.fire({
-                    target: document.getElementById('modal-porcentaje-id'),
+                    target: elementModalId,
                     title: "Correcto",
                     text: "El porcentaje se agrego correctamente",
                     icon: "success"
                 });
             }).catch(() => {
                 Swal.fire({
-                    target: document.getElementById('modal-porcentaje-id'),
+                    target: elementModalId,
                     icon: "error",
                     title: "Hubo un error",
                     text: "Hubo un error, intenta de nuevo",
@@ -143,7 +145,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
     }
     const confirmarEliminarPorcentaje = (id_porcentaje) => {
         Swal.fire({
-            target: document.getElementById('modal-porcentaje-id'),
+            target: elementModalId,
             title: "Estas seguro?",
             text: "Un porcentaje de iva que se elimina no se puede recuperar",
             icon: "warning",
@@ -165,14 +167,14 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
         ).then(() => {
             fetchData();
             Swal.fire({
-                target: document.getElementById('modal-porcentaje-id'),
+                target: elementModalId,
                 title: "Correcto",
                 text: "El porcentaje de iva se agrego correctamente",
                 icon: "success"
             });
         }).catch(() => {
             Swal.fire({
-                target: document.getElementById('modal-porcentaje-id'),
+                target: elementModalId,
                 icon: "error",
                 title: "Hubo un error",
                 text: "Hubo un error, intenta de nuevo",
@@ -252,11 +254,10 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
                                 <input
                                     className="form-control border rounded-pill px-3 border border-terciary"
                                     type="text"
-                                    name="porcentaje"
                                     placeholder="Porcentaje"
                                     value={stateInput.porcentaje}
-                                    onChange={handleChange}
                                     {...register("porcentaje")}
+                                    onChange={handleChange}
                                 />
                             </div>
                             <div className="col-12 col-md-6">
@@ -264,11 +265,10 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }) {
                                 <input
                                     className="form-control border rounded-pill px-3 border border-terciary"
                                     type="text"
-                                    name="observacion"
                                     placeholder="Observacion"
                                     value={stateInput.observacion}
-                                    onChange={handleChange}
                                     {...register("observacion")}
+                                    onChange={handleChange}
                                 />
                             </div>
                         </div>

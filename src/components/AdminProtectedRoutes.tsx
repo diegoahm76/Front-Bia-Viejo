@@ -1,10 +1,11 @@
-import { useSelector } from "react-redux";
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom/dist";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const AdminProtectedRoutes = () => {
-  const userInfo = useSelector((state) => state.user.user);
+  const userInfo = useAppSelector((state) => state.login.userinfo);
 
-  if (userInfo.userinfo.is_superuser) {
+  if (userInfo.is_superuser) {
     return <Outlet />;
   }
   return <Navigate to={"/dashboard"} />;

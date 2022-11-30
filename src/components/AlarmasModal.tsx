@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,6 +7,9 @@ import {
 } from "../actions/alarmasActions";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
+import { IEstaciones } from "../Interfaces/estaciones";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import { crearAlarma, editarAlarma } from "../store/slices/alarmas/reducerAlarma";
 
 const defaultValues = {
   t001nombre: "",
@@ -41,29 +44,28 @@ const AlarmasModal = ({
   errors,
   watch,
 }) => {
-  const [estacionesOptions, setEstacionesOptions] = useState([]);
+  const [estacionesOptions, setEstacionesOptions] = useState<IEstaciones[]>([]);
   const [formValues, setFormValues] = useState({
-    index_objectid: "",
+    index_objectid: 0,
   });
-  const { loading, alarmaAction, dataEdit } = useSelector(
-    (state) => state.alarmas
+  const { loading, alarmaAction, dataEdit } = useAppSelector(
+    (state) => state.alarma
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleCrearAlarma = async (data) => {
-    dispatch(crearAlarmaAction(data));
-    reset(defaultValues);
-    setFormValues({ index_objectid: "" });
+    crearAlarma(dispatch, data);
+    // dispatch(crearAlarmaAction(data));
+    // reset(defaultValues);
+    setFormValues({ index_objectid: 0 });
   };
 
   const onSubmit = (data) => {
     if (alarmaAction === "editar") {
       data.objectid = estacionesOptions[formValues.index_objectid].value;
-      console.log("Entro aca", data);
-      dispatch(editarAlarmaAction(data));
+      editarAlarma(dispatch, data);
     } else {
-      console.log(data);
       handleCrearAlarma(data);
     }
     setIsModalActive(false);
@@ -80,7 +82,7 @@ const AlarmasModal = ({
 
   const handleCloseModal = () => {
     setIsModalActive(false);
-    setFormValues({ ...formValues, index_objectid: "" });
+    setFormValues({ ...formValues, index_objectid: 0 });
     reset(defaultValues);
   };
 

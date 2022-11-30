@@ -123,7 +123,6 @@ const StockMaximoMinimoScreen = () => {
                   Stock maximo: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="stockMaximo"
                   type="number"
                   className="form-control border border-terciary rounded-pill px-3"
                   {...register("stockMaximo", { required: true })}

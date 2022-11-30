@@ -1,14 +1,13 @@
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import clienteAxios from "../config/clienteAxios";
 import { getConfigAuthBearer } from "../helpers/configAxios";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { getTokenAccessLocalStorage } from "../helpers/localStorage";
-import botonCancelar from "../assets/iconosBotones/cancelar.svg"
-import botonBuscar from "../assets/iconosBotones/buscar.svg"
-
+import botonCancelar from "../assets/iconosBotones/cancelar.svg";
+import botonBuscar from "../assets/iconosBotones/buscar.svg";
 import Subtitle from "./Subtitle";
 import useEscapeKey from "../hooks/useEscapeKey";
 
@@ -42,8 +41,10 @@ const defaultValues = {
 };
 
 Modal.setAppElement("#root");
-
-const BusquedaAvanzadaJuridicaModal = ({
+interface IDataUsuarios {
+  Usuario: [];
+}
+const BusquedaAvanzadaUsuarioModal = ({
   isModalActive,
   setIsModalActive,
   formValues,
@@ -51,7 +52,7 @@ const BusquedaAvanzadaJuridicaModal = ({
   reset,
   tipoDocumentoOptions,
 }) => {
-  const [empresaSearched, setEmpresaSearched] = useState([]);
+  const [usuarioSearched, setUsuarioSearched] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -62,19 +63,25 @@ const BusquedaAvanzadaJuridicaModal = ({
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
+    ;
     const accessToken = getTokenAccessLocalStorage();
     const config = getConfigAuthBearer(accessToken);
 
     try {
-      const queryParams = `?search=${data.razonSocial ?? ""}`;
-      console.log(queryParams);
-      const { data: dataPersonas } = await clienteAxios(
-        `personas/get-personas-juridicas/${queryParams}`,
+      await clienteAxios.get<IDataUsuarios>(
+        `users/get-by-email/${data.email}/`,
         config
-      );
-      console.log(dataPersonas);
-      setEmpresaSearched(dataPersonas);
+      ).then((response) => {
+        debugger
+        const datos = response.data;
+        if (datos.Usuario) {
+          // REVISAR
+          // setUsuarioSearched([datos.Usuario]);
+        } else {
+          setUsuarioSearched([]);
+        }
+      });
+
     } catch (err) {
       console.log(err);
     }
@@ -83,22 +90,17 @@ const BusquedaAvanzadaJuridicaModal = ({
   const columnDefs = [
     {
       headerName: "Tipo documento",
-      field: "tipo_documento.nombre",
+      field: "persona.tipo_documento.nombre",
       minWidth: 180,
     },
     {
       headerName: "Número documento",
-      field: "numero_documento",
+      field: "persona.numero_documento",
       minWidth: 180,
     },
     {
-      headerName: "Razón social",
-      field: "razon_social",
-      minWidth: 140,
-    },
-    {
-      headerName: "Nombre comercial",
-      field: "nombre_comercial",
+      headerName: "Email",
+      field: "persona.email",
       minWidth: 140,
     },
     {
@@ -126,13 +128,11 @@ const BusquedaAvanzadaJuridicaModal = ({
     const {
       numero_documento,
       tipo_documento: { cod_tipo_documento },
-    } = dataSearch;
-    console.log(dataSearch, numero_documento, cod_tipo_documento);
+    } = dataSearch.persona;
     const index = getIndexBySelectOptions(
       cod_tipo_documento,
       tipoDocumentoOptions
     );
-    console.log(index);
     setFormValues({ index_tipo_documento: index });
     reset({
       tipoDocumento: tipoDocumentoOptions[index],
@@ -169,16 +169,16 @@ const BusquedaAvanzadaJuridicaModal = ({
             <div className="row align-items-end">
               <div className="col-12 col-md-4">
                 <div>
-                  <label className="text-terciary">
-                    Razón social: <span className="text-danger">*</span>
+                  <label className="ms-2">
+                    Email: <span className="text-danger">*</span>
                   </label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    {...register("razonSocial", { required: true })}
+                    {...register("email", { required: true })}
                   />
                 </div>
-                {errors.razonSocial && (
+                {errors.email && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -214,7 +214,7 @@ const BusquedaAvanzadaJuridicaModal = ({
                   >
                     <AgGridReact
                       columnDefs={columnDefs}
-                      rowData={empresaSearched}
+                      rowData={usuarioSearched}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>
@@ -223,7 +223,7 @@ const BusquedaAvanzadaJuridicaModal = ({
               {/* <div className="d-flex justify-content-end gap-2 mt-3">
                 <button
                   type="button"
-                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                  className="btn bg-gradient-light text-capitalize"
                   disabled={loading}
                   onClick={() => handleCloseModal()}
                 >
@@ -237,7 +237,7 @@ const BusquedaAvanzadaJuridicaModal = ({
                       Cargando...
                     </>
                   ) : (
-                    <img src={botonCancelar} alt="" />
+                    "Cancelar"
                   )}
                 </button>
               </div> */}
@@ -254,4 +254,4 @@ const BusquedaAvanzadaJuridicaModal = ({
     </Modal>
   );
 };
-export default BusquedaAvanzadaJuridicaModal;
+export default BusquedaAvanzadaUsuarioModal;

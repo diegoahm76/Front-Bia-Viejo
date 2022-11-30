@@ -1,6 +1,6 @@
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import {
@@ -8,6 +8,8 @@ import {
   desactiveModalAction,
 } from "../../actions/modalActions";
 import CalendarModal from "../../components/CalendarModal";
+import { useAppDispatch } from "../../store/store";
+import { modalActionOff, modalActionOn } from "../../store/slices/modal/indexModal";
 
 const options = [
   { label: "Todos", value: "All" },
@@ -161,33 +163,42 @@ const onGridReady = (params) => {
   return gridApi;
 };
 
+const valueSel = {
+  value: "ALL",
+  label: ""
+}
 const TableroDeControlConservacion = () => {
-  const [currentSelectValue, setCurrentSelectValue] = useState("All");
-  const dispatch = useDispatch();
+  const [currentSelectValue, setCurrentSelectValue] = useState(valueSel);
+  const dispatch = useAppDispatch();
 
   const handleOpenModal = () => {
-    dispatch(activeModalAction());
+    modalActionOn(dispatch)
   };
 
   const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+    modalActionOff(dispatch);
   };
+
+  const handleSelect = (e) => {
+    setCurrentSelectValue(e)
+  }
 
   const getTotalPlants = () => {
     let totalPlants = 0
     const keysDataPrueba = Object.keys(dataPrueba)
     keysDataPrueba.forEach(keyData => {
-      totalPlants = totalPlants + dataPrueba[keyData].plantsQuantity 
+      totalPlants = totalPlants + dataPrueba[keyData].plantsQuantity
     })
     return totalPlants
   }
 
   const getTotalPlantsBySpecies = () => {
     const totalPlantsBySpecies = []
-    const keysDataPrueba = Object.keys(dataPrueba)
-    keysDataPrueba.forEach(keyData => {
-      totalPlantsBySpecies.push(...dataPrueba[keyData].plantsQuantityForType)
-    })
+    const keysDataPrueba: any = Object.keys(dataPrueba);
+    // REVISAR 
+    // keysDataPrueba.forEach((keyData: any) => {
+    //   totalPlantsBySpecies.push(...dataPrueba[keyData].plantsQuantityForType)
+    // })
     return totalPlantsBySpecies
   }
   return (
@@ -205,24 +216,24 @@ const TableroDeControlConservacion = () => {
             <div className="col-6 mt-2">
               <Select
                 options={options}
-                onChange={(e) => setCurrentSelectValue(e.value)}
+                onChange={(option) => handleSelect(option)}
                 placeholder="Seleccione"
               />
             </div>
           </div>
           {/* Renderizado condicional para el caso de Todos los datos */}
-          {currentSelectValue !== "All" && (
+          {currentSelectValue.value !== "All" && (
             <>
               <label className="mt-5 fw-bold fs-6 d-block">
                 Nombre del vivero:{" "}
                 <span className="fw-normal">
-                  {dataPrueba[currentSelectValue]?.name}
+                  {dataPrueba[currentSelectValue.value]?.name}
                 </span>
               </label>
               <label className="mt-4 fw-bold fs-6 d-block">
                 Ubicación del vivero:{" "}
                 <span className="fw-normal">
-                  {dataPrueba[currentSelectValue]?.location}
+                  {dataPrueba[currentSelectValue.value]?.location}
                 </span>
               </label>
               <label className="text-center mt-4 fw-bold fs-6 d-block">
@@ -236,10 +247,10 @@ const TableroDeControlConservacion = () => {
                 >
                   <AgGridReact
                     className="ag-theme-alpine"
-                    animateRows="true"
+                    animateRows={true}
                     columnDefs={columnDefs2}
                     defaultColDef={defaultColDef2}
-                    rowData={dataPrueba[currentSelectValue]?.geoLocation}
+                    rowData={dataPrueba[currentSelectValue.value]?.geoLocation}
                   />
                 </div>
               </div>
@@ -248,7 +259,7 @@ const TableroDeControlConservacion = () => {
           <label className="text-center mt-4 fw-bold fs-6 d-block">
             Numero total de plantas:{" "}
             <span className="fw-normal">
-              {currentSelectValue === "All" ? getTotalPlants() : dataPrueba[currentSelectValue]?.plantsQuantity}
+              {currentSelectValue.value === "All" ? getTotalPlants() : dataPrueba[currentSelectValue.value]?.plantsQuantity}
             </span>
           </label>
           <label className="text-center mt-4 fw-bold fs-6 d-block">
@@ -260,7 +271,7 @@ const TableroDeControlConservacion = () => {
               <AgGridReact
                 className="ag-theme-alpine"
                 columnDefs={columnDefs}
-                rowData={currentSelectValue === "All" ? getTotalPlantsBySpecies() : dataPrueba[currentSelectValue]?.plantsQuantityForType}
+                rowData={currentSelectValue.value === "All" ? getTotalPlantsBySpecies() : dataPrueba[currentSelectValue.value]?.plantsQuantityForType}
                 defaultColDef={defaultColDef}
                 onGridReady={onGridReady}
               ></AgGridReact>

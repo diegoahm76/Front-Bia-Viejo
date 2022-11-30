@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 import Modal from "react-modal";
+import React from "react";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
-  
+
   content: {
     top: "50%",
     left: "50%",
@@ -18,11 +20,11 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const CalendarModal = ({ children }) => {
-  const isModalActive = useSelector((state) => state.modal.isModalActive);
+  const userInfo = useAppSelector((state) => state.login.userinfo);
 
   return (
     <Modal
-      isOpen={isModalActive}
+      isOpen={false}
       //onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"

@@ -8,6 +8,17 @@ import { useEffect } from "react";
 import Select from "react-select"
 import { changeSesionAction, closeModalSesionAction } from "../actions/userActions";
 import { useAppSelector } from "../store/hooks/hooks";
+import { type } from "os";
+import { modalActionOff } from "../store/slices/modal/indexModal";
+import { useAppDispatch } from "../store/store";
+
+interface sesionType {
+  label: string;
+  value: {
+    userName: string;
+    type: string;
+  }
+}
 
 const customStyles = {
   content: {
@@ -26,26 +37,29 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const SelectSesionModal = () => {
-  const  userinfo  = useAppSelector((state) => state.login);
-  const userSesion = useAppSelector((state) => state.login);
-  const [sesions, setSesions] = useState([])
+  const userinfo = useAppSelector((state) => state.login);
+  const modalOpen = useAppSelector((state) => state.modalSelector.isModalActive);
+  const [sesions, setSesions] = useState<sesionType[]>([])
 
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
-  const { handleSubmit, control, formState: {errors} } = useForm();
+  const { handleSubmit, control, formState: { errors } } = useForm();
 
   const getSesions = () => {
     const sesionsFromRepresentante = userinfo.representante_legal?.map(
-      (representante) => ({
-        label: `Representante ${representante["razon social"]}`,
-        value: {
-          userName: `Representante ${representante["razon social"]}`,
-          type: "representante"
-        },
-      })
+      (representante) => {
+        const data: sesionType = {
+          label: `Representante ${representante["razon social"]}`,
+          value: {
+            userName: `Representante ${representante["razon social"]}`,
+            type: "representante"
+          },
+        }
+        return data;
+      }
     );
 
-    const userSesion = {
+    const userSesion: sesionType = {
       label: `Usuario ${userinfo?.userinfo.nombre_de_usuario}`,
       value: {
         userName: userinfo?.userinfo.nombre_de_usuario,
@@ -53,12 +67,9 @@ const SelectSesionModal = () => {
       }
     }
 
-    console.log(userSesion)
+    if (!userinfo.representante_legal) return setSesions([userSesion])
 
-    // REVISAR
-    // if(!userinfo.representante_legal) return setSesions([userSesion])
-
-    // setSesions([...sesionsFromRepresentante, userSesion])
+    setSesions([...sesionsFromRepresentante, userSesion])
   };
 
   const onSubmit = (data) => {
@@ -67,19 +78,18 @@ const SelectSesionModal = () => {
   };
 
   const handleCloseModal = () => {
-    // REVISAR
-    // dispatch(closeModalSesionAction())
+    modalActionOff(dispatch);
   };
 
   useEffect(() => {
     getSesions()
   }, [])
-  
+
   // REVISAR 
   // isOpen={userSesion.modalopen}
   return (
     <Modal
-      isOpen={userSesion}
+      isOpen={modalOpen}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
