@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -14,22 +15,50 @@ import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
-import botonBuscar from "../../assets/iconosBotones/buscar.svg"
-import botonCancelar from "../../assets/iconosBotones/cancelar.svg"
-import botonActualizar from "../../assets/iconosBotones/actualizar.svg"
-import botonAgregar from "../../assets/iconosBotones/agregar.svg"
+import botonBuscar from "../../assets/iconosBotones/buscar.svg";
+import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
+import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
+import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
+interface defaulValuesFormInterface {
+  tipoDocumento: number;
+  tipoDocumentoRepresentante: number;
+  paisEmpresa: number;
+  id_persona: String;
+  tipoPersona: String;
+  municipioNotificacion: number;
+  digito_verificacion: number;
+  paisNotificacion: number;
+}
 
-const defaulValuesForm = {
-  tipoDocumento: null,
-  tipoDocumentoRepresentante: null,
-  paisEmpresa: "",
+interface ISelectOptions {
+  label: string;
+  value: string;
+}
+
+export const initialOptions: ISelectOptions[] = [
+  {
+    label: "",
+    value: "",
+  },
+];
+
+const defaultValuesForm: defaulValuesFormInterface = {
+  tipoDocumento: 0,
+  tipoDocumentoRepresentante: 0,
+  paisEmpresa: 0,
   id_persona: "",
   tipoPersona: "",
-  municipioNotificacion: "",
-  digito_verificacion: "",
-  paisNotificacion: 43,
+  municipioNotificacion: 0,
+  digito_verificacion: 0,
+  paisNotificacion: 0,
 };
+
+const options = [
+  { label: "Chocolate", value: "chocolate" },
+  { label: "Strawberry", value: "strawberry" },
+  { label: "Vanilla", value: "vanilla" },
+];
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -41,22 +70,27 @@ const AdministradorDeEmpresasScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
-  const [datosNotificacion, setDatosNotificacion] = useState({
-    departamento: "",
-  });
+  const [datosNotificacion, setDatosNotificacion] = useState(initialOptions);
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
-  const [actionForm, setActionForm] = useState(null);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
-  const [tipoDocumentoOptionsRepresentante, setTipoDocumentoOptionsRepresentante] = useState([]);
-  const [paisesOptions, setPaisesOptions] = useState([]);
-  const [municipiosOptions, setMunicipiosOptions] = useState([]);
+  const [actionForm, setActionForm] = useState("");
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<
+    ISelectOptions[]
+  >([]);
+  const [
+    tipoDocumentoOptionsRepresentante,
+    setTipoDocumentoOptionsRepresentante,
+  ] = useState(initialOptions);
+  const [paisesOptions, setPaisesOptions] = useState<ISelectOptions[]>([]);
+  const [municipiosOptions, setMunicipiosOptions] = useState<ISelectOptions[]>(
+    []
+  );
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
-    useState([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
+    useState<ISelectOptions[]>([]);
+  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
-  const [formValues, setFormValues] = useState(defaulValuesForm);
+  const [formValues, setFormValues] = useState(defaultValuesForm);
   const {
     register: registerEmpresa,
     handleSubmit: handleSubmitEmpresa,
@@ -102,7 +136,7 @@ const AdministradorDeEmpresasScreen = () => {
             navigate("/dashboard/seguridad/administradordepersonas");
           }
         });
-        setActionForm(null);
+        setActionForm("");
         return;
       } else {
         setActionForm(ACTION_EDITAR);
@@ -156,7 +190,7 @@ const AdministradorDeEmpresasScreen = () => {
       });
       console.log("override data", defaultValuesOverrite);
       resetEmpresa(defaultValuesOverrite);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       setLoading(false);
       if (err.response.data) {
@@ -172,7 +206,7 @@ const AdministradorDeEmpresasScreen = () => {
         });
         if (!result.isConfirmed) {
           resetEmptyValues();
-          setFormValues(defaulValuesForm);
+          setFormValues(defaultValuesForm);
           return setActionForm(ACTION_CREAR);
         }
       }
@@ -191,14 +225,14 @@ const AdministradorDeEmpresasScreen = () => {
     const departamentoIdentifier = municipiosOptions[
       indexMunicipioResidencia
     ]?.value.slice(0, 2);
-    let indexDepartamento = null;
+    let indexDepartamento = -1;
     departamentosOptions.forEach((departamento, index) => {
       if (departamento.value === departamentoIdentifier) {
         indexDepartamento = index;
       }
     });
     if (indexDepartamento !== null) {
-      let indexColombia = null;
+      let indexColombia = -1;
       paisesOptions.forEach((pais, index) => {
         if (pais.value === "CO") {
           indexColombia = index;
@@ -209,7 +243,7 @@ const AdministradorDeEmpresasScreen = () => {
       });
       return indexColombia;
     } else {
-      return null;
+      return -1;
     }
   };
 
@@ -289,7 +323,7 @@ const AdministradorDeEmpresasScreen = () => {
           timer: 1500,
         });
         resetBuscar({ ...watchBuscar(), numeroDocumento: "" });
-        setActionForm(null);
+        setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
@@ -322,7 +356,7 @@ const AdministradorDeEmpresasScreen = () => {
           }
         });
         resetBuscar({ numeroDocumento: "" });
-        setActionForm(null);
+        setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
@@ -421,9 +455,9 @@ const AdministradorDeEmpresasScreen = () => {
     resetEmpresa(emptyValues);
     setFormValues({
       ...formValues,
-      tipoDocumento: "",
-      paisEmpresa: null,
-      municipioNotificacion: null,
+      tipoDocumento: -1,
+      paisEmpresa: -1,
+      municipioNotificacion: -1,
       id_persona: "",
       tipoPersona: "",
     });
@@ -451,11 +485,13 @@ const AdministradorDeEmpresasScreen = () => {
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
 
-        const VALUE_NUIP = "NU"
-        
-        const documentosFormatFiltered = documentosFormat.filter(documento => documento.value === VALUE_NUIP)
+        const VALUE_NUIP = "NU";
 
-        setTipoDocumentoOptionsRepresentante(documentosFormat)
+        const documentosFormatFiltered = documentosFormat.filter(
+          (documento) => documento.value === VALUE_NUIP
+        );
+
+        setTipoDocumentoOptionsRepresentante(documentosFormat);
         setTipoDocumentoOptions(documentosFormatFiltered);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
@@ -470,7 +506,7 @@ const AdministradorDeEmpresasScreen = () => {
   }, []);
 
   const getIndexBySelectOptions = (valueSelect, selectOptions) => {
-    let indexValue = null;
+    let indexValue = -1;
     selectOptions.filter((selectOption, index) => {
       if (selectOption.value === valueSelect) {
         indexValue = index;
@@ -482,20 +518,21 @@ const AdministradorDeEmpresasScreen = () => {
   };
 
   const handleCancelAction = () => {
-    setActionForm(null);
+    setActionForm("");
   };
 
   const handleChangePaisNotificacion = (e) => {
     const objectSend = {
       paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
+      municipioNotificacion: -1,
     };
     if (e.value !== "CO" || !e.value) {
-      objectSend.municipioNotificacion = null;
+      objectSend.municipioNotificacion = -1;
       resetEmpresa({
         ...watchEmpresa(),
         municipioNotificacion: "",
       });
-      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
+      setDatosNotificacion([{label: "", value: ""}] );
     }
     setFormValues({
       ...formValues,
@@ -504,7 +541,7 @@ const AdministradorDeEmpresasScreen = () => {
   };
 
   const getIndexColombia = () => {
-    let indexColombia = null;
+    let indexColombia = -1;
     paisesOptions.forEach((pais, index) => {
       if (pais.value === "CO") {
         indexColombia = index;
@@ -525,22 +562,20 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (datosNotificacion.departamento === "") {
+    if (datosNotificacion[0].value === "") {
       setMunicipioNotificacionFiltered([]);
-      setFormValues({ ...formValues, municipioNotificacion: "" });
+      setFormValues({ ...formValues, municipioNotificacion: -1 });
     } else {
-      const municipioIndicadores = datosNotificacion.departamento?.value?.slice(
-        0,
-        2
-      );
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-        const indicator = municipio.value.slice(0, 2);
-        return municipioIndicadores === indicator;
-      });
-      setMunicipioNotificacionFiltered(municipiosCoincidentes);
+      //Todo: Revisar
+      // const municipioIndicadores = datosNotificacion?.slice(0, 2);
+      // const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+      //   const indicator = municipio.value.slice(0, 2);
+      //   return municipioIndicadores === indicator;
+      // });
+      // setMunicipioNotificacionFiltered(municipiosCoincidentes);
       setFormValues({ ...formValues, municipioNotificacion: 0 });
     }
-  }, [datosNotificacion.departamento]);
+  }, [datosNotificacion]);
 
   useEffect(() => {
     setPrimeraVez(true);
@@ -638,7 +673,7 @@ const AdministradorDeEmpresasScreen = () => {
                         <Controller
                           name="tipoDocumento2"
                           control={controlEmpresa}
-                          rules={{required: true}}
+                          rules={{ required: true }}
                           render={({ field }) => (
                             <Select
                               {...field}
@@ -649,11 +684,14 @@ const AdministradorDeEmpresasScreen = () => {
                                 setFormValues({
                                   ...formValues,
                                   tipoDocumento: getIndexBySelectOptions(
-                                    e.value,
+                                    e?.value,
                                     tipoDocumentoOptions
                                   ),
                                 });
-                                resetEmpresa({...watchEmpresa(), tipoDocumento2: e})
+                                resetEmpresa({
+                                  ...watchEmpresa(),
+                                  tipoDocumento2: e,
+                                });
                               }}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
@@ -756,16 +794,18 @@ const AdministradorDeEmpresasScreen = () => {
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("razonSocial", {required: true})}
+                          {...registerEmpresa("razonSocial", {
+                            required: true,
+                          })}
                         />
                       </div>
                       {errorsEmpresa.razonSocial && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio y de un caracter
-                            </small>
-                          </div>
-                        )}
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio y de un caracter
+                          </small>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -789,7 +829,7 @@ const AdministradorDeEmpresasScreen = () => {
                               formValues.tipoDocumentoRepresentante
                             ]
                           }
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             setFormValues({
                               ...formValues,
                               tipoDocumentoRepresentante:
@@ -798,7 +838,10 @@ const AdministradorDeEmpresasScreen = () => {
                                   tipoDocumentoOptionsRepresentante
                                 ),
                             });
-                            resetEmpresa({...watchEmpresa(), tipoDocumentoRepresentante: e})
+                            resetEmpresa({
+                              ...watchEmpresa(),
+                              tipoDocumentoRepresentante: e,
+                            });
                           }}
                           options={tipoDocumentoOptionsRepresentante}
                           placeholder="Seleccionar"
@@ -821,7 +864,12 @@ const AdministradorDeEmpresasScreen = () => {
                       </label>
                       <input
                         className="border border-terciary form-control rounded-pill px-3"
-                        type={watchEmpresa("tipoDocumentoRepresentante")?.value === "PA" ? "text" : "number"}
+                        type={
+                          watchEmpresa("tipoDocumentoRepresentante")?.value ===
+                          "PA"
+                            ? "text"
+                            : "number"
+                        }
                         {...registerEmpresa("numero_documento_representante", {
                           required: true,
                         })}
@@ -847,7 +895,7 @@ const AdministradorDeEmpresasScreen = () => {
                         <Select
                           {...field}
                           value={paisesOptions[formValues.paisEmpresa]}
-                          onChange={(e) => {
+                          onChange={(e: any) => {
                             setFormValues({
                               ...formValues,
                               paisEmpresa: getIndexBySelectOptions(
@@ -922,14 +970,15 @@ const AdministradorDeEmpresasScreen = () => {
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">
-                        E-mail de notificación: <span className="text-danger">*</span>
+                        E-mail de notificación:{" "}
+                        <span className="text-danger">*</span>
                       </label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
                         type="email"
                         disabled={actionForm === ACTION_EDITAR}
                         readOnly={actionForm === ACTION_EDITAR}
-                        {...registerEmpresa("eMail", {required: true})}
+                        {...registerEmpresa("eMail", { required: true })}
                       />
                     </div>
                     {errorsEmpresa.eMail && (
@@ -969,13 +1018,14 @@ const AdministradorDeEmpresasScreen = () => {
                           paisesOptions[formValues.paisNotificacion]?.value !==
                           "CO"
                         }
-                        onChange={(e) => {
-                          setDatosNotificacion({
-                            ...datosNotificacion,
-                            departamento: e,
-                          });
+                        onChange={(e: any) => {
+                          //Todo: Revisar
+                          // setDatosNotificacion({
+                          //   ...datosNotificacion,
+                          //   departamento: e,
+                          // });
                         }}
-                        value={datosNotificacion.departamento}
+                        value={datosNotificacion[0]}
                         placeholder="Seleccionar"
                       />
                     </div>
@@ -1011,7 +1061,7 @@ const AdministradorDeEmpresasScreen = () => {
                                 formValues.municipioNotificacion
                               ]
                             }
-                            onChange={(e) =>
+                            onChange={(e: any) =>
                               setFormValues({
                                 ...formValues,
                                 municipioNotificacion: getIndexBySelectOptions(
@@ -1041,18 +1091,18 @@ const AdministradorDeEmpresasScreen = () => {
                   <div className="col-md-8 col-10 mt-3">
                     <div className="mt-3 d-flex align-items-end">
                       <div className="col-10">
-                      <label className="ms-2">
-                        Dirección de notificación:{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control rounded-pill px-3 border border-terciary"
-                        type="text"
-                        readOnly
-                        {...registerEmpresa("direccionDeNotificacion", {
-                          required: true,
-                        })}
-                      />
+                        <label className="ms-2">
+                          Dirección de notificación:{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          className="form-control rounded-pill px-3 border border-terciary"
+                          type="text"
+                          readOnly
+                          {...registerEmpresa("direccionDeNotificacion", {
+                            required: true,
+                          })}
+                        />
                       </div>
                       <button
                         type="button"
@@ -1073,46 +1123,46 @@ const AdministradorDeEmpresasScreen = () => {
                 </div>
 
                 <div className="d-flex justify-content-end mx-1 gap-2 mt-4">
-                <button
-                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                  type="button"
-                  onClick={handleCancelAction}
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Cargando...
-                    </>
-                  ) : (
-                    <img src={botonCancelar} alt="" />
-                  )}
-                </button>
+                  <button
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                    type="button"
+                    onClick={handleCancelAction}
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      <img src={botonCancelar} alt="" />
+                    )}
+                  </button>
 
-                <button
-                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                  type="submit"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <span
-                        className="spinner-border spinner-border-sm me-1"
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                      Cargando...
-                    </>
-                  ) : actionForm === ACTION_EDITAR ? (
+                  <button
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : actionForm === ACTION_EDITAR ? (
                       <img src={botonActualizar} alt="" />
-                  ) : (
-                    <img src={botonAgregar} alt="" />
-                  )}
-                </button>
+                    ) : (
+                      <img src={botonAgregar} alt="" />
+                    )}
+                  </button>
                 </div>
               </form>
             )}
