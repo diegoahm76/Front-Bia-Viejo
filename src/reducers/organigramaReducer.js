@@ -5,7 +5,7 @@ import {
   DESCARGAR_ORGANIGRAMA,
   DESCARGAR_ORGANIGRAMA_ERROR,
   DESCARGAR_ORGANIGRAMA_EXITO,
-  EDITAR_ORGANIGRAMA_OBTENER,
+  SELECCIONAR_ORGANIGRAMA_OBTENER,
   ELIMINAR_ORGANIGRAMA,
   ELIMINAR_ORGANIGRAMA_ERROR,
   ELIMINAR_ORGANIGRAMA_EXITO,
@@ -71,7 +71,7 @@ export const organigramaReducer = (state = initialState, action) => {
         organigramaEliminar: null,
       };
 
-    case EDITAR_ORGANIGRAMA_OBTENER:
+    case SELECCIONAR_ORGANIGRAMA_OBTENER:
       return {
         ...state,
         organigramaEditar: action.payload,

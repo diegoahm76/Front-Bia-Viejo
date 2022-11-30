@@ -84,10 +84,12 @@ export const EdicionOrganigramaScreen = () => {
               className="form-control border rounded-pill px-3 border border-terciary"
               type="text"
               placeholder="Nombre de organigrama"
-              disabled="true"
-              rules={{ required: true }}
-              {...registerOrganigrama("nombre")}
+              name="nombre"
+              {...registerOrganigrama("nombre", { required: true })}
             />
+            {errorsOrganigrama.nombre && (
+              <p className="text-danger">Este campo es obligatorio</p>
+            )}
           </div>
           <div className="col-12 col-md-4 ms-3">
             <label className="text-terciary">
@@ -97,12 +99,12 @@ export const EdicionOrganigramaScreen = () => {
               className="form-control border rounded-pill px-3 border border-terciary"
               type="text"
               placeholder="Version de organigrama"
-              disabled="true"
-              rules={{ required: true }}
               name="version"
-              {...registerOrganigrama("version")}
-
+              {...registerOrganigrama("version", { required: true })}
             />
+            {errorsOrganigrama.version && (
+              <p className="text-danger">Este campo es obligatorio</p>
+            )}
           </div>
           <div className="col-12 col-md-4 ms-3">
             <label className="text-terciary">
@@ -112,14 +114,22 @@ export const EdicionOrganigramaScreen = () => {
               className="form-control border rounded-pill px-3 border border-terciary"
               type="text"
               placeholder="Descripcion de organigrama"
-              disabled="true"
               name="descripcion"
-              rules={{ required: true }}
-              {...registerOrganigrama("descripcion")}
+              {...registerOrganigrama("descripcion", { required: true })}
             />
-            {errorsOrganigrama.Consecutivo && (
+            {errorsOrganigrama.descripcion && (
               <p className="text-danger">Este campo es obligatorio</p>
             )}
+          </div>
+          <div className="row mt-3">
+            <div className="d-flex justify-content-end gap-2 mt-4">
+              <button
+                type="submit"
+                className="btn btn-primary text-capitalize border rounded-pill px-3"
+              >
+                Editar Organigrama
+              </button>
+            </div>
           </div>
         </form>
 

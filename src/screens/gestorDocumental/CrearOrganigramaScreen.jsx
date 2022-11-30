@@ -8,7 +8,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 // import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerOrganigramaAction, editarOrganigramaObtenerAction } from "../../actions/organigramaActions";
+import { obtenerOrganigramaAction, seleccionarOrganigramaAction } from "../../actions/organigramaActions";
 import { useForm } from "react-hook-form";
 
 function CrearOrganigramaScreen() {
@@ -122,7 +122,7 @@ function CrearOrganigramaScreen() {
       checkboxSelection: false,
       showDisabledCheckboxes: false,
       cellRendererFramework: ({ data: { actual } }) => (
-        { actual } ? <i className="fa-solid fa-circle-check fs-3"></i> : <i class="fa-regular fa-xmark fs-3"></i>
+        <i className={`${actual === true ? "fa-solid fa-circle-check fs-3" : "fa-regular fa-xmark fs-3"}`}></i>
       ),
     },
     {
@@ -135,7 +135,7 @@ function CrearOrganigramaScreen() {
             type="button"
             style={{ border: "none", background: "none" }}
             onClick={() => {
-              dispatch(editarOrganigramaObtenerAction(params.data));
+              dispatch(seleccionarOrganigramaAction(params.data));
               navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
             }}
           >

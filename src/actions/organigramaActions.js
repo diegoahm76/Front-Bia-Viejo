@@ -5,7 +5,7 @@ import {
   DESCARGAR_ORGANIGRAMA,
   DESCARGAR_ORGANIGRAMA_ERROR,
   DESCARGAR_ORGANIGRAMA_EXITO,
-  EDITAR_ORGANIGRAMA_OBTENER,
+  SELECCIONAR_ORGANIGRAMA_OBTENER,
   ELIMINAR_ORGANIGRAMA,
   ELIMINAR_ORGANIGRAMA_ERROR,
   ELIMINAR_ORGANIGRAMA_EXITO,
@@ -64,7 +64,7 @@ export const agregarOrganigramaAction = (organigrama, navigate) => {
     try {
       const { data } = await clienteAxios.post("almacen/organigrama/create/", organigrama);
       dispatch(obtenerOrganigramaAction())
-      dispatch(editarOrganigramaObtenerAction(data.detail));
+      dispatch(seleccionarOrganigramaAction(data.detail));
       Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
     } catch (error) {
       console.log(error);
@@ -126,17 +126,34 @@ const organigramaEliminarError = (estado) => ({
   payload: estado,
 });
 
-//Editar Organigrama
-export const editarOrganigramaObtenerAction = (organigrama) => {
+//Seleccionar Organigrama
+export const seleccionarOrganigramaAction = (organigrama) => {
   return (dispatch) => {
-    dispatch(editarOrganigramaObtener(organigrama));
+    dispatch(seleccionarOrganigramaObtener(organigrama));
   };
 };
 
-const editarOrganigramaObtener = (organigrama) => ({
-  type: EDITAR_ORGANIGRAMA_OBTENER,
+const seleccionarOrganigramaObtener = (organigrama) => ({
+  type: SELECCIONAR_ORGANIGRAMA_OBTENER,
   payload: organigrama
 });
+
+//Editar Organigrama
+export const editarOrganigramaAction = (organigrama, id) => {
+  return async (dispatch) => {
+    try {
+      const { data } = await clienteAxios.patch(`almacen/organigrama/update/${id}/`, organigrama);
+      dispatch(obtenerOrganigramaAction());
+      Swal.fire("Se ha editado el organigrama");
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "hubo un error",
+        text: error?.response?.data?.detail,
+      });
+    }
+  };
+};
 
 //Finalizar Organigrama
 export const finalizarOrganigramaAction = (id_organigrama, navigate) => {

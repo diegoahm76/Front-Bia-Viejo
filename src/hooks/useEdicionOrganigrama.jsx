@@ -8,7 +8,7 @@ import clienteAxios from "../config/clienteAxios";
 import IconoEditar from "../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import IconoEliminar from "../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
 //Actions
-import { actualizarNivelAction, actualizarUnidadesAction, obtenerNivelesAction, obtenerUnidadesAction } from "../actions/organigramaActions";
+import { actualizarNivelAction, actualizarUnidadesAction, seleccionarOrganigramaAction, obtenerNivelesAction, obtenerUnidadesAction, editarOrganigramaAction } from "../actions/organigramaActions";
 
 const useEdicionOrganigrama = () => {
 
@@ -95,7 +95,8 @@ const useEdicionOrganigrama = () => {
         reset: resetUnidades,
         watch: watchUnidades,
         formState: { errors: errorsUnidades },
-    } = useForm();
+
+    } = useForm({ defaultValues: initialStateUnidades });
     const datosUnidades = watchUnidades();
 
     //columnas  unidaddes
@@ -115,7 +116,7 @@ const useEdicionOrganigrama = () => {
             checkboxSelection: false,
             showDisabledCheckboxes: false,
             cellRendererFramework: ({ data: { unidad_raiz } }) => (
-                { unidad_raiz } ? <i className="fa-solid fa-circle-check fs-3"></i> : <i class="fa-regular fa-xmark fs-3"></i>
+                <i className={`${unidad_raiz === true ? "fa-solid fa-circle-check fs-3" : "fa-regular fa-xmark fs-3"}`}></i>
             ),
         },
         {
@@ -127,6 +128,7 @@ const useEdicionOrganigrama = () => {
                 <div className="d-flex gap-1">
                     <button
                         style={{ border: "none", background: "none" }}
+                        data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
                         type="button"
                         onClick={() => {
                             resetUnidades({
@@ -340,8 +342,13 @@ const useEdicionOrganigrama = () => {
         dispatch(actualizarUnidadesAction(organigramaEditar.id_organigrama, newUnidades));
     }
 
-    const onSubmitEditOrganigrama = async ({ nombre, id_organigrama }) => {
-        console.log('Editar', nombre, id_organigrama);
+    const onSubmitEditOrganigrama = async ({ nombre, id_organigrama, version, descripcion }) => {
+        let obj = {
+            nombre,
+            descripcion,
+            version
+        }
+        dispatch(editarOrganigramaAction(obj, id_organigrama));
     };
 
     return {
