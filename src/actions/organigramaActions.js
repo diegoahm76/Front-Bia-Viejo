@@ -161,7 +161,11 @@ export const finalizarOrganigramaAction = (id_organigrama, navigate) => {
     try {
       const { data } = await clienteAxios.put(`almacen/organigrama/finalizar/${id_organigrama}/`);
       dispatch(finalizarOrganigrama());
-      Swal.fire("info", 'Atención', data.detail);
+      Swal.fire({
+        icon: "info",
+        title: "Atención",
+        text: data.detail,
+      });
       navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')
     } catch (error) {
       dispatch(finalizarOrganigramaError(true));
