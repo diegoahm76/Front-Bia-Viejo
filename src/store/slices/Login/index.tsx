@@ -66,7 +66,7 @@ export const loginUser = async (dispatch, email: string, password: string) => {
         { email, password },
     ).then((response) => {
         dispatch(setUserInfo(response.data.userinfo));
-        localStorage.setItem("userInfo", response.data);
+        localStorage.setItem("userInfo", JSON.stringify(response.data.userinfo));
     }).catch(() => {
         console.log("LoginError");
     });
@@ -74,11 +74,11 @@ export const loginUser = async (dispatch, email: string, password: string) => {
 export const logoutUser = async (dispatch) => {
     await dispatch(logout());
 }
-export const getUserFromLocalStorage = () => () => {
+export const getUserFromLocalStorage = (dispatch) => {
     const dataUserJSON = localStorage.getItem("userInfo");
     if (dataUserJSON) {
         const dataUser = JSON.parse(dataUserJSON);
-        dataUser.permisos = dataUser.userInfo?.permisos;
+        dispatch(setUserInfo(dataUser));
     }
 };
 

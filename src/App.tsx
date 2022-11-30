@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -12,7 +12,6 @@ import ConservacionRoutes from "./screens/conservacion/routes/ConservacionRoutes
 import GestorDocumentalRoutes from "./screens/gestorDocumental/routes/GestorDocumentalRoutes";
 import TramitesYServiciosRoutes from "./screens/tramitesYServicios/routes/TramitesYServiciosRoutes";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import { getDataFromLocalStorage } from "./actions/userActions";
 import TablerosDeControlRoutes from "./screens/tablerosDeControl/routes/TablerosDeControlRoutes";
 import RegisterPersonaScreen from "./screens/auth/register/RegisterPersonaScreen";
 import SeguridadRoutes from "./screens/seguridad/routes/SeguridadRoutes";
@@ -26,12 +25,12 @@ import AdminProtectedRoutes from "./components/AdminProtectedRoutes";
 import UserProtectedRoutes from "./components/UserProtectedRoutes";
 import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
 import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
-import React from "react";
+import { getUserFromLocalStorage } from "./store/slices/Login";
+import { useAppDispatch } from "./store/store";
 
 function App() {
-  const dispatch = useDispatch();
-
-  // dispatch(getDataFromLocalStorage());
+  const dispatch = useAppDispatch();
+  getUserFromLocalStorage(dispatch);
 
   return (
     <Routes>

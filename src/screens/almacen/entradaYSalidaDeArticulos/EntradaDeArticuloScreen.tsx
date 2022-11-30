@@ -35,7 +35,7 @@ export const EntradaDeArticuloScreen = () => {
         const estadosArticulosFormat = textChoiseAdapter(
           EstadoArticulosNoFormat
         );
-        setEstadoArticulos(estadosArticulosFormat);
+        // setEstadoArticulos(estadosArticulosFormat);
       } catch (err) {
         console.log(err);
       }
