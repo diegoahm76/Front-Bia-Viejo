@@ -1720,7 +1720,6 @@ const AdministradorDePersonasScreen = () => {
           <BusquedaAvanzadaModal
             isModalActive={busquedaAvanzadaIsOpen}
             setIsModalActive={setBusquedaAvanzadaIsOpen}
-            formValues={formValuesSearch}
             setFormValues={setFormValuesSearch}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}
