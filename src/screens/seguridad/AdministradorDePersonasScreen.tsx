@@ -36,46 +36,17 @@ interface formValuesInterface {
   indicativoPais: number;
   digito_verificacion: number;
 }
-
-interface ImunicipioResidenciaFiltered {
+interface ISelectOptions {
   label: string;
   value: string;
 }
 
-interface ImunicipioDondeLaboraFiltered {
-  label: string;
-  value: string;
-}
-
-interface ImunicipioNotificacionFiltered {
-  label: string;
-  value: string;
-}
-
-interface paisesInterface {
-  label: string;
-  value: string;
-}
-
-interface municipiosInterface {
-  label: string;
-  value: string;
-}
-
-interface departamentosInterface {
-  label: string;
-  value: string;
-}
-
-interface tipoDocumentoInterface {
-  label: string;
-  value: string;
-}
-
-interface estadoCivilInterface {
-  label: string;
-  value: string;
-}
+export const initialOptions: ISelectOptions[] = [
+  {
+    label: "",
+    value: "",
+  },
+];
 
 const defaultValues: formValuesInterface = {
   tipoDocumento: 0,
@@ -114,26 +85,20 @@ const AdministradorDePersonasScreen = () => {
   const [yesOrNot, setYesOrNot] = useState(false);
   const [primeraVez, setPrimeraVez] = useState(true);
 
-  const [sexoOptions, setSexoOptions] = useState([]);
-  const [estadoCivilOptions, setEstadoCivilOptions] = useState<
-    estadoCivilInterface[]
-  >([]);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<
-    tipoDocumentoInterface[]
-  >([]);
-  const [paisesOptions, setPaisesOptions] = useState<paisesInterface[]>([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState<
-    departamentosInterface[]
-  >([]);
-  const [municipiosOptions, setMunicipiosOptions] = useState<
-    municipiosInterface[]
-  >([]);
+  const [sexoOptions, setSexoOptions] = useState(initialOptions);
+  const [estadoCivilOptions, setEstadoCivilOptions] = useState(initialOptions);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] =
+    useState(initialOptions);
+  const [paisesOptions, setPaisesOptions] = useState(initialOptions);
+  const [departamentosOptions, setDepartamentosOptions] =
+    useState(initialOptions);
+  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
   const [municipioResidenciaFiltered, setmunicipioResidenciaFiltered] =
-    useState<ImunicipioResidenciaFiltered[]>([]);
+    useState(initialOptions);
   const [municipioDondeLaboraFiltered, setMunicipioDondeLaboraFiltered] =
-    useState<ImunicipioDondeLaboraFiltered[]>([]);
+    useState(initialOptions);
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
-    useState<ImunicipioNotificacionFiltered[]>([]);
+    useState(initialOptions);
   const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
   });
@@ -738,10 +703,8 @@ const AdministradorDePersonasScreen = () => {
       setmunicipioResidenciaFiltered([]);
       setFormValues({ ...formValues, municipio: 0 });
     } else {
-      const municipioIndicadores: string = lugarResidencia.departamento?.value?.slice(
-        0,
-        1
-      );
+      const municipioIndicadores: string =
+        lugarResidencia.departamento?.value?.slice(0, 1);
       const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
         const indicator: string = municipio.value.slice(0, 1);
         return municipioIndicadores === indicator;

@@ -70,9 +70,7 @@ const AdministradorDeEmpresasScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
-  const [datosNotificacion, setDatosNotificacion] = useState({
-    departamento: "",
-  });
+  const [datosNotificacion, setDatosNotificacion] = useState(initialOptions);
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
   const [actionForm, setActionForm] = useState("");
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<
@@ -88,8 +86,7 @@ const AdministradorDeEmpresasScreen = () => {
   );
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
     useState<ISelectOptions[]>([]);
-  const [departamentosOptions, setDepartamentosOptions] =
-    useState(initialOptions);
+  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
@@ -535,7 +532,7 @@ const AdministradorDeEmpresasScreen = () => {
         ...watchEmpresa(),
         municipioNotificacion: "",
       });
-      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
+      setDatosNotificacion([{label: "", value: ""}] );
     }
     setFormValues({
       ...formValues,
@@ -565,19 +562,20 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (datosNotificacion.departamento === "") {
+    if (datosNotificacion[0].value === "") {
       setMunicipioNotificacionFiltered([]);
       setFormValues({ ...formValues, municipioNotificacion: -1 });
     } else {
-      const municipioIndicadores = datosNotificacion.departamento?.slice(0, 2);
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-        const indicator = municipio.value.slice(0, 2);
-        return municipioIndicadores === indicator;
-      });
-      setMunicipioNotificacionFiltered(municipiosCoincidentes);
+      //Todo: Revisar
+      // const municipioIndicadores = datosNotificacion?.slice(0, 2);
+      // const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+      //   const indicator = municipio.value.slice(0, 2);
+      //   return municipioIndicadores === indicator;
+      // });
+      // setMunicipioNotificacionFiltered(municipiosCoincidentes);
       setFormValues({ ...formValues, municipioNotificacion: 0 });
     }
-  }, [datosNotificacion.departamento]);
+  }, [datosNotificacion]);
 
   useEffect(() => {
     setPrimeraVez(true);
@@ -1014,27 +1012,21 @@ const AdministradorDeEmpresasScreen = () => {
                       <label className="form-label text-terciary">
                         Departamento notificación:{" "}
                       </label>
-                      <Controller
-                        name="departamentoNotificacion"
-                        control={controlEmpresa}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            isDisabled={
-                              paisesOptions[formValues.paisNotificacion]
-                                ?.value !== "CO"
-                            }
-                            options={options}
-                            onChange={(e: any) => {
-                              setDatosNotificacion({
-                                ...datosNotificacion,
-                                departamento: e,
-                              });
-                            }}
-                            value={datosNotificacion.departamento}
-                            placeholder="Seleccionar"
-                          />
-                        )}
+                      <Select
+                        options={departamentosOptions}
+                        isDisabled={
+                          paisesOptions[formValues.paisNotificacion]?.value !==
+                          "CO"
+                        }
+                        onChange={(e: any) => {
+                          //Todo: Revisar
+                          // setDatosNotificacion({
+                          //   ...datosNotificacion,
+                          //   departamento: e,
+                          // });
+                        }}
+                        value={datosNotificacion[0]}
+                        placeholder="Seleccionar"
                       />
                     </div>
                   ) : (
