@@ -44,7 +44,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
       version: data.version,
       descripcion: data.descripcion,
     };
-    dispatch(agregarOrganigramaAction(nuevoOrganigrama));
+    dispatch(agregarOrganigramaAction(nuevoOrganigrama, navigate));
     handleCloseCrearOrganigrama();
     navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
   };
@@ -106,26 +106,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
                 </div>
               )}
             </div>
-
-            {/* <div className="row d-flex align-items-end mt-2 mx-2">
-              <div className="col-12 col-md-6 mb-3">
-                <label className="text-terciary">Resolucion: </label>
-                <button
-                  // type="submit"
-                  className="border rounded-pill px-3 btn btn-primary text-capitalize ms-2 mb-0"
-                  type="button"
-                >
-                  Cargar
-                </button>
-                {errors.resolucionOrganigrama && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-            </div> */}
 
             <div className="col-12">
               <label className="text-terciary">

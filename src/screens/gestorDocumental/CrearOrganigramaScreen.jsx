@@ -8,7 +8,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
 import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 // import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerOrganigramaAction, editarOrganigramaObtenerAction } from "../../actions/organigramaActions";
+import { obtenerOrganigramaAction, seleccionarOrganigramaAction } from "../../actions/organigramaActions";
 import { useForm } from "react-hook-form";
 
 function CrearOrganigramaScreen() {
@@ -104,38 +104,42 @@ function CrearOrganigramaScreen() {
       wrapText: true,
     },
     // {
-    //   headerName: "Resolución",
-    //   field: "ruta_resolucion",
-    //   minWidth: 105,
-    //   maxWidth: 120,
-    //   wrapText: true,
+    //   headerName: "Actual",
+    //   field: "actual",
+    //   minWidth: 75,
+    //   maxWidth: 100,
+    //   headerCheckboxSelection: false,
+    //   checkboxSelection: false,
+    //   showDisabledCheckboxes: false,
     // },
     {
       headerName: "Actual",
       field: "actual",
-      minWidth: 75,
-      maxWidth: 100,
+      wrapText: true,
+      headerAlign: "center",
+      minWidth: 140,
       headerCheckboxSelection: false,
       checkboxSelection: false,
       showDisabledCheckboxes: false,
+      cellRendererFramework: ({ data: { actual } }) => (
+        <i className={`${actual === true ? "fa-solid fa-circle-check fs-3" : "fa-regular fa-xmark fs-3"}`}></i>
+      ),
     },
     {
       headerName: "Acciones",
       field: "acciones",
       minWidth: 140,
       cellRendererFramework: (params) => (
-        <div className="d-flex gap-1">
+        <div>
           <button
-            className="btn my-1 btn-sm btn-tablas btn-outline-warning "
             type="button"
-            // onSubmit={handleSubmit(onSumbitNiveles)}
+            style={{ border: "none", background: "none" }}
             onClick={() => {
-              dispatch(editarOrganigramaObtenerAction(params.data));
+              dispatch(seleccionarOrganigramaAction(params.data));
               navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
-              // setIsModalEditarActivate(!isModalActive);
             }}
           >
-            <img src={IconoEditar} alt="editar" />
+            <i class="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
