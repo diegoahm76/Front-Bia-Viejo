@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
-import { useDispatch, useSelector } from "react-redux";
 import { editarAlarmaConfigAction } from "../actions/alarmasConfigActions";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { editarAlarmasConfig } from "../store/slices/alarmasConfig/indexAlarmasConfig";

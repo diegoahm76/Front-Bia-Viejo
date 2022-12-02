@@ -9,7 +9,7 @@ import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { IGeneric } from "../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
-import { crearAlarma, editarAlarma } from "../store/slices/alarmas/reducerAlarma";
+import { crearAlarma, editarAlarma } from "../store/slices/alarmas/indexAlarma";
 
 const defaultValues = {
   t001nombre: "",
@@ -104,13 +104,10 @@ const AlarmasModal = ({
     // reset(dataEdit);
   };
 
-  useEffect(() => {
-    getEstaciones();
-  }, []);
-
-  useEffect(() => {
-    handleResetDataEdit();
-  }, [dataEdit]);
+  // useEffect(() => {
+  //   // getEstaciones();
+  //   handleResetDataEdit();
+  // }, []);
 
   return (
     <Modal

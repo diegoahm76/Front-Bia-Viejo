@@ -7,6 +7,7 @@ import alarmasReducer from "./slices/alarmas/indexAlarma";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 import loadingReducer, { cancelLoading, startLoading } from './slices/loading/indexLoading'
 import instance from '../config/clienteAxiosEstaciones';
+import { useAppDispatch } from "./hooks/hooks";
 
 const store = configureStore({
   reducer: {
@@ -22,8 +23,6 @@ export default store;
 
 // Dispatch
 export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
-
 // Selector
 export type RootState = ReturnType<typeof store.getState>;
 

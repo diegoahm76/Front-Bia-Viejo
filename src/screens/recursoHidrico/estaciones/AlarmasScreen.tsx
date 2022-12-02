@@ -1,12 +1,13 @@
-import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
+import { AgGridReact } from "ag-grid-react";
 import { useForm } from "react-hook-form";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import AlarmasModal from "../../../components/AlarmasModal";
 import Subtitle from "../../../components/Subtitle";
-import { useAppSelector } from "../../../store/hooks/hooks";
-import { obtenerTodasAlarmas } from "../../../store/slices/alarmas/reducerAlarma";
-import { useAppDispatch } from "../../../store/store";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+import { obtenerTodasAlarmas } from "../../../store/slices/alarmas/indexAlarma";
+
+
 
 const defaultColDef = {
   sortable: true,
@@ -19,11 +20,17 @@ const defaultColDef = {
   suppressMovable: true,
 };
 
-const AlarmasScreen = () => {
-  const alarmas = useAppSelector((state) => state.alarma);
-  const [isModalActive, setIsModalActive] = useState(false);
 
+const AlarmasScreen = () => {
+  const [isModalActive, setIsModalActive] = useState(false);
+  // REVISAR --> ERROR REFERENCIA CIRCULAR
   const dispatch = useAppDispatch();
+
+  const alarmas = useAppSelector((state) => state.alarma);
+
+  useEffect(() => {
+    obtenerTodasAlarmas(dispatch);
+  });
 
   const {
     handleSubmit,
@@ -33,10 +40,6 @@ const AlarmasScreen = () => {
     watch,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    obtenerTodasAlarmas(dispatch);
-  }, []);
 
   const columnDefs = [
     {
