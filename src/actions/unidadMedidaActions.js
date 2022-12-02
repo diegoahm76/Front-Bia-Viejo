@@ -12,8 +12,7 @@ import {
 } from "../../src/types/unidadMedidaTypes";
 import Swal from "sweetalert2";
 
-export const crearNuevaUnidadMedidaAction = ({unidadMedidaCreate,fetchData}) => {
-  debugger
+export const crearNuevaUnidadMedidaAction = ({unidadMedidaCreate,fetchData}) => {  
   return async (dispatch) => {
     dispatch(agregarUnidadMedida());
     try {
