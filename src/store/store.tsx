@@ -5,14 +5,16 @@ import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
-// import thunk from "redux-thunk";
+import loadingReducer, { cancelLoading, startLoading } from './slices/loading/indexLoading'
+import instance from '../config/clienteAxiosEstaciones';
 
 const store = configureStore({
   reducer: {
     login: loginReducer,
     modalSelector: modalReducer,
     alarma: alarmasReducer,
-    alarmasConfig: alarmasConfigReducer
+    alarmasConfig: alarmasConfigReducer,
+    loading: loadingReducer
   }
 });
 
@@ -24,3 +26,15 @@ export const useAppDispatch: () => AppDispatch = useDispatch
 
 // Selector
 export type RootState = ReturnType<typeof store.getState>;
+
+
+// Interceptors 
+instance.interceptors.request.use(
+  () => { startLoading(useAppDispatch) },
+  () => { cancelLoading(useAppDispatch) }
+)
+
+instance.interceptors.response.use(
+  () => { cancelLoading(useAppDispatch) },
+  () => { cancelLoading(useAppDispatch) }
+)

@@ -21,7 +21,9 @@ Modal.setAppElement("#root");
 
 const CalendarModal = ({ children }) => {
   const userInfo = useAppSelector((state) => state.login.userinfo);
-
+  // REVISAR 
+  // isOpen={isModalActive}
+  
   return (
     <Modal
       isOpen={false}

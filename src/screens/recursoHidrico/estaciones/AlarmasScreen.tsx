@@ -1,16 +1,12 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  cambiarModoAction,
-  eliminarAlarmaAction,
-  obtenerAlarmaEditAction,
-  obternerAlarmasAction,
-} from "../../../actions/alarmasActions";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import AlarmasModal from "../../../components/AlarmasModal";
 import Subtitle from "../../../components/Subtitle";
+import { useAppSelector } from "../../../store/hooks/hooks";
+import { obtenerTodasAlarmas } from "../../../store/slices/alarmas/reducerAlarma";
+import { useAppDispatch } from "../../../store/store";
 
 const defaultColDef = {
   sortable: true,
@@ -24,10 +20,10 @@ const defaultColDef = {
 };
 
 const AlarmasScreen = () => {
-  const { alarmas, loading } = useSelector((state) => state.alarmas);
+  const alarmas = useAppSelector((state) => state.alarma);
   const [isModalActive, setIsModalActive] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
@@ -39,7 +35,7 @@ const AlarmasScreen = () => {
   } = useForm();
 
   useEffect(() => {
-    dispatch(obternerAlarmasAction());
+    obtenerTodasAlarmas(dispatch);
   }, []);
 
   const columnDefs = [
@@ -83,7 +79,9 @@ const AlarmasScreen = () => {
 
   const editarAction = (objectid) => {
     setIsModalActive(true);
-    dispatch(obtenerAlarmaEditAction(objectid, reset));
+
+    // REVISAR 
+    // dispatch(obtenerAlarmaEditAction(objectid, reset));
   };
 
   return (

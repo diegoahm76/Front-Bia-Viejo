@@ -1,6 +1,13 @@
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import { crearAlarmaAction, editarAlarmaAction, obtenerAlarmaEditAction } from "./indexAlarma";
+import { IAlarmas } from "../../../Interfaces/Alarmas";
+import { crearAlarmaAction, editarAlarmaAction, obtenerAlarmaByIdAction } from "./indexAlarma";
+
+export const obtenerTodasAlarmas = async (dispatch) => {
+    await clienteEstaciones.get<IAlarmas[]>("Alarmas").then((alarmas) => {
+        dispatch(obtenerTodasAlarmas(alarmas))
+    });
+}
 
 export const crearAlarma = async (dispatch, dataAlarma) => {
     await clienteEstaciones.post("Alarmas", dataAlarma).then((res) => {
@@ -35,7 +42,7 @@ export const crearAlarma = async (dispatch, dataAlarma) => {
 export const obtenerAlarmaEdit = async (dispatch, objectid: string) => {
     await clienteEstaciones.get(`Alarmas/${objectid}`)
         .then((res) => {
-            dispatch(obtenerAlarmaEditAction(res.data));
+            dispatch(obtenerAlarmaByIdAction(res.data));
         }).catch(() => {
             Swal.fire({
                 position: "center",
