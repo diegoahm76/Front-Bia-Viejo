@@ -1,13 +1,13 @@
-export interface IOrganigrama {
-    organigrama: IObjOrganigrama[];
-    organigramaEliminar: IObjOrganigrama;
-    organigramaEditar: IObjOrganigrama;
-    nivelesOrganigrama: IObjNiveles[];
-    unidadesOrganigrama: IObjUnidades[];
+export interface IOrganigram {
+    organigram: IObjOrganigram[];
+    organigramDelete: IObjOrganigram | {};
+    organigramEdit: IObjOrganigram | {};
+    levelsOrganigram: IObjNiveles[];
+    unityOrganigram: IObjUnidades[];
 }
 
-interface IObjOrganigrama {
-    id_organigrama: number;
+export interface IObjOrganigram {
+    id_organigram: number;
     nombre: string;
     fecha_terminado: string | Date;
     descripcion: string;
@@ -20,16 +20,16 @@ interface IObjOrganigrama {
 }
 
 interface IObjNiveles {
-    id_nivel_organigrama: number;
-    id_organigrama_id: number;
+    id_nivel_organigram: number;
+    id_organigram_id: number;
     orden_nivel: number;
     nombre: string;
 }
 
 interface IObjUnidades {
     id_unidad_organizacional: number | null,
-    id_organigrama_id: number | null,
-    id_nivel_organigrama_id: number | null,
+    id_organigram_id: number | null,
+    id_nivel_organigram_id: number | null,
     nombre: string;
     codigo: string;
     cod_tipo_unidad: string;

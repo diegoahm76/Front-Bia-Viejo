@@ -1,3 +1,4 @@
+import React from "react";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
 import Subtitle from "./Subtitle";
@@ -6,6 +7,8 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { agregarOrganigramaAction } from "../actions/organigramaActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addOrganigramsService } from "../services/organigram/OrganigramServices";
+import { useAppDispatch } from '../store/hooks/hooks';
 
 
 const customStyles = {
@@ -25,7 +28,7 @@ Modal.setAppElement("#root");
 const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
   const navigate = useNavigate()
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleCloseCrearOrganigrama = () => {
     setIsModalActive(false);
@@ -38,13 +41,14 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
   } = useForm();
 
   const onSumbitOrganigrama = async (data) => {
-    const nuevoOrganigrama = {
+    const newOrganigram = {
       ...data,
       nombre: data.nombre,
       version: data.version,
       descripcion: data.descripcion,
     };
-    dispatch(agregarOrganigramaAction(nuevoOrganigrama, navigate));
+    // dispatch(agregarOrganigramaAction(newOrganigram, navigate));
+    dispatch(addOrganigramsService(newOrganigram, navigate));
     handleCloseCrearOrganigrama();
     navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
   };
@@ -52,7 +56,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
   return (
     <Modal
       isOpen={isModalActive}
-      onRequestClose={handleCloseCrearOrganigrama}
+      // onRequestClose={handleCloseCrearOrganigrama}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
@@ -75,9 +79,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
               </label>
               <input
                 type="text"
-                name="nombre"
                 className="form-control border border-terciary rounded-pill px-3"
-                // placeholder="Escribe el nombre"
                 {...register("nombre", { required: true })}
               />
               {errors.nombre && (
@@ -95,7 +97,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 type="text"
                 className="form-control border border-terciary rounded-pill px-3"
-                // placeholder="Escribe el codigo"
                 {...register("version", { required: true })}
               />
               {errors.version && (
@@ -114,7 +115,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
               <textarea
                 className="form-control border rounded-pill px-3"
                 placeholder=""
-                type="text"
                 rows={3}
                 {...register("descripcion", { required: true })}
               />

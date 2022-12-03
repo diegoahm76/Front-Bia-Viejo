@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
-import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
-import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-// import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerOrganigramaAction, seleccionarOrganigramaAction } from "../../actions/organigramaActions";
 import { useForm } from "react-hook-form";
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
+import { getOrganigramsService } from "../../services/organigram/OrganigramServices";
 
 function CrearOrganigramaScreen() {
 
+  const { organigram } = useAppSelector((state) => state.organigram);
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -30,19 +30,13 @@ function CrearOrganigramaScreen() {
       version: data.version,
       descripcion: data.descripcion,
     };
-
-    console.log(data);
-    // dispatch(agregarOrganigramaAction(nuevoOrganigramaNiveles));
-    navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
+    navigate('/dashboard/gestordocumental/organigram/edicion-organigram')
   };
 
 
-
   useEffect(() => {
-    dispatch(obtenerOrganigramaAction());
+    dispatch(getOrganigramsService())
   }, []);
-
-  const { organigrama } = useSelector((state) => state.organigrama);
 
   const columnDefs = [
     {
@@ -135,11 +129,11 @@ function CrearOrganigramaScreen() {
             type="button"
             style={{ border: "none", background: "none" }}
             onClick={() => {
-              dispatch(seleccionarOrganigramaAction(params.data));
-              navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
+              // dispatch(seleccionarOrganigramaAction(params.data));
+              navigate('/dashboard/gestordocumental/organigram/edicion-organigram');
             }}
           >
-            <i class="fa-regular fa-pen-to-square fs-3"></i>
+            <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -176,7 +170,6 @@ function CrearOrganigramaScreen() {
           <button
             className="ms-3 mt-3 btn btn-primary flex-center text-capitalize border rounded-pill px-3"
             type="button"
-            title="Send"
             form="configForm"
             onClick={() => setCrearOrganigramaIsActive(true)}
           >
@@ -198,7 +191,7 @@ function CrearOrganigramaScreen() {
             >
               <AgGridReact
                 columnDefs={columnDefs}
-                rowData={organigrama}
+                rowData={organigram}
                 debounceVerticalScrollbar={true}
                 defaultColDef={defaultColDef}
                 pagination={true}

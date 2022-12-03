@@ -10,6 +10,7 @@ import Subtitle from "../../components/Subtitle";
 import useEdicionOrganigrama from "../../hooks/useEdicionOrganigrama";
 //Actions
 import { finalizarOrganigramaAction } from "../../actions/organigramaActions";
+import { useAppSelector } from "../../store/hooks/hooks";
 
 
 export const EdicionOrganigramaScreen = () => {
@@ -21,8 +22,7 @@ export const EdicionOrganigramaScreen = () => {
   const navigate = useNavigate()
 
   // Redux State Extraction
-  const { organigramaEditar, nivelesOrganigrama, unidadesOrganigrama } = useSelector((state) => state.organigrama);
-
+  const { organigramEdit, levelsOrganigram, unityOrganigram } = useAppSelector((state) => state.organigram);
   //Hooks
   const {
     //States
@@ -179,7 +179,7 @@ export const EdicionOrganigramaScreen = () => {
                   >
                     <AgGridReact
                       columnDefs={columnsNivel}
-                      rowData={nivelesOrganigrama}
+                      rowData={levelsOrganigram}
                       defaultColDefOrganigrama={defaultColDefOrganigrama}
                       onGridReady={onGridReady}
                     />
@@ -265,7 +265,7 @@ export const EdicionOrganigramaScreen = () => {
                             tipoUnidad: e,
                           });
                         }}
-                        options={optionsTipoUnidad.map((item) => (item.value !== 'LI' && unidadesOrganigrama.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
+                        options={optionsTipoUnidad.map((item) => (item.value !== 'LI' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -362,7 +362,7 @@ export const EdicionOrganigramaScreen = () => {
                             agrupacionDocumental: e,
                           });
                         }}
-                        options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unidadesOrganigrama.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
+                        options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -399,7 +399,7 @@ export const EdicionOrganigramaScreen = () => {
                 >
                   <AgGridReact
                     columnDefs={columnsUnidades}
-                    rowData={unidadesOrganigrama}
+                    rowData={unityOrganigram}
                     defaultColDefOrganigrama={defaultColDefOrganigrama}
                     onGridReady={onGridReady}
                   />
@@ -427,7 +427,7 @@ export const EdicionOrganigramaScreen = () => {
               <button
                 type="button"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
-                onClick={() => dispatch(finalizarOrganigramaAction(organigramaEditar.id_organigrama, navigate))}
+                // onClick={() => dispatch(finalizarOrganigramaAction(organigramaEditar.id_organigrama, navigate))}
               >
                 Finalizar Organigrama
               </button>

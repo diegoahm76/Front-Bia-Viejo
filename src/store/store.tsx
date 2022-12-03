@@ -6,6 +6,7 @@ import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 import loadingReducer, { cancelLoading, startLoading } from './slices/loading/indexLoading'
+import organigramReducer from './slices/organigrama/indexOrganigram'
 import instance from '../config/clienteAxiosEstaciones';
 import { useAppDispatch } from "./hooks/hooks";
 
@@ -15,7 +16,8 @@ const store = configureStore({
     modalSelector: modalReducer,
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
+    organigram: organigramReducer
   }
 });
 
@@ -27,7 +29,7 @@ export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>;
 
 
-// Interceptors 
+// Interceptors
 instance.interceptors.request.use(
   () => { startLoading(useAppDispatch) },
   () => { cancelLoading(useAppDispatch) }
