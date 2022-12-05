@@ -310,7 +310,8 @@ const AlarmasModal = ({
                   Cargando...
                 </>
               ) : (
-                <img src={iconoCancelar} alt="" title="Cancelar" />
+                ""
+                // REVISAR <img src={iconoCancelar} alt="" title="Cancelar" />
               )}
             </button>
             <button

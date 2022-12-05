@@ -6,8 +6,7 @@ import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import iconoAgregar from "../assets/iconosBotones/agregar.svg";
 import React from "react";
 import { crearEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
-import { useAppDispatch } from "../store/store";
-import { useAppSelector } from "../store/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {

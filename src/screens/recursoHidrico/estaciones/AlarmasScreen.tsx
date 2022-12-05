@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useForm } from "react-hook-form";
-<<<<<<< HEAD:src/screens/recursoHidrico/estaciones/AlarmasScreen.js
 import { useDispatch, useSelector } from "react-redux";
 import {
   cambiarModoAction,
@@ -10,9 +9,7 @@ import {
   obternerAlarmasAction,
 } from "../../../actions/alarmasActions";
 import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
-=======
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
->>>>>>> migrateTsxCris:src/screens/recursoHidrico/estaciones/AlarmasScreen.tsx
 import AlarmasModal from "../../../components/AlarmasModal";
 import Subtitle from "../../../components/Subtitle";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";

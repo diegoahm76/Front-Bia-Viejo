@@ -28,7 +28,6 @@ const administradorEstacionesSlice = createSlice({
   reducers: {
     crearEstacionAction: (state, action) => {},
     obtenerEstacionAction: (state, action) => {
-      state.pop();
       state = action.payload;
     },
     eliminarEstacionAction: (state, action) => {},

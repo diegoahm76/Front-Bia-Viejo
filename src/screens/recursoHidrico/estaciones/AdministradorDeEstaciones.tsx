@@ -13,7 +13,6 @@ import {
   eliminarEstacion,
   editarEstacion,
 } from "../../../store/slices/administradorEstaciones/indexAdministradorEstaciones";
-import { editarAlarma } from "../../../store/slices/alarmas/reducerAlarma";
 // import ExportExcelFile from "../../../components/ExportExcelFile";
 const AdministradorDeEstaciones = () => {
   const dispatch = useAppDispatch();
