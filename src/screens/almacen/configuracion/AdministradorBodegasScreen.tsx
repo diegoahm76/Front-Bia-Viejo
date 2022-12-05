@@ -1,3 +1,4 @@
+import React from 'react'
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
@@ -13,15 +14,16 @@ import {
   obtenerBodegaByEditAction,
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
-
+import { useAppDispatch } from "../../../store/store";
+import { editarBodegaAction1, eliminarBodega, obtenerBodega } from "../../../store/slices/bodega/indexBodega";
+import { useAppSelector } from "../../../store/hooks/hooks";
 
 const AdministradorBodegasScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
-    const getBodegas = async () => dispatch(obtenerBodegasAction());
-    getBodegas();
+    obtenerBodega(dispatch)
   }, []);
 
   const navigate = useNavigate();
@@ -29,13 +31,14 @@ const AdministradorBodegasScreen = () => {
     navigate("/dashboard/almacen/configuracion/creacionbodega");
   };
   const EditarBodega = (data) =>{
-    dispatch(obtenerBodegaByEditAction(data))
+    // dispatch(editarBodegaAction1(data))
+    localStorage.setItem("bodega", JSON.stringify(data.data));
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
 
-  const { bodega } = useSelector((state) => state.bodega);
+  const  bodega  = useAppSelector((state) => state.bodegaSlice);
 
-  console.log("bodega", bodega)
+
 
   const confirmarEliminarBodega = (id_bodega) => {
     Swal.fire({
@@ -50,7 +53,8 @@ const AdministradorBodegasScreen = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //Pasarlo al action
-        dispatch(eliminarBodegaAction(id_bodega));
+        eliminarBodega(dispatch,id_bodega)
+        // dispatch(eliminarBodegaAction(id_bodega));
       }
     });
   };
@@ -132,10 +136,10 @@ const AdministradorBodegasScreen = () => {
         </div>
       </div>
 
-      <NuevaEstacionModal
+      {/* <NuevaEstacionModal
         setIsModalActive={setIsModalActive}
         isModalActive={isModalActive}
-      />
+      /> */}
     </div>
   );
 };

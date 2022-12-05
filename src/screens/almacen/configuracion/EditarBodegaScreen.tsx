@@ -13,16 +13,19 @@ import {
 } from "../../../actions/bodegaActions";
 import { useDispatch, useSelector } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
+import { useAppSelector } from "../../../store/hooks/hooks";
+import { IGeneric } from "../../../Interfaces/Generic";
 const EditarBodegaScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
     id_persona: "",
   });
+  
 
   // console.log("form", formValuesSearch);
 
-  const { bodegaEditar } = useSelector((state) => state.bodega);
+  const listabodegas  = useAppSelector((state) => state.bodegaSlice);
 
   const {
     reset: resetBuscar,
@@ -41,10 +44,15 @@ const EditarBodegaScreen = () => {
     formState: { errors: errorsBodega },
   } = useForm();
 
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
-  const [municipiosOptions, setMunicipiosOptions] = useState([]);
-  const [municipioFiltered, setMunicipioFiltered] = useState([])
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+  const initialOptions:IGeneric[] =[{
+    label: "",
+    value: ""
+  }] 
+
+  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
+  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
+  const [municipioFiltered, setMunicipioFiltered] = useState(initialOptions)
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
   const [es_principal, setEs_principal] = useState(false);
   const [formValues, setFormValues] = useState({
     municipio: "",
@@ -94,6 +102,10 @@ const EditarBodegaScreen = () => {
   };
 
   useEffect(() => {
+    let bodegaEditar;
+    const bodega=localStorage.getItem("bodega");
+    const bodegaObje= JSON.parse(bodega as string)
+    console.log(bodegaObje)
     const getSelectsOptions = async () => {
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
@@ -121,13 +133,13 @@ const EditarBodegaScreen = () => {
         } = bodegaEditar.id_responsable;
         const fullName = `${primer_nombre} ${segundo_nombre} ${primer_apellido} ${segundo_apellido}`;
 
-        let tipoDocumento = null;
+        let tipoDocumento = "";
         documentosFormat.forEach((documento) => {
           if (
             documento.value ===
             bodegaEditar.id_responsable.tipo_documento.cod_tipo_documento
           ) {
-            tipoDocumento = documento;
+            tipoDocumento = documento.value;
           }
         });
 
@@ -187,7 +199,7 @@ const EditarBodegaScreen = () => {
         >
           <div className="row">
             <h3 className="text-rigth  fw-light mt-4 mb-2"> Editar bodega</h3>
-            <Subtitle title={"Datos del responsable"} mb="3" />
+            <Subtitle title={"Datos del responsable"} mb={3} />
             <div className="col-12 col-md-3">
               <label className="ms-3 text-terciary">Tipo de Documento</label>
               <Controller
@@ -259,7 +271,6 @@ const EditarBodegaScreen = () => {
             <BusquedaAvanzadaModal
               isModalActive={busquedaAvanzadaIsOpen}
               setIsModalActive={setBusquedaAvanzadaIsOpen}
-              formValues={formValuesSearch}
               setFormValues={setFormValuesSearch}
               reset={resetBuscar}
               tipoDocumentoOptions={tipoDocumentoOptions}
@@ -273,12 +284,11 @@ const EditarBodegaScreen = () => {
           id="configForm"
         >
           <div className="row">
-            <Subtitle title="Información de la bodega" mb="3" />
+            <Subtitle title="Información de la bodega" mb={3} />
             <div className="col-12 col-sm-3 mt-2">
               <div>
                 <label className="ms-3 text-terciary">Nombre de bodega</label>
                 <input
-                  name="nombre"
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="nombre"
@@ -340,7 +350,6 @@ const EditarBodegaScreen = () => {
                   Dirección de bodega
                 </label>
                 <input
-                  name="direccion"
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="dirección"
@@ -356,7 +365,6 @@ const EditarBodegaScreen = () => {
                 ¿La bodega es principal?
               </label>
               <input
-                name="es_principal"
                 className="border border-terciary form-check-input mx-2"
                 type="checkbox"
                 id="flexCheckDefault"

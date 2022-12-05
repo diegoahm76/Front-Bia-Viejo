@@ -2,13 +2,14 @@ import React from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { Link } from "react-router-dom";
 import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
-import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
-import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
-import IconoSeguimientoPlanes from "../assets/planning-svgrepo-com.svg";
-import IconoConservacion from "../assets/plant-leaf-svgrepo-com.svg";
-import IconoGestionDocumental from "../assets/files-document-svgrepo-com.svg";
-import IconoTramitesServicios from "../assets/ecology-svgrepo-com.svg";
-import IconoRecursoHidrico from "../assets/water-svgrepo-com.svg";
+import IconoTablerosDeControl from "../assets/Sub-sistema-Tablerosdecontrol.svg";
+import IconoAlmacen from "../assets/Sub-sistema-Almacen.svg";
+import IconoRecaudo from "../assets/Sub-sistema-Recaudo.svg";
+import IconoSeguimientoPlanes from "../assets/Sub-sistema-SeguimientoPlanes.svg";
+import IconoConservacion from "../assets/Sub-sistema-Conservacion.svg";
+import IconoGestionDocumental from "../assets/Sub-sistema-GestionDocumental.svg";
+import IconoTramitesServicios from "../assets/Sub-sistema-Tramitesyservicios.svg";
+import IconoRecursoHidrico from "../assets/Sub-sistema-RecursoHidrico.svg";
 import IconoAgregarVivero from "../assets/iconosConservacion/add-svgrepo-com.svg";
 import IconoGestorVivero from "../assets/iconosConservacion/leaves-plant-svgrepo-com.svg";
 import IconoEditarVivero from "../assets/iconosConservacion/edit-svgrepo-com.svg";
@@ -23,13 +24,12 @@ import IconoReportes from "../assets/iconosAlmacen/market-research-svgrepo-com.s
 import IconoSolicitudesArticulo from "../assets/iconosAlmacen/cart-basket-ecommerce-svgrepo-com.svg";
 import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-vehicle-svgrepo-com.svg";
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
-import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
-import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
+import IconoSeguridad from "../assets/Sub-sistema-Seguridad.svg";
 import IconoUser from "../assets/imgs/perfil.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
-import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/climate-change-svgrepo-com.svg";
+import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/Sub-sistema-EstacionesHidrometereologicas.svg";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { logoutUser } from "../store/slices/Login";
 

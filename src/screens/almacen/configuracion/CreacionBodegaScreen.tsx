@@ -10,7 +10,10 @@ import clienteAxios from "../../../config/clienteAxios";
 import { crearNuevaBodegaAction } from "../../../actions/bodegaActions";
 import { useDispatch } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
-import AdministradorBodegasScreen from "../configuracion/AdministradorBodegasScreen";
+import AdministradorBodegasScreen from "./AdministradorBodegasScreen";
+import { crearBodega, IBodega } from "../../../store/slices/bodega/indexBodega";
+import { useAppDispatch } from "../../../store/store";
+import { IGeneric } from "../../../Interfaces/Generic";
 
 const CreacionBodegaScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
@@ -36,13 +39,16 @@ const CreacionBodegaScreen = () => {
     control: controlBodega,
     formState: { errors: errorsBodega },
   } = useForm();
-
-  const [departamentosOptions, setDepartamentosOptions] = useState([]);
-  const [municipiosOptions, setMunicipiosOptions] = useState([]);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+const initialOptions:IGeneric[] =[{
+  label: "",
+  value: ""
+}] 
+  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
+  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
   const [es_principal, setEs_principal] = useState(false);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   //cuando el usuario hace submit
 
   const submitBodega = (data) => {
@@ -50,14 +56,14 @@ const CreacionBodegaScreen = () => {
 
     const idPersona = formValuesSearch.id_persona;
 
-    const bodegaCreate = {
+    const bodegaCreate:IBodega = {
       ...data,
       cod_municipio: data.cod_municipio.value,
       id_responsable: idPersona,
       es_principal
     };
     console.log(bodegaCreate);
-    dispatch(crearNuevaBodegaAction(bodegaCreate));
+    crearBodega(dispatch,bodegaCreate);
   };
    const navigate=useNavigate();
    const AdministradorBodegas =()=>{
@@ -103,7 +109,7 @@ const CreacionBodegaScreen = () => {
               {" "}
               Creación de bodegas
             </h3>
-            <Subtitle title={"Datos del responsable"} mb="3" />
+            <Subtitle title={"Datos del responsable"} mb={3} />
             <div className="col-12 col-md-3">
               <label className="ms-3 text-terciary">Tipo de Documento</label>
               <Controller
@@ -182,7 +188,6 @@ const CreacionBodegaScreen = () => {
             <BusquedaAvanzadaModal
               isModalActive={busquedaAvanzadaIsOpen}
               setIsModalActive={setBusquedaAvanzadaIsOpen}
-              formValues={formValuesSearch}
               setFormValues={setFormValuesSearch}
               reset={resetBuscar}
               tipoDocumentoOptions={tipoDocumentoOptions}
@@ -196,12 +201,11 @@ const CreacionBodegaScreen = () => {
           id="configForm"
         >
           <div className="row">
-            <Subtitle title="Información de la bodega" mb="3" />
+            <Subtitle title="Información de la bodega" mb={3} />
             <div className="col-12 col-sm-3 mt-2">
               <div>
                 <label className="ms-3 text-terciary">Nombre de bodega</label>
                 <input
-                  name="nombre"
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="nombre"
@@ -263,7 +267,7 @@ const CreacionBodegaScreen = () => {
                   Dirección de bodega
                 </label>
                 <input
-                  name="direccion"
+                  
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="dirección"
@@ -279,7 +283,6 @@ const CreacionBodegaScreen = () => {
                 ¿La bodega es principal?
               </label>
               <input
-                name="es_principal"
                 className="border border-terciary form-check-input mx-2"
                 type="checkbox"
                 id="flexCheckDefault"

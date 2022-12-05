@@ -5,6 +5,7 @@ import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
+import bodegaReducer from './slices/bodega/indexBodega'
 // import thunk from "redux-thunk";
 
 const store = configureStore({
@@ -12,7 +13,8 @@ const store = configureStore({
     login: loginReducer,
     modalSelector: modalReducer,
     alarma: alarmasReducer,
-    alarmasConfig: alarmasConfigReducer
+    alarmasConfig: alarmasConfigReducer,
+    bodegaSlice: bodegaReducer,
   }
 });
 
