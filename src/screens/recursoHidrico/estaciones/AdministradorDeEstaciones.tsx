@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import {
   obtenerEstacion,
   eliminarEstacion,
-  editarEstacion,
+  setEstacionEditarModelo,
 } from "../../../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import { formatISO } from "date-fns";
@@ -27,7 +27,7 @@ const AdministradorDeEstaciones = () => {
   }, []);
 
   const estaciones = useAppSelector(
-    (state) => state.administradorEstacionesSlice[0]
+    (state) => state.administradorEstacionesSlice.estaciones[1]
   );
 
   // const dataExcel = estaciones.map((estacion) => ({
@@ -57,7 +57,7 @@ const AdministradorDeEstaciones = () => {
             type="button"
             onClick={() => {
               // dispatch(obtenerEstacionEditarAction(params.data));
-              editarEstacion(dispatch, estaciones);
+              setEstacionEditarModelo(dispatch, params.data);
               setIsModalEditarActivate(!isModalActive);
             }}
           >
