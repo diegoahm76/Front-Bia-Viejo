@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { formatISO } from "date-fns";
+import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 
 export interface IEstacion {
@@ -11,27 +12,17 @@ export interface IEstacion {
   t001userMod: string;
 }
 
-const initialState: IEstacion[] = [
-  {
-    objectid: 0,
-    t001nombre: "",
-    t001coord1: 0,
-    t001coord2: 0,
-    t001fechaMod: "",
-    t001userMod: "",
-  },
-];
 
 const administradorEstacionesSlice = createSlice({
   name: "AdministradorEstaciones",
-  initialState,
+  initialState: [] as IEstacion[],
   reducers: {
-    crearEstacionAction: (state, action) => {},
+    crearEstacionAction: (state, action) => { },
     obtenerEstacionAction: (state, action) => {
-      state = action.payload;
+      state.push(action.payload)
     },
-    eliminarEstacionAction: (state, action) => {},
-    editarEstacionAction: (state, action) => {},
+    eliminarEstacionAction: (state, action) => { },
+    editarEstacionAction: (state, action) => { },
   },
 });
 
