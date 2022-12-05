@@ -1,7 +1,7 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
 import {
   obtenerConfiguracionEditarAction,
   obtenerConfiguracionesAction,
@@ -154,7 +154,7 @@ const ConfiguracionesScreen = () => {
         <div className="d-flex justify-content-center align-items-center gap-2">
           <div>
             <button
-              className="btn btn-sm btn-tablas btn-outline-warning "
+              className="btn btn-sm btn-tablas"
               type="button"
               title="Send"
               onClick={() => {
@@ -162,7 +162,7 @@ const ConfiguracionesScreen = () => {
                 setIsModalEditarActivate(!isModalEditarActive);
               }}
             >
-              <img src={IconoEditar} alt="editar" />
+              <img src={IconoEditarBia} alt="editar" />
             </button>
           </div>
         </div>
