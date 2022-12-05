@@ -1,39 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
+
+// Hooks
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+// Components
+import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
+// Actions
+import { getOrganigramsService } from "../../services/organigram/OrganigramServices";
+// Slice
+import { currentOrganigram } from "../../store/slices/organigrama/indexOrganigram";
+// Css
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { useForm } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
-import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
-import { getOrganigramsService } from "../../services/organigram/OrganigramServices";
 
 function CrearOrganigramaScreen() {
-
+  // Redux State Extraction
   const { organigram } = useAppSelector((state) => state.organigram);
-
+  // Naveigate instance
   const navigate = useNavigate();
+  // Dispatch instance
   const dispatch = useAppDispatch();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] = useState<boolean>(false);
 
-  const onSumbitNiveles = async (data) => {
-    const nuevoOrganigramaNiveles = {
-      ...data,
-      id_organigrama: data.id_organigrama,
-      nombre: data.nombre,
-      version: data.version,
-      descripcion: data.descripcion,
-    };
-    navigate('/dashboard/gestordocumental/organigram/edicion-organigram')
-  };
-
-
+  // UseEffect para obtener organigramas
   useEffect(() => {
     dispatch(getOrganigramsService())
   }, []);
@@ -123,14 +115,14 @@ function CrearOrganigramaScreen() {
       headerName: "Acciones",
       field: "acciones",
       minWidth: 140,
-      cellRendererFramework: (params) => (
+      cellRendererFramework: ({ data }) => (
         <div>
           <button
             type="button"
             style={{ border: "none", background: "none" }}
             onClick={() => {
-              // dispatch(seleccionarOrganigramaAction(params.data));
-              navigate('/dashboard/gestordocumental/organigram/edicion-organigram');
+              dispatch(currentOrganigram(data));
+              navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
             }}
           >
             <i className="fa-regular fa-pen-to-square fs-3"></i>
@@ -151,15 +143,10 @@ function CrearOrganigramaScreen() {
     suppressMovable: true,
   };
 
-  // PARA MODALES SE USA ESTE CODIGO
-  const [crearOrganigramaIsActive, setCrearOrganigramaIsActive] =
-    useState(false);
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
-        {/*  CUERPO DEL FORMULARIO  */}
-
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"

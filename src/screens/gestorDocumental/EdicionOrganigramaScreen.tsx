@@ -1,28 +1,30 @@
 //Bookstores
+import * as React from 'react';
 import { AgGridReact } from "ag-grid-react";
 import { Controller } from "react-hook-form";
-import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
+import Select, { ActionMeta, SingleValue } from "react-select";
 import { useNavigate } from "react-router-dom";
+//Hooks
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 //Components
 import Subtitle from "../../components/Subtitle";
 //Hooks
 import useEdicionOrganigrama from "../../hooks/useEdicionOrganigrama";
 //Actions
-import { finalizarOrganigramaAction } from "../../actions/organigramaActions";
-import { useAppSelector } from "../../store/hooks/hooks";
+import { toFinalizeOrganigramService } from "../../services/organigram/OrganigramServices";
+import { IDocumentaryGroup, ILevelFather, ILevelUnity, ITypeUnity, IUnityRoot } from '../../Interfaces/Organigrama';
 
 
 export const EdicionOrganigramaScreen = () => {
 
   // Dispatch Instance
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // navigate instance
   const navigate = useNavigate()
 
   // Redux State Extraction
-  const { organigramEdit, levelsOrganigram, unityOrganigram } = useAppSelector((state) => state.organigram);
+  const { organigramCurrent, levelsOrganigram, unityOrganigram } = useAppSelector((state) => state.organigram);
   //Hooks
   const {
     //States
@@ -84,7 +86,6 @@ export const EdicionOrganigramaScreen = () => {
               className="form-control border rounded-pill px-3 border border-terciary"
               type="text"
               placeholder="Nombre de organigrama"
-              name="nombre"
               {...registerOrganigrama("nombre", { required: true })}
             />
             {errorsOrganigrama.nombre && (
@@ -99,7 +100,6 @@ export const EdicionOrganigramaScreen = () => {
               className="form-control border rounded-pill px-3 border border-terciary"
               type="text"
               placeholder="Version de organigrama"
-              name="version"
               {...registerOrganigrama("version", { required: true })}
             />
             {errorsOrganigrama.version && (
@@ -112,9 +112,7 @@ export const EdicionOrganigramaScreen = () => {
             </label>
             <textarea
               className="form-control border rounded-pill px-3 border border-terciary"
-              type="text"
               placeholder="Descripcion de organigrama"
-              name="descripcion"
               {...registerOrganigrama("descripcion", { required: true })}
             />
             {errorsOrganigrama.descripcion && (
@@ -141,7 +139,7 @@ export const EdicionOrganigramaScreen = () => {
             }}
             data-bs-toggle="collapse"
             aria-expanded="false"
-            href="#Niveles"
+            // href="#Niveles"
           >
             {" "}
             Niveles Organizacionales
@@ -155,7 +153,6 @@ export const EdicionOrganigramaScreen = () => {
                 <label className="text terciary">Nivel {orden_nivel}</label>
                 <input
                   type="text"
-                  name="nombre"
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Escribe el nombre"
                   {...registerNivel("nombre", { required: "El nombre es obligatorio" })}
@@ -205,7 +202,7 @@ export const EdicionOrganigramaScreen = () => {
               }}
               data-bs-toggle="collapse"
               aria-expanded="false"
-              href="#Unidades"
+            // href="#Unidades"
             >
               {" "}
               Unidades Organizacionales
@@ -219,7 +216,6 @@ export const EdicionOrganigramaScreen = () => {
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Escribe el codigo"
-                    name="codigo"
                     {...registerUnidades("codigo", { required: true })}
                   />
                   {errorsUnidades.codigo && (
@@ -236,7 +232,6 @@ export const EdicionOrganigramaScreen = () => {
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Escribe el nombre"
-                    name="nombre"
                     {...registerUnidades("nombre", { required: true })}
                   />
                   {errorsUnidades.nombre && (
@@ -258,12 +253,9 @@ export const EdicionOrganigramaScreen = () => {
                       <Select
                         {...field}
                         value={field.value}
-                        onChange={(e) => {
-                          console.log(e)
-                          resetUnidades({
-                            ...watchUnidades(),
-                            tipoUnidad: e,
-                          });
+                        onChange={(option: SingleValue<ITypeUnity>) => {
+                          // resetUnidades({ ...watchUnidades(), tipoUnidad: option  });
+                          resetUnidades({ ...watchUnidades(), option });
                         }}
                         options={optionsTipoUnidad.map((item) => (item.value !== 'LI' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
@@ -284,8 +276,8 @@ export const EdicionOrganigramaScreen = () => {
                       <Select
                         {...field}
                         value={field.value}
-                        onChange={(e) => {
-                          if (e.orden === 1) {
+                        onChange={(option: SingleValue<ILevelUnity>) => {
+                          if (option?.orden === 1) {
                             resetUnidades({
                               ...watchUnidades(),
                               unidadRaiz: {
@@ -304,7 +296,8 @@ export const EdicionOrganigramaScreen = () => {
                           }
                           resetUnidades({
                             ...watchUnidades(),
-                            nivelUnidad: e,
+                            // nivelUnidad: option,
+                            option,
                           });
                         }}
                         options={optionNivel}
@@ -329,10 +322,11 @@ export const EdicionOrganigramaScreen = () => {
                         {...field}
                         isDisabled={true}
                         value={field.value}
-                        onChange={(e) => {
+                        onChange={(option: SingleValue<IUnityRoot>) => {
                           resetUnidades({
                             ...watchUnidades(),
-                            unidadRaiz: e,
+                            // unidadRaiz: option,
+                            option,
                           });
                         }}
                         options={optionRaiz}
@@ -356,10 +350,11 @@ export const EdicionOrganigramaScreen = () => {
                       <Select
                         {...field}
                         value={field.value}
-                        onChange={(e) => {
+                        onChange={(option: SingleValue<IDocumentaryGroup>) => {
                           resetUnidades({
                             ...watchUnidades(),
-                            agrupacionDocumental: e,
+                            // agrupacionDocumental: option,
+                            option,
                           });
                         }}
                         options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
@@ -379,10 +374,11 @@ export const EdicionOrganigramaScreen = () => {
                       <Select
                         {...field}
                         value={field.value}
-                        onChange={(e) => {
+                        onChange={(option: SingleValue<ILevelFather>) => {
                           resetUnidades({
                             ...watchUnidades(),
-                            nivelPadre: e,
+                            option,
+                            // nivelPadre: option,
                           });
                         }}
                         options={optionUnidadPadre}
@@ -427,13 +423,14 @@ export const EdicionOrganigramaScreen = () => {
               <button
                 type="button"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
-                // onClick={() => dispatch(finalizarOrganigramaAction(organigramaEditar.id_organigrama, navigate))}
+                onClick={() => dispatch(toFinalizeOrganigramService(String(organigramCurrent.id_organigrama), navigate))}
               >
                 Finalizar Organigrama
               </button>
             </div>
           </div>
         </form>
+
       </div>
     </div>
   );

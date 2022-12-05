@@ -1,15 +1,14 @@
 export interface IOrganigram {
     organigram: IObjOrganigram[];
-    organigramDelete: IObjOrganigram | {};
-    organigramEdit: IObjOrganigram | {};
-    levelsOrganigram: IObjNiveles[];
-    unityOrganigram: IObjUnidades[];
+    organigramCurrent: IObjOrganigram;
+    levelsOrganigram: IObjLevels[];
+    unityOrganigram: IObjUnitys[];
 }
 
 export interface IObjOrganigram {
-    id_organigram: number;
+    id_organigrama: number | string | null;
     nombre: string;
-    fecha_terminado: string | Date;
+    fecha_terminado: string | Date | null;
     descripcion: string;
     fecha_puesta_produccion: string | Date | null;
     fecha_retiro_produccion: string | Date | null;
@@ -19,21 +18,65 @@ export interface IObjOrganigram {
     ruta_resolucion: string | null;
 }
 
-interface IObjNiveles {
-    id_nivel_organigram: number;
-    id_organigram_id: number;
+export interface IObjCreateOrganigram {
+    nombre: string;
+    version: string;
+    descripcion: string;
+}
+
+export interface IObjLevels {
+    id_nivel_organigrama: number | string | null;
+    id_organigrama: number | string | null;
     orden_nivel: number;
     nombre: string;
 }
-
-interface IObjUnidades {
-    id_unidad_organizacional: number | null,
-    id_organigram_id: number | null,
-    id_nivel_organigram_id: number | null,
+export interface IObjUnitys {
+    id_unidad_organizacional?: number;
+    id_organigrama: number;
+    id_nivel_organigrama: number;
     nombre: string;
     codigo: string;
     cod_tipo_unidad: string;
-    cod_agrupacion_documental: string | null;
-    unidad_raiz: boolean,
-    id_unidad_org_padre_id: string | number | null
+    cod_agrupacion_documental: null | string;
+    unidad_raiz: boolean;
+    id_unidad_org_padre?: null | number | string;
+    cod_unidad_org_padre: null | string | number;
+}
+
+export type FormValuesUnitys = {
+    unidadRaiz?: IUnityRoot;
+    codigo: string;
+    nombre: string;
+    tipoUnidad?: ITypeUnity;
+    nivelUnidad?: ILevelUnity;
+    agrupacionDocumental?: IDocumentaryGroup;
+    nivelPadre?: ILevelFather;
+    [x: string]: any;
+};
+
+export interface IUnityRoot {
+    label: string;
+    value: boolean;
+}
+export interface ITypeUnity {
+    label?: string;
+    value?: string | null;
+    isDisabled?: boolean;
+}
+
+export interface ILevelUnity {
+    label: string;
+    value: string | number | null;
+    orden: number | string | null;
+}
+
+export interface IDocumentaryGroup {
+    label: string;
+    value: string | null;
+    isDisabled: boolean;
+}
+
+export interface ILevelFather {
+    label: string;
+    value: string | number | null;
 }
