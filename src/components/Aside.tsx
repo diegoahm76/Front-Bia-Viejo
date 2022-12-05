@@ -87,7 +87,7 @@ const Aside = ({ showAside }) => {
                       className="nav-link text-white"
                       onClick={logoutHandler} to={""}                    >
                       <span className="sidenav-mini-icon"> F </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Finalizar sesión</span>
+                      <span className="sidenav-normal  ms-3  ps-1">Cerrar sesión</span>
                     </Link>
                   </li>
                   {!userInfo?.userinfo.is_superuser && (
