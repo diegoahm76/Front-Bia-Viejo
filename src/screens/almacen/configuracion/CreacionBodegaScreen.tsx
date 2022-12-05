@@ -12,8 +12,8 @@ import { useDispatch } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import AdministradorBodegasScreen from "./AdministradorBodegasScreen";
 import { crearBodega, IBodega } from "../../../store/slices/bodega/indexBodega";
-import { useAppDispatch } from "../../../store/store";
 import { IGeneric } from "../../../Interfaces/Generic";
+import { useAppDispatch } from "../../../store/hooks/hooks";
 
 const CreacionBodegaScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);

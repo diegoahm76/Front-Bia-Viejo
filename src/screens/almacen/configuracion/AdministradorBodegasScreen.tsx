@@ -14,9 +14,9 @@ import {
   obtenerBodegaByEditAction,
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../store/store";
+
 import { editarBodegaAction1, eliminarBodega, obtenerBodega } from "../../../store/slices/bodega/indexBodega";
-import { useAppSelector } from "../../../store/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 const AdministradorBodegasScreen = () => {
   const dispatch = useAppDispatch();
