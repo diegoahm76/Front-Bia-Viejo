@@ -33,20 +33,20 @@ export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
 
 // Interceptors
-instance.interceptors.request.use(
-  () => {
-    startLoading(useAppDispatch);
-  },
-  () => {
-    cancelLoading(useAppDispatch);
-  }
-);
+// instance.interceptors.request.use(
+//   () => {
+//     startLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );
 
-instance.interceptors.response.use(
-  () => {
-    cancelLoading(useAppDispatch);
-  },
-  () => {
-    cancelLoading(useAppDispatch);
-  }
-);
+// instance.interceptors.response.use(
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );

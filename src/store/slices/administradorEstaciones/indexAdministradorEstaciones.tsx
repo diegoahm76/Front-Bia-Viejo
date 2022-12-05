@@ -27,15 +27,16 @@ const administradorEstacionesSlice = createSlice({
 });
 
 export const obtenerEstacion = async (dispatch) => {
-  const { data: dataGetEstaciones } = await clienteEstaciones.get("Estaciones");
+  await clienteEstaciones.get("Estaciones").then((res) => {
+    const formatFechaEstaciones = res.data.map((estacion) => ({
+      ...estacion,
+      t001fechaMod: formatISO(new Date(estacion.t001fechaMod), {
+        representation: "date",
+      }),
+    }));
+   dispatch(obtenerEstacionAction(formatFechaEstaciones));
+  });
   //console.log("dataGetEstaciones", dataGetEstaciones);
-  const formatFechaEstaciones = dataGetEstaciones.map((estacion) => ({
-    ...estacion,
-    t001fechaMod: formatISO(new Date(estacion.t001fechaMod), {
-      representation: "date",
-    }),
-  }));
-  dispatch(obtenerEstacionAction(formatFechaEstaciones));
 };
 
 export const eliminarEstacion = async (dispatch, id) => {

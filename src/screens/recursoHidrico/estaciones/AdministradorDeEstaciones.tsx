@@ -13,6 +13,8 @@ import {
   eliminarEstacion,
   editarEstacion,
 } from "../../../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import { formatISO } from "date-fns";
 // import ExportExcelFile from "../../../components/ExportExcelFile";
 const AdministradorDeEstaciones = () => {
   const dispatch = useAppDispatch();
@@ -21,10 +23,11 @@ const AdministradorDeEstaciones = () => {
 
   useEffect(() => {
     obtenerEstacion(dispatch);
+    //callService();
   }, []);
 
   const estaciones = useAppSelector(
-    (state) => state.administradorEstacionesSlice
+    (state) => state.administradorEstacionesSlice[0]
   );
 
   // const dataExcel = estaciones.map((estacion) => ({
@@ -132,7 +135,7 @@ const AdministradorDeEstaciones = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                  rowData={estaciones}
+                  rowData={estaciones as any}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>

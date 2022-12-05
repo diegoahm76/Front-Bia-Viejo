@@ -31,7 +31,6 @@ const defaultColDef = {
 
 const AlarmasScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
-  // REVISAR --> ERROR REFERENCIA CIRCULAR
   const dispatch = useAppDispatch();
 
   const alarmas = useAppSelector((state) => state.alarma);
