@@ -1,30 +1,34 @@
 import { AgGridReact } from "ag-grid-react";
-import { useEffect, useState } from "react";
-import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+import React, { useEffect, useState } from "react";
 import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
+import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
+import IconoNuevoBia from "../../../assets/iconosBotones/nuevo.svg";
 import NuevaEstacionModal from "../../../components/NuevaEstacionModal";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  eliminarEstacionAction,
-  obtenerEstacionEditarAction,
-  obtenerEstacionesAction,
-} from "../../../actions/estacionActions";
 import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";
 import Subtitle from "../../../components/Subtitle";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+import {
+  obtenerEstacion,
+  eliminarEstacion,
+  editarEstacion,
+} from "../../../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import { formatISO } from "date-fns";
 // import ExportExcelFile from "../../../components/ExportExcelFile";
-
 const AdministradorDeEstaciones = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
   useEffect(() => {
-    const getEstaciones = async () => dispatch(obtenerEstacionesAction());
-    getEstaciones();
+    obtenerEstacion(dispatch);
+    //callService();
   }, []);
 
-  const { estaciones } = useSelector((state) => state.estaciones);
+  const estaciones = useAppSelector(
+    (state) => state.administradorEstacionesSlice[0]
+  );
 
   // const dataExcel = estaciones.map((estacion) => ({
   //   OBJECTID: estacion.objectid,
@@ -49,21 +53,22 @@ const AdministradorDeEstaciones = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
+            className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
-              dispatch(obtenerEstacionEditarAction(params.data));
+              // dispatch(obtenerEstacionEditarAction(params.data));
+              editarEstacion(dispatch, estaciones);
               setIsModalEditarActivate(!isModalActive);
             }}
           >
-            <img src={IconoEditar} alt="editar" />
+            <img src={IconoEditarBia} alt="editar" title="Editar" />
           </button>
           <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
+            className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => confirmarEliminarEstacion(params.data.objectid)}
           >
-            <img src={IconoEliminarBia} alt="eliminar" style={{ height: "18px" }} />
+            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
           </button>
         </div>
       ),
@@ -83,7 +88,8 @@ const AdministradorDeEstaciones = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //Pasarlo al action
-        dispatch(eliminarEstacionAction(id));
+        // dispatch(administradorEstacionesSlice(id));
+        eliminarEstacion(dispatch, id);
       }
     });
   };
@@ -107,16 +113,16 @@ const AdministradorDeEstaciones = () => {
           data-animation="FadeIn"
         >
           <h3 className="mt-2 mb-0">Estaciones</h3>
-          <Subtitle title="Informacion de general" mt={3} />
+          <Subtitle title="Información general" mt={3} />
           <div className="row">
             <div className="row"></div>
             <div>
               {/* <ExportExcelFile estaciones={dataExcel} name="Estaciones" /> */}
               <button
-                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
+                className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                 onClick={() => setIsModalActive(!isModalActive)}
               >
-                Nuevo
+                <img src={IconoNuevoBia} alt="" title="Nuevo" />
               </button>
             </div>
           </div>
@@ -129,7 +135,7 @@ const AdministradorDeEstaciones = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                  rowData={estaciones}
+                  rowData={estaciones as any}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>

@@ -1,15 +1,14 @@
 import Select, { SingleValue } from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 
 import {
   activeModalAction,
   desactiveModalAction,
 } from "../../actions/modalActions";
 import CalendarModal from "../../components/CalendarModal";
-import { useAppDispatch } from "../../store/store";
 import { modalActionOff, modalActionOn } from "../../store/slices/modal/indexModal";
+import { useAppDispatch } from "../../store/hooks/hooks";
 
 const options = [
   { label: "Todos", value: "All" },

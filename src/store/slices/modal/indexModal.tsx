@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    isModalActive: true
+    isModalActive: false
 }
 const modalSlice = createSlice({
     name: 'modal',

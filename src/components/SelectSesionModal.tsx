@@ -3,14 +3,12 @@ import Modal from "react-modal";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import Select from "react-select"
 import { changeSesionAction, closeModalSesionAction } from "../actions/userActions";
-import { useAppSelector } from "../store/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { type } from "os";
 import { modalActionOff } from "../store/slices/modal/indexModal";
-import { useAppDispatch } from "../store/store";
 
 interface sesionType {
   label: string;

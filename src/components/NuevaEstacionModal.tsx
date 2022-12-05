@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { useDispatch, useSelector } from "react-redux";
-import { crearNuevaEstacionAction } from "../actions/estacionActions";
-import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
-import iconoAgregar from '../assets/iconosBotones/agregar.svg'
-
+// import { useDispatch, useSelector } from "react-redux";
+// import { crearNuevaEstacionAction } from "../actions/estacionActions";
+import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
+import iconoAgregar from "../assets/iconosBotones/agregar.svg";
+import React from "react";
+import { crearEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -23,8 +25,11 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
-  const dispatch = useDispatch();
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
+  const dispatch = useAppDispatch();
+  const nombre_de_usuario = useAppSelector(
+    (state) => state.login.userinfo.nombre_de_usuario
+  );
+  // const nombre_de_usuario = useAppSelector((state) => state.user.user);
 
   const {
     register,
@@ -43,8 +48,8 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
     };
 
     console.log("Nueva Estacion", nuevaEstacion);
-
-    dispatch(crearNuevaEstacionAction(nuevaEstacion));
+    crearEstacion(dispatch, nuevaEstacion);
+    // dispatch(crearNuevaEstacionAction(nuevaEstacion));
 
     setIsModalActive(!isModalActive);
   };
@@ -70,6 +75,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
+                placeholder="Id"
                 {...register("objectId", { required: true })}
               />
             </div>
@@ -89,6 +95,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
+                placeholder="Nombre"
                 {...register("estacion", { required: true })}
               />
             </div>
@@ -142,18 +149,18 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
           </div>
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoCancelar} alt=""  style={{height: "20px", width: "20px"}}/>
+              <img src={iconoCancelar} alt="" title="Cancelar" />
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoAgregar} alt="" style={{height: "20px", width: "20px"}}/>
+              <img src={iconoAgregar} alt="" title="Agregar" />
             </button>
           </div>
         </form>

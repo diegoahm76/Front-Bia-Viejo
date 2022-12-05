@@ -10,8 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 import { loginUser } from "../../store/slices/Login";
-import { RootState, useAppDispatch } from "../../store/store";
-import { useAppSelector } from "../../store/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 
 function LoginScreen() {
   const captchaRef = useRef(null);

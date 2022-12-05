@@ -6,7 +6,14 @@ import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 import bodegaReducer from './slices/bodega/indexBodega'
+import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
 // import thunk from "redux-thunk";
+import loadingReducer, {
+  cancelLoading,
+  startLoading,
+} from "./slices/loading/indexLoading";
+import instance from "../config/clienteAxiosEstaciones";
+import { useAppDispatch } from "./hooks/hooks";
 
 const store = configureStore({
   reducer: {
@@ -15,14 +22,33 @@ const store = configureStore({
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
     bodegaSlice: bodegaReducer,
-  }
+    administradorEstacionesSlice: estacionesReducer,
+    loading: loadingReducer,
+  },
 });
 
 export default store;
 
 // Dispatch
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
-
+export type AppDispatch = typeof store.dispatch;
 // Selector
 export type RootState = ReturnType<typeof store.getState>;
+
+// Interceptors
+// instance.interceptors.request.use(
+//   () => {
+//     startLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );
+
+// instance.interceptors.response.use(
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );
