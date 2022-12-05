@@ -5,7 +5,7 @@ import { editarEstacionAction } from "../actions/estacionActions";
 import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import iconoGuardar from "../assets/iconosBotones/guardar.svg";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
-import { editarEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+// import { editarEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 
 const customStyles = {
   content: {
@@ -54,7 +54,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
     };
 
     //console.log("Nueva Estacion", updateEstacion);
-    editarEstacion(dispatch, estaciones);
+    // editarEstacion(dispatch, estaciones);
     // dispatch(editarEstacionAction(updateEstacion));
 
     setIsModalActive(!isModalActive);
