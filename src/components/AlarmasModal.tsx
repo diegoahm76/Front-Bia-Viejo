@@ -10,6 +10,8 @@ import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 import { IEstaciones } from "../Interfaces/estaciones";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { crearAlarma, editarAlarma } from "../store/slices/alarmas/reducerAlarma";
+import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
+import iconoActualizar from '../assets/iconosBotones/actualizar.svg'
 
 const defaultValues = {
   t001nombre: "",
@@ -295,7 +297,7 @@ const AlarmasModal = ({
           <div className="d-flex justify-content-end gap-2 mt-3">
             <button
               type="button"
-              className="btn bg-gradient-light text-capitalize mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none"
               disabled={loading}
               onClick={() => handleCloseModal()}
             >
@@ -309,12 +311,12 @@ const AlarmasModal = ({
                   Cargando...
                 </>
               ) : (
-                "Cancelar"
+                <img src={iconoCancelar} alt="" title="Cancelar" />
               )}
             </button>
             <button
               type="submit"
-              className="btn bg-gradient-primary text-capitalize mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none"
               disabled={loading}
             >
               {loading ? (
@@ -327,7 +329,7 @@ const AlarmasModal = ({
                   Cargando...
                 </>
               ) : alarmaAction === "editar" ? (
-                "Actualizar"
+                <img src={iconoActualizar} alt="" title="Actualizar" />
               ) : (
                 "Crear"
               )}

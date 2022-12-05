@@ -1,8 +1,11 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { useDispatch, useSelector } from "react-redux";
 import { editarEstacionAction } from "../actions/estacionActions";
+import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
+import iconoGuardar from "../assets/iconosBotones/guardar.svg";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import { editarEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 
 const customStyles = {
   content: {
@@ -21,9 +24,12 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
-  const dispatch = useDispatch();
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
-  const { estacionEditar } = useSelector((state) => state.estaciones);
+  const dispatch = useAppDispatch();
+  //pendiente revisar usuarios
+  // const nombre_de_usuario = useAppSelector((state) => state.user.user);
+  const estaciones = useAppSelector(
+    (state) => state.administradorEstacionesSlice
+  );
   const {
     register,
     handleSubmit,
@@ -33,8 +39,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
 
   useEffect(() => {
     //console.log("modal editar effect")
-    reset(estacionEditar);
-  }, [estacionEditar]);
+    reset(estaciones);
+  }, [estaciones]);
 
   const onSumbitEstacion = async (data) => {
     const updateEstacion = {
@@ -43,12 +49,13 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
       t001coord1: data.t001coord1,
       t001coord2: data.t001coord2,
       t001fechaMod: new Date().toISOString(),
-      t001userMod: nombre_de_usuario,
+      //pendiente revisar usuarios
+      // t001userMod: nombre_de_usuario,
     };
 
     //console.log("Nueva Estacion", updateEstacion);
-
-    dispatch(editarEstacionAction(updateEstacion));
+    editarEstacion(dispatch, estaciones);
+    // dispatch(editarEstacionAction(updateEstacion));
 
     setIsModalActive(!isModalActive);
   };
@@ -145,18 +152,18 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
           </div>
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              Cerrar
+              <img src={iconoCancelar} alt="" title="Cancelar" />
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Editar
+              <img src={iconoGuardar} alt="" title="Guardar" />
             </button>
           </div>
         </form>

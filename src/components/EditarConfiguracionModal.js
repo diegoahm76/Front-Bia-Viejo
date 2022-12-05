@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { editarConfiguracionAction } from "../actions/configuracionesEstacionesActions";
+import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
+import iconoActualizar from '../assets/iconosBotones/actualizar.svg'
 
 const customStyles = {
   content: {
@@ -581,7 +583,7 @@ const EditarConfiguracionModal = ({ isModalActive, setIsModalActive }) => {
         <div className="d-flex justify-content-end gap-2 mt-3">
           <button
             type="button"
-            className="btn bg-gradient-light text-capitalize"
+            className="mb-0 btn-image text-capitalize bg-white border boder-none"
             disabled={loading}
             onClick={() => {
               setIsModalActive(!isModalActive);
@@ -598,12 +600,12 @@ const EditarConfiguracionModal = ({ isModalActive, setIsModalActive }) => {
                 Cargando...
               </>
             ) : (
-              "Cancelar"
+              <img src={iconoCancelar} alt="" title="Cacelar" />
             )}
           </button>
           <button
             type="submit"
-            className="btn bg-gradient-primary text-capitalize"
+            className="mb-0 btn-image text-capitalize bg-white border boder-none"
             disabled={loading}
           >
             {loading ? (
@@ -616,7 +618,7 @@ const EditarConfiguracionModal = ({ isModalActive, setIsModalActive }) => {
                 Cargando...
               </>
             ) : (
-              "Actualizar"
+              <img src={iconoActualizar} alt="" title="Actualizar" />
             )}
           </button>
         </div>
