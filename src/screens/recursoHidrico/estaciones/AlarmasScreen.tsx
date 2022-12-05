@@ -1,6 +1,7 @@
-import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
+import { AgGridReact } from "ag-grid-react";
 import { useForm } from "react-hook-form";
+<<<<<<< HEAD:src/screens/recursoHidrico/estaciones/AlarmasScreen.js
 import { useDispatch, useSelector } from "react-redux";
 import {
   cambiarModoAction,
@@ -9,8 +10,15 @@ import {
   obternerAlarmasAction,
 } from "../../../actions/alarmasActions";
 import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
+=======
+import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
+>>>>>>> migrateTsxCris:src/screens/recursoHidrico/estaciones/AlarmasScreen.tsx
 import AlarmasModal from "../../../components/AlarmasModal";
 import Subtitle from "../../../components/Subtitle";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+import { obtenerTodasAlarmas } from "../../../store/slices/alarmas/indexAlarma";
+
+
 
 const defaultColDef = {
   sortable: true,
@@ -23,11 +31,17 @@ const defaultColDef = {
   suppressMovable: true,
 };
 
-const AlarmasScreen = () => {
-  const { alarmas, loading } = useSelector((state) => state.alarmas);
-  const [isModalActive, setIsModalActive] = useState(false);
 
-  const dispatch = useDispatch();
+const AlarmasScreen = () => {
+  const [isModalActive, setIsModalActive] = useState(false);
+  // REVISAR --> ERROR REFERENCIA CIRCULAR
+  const dispatch = useAppDispatch();
+
+  const alarmas = useAppSelector((state) => state.alarma);
+
+  useEffect(() => {
+    obtenerTodasAlarmas(dispatch);
+  });
 
   const {
     handleSubmit,
@@ -37,10 +51,6 @@ const AlarmasScreen = () => {
     watch,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    dispatch(obternerAlarmasAction());
-  }, []);
 
   const columnDefs = [
     {
@@ -82,7 +92,9 @@ const AlarmasScreen = () => {
 
   const editarAction = (objectid) => {
     setIsModalActive(true);
-    dispatch(obtenerAlarmaEditAction(objectid, reset));
+
+    // REVISAR 
+    // dispatch(obtenerAlarmaEditAction(objectid, reset));
   };
 
   return (

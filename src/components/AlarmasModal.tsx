@@ -7,11 +7,9 @@ import {
 } from "../actions/alarmasActions";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
-import { IEstaciones } from "../Interfaces/estaciones";
+import { IGeneric } from "../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
-import { crearAlarma, editarAlarma } from "../store/slices/alarmas/reducerAlarma";
-import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
-import iconoActualizar from '../assets/iconosBotones/actualizar.svg'
+import { crearAlarma, editarAlarma } from "../store/slices/alarmas/indexAlarma";
 
 const defaultValues = {
   t001nombre: "",
@@ -46,13 +44,16 @@ const AlarmasModal = ({
   errors,
   watch,
 }) => {
-  const [estacionesOptions, setEstacionesOptions] = useState<IEstaciones[]>([]);
+  const [estacionesOptions, setEstacionesOptions] = useState<IGeneric[]>([]);
+  const [alarmaMode, setAlarmaMode] = useState(false);
+  const { loading } = useAppSelector((state) => state.loading);
+  // False = crear
+  // true = editar
+
   const [formValues, setFormValues] = useState({
     index_objectid: 0,
   });
-  const { loading, alarmaAction, dataEdit } = useAppSelector(
-    (state) => state.alarma
-  );
+  const dataEdit = useAppSelector((state) => state.alarma);
 
   const dispatch = useAppDispatch();
 
@@ -64,7 +65,7 @@ const AlarmasModal = ({
   };
 
   const onSubmit = (data) => {
-    if (alarmaAction === "editar") {
+    if (alarmaMode) {
       data.objectid = estacionesOptions[formValues.index_objectid].value;
       editarAlarma(dispatch, data);
     } else {
@@ -89,23 +90,21 @@ const AlarmasModal = ({
   };
 
   const handleResetDataEdit = () => {
-    setFormValues({
-      ...formValues,
-      index_objectid: getIndexBySelectOptions(
-        dataEdit?.objectid,
-        estacionesOptions
-      ),
-    });
-    reset(dataEdit);
+    // REVISAR
+    // setFormValues({
+    //   ...formValues,
+    //   index_objectid: getIndexBySelectOptions(
+    //     dataEdit?,
+    //     estacionesOptions
+    //   ),
+    // });
+    // reset(dataEdit);
   };
 
-  useEffect(() => {
-    getEstaciones();
-  }, []);
-
-  useEffect(() => {
-    handleResetDataEdit();
-  }, [dataEdit]);
+  // useEffect(() => {
+  //   // getEstaciones();
+  //   handleResetDataEdit();
+  // }, []);
 
   return (
     <Modal
@@ -116,7 +115,7 @@ const AlarmasModal = ({
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>{alarmaAction === "editar" ? "Editar Alarma" : "Nueva Alarma"}</h4>
+        <h4>{alarmaMode ? "Editar Alarma" : "Nueva Alarma"}</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
@@ -126,8 +125,8 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              disabled={alarmaAction === "editar"}
-              readOnly={alarmaAction === "editar"}
+              disabled={alarmaMode}
+              readOnly={alarmaMode}
               {...register("t001Estaciones.t001nombre", { required: true })}
             />
             {errors.t001nombre && (
@@ -328,8 +327,8 @@ const AlarmasModal = ({
                   ></span>
                   Cargando...
                 </>
-              ) : alarmaAction === "editar" ? (
-                <img src={iconoActualizar} alt="" title="Actualizar" />
+              ) : alarmaMode ? (
+                "Actualizar"
               ) : (
                 "Crear"
               )}
