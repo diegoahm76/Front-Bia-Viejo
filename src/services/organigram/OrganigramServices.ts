@@ -67,7 +67,6 @@ export const toFinalizeOrganigramService = (id: string, navigate: NavigateFuncti
         try {
             const { data } = await clienteAxios.put(`almacen/organigrama/finalizar/${id}/`);
             dispatch(getOrganigramsService());
-            Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
             Swal.fire({
                 position: "center",
                 icon: "info",

@@ -76,7 +76,6 @@ export const EdicionOrganigramaScreen = () => {
     setValueUnidades('nivelUnidad', option!)
   };
 
-  console.log(optionsAgrupacionD, "optionsAgrupacionD")
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">

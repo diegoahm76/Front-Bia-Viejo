@@ -14,12 +14,6 @@ const initialStateOrganigrmCurrent = {
     actual: false,
     ruta_resolucion: null,
 };
-const initialStateLevel = {
-    id_nivel_organigrama: null,
-    id_organigrama: null,
-    orden_nivel: null,
-    nombre: null,
-};
 
 const initialState: IOrganigram = {
     organigram: [],
