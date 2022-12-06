@@ -14,14 +14,6 @@ import { currentOrganigram } from "../../store/slices/organigrama/indexOrganigra
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-<<<<<<<< HEAD:src/screens/gestorDocumental/CrearOrganigramaScreen.tsx
-========
-import CrearItemOrganigramaModal from "../../components/CrearItemOrganigramaModal";
-import IconoEditar from "../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-// import IconoEliminar from "../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-import { obtenerOrganigramaAction, seleccionarOrganigramaAction } from "../../actions/organigramaActions";
-import { useForm } from "react-hook-form";
->>>>>>>> migrateTsxCris:src/screens/gestorDocumental/CrearOrganigramaScreen.jsx
 
 function CrearOrganigramaScreen() {
   // Redux State Extraction
@@ -35,11 +27,7 @@ function CrearOrganigramaScreen() {
 
   // UseEffect para obtener organigramas
   useEffect(() => {
-<<<<<<<< HEAD:src/screens/gestorDocumental/CrearOrganigramaScreen.tsx
     dispatch(getOrganigramsService())
-========
-    dispatch(obtenerOrganigramaAction());
->>>>>>>> migrateTsxCris:src/screens/gestorDocumental/CrearOrganigramaScreen.jsx
   }, []);
 
   const columnDefs = [
@@ -101,15 +89,6 @@ function CrearOrganigramaScreen() {
       minWidth: 100,
       wrapText: true,
     },
-    // {
-    //   headerName: "Actual",
-    //   field: "actual",
-    //   minWidth: 75,
-    //   maxWidth: 100,
-    //   headerCheckboxSelection: false,
-    //   checkboxSelection: false,
-    //   showDisabledCheckboxes: false,
-    // },
     {
       headerName: "Actual",
       field: "actual",
@@ -127,29 +106,17 @@ function CrearOrganigramaScreen() {
       headerName: "Acciones",
       field: "acciones",
       minWidth: 140,
-<<<<<<<< HEAD:src/screens/gestorDocumental/CrearOrganigramaScreen.tsx
       cellRendererFramework: ({ data }) => (
-========
-      cellRendererFramework: (params) => (
->>>>>>>> migrateTsxCris:src/screens/gestorDocumental/CrearOrganigramaScreen.jsx
         <div>
           <button
             type="button"
             style={{ border: "none", background: "none" }}
             onClick={() => {
-<<<<<<<< HEAD:src/screens/gestorDocumental/CrearOrganigramaScreen.tsx
               dispatch(currentOrganigram(data));
               navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
             }}
           >
             <i className="fa-regular fa-pen-to-square fs-3"></i>
-========
-              dispatch(seleccionarOrganigramaAction(params.data));
-              navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama');
-            }}
-          >
-            <i class="fa-regular fa-pen-to-square fs-3"></i>
->>>>>>>> migrateTsxCris:src/screens/gestorDocumental/CrearOrganigramaScreen.jsx
           </button>
         </div>
       ),
