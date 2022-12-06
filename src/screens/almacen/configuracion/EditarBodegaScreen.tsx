@@ -26,7 +26,7 @@ const EditarBodegaScreen = () => {
 
   const dispatch = useAppDispatch();
   
-  const listabodegas  = useAppSelector(
+  const bodegaEditar  = useAppSelector(
     (state) => state.bodegaSlice.bodegaEditar
        );
        
@@ -105,10 +105,6 @@ const EditarBodegaScreen = () => {
   };
 
   useEffect(() => {
-    let bodegaEditar;
-    const bodega=localStorage.getItem("bodega");
-    const bodegaObje= JSON.parse(bodega as string)
-    console.log(bodegaObje)
     const getSelectsOptions = async () => {
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
@@ -150,7 +146,7 @@ const EditarBodegaScreen = () => {
 
         departamentosFormat.forEach((dep) => {
           if (dep.value === coddep) {
-            coddep = dep;
+            coddep = dep.value;
           }
         });
 

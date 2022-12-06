@@ -15,7 +15,7 @@ import {
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
 
-import { editarBodegaAction1, eliminarBodega, obtenerBodega } from "../../../store/slices/bodega/indexBodega";
+import { editarBodegaAction1, eliminarBodega, obtenerBodega, seleccionarBodega } from "../../../store/slices/bodega/indexBodega";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 const AdministradorBodegasScreen = () => {
@@ -32,6 +32,7 @@ const AdministradorBodegasScreen = () => {
   };
   const EditarBodega = (data) =>{
     // dispatch(editarBodegaAction1(data))
+    seleccionarBodega(dispatch, data)
     localStorage.setItem("bodega", JSON.stringify(data.data));
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
