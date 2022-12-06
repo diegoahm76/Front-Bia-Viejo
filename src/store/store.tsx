@@ -5,6 +5,7 @@ import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
+import organigramReducer from './slices/organigrama/indexOrganigram'
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
 // import thunk from "redux-thunk";
 import loadingReducer, {
@@ -20,8 +21,9 @@ const store = configureStore({
     modalSelector: modalReducer,
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
-    administradorEstacionesSlice: estacionesReducer,
     loading: loadingReducer,
+    organigram: organigramReducer,
+    administradorEstacionesSlice: estacionesReducer,
   },
 });
 
