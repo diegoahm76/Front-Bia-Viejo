@@ -6,7 +6,7 @@ import { AxiosError, AxiosResponse } from "axios";
 // Reducers
 import { currentOrganigram, getLevels, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
-import { IObjCreateOrganigram, IObjOrganigram } from '../../Interfaces/Organigrama';
+import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels, IObjOrganigram, IObjUnitys } from '../../Interfaces/Organigrama';
 
 const notificationError = Swal.mixin({
     position: "center",
@@ -83,9 +83,9 @@ export const toFinalizeOrganigramService = (id: string, navigate: NavigateFuncti
     };
 };
 
-// Niveles 
-//Obtener Organigrama
-export const getLevelsService = (id) => {
+// Niveles
+//Obtener Niveles
+export const getLevelsService = (id: string | number | null) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get(`almacen/organigrama/niveles/get-by-organigrama/${id}/`);
@@ -99,11 +99,12 @@ export const getLevelsService = (id) => {
 };
 
 // Actualizar Niveles
-export const updateLevelsService = (id, newLevels) => {
+export const updateLevelsService = (id: string | number | null, newLevels: IObjLevels[]) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.put(`almacen/organigrama/niveles/update/${id}/`, newLevels);
             dispatch(getLevelsService(id));
+            Swal.fire("Correcto", "Proceso Exitoso", "success");
             return data;
         } catch (error) {
             notificationError.fire();
@@ -114,7 +115,7 @@ export const updateLevelsService = (id, newLevels) => {
 // Unidades
 
 //Obtener Unidades
-export const getUnitysService = (id) => {
+export const getUnitysService = (id: string | number | null) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get(`almacen/organigrama/unidades/get-by-organigrama/${id}/`);
@@ -128,11 +129,12 @@ export const getUnitysService = (id) => {
 };
 
 // Actualizar Unidades
-export const updateUnitysService = (id, newUnitys) => {
+export const updateUnitysService = (id: string | number | null, newUnitys: FormValuesUnitys[]) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.put(`almacen/organigrama/unidades/update/${id}/`, newUnitys);
             dispatch(getUnitysService(id));
+            Swal.fire("Correcto", "Proceso Exitoso", "success");
             return data;
         } catch (error) {
             notificationError.fire();

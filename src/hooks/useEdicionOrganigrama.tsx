@@ -39,6 +39,7 @@ const useEdicionOrganigrama = () => {
     const [optionUnidadPadre, setOptionUnidadPadre] = useState<ILevelFather[]>([{
         label: '',
         value: '',
+        isdisabled: false
     }]);
     const [optionsTipoUnidad, setOptionTipoUnidad] = useState<ITypeUnity[]>([{
         label: '',
@@ -81,7 +82,8 @@ const useEdicionOrganigrama = () => {
         },
         "nivelPadre": {
             "label": '',
-            "value": null
+            "value": null,
+            "isdisabled": false
         }
     }
     //configuración de tabla por defecto
@@ -120,6 +122,7 @@ const useEdicionOrganigrama = () => {
         control: controlUnidades,
         reset: resetUnidades,
         watch: watchUnidades,
+        setValue: setValueUnidades,
         formState: { errors: errorsUnidades },
 
     } = useForm<FormValuesUnitys>({ defaultValues: initialStateUnitys });
@@ -249,8 +252,16 @@ const useEdicionOrganigrama = () => {
         resetUnidades({
             unidadRaiz: { label: "Si", value: true },
         });
-        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo })));
+        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo, isdisabled: false })));
     }, [unityOrganigram]);
+
+    //useEffect para desabilitar opciones de unidad padre
+    useEffect(() => {
+        if (datosUnidades.nivelUnidad) {
+            console.log('entre', datosUnidades.nivelUnidad);
+            setOptionUnidadPadre(unityOrganigram.map((item) => ((item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!) ? { label: item.nombre, value: item.codigo, isdisabled: true } : { label: item.nombre, value: item.codigo, isdisabled: false })));
+        }
+    }, [datosUnidades.nivelUnidad]);
 
     //useEffect para deshabilitar el nivel 1 cuando el tipo de unidad es de apoyo o soporte
     useEffect(() => {
@@ -276,7 +287,6 @@ const useEdicionOrganigrama = () => {
 
                 const agrupacionDocumentalFormat = textChoiseAdapter(agrupacionDocumentalNoFormat);
                 const tipoUnidadFormat = textChoiseAdapter(tipoUnidadNoFormat);
-
                 setOptionAgrupacionD(agrupacionDocumentalFormat.map((item) => ({ ...item, isDisabled: false })));
                 setOptionTipoUnidad(tipoUnidadFormat.map((item) => ({ ...item, isDisabled: false })));
             } catch (err) {
@@ -287,19 +297,19 @@ const useEdicionOrganigrama = () => {
     }, []);
 
     //Funcion para actualizar un nivel
-    const submitNivel = ({ nombre, id_nivel_organigrama = '' }: any /* SubmitHandler<FormValuesLevels> */) => {
+    const submitNivel: SubmitHandler<FormValuesLevels> = (data: FormValuesLevels) => {
         let newNiveles: FormValuesLevels[] = []
         if (title_nivel === 'Agregar') {
             newNiveles = [...levelsOrganigram, {
                 id_organigrama: organigramCurrent.id_organigrama,
                 orden_nivel: orden_nivel,
-                nombre,
+                nombre: data.nombre,
                 id_nivel_organigrama: null
             }]
         } else {
             newNiveles = levelsOrganigram.map(nivel => {
-                if (nivel.id_nivel_organigrama === id_nivel_organigrama) {
-                    nivel.nombre = nombre;
+                if (nivel.id_nivel_organigrama === data.id_nivel_organigrama) {
+                    nivel.nombre = data.nombre;
                 }
                 return nivel;
             });
@@ -308,20 +318,20 @@ const useEdicionOrganigrama = () => {
         resetNivel({
             nombre: ''
         });
-        dispatch(updateLevelsService(organigramCurrent?.id_organigrama, newNiveles));
+        dispatch(updateLevelsService(organigramCurrent.id_organigrama, newNiveles));
     };
 
     //Funcion para actualizar un unidades
-    const submitUnidades = ({ codigo, nombre, nivelPadre, tipoUnidad, agrupacionDocumental, unidadRaiz, nivelUnidad }: any /* SubmitHandler<FormValuesUnitys> */) => {
+    const submitUnidades: SubmitHandler<FormValuesUnitys> = ({ codigo, nombre, nivelPadre, tipoUnidad, agrupacionDocumental, unidadRaiz, nivelUnidad }: FormValuesUnitys) => {
         let newUnidades: FormValuesUnitys[] = []
         if (title_unidades === 'Agregar Unidades') {
             newUnidades = [...unityOrganigram, {
-                id_nivel_organigrama: nivelUnidad.value,
+                id_nivel_organigrama: nivelUnidad!.value!,
                 nombre,
                 codigo,
-                cod_tipo_unidad: tipoUnidad.value,
-                cod_agrupacion_documental: agrupacionDocumental.value,
-                unidad_raiz: unidadRaiz.value,
+                cod_tipo_unidad: tipoUnidad!.value,
+                cod_agrupacion_documental: agrupacionDocumental!.value,
+                unidad_raiz: unidadRaiz!.value,
                 id_organigrama: organigramCurrent.id_organigrama,
                 cod_unidad_org_padre: nivelPadre ? nivelPadre.value : null,
             }]
@@ -329,12 +339,12 @@ const useEdicionOrganigrama = () => {
             newUnidades = unityOrganigram.map(unidad => {
                 if (unidad.codigo === codigo) {
                     return {
-                        id_nivel_organigrama: nivelUnidad.value,
+                        id_nivel_organigrama: nivelUnidad!.value,
                         nombre: nombre,
                         codigo: codigo,
-                        cod_tipo_unidad: tipoUnidad.value,
-                        cod_agrupacion_documental: agrupacionDocumental.value,
-                        unidad_raiz: unidadRaiz.value,
+                        cod_tipo_unidad: tipoUnidad!.value,
+                        cod_agrupacion_documental: agrupacionDocumental!.value,
+                        unidad_raiz: unidadRaiz!.value,
                         id_organigrama: organigramCurrent.id_organigrama,
                         cod_unidad_org_padre: nivelPadre ? nivelPadre.value : null,
                     }
@@ -403,6 +413,7 @@ const useEdicionOrganigrama = () => {
         handleSubmitUnidades,
         registerUnidades,
         resetUnidades,
+        setValueUnidades,
         submitUnidades,
         watchUnidades,
 

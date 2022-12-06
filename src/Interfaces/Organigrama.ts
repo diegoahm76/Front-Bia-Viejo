@@ -79,4 +79,5 @@ export interface IDocumentaryGroup {
 export interface ILevelFather {
     label: string;
     value: string | number | null;
+    isdisabled: boolean;
 }

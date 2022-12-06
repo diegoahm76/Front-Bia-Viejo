@@ -58,12 +58,25 @@ export const EdicionOrganigramaScreen = () => {
     handleSubmitUnidades,
     registerUnidades,
     resetUnidades,
+    setValueUnidades,
     submitUnidades,
     watchUnidades,
 
     onGridReady
   } = useEdicionOrganigrama()
 
+  const setUnityRoot = (option: SingleValue<ILevelUnity>) => {
+    setValueUnidades("unidadRaiz", option!.orden === 1 ? {
+      label: "Si",
+      value: true
+    } : {
+      label: "No",
+      value: false
+    });
+    setValueUnidades('nivelUnidad', option!)
+  };
+
+  console.log(optionsAgrupacionD, "optionsAgrupacionD")
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -132,91 +145,62 @@ export const EdicionOrganigramaScreen = () => {
           </div>
         </form>
 
-        <Accordion >
-          <Accordion.Item eventKey="0" className="row m-0 my-3 multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-            <Accordion.Header
-              className="sidenav-normal border rounded-pill px-4 text-white fs-5 ms-1"
-              style={{
-                backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)", color: 'white',
-              }}
-            >Niveles Organizacionales
-            </Accordion.Header>
-            {/* <div
-              className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 ms-1"
-              style={{
-                backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
-              }}
-            // href="#Niveles"
-            >
-              {" "}
-              Niveles Organizacionales
-            </div> */}
-            <Accordion.Body>
-              <form onSubmit={handleSubmitNivel(submitNivel)}>
-                <div className="row mt-3 ms-2 collapse" id="Niveles">
-                  <div className="col-12  col-md-4">
-                    <label className="text-terciary fw-bolder">Niveles</label>
-                    <br />
-                    <label className="text terciary">Nivel {orden_nivel}</label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      placeholder="Escribe el nombre"
-                      {...registerNivel("nombre", { required: "El nombre es obligatorio" })}
-                    />
-                    {errorsNivel.nombre && (
-                      <p className="text-danger">{errorsNivel.nombre.message}</p>
-                    )}
-                    <button
-                      type="submit"
-                      className="border rounded-pill px-3 btn bg-gradient-primary my-3 text-capitalize"
-                    >
-                      {title_nivel}
-                    </button>
-                  </div>
-                  <div className="col ">
-                    <label className="text-terciary fw-bolder">Resumen</label>
-                    <div id="myGrid" className="ag-theme-alpine ">
-                      <div
-                        className="ag-theme-alpine"
-                        style={{ height: "250px", maxWidth: "600px" }}
-                      >
-                        <AgGridReact
-                          columnDefs={columnsNivel}
-                          rowData={levelsOrganigram}
-                          defaultColDefOrganigrama={defaultColDefOrganigrama}
-                          onGridReady={onGridReady}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>Accordion Item #2</Accordion.Header>
-            <Accordion.Body>
-              culpa qui officia deserunt mollit anim id est laborum.
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-
         <div className="row m-0 my-3 multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <div
+          <a
             className="sidenav-normal border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 ms-1"
             style={{
               backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
             }}
             data-bs-toggle="collapse"
+            role="button"
             aria-expanded="false"
-          // href="#Niveles"
+            aria-controls="Niveles"
+            href="#Niveles"
           >
             {" "}
             Niveles Organizacionales
-          </div>
+          </a>
 
-
+          <form onSubmit={handleSubmitNivel(submitNivel)}>
+            <div className="row mt-3 ms-2 collapse" id="Niveles">
+              <div className="col-12  col-md-4">
+                <label className="text-terciary fw-bolder">Niveles</label>
+                <br />
+                <label className="text terciary">Nivel {orden_nivel}</label>
+                <input
+                  type="text"
+                  className="form-control border border-terciary rounded-pill px-3"
+                  placeholder="Escribe el nombre"
+                  {...registerNivel("nombre", { required: "El nombre es obligatorio" })}
+                />
+                {errorsNivel.nombre && (
+                  <p className="text-danger">{errorsNivel.nombre.message}</p>
+                )}
+                <button
+                  type="submit"
+                  className="border rounded-pill px-3 btn bg-gradient-primary my-3 text-capitalize"
+                >
+                  {title_nivel}
+                </button>
+              </div>
+              <div className="col ">
+                <label className="text-terciary fw-bolder">Resumen</label>
+                <div id="myGrid" className="ag-theme-alpine ">
+                  <div
+                    className="ag-theme-alpine"
+                    style={{ height: "250px", maxWidth: "600px" }}
+                  >
+                    <AgGridReact
+                      columnDefs={columnsNivel}
+                      rowData={levelsOrganigram}
+                      defaultColDefOrganigrama={defaultColDefOrganigrama}
+                      onGridReady={onGridReady}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
 
         </div>
 
@@ -227,18 +211,19 @@ export const EdicionOrganigramaScreen = () => {
           id="configForm"
         >
           <div className="row mt-3 ">
-            <div
+            <a
               className="border rounded-pill px-4 mt-2 mb-2 text-white fs-5 p-1 me-10 ms-1"
               style={{
                 backgroundImage: "linear-gradient(45deg, #6db227, #36a9e0)",
               }}
               data-bs-toggle="collapse"
               aria-expanded="false"
-            // href="#Unidades"
+              aria-controls="Unidades"
+              href="#Unidades"
             >
               {" "}
               Unidades Organizacionales
-            </div>
+            </a>
 
             <div className="row mt-3 ms-2 collapse" id="Unidades">
               <div className="row d-flex align-items-end mt-2 mx-2">
@@ -286,8 +271,7 @@ export const EdicionOrganigramaScreen = () => {
                         {...field}
                         value={field.value}
                         onChange={(option: SingleValue<ITypeUnity>) => {
-                          // resetUnidades({ ...watchUnidades(), tipoUnidad: option  });
-                          resetUnidades({ ...watchUnidades(), option });
+                          setValueUnidades("tipoUnidad", option!);
                         }}
                         options={optionsTipoUnidad.map((item) => (item.value !== 'LI' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
@@ -308,30 +292,7 @@ export const EdicionOrganigramaScreen = () => {
                       <Select
                         {...field}
                         value={field.value}
-                        onChange={(option: SingleValue<ILevelUnity>) => {
-                          if (option?.orden === 1) {
-                            resetUnidades({
-                              ...watchUnidades(),
-                              unidadRaiz: {
-                                label: "Si",
-                                value: true
-                              }
-                            });
-                          } else {
-                            resetUnidades({
-                              ...watchUnidades(),
-                              unidadRaiz: {
-                                label: "No",
-                                value: false
-                              }
-                            });
-                          }
-                          resetUnidades({
-                            ...watchUnidades(),
-                            // nivelUnidad: option,
-                            option,
-                          });
-                        }}
+                        onChange={(option: SingleValue<ILevelUnity>) => setUnityRoot(option)}
                         options={optionNivel}
                         placeholder="Seleccionar"
                       />
@@ -354,13 +315,6 @@ export const EdicionOrganigramaScreen = () => {
                         {...field}
                         isDisabled={true}
                         value={field.value}
-                        onChange={(option: SingleValue<IUnityRoot>) => {
-                          resetUnidades({
-                            ...watchUnidades(),
-                            // unidadRaiz: option,
-                            option,
-                          });
-                        }}
                         options={optionRaiz}
                         placeholder="Seleccionar"
                       />
@@ -383,13 +337,10 @@ export const EdicionOrganigramaScreen = () => {
                         {...field}
                         value={field.value}
                         onChange={(option: SingleValue<IDocumentaryGroup>) => {
-                          resetUnidades({
-                            ...watchUnidades(),
-                            // agrupacionDocumental: option,
-                            option,
-                          });
+                          setValueUnidades('agrupacionDocumental', option!)
                         }}
-                        options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
+                        options={optionsAgrupacionD}
+                        // options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -407,11 +358,7 @@ export const EdicionOrganigramaScreen = () => {
                         {...field}
                         value={field.value}
                         onChange={(option: SingleValue<ILevelFather>) => {
-                          resetUnidades({
-                            ...watchUnidades(),
-                            option,
-                            // nivelPadre: option,
-                          });
+                          setValueUnidades('nivelPadre', option!)
                         }}
                         options={optionUnidadPadre}
                         placeholder="Seleccionar"

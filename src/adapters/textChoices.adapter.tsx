@@ -18,7 +18,7 @@ export const textChoiseAdapter = (dataArray) => {
     label: dataNewFormat[0].label,
     value: dataNewFormat[0].value
   });
-  return formatGeneric;
+  return dataNewFormat;
 };
 
 export const textChoiseAdapterIndicativo = (dataArray) => {
