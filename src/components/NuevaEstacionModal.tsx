@@ -1,8 +1,12 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
-import { useDispatch, useSelector } from "react-redux";
-import { editarEstacionAction } from "../actions/estacionActions";
+// import { useDispatch, useSelector } from "react-redux";
+// import { crearNuevaEstacionAction } from "../actions/estacionActions";
+import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
+import iconoAgregar from "../assets/iconosBotones/agregar.svg";
+import React from "react";
+import { crearEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -20,35 +24,32 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
-  const dispatch = useDispatch();
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
-  const { estacionEditar } = useSelector((state) => state.estaciones);
+const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
+  const dispatch = useAppDispatch();
+  const nombre_de_usuario = useAppSelector(
+    (state) => state.login.userinfo.nombre_de_usuario
+  );
+  // const nombre_de_usuario = useAppSelector((state) => state.user.user);
+
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    //console.log("modal editar effect")
-    reset(estacionEditar);
-  }, [estacionEditar]);
-
   const onSumbitEstacion = async (data) => {
-    const updateEstacion = {
-      objectid: data.objectid,
-      t001nombre: data.t001nombre,
-      t001coord1: data.t001coord1,
-      t001coord2: data.t001coord2,
+    const nuevaEstacion = {
+      objectid: data.objectId,
+      t001nombre: data.estacion,
+      t001coord1: data.coordenada1,
+      t001coord2: data.coordenada2,
       t001fechaMod: new Date().toISOString(),
       t001userMod: nombre_de_usuario,
     };
 
-    //console.log("Nueva Estacion", updateEstacion);
-
-    dispatch(editarEstacionAction(updateEstacion));
+    console.log("Nueva Estacion", nuevaEstacion);
+    crearEstacion(dispatch, nuevaEstacion);
+    // dispatch(crearNuevaEstacionAction(nuevaEstacion));
 
     setIsModalActive(!isModalActive);
   };
@@ -63,7 +64,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>Editar estación meteorologica</h4>
+        <h4>Nueva estación meteorologica</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12">
@@ -74,8 +75,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
-                disabled
-                {...register("objectid", { required: true })}
+                placeholder="Id"
+                {...register("objectId", { required: true })}
               />
             </div>
             {errors.objectId && (
@@ -94,7 +95,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                {...register("t001nombre", { required: true })}
+                placeholder="Nombre"
+                {...register("estacion", { required: true })}
               />
             </div>
             {errors.estacion && (
@@ -113,7 +115,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                {...register("t001coord1", { required: true })}
+                placeholder="Coordenada 1"
+                {...register("coordenada1", { required: true })}
               />
             </div>
             {errors.coordenada1 && (
@@ -132,7 +135,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                {...register("t001coord2", { required: true })}
+                placeholder="Coordenada 2"
+                {...register("coordenada2", { required: true })}
               />
             </div>
             {errors.coordenada2 && (
@@ -145,18 +149,18 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
           </div>
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              Cerrar
+              <img src={iconoCancelar} alt="" title="Cancelar" />
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Editar
+              <img src={iconoAgregar} alt="" title="Agregar" />
             </button>
           </div>
         </form>
@@ -164,4 +168,4 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
     </Modal>
   );
 };
-export default EditarEstacionModal;
+export default NuevaEstacionModal;
