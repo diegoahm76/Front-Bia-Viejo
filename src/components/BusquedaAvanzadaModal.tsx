@@ -54,6 +54,7 @@ const BusquedaAvanzadaModal = ({
   setFormValues,
   reset,
   tipoDocumentoOptions,
+  
 }: IBusquedaAvanzadaModal) => {
   const [personaSearched, setPersonaSearched] = useState([]);
   const [loading, setLoading] = useState(false);
