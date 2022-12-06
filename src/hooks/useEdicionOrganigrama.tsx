@@ -258,7 +258,6 @@ const useEdicionOrganigrama = () => {
     //useEffect para desabilitar opciones de unidad padre
     useEffect(() => {
         if (datosUnidades.nivelUnidad) {
-            console.log('entre', datosUnidades.nivelUnidad);
             setOptionUnidadPadre(unityOrganigram.map((item) => ((item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!) ? { label: item.nombre, value: item.codigo, isdisabled: true } : { label: item.nombre, value: item.codigo, isdisabled: false })));
         }
     }, [datosUnidades.nivelUnidad]);
@@ -287,6 +286,7 @@ const useEdicionOrganigrama = () => {
 
                 const agrupacionDocumentalFormat = textChoiseAdapter(agrupacionDocumentalNoFormat);
                 const tipoUnidadFormat = textChoiseAdapter(tipoUnidadNoFormat);
+
                 setOptionAgrupacionD(agrupacionDocumentalFormat.map((item) => ({ ...item, isDisabled: false })));
                 setOptionTipoUnidad(tipoUnidadFormat.map((item) => ({ ...item, isDisabled: false })));
             } catch (err) {
