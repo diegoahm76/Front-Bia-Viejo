@@ -36,7 +36,8 @@ const AdministradorBodegasScreen = () => {
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
 
-  const  bodega  = useAppSelector((state) => state.bodegaSlice);
+  const  bodega  = useAppSelector(
+    (state) => state.bodegaSlice.bodega[1]);
 
 
 
@@ -71,18 +72,19 @@ const AdministradorBodegasScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
+            className="btn btn-sm btn-tabla"
             type="button"
             onClick={() => EditarBodega(params.data)}
-          >
-            <img src={IconoEditar} alt="editar" />
+            title={"Editar"}
+          ><i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
           <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
+            className="btn btn-sm btn-tablas "
             type="button"
+            title='Eliminar'
             onClick={() => confirmarEliminarBodega(params.data.id_bodega)}
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <i className="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -118,7 +120,7 @@ const AdministradorBodegasScreen = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                  rowData={bodega}
+                  rowData={bodega as any}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>

@@ -13,19 +13,23 @@ import {
 } from "../../../actions/bodegaActions";
 import { useDispatch, useSelector } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
-import { useAppSelector } from "../../../store/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IGeneric } from "../../../Interfaces/Generic";
+
 const EditarBodegaScreen = () => {
+
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
     id_persona: "",
   });
+
+  const dispatch = useAppDispatch();
   
-
-  // console.log("form", formValuesSearch);
-
-  const listabodegas  = useAppSelector((state) => state.bodegaSlice);
+  const listabodegas  = useAppSelector(
+    (state) => state.bodegaSlice.bodegaEditar
+       );
+       
 
   const {
     reset: resetBuscar,
@@ -59,8 +63,7 @@ const EditarBodegaScreen = () => {
     departamento: "",
   });
 
-  const dispatch = useDispatch();
-  //cuando el usuario hace submit
+
 
   const submitEditarBodega = (data) => {
     const idPersona = formValuesSearch.id_persona;

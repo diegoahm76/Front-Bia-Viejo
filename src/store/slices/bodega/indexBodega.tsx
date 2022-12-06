@@ -8,38 +8,43 @@ export interface IBodega {
   id_responsable: number;
   es_principal: boolean;
 }
-const initialState: IBodega[] = [
-  {
-    nombre: "string",
-    cod_municipio: "string",
-    direccion: "string",
+
+export interface IBodegaGeneric {
+  bodegaEditar: IBodega;
+  bodega: IBodega[];
+}
+
+const initialState: IBodegaGeneric = {
+  bodegaEditar: {
+    nombre: "",
+    cod_municipio: "",
+    direccion: "",
     id_responsable: 0,
     es_principal: true,
   },
-];
+  bodega: [
+    {
+      nombre: "",
+      cod_municipio: "",
+      direccion: "",
+      id_responsable: 0,
+      es_principal: true,
+    },
+  ],
+};
 
 const bodegaSlice = createSlice({
-  name: "bodega",
+  name: "AdministradorBodegas",
   initialState,
   reducers: {
-    crearBodegaAction: (state, action) => {
-
-    },
+    crearBodegaAction: (state, action) => {},
     obtenerBodegaAction: (state, action) => {
-      state.push(action.payload);
+      state.bodega.push(action.payload);
     },
-    eliminarBodegaAction: (state, action) => {
-
-    },
-    editarBodegaAction1:(state, action)=>{
-
-    },
+    eliminarBodegaAction: (state, action) => {},
+    editarBodegaAction1: (state, action) => {},
   },
 });
-
-export const { crearBodegaAction, obtenerBodegaAction, eliminarBodegaAction, editarBodegaAction1 } =
-  bodegaSlice.actions;
-export default bodegaSlice.reducer;
 
 export const crearBodega = async (dispatch, bodega: IBodega) => {
   await clienteAxios.post("almacen/bodega/create/", bodega).then(() => {
@@ -50,7 +55,7 @@ export const crearBodega = async (dispatch, bodega: IBodega) => {
 
 export const obtenerBodega = async (dispatch) => {
   await clienteAxios.get("almacen/bodega/get-list/").then((data) => {
-    dispatch(obtenerBodegaAction(data));
+    dispatch(obtenerBodegaAction(data.data));
   });
 };
 
@@ -61,15 +66,19 @@ export const eliminarBodega = async (dispatch, id_bodega) => {
   });
 };
 
-export const editarBodega = async (dispatch, id_bodega) =>{
-  await clienteAxios.put(`almacen/bodega/update/${id_bodega}`, id_bodega).then(()=>{
-    dispatch(obtenerBodegaAction(id_bodega))
-    dispatch(editarBodegaAction1(id_bodega));
-  });
-      
+export const editarBodega = async (dispatch, id_bodega) => {
+  await clienteAxios
+    .put(`almacen/bodega/update/${id_bodega}`, id_bodega)
+    .then(() => {
+      dispatch(obtenerBodegaAction(id_bodega));
+      dispatch(editarBodegaAction1(id_bodega));
+    });
+};
 
-}
-
-
-
-
+export const {
+  crearBodegaAction,
+  obtenerBodegaAction,
+  eliminarBodegaAction,
+  editarBodegaAction1,
+} = bodegaSlice.actions;
+export default bodegaSlice.reducer;
