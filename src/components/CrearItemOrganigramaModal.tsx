@@ -1,11 +1,12 @@
+import React, { Dispatch, SetStateAction } from "react";
 import Modal from "react-modal";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Subtitle from "./Subtitle";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { agregarOrganigramaAction } from "../actions/organigramaActions";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addOrganigramsService } from "../services/organigram/OrganigramServices";
+import { useAppDispatch } from '../store/hooks/hooks';
 
 
 const customStyles = {
@@ -19,34 +20,39 @@ const customStyles = {
     zIndex: "9999",
   },
 };
+interface IProps {
+  isModalActive: boolean;
+  setIsModalActive: Dispatch<SetStateAction<boolean>>;
+}
 
 Modal.setAppElement("#root");
 
-const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
-  const navigate = useNavigate()
+const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }: IProps) => {
 
-  const dispatch = useDispatch();
+  // Naveigate instance
+  const navigate = useNavigate();
+  // Dispatch instance
+  const dispatch = useAppDispatch();
 
   const handleCloseCrearOrganigrama = () => {
     setIsModalActive(false);
+  };
+
+  type FormValues = {
+    nombre: string;
+    version: string;
+    descripcion: string;
   };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
-  const onSumbitOrganigrama = async (data) => {
-    const nuevoOrganigrama = {
-      ...data,
-      nombre: data.nombre,
-      version: data.version,
-      descripcion: data.descripcion,
-    };
-    dispatch(agregarOrganigramaAction(nuevoOrganigrama, navigate));
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    dispatch(addOrganigramsService(data, navigate));
     handleCloseCrearOrganigrama();
-    navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
   };
 
   return (
@@ -63,7 +69,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSumbitOrganigrama)}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
               Crear organigrama
@@ -75,9 +81,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
               </label>
               <input
                 type="text"
-                name="nombre"
                 className="form-control border border-terciary rounded-pill px-3"
-                // placeholder="Escribe el nombre"
                 {...register("nombre", { required: true })}
               />
               {errors.nombre && (
@@ -95,7 +99,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 type="text"
                 className="form-control border border-terciary rounded-pill px-3"
-                // placeholder="Escribe el codigo"
                 {...register("version", { required: true })}
               />
               {errors.version && (
@@ -114,7 +117,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }) => {
               <textarea
                 className="form-control border rounded-pill px-3"
                 placeholder=""
-                type="text"
                 rows={3}
                 {...register("descripcion", { required: true })}
               />
