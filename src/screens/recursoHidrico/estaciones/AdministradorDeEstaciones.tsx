@@ -27,7 +27,7 @@ const AdministradorDeEstaciones = () => {
   }, []);
 
   const estaciones = useAppSelector(
-    (state) => state.administradorEstacionesSlice.estaciones[1]
+    (state) => state.administradorEstacionesSlice.estaciones
   );
 
   // const dataExcel = estaciones.map((estacion) => ({
@@ -55,20 +55,22 @@ const AdministradorDeEstaciones = () => {
           <button
             className="btn btn-sm btn-tablas"
             type="button"
+            title="editar"
             onClick={() => {
               // dispatch(obtenerEstacionEditarAction(params.data));
               setEstacionEditarModelo(dispatch, params.data);
               setIsModalEditarActivate(!isModalActive);
             }}
           >
-            <img src={IconoEditarBia} alt="editar" title="Editar" />
+            <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas"
             type="button"
+            title="eliminar"
             onClick={() => confirmarEliminarEstacion(params.data.objectid)}
           >
-            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
+            <i className="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -90,6 +92,12 @@ const AdministradorDeEstaciones = () => {
         //Pasarlo al action
         // dispatch(administradorEstacionesSlice(id));
         eliminarEstacion(dispatch, id);
+        obtenerEstacion(dispatch);
+        Swal.fire(
+          "Correcto",
+          "La estación se elimino correctamente",
+          "success"
+        );
       }
     });
   };
@@ -122,7 +130,7 @@ const AdministradorDeEstaciones = () => {
                 className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                 onClick={() => setIsModalActive(!isModalActive)}
               >
-                <img src={IconoNuevoBia} alt="" title="Nuevo" />
+                <i className="fa-regular fa-plus fs-3"></i>
               </button>
             </div>
           </div>
