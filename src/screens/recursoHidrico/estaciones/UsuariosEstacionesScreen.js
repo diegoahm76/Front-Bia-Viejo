@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
 import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
 import IconoNuevoBia from "../../../assets/iconosBotones/nuevo.svg";
@@ -54,7 +54,7 @@ const UsuariosEstacionesScreen = () => {
               setIsModalEditarActive(!isModalEditarActive);
             }}
           >
-            <img src={IconoEditarBia} alt="editar"  title="Editar"/>
+            <img src={IconoEditarBia} alt="editar" title="Editar" />
           </button>
           <button
             className="btn btn-sm btn-tablas"
@@ -64,7 +64,7 @@ const UsuariosEstacionesScreen = () => {
               setIsModalEliminarActive(!isModalActive);
             }}
           >
-            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar"/>
+            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
           </button>
         </div>
       ),

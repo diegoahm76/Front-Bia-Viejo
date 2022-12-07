@@ -5,7 +5,10 @@ import Modal from "react-modal";
 import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import iconoAgregar from "../assets/iconosBotones/agregar.svg";
 import React from "react";
-import { crearEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import {
+  crearEstacion,
+  obtenerEstacion,
+} from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
@@ -49,6 +52,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
 
     console.log("Nueva Estacion", nuevaEstacion);
     crearEstacion(dispatch, nuevaEstacion);
+    obtenerEstacion(dispatch);
     // dispatch(crearNuevaEstacionAction(nuevaEstacion));
 
     setIsModalActive(!isModalActive);
@@ -153,14 +157,15 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoCancelar} alt="" title="Cancelar" />
+              <i className="fa-solid fa-x fs-3"></i>
             </button>
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
+              title="Agregar"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoAgregar} alt="" title="Agregar" />
+              <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
           </div>
         </form>
