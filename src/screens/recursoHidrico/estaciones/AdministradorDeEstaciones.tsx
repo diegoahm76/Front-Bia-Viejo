@@ -1,8 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
-import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
-import IconoNuevoBia from "../../../assets/iconosBotones/nuevo.svg";
 import NuevaEstacionModal from "../../../components/NuevaEstacionModal";
 import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";

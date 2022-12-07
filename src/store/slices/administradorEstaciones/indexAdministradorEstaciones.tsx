@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Action } from "@remix-run/router";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import { estacionesReducer } from "../../../reducers/estacionesReducer";
 
 export interface IEstacion {
   objectid: number;
