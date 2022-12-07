@@ -13,7 +13,7 @@ import botonCancelar from "../../../assets/iconosBotones/cancelar.svg"
 import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg"
 
 //interfaces
-import { IAuth, IDatosNotificacion, IDefaultValues, IErrorAxios, IList, IPerson } from '../../../Interfaces/auth';
+import { IAuth, IDatosNotificacion, IDefaultValues, IErrorAxios, IList, IndexColombia, IPerson } from '../../../Interfaces/auth';
 import { AxiosError, AxiosResponse } from 'axios';
 
 const defaultValues = {
@@ -472,7 +472,7 @@ const RegisterPersonaScreen = () => {
   };
 
   const getIndexColombia = () => {
-    let indexColombia = null;
+    let indexColombia: IndexColombia = null;
     paisesOptions.forEach((pais, index) => {
       if (pais.value === "CO") {
         indexColombia = index;

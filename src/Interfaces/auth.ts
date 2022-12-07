@@ -64,3 +64,7 @@ export interface IErrorAxios {
     label: string;
     value: string;
 }
+export interface IndexColombia {
+    label: string;
+    value: string;
+}
