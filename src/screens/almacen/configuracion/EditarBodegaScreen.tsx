@@ -124,6 +124,7 @@ const EditarBodegaScreen = () => {
         setMunicipiosOptions(municipiosFormat);
 
         console.log("departamento", departamentosNoFormat);
+
         const {
           primer_nombre,
           segundo_nombre,
@@ -141,8 +142,10 @@ const EditarBodegaScreen = () => {
             tipoDocumento = documento.value;
           }
         });
+        console.log("tipodocumento",tipoDocumento)
 
         let coddep = bodegaEditar.cod_municipio.slice(0, 2);
+        console.log("coddep",coddep)
 
         departamentosFormat.forEach((dep) => {
           if (dep.value === coddep) {
@@ -210,9 +213,9 @@ const EditarBodegaScreen = () => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    isDisabled
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
+                  
                   />
                 )}
               />

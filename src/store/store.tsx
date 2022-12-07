@@ -8,6 +8,7 @@ import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 import bodegaReducer from './slices/bodega/indexBodega'
 import organigramReducer from './slices/organigrama/indexOrganigram'
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
+import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
 // import thunk from "redux-thunk";
 import loadingReducer, {
   cancelLoading,
@@ -26,6 +27,7 @@ const store = configureStore({
     loading: loadingReducer,
     organigram: organigramReducer,
     administradorEstacionesSlice: estacionesReducer,
+    monitoreoSlice:monitoreoReducer
   },
 });
 
