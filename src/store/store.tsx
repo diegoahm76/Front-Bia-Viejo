@@ -6,9 +6,19 @@ import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
 import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
-import loadingReducer, { cancelLoading, startLoading } from './slices/loading/indexLoading'
-import instance from '../config/clienteAxiosEstaciones';
+import bodegaReducer from "./slices/bodega/indexBodega";
+import organigramReducer from "./slices/organigrama/indexOrganigram";
+import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
+import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
+import configuracionEstacionesReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+// import thunk from "redux-thunk";
+import loadingReducer, {
+  cancelLoading,
+  startLoading,
+} from "./slices/loading/indexLoading";
+import instance from "../config/clienteAxiosEstaciones";
 import { useAppDispatch } from "./hooks/hooks";
+import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
 
 const store = configureStore({
   reducer: {
@@ -18,24 +28,36 @@ const store = configureStore({
     alarmasConfig: alarmasConfigReducer,
     loading: loadingReducer,
     usuarioEstaciones: usuarioEstacionesReducer,
-  }
+    administradorEstacionesSlice: estacionesReducer,
+    configuracionEstacionesSlice: configuracionEstacionesReducer,
+    bodegaSlice: bodegaReducer,
+    organigram: organigramReducer,
+    monitoreoSlice:monitoreoReducer
+  },
 });
 
 export default store;
 
 // Dispatch
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;
 // Selector
 export type RootState = ReturnType<typeof store.getState>;
 
+// Interceptors
+// instance.interceptors.request.use(
+//   () => {
+//     startLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );
 
-// Interceptors 
-instance.interceptors.request.use(
-  () => { startLoading(useAppDispatch) },
-  () => { cancelLoading(useAppDispatch) }
-)
-
-instance.interceptors.response.use(
-  () => { cancelLoading(useAppDispatch) },
-  () => { cancelLoading(useAppDispatch) }
-)
+// instance.interceptors.response.use(
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );

@@ -47,15 +47,13 @@ const AlarmasModal = ({
   const [estacionesOptions, setEstacionesOptions] = useState<IGeneric[]>([]);
   const [alarmaMode, setAlarmaMode] = useState(false);
   const { loading } = useAppSelector((state) => state.loading);
-  // False = crear 
+  // False = crear
   // true = editar
 
   const [formValues, setFormValues] = useState({
     index_objectid: 0,
   });
-  const dataEdit = useAppSelector(
-    (state) => state.alarma
-  );
+  const dataEdit = useAppSelector((state) => state.alarma);
 
   const dispatch = useAppDispatch();
 
@@ -92,8 +90,7 @@ const AlarmasModal = ({
   };
 
   const handleResetDataEdit = () => {
-    // REVISAR 
-
+    // REVISAR
     // setFormValues({
     //   ...formValues,
     //   index_objectid: getIndexBySelectOptions(
@@ -299,7 +296,7 @@ const AlarmasModal = ({
           <div className="d-flex justify-content-end gap-2 mt-3">
             <button
               type="button"
-              className="btn bg-gradient-light text-capitalize mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none"
               disabled={loading}
               onClick={() => handleCloseModal()}
             >
@@ -313,12 +310,13 @@ const AlarmasModal = ({
                   Cargando...
                 </>
               ) : (
-                "Cancelar"
+                ""
+                // REVISAR <img src={iconoCancelar} alt="" title="Cancelar" />
               )}
             </button>
             <button
               type="submit"
-              className="btn bg-gradient-primary text-capitalize mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none"
               disabled={loading}
             >
               {loading ? (

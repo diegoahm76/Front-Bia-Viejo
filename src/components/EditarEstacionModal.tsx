@@ -1,15 +1,15 @@
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import React from 'react';
 import Modal from "react-modal";
-// import { useDispatch, useSelector } from "react-redux";
-// import { crearNuevaEstacionAction } from "../actions/estacionActions";
+import { editarEstacionAction } from "../actions/estacionActions";
 import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
-import iconoAgregar from "../assets/iconosBotones/agregar.svg";
-import {
-  crearEstacion,
-  obtenerEstacion,
-} from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import iconoGuardar from "../assets/iconosBotones/guardar.svg";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import {
+  editarEstacion,
+  setEstacionEditar,
+} from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+// import { editarEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 
 const customStyles = {
   content: {
@@ -27,34 +27,40 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
+const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useAppDispatch();
-  const nombre_de_usuario = useAppSelector(
-    (state) => state.login.userinfo.nombre_de_usuario
-  );
+  //pendiente revisar usuarios
   // const nombre_de_usuario = useAppSelector((state) => state.user.user);
-
+  const estaciones = useAppSelector(
+    (state) => state.administradorEstacionesSlice.estacionEditar
+  );
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    //console.log("modal editar effect")
+    editarEstacion(dispatch, estaciones);
+    reset(estaciones);
+  }, [estaciones]);
+
   const onSumbitEstacion = async (data) => {
-    const nuevaEstacion = {
-      objectid: data.objectId,
-      t001nombre: data.estacion,
-      t001coord1: data.coordenada1,
-      t001coord2: data.coordenada2,
+    const updateEstacion = {
+      objectid: data.objectid,
+      t001nombre: data.t001nombre,
+      t001coord1: data.t001coord1,
+      t001coord2: data.t001coord2,
       t001fechaMod: new Date().toISOString(),
-      t001userMod: nombre_de_usuario,
+      //pendiente revisar usuarios
+      t001userMod: data.t001userMod,
     };
-
-    console.log("Nueva Estacion", nuevaEstacion);
-    crearEstacion(dispatch, nuevaEstacion);
-    obtenerEstacion(dispatch);
-    // dispatch(crearNuevaEstacionAction(nuevaEstacion));
-
+    console.log("Nueva Estacion", updateEstacion);
+    dispatch(setEstacionEditar(updateEstacion));
+    // setEstacionEditar(dispatch);
+    // dispatch(editarEstacionAction(updateEstacion));
     setIsModalActive(!isModalActive);
   };
 
@@ -68,7 +74,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>Nueva estación meteorologica</h4>
+        <h4>Editar estación meteorologica</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12">
@@ -79,8 +85,28 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
-                placeholder="Id"
-                {...register("objectId", { required: true })}
+                disabled
+                {...register("objectid", { required: true })}
+              />
+            </div>
+            {errors.objectId && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12">
+            <div className="mt-3">
+              <label>
+                Nombre Usuario: <span className="text-danger">*</span>
+              </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="string"
+                disabled
+                {...register("t001userMod", { required: true })}
               />
             </div>
             {errors.objectId && (
@@ -99,8 +125,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                placeholder="Nombre"
-                {...register("estacion", { required: true })}
+                {...register("t001nombre", { required: true })}
               />
             </div>
             {errors.estacion && (
@@ -119,8 +144,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                placeholder="Coordenada 1"
-                {...register("coordenada1", { required: true })}
+                {...register("t001coord1", { required: true })}
               />
             </div>
             {errors.coordenada1 && (
@@ -139,8 +163,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                placeholder="Coordenada 2"
-                {...register("coordenada2", { required: true })}
+                {...register("t001coord2", { required: true })}
               />
             </div>
             {errors.coordenada2 && (
@@ -155,6 +178,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
+              title="Cancelar"
               onClick={() => setIsModalActive(!isModalActive)}
             >
               <i className="fa-solid fa-x fs-3"></i>
@@ -162,10 +186,10 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
-              title="Agregar"
+              title="Guardar"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              <i className="fa-solid fa-circle-check fs-3"></i>
+              <i className="fa-regular fa-floppy-disk fs-3"></i>
             </button>
           </div>
         </form>
@@ -173,4 +197,4 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
     </Modal>
   );
 };
-export default NuevaEstacionModal;
+export default EditarEstacionModal;

@@ -1,7 +1,8 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../../../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
+import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
+import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
+import IconoNuevoBia from "../../../assets/iconosBotones/nuevo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 // import {
@@ -62,24 +63,24 @@ const UsuariosEstacionesScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
+            className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
               // dispatch(obtenerUsuarioEditarAction(params.data));
               setIsModalEditarActive(!isModalEditarActive);
             }}
           >
-            <img src={IconoEditar} alt="editar" />
+            <img src={IconoEditarBia} alt="editar" title="Editar" />
           </button>
           <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
+            className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
               // dispatch(obtenerUsusarioEliminarAction(params.data));
               setIsModalEliminarActive(!isModalActive);
             }}
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
           </button>
         </div>
       ),
@@ -101,10 +102,10 @@ const UsuariosEstacionesScreen = () => {
             <div className="row"></div>
             <div>
               <button
-                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
+                className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                 onClick={() => setIsModalActive(!isModalActive)}
               >
-                Nuevo
+                <img src={IconoNuevoBia} alt="" title="Nuevo" />
               </button>
             </div>
           </div>
