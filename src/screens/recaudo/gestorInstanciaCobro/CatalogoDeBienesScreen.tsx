@@ -57,7 +57,7 @@ const CatalogoDeBienesScreen = () => {
             title="Agregar"
             onClick={() => Articulo()}
           >
-            <i class="fa-regular fa-plus fs-3"></i>
+            <i className="fa-regular fa-plus fs-3"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas "
@@ -65,7 +65,7 @@ const CatalogoDeBienesScreen = () => {
             title="Ver"
             onClick={() => Articulo()}
           >
-            <i class="fa-solid fa-eye"></i>
+            <i className="fa-solid fa-eye"></i>
           </button>
         </div>
       ),
@@ -265,7 +265,7 @@ const CatalogoDeBienesScreen = () => {
                   title="Buscar"
                   onClick={() => setBuscarProducto(!buscarProducto)}
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
               <div className="d-grid d-flex">
@@ -275,13 +275,13 @@ const CatalogoDeBienesScreen = () => {
                   title="Agregar"
                   onClick={() => CrearArticulo()}
                 >
-                  <i class="fa-regular fa-plus fs-3"></i>
+                  <i className="fa-regular fa-plus fs-3"></i>
                 </button>
               </div>
             </div>
             {buscarProducto === false ? (
               <div className="row">
-                <Subtitle title={"Buscar artículo"} mb="3" />
+                <Subtitle title={"Buscar artículo"}  />
                 <div className="col-12 col-md-3">
                   <div>
                     <label className="ms-2 text-terciary">Código</label>
