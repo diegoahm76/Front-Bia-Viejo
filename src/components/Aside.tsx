@@ -2,7 +2,7 @@ import React from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { Link } from "react-router-dom";
 import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
-import IconoTablerosDeControl from "../assets/Sub-sistema-Tablerosdecontrol.svg";
+import IconoTablerosDeControl from "../assets/sub-sistema-Tablerosdecontrol1.svg";
 import IconoAlmacen from "../assets/Sub-sistema-Almacen.svg";
 import IconoRecaudo from "../assets/Sub-sistema-Recaudo.svg";
 import IconoSeguimientoPlanes from "../assets/Sub-sistema-SeguimientoPlanes.svg";
@@ -24,7 +24,7 @@ import IconoReportes from "../assets/iconosAlmacen/market-research-svgrepo-com.s
 import IconoSolicitudesArticulo from "../assets/iconosAlmacen/cart-basket-ecommerce-svgrepo-com.svg";
 import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-vehicle-svgrepo-com.svg";
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
-import IconoSeguridad from "../assets/Sub-sistema-Seguridad.svg";
+import IconoSeguridad from "../assets/sub-sistema-seguridad1.svg";
 import IconoUser from "../assets/imgs/perfil.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
