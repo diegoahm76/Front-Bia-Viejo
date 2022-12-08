@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -6,20 +6,23 @@ import {
   obtenerMonitoreoAction,
 } from "../../../actions/monitoreoAction";
 import Subtitle from "../../../components/Subtitle";
+import { useAppDispatch } from "../../../store/hooks/hooks";
+import { obtenerMonitoreo } from "../../../store/slices/Monitoreo/indexMonitoreo";
 
 const defaultValues = {
   t008tiempoMonitoreo: "",
 };
 
 const MonitoreoScreen = () => {
-  const dispatch = useDispatch();
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(obtenerMonitoreoAction());
+    obtenerMonitoreo(dispatch)
   }, []);
 
-  const { monitoreo } = useSelector((state) => state.monitoreoEstaciones);
-
+  const  monitoreo  = useSelector(
+    (state) => state);
   const {
     register,
     handleSubmit,
@@ -28,13 +31,13 @@ const MonitoreoScreen = () => {
   } = useForm();
 
   const onSubmitAplicar = (data) => {
-    const update = {
-      ...data,
-      idMonitoreo: monitoreo[0]?.idMonitoreo,
-    };
+    // const update = {
+    //   ...data,
+    //   idMonitoreo: monitoreo[0]?.idMonitoreo,
+    // };
 
-    dispatch(editarMonitoreAction(update));
-    reset(defaultValues);
+    // dispatch(editarMonitoreAction(update));
+    // reset(defaultValues);
   };
 
   return (
@@ -50,8 +53,9 @@ const MonitoreoScreen = () => {
             <div className="mt-3 row justify-content-center">
               <div className="text-center">
                 <p>
-                  El sistema supervisa cada{" "}
-                  <b>{monitoreo[0]?.t008tiempoMonitoreo}</b> minutos, el
+                  {/* -------------------- REVISAR -----------------------*/}
+                  {/* El sistema supervisa cada{" "}
+                  <b>{monitoreo[0]?.t008tiempoMonitoreo}</b> minutos, el */}
                   comportamiento del nivel de agua.
                 </p>
               </div>
