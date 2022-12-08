@@ -29,10 +29,11 @@ const defaultColDef = {
 
 const AlarmasScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const dispatch = useAppDispatch();
 
   const alarmas = useAppSelector((state) => state.alarma.alarma);
-
+  const loading = useAppSelector((state) => state.loading.loading);
   useEffect(() => {
     obtenerTodasAlarmas(dispatch);
   }, []);
@@ -88,14 +89,16 @@ const AlarmasScreen = () => {
     },
   ];
 
-  // const handleCrearAlarma = () => {
-  //   setIsModalActive(true);
-  //   dispatch(cambiarModoAction("crear"));
-  // };
+  const handleCrearAlarma = () => {
+    setIsModalActive(true);
+    setIsEdit(false);
+  };
 
   const editarAction = (data) => {
-    seleccionarAlarma(dispatch, data)
+    seleccionarAlarma(dispatch, data);
+    setIsEdit(true);
     setIsModalActive(true);
+
   };
 
   return (
@@ -109,7 +112,7 @@ const AlarmasScreen = () => {
           <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row">
             <div className="multisteps-form__content">
-              {/* <div>
+              <div>
                 <button
                   type="button"
                   className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
@@ -129,7 +132,7 @@ const AlarmasScreen = () => {
                     "Crear alarma"
                   )}
                 </button>
-              </div> */}
+              </div>
               <div>
                 <div
                   className="ag-theme-alpine mt-auto mb-8 px-4"
@@ -147,6 +150,7 @@ const AlarmasScreen = () => {
           <AlarmasModal
             setValue={setValue}
             isModalActive={isModalActive}
+            isEdit={isEdit}
             setIsModalActive={setIsModalActive}
             handleSubmit={handleSubmit}
             register={register}

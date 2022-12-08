@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select"
 import {
   crearAlarmaAction,
   editarAlarmaAction,
@@ -12,6 +13,7 @@ import { IAlarmasEdit } from "../Interfaces/Alarmas";
 import { IGeneric } from "../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { crearAlarma, editarAlarma } from "../store/slices/alarmas/indexAlarma";
+import IconoCancelar from '../assets/iconosBotones/cancelar.svg'
 
 const defaultValues = {
   t001nombre: "",
@@ -39,7 +41,7 @@ Modal.setAppElement("#root");
 const editState = {
   idAlarma: 0,
   objectid: 0,
-  t001nombreEstacion: "test",
+  t001nombreEstacion: "",
   t006rango: 0,
   t006mensajeUp: "",
   t006mensajeDown: "",
@@ -52,6 +54,7 @@ const editState = {
 const AlarmasModal = ({
   isModalActive,
   setIsModalActive,
+  isEdit,
   handleSubmit,
   register,
   control,
@@ -64,13 +67,13 @@ const AlarmasModal = ({
   const [alarmaEdit, setAlarmaEdit] = useState(editState);
   const { loading } = useAppSelector((state) => state.loading);
   const alarmaSeleccionada = useAppSelector((state) => state.alarma.alarmaSeleccionada);
-  const [alarmaMode, setAlarmaMode] = useState(false);
   const dispatch = useAppDispatch();
   // False = crear
   // true = editar
 
   useEffect(() => {
     setDataEdit()
+    getEstaciones();
   }, [alarmaSeleccionada]);
 
   const setDataEdit = () => {
@@ -100,7 +103,12 @@ const AlarmasModal = ({
     setFormValues({ index_objectid: 0 });
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
+    if (isEdit) {
+      editarAlarma(dispatch, alarmaEdit);
+    } else {
+
+    }
     // if (alarmaMode) {
     //   data.objectid = estacionesOptions[formValues.index_objectid].value;
     //   editarAlarma(dispatch, data);
@@ -148,6 +156,7 @@ const AlarmasModal = ({
 
   return (
     <Modal
+      id="modalAlarmasId"
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
@@ -155,7 +164,7 @@ const AlarmasModal = ({
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>{alarmaMode ? "Editar Alarma" : "Nueva Alarma"}</h4>
+        <h4>{isEdit ? "Editar Alarma" : "Nueva Alarma"}</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
@@ -166,10 +175,11 @@ const AlarmasModal = ({
               className="form-control border rounded-pill px-3"
               type="text"
               name="t001nombreEstacion"
-              disabled={alarmaMode}
-              readOnly={alarmaMode}
+              disabled={isEdit}
+              readOnly={isEdit}
               value={alarmaEdit?.t001nombreEstacion}
               onChange={handleChange}
+              required={true}
             // {...register("t001Estaciones.t001nombre", { required: true })}
             />
             {errors.t001nombre && (
@@ -180,7 +190,7 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
-          {/* <div className="col-12 mb-3">
+          <div className="col-12 mb-3">
             <label className="form-label">
               Estación: <span className="text-danger">*</span>
             </label>
@@ -193,13 +203,14 @@ const AlarmasModal = ({
               render={({ field }) => (
                 <Select
                   {...field}
+                  name="estacionesOptions"
                   value={estacionesOptions[formValues.index_objectid]}
                   onChange={(e) => {
-                    reset({ ...watch(), objectid: e.value });
+                    reset({ ...watch(), objectid: e!.value });
                     setFormValues({
                       ...formValues,
                       index_objectid: getIndexBySelectOptions(
-                        e.value,
+                        e!.value,
                         estacionesOptions
                       ),
                     });
@@ -216,7 +227,7 @@ const AlarmasModal = ({
                 </small>
               </div>
             )}
-          </div> */}
+          </div>
           <div className="col-12 mb-3">
             <label>
               Rango: <span className="text-danger">*</span>
@@ -224,7 +235,7 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              name="rango"
+              name="t006rango"
               value={alarmaEdit.t006rango}
               onChange={handleChange}
             // {...register("t006rango", { required: true })}
@@ -247,7 +258,7 @@ const AlarmasModal = ({
               name="t006mensajeUp"
               value={alarmaEdit.t006mensajeUp}
               onChange={handleChange}
-              {...register("t006mensajeUp", { required: true })}
+            // {...register("t006mensajeUp", { required: true })}
             />
             {errors.t006mensajeUp && (
               <div className="col-12">
@@ -379,6 +390,15 @@ const AlarmasModal = ({
               )}
             </button>
             <button
+              type="button"
+              className="btn btn-sm btn-tablas btn-outline-ligth"
+              onClick={() => setIsModalActive(false)}
+              placeholder="Cancelar"
+            >
+
+              <img src={IconoCancelar} alt="cancelar" />
+            </button>
+            <button
               type="submit"
               className="mb-0 btn-image text-capitalize bg-white border boder-none"
               disabled={loading}
@@ -392,7 +412,7 @@ const AlarmasModal = ({
                   ></span>
                   Cargando...
                 </>
-              ) : alarmaMode ? (
+              ) : isEdit ? (
                 "Actualizar"
               ) : (
                 "Crear"
