@@ -1,31 +1,47 @@
 import { AgGridReact } from "ag-grid-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import IconoEliminarBia from "../../../assets/iconosBotones/eliminar.svg";
 import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
 import IconoNuevoBia from "../../../assets/iconosBotones/nuevo.svg";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  obtenerUsuarioEditarAction,
-  obtenerUsuariosAction,
-  obtenerUsusarioEliminarAction,
-} from "../../../actions/estacionActions";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+// import {
+//   obtenerUsuarioEditarAction,
+//   obtenerUsuariosAction,
+//   obtenerUsusarioEliminarAction,
+// } from "../../../actions/estacionActions";
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
+import { obtenerTodosUsuarios } from "../../../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
 import Subtitle from "../../../components/Subtitle";
 import ExportExcelFile from "../../../components/ExportExcelFile";
 
+
+const defaultColDef = {
+  sortable: true,
+  flex: 1,
+  filter: true,
+  wrapHeaderText: true,
+  resizable: true,
+  initialWidth: 200,
+  autoHeaderHeight: false,
+  suppressMovable: true,
+};
+
+
 const UsuariosEstacionesScreen = () => {
-  const dispatch = useDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActive] = useState(false);
   const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
 
-  useEffect(() => {
-    dispatch(obtenerUsuariosAction());
-  }, []);
+  const dispatch = useAppDispatch();
 
-  const { usuarios } = useSelector((state) => state.estaciones);
+  useEffect(() => {
+    obtenerTodosUsuarios(dispatch);
+  });
+
+  const usuarios = useAppSelector((state) => state.usuarioEstaciones);
 
   const columnDefs = [
     { headerName: "Parte Interesada", field: "t005nombre", minWidth: 140 },
@@ -50,37 +66,28 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
-              dispatch(obtenerUsuarioEditarAction(params.data));
+              // dispatch(obtenerUsuarioEditarAction(params.data));
               setIsModalEditarActive(!isModalEditarActive);
             }}
           >
-            <img src={IconoEditarBia} alt="editar"  title="Editar"/>
+            <img src={IconoEditarBia} alt="editar" title="Editar" />
           </button>
           <button
             className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
-              dispatch(obtenerUsusarioEliminarAction(params.data));
+              // dispatch(obtenerUsusarioEliminarAction(params.data));
               setIsModalEliminarActive(!isModalActive);
             }}
           >
-            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar"/>
+            <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
           </button>
         </div>
       ),
     },
   ];
 
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: false,
-    suppressMovable: true,
-  };
+
 
   return (
     <div className="row min-vh-100">
