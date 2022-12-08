@@ -1,30 +1,37 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import { IAlarmas } from "../../../Interfaces/Alarmas";
+import { IAlarmaGet } from "../../../Interfaces/Alarmas";
 
-const initialState: IAlarmas[] = [{
-    idAlarma: 1,
-    objectId: 1,
-    t001Estaciones: {
+const initialState: IAlarmaGet = {
+    alarma: [],
+    alarmaSeleccionada: {
+        idAlarma: 0,
         objectid: 0,
-        t001coord1: 0,
-        t001coord2: 0,
-        t001fechaMod: "",
-        t001nombre: "",
-        t001userMod: ""
-    },
-    t006color: "",
-    t006limite: 2,
-    t006nombre: ""
-}];
+        t001Estaciones: {
+            objectid: 0,
+            t001coord1: 0,
+            t001coord2: 0,
+            t001fechaMod: "",
+            t001nombre: "",
+            t001userMod: ""
+        },
+        t006rango: 0,
+        t006mensajeUp: "",
+        t006mensajeDown: "",
+        t006periodo: "",
+        t006periodoBase: "",
+        t006tolerancia: "",
+        t006periodoDesconexion: ""
+    }
+};
 
 const alarmaModal = createSlice({
     name: "alarma",
     initialState,
     reducers: {
         obtenerAlarmas: (state, action) => {
-            state.push(action.payload);
+            state.alarma = action.payload;
         },
         crearAlarmaAction: (state, action) => {
             // REVISAR
@@ -35,12 +42,15 @@ const alarmaModal = createSlice({
         },
         obtenerAlarmaByIdAction: (state, action) => {
 
+        },
+        seleccionarAlarmaModel: (state, action) => {
+            state.alarmaSeleccionada = action.payload
         }
     }
 })
 
 
-export const { obtenerAlarmas, crearAlarmaAction, editarAlarmaAction, obtenerAlarmaByIdAction } = alarmaModal.actions;
+export const { obtenerAlarmas, crearAlarmaAction, seleccionarAlarmaModel, editarAlarmaAction, obtenerAlarmaByIdAction } = alarmaModal.actions;
 export default alarmaModal.reducer
 
 export const crearAlarma = async (dispatch, dataAlarma) => {
@@ -88,6 +98,9 @@ export const obtenerAlarmaEdit = async (dispatch, objectid: string) => {
         });
 }
 
+export const seleccionarAlarma = (dispatch, alarma) => {
+    dispatch(seleccionarAlarmaModel(alarma))
+}
 export const editarAlarma = async (dispatch, dataEdit) => {
     await clienteEstaciones.put("Alarmas", dataEdit).then(() => {
         dispatch(editarAlarmaAction(dataEdit));
@@ -114,7 +127,7 @@ export const editarAlarma = async (dispatch, dataEdit) => {
 export const obtenerTodasAlarmas = async (dispatch) => {
     await clienteEstaciones.get("Alarmas")
         .then((alarmas) => {
-            dispatch(obtenerAlarmas(alarmas))
+            dispatch(obtenerAlarmas(alarmas.data))
         }).catch(() => {
             Swal.fire({
                 position: "center",

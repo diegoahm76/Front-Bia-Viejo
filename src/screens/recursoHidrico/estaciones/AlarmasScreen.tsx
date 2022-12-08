@@ -13,7 +13,8 @@ import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
 import AlarmasModal from "../../../components/AlarmasModal";
 import Subtitle from "../../../components/Subtitle";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
-import { obtenerTodasAlarmas } from "../../../store/slices/alarmas/indexAlarma";
+import { obtenerTodasAlarmas, seleccionarAlarma } from "../../../store/slices/alarmas/indexAlarma";
+import { IAlarmasEdit } from "../../../Interfaces/Alarmas";
 
 
 
@@ -33,17 +34,18 @@ const AlarmasScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
   const dispatch = useAppDispatch();
 
-  const alarmas = useAppSelector((state) => state.alarma);
+  const alarmas = useAppSelector((state) => state.alarma.alarma);
 
   useEffect(() => {
     obtenerTodasAlarmas(dispatch);
-  });
+  }, []);
 
   const {
     handleSubmit,
     register,
     control,
     reset,
+    setValue,
     watch,
     formState: { errors },
   } = useForm();
@@ -70,9 +72,9 @@ const AlarmasScreen = () => {
             <button
               className="btn btn-sm btn-tablas "
               type="button"
-              onClick={() => editarAction(params.data.objectid)}
+              onClick={() => editarAction(params.data)}
             >
-              <img src={IconoEditarBia} alt="editar" title="Editar"/>
+              <img src={IconoEditarBia} alt="editar" title="Editar" />
             </button>
           </div>
         </div>
@@ -86,11 +88,9 @@ const AlarmasScreen = () => {
   //   dispatch(cambiarModoAction("crear"));
   // };
 
-  const editarAction = (objectid) => {
+  const editarAction = (data) => {
+    seleccionarAlarma(dispatch, data)
     setIsModalActive(true);
-
-    // REVISAR 
-    // dispatch(obtenerAlarmaEditAction(objectid, reset));
   };
 
   return (
@@ -140,6 +140,7 @@ const AlarmasScreen = () => {
             </div>
           </form>
           <AlarmasModal
+            setValue={setValue}
             isModalActive={isModalActive}
             setIsModalActive={setIsModalActive}
             handleSubmit={handleSubmit}
