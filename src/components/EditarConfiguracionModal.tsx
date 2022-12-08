@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { editarConfiguracionAction } from "../actions/configuracionesEstacionesActions";
-import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
-import iconoActualizar from '../assets/iconosBotones/actualizar.svg'
+import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
+import iconoActualizar from "../assets/iconosBotones/actualizar.svg";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import { configuracionEstacionesEditarAction } from "../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 
 const customStyles = {
   content: {
@@ -23,10 +25,13 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const EditarConfiguracionModal = ({ isModalActive, setIsModalActive }) => {
-  const dispatch = useDispatch();
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
-  const { configuracionEditar, loading } = useSelector(
-    (state) => state.configuracionesEstaciones
+  const dispatch = useAppDispatch();
+  const nombre_de_usuario = useAppSelector(
+    (state) => state.login.userinfo.nombre_de_usuario
+  );
+  const loading = useAppSelector((state) => state.loading.loading);
+  const configuracionEditar = useAppSelector(
+    (state) => state.configuracionEstacionesSlice.estacionConfiguracionEditar
   );
 
   const {
@@ -47,7 +52,7 @@ const EditarConfiguracionModal = ({ isModalActive, setIsModalActive }) => {
       t003fechaMod: new Date().toISOString(),
     };
 
-    dispatch(editarConfiguracionAction(configuracionUpdate));
+    dispatch(configuracionEstacionesEditarAction(configuracionUpdate));
     setIsModalActive(!isModalActive);
   };
 
@@ -73,6 +78,7 @@ const EditarConfiguracionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3 text-center"
                 type="text"
+                value={configuracionEditar.t001Estaciones.t001nombre}
                 readOnly
                 {...registerConfiguracion("t001Estaciones.t001nombre")}
               />
