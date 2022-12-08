@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { editarEstacionAction } from "../actions/estacionActions";
+import { useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -22,8 +23,8 @@ Modal.setAppElement("#root");
 
 const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useDispatch();
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
-  const { estacionEditar } = useSelector((state) => state.estaciones);
+  const { nombre_de_usuario } = useAppSelector((state) => state.login.userinfo);
+  const { estacionEditar } = useAppSelector((state) => state.usuarioEstaciones);
   const {
     register,
     handleSubmit,

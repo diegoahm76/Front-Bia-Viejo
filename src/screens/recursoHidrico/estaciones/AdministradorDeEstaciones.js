@@ -12,6 +12,7 @@ import {
 import Swal from "sweetalert2";
 import EditarEstacionModal from "../../../components/EditarEstacionModal";
 import Subtitle from "../../../components/Subtitle";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 // import ExportExcelFile from "../../../components/ExportExcelFile";
 
 const AdministradorDeEstaciones = () => {
@@ -24,7 +25,7 @@ const AdministradorDeEstaciones = () => {
     getEstaciones();
   }, []);
 
-  const { estaciones } = useSelector((state) => state.estaciones);
+  const estaciones = useAppSelector((state) => state.usuarioEstaciones);
 
   // const dataExcel = estaciones.map((estacion) => ({
   //   OBJECTID: estacion.objectid,

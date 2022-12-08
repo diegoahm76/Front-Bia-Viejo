@@ -7,8 +7,6 @@ import Subtitle from "../../../components/Subtitle";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { obtenerTodasAlarmas } from "../../../store/slices/alarmas/indexAlarma";
 
-
-
 const defaultColDef = {
   sortable: true,
   flex: 1,
@@ -19,7 +17,6 @@ const defaultColDef = {
   autoHeaderHeight: false,
   suppressMovable: true,
 };
-
 
 const AlarmasScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
@@ -49,11 +46,19 @@ const AlarmasScreen = () => {
     },
     { headerName: "Rango", field: "t006rango", minWidth: 100 },
     { headerName: "Mensaje Alarma", field: "t006mensajeUp", minWidth: 240 },
-    { headerName: "Mensaje No Alarma", field: "t006mensajeDown", minWidth: 220 },
+    {
+      headerName: "Mensaje No Alarma",
+      field: "t006mensajeDown",
+      minWidth: 220,
+    },
     { headerName: "Periodo", field: "t006periodo", minWidth: 120 },
     { headerName: "Base", field: "t006periodoBase", minWidth: 120 },
     { headerName: "Tolerancia", field: "t006tolerancia", minWidth: 120 },
-    { headerName: "Periodo Desconexion", field: "t006periodoDesconexion", minWidth: 140 },
+    {
+      headerName: "Periodo Desconexion",
+      field: "t006periodoDesconexion",
+      minWidth: 140,
+    },
     {
       headerName: "Acciones",
       field: "accion",
@@ -83,7 +88,7 @@ const AlarmasScreen = () => {
   const editarAction = (objectid) => {
     setIsModalActive(true);
 
-    // REVISAR 
+    // REVISAR
     // dispatch(obtenerAlarmaEditAction(objectid, reset));
   };
 

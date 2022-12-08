@@ -1,9 +1,12 @@
 import { useForm } from "react-hook-form";
+import React from 'react';
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import { crearNuevaEstacionAction } from "../actions/estacionActions";
 import iconoCancelar from '../assets/iconosBotones/cancelar.svg'
 import iconoAgregar from '../assets/iconosBotones/agregar.svg'
+import { useAppSelector } from "../store/hooks/hooks";
+
 
 
 const customStyles = {
@@ -24,7 +27,7 @@ Modal.setAppElement("#root");
 
 const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useDispatch();
-  const { nombre_de_usuario } = useSelector((state) => state.user.user);
+  const { nombre_de_usuario } = useAppSelector((state) => state.login.userinfo);
 
   const {
     register,
@@ -44,7 +47,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
 
     console.log("Nueva Estacion", nuevaEstacion);
 
-    dispatch(crearNuevaEstacionAction(nuevaEstacion));
+    // dispatch(crearNuevaEstacionAction(nuevaEstacion));
 
     setIsModalActive(!isModalActive);
   };

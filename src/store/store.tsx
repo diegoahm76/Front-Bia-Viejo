@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
+import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 import loadingReducer, { cancelLoading, startLoading } from './slices/loading/indexLoading'
 import instance from '../config/clienteAxiosEstaciones';
@@ -15,7 +16,8 @@ const store = configureStore({
     modalSelector: modalReducer,
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
-    loading: loadingReducer
+    loading: loadingReducer,
+    usuarioEstaciones: usuarioEstacionesReducer,
   }
 });
 
