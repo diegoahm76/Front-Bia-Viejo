@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
+import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
 import bodegaReducer from "./slices/bodega/indexBodega";
 import organigramReducer from "./slices/organigrama/indexOrganigram";
@@ -25,10 +26,11 @@ const store = configureStore({
     modalSelector: modalReducer,
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
+    loading: loadingReducer,
+    usuarioEstaciones: usuarioEstacionesReducer,
     administradorEstacionesSlice: estacionesReducer,
     configuracionEstacionesSlice: configuracionEstacionesReducer,
     bodegaSlice: bodegaReducer,
-    loading: loadingReducer,
     organigram: organigramReducer,
     monitoreoSlice:monitoreoReducer
   },

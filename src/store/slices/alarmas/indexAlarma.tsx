@@ -12,7 +12,7 @@ const initialState: IAlarmas[] = [{
         t001coord2: 0,
         t001fechaMod: "",
         t001nombre: "",
-        t001userMod: ""
+        t001userMod: "",
     },
     t006color: "",
     t006limite: 2,
