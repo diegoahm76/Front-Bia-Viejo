@@ -19,6 +19,7 @@ import { editarBodegaAction1, eliminarBodega, obtenerBodega, seleccionarBodega }
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 const AdministradorBodegasScreen = () => {
+  
   const dispatch = useAppDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
 

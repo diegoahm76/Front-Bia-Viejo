@@ -19,4 +19,7 @@ export default combineReducers({
   configuracionesEstaciones: configuracionesReducer,
   monitoreoEstaciones: monitoreoReducer,
   organigrama: organigramaReducer,
+  
+  
+
 });

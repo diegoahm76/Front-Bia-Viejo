@@ -1,6 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
 import {
   obtenerConfiguracionEditarAction,
@@ -8,6 +7,11 @@ import {
 } from "../../../actions/configuracionesEstacionesActions";
 import EditarConfiguracionModal from "../../../components/EditarConfiguracionModal";
 import Subtitle from "../../../components/Subtitle";
+import {
+  configuracionEstacionesEditarAction,
+  obtenerConguracionEstaciones,
+} from "../../../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 // const defaultValuesResetConfiguration = {
 //   t003frecuencia: "",
@@ -43,17 +47,17 @@ const defaultColDef = {
 };
 
 const ConfiguracionesScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
   useEffect(() => {
     const getConfiguraciones = async () =>
-      dispatch(obtenerConfiguracionesAction());
+      obtenerConguracionEstaciones(dispatch);
     getConfiguraciones();
   }, []);
 
-  const { configuraciones } = useSelector(
-    (state) => state.configuracionesEstaciones
+  const configuraciones = useAppSelector(
+    (state) => state.configuracionEstacionesSlice.configuracion
   );
 
   const columnDefs = [
@@ -158,7 +162,7 @@ const ConfiguracionesScreen = () => {
               type="button"
               title="Send"
               onClick={() => {
-                dispatch(obtenerConfiguracionEditarAction(params.data));
+                dispatch(configuracionEstacionesEditarAction(params.data));
                 setIsModalEditarActivate(!isModalEditarActive);
               }}
             >
@@ -178,7 +182,9 @@ const ConfiguracionesScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Configuracion de estaciones</h3>
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">
+            Configuracion de estaciones
+          </h3>
           <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row">
             <div className="multisteps-form__content">
@@ -188,7 +194,7 @@ const ConfiguracionesScreen = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                  rowData={configuraciones}
+                  rowData={configuraciones as any}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>
