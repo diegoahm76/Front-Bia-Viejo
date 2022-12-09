@@ -1,4 +1,5 @@
 export interface IBodega {
+    id_bodega: number
     nombre: string;
     cod_municipio: string;
     direccion: string;
@@ -6,7 +7,7 @@ export interface IBodega {
     es_principal: boolean;
 }
 
-export interface IBodegaCreate extends Omit<IBodega, 'id_responsable'> {
+export interface IBodegaCreate extends Omit<IBodega, 'id_responsable' | 'id_bodega'> {
     id_responsable: string;
 }
 

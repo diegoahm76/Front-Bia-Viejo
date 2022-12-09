@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IGeneric } from "../../../Interfaces/Generic";
+import { editarBodega } from "../../../store/slices/bodega/indexBodega";
 
 const busquedaAvanzadaModel = {
   tipoDocumento: { value: "", label: "" },
@@ -23,6 +24,7 @@ const busquedaAvanzadaModel = {
 }
 
 const infoBodegaModel = {
+  id_bodega: 0,
   nombreBodega: "",
   departamento: { value: "", label: "" },
   municipio: { value: "", label: "" },
@@ -79,34 +81,6 @@ const EditarBodegaScreen = () => {
     departamento: "",
   });
 
-
-
-  const submitEditarBodega = (data) => {
-    debugger
-    const bodegaEditar = {
-      cod_municipio: infoBodega.municipio.value,
-      nombre: busquedaModel.nombreCompleto,
-      direccion: infoBodega.direccionBodega,
-      id_responsable: busquedaModel.cedula,
-      es_principal: infoBodega.principal,
-      activo: true
-    };
-
-    console.log("bodega", bodegaEditar);
-
-    //console.log("bodega", bodegaCreate);
-    // dispatch(editarBodegaAction(bodegaEditar));
-    // dispatch(crearNuevaBodegaAction(datosBodega));
-    // setVariables({
-    //   ...variables,
-    //   nombreBodega: data.nombre,
-    //   departamento: data.departamento.value,
-    //   municipio: data.municipio.value,
-    //   direccion: data.direccion,
-    //   tipoDocumento: data.tipoDocumento,
-    //   numeroCedula: data.numeroCedula,
-    // });
-  };
   const navigate = useNavigate();
   const Regresar = () => {
     navigate("/dashboard/almacen/configuracion/creacionbodega");
@@ -235,6 +209,21 @@ const EditarBodegaScreen = () => {
     nombre.nombreCompleto = e.target.value;
     setBusquedaModel(nombre)
   }
+
+
+  const submitEditarBodega = () => {
+    const cedula = parseInt(busquedaModel.cedula);
+    const bodegaEditada = {
+      cod_municipio: infoBodega.municipio.value,
+      nombre: busquedaModel.nombreCompleto,
+      direccion: infoBodega.direccionBodega,
+      id_responsable: cedula,
+      es_principal: infoBodega.principal,
+      activo: true
+    };
+    debugger
+    editarBodega(dispatch, bodegaEditar.id_bodega, bodegaEditada);
+  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
