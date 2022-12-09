@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select"
 import {
   crearAlarmaAction,
   editarAlarmaAction,
 } from "../actions/alarmasActions";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
+import { IAlarmasEdit } from "../Interfaces/Alarmas";
 import { IGeneric } from "../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { crearAlarma, editarAlarma } from "../store/slices/alarmas/indexAlarma";
+import IconoCancelar from '../assets/iconosBotones/cancelar.svg'
 
 const defaultValues = {
   t001nombre: "",
@@ -34,28 +38,63 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
+const editState = {
+  idAlarma: 0,
+  objectid: 0,
+  t001nombreEstacion: "",
+  t006rango: 0,
+  t006mensajeUp: "",
+  t006mensajeDown: "",
+  t006periodo: "",
+  t006periodoBase: "",
+  t006tolerancia: "",
+  t006periodoDesconexion: ""
+}
+
 const AlarmasModal = ({
   isModalActive,
   setIsModalActive,
+  isEdit,
   handleSubmit,
   register,
   control,
   reset,
   errors,
+  setValue,
   watch,
 }) => {
   const [estacionesOptions, setEstacionesOptions] = useState<IGeneric[]>([]);
-  const [alarmaMode, setAlarmaMode] = useState(false);
+  const [alarmaEdit, setAlarmaEdit] = useState(editState);
   const { loading } = useAppSelector((state) => state.loading);
+  const alarmaSeleccionada = useAppSelector((state) => state.alarma.alarmaSeleccionada);
+  const dispatch = useAppDispatch();
   // False = crear
   // true = editar
 
+  useEffect(() => {
+    setDataEdit()
+    getEstaciones();
+  }, [alarmaSeleccionada]);
+
+  const setDataEdit = () => {
+    const dataForm: IAlarmasEdit = {
+      idAlarma: alarmaSeleccionada.idAlarma,
+      objectid: alarmaSeleccionada.objectid,
+      t001nombreEstacion: alarmaSeleccionada.t001Estaciones.t001nombre,
+      t006rango: alarmaSeleccionada.t006rango,
+      t006mensajeUp: alarmaSeleccionada.t006mensajeUp,
+      t006mensajeDown: alarmaSeleccionada.t006mensajeDown,
+      t006periodo: alarmaSeleccionada.t006periodo,
+      t006periodoBase: alarmaSeleccionada.t006periodoBase,
+      t006tolerancia: alarmaSeleccionada.t006tolerancia,
+      t006periodoDesconexion: alarmaSeleccionada.t006periodoDesconexion
+    }
+    setValue("t006mensajeUp", alarmaSeleccionada.t006mensajeUp);
+    setAlarmaEdit(dataForm);
+  }
   const [formValues, setFormValues] = useState({
     index_objectid: 0,
   });
-  const dataEdit = useAppSelector((state) => state.alarma);
-
-  const dispatch = useAppDispatch();
 
   const handleCrearAlarma = async (data) => {
     crearAlarma(dispatch, data);
@@ -64,14 +103,19 @@ const AlarmasModal = ({
     setFormValues({ index_objectid: 0 });
   };
 
-  const onSubmit = (data) => {
-    if (alarmaMode) {
-      data.objectid = estacionesOptions[formValues.index_objectid].value;
-      editarAlarma(dispatch, data);
+  const onSubmit = () => {
+    if (isEdit) {
+      editarAlarma(dispatch, alarmaEdit);
     } else {
-      handleCrearAlarma(data);
+
     }
-    setIsModalActive(false);
+    // if (alarmaMode) {
+    //   data.objectid = estacionesOptions[formValues.index_objectid].value;
+    //   editarAlarma(dispatch, data);
+    // } else {
+    //   handleCrearAlarma(data);
+    // }
+    // setIsModalActive(false);
   };
 
   const getEstaciones = async () => {
@@ -89,6 +133,10 @@ const AlarmasModal = ({
     reset(defaultValues);
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setAlarmaEdit({ ...alarmaEdit, [name]: value });
+  }
   const handleResetDataEdit = () => {
     // REVISAR
     // setFormValues({
@@ -108,6 +156,7 @@ const AlarmasModal = ({
 
   return (
     <Modal
+      id="modalAlarmasId"
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
@@ -115,7 +164,7 @@ const AlarmasModal = ({
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>{alarmaMode ? "Editar Alarma" : "Nueva Alarma"}</h4>
+        <h4>{isEdit ? "Editar Alarma" : "Nueva Alarma"}</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-12 mb-3">
@@ -125,9 +174,13 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              disabled={alarmaMode}
-              readOnly={alarmaMode}
-              {...register("t001Estaciones.t001nombre", { required: true })}
+              name="t001nombreEstacion"
+              disabled={isEdit}
+              readOnly={isEdit}
+              value={alarmaEdit?.t001nombreEstacion}
+              onChange={handleChange}
+              required={true}
+            // {...register("t001Estaciones.t001nombre", { required: true })}
             />
             {errors.t001nombre && (
               <div className="col-12">
@@ -137,7 +190,7 @@ const AlarmasModal = ({
               </div>
             )}
           </div>
-          {/* <div className="col-12 mb-3">
+          <div className="col-12 mb-3">
             <label className="form-label">
               Estación: <span className="text-danger">*</span>
             </label>
@@ -150,13 +203,14 @@ const AlarmasModal = ({
               render={({ field }) => (
                 <Select
                   {...field}
+                  name="estacionesOptions"
                   value={estacionesOptions[formValues.index_objectid]}
                   onChange={(e) => {
-                    reset({ ...watch(), objectid: e.value });
+                    reset({ ...watch(), objectid: e!.value });
                     setFormValues({
                       ...formValues,
                       index_objectid: getIndexBySelectOptions(
-                        e.value,
+                        e!.value,
                         estacionesOptions
                       ),
                     });
@@ -173,7 +227,7 @@ const AlarmasModal = ({
                 </small>
               </div>
             )}
-          </div> */}
+          </div>
           <div className="col-12 mb-3">
             <label>
               Rango: <span className="text-danger">*</span>
@@ -181,7 +235,10 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006rango", { required: true })}
+              name="t006rango"
+              value={alarmaEdit.t006rango}
+              onChange={handleChange}
+            // {...register("t006rango", { required: true })}
             />
             {errors.t006rango && (
               <div className="col-12">
@@ -198,7 +255,10 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006mensajeUp", { required: true })}
+              name="t006mensajeUp"
+              value={alarmaEdit.t006mensajeUp}
+              onChange={handleChange}
+            // {...register("t006mensajeUp", { required: true })}
             />
             {errors.t006mensajeUp && (
               <div className="col-12">
@@ -215,7 +275,10 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006mensajeDown", { required: true })}
+              name="t006mensajeDown"
+              value={alarmaEdit.t006mensajeDown}
+              onChange={handleChange}
+            // {...register("t006mensajeDown", { required: true })}
             />
             {errors.t006mensajeDown && (
               <div className="col-12">
@@ -232,7 +295,10 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006periodo", { required: true })}
+              name="t006periodo"
+              value={alarmaEdit.t006periodo}
+              onChange={handleChange}
+            // {...register("t006periodo", { required: true })}
             />
             {errors.t006periodo && (
               <div className="col-12">
@@ -249,9 +315,12 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006periodoBase", { required: true })}
+              name="t006periodoBase"
+              value={alarmaEdit.t006periodoBase}
+              onChange={handleChange}
+            // {...register("t006periodoBase", { required: true })}
             />
-            {errors.t006periodo && (
+            {errors.t006periodoBase && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -266,7 +335,10 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006tolerancia", { required: true })}
+              name="t006tolerancia"
+              value={alarmaEdit.t006tolerancia}
+              onChange={handleChange}
+            // {...register("t006tolerancia", { required: true })}
             />
             {errors.t006tolerancia && (
               <div className="col-12">
@@ -283,7 +355,10 @@ const AlarmasModal = ({
             <input
               className="form-control border rounded-pill px-3"
               type="text"
-              {...register("t006periodoDesconexion", { required: true })}
+              name="t006periodoDesconexion"
+              value={alarmaEdit.t006periodoDesconexion}
+              onChange={handleChange}
+            // {...register("t006periodoDesconexion", { required: true })}
             />
             {errors.t006periodoDesconexion && (
               <div className="col-12">
@@ -315,6 +390,15 @@ const AlarmasModal = ({
               )}
             </button>
             <button
+              type="button"
+              className="btn btn-sm btn-tablas btn-outline-ligth"
+              onClick={() => setIsModalActive(false)}
+              placeholder="Cancelar"
+            >
+
+              <img src={IconoCancelar} alt="cancelar" />
+            </button>
+            <button
               type="submit"
               className="mb-0 btn-image text-capitalize bg-white border boder-none"
               disabled={loading}
@@ -328,7 +412,7 @@ const AlarmasModal = ({
                   ></span>
                   Cargando...
                 </>
-              ) : alarmaMode ? (
+              ) : isEdit ? (
                 "Actualizar"
               ) : (
                 "Crear"

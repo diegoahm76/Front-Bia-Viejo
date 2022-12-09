@@ -5,6 +5,10 @@ import { editarEstacionAction } from "../actions/estacionActions";
 import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import iconoGuardar from "../assets/iconosBotones/guardar.svg";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import {
+  editarEstacion,
+  setEstacionEditar,
+} from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 // import { editarEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 
 const customStyles = {
@@ -28,7 +32,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   //pendiente revisar usuarios
   // const nombre_de_usuario = useAppSelector((state) => state.user.user);
   const estaciones = useAppSelector(
-    (state) => state.administradorEstacionesSlice
+    (state) => state.administradorEstacionesSlice.estacionEditar
   );
   const {
     register,
@@ -39,6 +43,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
 
   useEffect(() => {
     //console.log("modal editar effect")
+    editarEstacion(dispatch, estaciones);
     reset(estaciones);
   }, [estaciones]);
 
@@ -50,13 +55,12 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
       t001coord2: data.t001coord2,
       t001fechaMod: new Date().toISOString(),
       //pendiente revisar usuarios
-      // t001userMod: nombre_de_usuario,
+      t001userMod: data.t001userMod,
     };
-
-    //console.log("Nueva Estacion", updateEstacion);
-    // editarEstacion(dispatch, estaciones);
+    console.log("Nueva Estacion", updateEstacion);
+    dispatch(setEstacionEditar(updateEstacion));
+    // setEstacionEditar(dispatch);
     // dispatch(editarEstacionAction(updateEstacion));
-
     setIsModalActive(!isModalActive);
   };
 
@@ -83,6 +87,26 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
                 type="number"
                 disabled
                 {...register("objectid", { required: true })}
+              />
+            </div>
+            {errors.objectId && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12">
+            <div className="mt-3">
+              <label>
+                Nombre Usuario: <span className="text-danger">*</span>
+              </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="string"
+                disabled
+                {...register("t001userMod", { required: true })}
               />
             </div>
             {errors.objectId && (
@@ -154,16 +178,18 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
+              title="Cancelar"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoCancelar} alt="" title="Cancelar" />
+              <i className="fa-solid fa-x fs-3"></i>
             </button>
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
+              title="Guardar"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              <img src={iconoGuardar} alt="" title="Guardar" />
+              <i className="fa-regular fa-floppy-disk fs-3"></i>
             </button>
           </div>
         </form>

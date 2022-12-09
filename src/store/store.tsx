@@ -4,9 +4,13 @@ import { useDispatch } from "react-redux";
 import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
+import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
-import organigramReducer from './slices/organigrama/indexOrganigram'
+import bodegaReducer from "./slices/bodega/indexBodega";
+import organigramReducer from "./slices/organigrama/indexOrganigram";
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
+import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
+import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 // import thunk from "redux-thunk";
 import loadingReducer, {
   cancelLoading,
@@ -14,6 +18,7 @@ import loadingReducer, {
 } from "./slices/loading/indexLoading";
 import instance from "../config/clienteAxiosEstaciones";
 import { useAppDispatch } from "./hooks/hooks";
+import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
 
 const store = configureStore({
   reducer: {
@@ -22,8 +27,12 @@ const store = configureStore({
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
     loading: loadingReducer,
-    organigram: organigramReducer,
+    usuarioEstaciones: usuarioEstacionesReducer,
     administradorEstacionesSlice: estacionesReducer,
+    configuracion: configuracionReducer,
+    bodegaSlice: bodegaReducer,
+    organigram: organigramReducer,
+    monitoreoSlice:monitoreoReducer
   },
 });
 

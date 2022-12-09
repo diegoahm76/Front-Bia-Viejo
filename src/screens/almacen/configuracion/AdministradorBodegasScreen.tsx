@@ -1,3 +1,4 @@
+import React from 'react'
 import { AgGridReact } from "ag-grid-react";
 import { useEffect, useState } from "react";
 import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
@@ -14,14 +15,16 @@ import {
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
 
+import { eliminarBodega, obtenerBodega, seleccionarBodega } from "../../../store/slices/bodega/indexBodega";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 const AdministradorBodegasScreen = () => {
-  const dispatch = useDispatch();
+  
+  const dispatch = useAppDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
 
   useEffect(() => {
-    const getBodegas = async () => dispatch(obtenerBodegasAction());
-    getBodegas();
+    obtenerBodega(dispatch)
   }, []);
 
   const navigate = useNavigate();
@@ -29,13 +32,15 @@ const AdministradorBodegasScreen = () => {
     navigate("/dashboard/almacen/configuracion/creacionbodega");
   };
   const EditarBodega = (data) =>{
-    dispatch(obtenerBodegaByEditAction(data))
+    // dispatch(editarBodegaAction1(data))
+    seleccionarBodega(dispatch, data)
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
 
-  const { bodega } = useSelector((state) => state.bodega);
+  const  bodega  = useAppSelector(
+    (state) => state.bodegaSlice.bodega);
 
-  console.log("bodega", bodega)
+
 
   const confirmarEliminarBodega = (id_bodega) => {
     Swal.fire({
@@ -50,7 +55,8 @@ const AdministradorBodegasScreen = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         //Pasarlo al action
-        dispatch(eliminarBodegaAction(id_bodega));
+        eliminarBodega(dispatch,id_bodega)
+        // dispatch(eliminarBodegaAction(id_bodega));
       }
     });
   };
@@ -67,18 +73,19 @@ const AdministradorBodegasScreen = () => {
       cellRendererFramework: (params) => (
         <div className="d-flex gap-1">
           <button
-            className="btn btn-sm btn-tablas btn-outline-warning "
+            className="btn btn-sm btn-tabla"
             type="button"
             onClick={() => EditarBodega(params.data)}
-          >
-            <img src={IconoEditar} alt="editar" />
+            title={"Editar"}
+          ><i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
           <button
-            className="btn btn-sm btn-tablas btn-outline-danger"
+            className="btn btn-sm btn-tablas "
             type="button"
+            title='Eliminar'
             onClick={() => confirmarEliminarBodega(params.data.id_bodega)}
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <i className="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -114,7 +121,7 @@ const AdministradorBodegasScreen = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                  rowData={bodega}
+                  rowData={bodega as any}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>
@@ -132,10 +139,10 @@ const AdministradorBodegasScreen = () => {
         </div>
       </div>
 
-      <NuevaEstacionModal
+      {/* <NuevaEstacionModal
         setIsModalActive={setIsModalActive}
         isModalActive={isModalActive}
-      />
+      /> */}
     </div>
   );
 };
