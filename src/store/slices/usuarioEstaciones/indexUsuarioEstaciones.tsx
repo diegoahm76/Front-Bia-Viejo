@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 
-interface IUsuarioEstaciones {
+export interface IUsuarioEstaciones {
   idUsuario: number;
   objectid: number;
   t001Estaciones: IEstacionesInternal;

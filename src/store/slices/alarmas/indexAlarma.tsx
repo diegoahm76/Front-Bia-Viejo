@@ -106,26 +106,26 @@ export const editarAlarma = async (dispatch, dataEdit) => {
     const elementModalId = document.getElementById("modalAlarmasId")!;
     const dataModel = construirModelo(dataEdit);
     dispatch(editarAlarmaAction(dataModel));
-    // await clienteEstaciones.put("Alarmas", dataModel).then(() => {
-    //     dispatch(editarAlarmaAction(dataModel));
-    //     Swal.fire({
-    //         target: elementModalId,
-    //         position: "center",
-    //         icon: "success",
-    //         title: "Alarma actualizada correctamente",
-    //         showConfirmButton: false,
-    //         timer: 2000,
-    //     });
-    // }).catch((error) => {
-    //     Swal.fire({
-    //         target: elementModalId,
-    //         position: "center",
-    //         icon: "error",
-    //         title: `Algo pasó, intente de nuevo, ${error.response.data} `,
-    //         showConfirmButton: true,
-    //         confirmButtonText: "Aceptar",
-    //     });
-    // });
+    await clienteEstaciones.put("Alarmas", dataModel).then(() => {
+        dispatch(editarAlarmaAction(dataModel));
+        Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "success",
+            title: "Alarma actualizada correctamente",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    }).catch((error) => {
+        Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "error",
+            title: `Algo pasó, intente de nuevo, ${error.response.data} `,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+        });
+    });
 }
 
 const construirModelo = (data) => {

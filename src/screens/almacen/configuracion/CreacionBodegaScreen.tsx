@@ -11,9 +11,10 @@ import { crearNuevaBodegaAction } from "../../../actions/bodegaActions";
 import { useDispatch } from "react-redux";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import AdministradorBodegasScreen from "./AdministradorBodegasScreen";
-import { crearBodega, IBodega } from "../../../store/slices/bodega/indexBodega";
+import { crearBodega } from "../../../store/slices/bodega/indexBodega";
 import { IGeneric } from "../../../Interfaces/Generic";
 import { useAppDispatch } from "../../../store/hooks/hooks";
+import { IBodegaCreate } from "../../../Interfaces/Bodegas";
 
 const CreacionBodegaScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
@@ -21,9 +22,6 @@ const CreacionBodegaScreen = () => {
     index_tipo_documento: "",
     id_persona: "",
   });
-
-  console.log("form", formValuesSearch);
-
   const {
     reset: resetBuscar,
     register: registerBuscar,
@@ -39,61 +37,57 @@ const CreacionBodegaScreen = () => {
     control: controlBodega,
     formState: { errors: errorsBodega },
   } = useForm();
-const initialOptions:IGeneric[] =[{
-  label: "",
-  value: ""
-}] 
+  const initialOptions: IGeneric[] = [{
+    label: "",
+    value: ""
+  }]
   const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
   const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
-  const [es_principal, setEs_principal] = useState(false);
-
   const dispatch = useAppDispatch();
-  //cuando el usuario hace submit
+  const navigate = useNavigate();
 
   const submitBodega = (data) => {
-    //console.log("data", data);
-
     const idPersona = formValuesSearch.id_persona;
-
-    const bodegaCreate:IBodega = {
-      ...data,
+    const bodegaCreate: IBodegaCreate = {
+      nombre: data.nombre,
       cod_municipio: data.cod_municipio.value,
       id_responsable: idPersona,
-      es_principal
+      es_principal: data.es_principal,
+      direccion: data.direccion
     };
-    console.log(bodegaCreate);
-    crearBodega(dispatch,bodegaCreate);
+    crearBodega(dispatch, bodegaCreate);
   };
-   const navigate=useNavigate();
-   const AdministradorBodegas =()=>{
+
+  const AdministradorBodegas = () => {
     navigate("/dashboard/almacen/configuracion/administrador-bodegas")
-   }
+  }
 
   useEffect(() => {
-    const getSelectsOptions = async () => {
-      try {
-        const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
-          "choices/tipo-documento/"
-        );
-        const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
-        );
-        const { data: municipiosNoFormat } = await clienteAxios.get(
-          "choices/municipios/"
-        );
-        const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
-        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
-        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
-        setTipoDocumentoOptions(documentosFormat);
-        setDepartamentosOptions(departamentosFormat);
-        setMunicipiosOptions(municipiosFormat);
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getSelectsOptions();
   }, []);
+
+  const getSelectsOptions = async () => {
+    try {
+      const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+        "choices/tipo-documento/"
+      );
+      const { data: departamentosNoFormat } = await clienteAxios.get(
+        "choices/departamentos/"
+      );
+      const { data: municipiosNoFormat } = await clienteAxios.get(
+        "choices/municipios/"
+      );
+      const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+      const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+      const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+      setTipoDocumentoOptions(documentosFormat);
+      setDepartamentosOptions(departamentosFormat);
+      setMunicipiosOptions(municipiosFormat);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="row min-vh-100">
@@ -123,7 +117,7 @@ const initialOptions:IGeneric[] =[{
                     {...field}
                     value={
                       tipoDocumentoOptions[
-                        formValuesSearch.index_tipo_documento
+                      formValuesSearch.index_tipo_documento
                       ]
                     }
                     isDisabled
@@ -267,7 +261,7 @@ const initialOptions:IGeneric[] =[{
                   Dirección de bodega
                 </label>
                 <input
-                  
+
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="dirección"
@@ -300,8 +294,8 @@ const initialOptions:IGeneric[] =[{
               <button
                 type="button"
                 className="btn btn-secondary mx-2 text-capitalize"
-                onClick={()=>AdministradorBodegas()}
-                
+                onClick={() => AdministradorBodegas()}
+
               >
                 Administrador
               </button>
