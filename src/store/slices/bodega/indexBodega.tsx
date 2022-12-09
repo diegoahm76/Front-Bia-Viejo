@@ -5,6 +5,7 @@ import { IBodegaGeneric, IBodegaCreate } from "../../../Interfaces/Bodegas";
 
 const initialState: IBodegaGeneric = {
   bodegaEditar: {
+    id_bodega: 0,
     nombre: "",
     cod_municipio: "",
     direccion: "",
@@ -25,29 +26,7 @@ const initialState: IBodegaGeneric = {
     },
     es_principal: true,
   },
-  bodega: [
-    {
-      nombre: "",
-      cod_municipio: "",
-      direccion: "",
-      id_responsable: {
-        id_persona: 0,
-        tipo_documento: {
-          nombre: "",
-          activo: true,
-          cod_tipo_documento: "",
-          item_ya_usado: true,
-          precargado: true,
-        },
-        primer_nombre: "",
-        segundo_nombre: "",
-        primer_apellido: "",
-        segundo_apellido: "",
-        numero_documento: "",
-      },
-      es_principal: true,
-    },
-  ],
+  bodega: [],
 };
 
 const bodegaSlice = createSlice({
@@ -56,16 +35,12 @@ const bodegaSlice = createSlice({
   reducers: {
     crearBodegaAction: (state, action) => { },
     obtenerBodegaAction: (state, action) => {
-      state.bodega.push(action.payload);
+      state.bodega = action.payload
     },
     eliminarBodegaAction: (state, action) => { },
     editarBodegaAction1: (state, action) => { },
     seleccionarBodegaAction: (state, action) => {
-      state.bodegaEditar.nombre = action.payload.nombre;
-      state.bodegaEditar.direccion = action.payload.direccion;
-      state.bodegaEditar.cod_municipio = action.payload.cod_municipio;
-      state.bodegaEditar.id_responsable = action.payload.id_responsable;
-      state.bodegaEditar.es_principal = action.payload.es_principal;
+      state.bodegaEditar = action.payload;
     },
   },
 });
@@ -98,12 +73,13 @@ export const eliminarBodega = async (dispatch, id_bodega) => {
   });
 };
 
-export const editarBodega = async (dispatch, id_bodega) => {
+export const editarBodega = async (dispatch,id_bodega, bodega) => {
   await clienteAxios
-    .put(`almacen/bodega/update/${id_bodega}`, id_bodega)
+    .put(`almacen/bodega/update/${id_bodega}`, bodega)
     .then(() => {
-      dispatch(obtenerBodegaAction(id_bodega));
-      dispatch(editarBodegaAction1(id_bodega));
+      debugger
+      // dispatch(obtenerBodegaAction(id_bodega));
+      dispatch(editarBodegaAction1(bodega));
     });
 };
 

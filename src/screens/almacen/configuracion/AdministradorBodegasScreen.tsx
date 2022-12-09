@@ -15,7 +15,7 @@ import {
 } from "../../../actions/bodegaActions";
 import { useNavigate } from "react-router-dom";
 
-import { editarBodegaAction1, eliminarBodega, obtenerBodega, seleccionarBodega } from "../../../store/slices/bodega/indexBodega";
+import { eliminarBodega, obtenerBodega, seleccionarBodega } from "../../../store/slices/bodega/indexBodega";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 const AdministradorBodegasScreen = () => {
@@ -38,7 +38,7 @@ const AdministradorBodegasScreen = () => {
   }
 
   const  bodega  = useAppSelector(
-    (state) => state.bodegaSlice.bodega[1]);
+    (state) => state.bodegaSlice.bodega);
 
 
 
