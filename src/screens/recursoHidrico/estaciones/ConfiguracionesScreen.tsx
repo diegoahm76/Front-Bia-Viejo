@@ -1,15 +1,11 @@
-import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
+import { AgGridReact } from "ag-grid-react";
+import { useForm } from "react-hook-form";
 import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
-import {
-  obtenerConfiguracionEditarAction,
-  obtenerConfiguracionesAction,
-} from "../../../actions/configuracionesEstacionesActions";
-import EditarConfiguracionModal from "../../../components/EditarConfiguracionModal";
+import ConfiguracionModal from "../../../components/ConfiguracionModal";
 import Subtitle from "../../../components/Subtitle";
 import {
-  configuracionEstacionesEditarAction,
-  obtenerConguracionEstaciones,
+  obtenerConguracionEstaciones, seleccionarConfiguracion,
 } from "../../../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
@@ -35,20 +31,11 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 //   t003velocidadAguaMin: "",
 // };
 
-const defaultColDef = {
-  sortable: true,
-  flex: 1,
-  filter: true,
-  wrapHeaderText: true,
-  resizable: true,
-  initialWidth: 200,
-  autoHeaderHeight: false,
-  suppressMovable: true,
-};
-
 const ConfiguracionesScreen = () => {
+ 
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const dispatch = useAppDispatch();
-  const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
   useEffect(() => {
     const getConfiguraciones = async () =>
@@ -57,8 +44,38 @@ const ConfiguracionesScreen = () => {
   }, []);
 
   const configuraciones = useAppSelector(
-    (state) => state.configuracionEstacionesSlice.configuracion
+    (state) => state.configuracion.configuracion
   );
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const editarAction = (data) => {
+    seleccionarConfiguracion(dispatch, data);
+    setIsEdit(true);
+    setIsModalActive(true);
+
+  };
+
+  //Definicion tabla
+
+  const defaultColDef = {
+    sortable: true,
+    flex: 1,
+    filter: true,
+    wrapHeaderText: true,
+    resizable: true,
+    initialWidth: 200,
+    autoHeaderHeight: false,
+    suppressMovable: true,
+  };
 
   const columnDefs = [
     {
@@ -161,10 +178,7 @@ const ConfiguracionesScreen = () => {
               className="btn btn-sm btn-tablas"
               type="button"
               title="Send"
-              onClick={() => {
-                dispatch(configuracionEstacionesEditarAction(params.data));
-                setIsModalEditarActivate(!isModalEditarActive);
-              }}
+              onClick={() => editarAction(params.data)}
             >
               <img src={IconoEditarBia} alt="editar" />
             </button>
@@ -202,9 +216,17 @@ const ConfiguracionesScreen = () => {
           </form>
         </div>
       </div>
-      <EditarConfiguracionModal
-        setIsModalActive={setIsModalEditarActivate}
-        isModalActive={isModalEditarActive}
+      <ConfiguracionModal
+        setValue={setValue}
+        isModalActive={isModalActive}
+        setIsModalActive={setIsModalActive}
+        isEdit={isEdit}
+        handleSubmit={handleSubmit}
+        register={register}
+        control={control}
+        reset={reset}
+        errors={errors}
+        watch={watch}
       />
     </div>
   );
