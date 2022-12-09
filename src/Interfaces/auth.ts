@@ -4,7 +4,7 @@ export interface IAuth {
 }
 export interface IDefaultValues {
     tipo_persona: string;
-    tipoDocumento: string;
+    tipoDocumento: any;
     numero_documento: string;
     razonSocial: string;
     dv: string;
@@ -12,7 +12,7 @@ export interface IDefaultValues {
     segundoNombre: string;
     primerApellido: string;
     segundoApellido: string;
-    fechaNacimiento: string;
+    fechaNacimiento: any;
     ubicacion_georeferenciada: string;
     pais_residencia: string;
     municipio: string;
@@ -28,14 +28,25 @@ export interface IDefaultValues {
     acepta_notificacion_email: boolean;
     acepta_tratamiento_datos: boolean;
     direccionNotificacion: string;
+    municipioNotificacion: any;
 }
 export interface IAuth {
     confirmacionEmail: boolean;
     confirmacionCelular: boolean;
 }
 export interface IDatosNotificacion {
-    departamento: string;
+    departamento: any;
+    // departamento: IList | string;
 }
+
+export interface IFormValues {
+    fechaNacimiento: string | number | Date;
+    tipo_persona: IList;
+    digito_verificacion: string;
+    municipioNotificacion: any;
+    paisNotificacion?: any;
+}
+
 export interface IList {
     label: string;
     value: string;
@@ -45,12 +56,12 @@ export interface IPerson {
     tipo_documento: string;
     numero_documento: string;
     digito_verificacion: string | null;
-    nombre_comercial: string;
+    nombre_comercial: string | null;
     primer_nombre: string;
-    segundo_nombre: string;
+    segundo_nombre: string | null;
     primer_apellido: string;
-    segundo_apellido: string;
-    fecha_nacimiento: string;
+    segundo_apellido: string | null;
+    fecha_nacimiento: string | number | Date;
     email: string;
     telefono_celular: string;
     ubicacion_georeferenciada: string;
@@ -60,11 +71,11 @@ export interface IPerson {
     representante_legal: string;
     cod_municipio_notificacion_nal: string | null;
 }
-export interface IErrorAxios {
-    label: string;
-    value: string;
+export interface IObjectSend {
+    paisNotificacion: any;
+    municipioNotificacion: string | null;
 }
-export interface IndexColombia {
-    label: string;
-    value: string;
+export interface IDefaultValuesUpdatePassword {
+    password: string;
+    password2: string;
 }

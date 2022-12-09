@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
-import { Controller, useForm } from "react-hook-form";
-import Select from "react-select";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import Select, { SingleValue } from "react-select";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
@@ -13,8 +13,8 @@ import botonCancelar from "../../../assets/iconosBotones/cancelar.svg"
 import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg"
 
 //interfaces
-import { IAuth, IDatosNotificacion, IDefaultValues, IErrorAxios, IList, IndexColombia, IPerson } from '../../../Interfaces/auth';
-import { AxiosError, AxiosResponse } from 'axios';
+import { IAuth, IDatosNotificacion, IDefaultValues, IFormValues, IList, IObjectSend, IPerson } from '../../../Interfaces/auth';
+import { AxiosError } from 'axios';
 
 const defaultValues = {
   tipo_persona: "",
@@ -42,6 +42,7 @@ const defaultValues = {
   acepta_notificacion_email: true,
   acepta_tratamiento_datos: true,
   direccionNotificacion: "",
+  municipioNotificacion: "",
 };
 
 const defaultErrors = {
@@ -63,9 +64,9 @@ const RegisterPersonaScreen = () => {
   const [paisesOptions, setPaisesOptions] = useState<IList[]>([]);
   const [departamentosOptions, setDepartamentosOptions] = useState<IList[]>([]);
   const [municipiosOptions, setMunicipiosOptions] = useState<IList[]>([]);
-  const [tipoDocumentoFiltrado, setTipoDocumentoFiltrado] = useState<IList[]>([]);
+  const [tipoDocumentoFiltrado, setTipoDocumentoFiltrado] = useState<any>([]);
   const [tipoPersonaOptions, setTipoPersonaOptions] = useState<IList[]>([]);
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState<IFormValues>({
     fechaNacimiento: "",
     tipo_persona: { label: "Natural", value: "N" },
     digito_verificacion: "",
@@ -100,7 +101,6 @@ const RegisterPersonaScreen = () => {
         const tipoPersonaFormat = textChoiseAdapter(tipoPersonaNoFormat);
 
         setTipoDocumentoOptions(documentosFormat);
-        // setTipoDocumentoFiltrado(documentosFormat);
         setDepartamentosOptions(departamentosFormat);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
@@ -121,7 +121,7 @@ const RegisterPersonaScreen = () => {
     formState: { errors: errorsForm },
   } = useForm<IDefaultValues>({ defaultValues });
 
-  const submitForm = async (data) => {
+  const submitForm: SubmitHandler<IDefaultValues> = async (data: IDefaultValues) => {
     //* Validación duplicidad de emails y celular
     if (data.eMail !== data.cEmail || data.celular !== data.cCelular) {
       const dataResponse = {
@@ -164,7 +164,7 @@ const RegisterPersonaScreen = () => {
       representante_legal: '',
       cod_municipio_notificacion_nal: '',
     };
-    const idPersonaRepresentante = idRepresentante
+    const idPersonaRepresentante: string = idRepresentante
 
     //* Ingresado los datos al objeto persona dependiento de si es Natural o Juridica
     if (formValues.tipo_persona.value === "N") {
@@ -199,20 +199,6 @@ const RegisterPersonaScreen = () => {
       persona.ubicacion_georeferenciada = "mi casita";
     }
 
-    //* Peticion de registro condicional dependiendo de si es natural o juridica
-    // const getRegisterPerson = () => {
-    //   return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-    //     try {
-    //       const { data } = await clienteAxios.get("almacen/organigrama/get/");
-    //       // dispatch(getOrganigrams(data.Organigramas));
-    //       return data;
-    //     } catch (error) {
-    //       console.log(error);
-    //       // notificationError.fire();
-    //       return error as AxiosError;
-    //     }
-    //   };
-    // };
     setLoading(true);
     if (formValues.tipo_persona.value === "N") {
       try {
@@ -234,7 +220,7 @@ const RegisterPersonaScreen = () => {
           }
         });
         //* Manejo de errores por datos repetidos en la DB (email y numero documento)
-      } catch (err: IErrorAxios | any) {
+      } catch (err: any) {
         console.log(err);
         if (err.response?.data?.email && err.response?.data?.numero_documento) {
           Swal.fire({
@@ -301,7 +287,7 @@ const RegisterPersonaScreen = () => {
     } else {
       try {
         const { data: dataRepresentante } = await clienteAxios.get(
-          `personas/get-personas-naturales-by-document/${data.tipoDocumentoRepresentante.value}/${data.numero_documento_representante}/`
+          `personas/get-personas-naturales-by-document/${data.tipoDocumento.value}/${data.numero_documento}/`
         );
         setIdRepresentante(dataRepresentante?.data?.id_persona);
       } catch (error) {
@@ -322,22 +308,17 @@ const RegisterPersonaScreen = () => {
               ...formValues,
               tipo_persona: { label: "Natural", value: "N" },
             });
-            console.log("formValues", formValues);
           }
         });
         setLoading(false);
-        return;
+        return error as AxiosError;
       }
 
       try {
-        console.log("persona antes de la peticion", persona);
         const { data: dataRegisterEmpresa } = await clienteAxios.post(
           "personas/persona-juridica/create/",
           persona
         );
-
-        console.log(dataRegisterEmpresa);
-
         Swal.fire({
           title: "Registrado como persona juridica",
           text: "¿Desea registrarse como usuario?",
@@ -412,6 +393,7 @@ const RegisterPersonaScreen = () => {
         } else {
           console.log(err);
         }
+        return err as AxiosError;
       }
       setLoading(false);
     }
@@ -472,7 +454,7 @@ const RegisterPersonaScreen = () => {
   };
 
   const getIndexColombia = () => {
-    let indexColombia: IndexColombia = null;
+    let indexColombia: string | number | null = null;
     paisesOptions.forEach((pais, index) => {
       if (pais.value === "CO") {
         indexColombia = index;
@@ -482,8 +464,9 @@ const RegisterPersonaScreen = () => {
   };
 
   const handleChangePaisNotificacion = (e) => {
-    const objectSend = {
+    const objectSend: IObjectSend = {
       paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
+      municipioNotificacion: '',
     };
     if (e.value !== "CO" || !e.value) {
       objectSend.municipioNotificacion = null;
@@ -582,9 +565,11 @@ const RegisterPersonaScreen = () => {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          // defaultValue={tipoDocumentoOptions[0]}
                           options={tipoDocumentoFiltrado}
                           placeholder="Seleccionar"
+                        // onChange={(option: SingleValue<IList>) => {
+                        //   // setValueUnidades("tipoUnidad", option!);
+                        // }}
                         />
                       )}
                     />
@@ -818,6 +803,7 @@ const RegisterPersonaScreen = () => {
                           <span className="text-danger">*</span>
                         </label>
                         <Controller
+                          name="tipoDocumento"
                           control={control}
                           rules={{
                             required: true,
@@ -825,7 +811,6 @@ const RegisterPersonaScreen = () => {
                           render={({ field }) => (
                             <Select
                               {...field}
-                              // defaultValue={tipoDocumentoOptions[0]}
                               options={tipoDocumentoOptions}
                               placeholder="Seleccionar"
                             />
@@ -848,7 +833,7 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("numero_documento_representante", {
+                            {...register("numero_documento", {
                               required: true,
                             })}
                           />
@@ -1046,7 +1031,8 @@ const RegisterPersonaScreen = () => {
                           País notificación:
                         </label>
                         <Controller
-                          control={control}
+                          // control={control}
+                          name="paisNotificacion"
                           render={({ field }) => (
                             <Select
                               {...field}
@@ -1144,7 +1130,7 @@ const RegisterPersonaScreen = () => {
                                   paisesOptions[formValues.paisNotificacion]?.value !== "CO"
                                 }
                                 value={municipiosOptions[formValues.municipioNotificacion]}
-                                onChange={(e) =>
+                                onChange={(e: SingleValue<any>) =>
                                   setFormValues({
                                     ...formValues,
                                     municipioNotificacion: getIndexBySelectOptions(

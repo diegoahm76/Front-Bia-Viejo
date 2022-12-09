@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import ReactDatePicker from "react-datepicker";
 import Select from "react-select";
@@ -11,12 +11,13 @@ import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { userRemoveErrorAction } from "../../../actions/userActions";
+import { IList } from "../../../Interfaces/auth";
 
 const INDICATIVO_PAIS_COLOMBIA = 57
 
 const DesbloqueoUsuarioScreen = () => {
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
-  const [formValues, setFormValues] = useState({
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
+  const [formValues, setFormValues] = useState<{ fechaNacimiento: string | Date | number | null }>({
     fechaNacimiento: "",
   });
   const dispatch = useDispatch();
@@ -37,15 +38,13 @@ const DesbloqueoUsuarioScreen = () => {
       representation: "date",
     });
     data.tipo_documento = data.tipo_documento.value;
-    data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono_celular}` 
+    data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono_celular}`
 
     try {
       const { data: dataResponse } = await clienteAxios.post(
         "users/unblock/",
         data
       );
-
-      console.log(dataResponse);
 
       if (dataResponse.success) {
         Swal.fire({
