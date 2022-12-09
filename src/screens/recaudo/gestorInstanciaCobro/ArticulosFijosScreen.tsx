@@ -1,21 +1,121 @@
-import React, { useEffect, useState } from "react";
+import  React,{useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Subtitle from "../../../components/Subtitle";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+import { IBienes } from "../../../Interfaces/Bienes";
+import { editarBien } from "../../../store/slices/bienes/indexBien";
 
-export const CreacionArticulosFijosScreen = () => {
+
+const editState = {
+  id_bien: 0,
+        codigo_bien: "",
+        nro_elemento_bien: 0,
+        nombre: "",
+        cod_tipo_bien: "",
+        cod_tipo_activo: "",
+        nivel_jerarquico: 0,
+        nombre_cientifico: "",
+        descripcion: "",
+        doc_identificador_nro: "",
+        cod_metodo_valoracion: 0,
+        cod_tipo_depreciacion: 0,
+        cantidad_vida_util: 0,
+        valor_residual: 0,
+        stock_minimo: 0,
+        stock_maximo: 0,
+        solicitable_vivero: false,
+        tiene_hoja_vida: false,
+        maneja_hoja_vida: false,
+        visible_solicitudes: false,
+        id_marca: 0,
+        id_unidad_medida: 0,
+        id_porcentaje_iva: 0,
+        id_unidad_medida_vida_util: 0,
+        id_bien_padre: 0,
+}
+
+export const CreacionArticulosFijosScreen = (
+  isEdit,
+  handleSubmit,
+  register,
+  control,
+  reset,
+  setValue,
+  watch,
+) => {
+  //checkbox
   const [checkboxSoli, setCheckboxSoli] = useState(true);
   const [checkboxHoja, setCheckboxHoja] = useState(true);
 
+  //estados
+  const [bienEdit, setBienEdit] = useState(editState);
+  const { loading } = useAppSelector((state) => state.loading);
+  const bienSeleccionado = useAppSelector((state) => state.bien.bienSeleccionado);
+  const dispatch = useAppDispatch();
+  // False = crear
+  // true = editar
+
+
+  useEffect(() => {
+    setDataEdit()
+  }, [bienSeleccionado]);
+
+
+  const setDataEdit = () => {
+    const dataForm: IBienes = {
+      id_bien: bienSeleccionado.id_bien,
+      codigo_bien: bienSeleccionado.codigo_bien,
+      nro_elemento_bien: bienSeleccionado.nro_elemento_bien,
+      nombre: bienSeleccionado.nombre,
+      cod_tipo_bien: bienSeleccionado.cod_tipo_bien,
+      cod_tipo_activo: bienSeleccionado!.cod_tipo_activo,
+      nivel_jerarquico: bienSeleccionado.nivel_jerarquico,
+      nombre_cientifico: bienSeleccionado.nombre_cientifico,
+      descripcion: bienSeleccionado.descripcion,
+      doc_identificador_nro: bienSeleccionado.doc_identificador_nro,
+      cod_metodo_valoracion: bienSeleccionado.cod_metodo_valoracion,
+      cod_tipo_depreciacion: bienSeleccionado.cod_tipo_depreciacion,
+      cantidad_vida_util: bienSeleccionado.cantidad_vida_util,
+      valor_residual: bienSeleccionado.valor_residual,
+      stock_minimo: bienSeleccionado.stock_minimo,
+      stock_maximo: bienSeleccionado.stock_maximo,
+      solicitable_vivero: bienSeleccionado.solicitable_vivero,
+      tiene_hoja_vida: bienSeleccionado.tiene_hoja_vida,
+      maneja_hoja_vida: bienSeleccionado.maneja_hoja_vida,
+      visible_solicitudes: bienSeleccionado.visible_solicitudes,
+      id_marca: bienSeleccionado.id_marca,
+      id_unidad_medida: bienSeleccionado.id_unidad_medida,
+      id_porcentaje_iva: bienSeleccionado.id_porcentaje_iva,
+      id_unidad_medida_vida_util: bienSeleccionado.id_unidad_medida_vida_util,
+      id_bien_padre: bienSeleccionado.id_bien_padre,
+    }
+    //setValue("t006mensajeUp", alarmaSeleccionada.t006mensajeUp);
+    setBienEdit(dataForm);
+  }
+
+  const onSubmit = () => {
+    if (isEdit) {
+      editarBien(dispatch, isEdit);
+    } else {
+
+    }
+  
+  };
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBienEdit({ ...bienEdit, [name]: value });
+  }
+  
+
   const {
-    reset,
-    register: registerCrear,
-    handleSubmit,
-    control: controlCrear,
     formState: { errors },
   } = useForm();
-  const onSubmit = () => {};
+  
+
 
   const navigate = useNavigate();
   const volver = () => {
@@ -45,7 +145,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="TipoBien"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -75,10 +175,6 @@ export const CreacionArticulosFijosScreen = () => {
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
                   placeholder="Código"
-                  {...registerCrear("Codigo", {
-                    required: true,
-                  })}
-                  defaultValue={"20198642"}
                   disabled
                 />
                 {errors.codigo && (
@@ -98,10 +194,6 @@ export const CreacionArticulosFijosScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
-                    {...registerCrear("nombre", {
-                      required: true,
-                    })}
-                    defaultValue={"Computador"}
                   />
                 </div>
                 {errors.nombre && (
@@ -117,7 +209,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="tipoactivo"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -133,7 +225,6 @@ export const CreacionArticulosFijosScreen = () => {
                     />
                   )}
                   defaultValue={{label:"Computo", value: "com"}}
-                  isDisabled
                 />
                 {errors.tipoactivo && (
                   <small className="text-danger">
@@ -150,10 +241,6 @@ export const CreacionArticulosFijosScreen = () => {
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
                   placeholder="Carpeta Padre"
-                  {...registerCrear("padre", {
-                    required: true,
-                  })}
-                  defaultValue={"Activo"}
                   disabled
                 />
                 {errors.padre && (
@@ -171,7 +258,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="unidadmedida"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -202,7 +289,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="porcentaje"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -232,7 +319,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="depresiacion"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -261,7 +348,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="unidadvida"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -296,10 +383,7 @@ export const CreacionArticulosFijosScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Cantidad de vida util"
-                    {...registerCrear("cantidadvida", {
-                      required: true,
-                    })}
-                    defaultValue={"3"}
+                    required
                   />
                 </div>
                 {errors.cantidadvida && (
@@ -318,10 +402,7 @@ export const CreacionArticulosFijosScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Valor residual"
-                    {...registerCrear("valorresidual", {
-                      required: true,
-                    })}
-                    defaultValue={"$ 500.000"}
+                    required
                   />
                 </div>
                 {errors.valorresidual && (
@@ -336,7 +417,7 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="marca"
-                  control={controlCrear}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -416,10 +497,9 @@ export const CreacionArticulosFijosScreen = () => {
                 </label>
                 <textarea
                   className="form-control border rounded-pill px-4 border border-terciary"
-                  type="text"
                   placeholder="Observaciones"
                   value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, "
-                  rows="3"
+                  rows={3}
                   name="Acciones"
                 />
               </div>
@@ -427,17 +507,18 @@ export const CreacionArticulosFijosScreen = () => {
             <div className="row ">
               <div className="d-flex justify-content-end mt-3">
                 <button type="button" className="btn   text-capitalize" onClick={() => volver()}>
-                  <i class="fa-solid fa-x fs-3"></i>
+                  <i className="fa-solid fa-x fs-3"></i>
                 </button>
                 <button type="button" className="btn   text-capitalize">
-                  <i class="fa-regular fa-floppy-disk fs-3"></i>
+                  i
+                  <i className="fa-regular fa-floppy-disk fs-3"></i>
                 </button>
                 
               </div>
             </div>
             <button type="button" className="btn   text-capitalize">
             
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <i className="fa-solid fa-wand-magic-sparkles">G</i>
                 </button>
           </form>
         </div>

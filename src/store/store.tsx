@@ -11,6 +11,7 @@ import organigramReducer from "./slices/organigrama/indexOrganigram";
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
 import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
 import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+import bienReducer from "./slices/bienes/indexBien";
 // import thunk from "redux-thunk";
 import loadingReducer, {
   cancelLoading,
@@ -32,7 +33,8 @@ const store = configureStore({
     configuracion: configuracionReducer,
     bodegaSlice: bodegaReducer,
     organigram: organigramReducer,
-    monitoreoSlice:monitoreoReducer
+    monitoreoSlice:monitoreoReducer,
+    bien:bienReducer
   },
 });
 
