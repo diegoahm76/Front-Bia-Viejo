@@ -8,18 +8,15 @@ import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import Subtitle from "../../../components/Subtitle";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import { useDispatch } from "react-redux";
-import { userRemoveErrorAction } from "../../../actions/userActions";
 import { IList } from "../../../Interfaces/auth";
 
 const INDICATIVO_PAIS_COLOMBIA = 57
 
 const DesbloqueoUsuarioScreen = () => {
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
-  const [formValues, setFormValues] = useState<{ fechaNacimiento: string | Date | number | null }>({
-    fechaNacimiento: "",
-  });
+  const [formValues, setFormValues] = useState<{ fechaNacimiento: Date | number }>();
   const dispatch = useDispatch();
 
 
@@ -34,12 +31,11 @@ const DesbloqueoUsuarioScreen = () => {
 
   const onSubmit = async (data) => {
     data.redirect_url = process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo" : "http://localhost:3000/#/actualizar-contrasena-bloqueo";
-    data.fecha_nacimiento = formatISO(formValues.fechaNacimiento, {
+    data.fecha_nacimiento = formatISO(formValues!.fechaNacimiento, {
       representation: "date",
     });
     data.tipo_documento = data.tipo_documento.value;
     data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono_celular}`
-
     try {
       const { data: dataResponse } = await clienteAxios.post(
         "users/unblock/",
@@ -53,7 +49,6 @@ const DesbloqueoUsuarioScreen = () => {
           title: "Datos correctos, revisa tu correo electronico",
           confirmButtonText: "Aceptar",
           confirmButtonColor: "#3085d6",
-          is_active: true,
         }).then((result) => {
           if (result.isConfirmed) {
             navigate("/login");
@@ -66,7 +61,6 @@ const DesbloqueoUsuarioScreen = () => {
           title: "Datos invalidos",
           confirmButtonText: "Aceptar",
           confirmButtonColor: "#3085d6",
-          is_active: true,
         });
       }
     } catch (err) {
@@ -83,7 +77,6 @@ const DesbloqueoUsuarioScreen = () => {
       setTipoDocumentoOptions(documentosFormat);
     };
     getData();
-    dispatch(userRemoveErrorAction())
   }, []);
 
   return (
@@ -111,7 +104,7 @@ const DesbloqueoUsuarioScreen = () => {
                   Desbloqueo de usuario
                 </h3>
                 <div className="row">
-                  <Subtitle title="Información requerida" mb="2" />
+                  <Subtitle title="Información requerida" mb={2} />
                   <div className="col-12 ">
                     <div>
                       <label className="ms-3 text-terciary">
@@ -239,7 +232,7 @@ const DesbloqueoUsuarioScreen = () => {
                             dropdownMode="select"
                             autoComplete="off"
                             dateFormat="dd/MM/yyyy"
-                            selected={formValues.fechaNacimiento}
+                            // selected={formValues.fechaNacimiento}
                             onSelect={(e) =>
                               setFormValues({
                                 ...formValues,

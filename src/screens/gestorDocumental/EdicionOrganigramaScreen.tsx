@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { AgGridReact } from "ag-grid-react";
 import { Controller } from "react-hook-form";
-import Select, { ActionMeta, SingleValue } from "react-select";
+import Select, { SingleValue } from "react-select";
 import { useNavigate } from "react-router-dom";
 //Hooks
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";

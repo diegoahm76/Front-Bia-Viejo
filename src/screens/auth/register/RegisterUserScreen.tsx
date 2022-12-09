@@ -11,10 +11,9 @@ import botonCancelar from "../../../assets/iconosBotones/cancelar.svg";
 import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg"
 import { IList } from "../../../Interfaces/auth";
 import { AxiosError } from "axios";
-//import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 
 const defaultValues = {
-  tipoDocumento: "",
+  tipoDocumento: { value: "", label: "Seleccione" },
   numeroDocumento: "",
   nombreDeUsuario: "",
   password: "",
@@ -24,7 +23,9 @@ const defaultValues = {
 const RegisterUserScreen = () => {
   const navigate = useNavigate();
   const [errorPassword, setErrorPassword] = useState<boolean | null>(null);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([
+    { value: "", label: "Seleccione" },
+  ]);
   const [isHandleSubmit, setIsHandleSubmit] = useState<boolean>(false);
   const {
     register,
@@ -211,6 +212,7 @@ const RegisterUserScreen = () => {
                     render={({ field }) => (
                       <Select
                         {...field}
+                        value={field.value}
                         options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
                       />
