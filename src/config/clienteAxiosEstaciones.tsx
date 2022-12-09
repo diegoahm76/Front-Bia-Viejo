@@ -6,7 +6,6 @@ export const clienteEstaciones: AxiosInstance = axios.create({
 
 clienteEstaciones.interceptors.request.use(
   async (request: AxiosRequestConfig) => {
-    debugger
     try {
       const { userinfo: { tokens } } = JSON.parse(localStorage.getItem('userInfo')!);
       if (tokens.access) {
