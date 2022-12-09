@@ -34,7 +34,6 @@ const AdministradorBodegasScreen = () => {
   const EditarBodega = (data) =>{
     // dispatch(editarBodegaAction1(data))
     seleccionarBodega(dispatch, data)
-    localStorage.setItem("bodega", JSON.stringify(data.data));
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
 

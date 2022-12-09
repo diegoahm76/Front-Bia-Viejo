@@ -1,35 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
-export interface IBodega {
-  nombre: string;
-  cod_municipio: string;
-  direccion: string;
-  id_responsable: IdResponsable;
-  es_principal: boolean;
-}
-
-export interface IdResponsable {
-  id_persona: number;
-  tipo_documento: {
-    cod_tipo_documento: string;
-    nombre: string;
-    precargado: boolean;
-    activo: boolean;
-    item_ya_usado: boolean;
-    
-  };
-  primer_nombre: string;
-  segundo_nombre: string;
-  primer_apellido: string;
-  segundo_apellido: string;
-  numero_documento:string;
-}
-
-export interface IBodegaGeneric {
-  bodegaEditar: IBodega;
-  bodega: IBodega[];
-}
+import { IBodegaGeneric, IBodegaCreate } from "../../../Interfaces/Bodegas";
 
 const initialState: IBodegaGeneric = {
   bodegaEditar: {
@@ -49,7 +21,7 @@ const initialState: IBodegaGeneric = {
       segundo_nombre: "",
       primer_apellido: "",
       segundo_apellido: "",
-      numero_documento:"",
+      numero_documento: "",
     },
     es_principal: true,
   },
@@ -71,7 +43,7 @@ const initialState: IBodegaGeneric = {
         segundo_nombre: "",
         primer_apellido: "",
         segundo_apellido: "",
-        numero_documento:"",
+        numero_documento: "",
       },
       es_principal: true,
     },
@@ -82,12 +54,12 @@ const bodegaSlice = createSlice({
   name: "AdministradorBodegas",
   initialState,
   reducers: {
-    crearBodegaAction: (state, action) => {},
+    crearBodegaAction: (state, action) => { },
     obtenerBodegaAction: (state, action) => {
       state.bodega.push(action.payload);
     },
-    eliminarBodegaAction: (state, action) => {},
-    editarBodegaAction1: (state, action) => {},
+    eliminarBodegaAction: (state, action) => { },
+    editarBodegaAction1: (state, action) => { },
     seleccionarBodegaAction: (state, action) => {
       state.bodegaEditar.nombre = action.payload.nombre;
       state.bodegaEditar.direccion = action.payload.direccion;
@@ -98,10 +70,18 @@ const bodegaSlice = createSlice({
   },
 });
 
-export const crearBodega = async (dispatch, bodega: IBodega) => {
+export const crearBodega = async (dispatch, bodega: IBodegaCreate) => {
   await clienteAxios.post("almacen/bodega/create/", bodega).then(() => {
-    dispatch(crearBodegaAction(bodega));
+    // dispatch(crearBodegaAction(bodega));
     Swal.fire("Correcto", "La bodega se agrego correctamente", "success");
+  }).catch(() => {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Algo pasó, intente de nuevo",
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar",
+    });
   });
 };
 

@@ -16,26 +16,42 @@ import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IGeneric } from "../../../Interfaces/Generic";
 
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "", label: "" },
+  cedula: "",
+  nombreCompleto: ""
+}
+
+const infoBodegaModel = {
+  nombreBodega: "",
+  departamento: { value: "", label: "" },
+  municipio: { value: "", label: "" },
+  direccionBodega: "",
+  principal: false
+}
 const EditarBodegaScreen = () => {
 
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
+  const [infoBodega, setInfoBodegaModel] = useState(infoBodegaModel);
   const [formValuesSearch, setFormValuesSearch] = useState({
     index_tipo_documento: "",
     id_persona: "",
   });
 
   const dispatch = useAppDispatch();
-  
-  const bodegaEditar  = useAppSelector(
+
+  const bodegaEditar = useAppSelector(
     (state) => state.bodegaSlice.bodegaEditar
-       );
-       
+  );
 
   const {
     reset: resetBuscar,
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
+    setValue,
+    register,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -48,10 +64,10 @@ const EditarBodegaScreen = () => {
     formState: { errors: errorsBodega },
   } = useForm();
 
-  const initialOptions:IGeneric[] =[{
+  const initialOptions: IGeneric[] = [{
     label: "",
     value: ""
-  }] 
+  }]
 
   const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
   const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
@@ -66,22 +82,14 @@ const EditarBodegaScreen = () => {
 
 
   const submitEditarBodega = (data) => {
-    const idPersona = formValuesSearch.id_persona;
-    const nombreCompleto = data.primer_nombre + " " + data.primer_apellido;
-    const tipo_documento = formValuesSearch.index_tipo_documento;
-    const cedula = data.numero_documento;
-    //   const departamento= data.departamento.value;
-    const departamento = municipiosOptions[formValues.departamento]?.value;
-    console.log("nombre", nombreCompleto);
+    debugger
     const bodegaEditar = {
-      ...data,
-      cod_municipio: data.cod_municipio.value,
-      tipo_documento: tipo_documento,
-      nombreCompleto: nombreCompleto,
-      cedula: cedula,
-      departamento: departamento,
-      id_responsable: idPersona,
-      es_principal,
+      cod_municipio: infoBodega.municipio.value,
+      nombre: busquedaModel.nombreCompleto,
+      direccion: infoBodega.direccionBodega,
+      id_responsable: busquedaModel.cedula,
+      es_principal: infoBodega.principal,
+      activo: true
     };
 
     console.log("bodega", bodegaEditar);
@@ -105,91 +113,128 @@ const EditarBodegaScreen = () => {
   };
 
   useEffect(() => {
-    const getSelectsOptions = async () => {
-      try {
-        const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
-          "choices/tipo-documento/"
-        );
-        const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
-        );
-        const { data: municipiosNoFormat } = await clienteAxios.get(
-          "choices/municipios/"
-        );
-        const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
-        const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
-        const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
-        setTipoDocumentoOptions(documentosFormat);
-        setDepartamentosOptions(departamentosFormat);
-        setMunicipiosOptions(municipiosFormat);
-
-        console.log("departamento", departamentosNoFormat);
-
-        const {
-          primer_nombre,
-          segundo_nombre,
-          primer_apellido,
-          segundo_apellido,
-        } = bodegaEditar.id_responsable;
-        const fullName = `${primer_nombre} ${segundo_nombre} ${primer_apellido} ${segundo_apellido}`;
-
-        let tipoDocumento = "";
-        documentosFormat.forEach((documento) => {
-          if (
-            documento.value ===
-            bodegaEditar.id_responsable.tipo_documento.cod_tipo_documento
-          ) {
-            tipoDocumento = documento.value;
-          }
-        });
-        console.log("tipodocumento",tipoDocumento)
-
-        let coddep = bodegaEditar.cod_municipio.slice(0, 2);
-        console.log("coddep",coddep)
-
-        departamentosFormat.forEach((dep) => {
-          if (dep.value === coddep) {
-            coddep = dep.value;
-          }
-        });
-
-        resetBuscar({
-          cedula: bodegaEditar.id_responsable.numero_documento,
-          nombreCompleto: fullName,
-          tipoDocumento,
-        });
-
-        resetBodega({
-          nombre: bodegaEditar.nombre,
-          direccion: bodegaEditar.direccion,
-          es_principal: bodegaEditar.es_principal,
-          departamento: coddep,
-        });
-        console.log(watchBodega());
-      } catch (err) {
-        console.log(err);
-      }
-    };
     getSelectsOptions();
-  }, []);
+  }, [bodegaEditar]);
 
-  useEffect(() => {
-    if (watchBodega("departamento")?.value) {
-      setMunicipioFiltered([]);
-      resetBodega({...watchBodega(), cod_municipio: ""})
-    } else {
-      const municipioIndicadores = watchBodega("departamento")?.value;
-      console.log("prueba", municipiosOptions, municipioIndicadores, watchBodega())
-      const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-          const indicator = municipio.value.slice(0, 2);
-          return municipioIndicadores === indicator;
-        }
+  const getSelectsOptions = async () => {
+    try {
+      const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+        "choices/tipo-documento/"
       );
-      setMunicipioFiltered(municipiosCoincidentes);
-      resetBodega({...watchBodega(), cod_municipio: 0})
-    }
-  }, [watchBodega("departamento")]);
+      const { data: departamentosNoFormat } = await clienteAxios.get(
+        "choices/departamentos/"
+      );
+      const { data: municipiosNoFormat } = await clienteAxios.get(
+        "choices/municipios/"
+      );
+      const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+      const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+      const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
+      setTipoDocumentoOptions(documentosFormat);
+      setDepartamentosOptions(departamentosFormat);
+      setMunicipiosOptions(municipiosFormat);
+      let coddep = bodegaEditar.cod_municipio.slice(0, 2);
 
+      departamentosFormat.forEach((dep) => {
+        if (dep.value === coddep) {
+          coddep = dep.value;
+        }
+      });
+      crearModeloBuscar();
+      crearModeloInformacion(municipiosFormat);
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const crearModeloBuscar = () => {
+    const fullName = createFullName();
+    let busqueda = { ...busquedaModel }
+    busqueda.nombreCompleto = fullName;
+    busqueda.tipoDocumento = {
+      value: bodegaEditar.id_responsable.tipo_documento.cod_tipo_documento,
+      label: bodegaEditar.id_responsable.tipo_documento.nombre
+    }
+    busqueda.cedula = bodegaEditar.id_responsable.numero_documento
+    setBusquedaModel(busqueda);
+  }
+
+  const crearModeloInformacion = (municipiosFormat) => {
+    let bodega = { ...infoBodega }
+    bodega.nombreBodega = bodegaEditar.nombre;
+    bodega.direccionBodega = bodegaEditar.direccion
+    let muni = municipiosFormat.filter((res) => res.value === bodegaEditar.cod_municipio)
+    bodega.municipio = {
+      label: muni[0].label,
+      value: muni[0].value
+    }
+    setValue("cod_municipio", bodega.municipio);
+    setInfoBodegaModel(bodega);
+  }
+  const createFullName = () => {
+    const {
+      primer_nombre,
+      segundo_nombre,
+      primer_apellido,
+      segundo_apellido,
+    } = bodegaEditar.id_responsable;
+    const fullName = `${primer_nombre} ${segundo_nombre} ${primer_apellido} ${segundo_apellido}`;
+    const regex = /null/g;
+    fullName.replace(regex, '');
+    return fullName;
+  }
+  // useEffect(() => {
+  //   if (watchBodega("departamento")?.value) {
+  //     setMunicipioFiltered([]);
+  //     resetBodega({ ...watchBodega(), cod_municipio: "" })
+  //   } else {
+  //     const municipioIndicadores = watchBodega("departamento")?.value;
+  //     console.log("prueba", municipiosOptions, municipioIndicadores, watchBodega())
+  //     const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+  //       const indicator = municipio.value.slice(0, 2);
+  //       return municipioIndicadores === indicator;
+  //     }
+  //     );
+  //     setMunicipioFiltered(municipiosCoincidentes);
+  //     resetBodega({ ...watchBodega(), cod_municipio: 0 })
+  //   }
+  // }, [watchBodega("departamento")]);
+
+
+  const changeSelect = (e) => {
+    let tipoDocumento = { ...busquedaModel }
+    tipoDocumento.tipoDocumento = {
+      value: e.value,
+      label: e.label
+    }
+    setBusquedaModel(tipoDocumento)
+  }
+  const changeSelectMuni = (e) => {
+    let municipio = { ...infoBodega }
+    municipio.municipio = {
+      value: e.value,
+      label: e.label
+    }
+    setInfoBodegaModel(municipio)
+  }
+  const changeNombre = (e) => {
+    let nombre = { ...infoBodega }
+    nombre.nombreBodega = e.target.value;
+    setInfoBodegaModel(nombre)
+  }
+
+  const changeDireccion = (e) => {
+    let direccion = { ...infoBodega }
+    direccion.direccionBodega = e.target.value;
+    setInfoBodegaModel(direccion)
+  }
+
+  const changeName = (e) => {
+    let nombre = { ...busquedaModel }
+    nombre.nombreCompleto = e.target.value;
+    setBusquedaModel(nombre)
+  }
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -215,7 +260,8 @@ const EditarBodegaScreen = () => {
                     {...field}
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
-                  
+                    value={busquedaModel.tipoDocumento}
+                    onChange={changeSelect}
                   />
                 )}
               />
@@ -232,10 +278,9 @@ const EditarBodegaScreen = () => {
                 <label className="ms-2 text-terciary">Número de cedula</label>
                 <input
                   className="border border-terciary form-control border rounded-pill px-3"
-                  type="number"
-                  {...registerBuscar("cedula", {
-                    required: true,
-                  })}
+                  type="text"
+                  defaultValue={busquedaModel.cedula}
+                  required
                 />
               </div>
               {errorsBuscar.numeroDocumento && (
@@ -253,9 +298,9 @@ const EditarBodegaScreen = () => {
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
                   placeholder="nombre completo"
-                  {...registerBuscar("nombreCompleto", {
-                    required: true,
-                  })}
+                  value={busquedaModel.nombreCompleto}
+                  onChange={changeName}
+                  required
                 />
               </div>
             </div>
@@ -293,8 +338,12 @@ const EditarBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
+                  name="nombreBodega"
                   placeholder="nombre"
-                  {...registerBodega("nombre", { required: true })}
+                  value={infoBodega.nombreBodega}
+                  onChange={changeNombre}
+                  required={false}
+                // {...registerBodega("nombre", { required: true })}
                 />
               </div>
             </div>
@@ -308,13 +357,11 @@ const EditarBodegaScreen = () => {
                 <Controller
                   name="departamento"
                   control={controlBodega}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       className="col-12 mt-2"
+                      required={false}
                       options={departamentosOptions}
                       placeholder="Seleccionar"
                     />
@@ -332,15 +379,15 @@ const EditarBodegaScreen = () => {
                 <Controller
                   name="cod_municipio"
                   control={controlBodega}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       className="col-12 mt-2"
-                      options={municipioFiltered}
+                      options={municipiosOptions}
                       placeholder="Seleccionar"
+                      value={infoBodega.municipio}
+                      {...register("cod_municipio")}
+                      onChange={changeSelectMuni}
                     />
                   )}
                 />
@@ -354,8 +401,12 @@ const EditarBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
+                  name="direccion"
                   placeholder="dirección"
-                  {...registerBodega("direccion", { required: true })}
+                  required
+                  value={infoBodega.direccionBodega}
+                  onChange={changeDireccion}
+                // {...registerBodega("direccion", { required: true })}
                 />
               </div>
             </div>
@@ -370,7 +421,7 @@ const EditarBodegaScreen = () => {
                 className="border border-terciary form-check-input mx-2"
                 type="checkbox"
                 id="flexCheckDefault"
-                {...registerBodega("es_principal")}
+                defaultChecked={infoBodega.principal}
               />
             </div>
 
