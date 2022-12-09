@@ -10,7 +10,7 @@ import bodegaReducer from "./slices/bodega/indexBodega";
 import organigramReducer from "./slices/organigrama/indexOrganigram";
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
 import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
-import configuracionEstacionesReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 // import thunk from "redux-thunk";
 import loadingReducer, {
   cancelLoading,
@@ -29,7 +29,7 @@ const store = configureStore({
     loading: loadingReducer,
     usuarioEstaciones: usuarioEstacionesReducer,
     administradorEstacionesSlice: estacionesReducer,
-    configuracionEstacionesSlice: configuracionEstacionesReducer,
+    configuracion: configuracionReducer,
     bodegaSlice: bodegaReducer,
     organigram: organigramReducer,
     monitoreoSlice:monitoreoReducer
