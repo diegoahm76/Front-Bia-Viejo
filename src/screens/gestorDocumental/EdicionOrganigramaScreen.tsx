@@ -1,5 +1,5 @@
 //Bookstores
-import * as React from 'react';
+import React, { useState } from 'react';
 import { AgGridReact } from "ag-grid-react";
 import { Controller } from "react-hook-form";
 import Select, { SingleValue } from "react-select";
@@ -13,7 +13,7 @@ import useEdicionOrganigrama from "../../hooks/useEdicionOrganigrama";
 //Actions
 import { toFinalizeOrganigramService } from "../../services/organigram/OrganigramServices";
 import { IDocumentaryGroup, ILevelFather, ILevelUnity, ITypeUnity, IUnityRoot } from '../../Interfaces/Organigrama';
-import { Accordion } from 'react-bootstrap';
+import OrganigramDialog from '../../components/Dialog/OrganigramDialog';
 
 
 export const EdicionOrganigramaScreen = () => {
@@ -26,6 +26,8 @@ export const EdicionOrganigramaScreen = () => {
 
   // Redux State Extraction
   const { organigramCurrent, levelsOrganigram, unityOrganigram } = useAppSelector((state) => state.organigram);
+
+  const [viewOrganigram, setViewOrganigram] = useState(false);
   //Hooks
   const {
     //States
@@ -393,11 +395,20 @@ export const EdicionOrganigramaScreen = () => {
               </button>
 
               <button
+                type='button'
+                onClick={() => setViewOrganigram(true)}
+                className="btn btn-primary text-capitalize border rounded-pill px-3"
+              >
+                Visualizar Organigrama
+              </button>
+
+              <button
                 type="submit"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
               >
                 {title_unidades}
               </button>
+
               <button
                 type="button"
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
@@ -408,7 +419,10 @@ export const EdicionOrganigramaScreen = () => {
             </div>
           </div>
         </form>
-
+        <OrganigramDialog
+          isModalActive={viewOrganigram}
+          setIsModalActive={setViewOrganigram}
+        />
       </div>
     </div>
   );
