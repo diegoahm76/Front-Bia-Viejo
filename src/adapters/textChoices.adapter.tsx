@@ -1,14 +1,4 @@
-interface ISelectOptions {
-  label: string;
-  value: string;
-}
-
-const initialOptions: ISelectOptions[] = [{
-  label: "",
-  value: ""
-}]
-
-export const textChoiseAdapter = (dataArray) => {
+export const textChoiseAdapter = (dataArray: string[]) => {
   const dataNewFormat = dataArray.map((dataOld) => ({
     label: dataOld[1],
     value: dataOld[0],
