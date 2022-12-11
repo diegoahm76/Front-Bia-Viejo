@@ -170,7 +170,6 @@ const useEdicionOrganigrama = () => {
                         style={{ border: "none", background: "none" }}
                         onClick={() => deleteUnidades(data.codigo)}
                     >
-                        {/* <i className="fa-regular fa-trash-can fs-3"></i> */}
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
                 </div>
