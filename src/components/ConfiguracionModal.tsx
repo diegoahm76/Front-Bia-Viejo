@@ -65,7 +65,7 @@ const editState = {
     t001nombre: "",
     t001coord1: 0!,
     t001coord2: 0!,
-    t001fechaMod: new Date(),
+    t001fechaMod: "",
     t001userMod: "user",
   },
 };
@@ -88,7 +88,7 @@ const ConfiguracionModal = ({
   const configuracionSeleccionada = useAppSelector((state) => state.configuracion.configuracionSeleccionada);
   const state = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
-   // False = crear
+  // False = crear
   // true = editar
 
   useEffect(() => {
@@ -118,17 +118,17 @@ const ConfiguracionModal = ({
       t003nivelAguaMin: configuracionSeleccionada.t003nivelAguaMin,
       t003velocidadAguaMax: configuracionSeleccionada.t003velocidadAguaMax,
       t003velocidadAguaMin: configuracionSeleccionada.t003velocidadAguaMin,
-      t003fechaMod:configuracionSeleccionada.t003fechaMod,
+      t003fechaMod: configuracionSeleccionada.t003fechaMod,
       t003userMod: configuracionSeleccionada.t003userMod,
       objectid: configuracionSeleccionada.objectid,
-       t001Estaciones: {
+      t001Estaciones: {
         objectid: configuracionSeleccionada.t001Estaciones.objectid,
         t001nombre: configuracionSeleccionada.t001Estaciones.t001nombre,
         t001coord1: configuracionSeleccionada.t001Estaciones.t001coord1!,
         t001coord2: configuracionSeleccionada.t001Estaciones.t001coord2!,
-        t001fechaMod: new Date(),
+        t001fechaMod: "",
         t001userMod: state.login.userinfo.nombre_de_usuario,
-       }
+      }
     }
     //setValue("t006mensajeUp", configuracionSeleccionada.t006mensajeUp);
     setConfiguracionEdit(dataForm);
@@ -177,14 +177,14 @@ const ConfiguracionModal = ({
   }
 
 
-   const {
-  //   register: registerConfiguracion,
-  //   reset: resetConfiguracion,
-  //   handleSubmit: handleSubmitConfiguracion,
+  const {
+    //   register: registerConfiguracion,
+    //   reset: resetConfiguracion,
+    //   handleSubmit: handleSubmitConfiguracion,
     formState: { errors: errorsConfiguracion },
   } = useForm();
 
-  
+
 
   // const onSubmitConfiguracion = (data) => {
   //   const configuracionUpdate = {
@@ -224,7 +224,7 @@ const ConfiguracionModal = ({
                 required={true}
                 disabled={isEdit}
                 readOnly={isEdit}
-                
+
               />
             </div>
           </div>
@@ -240,9 +240,9 @@ const ConfiguracionModal = ({
                 className="form-control border rounded-pill px-3"
                 type="number"
                 name="t006rango"
-              value={configuracionEdit.t003frecuencia}
-              onChange={handleChange}
-              required
+                value={configuracionEdit.t003frecuencia}
+                onChange={handleChange}
+                required
               />
               {errorsConfiguracion.t003frecuencia && (
                 <div className="col-12">
@@ -347,7 +347,7 @@ const ConfiguracionModal = ({
                 name="t003humedadAmbienteMin"
                 value={configuracionEdit?.t003humedadAmbienteMin}
                 onChange={handleChange}
-                
+
               />
               {errorsConfiguracion.t003humedadAmbienteMin && (
                 <div className="col-12">
@@ -400,7 +400,7 @@ const ConfiguracionModal = ({
                 name="t003presionBarometricaMin"
                 value={configuracionEdit?.t003presionBarometricaMin}
                 onChange={handleChange}
-                
+
               />
               {errorsConfiguracion.t003presionBarometricaMin && (
                 <div className="col-12">
@@ -450,8 +450,8 @@ const ConfiguracionModal = ({
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
-               name= "t003velocidadVientoMin"
-               value={configuracionEdit?.t003velocidadVientoMin}
+                name="t003velocidadVientoMin"
+                value={configuracionEdit?.t003velocidadVientoMin}
                 onChange={handleChange}
               />
               {errorsConfiguracion.t003velocidadVientoMin && (
@@ -664,7 +664,7 @@ const ConfiguracionModal = ({
                 name="t003nivelAguaMin"
                 value={configuracionEdit?.t003nivelAguaMin}
                 onChange={handleChange}
-                
+
               />
               {errorsConfiguracion.t003nivelAguaMin && (
                 <div className="col-12">
@@ -719,7 +719,7 @@ const ConfiguracionModal = ({
                 name="t003velocidadAguaMin"
                 value={configuracionEdit?.t003velocidadAguaMin}
                 onChange={handleChange}
-                
+
               />
               {errorsConfiguracion.t003velocidadAguaMin && (
                 <div className="col-12">
@@ -774,8 +774,8 @@ const ConfiguracionModal = ({
               </>) : isEdit ? (
                 "Actualizar"
               ) : (
-                "Crear"
-              )}
+              "Crear"
+            )}
 
           </button>
         </div>

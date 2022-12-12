@@ -20,7 +20,8 @@ import { editarBodega } from "../../../store/slices/bodega/indexBodega";
 const busquedaAvanzadaModel = {
   tipoDocumento: { value: "", label: "" },
   cedula: "",
-  nombreCompleto: ""
+  nombreCompleto: "",
+  idResponsable: 0
 }
 
 const infoBodegaModel = {
@@ -115,7 +116,7 @@ const EditarBodegaScreen = () => {
         }
       });
       crearModeloBuscar();
-      crearModeloInformacion(municipiosFormat);
+      crearModeloInformacion(municipiosFormat, departamentosFormat);
 
     } catch (err) {
       console.log(err);
@@ -134,16 +135,23 @@ const EditarBodegaScreen = () => {
     setBusquedaModel(busqueda);
   }
 
-  const crearModeloInformacion = (municipiosFormat) => {
+  const crearModeloInformacion = (municipiosFormat, departamentosFormat) => {
     let bodega = { ...infoBodega }
     bodega.nombreBodega = bodegaEditar.nombre;
     bodega.direccionBodega = bodegaEditar.direccion
+    const indicator = bodegaEditar.cod_municipio.slice(0, 2);
+    let depa = departamentosFormat.filter((res) => res.value === indicator);
+    bodega.departamento = {
+      label: depa[0].label,
+      value: depa[0].value
+    }
     let muni = municipiosFormat.filter((res) => res.value === bodegaEditar.cod_municipio)
     bodega.municipio = {
       label: muni[0].label,
       value: muni[0].value
     }
     setValue("cod_municipio", bodega.municipio);
+    setValue("departamento", bodega.departamento);
     setInfoBodegaModel(bodega);
   }
   const createFullName = () => {
@@ -192,6 +200,14 @@ const EditarBodegaScreen = () => {
     }
     setInfoBodegaModel(municipio)
   }
+  const changeSelectDepa = (e) => {
+    let departamento = { ...infoBodega }
+    departamento.departamento = {
+      value: e.value,
+      label: e.label
+    }
+    setInfoBodegaModel(departamento)
+  }
   const changeNombre = (e) => {
     let nombre = { ...infoBodega }
     nombre.nombreBodega = e.target.value;
@@ -221,7 +237,6 @@ const EditarBodegaScreen = () => {
       es_principal: infoBodega.principal,
       activo: true
     };
-    debugger
     editarBodega(dispatch, bodegaEditar.id_bodega, bodegaEditada);
   };
   return (
@@ -353,6 +368,9 @@ const EditarBodegaScreen = () => {
                       required={false}
                       options={departamentosOptions}
                       placeholder="Seleccionar"
+                      value={infoBodega.departamento}
+                      {...register("departamento")}
+                      onChange={changeSelectDepa}
                     />
                   )}
                 />

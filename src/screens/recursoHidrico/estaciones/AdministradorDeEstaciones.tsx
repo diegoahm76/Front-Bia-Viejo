@@ -18,14 +18,14 @@ const AdministradorDeEstaciones = () => {
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
+  const estaciones = useAppSelector(
+    (state) => state.administradorEstacionesSlice.estaciones
+  );
+
   useEffect(() => {
     obtenerEstacion(dispatch);
     //callService();
   }, []);
-
-  const estaciones = useAppSelector(
-    (state) => state.administradorEstacionesSlice.estaciones
-  );
 
   // const dataExcel = estaciones.map((estacion) => ({
   //   OBJECTID: estacion.objectid,
@@ -86,15 +86,7 @@ const AdministradorDeEstaciones = () => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        //Pasarlo al action
-        // dispatch(administradorEstacionesSlice(id));
         eliminarEstacion(dispatch, id);
-        obtenerEstacion(dispatch);
-        Swal.fire(
-          "Correcto",
-          "La estación se elimino correctamente",
-          "success"
-        );
       }
     });
   };
