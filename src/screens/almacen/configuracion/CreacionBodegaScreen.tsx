@@ -16,12 +16,26 @@ import { IGeneric } from "../../../Interfaces/Generic";
 import { useAppDispatch } from "../../../store/hooks/hooks";
 import { IBodegaCreate } from "../../../Interfaces/Bodegas";
 
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "", label: "" },
+  cedula: "",
+  nombreCompleto: "",
+  idResponsable: 0
+}
+
 const CreacionBodegaScreen = () => {
+  const initialOptions: IGeneric[] = [{
+    label: "",
+    value: ""
+  }]
+  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
+  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
-  const [formValuesSearch, setFormValuesSearch] = useState({
-    index_tipo_documento: "",
-    id_persona: "",
-  });
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
+
   const {
     reset: resetBuscar,
     register: registerBuscar,
@@ -37,18 +51,10 @@ const CreacionBodegaScreen = () => {
     control: controlBodega,
     formState: { errors: errorsBodega },
   } = useForm();
-  const initialOptions: IGeneric[] = [{
-    label: "",
-    value: ""
-  }]
-  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
-  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+
 
   const submitBodega = (data) => {
-    const idPersona = formValuesSearch.id_persona;
+    const idPersona = busquedaModel.idResponsable;
     const bodegaCreate: IBodegaCreate = {
       nombre: data.nombre,
       cod_municipio: data.cod_municipio.value,
@@ -89,6 +95,10 @@ const CreacionBodegaScreen = () => {
     }
   };
 
+  const changeInput = (e) => {
+    const { name, value } = e.target;
+  }
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -109,20 +119,13 @@ const CreacionBodegaScreen = () => {
               <Controller
                 name="tipoDocumento"
                 control={controlBuscar}
-                rules={{
-                  required: true,
-                }}
                 render={({ field }) => (
                   <Select
                     {...field}
-                    value={
-                      tipoDocumentoOptions[
-                      formValuesSearch.index_tipo_documento
-                      ]
-                    }
                     isDisabled
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
+                    value={busquedaModel.tipoDocumento}
                   />
                 )}
               />
@@ -140,10 +143,9 @@ const CreacionBodegaScreen = () => {
                 <input
                   className="border border-terciary form-control border rounded-pill px-3"
                   type="text"
-                  disabled
-                  {...registerBuscar("numeroDocumento", {
-                    required: true,
-                  })}
+                  placeholder="Numero de cedula"
+                  disabled={true}
+                  value={busquedaModel.cedula}
                 />
               </div>
               {errorsBuscar.numeroDocumento && (
@@ -161,10 +163,9 @@ const CreacionBodegaScreen = () => {
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
                   placeholder="nombre completo"
+                  value={busquedaModel.nombreCompleto}
+                  onChange={changeInput}
                   disabled
-                  {...registerBuscar("nombreCompleto", {
-                    required: true,
-                  })}
                 />
               </div>
             </div>
@@ -182,8 +183,8 @@ const CreacionBodegaScreen = () => {
             <BusquedaAvanzadaModal
               isModalActive={busquedaAvanzadaIsOpen}
               setIsModalActive={setBusquedaAvanzadaIsOpen}
-              setFormValues={setFormValuesSearch}
               reset={resetBuscar}
+              setModel={setBusquedaModel}
               tipoDocumentoOptions={tipoDocumentoOptions}
             />
           </div>

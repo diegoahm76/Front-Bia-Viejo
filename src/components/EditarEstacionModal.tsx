@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { editarEstacionAction } from "../actions/estacionActions";
@@ -27,7 +27,16 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
+const editModelEstacion = {
+  objectid: 0,
+  t001nombre: "",
+  t001coord1: 0,
+  t001coord2: 0,
+  t001fechaMod: "",
+  t001userMod: "",
+};
 const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
+  const [dataEdit, setDataEdit] = useState(editModelEstacion);
   const dispatch = useAppDispatch();
   //pendiente revisar usuarios
   // const nombre_de_usuario = useAppSelector((state) => state.user.user);
@@ -42,25 +51,28 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   } = useForm();
 
   useEffect(() => {
-    //console.log("modal editar effect")
-    editarEstacion(dispatch, estaciones);
-    reset(estaciones);
+    createModelEdit();
   }, [estaciones]);
 
+  const createModelEdit = () => {
+    const data = { ...dataEdit };
+    data.objectid = estaciones.objectid;
+    data.t001coord1 = estaciones.t001coord1;
+    data.t001coord2 = estaciones.t001coord2;
+    data.t001fechaMod = estaciones.t001fechaMod;
+    data.t001nombre = estaciones.t001nombre;
+    data.t001userMod = estaciones.t001userMod;
+    setDataEdit(data);
+  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDataEdit({ ...dataEdit, [name]: value });
+  }
+
   const onSumbitEstacion = async (data) => {
-    const updateEstacion = {
-      objectid: data.objectid,
-      t001nombre: data.t001nombre,
-      t001coord1: data.t001coord1,
-      t001coord2: data.t001coord2,
-      t001fechaMod: new Date().toISOString(),
-      //pendiente revisar usuarios
-      t001userMod: data.t001userMod,
-    };
-    console.log("Nueva Estacion", updateEstacion);
-    dispatch(setEstacionEditar(updateEstacion));
-    // setEstacionEditar(dispatch);
-    // dispatch(editarEstacionAction(updateEstacion));
+    const dataChange = { ...dataEdit };
+    dataChange.t001fechaMod = new Date().toISOString();
+    editarEstacion(dispatch, dataChange);
     setIsModalActive(!isModalActive);
   };
 
@@ -85,8 +97,10 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
-                disabled
-                {...register("objectid", { required: true })}
+                name="objectid"
+                disabled={true}
+                value={dataEdit.objectid}
+                onChange={handleChange}
               />
             </div>
             {errors.objectId && (
@@ -105,8 +119,10 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="string"
-                disabled
-                {...register("t001userMod", { required: true })}
+                name="t001nombre"
+                disabled={true}
+                value={dataEdit.t001nombre}
+                onChange={handleChange}
               />
             </div>
             {errors.objectId && (
@@ -125,7 +141,6 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                {...register("t001nombre", { required: true })}
               />
             </div>
             {errors.estacion && (
@@ -144,7 +159,9 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                {...register("t001coord1", { required: true })}
+                name="t001coord1"
+                value={dataEdit.t001coord1}
+                onChange={handleChange}
               />
             </div>
             {errors.coordenada1 && (
@@ -163,7 +180,9 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                {...register("t001coord2", { required: true })}
+                name="t001coord2"
+                value={dataEdit.t001coord2}
+                onChange={handleChange}
               />
             </div>
             {errors.coordenada2 && (
@@ -187,7 +206,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               title="Guardar"
-              //onClick={() => setIsModalActive(!isModalActive)}
+            //onClick={() => setIsModalActive(!isModalActive)}
             >
               <i className="fa-regular fa-floppy-disk fs-3"></i>
             </button>

@@ -8,7 +8,7 @@ export interface IBodega {
 }
 
 export interface IBodegaCreate extends Omit<IBodega, 'id_responsable' | 'id_bodega'> {
-    id_responsable: string;
+    id_responsable: number;
 }
 
 export interface IdResponsable {
