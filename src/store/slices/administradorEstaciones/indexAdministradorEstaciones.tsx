@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import { estacionesReducer } from "../../../reducers/estacionesReducer";
 
 export interface IEstacion {
   objectid: number;
@@ -42,32 +43,23 @@ const administradorEstacionesSlice = createSlice({
   initialState,
   reducers: {
     crearEstacionAction: (state, action) => {
-      // state.estaciones.push(action.payload);
+      state.estaciones.push(action.payload);
     },
     obtenerEstacionAction: (state, action) => {
-      // state.estaciones.pop();
       state.estaciones = action.payload;
     },
     setEstacionEditar: (state, action) => {
-      state.estacionEditar.objectid = action.payload.objectid;
-      state.estacionEditar.t001coord1 = action.payload.t001coord1;
-      state.estacionEditar.t001coord2 = action.payload.t001coord2;
-      state.estacionEditar.t001fechaMod = action.payload.t001fechaMod;
-      state.estacionEditar.t001nombre = action.payload.t001nombre;
-      state.estacionEditar.t001userMod = action.payload.t001userMod;
+      state.estacionEditar = action.payload
     },
     eliminarEstacionAction: (state, action) => {
-      state.estaciones.filter(
-        (estacion) => estacion.objectid !== state.estacionEditar.objectid
-        // (? (estacion) : (estacion = state.estacionEditar))
-      );
+      state.estaciones = state.estaciones.filter((estacion) => estacion.objectid !== action.payload)
     },
     editarEstacionAction: (state, action) => {
-      state.estaciones.map((estacion) =>
-        estacion.objectid === action.payload.objectid
-          ? (estacion = action.payload)
-          : estacion
-      );
+      state.estaciones.forEach((estacion, index) => {
+        if (estacion.objectid === action.payload.objectid) {
+          state.estaciones[index] = action.payload;
+        }
+      });
     },
   },
 });
@@ -86,9 +78,25 @@ export const obtenerEstacion = async (dispatch) => {
 };
 
 export const eliminarEstacion = async (dispatch, id) => {
-  // dispatch(obtenerEstacionAction(id));
-  await clienteEstaciones.delete(`Estaciones/${id}`);
-  dispatch(eliminarEstacionAction(id));
+  await clienteEstaciones.delete(`Estaciones/${id}`).then((res) => {
+    dispatch(eliminarEstacionAction(id));
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Estación eliminada correctamente",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  }).catch((error) => {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: `Algo pasó, intente de nuevo, ${error.response.data} `,
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar",
+    });
+  });
+
 };
 
 // setea la estacion a editar
@@ -98,13 +106,11 @@ export const setEstacionEditarModelo = async (dispatch, estacion) => {
 
 // Edita la estacion
 export const editarEstacion = async (dispatch, estacion) => {
-  console.log("estacionsinnada", estacion);
   await clienteEstaciones.put("Estaciones", estacion).then(() => {
     estacion.t001fechaMod = formatISO(new Date(estacion.t001fechaMod), {
       representation: "date",
     });
-    dispatch(setEstacionEditar(estacion));
-    console.log("despues de", estacion);
+    dispatch(editarEstacionAction(estacion));
     Swal.fire("Correcto", "La estación se actualizo correctamente", "success");
   });
 };
@@ -116,7 +122,7 @@ export const crearEstacion = async (dispatch, estacion: IEstacion) => {
       estacion.t001fechaMod = formatISO(new Date(estacion.t001fechaMod), {
         representation: "date",
       });
-      crearEstacionAction(estacion);
+      dispatch(crearEstacionAction(estacion));
       Swal.fire("Correcto", "La estación se agrego correctamente", "success");
     })
     .catch((error) => {
@@ -134,6 +140,6 @@ export const {
   eliminarEstacionAction,
   editarEstacionAction,
   crearEstacionAction,
-  setEstacionEditar,
+  setEstacionEditar
 } = administradorEstacionesSlice.actions;
 export default administradorEstacionesSlice.reducer;

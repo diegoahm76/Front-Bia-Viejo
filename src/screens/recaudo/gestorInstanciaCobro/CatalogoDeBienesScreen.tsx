@@ -6,7 +6,7 @@ import Subtitle from "../../../components/Subtitle";
 import { render } from "react-dom";
 import { useNavigate } from "react-router-dom";
 
-import "ag-grid-enterprise";
+// import "ag-grid-enterprise";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
