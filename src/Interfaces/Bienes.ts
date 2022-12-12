@@ -4,6 +4,7 @@ export interface IBienGet {
 }
 
 export interface IBienes {
+  array?:object;
   id_bien: number;
   codigo_bien: string;
   nro_elemento_bien: number;

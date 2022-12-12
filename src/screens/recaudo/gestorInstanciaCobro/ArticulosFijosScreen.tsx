@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IBienes } from "../../../Interfaces/Bienes";
 import { editarBien } from "../../../store/slices/bienes/indexBien";
+import { IGeneric } from "../../../Interfaces/Generic";
+import clienteAxios from "../../../config/clienteAxios";
 
 
 const editState = {
@@ -45,6 +47,13 @@ export const CreacionArticulosFijosScreen = (
   setValue,
   watch,
 ) => {
+  //choice
+  const [tipoBienOptions, setTipoBienOptions] = useState<IGeneric[]>([]);
+  const [tipoActivoOptions, setTipoActivoOptions] = useState<IGeneric[]>([]);
+  const [unidadMedidaOptions, setUnidadMedidaOptions] = useState<IGeneric[]>([]);
+  const [porcentajeOptions, setPorcentajeOptions] = useState<IGeneric[]>([]);
+  const [depresiacionOptions, setDepresiacionOptions] = useState<IGeneric[]>([]);
+  const [marcaOptions, setMarcaOptions] = useState<IGeneric[]>([]);
   //checkbox
   const [checkboxSoli, setCheckboxSoli] = useState(true);
   const [checkboxHoja, setCheckboxHoja] = useState(true);
@@ -57,10 +66,72 @@ export const CreacionArticulosFijosScreen = (
   // False = crear
   // true = editar
 
-
+  
   useEffect(() => {
-    setDataEdit()
+    setDataEdit();
+    getTipoBien();
+    getTipoActivo();
+    getUnidadMedida();
+    getPorcentaje();
+    getDepresiacion();
+    getMarca();
   }, [bienSeleccionado]);
+
+  const getTipoBien = async () => {
+    const { data } = await clienteAxios.get("almacen/choices/tipo-bien");
+    const tipoBienMaped = data.map((bien) => ({
+      label: bien[0],
+      value: bien[1],
+    }));
+    setTipoBienOptions(tipoBienMaped);
+  };
+
+  const getTipoActivo = async () => {
+    const { data } = await clienteAxios.get("almacen/choices/tipo-activo");
+    const tipoActivoMaped = data.map((activo) => ({
+      label: activo[0],
+      value: activo[1],
+    }));
+    setTipoActivoOptions(tipoActivoMaped);
+  };
+
+  const getUnidadMedida = async () => {
+    const { data } = await clienteAxios.get("almacen/unidades-medida/get-list");
+    const unidadMedidaMaped = data.map((bien) => ({
+      label: bien.nombre,
+      value: bien.id_unidad_medida,
+    }));
+    setUnidadMedidaOptions(unidadMedidaMaped);
+  };
+
+  const getPorcentaje = async () => {
+    const { data } = await clienteAxios.get("almacen/porcentajes/get-list");
+    const porcentajeMaped = data.map((porcentaje) => ({
+      label: porcentaje.porcentaje,
+      value: porcentaje.id_porcentaje_iva,
+    }));
+    setPorcentajeOptions(porcentajeMaped);
+  };
+
+  const getDepresiacion = async () => {
+    const { data } = await clienteAxios.get("almacen/choices/tipo-depreciacion");
+    const depresiacionMaped = data.map((depresiacion) => ({
+      label: depresiacion.porcentaje,
+      value: depresiacion.id_porcentaje_iva,
+    }));
+    setDepresiacionOptions(depresiacionMaped);
+  };
+
+  const getMarca = async () => {
+    const { data } = await clienteAxios.get("almacen/marcas/get-list");
+    const marcaMaped = data.map((marca) => ({
+      label: marca.id_marca,
+      value: marca.nombre,
+    }));
+    setMarcaOptions(marcaMaped);
+  };
+
+
 
 
   const setDataEdit = () => {
