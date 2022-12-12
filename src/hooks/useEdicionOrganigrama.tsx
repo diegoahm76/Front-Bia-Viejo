@@ -1,38 +1,65 @@
 
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { textChoiseAdapter } from "../adapters/textChoices.adapter";
+//components
 import clienteAxios from "../config/clienteAxios";
-//Icons
-import IconoEditar from "../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import IconoEliminar from "../assets/iconosEstaciones/rubbish-delete-svgrepo-com.svg";
-//Actions
-import { actualizarNivelAction, actualizarUnidadesAction, seleccionarOrganigramaAction, obtenerNivelesAction, obtenerUnidadesAction, editarOrganigramaAction } from "../actions/organigramaActions";
-
-//Hooks
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+//Actions
+import { editOrganigramsService, getLevelsService, getUnitysService, updateLevelsService, updateUnitysService } from "../services/organigram/OrganigramServices";
+//Interfaces
+import {
+    IObjLevels as FormValuesLevels,
+    FormValuesUnitys,
+    IDocumentaryGroup,
+    ILevelFather,
+    ILevelUnity,
+    IObjCreateOrganigram as FormValuesOrganigram,
+    ITypeUnity,
+} from "../Interfaces/Organigrama";
+import { SingleValue } from "react-select";
 
 const useEdicionOrganigrama = () => {
 
-    // Dispatch Instance
+    // Dispatch instance
     const dispatch = useAppDispatch();
 
     // Redux State Extraction
-    const { organigramCurrent, levelsOrganigram, unityOrganigram, } = useAppSelector((state) => state.organigram);
+    const { organigramCurrent, levelsOrganigram, unityOrganigram } = useAppSelector((state) => state.organigram);
 
     //Local State
-    const [orden_nivel, setOrden_nivel] = useState(0);
-    const [title_nivel, setTitle_nivel] = useState('Agregar');
-    const [title_unidades, setTitle_unidades] = useState('Agregar Unidades');
-    const [optionNivel, setOptionNivel] = useState([]);
-    const [optionUnidadPadre, setOptionUnidadPadre] = useState([]);
-    const [optionsTipoUnidad, setOptionTipoUnidad] = useState([]);
-    const [optionsAgrupacionD, setOptionAgrupacionD] = useState([]);
+    const [orden_nivel, setOrden_nivel] = useState<number>(0);
+    const [title_nivel, setTitle_nivel] = useState<string>('Agregar');
+    const [title_unidades, setTitle_unidades] = useState<string>('Agregar Unidades');
+    const [optionNivel, setOptionNivel] = useState<ILevelUnity[]>([{
+        label: '',
+        value: '',
+        orden: ''
+    }]);
+    const [optionUnidadPadre, setOptionUnidadPadre] = useState<ILevelFather[]>([{
+        label: '',
+        value: '',
+        id_nivel_organigrama: 0,
+        isDisabled: false
+    }]);
+    const [optionsTipoUnidad, setOptionTipoUnidad] = useState<ITypeUnity[]>([{
+        label: '',
+        value: null,
+        isDisabled: false
+    }]);
+    const [optionsAgrupacionD, setOptionAgrupacionD] = useState<IDocumentaryGroup[]>([]);
     const optionRaiz = [
         { label: "Si", value: true },
         { label: "No", value: false },
     ];
-    const initialStateUnidades = {
+    const initialStateLevels: FormValuesLevels = {
+        id_nivel_organigrama: '',
+        id_organigrama: '',
+        orden_nivel: 0,
+        nombre: '',
+    };
+    //Estado Inicial de las unidades
+    const initialStateUnitys: FormValuesUnitys = {
         "unidadRaiz": {
             "label": 'si',
             "value": true
@@ -56,7 +83,9 @@ const useEdicionOrganigrama = () => {
         },
         "nivelPadre": {
             "label": '',
-            "value": null
+            "value": null,
+            "id_nivel_organigrama": 0,
+            "isDisabled": false
         }
     }
     //configuración de tabla por defecto
@@ -76,10 +105,9 @@ const useEdicionOrganigrama = () => {
     const {
         register: registerOrganigrama,
         handleSubmit: handleSubmitOrganigrama,
-        control: controlOrganigrama,
         reset: resetOrganigrama,
         formState: { errors: errorsOrganigrama },
-    } = useForm();
+    } = useForm<FormValuesOrganigram>();
 
     //useForm Nivel
     const {
@@ -87,7 +115,7 @@ const useEdicionOrganigrama = () => {
         handleSubmit: handleSubmitNivel,
         reset: resetNivel,
         formState: { errors: errorsNivel },
-    } = useForm();
+    } = useForm<FormValuesLevels>({ defaultValues: initialStateLevels });
 
     //useForm Unidades
     const {
@@ -96,9 +124,10 @@ const useEdicionOrganigrama = () => {
         control: controlUnidades,
         reset: resetUnidades,
         watch: watchUnidades,
+        setValue: setValueUnidades,
         formState: { errors: errorsUnidades },
 
-    } = useForm({ defaultValues: initialStateUnidades });
+    } = useForm<FormValuesUnitys>({ defaultValues: initialStateUnitys });
     const datosUnidades = watchUnidades();
 
     //columnas  unidaddes
@@ -163,14 +192,14 @@ const useEdicionOrganigrama = () => {
                             setTitle_unidades('Editar Unidad');
                         }}
                     >
-                        <i class="fa-regular fa-pen-to-square fs-3"></i>
+                        <i className="fa-regular fa-pen-to-square fs-3"></i>
                     </button>
                     <button
                         type="button"
                         style={{ border: "none", background: "none" }}
                         onClick={() => deleteUnidades(data.codigo)}
                     >
-                        <i class="fa-regular fa-trash-can"></i>
+                        <i className="fa-light fa-trash-can fs-3"></i>
                     </button>
                 </div>
             ),
@@ -203,7 +232,8 @@ const useEdicionOrganigrama = () => {
                             deleteLevel(data.orden_nivel)
                         }}
                     >
-                        <i className="fa-regular fa-trash-can fs-3"></i>
+                        {/* <i className={`fa-light fa-trash-can fs-3 ${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}></i> */}
+                        <i className="fa-light fa-trash-can fs-3"></i>
                     </button>
                 </div>
             ),
@@ -224,12 +254,25 @@ const useEdicionOrganigrama = () => {
         resetUnidades({
             unidadRaiz: { label: "Si", value: true },
         });
-        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo })));
+        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false })));
     }, [unityOrganigram]);
+
+    //useEffect para desabilitar opciones de unidad padre
+    useEffect(() => {
+        if (datosUnidades.nivelUnidad) {
+            setOptionUnidadPadre(unityOrganigram.map((item) => ((item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!) ? { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false } : { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: true })));
+            setValueUnidades('nivelPadre', {
+                "label": '',
+                "value": null,
+                "id_nivel_organigrama": 0,
+                "isDisabled": false
+            })
+        }
+    }, [datosUnidades.nivelUnidad]);
 
     //useEffect para deshabilitar el nivel 1 cuando el tipo de unidad es de apoyo o soporte
     useEffect(() => {
-        if (['AP', 'AS'].includes(datosUnidades?.tipoUnidad?.value)) {
+        if (['AP', 'AS'].includes(String(datosUnidades?.tipoUnidad?.value))) {
             setOptionNivel(prev => prev.map((item) => item.value === 'N1' ? { ...item, isDisabled: true } : item));
         } else {
             setOptionNivel(prev => prev.map((item) => item.value === 'N1' ? { ...item, isDisabled: false } : item));
@@ -238,27 +281,22 @@ const useEdicionOrganigrama = () => {
 
     //useEffect para consultar los niveles y unidades
     useEffect(() => {
-        if (organigramCurrent?.id_organigrama) dispatch(obtenerNivelesAction(organigramCurrent.id_organigrama));
-        if (organigramCurrent?.id_organigrama) dispatch(obtenerUnidadesAction(organigramCurrent.id_organigrama));
-    }, [organigramCurrent?.id_organigrama]);
+        if (organigramCurrent.id_organigrama) dispatch(getLevelsService(organigramCurrent.id_organigrama));
+        if (organigramCurrent.id_organigrama) dispatch(getUnitysService(organigramCurrent.id_organigrama));
+    }, [organigramCurrent]);
 
     //useEffect para consultar  options
     useEffect(() => {
         const getSelectsOptions = async () => {
             try {
-                const { data: agrupacionDocumentalNoFormat } = await clienteAxios.get(
-                    "almacen/choices/agrupacion-documental/"
-                );
-                const { data: tipoUnidadNoFormat } = await clienteAxios.get(
-                    "almacen/choices/tipo-unidad/"
-                );
+                const { data: agrupacionDocumentalNoFormat } = await clienteAxios.get("almacen/choices/agrupacion-documental/");
+                const { data: tipoUnidadNoFormat } = await clienteAxios.get("almacen/choices/tipo-unidad/");
 
                 const agrupacionDocumentalFormat = textChoiseAdapter(agrupacionDocumentalNoFormat);
                 const tipoUnidadFormat = textChoiseAdapter(tipoUnidadNoFormat);
 
                 setOptionAgrupacionD(agrupacionDocumentalFormat.map((item) => ({ ...item, isDisabled: false })));
                 setOptionTipoUnidad(tipoUnidadFormat.map((item) => ({ ...item, isDisabled: false })));
-
             } catch (err) {
                 console.log(err);
             }
@@ -267,19 +305,19 @@ const useEdicionOrganigrama = () => {
     }, []);
 
     //Funcion para actualizar un nivel
-    const submitNivel = ({ nombre, id_nivel_organigrama = '' }) => {
-        let newNiveles = []
+    const submitNivel: SubmitHandler<FormValuesLevels> = (data: FormValuesLevels) => {
+        let newNiveles: FormValuesLevels[] = []
         if (title_nivel === 'Agregar') {
             newNiveles = [...levelsOrganigram, {
                 id_organigrama: organigramCurrent.id_organigrama,
                 orden_nivel: orden_nivel,
-                nombre,
+                nombre: data.nombre,
                 id_nivel_organigrama: null
             }]
         } else {
             newNiveles = levelsOrganigram.map(nivel => {
-                if (nivel.id_nivel_organigrama === id_nivel_organigrama) {
-                    nivel.nombre = nombre;
+                if (nivel.id_nivel_organigrama === data.id_nivel_organigrama) {
+                    nivel.nombre = data.nombre;
                 }
                 return nivel;
             });
@@ -288,20 +326,20 @@ const useEdicionOrganigrama = () => {
         resetNivel({
             nombre: ''
         });
-        dispatch(actualizarNivelAction(organigramCurrent?.id_organigrama, newNiveles));
+        dispatch(updateLevelsService(organigramCurrent.id_organigrama, newNiveles));
     };
 
     //Funcion para actualizar un unidades
-    const submitUnidades = ({ codigo, nombre, nivelPadre, tipoUnidad, agrupacionDocumental, unidadRaiz, nivelUnidad }) => {
-        let newUnidades = []
+    const submitUnidades: SubmitHandler<FormValuesUnitys> = ({ codigo, nombre, nivelPadre, tipoUnidad, agrupacionDocumental, unidadRaiz, nivelUnidad }: FormValuesUnitys) => {
+        let newUnidades: FormValuesUnitys[] = []
         if (title_unidades === 'Agregar Unidades') {
             newUnidades = [...unityOrganigram, {
-                id_nivel_organigrama: nivelUnidad.value,
+                id_nivel_organigrama: nivelUnidad!.value!,
                 nombre,
                 codigo,
-                cod_tipo_unidad: tipoUnidad.value,
-                cod_agrupacion_documental: agrupacionDocumental.value,
-                unidad_raiz: unidadRaiz.value,
+                cod_tipo_unidad: tipoUnidad!.value,
+                cod_agrupacion_documental: agrupacionDocumental!.value,
+                unidad_raiz: unidadRaiz!.value,
                 id_organigrama: organigramCurrent.id_organigrama,
                 cod_unidad_org_padre: nivelPadre ? nivelPadre.value : null,
             }]
@@ -309,12 +347,12 @@ const useEdicionOrganigrama = () => {
             newUnidades = unityOrganigram.map(unidad => {
                 if (unidad.codigo === codigo) {
                     return {
-                        id_nivel_organigrama: nivelUnidad.value,
+                        id_nivel_organigrama: nivelUnidad!.value,
                         nombre: nombre,
                         codigo: codigo,
-                        cod_tipo_unidad: tipoUnidad.value,
-                        cod_agrupacion_documental: agrupacionDocumental.value,
-                        unidad_raiz: unidadRaiz.value,
+                        cod_tipo_unidad: tipoUnidad!.value,
+                        cod_agrupacion_documental: agrupacionDocumental!.value,
+                        unidad_raiz: unidadRaiz!.value,
                         id_organigrama: organigramCurrent.id_organigrama,
                         cod_unidad_org_padre: nivelPadre ? nivelPadre.value : null,
                     }
@@ -323,8 +361,8 @@ const useEdicionOrganigrama = () => {
             });
             setTitle_unidades('Agregar Unidades');
         }
-        resetUnidades(initialStateUnidades);
-        dispatch(actualizarUnidadesAction(organigramCurrent?.id_organigrama, newUnidades));
+        resetUnidades(initialStateUnitys);
+        dispatch(updateUnitysService(organigramCurrent?.id_organigrama, newUnidades));
     };
 
     const onGridReady = (params) => {
@@ -334,22 +372,22 @@ const useEdicionOrganigrama = () => {
     //Funcion para eliminar un nivel
     const deleteLevel = (levelRow) => {
         const newNiveles = levelsOrganigram.filter(nivel => nivel.orden_nivel !== levelRow);
-        dispatch(actualizarNivelAction(organigramCurrent?.id_organigrama, newNiveles));
+        dispatch(updateLevelsService(organigramCurrent?.id_organigrama, newNiveles));
     }
 
     //Funcion para eliminar una unidad
     const deleteUnidades = (codigoUnidad) => {
         const newUnidades = unityOrganigram.filter(unidad => unidad.codigo !== codigoUnidad);
-        dispatch(actualizarUnidadesAction(organigramCurrent.id_organigrama, newUnidades));
+        dispatch(updateUnitysService(organigramCurrent.id_organigrama, newUnidades));
     }
 
-    const onSubmitEditOrganigrama = async ({ nombre, id_organigrama, version, descripcion }) => {
-        let obj = {
+    const onSubmitEditOrganigrama = async ({ nombre, id_organigrama, version, descripcion }: any) => {
+        let obj: FormValuesOrganigram = {
             nombre,
             descripcion,
             version
         }
-        dispatch(editarOrganigramaAction(obj, id_organigrama));
+        dispatch(editOrganigramsService(obj, id_organigrama));
     };
 
     return {
@@ -383,6 +421,7 @@ const useEdicionOrganigrama = () => {
         handleSubmitUnidades,
         registerUnidades,
         resetUnidades,
+        setValueUnidades,
         submitUnidades,
         watchUnidades,
 
