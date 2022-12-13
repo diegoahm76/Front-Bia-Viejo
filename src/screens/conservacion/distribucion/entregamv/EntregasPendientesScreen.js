@@ -7,6 +7,7 @@ import {
   desactiveModalAction,
 } from "../../../../actions/modalActions";
 import CalendarModal from "../../../../components/CalendarModal";
+import ModalLocal from "../../../../components/ModalLocal";
 import Subtitle from "../../../../components/Subtitle";
 
 
@@ -135,13 +136,15 @@ const EntregasPendientesScreen = () => {
     return dataOptions;
   };
 
+  const [modalVer, setModalVer] = useState(false)
   const handleOpenModal = () => {
-    dispatch(activeModalAction());
+    setModalVer(true);
   };
 
   const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+    setModalVer(false);
   };
+
 
   const filterBySelects = () => {
     if (viveroSelect === null && profesionalSelect === null) {
@@ -174,7 +177,7 @@ const EntregasPendientesScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-           <h3 className="mt-3 mb-0 text-start fw-light mb-3">Entregas pendientes</h3>
+           <h3 className="mt-3 mb-0 text-start fw-light mb-3">Entregas completadas</h3>
           <Subtitle 
           title={"Seleccione opciones a mostrar"}/>
 
@@ -198,9 +201,10 @@ const EntregasPendientesScreen = () => {
           </div>
           <button
             onClick={handleClickBuscar}
-            className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize"
+            className="btn d-block ms-auto mt-3 text-capitalize"
+            title="Buscar"
           >
-            Buscar
+            <i class="fa-solid fa-magnifying-glass fs-3"></i>
           </button>
           <div id="myGrid" className="ag-theme-alpine mt-3">
             <div
@@ -218,13 +222,14 @@ const EntregasPendientesScreen = () => {
           </div>
           <button
             onClick={handleOpenModal}
-            className="btn bg-gradient-primary ms-auto d-block mt-3 text-capitalize"
+            className="btn s ms-auto d-block mt-3 text-capitalize"
+            title="Gestionar"
           >
-            Gestionar
+           <i class="fa-regular fa-pen-to-square fs-3"></i>
           </button>
-          <CalendarModal>
+          <ModalLocal localState={modalVer}>
             <Subtitle
-            title={"Informacion de la entrega realizada"}/>
+            title={"Informacion de la entrega pendiente"}/>
             <label className="mt-3 fw-bold fs-6 d-block text-terciary" >
               Numero de entrega: <span className="fw-normal ">0000960</span>
             </label>
@@ -240,8 +245,8 @@ const EntregasPendientesScreen = () => {
                   <i className="fa-solid fa-file fs-3 d-block"></i>
                   <label className="d-block m-0 ">Contratos</label>
                 </div>
-                <button className="btn bg-gradient-primary ms-auto d-block mt-3 text-capitalize">
-                  Anexar Documentación
+                <button className="btn ms-auto d-block mt-3 text-capitalize" title="Anexar documentos">
+                <i class="fa-solid fa-file-arrow-up fs-3"></i>
                 </button>
               </div>
             </div>
@@ -259,8 +264,8 @@ const EntregasPendientesScreen = () => {
                 ></AgGridReact>
               </div>
             </div>
-            <button className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize">
-              Editar
+            <button className="btn d-block ms-auto mt-3 text-capitalize"title="Gestionar">
+            <i class="fa-regular fa-pen-to-square fs-3"></i>
             </button>
             <div className="input-group input-group-dynamic flex-column">
               <label htmlFor="exampleFormControlInput1" className="text-terciary">
@@ -270,19 +275,21 @@ const EntregasPendientesScreen = () => {
             </div>
             <div className="d-flex justify-content-end gap-2">
               <button
-                className="btn bg-gradient-danger d-block mt-3 text-capitalize"
+                className="btn d-block mt-3 text-capitalize"
                 onClick={handleCloseModal}
+                title="Rechazar entrega de material"
               >
-                Rechazar entrega material
+                <i class="fa-solid fa-x fs-3"></i>
               </button>
               <button
-                className="btn bg-gradient-primary d-block mt-3 text-capitalize"
+                className="btn d-block mt-3 text-capitalize"
                 onClick={handleCloseModal}
+                title="Entregar material"
               >
-                Entregar material
+                <i class="fa-solid fa-circle-check fs-3"></i>
               </button>
             </div>
-          </CalendarModal>
+          </ModalLocal>
         </div>
       </div>
     </div>

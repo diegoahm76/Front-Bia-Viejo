@@ -351,11 +351,11 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
               </div>
               <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                 <button
-                  className="btn bg-primary text-white text-capitalize"
+                  className="btn text-capitalize"
                   type="submit"
-                  title="Send"
+                  title="Buscar"
                 >
-                  Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -413,18 +413,18 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
               </div>
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
-                    className="btn bg-primary me-md-2 text-white text-capitalize"
+                    className="btn me-md-2 text-capitalize"
                     type="button"
-                    title="Send"
+                    title="Anterior"
                   >
-                    &#60; &#60; Anterior
+                  <i class="fa-solid fa-angles-left fs-3"></i>
                   </button>
                   <button
-                    className="btn bg-primary text-white text-capitalize"
+                    className="btn text-capitalize"
                     type="button"
-                    title="Send"
+                    title="Continuar"
                   >
-                    Siguiente &#62; &#62;
+                    <i class="fa-solid fa-angles-right fs-3"></i>
                   </button>
                 </div>
               </div>

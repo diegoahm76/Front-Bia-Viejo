@@ -243,7 +243,7 @@ tipomov: "en el vivero/ de las eras a disponible",   },
             </div>
             <div className="row mt-2 justify-content-end">
               <div className="col-6 col-sm-3 ">
-                <button className=" btn btn-primary border rounded-pill px-3 text-capitalize">generar</button>
+                <button className=" btn px-3 text-capitalize" title="Generar"><i class="fa-regular fa-file-excel fs-3"></i><i class="fa-regular fa-file-pdf fs-3"></i></button>
               </div>
 
             </div>

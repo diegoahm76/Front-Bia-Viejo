@@ -19,7 +19,7 @@ const RecepcionDeSolicitudScreen = () => {
     { label: "Gestionadas", value: "GEST" },
   ];
 
-const [modal2, setModal2] = useState(false)
+
 
   const [estado, setEstado] = useState({
     options: "",
@@ -111,11 +111,12 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn text-capitalize btn-primary"
+            className="btn text-capitalize "
             type="button"
+            title="Gestionar"
             onClick={handleOpenModalGes}
           >
-            Gestionar
+            <i class="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -134,11 +135,12 @@ const [modal2, setModal2] = useState(false)
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn text-capitalize btn-primary"
+            className="btn text-capitalize"
             type="button"
+            title="Ver"
             onClick={handleOpenModalVer}
           >
-            Ver
+          <i class="fa-solid fa-eye fs-3"></i>
           </button>
         </div>
       ),
@@ -175,14 +177,16 @@ const [modal2, setModal2] = useState(false)
 
   const dispatch = useDispatch();
 
+  const [modalVer, setModalVer] = useState(false)
   const handleOpenModalVer = () => {
-    dispatch(activeModalAction());
+    setModalVer(true);
   };
 
   const handleCloseModalVer = () => {
-    dispatch(desactiveModalAction());
+    setModalVer(false);
   };
 
+  const [modal2, setModal2] = useState(false)
   const handleOpenModalGes = () => {
     setModal2(true)
   };
@@ -276,10 +280,11 @@ const [modal2, setModal2] = useState(false)
             </div>
             <div className="col-12 col-md-4">
               <button
-                className="mt-5 btn btn-primary text-capitalize "
+                className="mt-5 btn text-capitalize "
                 type="submit"
+                title="Buscar"
               >
-                Buscar
+                <i class="fa-solid fa-magnifying-glass fs-3"></i>
               </button>
             </div>
           </div>
@@ -335,10 +340,11 @@ const [modal2, setModal2] = useState(false)
 
                     <div className="col-12 col-md-4">
               <button
-                className="mt-4 btn btn-primary text-capitalize "
+                className="mt-4 btn text-capitalize "
                 type="submit"
+                title="Buscar"
               >
-                Buscar
+                <i class="fa-solid fa-magnifying-glass fs-3"></i>
               </button>
             </div>
                   </div>
@@ -417,10 +423,11 @@ const [modal2, setModal2] = useState(false)
 
                         <div className="col-12 col-md-4 mt-4">
                       <button
-                        className="btn btn-primary text-capitalize "
+                        className="btn text-capitalize "
                         type="submit"
+                        title="Buscar"
                       >
-                        Buscar
+                        <i class="fa-solid fa-magnifying-glass fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -451,7 +458,7 @@ const [modal2, setModal2] = useState(false)
           <div className="row min-vh-100">
             <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
               <Subtitle 
-              title={"Gestion de solicitudes de amterial vegetal"}/>
+              title={"Gestion de solicitudes de material vegetal"}/>
               <form
                 className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
                 data-animation="FadeIn"
@@ -489,24 +496,25 @@ const [modal2, setModal2] = useState(false)
                     <div className="justify-content-end"
                     style={{display:"flex"}}>
                       <button
-                        className="btn btn-primary text-capitalize"
+                        className="btn text-capitalize"
                         type="button"
                         onClick={handleCloseModalGes}
+                        title="Regresar"
                       >
-                        Regresar
+                        <i class="fa-solid fa-angles-left fs-3"></i>
                       </button>
                       <button
-                        className="ms-2 btn btn-danger text-capitalize"
+                        className="ms-2 btn  text-capitalize"
                         type="button"
                       >
-                        Rechazar
+                        <i class="fa-solid fa-x fs-3"></i>
                       </button>
 
                       <button
-                        className="ms-2 btn btn-secondary text-capitalize "
+                        className="ms-2 btn text-capitalize "
                         type="submit"
                       >
-                        Aceptar
+                        <i class="fa-solid fa-circle-check fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -515,7 +523,7 @@ const [modal2, setModal2] = useState(false)
             </div>
           </div>
         </ModalLocal>
-        <CalendarModal>
+        <ModalLocal localState={modalVer}>
         <div className="row min-vh-100">
             <div className="col-lg-12 col-md-10 col-sm-12 mx-auto">
             <Subtitle 
@@ -551,19 +559,20 @@ const [modal2, setModal2] = useState(false)
                   <div className="row mt-2" style={{    display: "flex",
     justifyContent: "flex-end"}}>
                     <button
-                      className="me-3 btn btn-primary text-capitalize justify-content-end"
+                      className="me-3 btn text-capitalize "
                       type="button"
                       style={{ display:"flex",width:"80px" }}
                       onClick={handleCloseModalVer}
+                      title="Regresar"
                     >
-                      Volver
+                      <i class="fa-solid fa-angles-left fs-3"></i>
                     </button>
                   </div>
                 
               
             </div>
           </div>
-        </CalendarModal> 
+        </ModalLocal> 
       </div>
     </div>
   );

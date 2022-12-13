@@ -8,6 +8,7 @@ import {
   desactiveModalAction,
 } from "../../../../actions/modalActions";
 import CalendarModal from "../../../../components/CalendarModal";
+import ModalLocal from "../../../../components/ModalLocal";
 import Subtitle from "../../../../components/Subtitle";
 
 const defaultColDef = {
@@ -127,14 +128,18 @@ const EntregadosScreen = () => {
     dataOptions.unshift({ label: "Todos", value: "Todos" });
     return dataOptions;
   };
+  const [modalVer, setModalVer] = useState(false)
+  const handleOpenModal = () => {
+    setModalVer(true);
+  };
 
   const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+    setModalVer(false);
   };
 
-  const actionButton = (params) => {
-    dispatch(activeModalAction());
-  };
+ 
+
+ 
 
   const columnDefs = [
     { headerName: "Numero de solicitud", field: "Numero de solicitud" },
@@ -147,10 +152,11 @@ const EntregadosScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-primary mx-auto my-auto btn-sm text-xxs text-capitalize"
-            onClick={() => actionButton(params)}
+            className="btn mx-auto my-auto btn-sm text-xxs text-capitalize"
+            onClick={() => handleOpenModal(params)}
+            title="Editar"
           >
-            Editar
+        <i class="fa-regular fa-pen-to-square fs-3"></i>   
           </button>
         </div>
       ),
@@ -181,6 +187,7 @@ const EntregadosScreen = () => {
   const handleClickBuscar = () => {
     filterBySelects();
   };
+
 
   return (
     <div className="row min-vh-100">
@@ -213,9 +220,10 @@ const EntregadosScreen = () => {
 <div className="col-6 col-sm-3 mt-3">
             <button
             onClick={handleClickBuscar}
-            className="btn bg-gradient-primary d-block ms-auto mt-3 text-capitalize"
+            className="btn d-block ms-auto mt-3 text-capitalize"
+            title="Buscar"
           >
-            Buscar
+            <i class="fa-solid fa-magnifying-glass fs-3"></i>
           </button>
           </div>
           </div>
@@ -235,7 +243,7 @@ const EntregadosScreen = () => {
               ></AgGridReact>
             </div>
           </div>
-          <CalendarModal>
+          <ModalLocal localState={modalVer}>
             <h3 className="font-weight-bolder mt-2">Entregados</h3>
             <label className="mt-5 fw-bold fs-6 d-block">
               Numero de entrega: <span className="fw-normal">0000960</span>
@@ -289,7 +297,7 @@ const EntregadosScreen = () => {
             >
               Cerrar
             </button>
-          </CalendarModal>
+          </ModalLocal>
         </div>
       </div>
     </div>

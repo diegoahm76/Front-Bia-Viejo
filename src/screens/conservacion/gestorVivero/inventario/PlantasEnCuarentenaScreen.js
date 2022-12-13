@@ -30,47 +30,47 @@ const PlantasEnCuarentenaScreen = () => {
   const [rowData] = useState([
     {
       nombre: "Yopo",
-      descripcion: " ",
-      vivero: "",
-      "fecha ingreso": "",
-      produccion: "",
-      disponible: "",
-      total: "",
+      ncien: " ",
+      vivero: "Villavicencio",
+      "fecha ingreso": "15/05/2022",
+      produccion: "150",
+      disponible: "54",
+      total: "204",
     },
     {
       nombre: "Pomaroso",
-      descripcion: " ",
-      vivero: "",
-      "fecha ingreso": "",
-      produccion: "",
-      disponible: "",
-      total: "",
+      ncien: " ",
+      vivero: "Villavicencio",
+      "fecha ingreso": "15/06/2022",
+      produccion: "100",
+      disponible: "200",
+      total: "300",
     },
     {
       nombre: "Flor amarillo",
-      descripcion: " ",
-      vivero: "",
-      "fecha ingreso": "",
-      produccion: "",
-      disponible: "",
-      total: "",
+      ncien: " ",
+      vivero: "Villavicencio",
+      "fecha ingreso": "22/05/2022",
+      produccion: "166",
+      disponible: "34",
+      total: "200",
     },
     {
       nombre: "Flor morado",
-      descripcion: " ",
-      vivero: "",
-      "fecha ingreso": "",
-      produccion: "",
-      disponible: "",
-      total: "",
+      ncien: " ",
+      vivero: "Villavicencio",
+      "fecha ingreso": "09/11/2022",
+      produccion: "200",
+      disponible: "0",
+      total: "200",
     },
   ]);
 
   const columnDefs = [
     { headerName: "Nombre", field: "nombre", minWidth: 150, maxWidth: 200 },
     {
-      headerName: "Descripción",
-      field: "descripcion",
+      headerName: "Nombre Cientifico",
+      field: "ncien",
       minWidth: 150,
       maxWidth: 200,
     },
@@ -99,8 +99,8 @@ const PlantasEnCuarentenaScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-2 btn-primary text-capitalize" type="button">
-            Editar
+          <button className="btn text-capitalize" type="button" title="Editar material">
+          <i class="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -169,10 +169,11 @@ title="Informacion de plantas en cuarentena"/>
 
               <div className="col-12 col-sm-6 ">
                 <button
-                  className="mt-5 btn btn-primary text-capitalize "
+                  className="mt-5 btn text-capitalize "
                   type="submit"
+                  title="Buscar"
                 >
-                  Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>

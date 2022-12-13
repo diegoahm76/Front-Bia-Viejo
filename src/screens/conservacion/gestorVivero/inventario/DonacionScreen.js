@@ -180,9 +180,9 @@ const DonacionesScreen = () => {
             id="configForm"
           >
             <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
-              Inventario Donaciones
+              Inventario de Viveros
             </h3>
-            <Subtitle title="Información del inventario" />
+            <Subtitle title="Inventario de las donaciones hechas a la Corporación" />
 
             <div className="row">
               <div className="col-12 col-md-3 ms-3">
@@ -209,12 +209,12 @@ const DonacionesScreen = () => {
               <div className="col-12 col-md-3 mt-4">
                 <div className="d-grid gap-2 d-flex">
                   <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                     type="submit"
-                    title="Send"
+                    title="Buscar"
                     form="configForm"
                   >
-                    Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
               </div>
@@ -245,8 +245,9 @@ const DonacionesScreen = () => {
                 </div>
 
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button className="text-capitalize btn bg-gradient-danger mb-0" type="submit">
-                    Salir
+                  <button className="text-capitalize btn mb-0" type="submit" title="Siguiente">
+                  <i class="fa-solid fa-angles-right fs-3"></i>
+                    
                   </button>
                 </div>
               </div>

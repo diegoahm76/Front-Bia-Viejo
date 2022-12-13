@@ -40,6 +40,7 @@ function AgregarViveroScreen() {
     { label: "Cubarral", value: "Cuba" },
     { label: "Cumaral", value: "Cuma" },
     { label: "El Calvario", value: "Elca" },
+    { label: "Villavicencio", value:"vi"},
   ];
   // const opcionMunicipio = [
   //   { label: "Acacías", value: "Acac" },
@@ -60,19 +61,20 @@ function AgregarViveroScreen() {
       cellRendererFramework: (params) => (
         <div className="button-row justify-align-content-center col-12 col-sm-4 col-lg-4">
           <button
-            className="btn-min-width border rounded-pill px-3 btn bg-gradient-danger me-md-2"
+            className="btn-min-width border rounded-pill px-3"
             type="button"
             title="Send"
           >
-            Eliminar
+            <i class="fa-regular fa-trash-can fs-3"></i>
+          
           </button>
         </div>
       ),
     },
-  ];
+  ];    
   const rowData = [
-    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
-    { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
+    { latitud: "4°05'10.0''N", longitud: "73°33'49.1''W ", accion: "" },
+    
   ];
   const defaultColDef = {
 
@@ -118,7 +120,7 @@ function AgregarViveroScreen() {
             <div className="row d-flex align-items-end mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3">
                 <label className="text-terciary">
-                  Nombre: <span className="text-danger">*</span>
+                  Nombre: 
                 </label>
                 <input
                   type="text"
@@ -126,13 +128,7 @@ function AgregarViveroScreen() {
                   placeholder="Escribe el nombre del vivero"
                   {...register("nombreVivero", { required: true })}
                 />
-                {errors.nombreVivero && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
+               
               </div>
               <div className="col-12 col-md-3 mb-3">
                 <label className="text-terciary">
@@ -176,7 +172,7 @@ function AgregarViveroScreen() {
               </div>
               <div className="col-12 col-md-3 mb-3">
                 <label className="text-terciary">
-                  Área: <span className="text-danger">*</span>
+                  Área del vivero (metros cuadrados): <span className="text-danger">*</span>
                 </label>
                 <input
                   type="number"
@@ -197,7 +193,7 @@ function AgregarViveroScreen() {
             <div className="row d-flex align-items-center mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3">
                 <label className="text-terciary">
-                  Área de preparación: <span className="text-danger">*</span>
+                  Área de preparación de sustrato (metros cuadrados): <span className="text-danger">*</span>
                 </label>
                 <input
                   placeholder="Ingresa cantidad de area"
@@ -257,12 +253,12 @@ function AgregarViveroScreen() {
 
               <div className="col-12 col-md-3 mt-4">
                 <button
-                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                  className="btn-min-width border rounded-pill mt-2 px-3 btn"
                   type="button"
                   title="Send"
-                // handleAddGrid={handleAddGrid}
                 >
-                  Guardar
+                  <i class="fa-regular fa-floppy-disk fs-3"></i>
+                  
                 </button>
               </div>
 
@@ -398,7 +394,7 @@ function AgregarViveroScreen() {
               </div>
             </div>
 
-            <div className="row d-flex align-items-center my-2 mx-2">
+            <div className="row d-flex align-items-center py-2 mx-2">
               <div className="col-12 col-md-3">
                 <label className="text-terciary">
                   Tipo de vivero: <span className="text-danger">*</span>
@@ -419,7 +415,7 @@ function AgregarViveroScreen() {
 
               <div className="form-check col-12 col-md-2">
                 <label className="text-terciary form-check-label ">
-                  Vivero saliente {""}
+                  Vivero satelite {""}
                   <input
                     className="form-check-input ms-2"
                     type="radio"
@@ -497,8 +493,8 @@ function AgregarViveroScreen() {
               </div>
               <div className="col-12 col-md-3 mb-3 mt-5">
                 <label>
-                  Documentacion sobre creación de vivero (actas de
-                  recibo, contratos, planos, diseños) según sa el
+                  Documentación sobre creación de vivero (actas de
+                  recibo, contratos, planos, diseños) según sea el
                   caso, acta de inicio, estudios previos, toda la
                   documentación es obligatoria
                 </label>
@@ -506,10 +502,11 @@ function AgregarViveroScreen() {
             </div>
             <div className="row d-grid justify-content-end mt-3">
               <button
-                className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                className="btn border rounded-pill mt-2 px-3"
                 type="submit"
               >
-                Crear vivero
+                <i class="fa-solid fa-circle-check fs-3"></i>
+                
               </button>
             </div>
           </form>

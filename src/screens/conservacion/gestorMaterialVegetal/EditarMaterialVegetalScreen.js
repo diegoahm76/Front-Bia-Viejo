@@ -57,95 +57,32 @@ function EditarMaterialVegetalScreen() {
 
   const rowData = [
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
+      nombreComun: "yopo",
+      nombreCientifico: "",
+        cantidadVivero: 500,
+      },
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "pomarroso",
+      nombreCientifico: "",
       cantidadVivero: 500,
-    },
+      },
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "Flor morado",
+      nombreCientifico: "",
       cantidadVivero: 0,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+    }, 
+      {
+      nombreComun: "Flor amarillo",
+      nombreCientifico: "",
       cantidadVivero: 500,
-    },
+      },
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 2,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 0,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 200,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 1,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 2,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-    },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 0,
-    },
+      nombreComun: "ceiba",
+      nombreCientifico: "",
+       cantidadVivero: 500,
+      },
+ 
+   
   ];
   const defaultColDef = {
     sortable: true,
@@ -197,9 +134,10 @@ function EditarMaterialVegetalScreen() {
                   <button
                     type="submit"
                     Value="buscar"
-                    className="btn btn-primary text-capitalize mt-5 border rounded-pill px-3"
+                    className="btn text-capitalize mt-5 border rounded-pill px-3"
+                    title=" Buscar"
                   >
-                    Buscar
+                    <i class="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
               </div>
@@ -254,17 +192,17 @@ function EditarMaterialVegetalScreen() {
                 <div className="mx-1 d-flex justify-content-center">
                   <button
                     type="button"
-                    className="btn btn-primary flex-center text-capitalize border rounded-pill px-3"
+                    className="btn flex-center text-capitalize border rounded-pill px-3"
                   >
-                    Guardar
+                    <i class="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
                 </div>
                 <div className="mx-1 d-flex justify-content-center">
                   <button
                     type="button"
-                    className="btn btn-light flex-center text-capitalize border rounded-pill px-3"
+                    className="btn flex-center text-capitalize border rounded-pill px-3"
                   >
-                    Cancelar
+                    <i class="fa-solid fa-x fs-3"></i>
                   </button>
                 </div>
               </div>

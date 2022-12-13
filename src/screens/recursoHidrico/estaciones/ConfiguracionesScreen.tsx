@@ -8,6 +8,8 @@ import {
 } from "../../../actions/configuracionesEstacionesActions";
 import EditarConfiguracionModal from "../../../components/EditarConfiguracionModal";
 import Subtitle from "../../../components/Subtitle";
+import { useAppSelector } from "../../../store/hooks/hooks";
+import { useAppDispatch } from "../../../store/store";
 
 // const defaultValuesResetConfiguration = {
 //   t003frecuencia: "",
@@ -43,7 +45,7 @@ const defaultColDef = {
 };
 
 const ConfiguracionesScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
   useEffect(() => {
@@ -52,9 +54,9 @@ const ConfiguracionesScreen = () => {
     getConfiguraciones();
   }, []);
 
-  const { configuraciones } = useSelector(
-    (state) => state.configuracionesEstaciones
-  );
+  // const { configuraciones } = useAppSelector(
+  //   (state) => state.configuracionEstacion
+  // );
 
   const columnDefs = [
     {
@@ -188,7 +190,7 @@ const ConfiguracionesScreen = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                  rowData={configuraciones}
+                 // rowData={configuraciones}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>
