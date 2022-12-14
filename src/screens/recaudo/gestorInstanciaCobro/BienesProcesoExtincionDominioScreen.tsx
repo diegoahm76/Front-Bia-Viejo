@@ -56,7 +56,9 @@ const BienesProcesoExtincionDominioScreen = () => {
 
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
-                <label className="ms-3 text-terciary">Tipo de documento</label>
+                <label className="ms-3 text-terciary">Tipo de documento
+                <samp className="text-danger">*</samp>
+                </label>
                 <Controller
                   name="tipoDocumento"
                   control={controlBuscar}
@@ -87,7 +89,9 @@ const BienesProcesoExtincionDominioScreen = () => {
 
               <div className="col-12 col-lg-3  mt-3">
                 <div>
-                  <label className="ms-2 text-terciary">Número de cédula</label>
+                  <label className="ms-2 text-terciary">Número de cédula
+                  <samp className="text-danger">*</samp>
+                  </label>
                   <input
                     className="border border-terciary form-control border rounded-pill px-3"
                     type="text"
@@ -123,10 +127,10 @@ const BienesProcesoExtincionDominioScreen = () => {
 
               <div className="col-12 col-lg-1 ">
                 <button
-                  className="btn btn-sm btn-tablas btn-outline-warning mt-5"
+                  className="btn btn-sm btn-tablas  mt-5"
                   type="button"
                 >
-                  <img src={IconoBuscar} alt="editar" />
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
               <div className="col-12 col-lg-1 ">

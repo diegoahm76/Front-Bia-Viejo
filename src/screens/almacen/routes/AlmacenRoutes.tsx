@@ -22,7 +22,6 @@ import { VisualizarArticulosScreen } from "../entradaYSalidaDeArticulos/Visualiz
 import SalidaArticulosScreen from "../entradaYSalidaDeArticulos/SalidaArticulosScreen";
 import { RegistroDeBajaScreen } from "../entradaYSalidaDeArticulos/RegistroDeBajaScreen";
 import CreacionArticuloScreen from "../entradaYSalidaDeArticulos/CreacionArticuloScreen";
-import HojaDeVidaActivoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaActivoScreen";
 import HojaDeVidaVehiculoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoScreen";
 import HojaDeVidaOtrosActivosScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaOtrosActivosScreen";
 import HojaDeVidaVehiculoExternoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoExternoScreen";
@@ -87,6 +86,7 @@ import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasC
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 import AdministradorBodegasScreen from "../configuracion/AdministradorBodegasScreen";
 import EditarBodegaScreen from "../configuracion/EditarBodegaScreen";
+import HojaDeVidaScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaScreen";
 
 
 const AlmacenRoutes = () => {
@@ -143,16 +143,16 @@ const AlmacenRoutes = () => {
           path="programacion-mantenimiento"
           element={<ProgamacionDeMantenimientoScreen />}
         />
-        <Route path="cv-activo" element={<HojaDeVidaActivoScreen />} />
-        <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} />
-        <Route
+        <Route path="cv" element={<HojaDeVidaScreen />} />
+        {/* <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} /> */}
+        {/* <Route
           path="cv-otros-activos"
           element={<HojaDeVidaOtrosActivosScreen />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path="cv-vehiculo-externo"
           element={<HojaDeVidaVehiculoExternoScreen />}
-        />
+        /> */}
         <Route
           path="busqueda-activos"
           element={<BusquedaActivosSubdelegadosScreen />}
