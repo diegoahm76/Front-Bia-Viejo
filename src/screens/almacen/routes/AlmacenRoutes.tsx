@@ -144,15 +144,15 @@ const AlmacenRoutes = () => {
           element={<ProgamacionDeMantenimientoScreen />}
         />
         <Route path="cv" element={<HojaDeVidaScreen />} />
-        {/* <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} /> */}
-        {/* <Route
+        <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} /> 
+         <Route
           path="cv-otros-activos"
           element={<HojaDeVidaOtrosActivosScreen />}
-        /> */}
-        {/* <Route
+        /> 
+         <Route
           path="cv-vehiculo-externo"
           element={<HojaDeVidaVehiculoExternoScreen />}
-        /> */}
+        /> 
         <Route
           path="busqueda-activos"
           element={<BusquedaActivosSubdelegadosScreen />}

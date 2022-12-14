@@ -547,7 +547,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            {/* <li className="nav-item">
+                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-vehiculo-externo"
@@ -585,7 +585,7 @@ const Aside = ({ showAside }) => {
                                   Hoja de vida de <br /> un vehiculo
                                 </span>
                               </Link>
-                            </li> */}
+                            </li> 
 
                             <li className="nav-item">
                               <Link

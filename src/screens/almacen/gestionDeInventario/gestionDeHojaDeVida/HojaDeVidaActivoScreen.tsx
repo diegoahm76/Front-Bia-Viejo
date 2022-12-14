@@ -10,10 +10,10 @@ import clienteAxios from "../../../../config/clienteAxios";
 import { useNavigate } from "react-router-dom";
 
 const HojaDeVidaActivoScreen = () => {
-  const [articuloEncontrado, setArticuloEncontrado] = useState(false);
-  const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
+  const [articuloEncontrado, setArticuloEncontrado] = useState<boolean>(false);
+  const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
   const [estadoDeActio, setEstadoDeActivo] = useState([]);
-  const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
+  const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
 
   useEffect(() => {
     const getSelectsOptions = async () => {
