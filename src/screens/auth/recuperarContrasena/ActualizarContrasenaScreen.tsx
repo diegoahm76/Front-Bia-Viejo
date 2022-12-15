@@ -1,26 +1,32 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 import botonGuardar from "../../../assets/iconosBotones/guardar.svg"
+import { AxiosError } from "axios";
+import { IDefaultValuesUpdatePassword } from "../../../Interfaces/auth";
 
 const params = new URLSearchParams(window.location.search)
 
+const defaultValues = {
+  password: "",
+  password2: "",
+};
 
-const ActualizarContrasenaScreenBloqueo = () => {
+const ActualizarContrasenaScreen = () => {
   const navigate = useNavigate();
   const token = params.get("?token");
   const uidb64 = params.get("uidb64");
-  const [isDiferentPasswords, setIsDiferentPasswords] = useState(false);
+  const [isDiferentPasswords, setIsDiferentPasswords] = useState<boolean>(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<IDefaultValuesUpdatePassword>({ defaultValues });
 
-  const onSubmitNewPassword = async (data) => {
+  const onSubmitNewPassword: SubmitHandler<IDefaultValuesUpdatePassword> = async (data: IDefaultValuesUpdatePassword) => {
     if (data.password !== data.password2) return setIsDiferentPasswords(true);
     setIsDiferentPasswords(false);
     const axiosBody = {
@@ -30,7 +36,7 @@ const ActualizarContrasenaScreenBloqueo = () => {
     };
     try {
       const { data: dataResetPassword } = await clienteAxios.patch(
-        "users/password-unblock-complete/",
+        "users/pasword-reset-complete",
         axiosBody
       );
       console.log(dataResetPassword);
@@ -45,7 +51,7 @@ const ActualizarContrasenaScreenBloqueo = () => {
           navigate("/login");
         }
       });
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       if (err?.response.data.detail) {
         Swal.fire({
@@ -64,6 +70,7 @@ const ActualizarContrasenaScreenBloqueo = () => {
           confirmButtonText: "Aceptar",
         });
       }
+      return err as AxiosError;
     }
   };
 
@@ -146,7 +153,7 @@ const ActualizarContrasenaScreenBloqueo = () => {
 
                   <div className="text-center">
                     <button
-                      className="mb-0 btn-image text-capitalize bg-white d-block ms-auto border boder-none mt-4"
+                      className="mb-0 btn-image text-capitalize bg-white border boder-none d-block mt-4 ms-auto"
                       type="submit"
                     >
                       <img src={botonGuardar} alt="" title="Guardar" />
@@ -161,4 +168,4 @@ const ActualizarContrasenaScreenBloqueo = () => {
     </div>
   );
 };
-export default ActualizarContrasenaScreenBloqueo;
+export default ActualizarContrasenaScreen;

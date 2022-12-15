@@ -9,9 +9,10 @@ import { AgGridReact } from "ag-grid-react";
 
 import clienteAxios from "../config/clienteAxios";
 import { useDispatch, useSelector } from "react-redux";
-import { crearMarcaAction , eliminarMarcaAction } from "../actions/creacionMarcaActions";
 import Axios from "axios";
 import Swal from "sweetalert2";
+import { crearMarca, eliminarMarca, obtenerMarcasLista } from "../store/slices/marca/indexMarca";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -25,54 +26,44 @@ const customStyles = {
   },
 };
 Modal.setAppElement("#root");
+const marcaSelect = {
+  nombre: ""
+}
 
-function CrearMarcaModal ({ isModalActive, setIsModalActive }){
+function CrearMarcaModal({ isModalActive, setIsModalActive }) {
   //REDUX
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const marca = useAppSelector((state) => state.marcaReducer.marcas);
 
-  const [marca, setMarca] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await Axios({
-          url: "https://web-production-e5dc.up.railway.app/api/almacen/marcas/get-list/",
-        });
-
-        setMarca(response);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
-
+  const fetchData = () => {
+    obtenerMarcasLista(dispatch);
+    setTablaMarcas(true);
+  }
   //MAQUETADO
 
   const [tablaMarcas, setTablaMarcas] = useState(false);
+  const [modelMarca, setModelMarca] = useState(marcaSelect);
 
   const handleCloseModal = () => {
     setIsModalActive(false);
   };
 
-  const onSubmit = (data) => {
-    //redux
-    const marca = {
-      ...data
-    };
-    dispatch(crearMarcaAction(marca));
+  const enviarFormulario = () => {
+    crearMarca(modelMarca);
+    fetchData();
   };
 
-  // useEffect(() => {
-  //   const getMarca = async () => dispatch(obtenerMarcaAction());
-  //   getMarca();
-  // }, []);
-
-  // const {data} = useSelector((state) => state.data);
-  // console.log("datooos",data)
+  const handleChange = (e) => {
+    const data = { ...modelMarca }
+    data.nombre = e.target.value;
+    setModelMarca(data);
+  }
 
   const confirmarEliminarMarca = (id_marca) => {
+    const elementModalId = document.getElementById("marcaModal")!;
     Swal.fire({
+      target: elementModalId,
       title: "Estas seguro?",
       text: "Una marca que se elimina no se puede recuperar",
       icon: "warning",
@@ -83,13 +74,10 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        //Pasarlo al action
-        dispatch(eliminarMarcaAction(id_marca));
+        eliminarMarca(dispatch, id_marca);
       }
     });
   };
-
-  const { handleSubmit, register, reset: resetSearch } = useForm();
 
   const columnDefs = [
     { headerName: "Id Marca", field: "id_marca", minWidth: 140 },
@@ -104,7 +92,7 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth"
             type="button"
-            onClick={()=>confirmarEliminarMarca(params.data.id_marca)}
+            onClick={() => confirmarEliminarMarca(params.data.id_marca)}
           >
             <img src={IconoEliminar} alt="eliminar" />
 
@@ -116,8 +104,8 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
           >
             <img src={IconoEditar} alt="editar" />
           </button>
-          
-          
+
+
         </div>
       ),
     },
@@ -135,6 +123,7 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
 
   return (
     <Modal
+      id="marcaModal"
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
@@ -146,8 +135,7 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
-            id="configForm"
+            id="marcaForm"
           >
             <h4>Creación de marca</h4>
             <hr className="rounded-pill hr-modal" />
@@ -159,7 +147,10 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre"
-                  {...register("nombre")}
+                  name="nombre"
+                  required={true}
+                  value={modelMarca.nombre}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -167,9 +158,9 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
             <div className="row">
               <div className="col-12 col-md-6 mt-3">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-primary text-capitalize border rounded-pill px-3"
-                  onClick={() => setTablaMarcas(!tablaMarcas)}
+                  onClick={fetchData}
                 >
                   Administración de marcas
                 </button>
@@ -177,18 +168,18 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
 
               <div className="d-flex justify-content-end gap-2 mt-4">
                 <button
-                  type="submit"
+                  type="button"
                   className="btn btn-sm btn-tablas btn-outline-ligth"
+                  onClick={enviarFormulario}
                 >
                   <img src={IconoGuardar} alt="guardar" />
                 </button>
-
                 <button
                   type="button"
                   className="btn btn-sm btn-tablas btn-outline-ligth"
                   onClick={() => handleCloseModal()}
                 >
-                 <img src={IconoCancelar} alt="cancelar" />
+                  <img src={IconoCancelar} alt="cancelar" />
                 </button>
               </div>
               {tablaMarcas == true ? (
@@ -200,7 +191,7 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
                     >
                       <AgGridReact
                         columnDefs={columnDefs}
-                        rowData={marca?.data}
+                        rowData={marca}
                         defaultColDef={defaultColDef}
                       ></AgGridReact>
                     </div>
@@ -212,8 +203,8 @@ function CrearMarcaModal ({ isModalActive, setIsModalActive }){
             </div>
           </form>
         </div>
-      </div>
-    </Modal>
+      </div >
+    </Modal >
   );
 };
 export default CrearMarcaModal;

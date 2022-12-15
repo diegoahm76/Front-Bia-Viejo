@@ -35,7 +35,7 @@ const initialState: IConfiguracionEstacionGet = {
       t001nombre: "",
       t001coord1: 0,
       t001coord2: 0,
-      t001fechaMod: new Date(),
+      t001fechaMod: "",
       t001userMod: "",
     },
   },

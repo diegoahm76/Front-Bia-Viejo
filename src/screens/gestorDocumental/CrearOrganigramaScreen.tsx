@@ -99,7 +99,7 @@ function CrearOrganigramaScreen() {
       checkboxSelection: false,
       showDisabledCheckboxes: false,
       cellRendererFramework: ({ data: { actual } }) => (
-        <i className={`${actual === true ? "fa-solid fa-circle-check fs-3" : "fa-regular fa-xmark fs-3"}`}></i>
+        <i className={`${actual === true ? "fa-solid fa-circle-check fs-3" : "fa-solid fa-x fs-3"}`}></i>
       ),
     },
     {
