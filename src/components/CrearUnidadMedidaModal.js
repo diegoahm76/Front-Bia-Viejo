@@ -267,7 +267,7 @@ return (
                 className="form-control border rounded-pill px-3 border border-terciary"
                 type="text"
                 value={unidadMedidaEdit.abreviatura}
-                placeholder="abreviatura"
+                placeholder="Abreviatura"
                 {...register("abreviatura")}
               />
             </div>

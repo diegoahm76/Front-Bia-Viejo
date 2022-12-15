@@ -25,8 +25,8 @@ export const InformacionCuencasScreen = () => {
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
 
-        setDepartamentosOptions(departamentosFormat);
-        setMunicipiosOptions(municipiosFormat);
+        // setDepartamentosOptions(departamentosFormat);
+        // setMunicipiosOptions(municipiosFormat);
       } catch (err) {
         console.log(err);
       }

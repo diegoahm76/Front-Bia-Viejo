@@ -21,7 +21,7 @@ const BienesProcesoExtincionDominioScreen = () => {
           "choices/tipo-documento/"
         );
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
-        setTipoDocumentoOptions(documentosFormat);
+        // setTipoDocumentoOptions(documentosFormat);
       } catch (err) {
         console.log(err);
       }

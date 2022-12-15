@@ -8,12 +8,20 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
 import clienteAxios from "../../../../config/clienteAxios";
 import { useNavigate } from "react-router-dom";
+import { IGeneric } from "../../../../Interfaces/Generic";
 
 const HojaDeVidaScreen = () => {
+
+  const initialOptions: IGeneric[] = [{
+    label: "",
+    value: ""
+  }]
   const [articuloEncontrado, setArticuloEncontrado] = useState(false);
   const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
-  const [estadoDeActio, setEstadoDeActivo] = useState([]);
+  const [estadoDeActio, setEstadoDeActivo] = useState([initialOptions]);
   const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
+
+  
 
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -22,7 +30,7 @@ const HojaDeVidaScreen = () => {
           "/almacen/choices/estados-articulo/"
         );
         const documentosFormat = textChoiseAdapter(estadoDeActivoData);
-        setEstadoDeActivo(documentosFormat);
+        // setEstadoDeActivo(documentosFormat);
       } catch (err) {
         console.log(err);
       }
