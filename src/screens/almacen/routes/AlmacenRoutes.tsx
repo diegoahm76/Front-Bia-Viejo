@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Router, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import Almacen from "..";
+import CatalogoDeBienesScreen from "../../recaudo/gestorInstanciaCobro/CatalogoDeBienesScreen";
 import AsignarActivosCalidadPrestamoScreen from "../gestionInventario/AsignarActivosCalidadPrestamoScreen";
 import AsignarActivoScreen from "../gestionInventario/AsignarActivoScreen";
 import DespacharElementosConsumoScreen from "../gestionInventario/DespacharElementosConsumoScreen";
@@ -168,6 +169,7 @@ const AlmacenRoutes = () => {
       </Route>
 
       <Route path="entrada-y-salida-de-articulos">
+      <Route path="catalogo-bienes" element={<CatalogoDeBienesScreen />} />
         <Route path="entrada-articulo" element={<EntradaDeArticuloScreen />} />
         <Route
           path="creacion-articulo-devolutivo"

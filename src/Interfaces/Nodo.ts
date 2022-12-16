@@ -6,8 +6,9 @@ export interface INodo {
 
   interface data{
     nombre:string;
-    acciones:string;
-    id_nodo?:number;
+    codigo:string;
+    acciones?:string;
+    id_nodo:number;
     crear?:boolean;
     editar?:boolean;
     eliminar?:boolean;

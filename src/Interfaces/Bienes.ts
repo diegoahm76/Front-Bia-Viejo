@@ -4,7 +4,6 @@ export interface IBienGet {
 }
 
 export interface IBienes {
-  array?:object;
   id_bien: number;
   codigo_bien: string;
   nro_elemento_bien: number;
@@ -25,9 +24,9 @@ export interface IBienes {
   tiene_hoja_vida: boolean;
   maneja_hoja_vida: boolean;
   visible_solicitudes: boolean;
-  id_marca: number;
-  id_unidad_medida: number;
-  id_porcentaje_iva: number;
-  id_unidad_medida_vida_util: number;
-  id_bien_padre: number;
+  id_marca?: number;
+  id_unidad_medida?: number;
+  id_porcentaje_iva?: number;
+  id_unidad_medida_vida_util?: number;
+  id_bien_padre?: number;
 }

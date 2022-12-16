@@ -14,195 +14,114 @@ import { useNavigate } from "react-router-dom";
 
 import { Column } from "primereact/column";
 import { TreeTable } from "primereact/treetable";
+import { Button } from "primereact/button";
+import { InputText } from "primereact/inputtext";
 
-import { obtenerTodosBienes } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
+import {
+  obtenerTodosBienes,
+  obtenerBien,
+} from "../../../store/slices/catalogoBienes/indexCatalogoBien";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IBienes } from "../../../Interfaces/Bienes";
 import { INodo } from "../../../Interfaces/Nodo";
+import "primeicons/primeicons.css";
+import "primereact/resources/themes/lara-light-indigo/theme.css";
 //import clienteAxios from "../../../config/clienteAxios";
 //import { IGeneric } from "../../../Interfaces/Generic";
 
 const CatalogoDeBienesScreen = () => {
-  const [buscarProducto, setBuscarProducto] = useState(true);
-  const bienes = useAppSelector((state) => state.bien);
-  const bienesExample: IBienes[] = [
-    {
-      id_bien: 1,
-      codigo_bien: "",
-      nro_elemento_bien: 0,
-      nombre: "",
-      cod_tipo_bien: "",
-      cod_tipo_activo: "",
-      nivel_jerarquico: 1,
-      nombre_cientifico: "",
-      descripcion: "",
-      doc_identificador_nro: "",
-      cod_metodo_valoracion: 0,
-      cod_tipo_depreciacion: 0,
-      cantidad_vida_util: 0,
-      valor_residual: 0,
-      stock_minimo: 0,
-      stock_maximo: 0,
-      solicitable_vivero: false,
-      tiene_hoja_vida: false,
-      maneja_hoja_vida: false,
-      visible_solicitudes: false,
-      id_marca: 0,
-      id_unidad_medida: 0,
-      id_porcentaje_iva: 0,
-      id_unidad_medida_vida_util: 0,
-      id_bien_padre: 0,
-    },
-    {
-      id_bien: 2,
-      codigo_bien: "",
-      nro_elemento_bien: 0,
-      nombre: "",
-      cod_tipo_bien: "",
-      cod_tipo_activo: "",
-      nivel_jerarquico: 2,
-      nombre_cientifico: "",
-      descripcion: "",
-      doc_identificador_nro: "",
-      cod_metodo_valoracion: 0,
-      cod_tipo_depreciacion: 0,
-      cantidad_vida_util: 0,
-      valor_residual: 0,
-      stock_minimo: 0,
-      stock_maximo: 0,
-      solicitable_vivero: false,
-      tiene_hoja_vida: false,
-      maneja_hoja_vida: false,
-      visible_solicitudes: false,
-      id_marca: 0,
-      id_unidad_medida: 0,
-      id_porcentaje_iva: 0,
-      id_unidad_medida_vida_util: 0,
-      id_bien_padre: 1,
-    },
-    {
-      id_bien: 3,
-      codigo_bien: "",
-      nro_elemento_bien: 0,
-      nombre: "",
-      cod_tipo_bien: "",
-      cod_tipo_activo: "",
-      nivel_jerarquico: 2,
-      nombre_cientifico: "",
-      descripcion: "",
-      doc_identificador_nro: "",
-      cod_metodo_valoracion: 0,
-      cod_tipo_depreciacion: 0,
-      cantidad_vida_util: 0,
-      valor_residual: 0,
-      stock_minimo: 0,
-      stock_maximo: 0,
-      solicitable_vivero: false,
-      tiene_hoja_vida: false,
-      maneja_hoja_vida: false,
-      visible_solicitudes: false,
-      id_marca: 0,
-      id_unidad_medida: 0,
-      id_porcentaje_iva: 0,
-      id_unidad_medida_vida_util: 0,
-      id_bien_padre: 1,
-    },
-    {
-      id_bien: 4,
-      codigo_bien: "",
-      nro_elemento_bien: 0,
-      nombre: "",
-      cod_tipo_bien: "",
-      cod_tipo_activo: "",
-      nivel_jerarquico: 1,
-      nombre_cientifico: "",
-      descripcion: "",
-      doc_identificador_nro: "",
-      cod_metodo_valoracion: 0,
-      cod_tipo_depreciacion: 0,
-      cantidad_vida_util: 0,
-      valor_residual: 0,
-      stock_minimo: 0,
-      stock_maximo: 0,
-      solicitable_vivero: false,
-      tiene_hoja_vida: false,
-      maneja_hoja_vida: false,
-      visible_solicitudes: false,
-      id_marca: 0,
-      id_unidad_medida: 0,
-      id_porcentaje_iva: 0,
-      id_unidad_medida_vida_util: 0,
-      id_bien_padre: 0,
-    },
-    {
-      id_bien: 5,
-      codigo_bien: "",
-      nro_elemento_bien: 0,
-      nombre: "",
-      cod_tipo_bien: "",
-      cod_tipo_activo: "",
-      nivel_jerarquico: 2,
-      nombre_cientifico: "",
-      descripcion: "",
-      doc_identificador_nro: "",
-      cod_metodo_valoracion: 0,
-      cod_tipo_depreciacion: 0,
-      cantidad_vida_util: 0,
-      valor_residual: 0,
-      stock_minimo: 0,
-      stock_maximo: 0,
-      solicitable_vivero: false,
-      tiene_hoja_vida: false,
-      maneja_hoja_vida: false,
-      visible_solicitudes: false,
-      id_marca: 0,
-      id_unidad_medida: 0,
-      id_porcentaje_iva: 0,
-      id_unidad_medida_vida_util: 0,
-      id_bien_padre: 4,
-    },
-    {
-      id_bien: 6,
-      codigo_bien: "",
-      nro_elemento_bien: 0,
-      nombre: "",
-      cod_tipo_bien: "",
-      cod_tipo_activo: "",
-      nivel_jerarquico: 3,
-      nombre_cientifico: "",
-      descripcion: "",
-      doc_identificador_nro: "",
-      cod_metodo_valoracion: 0,
-      cod_tipo_depreciacion: 0,
-      cantidad_vida_util: 0,
-      valor_residual: 0,
-      stock_minimo: 0,
-      stock_maximo: 0,
-      solicitable_vivero: false,
-      tiene_hoja_vida: false,
-      maneja_hoja_vida: false,
-      visible_solicitudes: false,
-      id_marca: 0,
-      id_unidad_medida: 0,
-      id_porcentaje_iva: 0,
-      id_unidad_medida_vida_util: 0,
-      id_bien_padre: 5,
-    },
-  ];
+  const bien = useAppSelector((state) => state.bien.bien);
+  const dispatch = useAppDispatch();
 
-  function armarArbol() {
+  //const [buscarProducto, setBuscarProducto] = useState(true);
+  //const [bienesExampleH, setBienesExampleNodes] = useState<IBienes[]>([]);
+  const [globalFilter1, setGlobalFilter1] = useState(null);
+  const [globalFilter2, setGlobalFilter2] = useState(null);
+  const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
+  const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
+
+  useEffect(() => {
+    armarArbol(bien);
+  }, [bien]);
+
+  function armarArbol(bienArray) {
     let contador = 0;
-    bienesExample.forEach((bienElement) => {
+    bien.forEach((bienElement) => {
       agregarNodosBase(bienElement, contador);
-      contador=arrayTotal.length;
+      contador = arrayTotal.length;
     });
   }
-  let arrayRecorrido: number[] = [];
-  let arrayTotal: INodo[] = [];
+
+  const treeTableFuncMap = {
+    globalFilter1: setGlobalFilter1,
+    globalFilter2: setGlobalFilter2,
+  };
+
+  const getHeader = (globalFilterKey) => {
+    return (
+      <div className="text-right">
+        <div className="p-input-icon-left">
+          <i className="pi pi-search"></i>
+          <InputText
+            type="search"
+            onInput={(e: any) =>
+              treeTableFuncMap[`${globalFilterKey}`](e.target.value)
+            }
+            placeholder="Global Search"
+            size={50}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  let header1 = getHeader("globalFilter1");
+  let header2 = getHeader("globalFilter2");
+
+  //armarArbol();
+  const header = "Catalogo de bienes- Viewer";
+  const footer = (
+    <div style={{ textAlign: "left" }}>
+      <Button icon="pi pi-refresh" tooltip="Reload" />
+    </div>
+  );
+  const actionTemplate = (node, column) => {
+    //debugger;
+    return (
+      <div>
+        <Button
+          type="button"
+          icon="pi pi-plus-circle"
+          className="p-button-success"
+          style={{ marginRight: ".5em" }}
+          onClick={() => {
+            enviarDatos(node);
+          }}
+          disabled={node.data.crear}
+        ></Button>
+        <Button
+          type="button"
+          icon="pi pi-pencil"
+          className="p-button-warning"
+          style={{ marginRight: ".5em" }}
+          disabled={node.data.editar}
+        ></Button>
+        <Button
+          type="button"
+          icon="pi pi-minus-circle"
+          className="p-button-danger"
+          style={{ marginRight: ".5em" }}
+          disabled={node.data.eliminar}
+        ></Button>
+      </div>
+    );
+  };
+
+  //let arrayTotal: INodo[] = [];
 
   function tieneHijos(bien) {
     let bandera = 0;
-    bienesExample.forEach((bienElement) => {
+    bien.forEach((bienElement) => {
       if (bien.id_bien === bienElement.id_bien_padre) {
         bandera++;
       }
@@ -220,21 +139,26 @@ const CatalogoDeBienesScreen = () => {
     let nodo: INodo = {
       key: contador.toString(),
       data: {
-        nombre: bien.nombre,
-        acciones: "123", //agregar icosnos
+        nombre: bien.nombre + " (" + contador.toString() + ")",
+        codigo: bien.codigo_bien,
         id_nodo: bien.id_bien,
+        editar: false,
+        eliminar: false,
+        crear: false,
       },
       children: hijos,
     };
     let existe = nodoRecorrido(bien);
     if (existe && bien.nivel_jerarquico == 1) {
       if (tieneHijos(bien)) {
-        debugger;
+        //debugger;
         let children = [...crearNiveles(bien, keynode)];
         nodo.children = [...children];
+        nodo.data.eliminar = true;
         arrayTotal.push({ ...nodo });
       } else {
         arrayTotal.push({ ...nodo });
+        nodo.data.eliminar = false;
         arrayRecorrido.push({ ...bien }.id_bien);
       }
     }
@@ -245,26 +169,58 @@ const CatalogoDeBienesScreen = () => {
     let hijos: INodo[] = [];
     let nodoHijo: INodo = {
       key: "",
-      data: { nombre: bien.codigo_bien, acciones: "123" },
+      data: {
+        nombre: "",
+        codigo: "",
+        id_nodo: 0,
+        editar: false,
+        crear: false,
+      },
       children: hijos,
     };
     let existe = nodoRecorrido(bien);
     if (existe) {
-      bienesExample.forEach((bienElement) => {
+      bien.forEach((bienElement) => {
         if (bienElement.id_bien_padre === bien.id_bien) {
           let existe2 = nodoRecorrido(bienElement);
           if (existe2) {
             nodoHijo.key = keynode + contadorInterno.toString();
-            nodoHijo.data.nombre = bienElement.nombre;
-            nodoHijo.data.acciones = "true false true";
             if (tieneHijos(bienElement)) {
-              let hijo = crearNiveles(
-                bienElement,
-                keynode + contadorInterno.toString() + "-"
-              );
+              let hijo = [
+                ...crearNiveles(
+                  bienElement,
+                  keynode + contadorInterno.toString() + "-"
+                ),
+              ];
+              nodoHijo.data = {
+                id_nodo: bienElement.id_bien,
+                codigo: bienElement.codigo_bien,
+                nombre:
+                  bienElement.nombre +
+                  " (" +
+                  keynode +
+                  " " +
+                  contadorInterno.toString() +
+                  ")",
+                eliminar: true,
+              };
+              nodoHijo.data.id_nodo = { ...bienElement }.id_bien;
               nodoHijo.children = [...hijo];
             } else {
+              nodoHijo.data = {
+                id_nodo: bienElement.id_bien,
+                codigo: bienElement.codigo_bien,
+                nombre:
+                  bienElement.nombre +
+                  " (" +
+                  keynode +
+                  " " +
+                  contadorInterno.toString() +
+                  ")",
+                eliminar: false,
+              };
               nodoHijo.children = [];
+              nodoHijo.data.eliminar = false;
             }
             arrayRecorrido.push(bienElement.id_bien);
             hijos.push({ ...nodoHijo });
@@ -274,8 +230,15 @@ const CatalogoDeBienesScreen = () => {
       });
     }
     arrayRecorrido.push(bien.id_bien);
-    debugger;
+    //debugger;
     return [...hijos];
+  }
+
+  function enviarDatos(nodo) {
+    obtenerBien(dispatch, nodo);
+    navigate(
+      "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
+    );
   }
 
   // const nodes = [
@@ -629,7 +592,6 @@ const CatalogoDeBienesScreen = () => {
   //   },
   // ];
 
-  const dispatch = useAppDispatch();
   const {
     reset,
     register,
@@ -637,12 +599,6 @@ const CatalogoDeBienesScreen = () => {
     control,
     formState: { errors },
   } = useForm();
-
-  useEffect(() => {
-    //obtenerTodosBienes(dispatch);
-    armarArbol();
-    debugger;
-  });
 
   const submit = (data) => {};
 
@@ -673,16 +629,6 @@ const CatalogoDeBienesScreen = () => {
             <div className="d-flex justify-content">
               <div className="d-grid d-flex">
                 <button
-                  className="btn-icon-blue btn px-3  mt-4 "
-                  type="button"
-                  title="Buscar"
-                  onClick={() => setBuscarProducto(!buscarProducto)}
-                >
-                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                </button>
-              </div>
-              <div className="d-grid d-flex">
-                <button
                   className="btn-icon-green btn px-3 mt-4"
                   type="button"
                   title="Agregar"
@@ -692,105 +638,33 @@ const CatalogoDeBienesScreen = () => {
                 </button>
               </div>
             </div>
-            {buscarProducto === false ? (
-              <div className="row">
-                <Subtitle title={"Buscar artículo"} />
-                <div className="col-12 col-md-3">
-                  <div>
-                    <label className="ms-2 text-terciary">Código</label>
-                    <input
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      type="number"
-                      {...register("codigo", {
-                        required: true,
-                      })}
-                    />
-                  </div>
-                  {errors.numeroDocumento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-3">
-                  <div>
-                    <label className="ms-2 text-terciary">Nombre</label>
-                    <input
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      type="text"
-                      {...register("nombre", {
-                        required: true,
-                      })}
-                    />
-                  </div>
-                  {errors.numeroDocumento && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-3">
-                  <label className="ms-3 text-terciary">Tipo de bien</label>
-                  <Controller
-                    name="tipo"
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select {...field} placeholder="Seleccionar" />
-                    )}
-                  />
-                  {errors.tipo && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
-                <div className="col-12 col-md-3">
-                  <label className="ms-3 text-terciary">
-                    {" "}
-                    Tipo de activo <span className="text-danger">*</span>{" "}
-                  </label>
-                  <Controller
-                    name="tipo2"
-                    control={control}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        isDisabled
-                        className="col-12"
-                        placeholder="Seleccionar"
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            <div className="multisteps-form__content mt-4">
-              <div>
-                <div
-                  className="ag-theme-alpine mt-auto mb-3 px-4"
-                  style={{ height: "470px" }}
-                >
-                  <TreeTable value={arrayTotal}>
-                    <Column field="nombre" header="Nombre" expander></Column>
-                    <Column field="acciones" header="Acciones"></Column>
-                  </TreeTable>
-                  ;
-                </div>
-              </div>
+            <div className="card">
+              <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
+                <Column
+                  field="nombre"
+                  header="Nombre"
+                  expander
+                  style={{ width: "550px" }}
+                  filter
+                  filterPlaceholder="Filter por nombre"
+                ></Column>
+                <Column
+                  field="codigo"
+                  header="Codigo"
+                  style={{ width: "450px" }}
+                  filter
+                  filterPlaceholder="Filter por codigo"
+                ></Column>
+                <Column
+                  header="Acciones"
+                  body={actionTemplate}
+                  style={{ textAlign: "center", width: "850px" }}
+                />
+                {/* <Column field="agregar" header="Agregar"></Column>
+                    <Column field="editar" header="Editar"></Column>
+                    <Column field="eliminar" header="Eliminar"></Column> */}
+              </TreeTable>
+              ;
             </div>
           </div>
         </form>
