@@ -169,7 +169,7 @@ const CreacionBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
-                  placeholder="N completo"
+                  placeholder="Nombre completo"
                   value={busquedaModel.nombreCompleto}
                   onChange={changeInput}
                   disabled
