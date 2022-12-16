@@ -88,12 +88,12 @@ export const EdicionOrganigramaScreen = () => {
           id="configForm"
         >
           <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">
-            Edición de Organigrama
+            Edición de organigrama
           </h3>
           <div className={"row"}>
-            <Subtitle title={"Detalles Organizacionales"} />
+            <Subtitle title={"Detalles organizacionales"} />
           </div>
-          <div className="col-12 col-md-4 ms-3">
+          <div className="col-12 col-md-4 ms-3 mt-3">
             <label className="text-terciary">
               Nombre: <span className="text-danger">*</span>
             </label>
@@ -109,7 +109,7 @@ export const EdicionOrganigramaScreen = () => {
           </div>
           <div className="col-12 col-md-4 ms-3">
             <label className="text-terciary">
-              Version: <span className="text-danger">*</span>
+              Versión: <span className="text-danger">*</span>
             </label>
             <input
               className="form-control border rounded-pill px-3 border border-terciary"
@@ -123,7 +123,7 @@ export const EdicionOrganigramaScreen = () => {
           </div>
           <div className="col-12 col-md-4 ms-3">
             <label className="text-terciary">
-              Descripcion: <span className="text-danger">*</span>
+              Descripción: <span className="text-danger">*</span>
             </label>
             <textarea
               className="form-control border rounded-pill px-3 border border-terciary"
@@ -138,9 +138,10 @@ export const EdicionOrganigramaScreen = () => {
             <div className="d-flex justify-content-end gap-2 mt-4">
               <button
                 type="submit"
-                className="btn btn-primary text-capitalize border rounded-pill px-3"
+                className="btn  text-capitalize  px-3"
+                title='Guardar edición'
               >
-                Editar Organigrama
+                <i className="fa-regular fa-floppy-disk fs-3"></i>
               </button>
             </div>
           </div>
@@ -159,7 +160,7 @@ export const EdicionOrganigramaScreen = () => {
             href="#Niveles"
           >
             {" "}
-            Niveles Organizacionales
+            Niveles organizacionales
           </a>
 
           <form onSubmit={handleSubmitNivel(submitNivel)}>
@@ -233,7 +234,7 @@ export const EdicionOrganigramaScreen = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                    placeholder="Escribe el codigo"
+                    placeholder="Escribe el código"
                     {...registerUnidades("codigo", { required: true })}
                   />
                   {errorsUnidades.codigo && (
@@ -388,24 +389,27 @@ export const EdicionOrganigramaScreen = () => {
             <div className="d-flex justify-content-end gap-2 mt-4">
               <button
                 type="button"
-                className="btn btn-light text-capitalize border rounded-pill px-3"
+                className="btn  text-capitalize  px-3"
+                title='Regresar'
                 onClick={() => navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')}
               >
-                Regresar
+                <i className="fa-solid fa-angles-left fs-3"></i>
               </button>
 
               <button
                 type='button'
                 onClick={() => setViewOrganigram(true)}
-                className="btn btn-primary text-capitalize border rounded-pill px-3"
+                title="Visualizar organigrama"
+                className="btn  text-capitalize  px-3"
               >
-                Visualizar Organigrama
+                <i className="fa-solid fa-eye fs-3"></i>
               </button>
 
               <button
                 type="submit"
+                title='Agregar unidades'
                 className="btn btn-primary text-capitalize border rounded-pill px-3"
-              >
+              ><i className="fa-regular fa-floppy-disk fs-3"></i>
                 {title_unidades}
               </button>
 

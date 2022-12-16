@@ -135,7 +135,7 @@ const useEdicionOrganigrama = () => {
         { headerName: "Código", field: "codigo", minWidth: 100, maxWidth: 100 },
         { headerName: "Nombre", field: "nombre" },
         { headerName: "Tipo unidad", field: "cod_tipo_unidad", minWidth: 130, maxWidth: 130 },
-        { headerName: "Agrupacion Documental", field: "cod_agrupacion_documental", minWidth: 200, maxWidth: 200 },
+        { headerName: "Agrupacion documental", field: "cod_agrupacion_documental", minWidth: 200, maxWidth: 200 },
         {
             headerName: "Unidad raíz",
             field: "unidad_raiz",
@@ -161,6 +161,7 @@ const useEdicionOrganigrama = () => {
                         style={{ border: "none", background: "none" }}
                         data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
                         type="button"
+                        title="Editar"
                         onClick={() => {
                             resetUnidades({
                                 "unidadRaiz": {
@@ -198,8 +199,9 @@ const useEdicionOrganigrama = () => {
                         type="button"
                         style={{ border: "none", background: "none" }}
                         onClick={() => deleteUnidades(data.codigo)}
+                        title="Eliminar"
                     >
-                        <i className="fa-light fa-trash-can fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-3"></i>
                     </button>
                 </div>
             ),
@@ -217,6 +219,7 @@ const useEdicionOrganigrama = () => {
                 <div className="d-flex justify-content-center gap-1">
                     <button
                         type="button"
+                        title="Editar"
                         style={{ border: "none", background: "none" }}
                         onClick={() => {
                             setTitle_nivel('Editar');
@@ -228,6 +231,7 @@ const useEdicionOrganigrama = () => {
                     <button
                         className={`${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}
                         type="button"
+                        title="Eliminar"
                         onClick={() => {
                             deleteLevel(data.orden_nivel)
                         }}
