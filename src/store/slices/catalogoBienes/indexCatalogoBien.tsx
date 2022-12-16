@@ -6,6 +6,11 @@ import clienteAxios from "../../../config/clienteAxios";
 
 const initialState: IBienGet = {
   bien: [],
+  dataEdit: {
+    edit: false,
+    id_bien_padre: 0,
+    nivel_jerarquico:0
+  },
   bienSeleccionado: {
     id_bien: 0,
     codigo_bien: "",
@@ -33,6 +38,7 @@ const initialState: IBienGet = {
     id_unidad_medida_vida_util: 0,
     id_bien_padre: 0,
   },
+  
 };
 
 const bienForm = createSlice({
@@ -40,7 +46,6 @@ const bienForm = createSlice({
   initialState,
   reducers: {
     obtenerBienes: (state, action) => {
-      debugger
       state.bien = action.payload;
     },
     crearBienAction: (state, action) => {
@@ -53,8 +58,15 @@ const bienForm = createSlice({
         }
       });
     },
-    seleccionarBienModel: (state, action) => {
+    seleccionarBienModelCrete: (state, action) => {
       state.bienSeleccionado = action.payload;
+      state.dataEdit.edit = false;
+      state.dataEdit.id_bien_padre=action.payload?.id_bien;
+    },
+    seleccionarBienModelEdit: (state, action) => {
+      state.bienSeleccionado = action.payload;
+      state.dataEdit.edit = true;
+      state.dataEdit.id_bien_padre=action.payload?.id_bien_padre;
     },
     obtenerBienAction: (state, action) => {
       state.bienSeleccionado = action.payload;
@@ -65,7 +77,8 @@ const bienForm = createSlice({
 
 export const {
   obtenerBienes,
-  seleccionarBienModel,
+  seleccionarBienModelCrete,
+  seleccionarBienModelEdit,
   editarBienAction,
   crearBienAction,
   obtenerBienAction,
@@ -142,14 +155,22 @@ export const obtenerBien = async (dispatch, nodo) => {
 };
 
 export const eliminarBien = async (dispatch, nodo) => {
-  await clienteAxios.delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_bien}`).then(() => {
-    dispatch(eliminarBienAction(nodo.id_bien));
-    Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
-  });
+  await clienteAxios
+    .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_bien}`)
+    .then(() => {
+      dispatch(eliminarBienAction(nodo.id_bien));
+      Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
+    });
 };
 
-export const seleccionarBien = (dispatch, bien) => {
-  dispatch(seleccionarBienModel(bien));
+export const seleccionarBien = (dispatch, bien, accion) => {
+  if(accion)
+  {
+    dispatch(seleccionarBienModelEdit(bien));
+  }else{
+    dispatch(seleccionarBienModelCrete(bien));
+  }
+  
 };
 export const editarBien = async (dispatch, dataEdit) => {
   const dataModel = construirModelo(dataEdit);
