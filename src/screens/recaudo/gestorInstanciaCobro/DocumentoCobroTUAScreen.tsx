@@ -7,7 +7,13 @@ import Subtitle from "../../../components/Subtitle";
 const DocumentoCobroTUAScreen = () => {
   const [informacion, setInformacion] = useState(false);
 
-  const { reset, register, handleSubmit, control, formState } = useForm();
+  const { 
+    reset,
+    register,
+    handleSubmit,
+    control,
+     formState
+     } = useForm();
 
   const onSubmit = () => {};
 
@@ -160,7 +166,7 @@ const DocumentoCobroTUAScreen = () => {
         <div className="button-row justify-align-content-center col-12 col-sm-4 col-lg-4">
           <button
             className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary me-md-2"
-            type="sutmit"
+            type="submit"
             title="Send"
             onClick={() => setInformacion(!informacion)}
           >
@@ -586,7 +592,7 @@ const DocumentoCobroTUAScreen = () => {
                 </div>
                 <div>
                   <button className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary me-md-2 mt-3">
-                    Generar factura
+                    Generar documento de cobro
                   </button>
                 </div>
               </div>

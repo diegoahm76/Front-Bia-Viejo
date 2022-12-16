@@ -233,7 +233,7 @@ const useEdicionOrganigrama = () => {
                         }}
                     >
                         {/* <i className={`fa-light fa-trash-can fs-3 ${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}></i> */}
-                        <i className="fa-light fa-trash-can fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-3"></i>
                     </button>
                 </div>
             ),
