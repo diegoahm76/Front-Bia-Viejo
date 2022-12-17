@@ -33,43 +33,32 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
         observacion: "",
         activo: true
     }
+    const createInterface = {
+        porcentaje: "",
+        observacion: "",
+    }
 
     const [stateInput, setStateInput] = useState(stateInterface);
+    const [stateInputCreate, setStateInputCreate] = useState(createInterface);
     const [botonAdministrador, setBotonAdministrador] = useState(false);
     const [porcentaje, setPorcentaje] = useState([]);
     const [edit, setEdit] = useState(false);
 
 
-    // Form 
-
+    // Form
     const handleChange = (e) => {
-        const { name, value } = e.target.value;
+        const { name, value } = e.target;
         setStateInput({ ...stateInput, [name]: value });
     }
-    const onSubmit = (data) => {
-        crearPorcentaje(data);
+    const onSubmit = () => {
+        crearPorcentaje();
     }
     const {
-        register,
         handleSubmit,
         setValue,
         formState: { errors },
     } = useForm();
 
-    register('porcentaje', {
-        onChange: (e) => {
-            const porcentaje = { ...stateInput };
-            porcentaje.porcentaje = e.target.value;
-            setStateInput(porcentaje)
-        }
-    })
-    register('observacion', {
-        onChange: (e) => {
-            const observacion = { ...stateInput };
-            observacion.observacion = e.target.value;
-            setStateInput(observacion)
-        }
-    })
 
     const fetchData = async () => {
         try {
@@ -84,8 +73,10 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
         }
     }
 
-    const crearPorcentaje = async (data) => {
-
+    const crearPorcentaje = async () => {
+        let data = { ...stateInputCreate };
+        data.porcentaje = stateInput.porcentaje;
+        data.observacion = stateInput.observacion;
         if (!edit) {
             await clienteAxios.post(
                 "almacen/porcentajes/create/", data
@@ -118,7 +109,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
                 Swal.fire({
                     target: elementModalId,
                     title: "Correcto",
-                    text: "El porcentaje se agrego correctamente",
+                    text: "El porcentaje se actualizo correctamente",
                     icon: "success"
                 });
             }).catch(() => {
@@ -169,7 +160,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
             Swal.fire({
                 target: elementModalId,
                 title: "Correcto",
-                text: "El porcentaje de iva se agrego correctamente",
+                text: "El porcentaje de iva se elimino correctamente",
                 icon: "success"
             });
         }).catch(() => {
@@ -254,9 +245,9 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
                                 <input
                                     className="form-control border rounded-pill px-3 border border-terciary"
                                     type="text"
+                                    name="porcentaje"
                                     placeholder="Porcentaje"
                                     value={stateInput.porcentaje}
-                                    {...register("porcentaje")}
                                     onChange={handleChange}
                                 />
                             </div>
@@ -265,9 +256,9 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
                                 <input
                                     className="form-control border rounded-pill px-3 border border-terciary"
                                     type="text"
+                                    name="observacion"
                                     placeholder="Observacion"
                                     value={stateInput.observacion}
-                                    {...register("observacion")}
                                     onChange={handleChange}
                                 />
                             </div>
