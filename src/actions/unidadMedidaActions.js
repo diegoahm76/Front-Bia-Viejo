@@ -69,7 +69,6 @@ export const obtenerUnidadMedidaAction = () => {
       console.log("datos que trae", { dataGetUnidadMedida });
       dispatch(descargarUnidadMedidaExito(dataGetUnidadMedida));
     } catch (error) {
-      console.log(error);
       dispatch(descargarUnidadMedidaError(true));
     }
   };
@@ -105,6 +104,7 @@ export const eliminarUnidadMedidaAction = (id_unidad_medida) => {
         title: "Correcto",
         text: "La Unidad de Medida se Elimino correctamente",
         icon: "success",
+        timer: 2000,
       });
     } catch (error) {
       console.log(error);
