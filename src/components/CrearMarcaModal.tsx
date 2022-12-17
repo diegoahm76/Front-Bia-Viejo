@@ -9,8 +9,17 @@ import { AgGridReact } from "ag-grid-react";
 import { useDispatch, useSelector } from "react-redux";
 import Axios from "axios";
 import Swal from "sweetalert2";
-import { crearMarca } from "../store/slices/marca/indexMarca";
+import {
+  crearMarca,
+  editarMarca,
+  obtenerMarcasLista,
+  seleccionarMarca,
+  eliminarMarca,
+  setMarcaSeleccionada,
+} from "../store/slices/marca/indexMarca";
 import clienteAxios from "../config/clienteAxios";
+import { useAppSelector } from "../store/hooks/hooks";
+import { IMarcaModel } from "../Interfaces/marca";
 
 const customStyles = {
   content: {
@@ -26,109 +35,51 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const editState = {
-  id_marca:0,
-  nombre:"",
-  activo:false,
-  item_ya_usado:false
-}
+  id_marca: 0,
+  nombre: "",
+  activo: false,
+  item_ya_usado: false,
+};
 
 function CrearMarcaModal({ isModalActive, setIsModalActive }) {
-  const elementModalId = document.getElementById("modal-marca-id")!;
-
-  const stateInterface = {
-    id_marca: 0,
-    nombre: "",
-    activo: false,
-    item_ya_usado: false,
-  };
-
-  const [stateInput, setStateInput] = useState(stateInterface);
   const [botonAdministrador, setBotonAdministrador] = useState(false);
-  const [alarmaEdit, setAlarmaEdit] = useState(editState);
-  const [marca, setMarca] = useState([]);
+  const [marcaEdit, setMarcaEdit] = useState(editState);
+
   const [edit, setEdit] = useState(false);
 
   const dispatch = useDispatch();
+  const marcas = useAppSelector((state) => state.marca.marcas);
+
+  useEffect(() => {
+    const getMarcas = async () => obtenerMarcasLista(dispatch);
+    getMarcas();
+  }, [marcas]);
 
   // Form
 
   const handleChange = (e) => {
     const { name, value } = e.target.value;
-    setStateInput({ ...stateInput, [name]: value });
+    
+    setMarcaEdit({ ...marcaEdit, [name]: value });
+    debugger
   };
   const onSubmit = (data) => {
-    crearMarca(data);
+    if (edit) {
+      editarMarca(dispatch, marcaEdit);
+    } else {
+      crearMarca(data);
+    }
   };
   const {
-    register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm();
-
-  register("marca", {
-    onChange: (e) => {
-      const marca = { ...stateInput };
-      marca.nombre = e.target.value;
-      setStateInput(marca);
-    },
-  });
 
   const fetchData = async () => {
     try {
       setBotonAdministrador(true);
-      const response = await clienteAxios.get("almacen/marcas/get-list/");
-      setMarca(response.data);
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const crearMarca = async (data) => {
-    if (!edit) {
-      await clienteAxios
-        .post("almacen/marcas/create/", data)
-        .then(() => {
-          fetchData();
-          Swal.fire({
-            target: elementModalId,
-            title: "Correcto",
-            text: "La Marca se agrego correctamente",
-            icon: "success",
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            target: elementModalId,
-            icon: "error",
-            title: "Hubo un error",
-            text: "Hubo un error, intenta de nuevo",
-          });
-        });
-    } else {
-      const updateField = { ...stateInput };
-      updateField.nombre = data.nombre;
-      await clienteAxios
-        .put(`almacen/marcas/update/${stateInput.id_marca}/`, updateField)
-        .then(() => {
-          fetchData();
-          setEdit(false);
-          setStateInput(stateInterface);
-          Swal.fire({
-            target: elementModalId,
-            title: "Correcto",
-            text: "La marca se agrego correctamente",
-            icon: "success",
-          });
-        })
-        .catch(() => {
-          Swal.fire({
-            target: elementModalId,
-            icon: "error",
-            title: "Hubo un error",
-            text: "Hubo un error, intenta de nuevo",
-          });
-        });
     }
   };
 
@@ -136,54 +87,9 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
     setIsModalActive(false);
   };
 
-  const editarMarca = (data) => {
-    setStateInput({
-      id_marca: data.id_marca,
-      nombre: data.nombre,
-      item_ya_usado: data.item_ya_usado,
-      activo: data.activo,
-    });
-    setValue("nombre", data.nombre);
+  const editarAction = (data) => {
+    seleccionarMarca(dispatch, data);
     setEdit(true);
-  };
-  const confirmarEliminarMarca = (id_marca) => {
-    Swal.fire({
-      target: elementModalId,
-      title: "Estas seguro?",
-      text: "Una Marca que se elimine no se puede recuperar",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar!",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //Pasarlo al action
-        eliminarMarca(id_marca);
-      }
-    });
-  };
-  const eliminarMarca = async (id_marca) => {
-    await clienteAxios
-      .delete(`almacen/marcas/delete/${id_marca}`)
-      .then(() => {
-        fetchData();
-        Swal.fire({
-          target: elementModalId,
-          title: "Correcto",
-          text: "La Marca se elimino correctamente",
-          icon: "success",
-        });
-      })
-      .catch(() => {
-        Swal.fire({
-          target: elementModalId,
-          icon: "error",
-          title: "Hubo un error",
-          text: "Hubo un error, intenta de nuevo",
-        });
-      });
   };
 
   const columnDefs = [
@@ -199,7 +105,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth"
             type="button"
-            onClick={() => confirmarEliminarMarca(params.data.id_marca)}
+            onClick={() => eliminarMarca(dispatch, params.data.id_marca)}
           >
             <img src={IconoEliminar} alt="eliminar" />
           </button>
@@ -207,7 +113,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth "
             type="button"
-            onClick={() => editarMarca(params.data)}
+            onClick={() => editarAction(params.data)}
           >
             <img src={IconoEditar} alt="editar" />
           </button>
@@ -249,12 +155,24 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
               <div className="col-12 col-md-6">
                 <label className="text-terciary">Nombre</label>
                 <input
+                  name="nombre"
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre"
-                  value={editState?.nombre}
+                  value={editState.nombre}
                   onChange={handleChange}
+                  required
                 />
+                {errors.nombre && (
+                  <div className="col-12">
+                    <small
+                      className="text-center text-danger"
+                      style={{ fontSize: "12px" }}
+                    >
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -290,7 +208,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnDefs}
-                      rowData={marca}
+                      rowData={marcas}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>

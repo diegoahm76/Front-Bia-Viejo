@@ -25,7 +25,7 @@ const marcaSlice = createSlice({
         obtenerMarcasAction: (state, action) => {
             state.marcas = action.payload;
         },
-        setMarcaEditar: (state, action) => {
+        setMarcaSeleccionada: (state, action) => {
             state.marcaSeleccionada = action.payload
         },
         eliminarMarcaAction: (state, action) => {
@@ -46,7 +46,7 @@ export const {
     editarMarcaAction,
     eliminarMarcaAction,
     obtenerMarcasAction,
-    setMarcaEditar
+    setMarcaSeleccionada
 } = marcaSlice.actions;
 export default marcaSlice.reducer;
 
@@ -57,8 +57,12 @@ export const obtenerMarcasLista = async (dispatch) => {
     //console.log("dataGetEstaciones", dataGetEstaciones);
 };
 
+export const seleccionarMarca = (dispatch, marca) => {
+    dispatch(setMarcaSeleccionada(marca));
+  };
+
 export const eliminarMarca = async (dispatch, id) => {
-    const elementModalId = document.getElementById("marcaModal")!;
+    const elementModalId = document.getElementById("modal-marca-id")!;
     await clienteAxios.delete(`almacen/marcas/delete/${id}`).then((res) => {
         dispatch(eliminarMarcaAction(id));
         Swal.fire({
@@ -82,10 +86,6 @@ export const eliminarMarca = async (dispatch, id) => {
 
 };
 
-// setea la estacion a editar
-export const setMarcaEditarModelo = async (dispatch, estacion) => {
-    dispatch(setMarcaEditar(estacion));
-};
 
 // Edita la estacion
 export const editarMarca = async (dispatch, estacion) => {
