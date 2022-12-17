@@ -23,6 +23,15 @@ const busquedaAvanzadaModel = {
   idResponsable: 0,
 };
 
+const infoBodegaModel = {
+  id_bodega: 0,
+  nombreBodega: "",
+  departamento: { value: "", label: "" },
+  municipio: { value: "", label: "" },
+  direccionBodega: "",
+  principal: false
+}
+
 const CreacionBodegaScreen = () => {
   const initialOptions: IGeneric[] = [
     {
@@ -32,6 +41,8 @@ const CreacionBodegaScreen = () => {
   ];
   const [departamentosOptions, setDepartamentosOptions] =
     useState(initialOptions);
+
+  const [createModel, setCreateModel] = useState(infoBodegaModel);
   const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] =
     useState(initialOptions);
@@ -45,6 +56,7 @@ const CreacionBodegaScreen = () => {
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
+    setValue,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -56,14 +68,28 @@ const CreacionBodegaScreen = () => {
     formState: { errors: errorsBodega },
   } = useForm();
 
-  const submitBodega = (data) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCreateModel({ ...createModel, [name]: value });
+  };
+
+  const changeSelectMuni = (e) => {
+    let municipio = { ...createModel }
+    municipio.municipio = {
+      value: e.value,
+      label: e.label
+    }
+    setValue("cod_municipio", municipio.municipio);
+    setCreateModel(municipio)
+  }
+  const submitBodega = () => {
     const idPersona = busquedaModel.idResponsable;
     const bodegaCreate: IBodegaCreate = {
-      nombre: data.nombre,
-      cod_municipio: data.cod_municipio.value,
+      nombre: createModel.nombreBodega,
+      cod_municipio: createModel.municipio.value,
       id_responsable: idPersona,
-      es_principal: data.es_principal,
-      direccion: data.direccion,
+      es_principal: createModel.principal,
+      direccion: createModel.direccionBodega,
     };
     crearBodega(dispatch, bodegaCreate);
   };
@@ -98,9 +124,7 @@ const CreacionBodegaScreen = () => {
     }
   };
 
-  const changeInput = (e) => {
-    const { name, value } = e.target;
-  };
+
 
   return (
     <div className="row min-vh-100">
@@ -171,7 +195,6 @@ const CreacionBodegaScreen = () => {
                   type="text"
                   placeholder="Nombre completo"
                   value={busquedaModel.nombreCompleto}
-                  onChange={changeInput}
                   disabled
                 />
               </div>
@@ -212,8 +235,10 @@ const CreacionBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
+                  name="nombreBodega"
                   placeholder="Nombre de la bodega"
-                  {...registerBodega("nombre", { required: true })}
+                  value={createModel.nombreBodega}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -227,9 +252,6 @@ const CreacionBodegaScreen = () => {
                 <Controller
                   name="departamento"
                   control={controlBodega}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -251,15 +273,14 @@ const CreacionBodegaScreen = () => {
                 <Controller
                   name="cod_municipio"
                   control={controlBodega}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       className="col-12 mt-2"
                       options={municipiosOptions}
                       placeholder="Seleccionar"
+                      value={createModel.municipio}
+                      onChange={changeSelectMuni}
                     />
                   )}
                 />
@@ -273,8 +294,10 @@ const CreacionBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
+                  name="direccionBodega"
                   placeholder="Dirección"
-                  {...registerBodega("direccion", { required: true })}
+                  value={createModel.direccionBodega}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -296,7 +319,7 @@ const CreacionBodegaScreen = () => {
             <div className="d-flex justify-content-end mt-3">
               <button
                 className="border  px-3 btn text-capitalize"
-                type="button"
+                type="submit"
                 title="Guardar"
               >
                 <i className="fa-regular fa-floppy-disk fs-3"></i>
