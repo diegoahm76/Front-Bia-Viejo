@@ -3,61 +3,207 @@ import { Controller, useForm } from "react-hook-form";
 import Subtitle from "../../../components/Subtitle";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
+import { IBienes } from "../../../Interfaces/Bienes";
+import { editarBien } from "../../../store/slices/bienes/indexBien";
+import { IGeneric } from "../../../Interfaces/Generic";
+import clienteAxios from "../../../config/clienteAxios";
 
-export const ArticulosFijosScreen = () => {
+const editState = {
+  id_bien: 0,
+  codigo_bien: "",
+  nro_elemento_bien: 0,
+  nombre: "",
+  cod_tipo_bien: "",
+  cod_tipo_activo: "",
+  nivel_jerarquico: 0,
+  nombre_cientifico: "",
+  descripcion: "",
+  doc_identificador_nro: "",
+  cod_metodo_valoracion: 0,
+  cod_tipo_depreciacion: 0,
+  cantidad_vida_util: 0,
+  valor_residual: 0,
+  stock_minimo: 0,
+  stock_maximo: 0,
+  solicitable_vivero: false,
+  tiene_hoja_vida: false,
+  maneja_hoja_vida: false,
+  visible_solicitudes: false,
+  id_marca: 0,
+  id_unidad_medida: 0,
+  id_porcentaje_iva: 0,
+  id_unidad_medida_vida_util: 0,
+  id_bien_padre: 0,
+};
+
+export const CreacionArticulosFijosScreen = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    //isEdit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  
+  //choice
+  const [tipoBienOptions, setTipoBienOptions] = useState<IGeneric[]>([]);
+  const [tipoActivoOptions, setTipoActivoOptions] = useState<IGeneric[]>([]);
+  const [unidadMedidaOptions, setUnidadMedidaOptions] = useState<IGeneric[]>(
+    []
+  );
+  const [metodoValoracionOptions, setUniOptions] = useState<IGeneric[]>(
+    []
+  );
+  const [porcentajeOptions, setPorcentajeOptions] = useState<IGeneric[]>([]);
+  const [depresiacionOptions, setDepresiacionOptions] = useState<IGeneric[]>(
+    []
+  );
+  const [marcaOptions, setMarcaOptions] = useState<IGeneric[]>([]);
+  //checkbox
   const [checkboxSoli, setCheckboxSoli] = useState(true);
   const [checkboxHoja, setCheckboxHoja] = useState(true);
-  const [tipoDeBien, setTipoDeBien] = useState({
-    tipoBien: "",
-  });
 
-  const {
-    reset: resetTipoBien,
-    register: registerTipoBien,
-    handleSubmit: submitTipoBien,
-    control: controlTipoBien,
-    formState: { errors: errors1 },
-  } = useForm();
+  //estados
+  const [isEdit, setIsdit] = useState(true);
+  const [tipoBien, setTipoBien] = useState<IGeneric>({ label: "", value: "" });
+  const [bienEdit, setBienEdit] = useState(editState);
+  const { loading } = useAppSelector((state) => state.loading);
+  const bienSeleccionado = useAppSelector(
+    (state) => state.bien.bienSeleccionado
+  );
+  const dispatch = useAppDispatch();
+  // False = crear
+  // true = editar
 
-  const {
-    reset: resetCrear,
-    register: registerCrearActivo,
-    handleSubmit: submitCrearActivo,
-    control: controlCrearActivo,
-    formState: { errors: errors },
-  } = useForm();
+  useEffect(() => {
+    setDataEdit();
+    getTipoBien();
+    getTipoActivo();
+    getUnidadMedida();
+    getPorcentaje();
+    getDepresiacion();
+    getMarca();
+  }, [bienSeleccionado]);
 
-  const {
-    reset: resetCrearConsumo,
-    register: registerCrearConsumo,
-    handleSubmit: submitCrearConsumo,
-    control: controlCrearConsumo,
-    formState: { errors: errors2 },
-  } = useForm();
-
-  const onSubmit = (data) => {
-    setTipoDeBien({
-      ...tipoDeBien,
-      tipoBien: data.tipoBien,
-    });
+  const getTipoBien = async () => {
+    const { data } = await clienteAxios.get("almacen/choices/tipo-bien");
+    const tipoBienMaped = data.map((bien) => ({
+      label: bien[1],
+      value: bien[0],
+    }));
+    setTipoBienOptions(tipoBienMaped);
   };
-  const onSubmit2 = () => {};
-  const onSubmit3 = () => {};
+
+  const getTipoActivo = async () => {
+    const { data } = await clienteAxios.get("almacen/choices/tipo-activo");
+    const tipoActivoMaped = data.map((activo) => ({
+      label: activo[1],
+      value: activo[0],
+    }));
+    setTipoActivoOptions(tipoActivoMaped);
+  };
+
+  const getUnidadMedida = async () => {
+    const { data } = await clienteAxios.get("almacen/unidades-medida/get-list");
+    const unidadMedidaMaped = data.map((bien) => ({
+      label: bien.nombre,
+      value: bien.id_unidad_medida,
+    }));
+    setUnidadMedidaOptions(unidadMedidaMaped);
+  };
+
+  const getPorcentaje = async () => {
+    const { data } = await clienteAxios.get("almacen/porcentajes/get-list");
+    const porcentajeMaped = data.map((porcentaje) => ({
+      label: porcentaje.porcentaje,
+      value: porcentaje.id_porcentaje_iva,
+    }));
+    setPorcentajeOptions(porcentajeMaped);
+  };
+
+  const getDepresiacion = async () => {
+    const { data } = await clienteAxios.get(
+      "almacen/choices/tipo-depreciacion-activo"
+    );
+    const depresiacionMaped = data.map((depresiacion) => ({
+      label: depresiacion.porcentaje,
+      value: depresiacion.id_porcentaje_iva,
+    }));
+    setDepresiacionOptions(depresiacionMaped);
+  };
+
+  const getMarca = async () => {
+    const { data } = await clienteAxios.get("almacen/marcas/get-list");
+    const marcaMaped = data.map((marca) => ({
+      label: marca.id_marca,
+      value: marca.nombre,
+    }));
+    setMarcaOptions(marcaMaped);
+  };
+
+  const setDataEdit = () => {
+    const dataForm: IBienes = {
+      id_bien: bienSeleccionado.id_bien,
+      codigo_bien: bienSeleccionado.codigo_bien,
+      nro_elemento_bien: bienSeleccionado.nro_elemento_bien,
+      nombre: bienSeleccionado.nombre,
+      cod_tipo_bien: bienSeleccionado.cod_tipo_bien,
+      cod_tipo_activo: bienSeleccionado!.cod_tipo_activo,
+      nivel_jerarquico: bienSeleccionado.nivel_jerarquico,
+      nombre_cientifico: bienSeleccionado.nombre_cientifico,
+      descripcion: bienSeleccionado.descripcion,
+      doc_identificador_nro: bienSeleccionado.doc_identificador_nro,
+      cod_metodo_valoracion: bienSeleccionado.cod_metodo_valoracion,
+      cod_tipo_depreciacion: bienSeleccionado.cod_tipo_depreciacion,
+      cantidad_vida_util: bienSeleccionado.cantidad_vida_util,
+      valor_residual: bienSeleccionado.valor_residual,
+      stock_minimo: bienSeleccionado.stock_minimo,
+      stock_maximo: bienSeleccionado.stock_maximo,
+      solicitable_vivero: bienSeleccionado.solicitable_vivero,
+      tiene_hoja_vida: bienSeleccionado.tiene_hoja_vida,
+      maneja_hoja_vida: bienSeleccionado.maneja_hoja_vida,
+      visible_solicitudes: bienSeleccionado.visible_solicitudes,
+      id_marca: bienSeleccionado.id_marca,
+      id_unidad_medida: bienSeleccionado.id_unidad_medida,
+      id_porcentaje_iva: bienSeleccionado.id_porcentaje_iva,
+      id_unidad_medida_vida_util: bienSeleccionado.id_unidad_medida_vida_util,
+      id_bien_padre: bienSeleccionado.id_bien_padre,
+    };
+    //setValue("t006mensajeUp", alarmaSeleccionada.t006mensajeUp);
+    //setBienEdit(dataForm);
+  };
+  const onSubmitTipoBien = (data) => {
+    setTipoBien({ label: data.tipoBien.label, value: data.tipoBien.value });
+  };
+
+  const onSubmit = () => {
+    if (isEdit) {
+      editarBien(dispatch, isEdit);
+    } else {
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setBienEdit({ ...bienEdit, [name]: value });
+  };
 
   const navigate = useNavigate();
   const volver = () => {
-    navigate(
-      "/dashboard/Recaudo/gestor-notificacion/catalogo-bienes-Screen"
-    );
+    navigate("/dashboard/Recaudo/gestor-notificacion/catalogo-bienes-Screen");
   };
-
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
           <form
             className="row"
-            onSubmit={submitTipoBien(onSubmit)}
+            onSubmit={handleSubmit(onSubmitTipoBien)}
             id="configForm"
           >
             <h3 className="text-rigth  fw-light mt-4 mb-2">
@@ -73,22 +219,19 @@ export const ArticulosFijosScreen = () => {
                 </label>
                 <Controller
                   name="tipoBien"
-                  control={controlTipoBien}
+                  control={control}
                   rules={{
                     required: true,
                   }}
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={[
-                        { label: "Activo", value: "a" },
-                        { label: "Consumo", value: "c" },
-                      ]}
+                      options={tipoBienOptions}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
-                {errors1.tipoBien && (
+                {errors.tipoBien && (
                   <small className="text-danger">
                     Este campo es obligatorio
                   </small>
@@ -96,17 +239,18 @@ export const ArticulosFijosScreen = () => {
               </div>
               <div className="col-12 col-md-3 mt-2">
                 <button type="submit" className="btn text-capitalize mt-4">
-                  <i class="fa-solid fa-circle-check fs-3"></i>
+                  <i className="fa-solid fa-circle-check fs-3"></i>
                 </button>
               </div>
             </div>
           </form>
 
-          {tipoDeBien.tipoBien.value == "a" ? (
+          {tipoBien.value == "A" ? (
+
             <div>
               <form
                 className="row"
-                onSubmit={submitCrearActivo(onSubmit2)}
+                onSubmit={handleSubmit(onSubmit)}
                 id="configForm"
               >
                 <div className="row">
@@ -115,11 +259,10 @@ export const ArticulosFijosScreen = () => {
                       Código<span className="text-danger">*</span>
                     </label>
                     <input
-                      name="codigo"
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Código"
-                      {...registerCrearActivo("codigo", {
+                      {...register("codigo", {
                         required: true,
                       })}
                     />
@@ -129,18 +272,16 @@ export const ArticulosFijosScreen = () => {
                       </small>
                     )}
                   </div>
-
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
                         Nombre<span className="text-danger">*</span>
                       </label>
                       <input
-                        name="nombre"
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
-                        {...registerCrearActivo("nombre", {
+                        {...register("nombre", {
                           required: true,
                         })}
                       />
@@ -158,18 +299,14 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="tipoactivo"
-                      control={controlCrearActivo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "Computo ", value: "com" },
-                            { label: "Vehiculo", value: "vei" },
-                            { label: "Otros Activos", value: "oac" },
-                          ]}
+                          options={tipoActivoOptions}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -180,11 +317,10 @@ export const ArticulosFijosScreen = () => {
                       Carpeta padre<span className="text-danger">*</span>
                     </label>
                     <input
-                      name="padre"
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Carpeta Padre"
-                      {...registerCrearActivo("padre", {
+                      {...register("padre", {
                         required: true,
                       })}
                     />
@@ -203,18 +339,14 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="unidadmedida"
-                      control={controlCrearActivo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "kilogramo ", value: "kg" },
-                            { label: "kilometro", value: "km" },
-                            { label: "segundos", value: "seg" },
-                          ]}
+                          options={unidadMedidaOptions}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -231,18 +363,14 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="porcentaje"
-                      control={controlCrearActivo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "19%", value: "19" },
-                            { label: "14%", value: "14" },
-                            { label: "22%", value: "23" },
-                          ]}
+                          options={porcentajeOptions}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -259,17 +387,14 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="depresiacion"
-                      control={controlCrearActivo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "linea recta", value: "lin" },
-                            { label: "hora uso", value: "hor" },
-                          ]}
+                          options={depresiacionOptions}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -281,18 +406,14 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="unidadvida"
-                      control={controlCrearActivo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "años ", value: "ano" },
-                            { label: "meses", value: "mes" },
-                            { label: "dias", value: "dia" },
-                          ]}
+                          options={unidadMedidaOptions}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -304,7 +425,6 @@ export const ArticulosFijosScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Cantidad de vida útil
-                        
                       </label>
                       <input
                         name="cantidadvida"
@@ -333,18 +453,14 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="marca"
-                      control={controlCrearActivo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "Lenovo", value: "len" },
-                            { label: "Nokia", value: "nok" },
-                            { label: "Dell", value: "del" },
-                          ]}
+                          options={marcaOptions}
                           placeholder="Seleccionar"
                         />
                       )}
@@ -406,21 +522,24 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <textarea
                       className="form-control border rounded-pill px-4 border border-terciary"
-                      type="text"
                       placeholder="Descripción"
                       value=""
-                      rows="3"
+                      rows={3}
                       name="Acciones"
                     />
                   </div>
                 </div>
                 <div className="row ">
                   <div className="d-flex justify-content-end mt-3">
-                    <button type="button" className="btn   text-capitalize" onClick={() => volver()}>
-                      <i class="fa-solid fa-x fs-3"></i>
+                    <button
+                      type="button"
+                      className="btn   text-capitalize"
+                      onClick={() => volver()}
+                    >
+                      <i className="fa-solid fa-x fs-3"></i>
                     </button>
                     <button type="submit" className="btn   text-capitalize">
-                      <i class="fa-regular fa-floppy-disk fs-3"></i>
+                      <i className="fa-regular fa-floppy-disk fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -429,11 +548,11 @@ export const ArticulosFijosScreen = () => {
           ) : (
             ""
           )}
-          {tipoDeBien.tipoBien.value == "c" ? (
+          {tipoBien.value == "C" ? (
             <div>
               <form
                 className="row"
-                onSubmit={submitCrearConsumo(onSubmit3)}
+                onSubmit={handleSubmit(onSubmit)}
                 id="configForm"
               >
                 <div className="row">
@@ -442,15 +561,14 @@ export const ArticulosFijosScreen = () => {
                       Código<span className="text-danger">*</span>
                     </label>
                     <input
-                      name="codigo"
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Código"
-                      {...registerCrearConsumo("codigo", {
+                      {...register("codigo", {
                         required: true,
                       })}
                     />
-                    {errors2.codigo && (
+                    {errors.codigo && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
@@ -463,16 +581,15 @@ export const ArticulosFijosScreen = () => {
                         Nombre<span className="text-danger">*</span>
                       </label>
                       <input
-                        name="nombre"
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
-                        {...registerCrearConsumo("nombre", {
+                        {...register("nombre", {
                           required: true,
                         })}
                       />
                     </div>
-                    {errors2.nombre && (
+                    {errors.nombre && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
@@ -485,7 +602,7 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="tipoactivo"
-                      control={controlCrearConsumo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
@@ -507,15 +624,14 @@ export const ArticulosFijosScreen = () => {
                       Carpeta padre<span className="text-danger">*</span>
                     </label>
                     <input
-                      name="padre"
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Carpeta Padre"
-                      {...registerCrearConsumo("padre", {
+                      {...register("padre", {
                         required: true,
                       })}
                     />
-                    {errors2.padre && (
+                    {errors.padre && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
@@ -530,23 +646,19 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="unidadmedida"
-                      control={controlCrearConsumo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "kilogramo ", value: "kg" },
-                            { label: "kilometro", value: "km" },
-                            { label: "segundos", value: "seg" },
-                          ]}
+                          options={unidadMedidaOptions}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
-                    {errors2.unidadmedida && (
+                    {errors.unidadmedida && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
@@ -560,15 +672,14 @@ export const ArticulosFijosScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        name="stockminimo"
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Cantidad de vida util"
-                        {...registerCrearConsumo("stockminimo", {
+                        {...register("stockminimo", {
                           required: true,
                         })}
                       />
-                      {errors2.stockminimo && (
+                      {errors.stockminimo && (
                         <small className="text-danger">
                           Este campo es obligatorio
                         </small>
@@ -582,15 +693,14 @@ export const ArticulosFijosScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <input
-                        name="stockmaximo"
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Cantidad de vida util"
-                        {...registerCrearConsumo("stockmaximo", {
+                        {...register("stockmaximo", {
                           required: true,
                         })}
                       />
-                      {errors2.stockmaximo && (
+                      {errors.stockmaximo && (
                         <small className="text-danger">
                           Este campo es obligatorio
                         </small>
@@ -603,23 +713,19 @@ export const ArticulosFijosScreen = () => {
                     </label>
                     <Controller
                       name="porcentaje"
-                      control={controlCrearConsumo}
+                      control={control}
                       rules={{
                         required: true,
                       }}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={[
-                            { label: "19%", value: "19" },
-                            { label: "14%", value: "14" },
-                            { label: "22%", value: "23" },
-                          ]}
+                          options={porcentajeOptions}
                           placeholder="Seleccionar"
                         />
                       )}
                     />
-                    {errors2.porcentaje && (
+                    {errors.porcentaje && (
                       <small className="text-danger">
                         Este campo es obligatorio
                       </small>
@@ -674,50 +780,50 @@ export const ArticulosFijosScreen = () => {
                         )}
                       </button>
                     </div>
-                    </div>
-                    {checkboxHoja == false ? (
-                      <div className="col-12 col-lg-3  mt-3">
-                        <div>
-                          <label className="ms-2 text-terciary">
-                            Nombre cientifico
-                          </label>
-                          <input
-                            name="nombrecien"
-                            className="form-control border border-terciary border rounded-pill px-3"
-                            type="text"
-                            placeholder="Cantidad de vida util"
-                            
-                          />
-                          
-                        </div>
+                  </div>
+                  {checkboxHoja == false ? (
+                    <div className="col-12 col-lg-3  mt-3">
+                      <div>
+                        <label className="ms-2 text-terciary">
+                          Nombre cientifico
+                        </label>
+                        <input
+                          name="nombrecien"
+                          className="form-control border border-terciary border rounded-pill px-3"
+                          type="text"
+                          placeholder="Cantidad de vida util"
+                        />
                       </div>
-                    ) : (
-                      ""
-                    )}
-                  
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <div className="row">
                   <div className="col-12 col-lg-12 mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                    Descripción
+                      Descripción
                     </label>
                     <textarea
                       className="form-control border rounded-pill px-4 border border-terciary"
-                      type="text"
                       placeholder="Descripción"
                       value=""
-                      rows="3"
+                      rows={3}
                       name="Acciones"
                     />
                   </div>
                 </div>
                 <div className="row ">
                   <div className="d-flex justify-content-end mt-3">
-                    <button type="submit" className="btn   text-capitalize"onClick={() => volver()}>
-                      <i class="fa-solid fa-x fs-3"></i>
+                    <button
+                      type="submit"
+                      className="btn   text-capitalize"
+                      onClick={() => volver()}
+                    >
+                      <i className="fa-solid fa-x fs-3"></i>
                     </button>
                     <button type="submit" className="btn   text-capitalize">
-                      <i class="fa-regular fa-floppy-disk fs-3"></i>
+                      <i className="fa-regular fa-floppy-disk fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -731,4 +837,4 @@ export const ArticulosFijosScreen = () => {
     </div>
   );
 };
-export default ArticulosFijosScreen;
+export default CreacionArticulosFijosScreen;
