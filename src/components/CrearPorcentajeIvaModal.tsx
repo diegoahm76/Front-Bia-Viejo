@@ -181,7 +181,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
             minWidth: 150,
         },
         { headerName: "Porcentaje", field: "porcentaje", minWidth: 150 },
-        { headerName: "Observacion", field: "observacion", minWidth: 250 },
+        { headerName: "Observación", field: "observacion", minWidth: 250 },
         { headerName: "Activo", field: "activo", minWidth: 100 },
         {
             headerName: "Acciones",
@@ -237,7 +237,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
                         onSubmit={handleSubmit(onSubmit)}
                         id="configForm"
                     >
-                        <h4>Crear porcentaje de iva</h4>
+                        <h4>Crear porcentaje de IVA</h4>
                         <hr className="rounded-pill hr-modal" />
                         <div className="row">
                             <div className="col-12 col-md-6">
