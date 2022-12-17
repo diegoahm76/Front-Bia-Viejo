@@ -255,6 +255,19 @@ const Aside = ({ showAside }) => {
                           id="entradaYSalidaDeArticulos"
                         >
                           <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/entrada-y-salida-de-articulos/catalogo-bienes"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Catalogo de bienes
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -547,7 +560,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item">
+                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-vehiculo-externo"
@@ -585,11 +598,12 @@ const Aside = ({ showAside }) => {
                                   Hoja de vida de <br /> un vehiculo
                                 </span>
                               </Link>
-                            </li>
+                            </li> 
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="almacen/gestion-de-inventario/cv-activo"
+                                to="almacen/gestion-de-inventario/cv"
                               >
                                 <span className="sidenav-mini-icon">
                                   <img src={Vineta} alt="vineta" />
@@ -599,6 +613,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "

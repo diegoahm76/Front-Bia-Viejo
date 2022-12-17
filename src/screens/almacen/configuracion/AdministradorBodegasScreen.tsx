@@ -33,6 +33,7 @@ const AdministradorBodegasScreen = () => {
   };
   const EditarBodega = (data) =>{
     // dispatch(editarBodegaAction1(data))
+    debugger
     seleccionarBodega(dispatch, data)
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
@@ -63,7 +64,7 @@ const AdministradorBodegasScreen = () => {
 
   const columnDefs = [
     { headerName: "Id bodega", field: "id_bodega", minWidth: 140 },
-    { headerName: "Nombre bodega", field: "nombre", minWidth: 140 },
+    { headerName: "Nombré bodega", field: "nombre", minWidth: 140 },
     { headerName: "Responsable", field: "id_responsable.primer_nombre", minWidth: 140 },
     { headerName: "Dirección", field: "direccion", minWidth: 140 },
     {
@@ -111,7 +112,7 @@ const AdministradorBodegasScreen = () => {
           data-animation="FadeIn"
         >
           <h3 className="mt-2 mb-0">Administrador de bodegas</h3>
-          <Subtitle title="Informacion de general" mt={3} mb={3} />
+          <Subtitle title="Información de general" mt={3} mb={3} />
 
           <div className="multisteps-form__content">
             <div>
@@ -130,10 +131,10 @@ const AdministradorBodegasScreen = () => {
           <div className="d-flex justify-content-end mt-3">
             <button
               type="button"
-              className="btn btn-secondary mx-2 text-capitalize"
+              className="btn  mx-2 text-capitalize"
               onClick={() => RegresarCreacion()}
             >
-              Regresar
+              <i className="fa-solid fa-angles-left fs-3"></i>
             </button>
           </div>
         </div>
