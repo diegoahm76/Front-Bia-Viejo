@@ -6,7 +6,13 @@ import { textChoiseAdapter } from "../adapters/textChoices.adapter";
 import clienteAxios from "../config/clienteAxios";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 //Actions
-import { editOrganigramsService, getLevelsService, getUnitysService, updateLevelsService, updateUnitysService } from "../services/organigram/OrganigramServices";
+import {
+    editOrganigramsService,
+    getLevelsService,
+    getUnitysService,
+    updateLevelsService,
+    updateUnitysService
+} from "../services/organigram/OrganigramServices";
 //Interfaces
 import {
     IObjLevels as FormValuesLevels,
@@ -17,7 +23,6 @@ import {
     IObjCreateOrganigram as FormValuesOrganigram,
     ITypeUnity,
 } from "../Interfaces/Organigrama";
-import { SingleValue } from "react-select";
 
 const useEdicionOrganigrama = () => {
 
@@ -165,7 +170,7 @@ const useEdicionOrganigrama = () => {
                         onClick={() => {
                             resetUnidades({
                                 "unidadRaiz": {
-                                    "label": optionRaiz.filter((item) => item.value === data.unidad_raiz)[0].label,
+                                    "label": optionRaiz.filter(item => item.value === data.unidad_raiz)[0].label,
                                     "value": data.unidad_raiz
                                 },
                                 "codigo": data.codigo,
@@ -223,20 +228,21 @@ const useEdicionOrganigrama = () => {
                         style={{ border: "none", background: "none" }}
                         onClick={() => {
                             setTitle_nivel('Editar');
+                            setOrden_nivel(data.orden_nivel);
                             resetNivel(data)
                         }}
                     >
                         <i className="fa-regular fa-pen-to-square fs-3"></i>
                     </button>
                     <button
-                        className={`${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}
+                        className={`${data.orden_nivel !== levelsOrganigram[levelsOrganigram.length - 1].orden_nivel && "d-none"}`}
+                        style={{ border: "none", background: "none" }}
                         type="button"
                         title="Eliminar"
                         onClick={() => {
                             deleteLevel(data.orden_nivel)
                         }}
                     >
-                        {/* <i className={`fa-light fa-trash-can fs-3 ${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}></i> */}
                         <i className="fa-regular fa-trash-can fs-3"></i>
                     </button>
                 </div>
@@ -251,20 +257,29 @@ const useEdicionOrganigrama = () => {
 
     useEffect(() => {
         setOrden_nivel(levelsOrganigram.length + 1);
-        setOptionNivel(levelsOrganigram.map((item) => ({ label: item.nombre, value: item.id_nivel_organigrama, orden: item.orden_nivel })));
+        setOptionNivel(levelsOrganigram.map(
+            item => ({ label: item.nombre, value: item.id_nivel_organigrama, orden: item.orden_nivel })
+        ));
     }, [levelsOrganigram]);
 
     useEffect(() => {
         resetUnidades({
             unidadRaiz: { label: "Si", value: true },
         });
-        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false })));
+        setOptionUnidadPadre(unityOrganigram.map(
+            item => ({ label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false })
+        ));
     }, [unityOrganigram]);
 
     //useEffect para desabilitar opciones de unidad padre
     useEffect(() => {
         if (datosUnidades.nivelUnidad) {
-            setOptionUnidadPadre(unityOrganigram.map((item) => ((item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!) ? { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false } : { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: true })));
+            setOptionUnidadPadre(unityOrganigram.map(
+                item => ((
+                    item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!)
+                    ? { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false }
+                    : { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: true }
+                )));
             setValueUnidades('nivelPadre', {
                 "label": '',
                 "value": null,
@@ -277,9 +292,10 @@ const useEdicionOrganigrama = () => {
     //useEffect para deshabilitar el nivel 1 cuando el tipo de unidad es de apoyo o soporte
     useEffect(() => {
         if (['AP', 'AS'].includes(String(datosUnidades?.tipoUnidad?.value))) {
-            setOptionNivel(prev => prev.map((item) => item.value === 'N1' ? { ...item, isDisabled: true } : item));
+            setOptionNivel(prev => prev.map(item => item.value === 'N1' ? { ...item, isDisabled: true } : item));
+            setOptionAgrupacionD(prev => prev.map(item => ({ ...item, isDisabled: true })));
         } else {
-            setOptionNivel(prev => prev.map((item) => item.value === 'N1' ? { ...item, isDisabled: false } : item));
+            setOptionNivel(prev => prev.map(item => item.value === 'N1' ? { ...item, isDisabled: false } : item));
         }
     }, [datosUnidades.tipoUnidad]);
 
@@ -299,8 +315,8 @@ const useEdicionOrganigrama = () => {
                 const agrupacionDocumentalFormat = textChoiseAdapter(agrupacionDocumentalNoFormat);
                 const tipoUnidadFormat = textChoiseAdapter(tipoUnidadNoFormat);
 
-                setOptionAgrupacionD(agrupacionDocumentalFormat.map((item) => ({ ...item, isDisabled: false })));
-                setOptionTipoUnidad(tipoUnidadFormat.map((item) => ({ ...item, isDisabled: false })));
+                setOptionAgrupacionD(agrupacionDocumentalFormat.map(item => ({ ...item, isDisabled: false })));
+                setOptionTipoUnidad(tipoUnidadFormat.map(item => ({ ...item, isDisabled: false })));
             } catch (err) {
                 console.log(err);
             }
@@ -319,12 +335,9 @@ const useEdicionOrganigrama = () => {
                 id_nivel_organigrama: null
             }]
         } else {
-            newNiveles = levelsOrganigram.map(nivel => {
-                if (nivel.id_nivel_organigrama === data.id_nivel_organigrama) {
-                    nivel.nombre = data.nombre;
-                }
-                return nivel;
-            });
+            newNiveles = levelsOrganigram.map(
+                item => { return item.id_nivel_organigrama === data.id_nivel_organigrama ? { ...item, nombre: data.nombre } : item }
+            );
             setTitle_nivel('Agregar');
         }
         resetNivel({
