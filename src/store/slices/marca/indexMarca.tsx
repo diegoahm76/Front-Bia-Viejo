@@ -2,10 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import { IMarca, IMarcaModel } from "../../../Interfaces/marca";
+import { IMarcaGet } from "../../../Interfaces/Marca";
 
-const initialState: IMarca = {
-    marcas: [],
+const initialState: IMarcaGet = {
+    marca: [],
     marcaSeleccionada: {
         activo: false,
         id_marca: 0,
@@ -20,21 +20,21 @@ const marcaSlice = createSlice({
     initialState,
     reducers: {
         crearMarcaAction: (state, action) => {
-            state.marcas.push(action.payload);
+            state.marca.push(action.payload);
         },
         obtenerMarcasAction: (state, action) => {
-            state.marcas = action.payload;
+            state.marca = action.payload;
         },
         setMarcaSeleccionada: (state, action) => {
             state.marcaSeleccionada = action.payload
         },
         eliminarMarcaAction: (state, action) => {
-            state.marcas = state.marcas.filter((marca) => marca.id_marca !== action.payload)
+            state.marca = state.marca.filter((marca) => marca.id_marca !== action.payload)
         },
         editarMarcaAction: (state, action) => {
-            state.marcas.forEach((marca, index) => {
+            state.marca.forEach((marca, index) => {
                 if (marca.id_marca === action.payload.id_marca) {
-                    state.marcas[index] = action.payload;
+                    state.marca[index] = action.payload;
                 }
             });
         },
@@ -59,7 +59,7 @@ export const obtenerMarcasLista = async (dispatch) => {
 
 export const seleccionarMarca = (dispatch, marca) => {
     dispatch(setMarcaSeleccionada(marca));
-  };
+};
 
 export const eliminarMarca = async (dispatch, id) => {
     const elementModalId = document.getElementById("modal-marca-id")!;
@@ -96,8 +96,8 @@ export const editarMarca = async (dispatch, estacion) => {
     });
 };
 
-export const crearMarca = async (marca) => {
-    const elementModalId = document.getElementById("marcaModal")!;
+export const crearMarca = async (dispatch, marca) => {
+    const elementModalId = document.getElementById("modal-marca-id")!;
     await clienteAxios.post("almacen/marcas/create/", marca).then(() => {
         // const elementModalId = document.getElementById("marcaModal")!;
         Swal.fire({
@@ -110,6 +110,7 @@ export const crearMarca = async (marca) => {
         });
     }).catch((error) => {
         Swal.fire({
+            target: elementModalId,
             icon: "error",
             title: "Hubo un error",
             text: "Hubo un error, intenta de nuevo",
