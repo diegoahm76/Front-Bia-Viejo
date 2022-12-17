@@ -342,7 +342,6 @@ export const EdicionOrganigramaScreen = () => {
                           setValueUnidades('agrupacionDocumental', option!)
                         }}
                         options={optionsAgrupacionD}
-                        // options={optionsAgrupacionD.map((item) => (item.value !== 'SEC' && unityOrganigram.length === 0 ? { ...item, isDisabled: true } : { ...item, isDisabled: false }))}
                         placeholder="Seleccionar"
                       />
                     )}

@@ -18,6 +18,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     zIndex: "9999",
+    overflow: "hidden",
   },
 };
 interface IProps {
@@ -131,13 +132,13 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }: IProps) 
 
             <div className="row d-flex align-items-end mt-2 mx-2">
               <div className="d-flex justify-content-end gap-4 ">
-              <button
+                <button
                   className="btn   text-capitalize px-3"
                   type="button"
                   onClick={handleCloseCrearOrganigrama}
                   title="Regresar"
                 >
-                  <i className ="fa-solid fa-angles-left fs-3"></i>
+                  <i className="fa-solid fa-angles-left fs-3"></i>
                 </button>
                 <button
                   type="submit"
@@ -146,7 +147,6 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }: IProps) 
                 >
                   <i className="fa-regular fa-floppy-disk fs-3"></i>
                 </button>
-                
               </div>
             </div>
           </form>
