@@ -232,7 +232,7 @@ const EditarBodegaScreen = () => {
     const cedula = parseInt(busquedaModel.cedula);
     const bodegaEditada = {
       cod_municipio: infoBodega.municipio.value,
-      nombre: busquedaModel.nombreCompleto,
+      nombre: infoBodega.nombreBodega,
       direccion: infoBodega.direccionBodega,
       id_responsable: busquedaModel.idResponsable,
       es_principal: infoBodega.principal,
