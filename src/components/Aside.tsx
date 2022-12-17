@@ -255,6 +255,19 @@ const Aside = ({ showAside }) => {
                           id="entradaYSalidaDeArticulos"
                         >
                           <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/entrada-y-salida-de-articulos/catalogo-bienes"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Catalogo de bienes
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "

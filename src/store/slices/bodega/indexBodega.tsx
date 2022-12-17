@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 import { IBodegaGeneric, IBodegaCreate } from "../../../Interfaces/Bodegas";
@@ -33,14 +34,16 @@ const bodegaSlice = createSlice({
   name: "AdministradorBodegas",
   initialState,
   reducers: {
-    crearBodegaAction: (state, action) => { },
+    crearBodegaAction: (state, action) => {},
     obtenerBodegaAction: (state, action) => {
-      state.bodega = action.payload
+      state.bodega = action.payload;
     },
     eliminarBodegaAction: (state, action) => {
-      state.bodega = state.bodega.filter((alarm) => alarm.id_bodega !== action.payload)
+      state.bodega = state.bodega.filter(
+        (alarm) => alarm.id_bodega !== action.payload
+      );
     },
-    editarBodegaAction1: (state, action) => { },
+    editarBodegaAction1: (state, action) => {},
     seleccionarBodegaAction: (state, action) => {
       state.bodegaEditar = action.payload;
     },
@@ -48,18 +51,21 @@ const bodegaSlice = createSlice({
 });
 
 export const crearBodega = async (dispatch, bodega: IBodegaCreate) => {
-  await clienteAxios.post("almacen/bodega/create/", bodega).then(() => {
-    // dispatch(crearBodegaAction(bodega));
-    Swal.fire("Correcto", "La bodega se agrego correctamente", "success");
-  }).catch(() => {
-    Swal.fire({
-      position: "center",
-      icon: "error",
-      title: "Algo pasó, intente de nuevo",
-      showConfirmButton: true,
-      confirmButtonText: "Aceptar",
+  await clienteAxios
+    .post("almacen/bodega/create/", bodega)
+    .then(() => {
+      // dispatch(crearBodegaAction(bodega));
+      Swal.fire("Correcto", "La bodega se agrego correctamente", "success");
+    })
+    .catch(() => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Algo pasó, intente de nuevo",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
     });
-  });
 };
 
 export const obtenerBodega = async (dispatch) => {
@@ -76,12 +82,33 @@ export const eliminarBodega = async (dispatch, id_bodega) => {
 };
 
 export const editarBodega = async (dispatch, id_bodega, bodega) => {
+  
   await clienteAxios
     .put(`almacen/bodega/update/${id_bodega}`, bodega)
-    .then(() => {
-      Swal.fire("Correcto", "La bodega se edito correctamente", "success");
+    .then((response: any) => {
+      if (response.data.success) {
+        Swal.fire("Correcto", "La bodega se edito correctamente", "success");
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Algo pasó, intente de nuevo",
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
+      }
+
       // dispatch(obtenerBodegaAction(id_bodega));
       dispatch(editarBodegaAction1(bodega));
+    })
+    .catch((error) => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: error.response.data.detail,
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
     });
 };
 

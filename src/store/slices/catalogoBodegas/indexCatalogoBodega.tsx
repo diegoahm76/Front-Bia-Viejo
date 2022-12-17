@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
-import { IBienes } from "../../../Interfaces/Bien";
+import { IBienes } from "../../../Interfaces/Bienes";
 
 
 
