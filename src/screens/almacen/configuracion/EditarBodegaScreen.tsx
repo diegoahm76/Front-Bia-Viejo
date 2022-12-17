@@ -20,7 +20,8 @@ import { editarBodega } from "../../../store/slices/bodega/indexBodega";
 const busquedaAvanzadaModel = {
   tipoDocumento: { value: "", label: "" },
   cedula: "",
-  nombreCompleto: ""
+  nombreCompleto: "",
+  idResponsable: 0
 }
 
 const infoBodegaModel = {
@@ -115,7 +116,7 @@ const EditarBodegaScreen = () => {
         }
       });
       crearModeloBuscar();
-      crearModeloInformacion(municipiosFormat);
+      crearModeloInformacion(municipiosFormat, departamentosFormat);
 
     } catch (err) {
       console.log(err);
@@ -134,16 +135,23 @@ const EditarBodegaScreen = () => {
     setBusquedaModel(busqueda);
   }
 
-  const crearModeloInformacion = (municipiosFormat) => {
+  const crearModeloInformacion = (municipiosFormat, departamentosFormat) => {
     let bodega = { ...infoBodega }
     bodega.nombreBodega = bodegaEditar.nombre;
     bodega.direccionBodega = bodegaEditar.direccion
+    const indicator = bodegaEditar.cod_municipio.slice(0, 2);
+    let depa = departamentosFormat.filter((res) => res.value === indicator);
+    bodega.departamento = {
+      label: depa[0].label,
+      value: depa[0].value
+    }
     let muni = municipiosFormat.filter((res) => res.value === bodegaEditar.cod_municipio)
     bodega.municipio = {
       label: muni[0].label,
       value: muni[0].value
     }
     setValue("cod_municipio", bodega.municipio);
+    setValue("departamento", bodega.departamento);
     setInfoBodegaModel(bodega);
   }
   const createFullName = () => {
@@ -192,6 +200,14 @@ const EditarBodegaScreen = () => {
     }
     setInfoBodegaModel(municipio)
   }
+  const changeSelectDepa = (e) => {
+    let departamento = { ...infoBodega }
+    departamento.departamento = {
+      value: e.value,
+      label: e.label
+    }
+    setInfoBodegaModel(departamento)
+  }
   const changeNombre = (e) => {
     let nombre = { ...infoBodega }
     nombre.nombreBodega = e.target.value;
@@ -221,7 +237,6 @@ const EditarBodegaScreen = () => {
       es_principal: infoBodega.principal,
       activo: true
     };
-    debugger
     editarBodega(dispatch, bodegaEditar.id_bodega, bodegaEditada);
   };
   return (
@@ -237,7 +252,7 @@ const EditarBodegaScreen = () => {
             <h3 className="text-rigth  fw-light mt-4 mb-2"> Editar bodega</h3>
             <Subtitle title={"Datos del responsable"} mb={3} />
             <div className="col-12 col-md-3">
-              <label className="ms-3 text-terciary">Tipo de Documento</label>
+              <label className="ms-3 text-terciary">Tipo de documento<span className="text-danger">*</span></label>
               <Controller
                 name="tipoDocumento"
                 control={controlBuscar}
@@ -264,10 +279,11 @@ const EditarBodegaScreen = () => {
             </div>
             <div className="col-12 col-md-3">
               <div>
-                <label className="ms-2 text-terciary">Número de cedula</label>
+                <label className="ms-2 text-terciary">Número de documento<span className="text-danger">*</span></label>
                 <input
                   className="border border-terciary form-control border rounded-pill px-3"
                   type="text"
+                  placeholder="Número de documento"
                   defaultValue={busquedaModel.cedula}
                   required
                 />
@@ -286,10 +302,11 @@ const EditarBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
-                  placeholder="nombre completo"
+                  placeholder="Nombre completo"
                   value={busquedaModel.nombreCompleto}
                   onChange={changeName}
                   required
+                  disabled
                 />
               </div>
             </div>
@@ -300,7 +317,7 @@ const EditarBodegaScreen = () => {
                   type="button"
                   onClick={() => setBusquedaAvanzadaIsOpen(true)}
                 >
-                  Busqueda Avanzada
+                  Busqueda avanzada
                 </button>
               </div>
             </div>
@@ -323,12 +340,12 @@ const EditarBodegaScreen = () => {
             <Subtitle title="Información de la bodega" mb={3} />
             <div className="col-12 col-sm-3 mt-2">
               <div>
-                <label className="ms-3 text-terciary">Nombre de bodega</label>
+                <label className="ms-3 text-terciary">Nombre de la bodega<span className="text-danger">*</span></label>
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   name="nombreBodega"
-                  placeholder="nombre"
+                  placeholder="Nombre de la bodega"
                   value={infoBodega.nombreBodega}
                   onChange={changeNombre}
                   required={false}
@@ -353,6 +370,9 @@ const EditarBodegaScreen = () => {
                       required={false}
                       options={departamentosOptions}
                       placeholder="Seleccionar"
+                      value={infoBodega.departamento}
+                      {...register("departamento")}
+                      onChange={changeSelectDepa}
                     />
                   )}
                 />
@@ -385,13 +405,13 @@ const EditarBodegaScreen = () => {
             <div className="col-12 col-sm-3 mt-2">
               <div>
                 <label className="ms-3 text-terciary">
-                  Dirección de bodega
+                  Dirección de bodega<span className="text-danger">*</span>
                 </label>
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   name="direccion"
-                  placeholder="dirección"
+                  placeholder="Dirección"
                   required
                   value={infoBodega.direccionBodega}
                   onChange={changeDireccion}
@@ -417,16 +437,18 @@ const EditarBodegaScreen = () => {
             <div className="d-flex justify-content-end mt-3">
               <button
                 type="submit"
-                className="btn btn-secondary mx-2 p-2 w-7 text-capitalize"
+                className="btn  mx-2 p-2 w-7 text-capitalize"
+                title="Guardar cambios"
               >
-                Guardar cambios
+                <i className="fa-regular fa-floppy-disk fs-3"></i>
               </button>
               <button
                 type="button"
-                className="btn btn-secondary mx-2 text-capitalize"
+                className="btn  mx-2 text-capitalize"
+                title="Descartar"
                 onClick={() => Regresar()}
               >
-                Descartar
+                <i className="fa-solid fa-x fs-3"></i>
               </button>
             </div>
           </div>

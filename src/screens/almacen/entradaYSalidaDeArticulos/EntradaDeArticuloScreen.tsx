@@ -519,7 +519,7 @@ export const EntradaDeArticuloScreen = () => {
                       className="form-control form-control-lg border rounded-pill px-3 border border-terciary"
                       id="formFileLg"
                       type="file"
-                      required
+                      required={false}
                     />
                   </div>
                 </div>

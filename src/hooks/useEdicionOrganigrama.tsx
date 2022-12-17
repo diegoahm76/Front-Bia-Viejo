@@ -39,7 +39,8 @@ const useEdicionOrganigrama = () => {
     const [optionUnidadPadre, setOptionUnidadPadre] = useState<ILevelFather[]>([{
         label: '',
         value: '',
-        isdisabled: false
+        id_nivel_organigrama: 0,
+        isDisabled: false
     }]);
     const [optionsTipoUnidad, setOptionTipoUnidad] = useState<ITypeUnity[]>([{
         label: '',
@@ -83,7 +84,8 @@ const useEdicionOrganigrama = () => {
         "nivelPadre": {
             "label": '',
             "value": null,
-            "isdisabled": false
+            "id_nivel_organigrama": 0,
+            "isDisabled": false
         }
     }
     //configuración de tabla por defecto
@@ -231,7 +233,7 @@ const useEdicionOrganigrama = () => {
                         }}
                     >
                         {/* <i className={`fa-light fa-trash-can fs-3 ${data.orden_nivel !== (orden_nivel - 1) && "d-none"}`}></i> */}
-                        <i className="fa-light fa-trash-can fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-3"></i>
                     </button>
                 </div>
             ),
@@ -252,13 +254,19 @@ const useEdicionOrganigrama = () => {
         resetUnidades({
             unidadRaiz: { label: "Si", value: true },
         });
-        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo, isdisabled: false })));
+        setOptionUnidadPadre(unityOrganigram.map((item) => ({ label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false })));
     }, [unityOrganigram]);
 
     //useEffect para desabilitar opciones de unidad padre
     useEffect(() => {
         if (datosUnidades.nivelUnidad) {
-            setOptionUnidadPadre(unityOrganigram.map((item) => ((item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!) ? { label: item.nombre, value: item.codigo, isdisabled: true } : { label: item.nombre, value: item.codigo, isdisabled: false })));
+            setOptionUnidadPadre(unityOrganigram.map((item) => ((item.id_nivel_organigrama < datosUnidades!.nivelUnidad!.value!) ? { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: false } : { label: item.nombre, value: item.codigo, id_nivel_organigrama: item.id_nivel_organigrama, isDisabled: true })));
+            setValueUnidades('nivelPadre', {
+                "label": '',
+                "value": null,
+                "id_nivel_organigrama": 0,
+                "isDisabled": false
+            })
         }
     }, [datosUnidades.nivelUnidad]);
 

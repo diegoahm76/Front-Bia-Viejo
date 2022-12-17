@@ -35,7 +35,7 @@ interface IEstacionesInternal {
   t001nombre: string;
   t001coord1: number;
   t001coord2: number;
-  t001fechaMod: Date ;
+  t001fechaMod: string ;
   t001userMod: string;
 }
 

@@ -12,6 +12,7 @@ import estacionesReducer from "./slices/administradorEstaciones/indexAdministrad
 import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
 import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 import bienReducer from "./slices/bienes/indexBien";
+import marcaReducer from "./slices/marca/indexMarca";
 // import thunk from "redux-thunk";
 import loadingReducer, {
   cancelLoading,
@@ -33,8 +34,10 @@ const store = configureStore({
     configuracion: configuracionReducer,
     bodegaSlice: bodegaReducer,
     organigram: organigramReducer,
-    monitoreoSlice:monitoreoReducer,
-    bien:bienReducer
+    bien:bienReducer,
+    marca:marcaReducer,
+    monitoreoSlice: monitoreoReducer,
+
   },
 });
 

@@ -17,7 +17,7 @@ import { TreeTable } from "primereact/treetable";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 
-import {
+import { 
   obtenerTodosBienes,
   obtenerBien,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
@@ -26,8 +26,7 @@ import { IBienes } from "../../../Interfaces/Bienes";
 import { INodo } from "../../../Interfaces/Nodo";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-//import clienteAxios from "../../../config/clienteAxios";
-//import { IGeneric } from "../../../Interfaces/Generic";
+
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -40,17 +39,36 @@ const CatalogoDeBienesScreen = () => {
   const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
   const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
 
+  const armarArbol = useCallback((bienNuevo) => {
+    let contador = 0;
+    console.log("BIEN cargado", bienNuevo);
+    bienNuevo?.forEach((bienElement) => {
+      agregarNodosBase(bienElement, contador, bienNuevo);
+      contador = arrayTotal.length;
+    });
+  }, []);
+  useEffect(() => {
+    obtenerTodosBienes(dispatch);
+  }, [dispatch]);
+  useEffect(
+    () => console.log(" after first render or message updated", bien),
+    [bien]
+  );
   useEffect(() => {
     armarArbol(bien);
   }, [bien]);
 
-  function armarArbol(bienArray) {
-    let contador = 0;
-    bien.forEach((bienElement) => {
-      agregarNodosBase(bienElement, contador);
-      contador = arrayTotal.length;
-    });
-  }
+  // useEffect(() => {
+  //   armarArbol(bien);
+  // }, [bien]);
+
+  // function armarArbol(bienArray) {
+  //   let contador = 0;
+  //   bien.forEach((bienElement) => {
+  //     agregarNodosBase(bienElement, contador);
+  //     contador = arrayTotal.length;
+  //   });
+  //}
 
   const treeTableFuncMap = {
     globalFilter1: setGlobalFilter1,
@@ -119,9 +137,9 @@ const CatalogoDeBienesScreen = () => {
 
   //let arrayTotal: INodo[] = [];
 
-  function tieneHijos(bien) {
+  function tieneHijos(bien, bienNuevo) {
     let bandera = 0;
-    bien.forEach((bienElement) => {
+    bienNuevo.forEach((bienElement) => {
       if (bien.id_bien === bienElement.id_bien_padre) {
         bandera++;
       }
@@ -133,7 +151,7 @@ const CatalogoDeBienesScreen = () => {
     return arrayRecorrido.includes(bien.id_bien) ? false : true;
   }
 
-  function agregarNodosBase(bien, contador) {
+  function agregarNodosBase(bien, contador, bienNuevo) {
     let hijos: INodo[] = [];
     let keynode = contador.toString() + "-";
     let nodo: INodo = {
@@ -150,9 +168,9 @@ const CatalogoDeBienesScreen = () => {
     };
     let existe = nodoRecorrido(bien);
     if (existe && bien.nivel_jerarquico == 1) {
-      if (tieneHijos(bien)) {
+      if (tieneHijos(bien, bienNuevo)) {
         //debugger;
-        let children = [...crearNiveles(bien, keynode)];
+        let children = [...crearNiveles(bien, keynode, bienNuevo)];
         nodo.children = [...children];
         nodo.data.eliminar = true;
         arrayTotal.push({ ...nodo });
@@ -164,7 +182,7 @@ const CatalogoDeBienesScreen = () => {
     }
   }
 
-  function crearNiveles(bien, keynode) {
+  function crearNiveles(bien, keynode, bienNuevo) {
     let contadorInterno = 0;
     let hijos: INodo[] = [];
     let nodoHijo: INodo = {
@@ -180,16 +198,17 @@ const CatalogoDeBienesScreen = () => {
     };
     let existe = nodoRecorrido(bien);
     if (existe) {
-      bien.forEach((bienElement) => {
+      bienNuevo.forEach((bienElement) => {
         if (bienElement.id_bien_padre === bien.id_bien) {
           let existe2 = nodoRecorrido(bienElement);
           if (existe2) {
             nodoHijo.key = keynode + contadorInterno.toString();
-            if (tieneHijos(bienElement)) {
+            if (tieneHijos(bienElement, bienNuevo)) {
               let hijo = [
                 ...crearNiveles(
                   bienElement,
-                  keynode + contadorInterno.toString() + "-"
+                  keynode + contadorInterno.toString() + "-",
+                  bienNuevo
                 ),
               ];
               nodoHijo.data = {

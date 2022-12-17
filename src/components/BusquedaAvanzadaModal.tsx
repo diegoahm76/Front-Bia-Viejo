@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import clienteAxios from "../config/clienteAxios";
@@ -45,47 +45,56 @@ interface IBusquedaAvanzadaModal {
   isModalActive: Boolean;
   setIsModalActive: any;
   setFormValues?: any;
+  setModel?: any;
   reset?: any;
   tipoDocumentoOptions?: any
+}
+
+const filters = {
+  primerNombre: "",
+  primerApellido: ""
 }
 const BusquedaAvanzadaModal = ({
   isModalActive,
   setIsModalActive,
-  setFormValues,
-  reset,
-  tipoDocumentoOptions,
-  
+  setModel
 }: IBusquedaAvanzadaModal) => {
   const [personaSearched, setPersonaSearched] = useState([]);
+  const [filtersModel, setFilters] = useState(filters)
   const [loading, setLoading] = useState(false);
   const [warning, setWarning] = useState(false);
 
-  const { handleSubmit, register, reset: resetSearch } = useForm();
+  useEffect(() => {
+    getUsers();
+  }, [])
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    const accessToken = getTokenAccessLocalStorage();
-    const config = getConfigAuthBearer(accessToken);
-    if (!data.primerApellido && !data.primerNombre) {
+  const getUsers = async () => {
+    await clienteAxios(
+      `personas/get-personas-naturales/`
+    ).then((res) => {
+      setPersonaSearched(res.data.Persona);
+    }).catch(() => { });
+  }
+
+  const getUsersByQuery = async (data) => {
+    const queryParams = `?search=${data.primerNombre ?? ""} ${data.primerApellido ?? ""}`;
+    await clienteAxios(
+      `personas/get-personas-naturales/${queryParams}`
+    ).then((res) => {
+      setPersonaSearched(res.data);
+    }).catch(() => { });
+  }
+
+  const onSubmit = async () => {
+    if (!filtersModel.primerApellido && !filtersModel.primerNombre) {
+      getUsers();
       setWarning(true);
       setTimeout(() => {
         setWarning(false);
       }, 2000);
       return;
     }
-    try {
-      const queryParams = `?search=${data.primerNombre ?? ""} ${data.primerApellido ?? ""
-        }`;
-      console.log(queryParams);
-      const { data: dataPersonas } = await clienteAxios(
-        `personas/get-personas-naturales/${queryParams}`,
-        config
-      );
-      setPersonaSearched(dataPersonas);
-      console.log(dataPersonas);
-    } catch (err) {
-      console.log(err);
-    }
+    getUsersByQuery(filtersModel);
   };
 
   const columnDefs = [
@@ -131,6 +140,12 @@ const BusquedaAvanzadaModal = ({
   ];
 
   const seleccionarAction = (dataSearch) => {
+    const busquedaAvanzadaModel = {
+      tipoDocumento: { value: "", label: "" },
+      cedula: "",
+      nombreCompleto: "",
+      idResponsable: 0
+    }
     const {
       numero_documento,
       tipo_documento: { cod_tipo_documento },
@@ -139,28 +154,25 @@ const BusquedaAvanzadaModal = ({
       id_persona,
     } = dataSearch;
     const nombreCompleto = primer_nombre + " " + primer_apellido
-    console.log(dataSearch, numero_documento, cod_tipo_documento, nombreCompleto, id_persona);
-    const index = getIndexBySelectOptions(
-      cod_tipo_documento,
-      tipoDocumentoOptions
-    );
-    console.log(index);
-    setFormValues({ index_tipo_documento: index, id_persona, });
-    reset({
-      tipoDocumento: tipoDocumentoOptions[index],
-      numeroDocumento: numero_documento,
-      nombreCompleto: nombreCompleto,
-      id_persona: id_persona,
-    });
+
+    busquedaAvanzadaModel.cedula = numero_documento;
+    busquedaAvanzadaModel.nombreCompleto = nombreCompleto;
+    busquedaAvanzadaModel.idResponsable = id_persona;
+    busquedaAvanzadaModel.tipoDocumento.value = cod_tipo_documento
+    busquedaAvanzadaModel.tipoDocumento.label = dataSearch.tipo_documento.nombre;
+    setModel(busquedaAvanzadaModel);
     setIsModalActive(false);
   };
 
   const handleCloseModal = () => {
     setIsModalActive(false);
-    resetSearch(defaultValues);
   };
 
   useEscapeKey(handleCloseModal)
+  const changeValue = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filtersModel, [name]: value });
+  }
 
   return (
     <Modal
@@ -175,7 +187,7 @@ const BusquedaAvanzadaModal = ({
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={onSubmit}
             id="configForm"
           >
             <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
@@ -188,7 +200,8 @@ const BusquedaAvanzadaModal = ({
                   <input
                     className="form-control border rounded-pill px-3 border-terciary"
                     type="text"
-                    {...register("primerNombre")}
+                    name="primerNombre"
+                    onChange={changeValue}
                   />
                 </div>
               </div>
@@ -198,7 +211,8 @@ const BusquedaAvanzadaModal = ({
                   <input
                     className="form-control border rounded-pill px-3 border-terciary"
                     type="text"
-                    {...register("primerApellido")}
+                    name="primerApellido"
+                    onChange={changeValue}
                   />
                 </div>
               </div>

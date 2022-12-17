@@ -1,6 +1,7 @@
 export interface IBienGet {
   bien: IBienes[];
   bienSeleccionado: IBienes;
+  dataEdit: IDataEdit;
 }
 
 export interface IBienes {
@@ -30,3 +31,9 @@ export interface IBienes {
   id_unidad_medida_vida_util?: number;
   id_bien_padre?: number;
 }
+
+interface IDataEdit{
+  edit:boolean,
+  id_bien_padre:number,
+  nivel_jerarquico:number,
+} 
