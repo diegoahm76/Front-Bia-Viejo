@@ -131,6 +131,7 @@ const EditarBodegaScreen = () => {
       value: bodegaEditar.id_responsable.tipo_documento.cod_tipo_documento,
       label: bodegaEditar.id_responsable.tipo_documento.nombre
     }
+    busqueda.idResponsable=bodegaEditar.id_responsable.id_persona;
     busqueda.cedula = bodegaEditar.id_responsable.numero_documento
     setBusquedaModel(busqueda);
   }
@@ -233,7 +234,7 @@ const EditarBodegaScreen = () => {
       cod_municipio: infoBodega.municipio.value,
       nombre: busquedaModel.nombreCompleto,
       direccion: infoBodega.direccionBodega,
-      id_responsable: cedula,
+      id_responsable: busquedaModel.idResponsable,
       es_principal: infoBodega.principal,
       activo: true
     };

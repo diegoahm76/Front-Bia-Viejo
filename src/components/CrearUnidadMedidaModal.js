@@ -72,6 +72,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
 
   const confirmarEliminarUnidadMedida = (id_unidad_medida) => {
     Swal.fire({
+      target: document.getElementById("modal-unidad-medida"),
       title: "Estas seguro?",
       text: "Una unidad de medida que se elimina no se puede recuperar",
       icon: "warning",
@@ -84,6 +85,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       if (result.isConfirmed) {
         //Pasarlo al action
         dispatch(eliminarUnidadMedidaAction(id_unidad_medida));
+        fetchData();
       }
     });
   };
@@ -115,8 +117,9 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
         },
       })
         .then((response) => {
+          fetchData();
           Swal.fire({
-            target:document.getElementById("modal-unidad-medida"),
+            target: document.getElementById("modal-unidad-medida"),
             position: "center",
             icon: "success",
             title: "Unidad de Medida Editada correctamente",
@@ -126,7 +129,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
         })
         .catch((err) => {
           Swal.fire({
-            target:document.getElementById("modal-unidad-medida"),
+            target: document.getElementById("modal-unidad-medida"),
             position: "center",
             icon: "error",
             title: err.detail,
