@@ -252,8 +252,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre"
-                  value={marca?.t001nombreEstacion}
-                  onChange={handleChange}
+                  value={editState?.nombre}
                   onChange={handleChange}
                 />
               </div>

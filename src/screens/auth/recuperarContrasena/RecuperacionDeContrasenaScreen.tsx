@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import React, { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
@@ -12,9 +12,9 @@ const RecuperacionDeContrasenaScreen = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<{ email: string }>({ defaultValues: { email: "" } });
 
-  const onSubmitRecoveryPassword = async (data) => {
+  const onSubmitRecoveryPassword: SubmitHandler<{ email: string }> = async (data: { email: string }) => {
     const bodyAxios = {
       email: data.email,
       redirect_url: process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/actualizar-contrasena" : "http://localhost:3000/#/actualizar-contrasena",
@@ -23,9 +23,6 @@ const RecuperacionDeContrasenaScreen = () => {
       "users/request-reset-email/",
       bodyAxios
     );
-
-    //console.log(dataRecoveryPassword)
-
     Swal.fire({
       position: "center",
       icon: "info",
@@ -37,10 +34,6 @@ const RecuperacionDeContrasenaScreen = () => {
         navigate("/login");
       }
     });
-
-    // const textUpperCase =
-    //   dataRecoveryPassword.success[0].toUpperCase() +
-    //   dataRecoveryPassword.success.slice(1);
   };
 
   return (
@@ -68,7 +61,7 @@ const RecuperacionDeContrasenaScreen = () => {
                   </label>
                   <div className="mt-3">
                     <label className="text-terciary text-terciary ms-2">
-                      Correo electrónico 
+                      Correo electrónico
                     </label>
                     <input
                       type="email"

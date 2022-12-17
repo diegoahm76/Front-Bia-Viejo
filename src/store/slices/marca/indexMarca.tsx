@@ -1,126 +1,118 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
-import { IMarcas, IMarcaGet } from "../../../Interfaces/Marca";
-
 import clienteAxios from "../../../config/clienteAxios";
+import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import { IMarca, IMarcaModel } from "../../../Interfaces/marca";
 
-const initialState: IMarcaGet = {
-  marca: [],
-  marcaSeleccionada: {
-    id_marca: 0,
-    nombre: "",
-    item_ya_usado: false,
-    activo: false,
-  },
+const initialState: IMarca = {
+    marcas: [],
+    marcaSeleccionada: {
+        activo: false,
+        id_marca: 0,
+        item_ya_usado: false,
+        nombre: ""
+    }
 };
 
-const marcaForm = createSlice({
-  name: "marca",
-  initialState,
-  reducers: {
-    obtenerMarcas: (state, action) => {
-      state.marca = action.payload;
+
+const marcaSlice = createSlice({
+    name: "marca",
+    initialState,
+    reducers: {
+        crearMarcaAction: (state, action) => {
+            state.marcas.push(action.payload);
+        },
+        obtenerMarcasAction: (state, action) => {
+            state.marcas = action.payload;
+        },
+        setMarcaEditar: (state, action) => {
+            state.marcaSeleccionada = action.payload
+        },
+        eliminarMarcaAction: (state, action) => {
+            state.marcas = state.marcas.filter((marca) => marca.id_marca !== action.payload)
+        },
+        editarMarcaAction: (state, action) => {
+            state.marcas.forEach((marca, index) => {
+                if (marca.id_marca === action.payload.id_marca) {
+                    state.marcas[index] = action.payload;
+                }
+            });
+        },
     },
-    crearMarcaAction: (state, action) => {
-      state.marca.push(action.payload);
-    },
-    editarMarcaAction: (state, action) => {
-      state.marca.map((marcaA, index) => {
-        if (marcaA.id_marca === action.payload.id_marca) {
-          state.marca[index] = action.payload;
-        }
-      });
-    },
-    seleccionarMarcaModel: (state, action) => {
-      state.marcaSeleccionada = action.payload;
-    },
-  },
 });
 
 export const {
-  obtenerMarcas,
-  crearMarcaAction,
-  editarMarcaAction,
-  seleccionarMarcaModel,
-} = marcaForm.actions;
-export default marcaForm.reducer;
+    crearMarcaAction,
+    editarMarcaAction,
+    eliminarMarcaAction,
+    obtenerMarcasAction,
+    setMarcaEditar
+} = marcaSlice.actions;
+export default marcaSlice.reducer;
 
-export const crearMarca = async (dispatch, dataMarca) => {
-  await clienteAxios
-    .post("almacen/marcas/create", dataMarca)
-    .then((res) => {
-      //falta la llamada del servicio
-      dispatch(crearMarcaAction(dataMarca));
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Marca agreada correctamente",
-        showConfirmButton: false,
-        timer: 2000,
-      }).catch((err) => {
-        if (err.response?.data) {
-          Swal.fire({
+export const obtenerMarcasLista = async (dispatch) => {
+    await clienteAxios.get("almacen/marcas/get-list/").then((res) => {
+        dispatch(obtenerMarcasAction(res.data));
+    });
+    //console.log("dataGetEstaciones", dataGetEstaciones);
+};
+
+export const eliminarMarca = async (dispatch, id) => {
+    const elementModalId = document.getElementById("marcaModal")!;
+    await clienteAxios.delete(`almacen/marcas/delete/${id}`).then((res) => {
+        dispatch(eliminarMarcaAction(id));
+        Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "success",
+            title: "Marca eliminada correctamente",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    }).catch((error) => {
+        Swal.fire({
+            target: elementModalId,
             position: "center",
             icon: "error",
-            title: err.response.data,
+            title: `Algo pasó, intente de nuevo, ${error.response.data} `,
             showConfirmButton: true,
             confirmButtonText: "Aceptar",
-          });
-        } else {
-          Swal.fire({
+        });
+    });
+
+};
+
+// setea la estacion a editar
+export const setMarcaEditarModelo = async (dispatch, estacion) => {
+    dispatch(setMarcaEditar(estacion));
+};
+
+// Edita la estacion
+export const editarMarca = async (dispatch, estacion) => {
+    // REVISAR ID MARCA
+    await clienteAxios.put("almacen/marcas/update/", estacion).then(() => {
+        dispatch(editarMarcaAction(estacion));
+        Swal.fire("Correcto", "La Marca se actualizo correctamente", "success");
+    });
+};
+
+export const crearMarca = async (marca) => {
+    const elementModalId = document.getElementById("marcaModal")!;
+    await clienteAxios.post("almacen/marcas/create/", marca).then(() => {
+        // const elementModalId = document.getElementById("marcaModal")!;
+        Swal.fire({
+            target: elementModalId,
             position: "center",
+            icon: "success",
+            title: "Marca Creada correctamente",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    }).catch((error) => {
+        Swal.fire({
             icon: "error",
-            title: "Algo pasó, intente de nuevo",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-          });
-        }
-      });
+            title: "Hubo un error",
+            text: "Hubo un error, intenta de nuevo",
+        });
     });
-};
-
-export const seleccionarMarca = (dispatch, marca) => {
-  //create
-  dispatch(seleccionarMarcaModel(marca));
-};
-export const editarMarca = async (dispatch, dataEdit) => {
-  const dataModel = construirModelo(dataEdit);
-  await clienteAxios
-    .put(`almacen/marcas/update/${dataEdit.id_marca}`, dataModel)
-    .then(() => {
-      //cambiar llamado de servicio
-      dispatch(editarMarcaAction(dataModel));
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Marca actualizada correctamente",
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    })
-    .catch((error) => {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: `Algo pasó, intente de nuevo, ${error.response.data} `,
-        showConfirmButton: true,
-        confirmButtonText: "Aceptar",
-      });
-    });
-};
-
-export const eliminarMarca = async (dispatch, id_marca) => {
-    await clienteAxios.delete(`almacen/marcas/delete/${id_marca}`).then(() => {
-      dispatch(editarMarcaAction(id_marca));
-      Swal.fire("Correcto", "La Marca se elimino correctamente", "success");
-    });
-  };
-
-const construirModelo = (data) => {
-  return {
-    marca: data.id_marca,
-    nombre: data.nombre,
-    activo: data.activo,
-    item_ya_usado: data.item_ya_usado,
-  };
 };

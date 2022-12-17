@@ -16,12 +16,30 @@ import { IGeneric } from "../../../Interfaces/Generic";
 import { useAppDispatch } from "../../../store/hooks/hooks";
 import { IBodegaCreate } from "../../../Interfaces/Bodegas";
 
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "", label: "" },
+  cedula: "",
+  nombreCompleto: "",
+  idResponsable: 0,
+};
+
 const CreacionBodegaScreen = () => {
+  const initialOptions: IGeneric[] = [
+    {
+      label: "",
+      value: "",
+    },
+  ];
+  const [departamentosOptions, setDepartamentosOptions] =
+    useState(initialOptions);
+  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] =
+    useState(initialOptions);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
-  const [formValuesSearch, setFormValuesSearch] = useState({
-    index_tipo_documento: "",
-    id_persona: "",
-  });
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
+
   const {
     reset: resetBuscar,
     register: registerBuscar,
@@ -37,31 +55,22 @@ const CreacionBodegaScreen = () => {
     control: controlBodega,
     formState: { errors: errorsBodega },
   } = useForm();
-  const initialOptions: IGeneric[] = [{
-    label: "",
-    value: ""
-  }]
-  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
-  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const submitBodega = (data) => {
-    const idPersona = formValuesSearch.id_persona;
+    const idPersona = busquedaModel.idResponsable;
     const bodegaCreate: IBodegaCreate = {
       nombre: data.nombre,
       cod_municipio: data.cod_municipio.value,
       id_responsable: idPersona,
       es_principal: data.es_principal,
-      direccion: data.direccion
+      direccion: data.direccion,
     };
     crearBodega(dispatch, bodegaCreate);
   };
 
   const AdministradorBodegas = () => {
-    navigate("/dashboard/almacen/configuracion/administrador-bodegas")
-  }
+    navigate("/dashboard/almacen/configuracion/administrador-bodegas");
+  };
 
   useEffect(() => {
     getSelectsOptions();
@@ -89,6 +98,10 @@ const CreacionBodegaScreen = () => {
     }
   };
 
+  const changeInput = (e) => {
+    const { name, value } = e.target;
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -105,24 +118,19 @@ const CreacionBodegaScreen = () => {
             </h3>
             <Subtitle title={"Datos del responsable"} mb={3} />
             <div className="col-12 col-md-3">
-              <label className="ms-3 text-terciary">Tipo de Documento</label>
+              <label className="ms-3 text-terciary">
+                Tipo de documento<span className="text-danger">*</span>
+              </label>
               <Controller
                 name="tipoDocumento"
                 control={controlBuscar}
-                rules={{
-                  required: true,
-                }}
                 render={({ field }) => (
                   <Select
                     {...field}
-                    value={
-                      tipoDocumentoOptions[
-                      formValuesSearch.index_tipo_documento
-                      ]
-                    }
                     isDisabled
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
+                    value={busquedaModel.tipoDocumento}
                   />
                 )}
               />
@@ -136,14 +144,15 @@ const CreacionBodegaScreen = () => {
             </div>
             <div className="col-12 col-md-3">
               <div>
-                <label className="ms-2 text-terciary">Número de cedula</label>
+                <label className="ms-2 text-terciary">
+                  Número de documento<span className="text-danger">*</span>
+                </label>
                 <input
                   className="border border-terciary form-control border rounded-pill px-3"
                   type="text"
-                  disabled
-                  {...registerBuscar("numeroDocumento", {
-                    required: true,
-                  })}
+                  placeholder="Número de documento"
+                  disabled={true}
+                  value={busquedaModel.cedula}
                 />
               </div>
               {errorsBuscar.numeroDocumento && (
@@ -160,11 +169,10 @@ const CreacionBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
-                  placeholder="nombre completo"
+                  placeholder="Nombre completo"
+                  value={busquedaModel.nombreCompleto}
+                  onChange={changeInput}
                   disabled
-                  {...registerBuscar("nombreCompleto", {
-                    required: true,
-                  })}
                 />
               </div>
             </div>
@@ -175,15 +183,15 @@ const CreacionBodegaScreen = () => {
                   type="button"
                   onClick={() => setBusquedaAvanzadaIsOpen(true)}
                 >
-                  Busqueda Avanzada
+                  Búsqueda avanzada
                 </button>
               </div>
             </div>
             <BusquedaAvanzadaModal
               isModalActive={busquedaAvanzadaIsOpen}
               setIsModalActive={setBusquedaAvanzadaIsOpen}
-              setFormValues={setFormValuesSearch}
               reset={resetBuscar}
+              setModel={setBusquedaModel}
               tipoDocumentoOptions={tipoDocumentoOptions}
             />
           </div>
@@ -198,11 +206,13 @@ const CreacionBodegaScreen = () => {
             <Subtitle title="Información de la bodega" mb={3} />
             <div className="col-12 col-sm-3 mt-2">
               <div>
-                <label className="ms-3 text-terciary">Nombre de bodega</label>
+                <label className="ms-3 text-terciary">
+                  Nombre de la bodega<span className="text-danger">*</span>
+                </label>
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
-                  placeholder="nombre"
+                  placeholder="Nombre de la bodega"
                   {...registerBodega("nombre", { required: true })}
                 />
               </div>
@@ -258,13 +268,12 @@ const CreacionBodegaScreen = () => {
             <div className="col-12 col-sm-3 mt-2">
               <div>
                 <label className="ms-3 text-terciary">
-                  Dirección de bodega
+                  Dirección de bodega<span className="text-danger">*</span>
                 </label>
                 <input
-
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
-                  placeholder="dirección"
+                  placeholder="Dirección"
                   {...registerBodega("direccion", { required: true })}
                 />
               </div>
@@ -286,16 +295,16 @@ const CreacionBodegaScreen = () => {
 
             <div className="d-flex justify-content-end mt-3">
               <button
-                type="submit"
-                className="btn btn-secondary mx-2 p-2 w-7 text-capitalize"
+                className="border  px-3 btn text-capitalize"
+                type="button"
+                title="Guardar"
               >
-                Guardar
+                <i className="fa-regular fa-floppy-disk fs-3"></i>
               </button>
               <button
                 type="button"
-                className="btn btn-secondary mx-2 text-capitalize"
+                className="btn btn-primary mx-2 text-capitalize"
                 onClick={() => AdministradorBodegas()}
-
               >
                 Administrador
               </button>

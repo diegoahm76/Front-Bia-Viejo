@@ -37,7 +37,9 @@ const bodegaSlice = createSlice({
     obtenerBodegaAction: (state, action) => {
       state.bodega = action.payload
     },
-    eliminarBodegaAction: (state, action) => { },
+    eliminarBodegaAction: (state, action) => {
+      state.bodega = state.bodega.filter((alarm) => alarm.id_bodega !== action.payload)
+    },
     editarBodegaAction1: (state, action) => { },
     seleccionarBodegaAction: (state, action) => {
       state.bodegaEditar = action.payload;
@@ -73,11 +75,11 @@ export const eliminarBodega = async (dispatch, id_bodega) => {
   });
 };
 
-export const editarBodega = async (dispatch,id_bodega, bodega) => {
+export const editarBodega = async (dispatch, id_bodega, bodega) => {
   await clienteAxios
     .put(`almacen/bodega/update/${id_bodega}`, bodega)
     .then(() => {
-      debugger
+      Swal.fire("Correcto", "La bodega se edito correctamente", "success");
       // dispatch(obtenerBodegaAction(id_bodega));
       dispatch(editarBodegaAction1(bodega));
     });
