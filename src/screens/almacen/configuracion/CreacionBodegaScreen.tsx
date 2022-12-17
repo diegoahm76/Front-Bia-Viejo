@@ -213,7 +213,7 @@ const CreacionBodegaScreen = () => {
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="Nombre de la bodega"
-                  {...registerBodega("nombre", { required: true })}
+                  {...registerBodega("nombre", { })}
                 />
               </div>
             </div>
@@ -228,7 +228,7 @@ const CreacionBodegaScreen = () => {
                   name="departamento"
                   control={controlBodega}
                   rules={{
-                    required: true,
+                  
                   }}
                   render={({ field }) => (
                     <Select
@@ -252,7 +252,6 @@ const CreacionBodegaScreen = () => {
                   name="cod_municipio"
                   control={controlBodega}
                   rules={{
-                    required: true,
                   }}
                   render={({ field }) => (
                     <Select
@@ -274,7 +273,7 @@ const CreacionBodegaScreen = () => {
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   placeholder="Dirección"
-                  {...registerBodega("direccion", { required: true })}
+                  {...registerBodega("direccion")}
                 />
               </div>
             </div>

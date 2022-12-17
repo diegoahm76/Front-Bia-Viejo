@@ -33,6 +33,7 @@ const AdministradorBodegasScreen = () => {
   };
   const EditarBodega = (data) =>{
     // dispatch(editarBodegaAction1(data))
+    debugger
     seleccionarBodega(dispatch, data)
     navigate("/dashboard/almacen/configuracion/editar-bodegas")
   }
