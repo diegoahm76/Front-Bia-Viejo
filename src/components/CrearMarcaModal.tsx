@@ -19,7 +19,7 @@ import {
 } from "../store/slices/marca/indexMarca";
 import clienteAxios from "../config/clienteAxios";
 import { useAppSelector } from "../store/hooks/hooks";
-import { IMarcaModel } from "../Interfaces/marca";
+import { IMarcaGet } from "../Interfaces/Marca";
 
 const customStyles = {
   content: {
@@ -48,26 +48,26 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
   const [edit, setEdit] = useState(false);
 
   const dispatch = useDispatch();
-  const marcas = useAppSelector((state) => state.marca.marcas);
+  const marcas = useAppSelector((state) => state.marca.marca);
 
   useEffect(() => {
-    const getMarcas = async () => obtenerMarcasLista(dispatch);
-    getMarcas();
-  }, [marcas]);
+    obtenerMarcasLista(dispatch);
+  }, []);
 
   // Form
 
   const handleChange = (e) => {
-    const { name, value } = e.target.value;
-    
+    const { name, value } = e.target;
     setMarcaEdit({ ...marcaEdit, [name]: value });
-    debugger
   };
-  const onSubmit = (data) => {
+  const onSubmit = () => {
+    const nombre = { nombre: marcaEdit.nombre };
     if (edit) {
       editarMarca(dispatch, marcaEdit);
+      obtenerMarcasLista(dispatch);
     } else {
-      crearMarca(data);
+      crearMarca(dispatch, nombre);
+      obtenerMarcasLista(dispatch);
     }
   };
   const {
@@ -88,7 +88,13 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
   };
 
   const editarAction = (data) => {
-    seleccionarMarca(dispatch, data);
+    const dataEdit = { ...marcaEdit }
+    dataEdit.nombre = data.nombre;
+    dataEdit.activo = data.activo;
+    dataEdit.item_ya_usado = data.item_ya_usado;
+    dataEdit.id_marca = data.id_marca;
+    // seleccionarMarca(dispatch, data);
+    setMarcaEdit(dataEdit);
     setEdit(true);
   };
 
@@ -159,7 +165,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre"
-                  value={editState.nombre}
+                  value={marcaEdit.nombre}
                   onChange={handleChange}
                   required
                 />
