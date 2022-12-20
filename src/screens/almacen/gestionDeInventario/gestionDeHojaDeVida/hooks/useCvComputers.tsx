@@ -1,13 +1,15 @@
 
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../../../adapters/textChoices.adapter";
 //components
 import clienteAxios from "../../../../../config/clienteAxios";
 import { IcvComputers } from "../../../../../Interfaces/CV";
+import { IGeneric } from "../../../../../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
-
+import { getCvComputersService } from "../../../../../services/cv/CvComputers";
 //Interfaces
 
 
@@ -16,13 +18,21 @@ const useCvComputers = () => {
     // Dispatch instance
     const dispatch = useAppDispatch();
 
+    //Navigation
+    const navigate = useNavigate();
+
     // Redux State Extraction
     const { cvComputers } = useAppSelector((state) => state.cv);
 
     //Local State
-    const [orden_nivel, setOrden_nivel] = useState<number>(0);
-    const [title_nivel, setTitle_nivel] = useState<string>('Agregar');
-    const [title_unidades, setTitle_unidades] = useState<string>('Agregar Unidades');
+    const initialOptions: IGeneric[] = [{
+        label: "",
+        value: ""
+    }]
+    const [articuloEncontrado, setArticuloEncontrado] = useState(false);
+    const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
+    const [estadoDeActio, setEstadoDeActivo] = useState([initialOptions]);
+    const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
 
 
     //Estado Inicial de Hojas de Vida de Computadores
@@ -40,7 +50,10 @@ const useCvComputers = () => {
         observaciones_adicionales: "string 2",
         otras_aplicaciones: "string 2",
         ruta_imagen_foto: "/media/string",
-        id_articulo: 9
+        id_articulo: 9,
+
+        tipoDocumento: "",
+        codigo: "",
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -57,12 +70,12 @@ const useCvComputers = () => {
 
     //useForm Hojas de Vida de Computadores
     const {
-        register: register,
-        handleSubmit: handleSubmit,
-        control: control,
-        reset: reset,
-        watch: watch,
-        setValue: setValue,
+        register,
+        handleSubmit,
+        control,
+        reset,
+        watch,
+        setValue,
         formState: { errors: errors },
 
     } = useForm<IcvComputers>({ defaultValues: initialState });
@@ -125,10 +138,26 @@ const useCvComputers = () => {
         getSelectsOptions();
     }, []);
 
-    //submit Hojas de Vida de Computadores
-    const submit: SubmitHandler<IcvComputers> = () => {
+    useEffect(() => {
+        const getSelectsOptions = async () => {
+            try {
+                const { data: estadoDeActivoData } = await clienteAxios.get(
+                    "/almacen/choices/estados-articulo/"
+                );
+                const documentosFormat = textChoiseAdapter(estadoDeActivoData);
+                // setEstadoDeActivo(documentosFormat);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getSelectsOptions();
+    }, []);
 
+    //submit Hojas de Vida de Computadores
+    const onSubmit: SubmitHandler<IcvComputers> = (data) => {
+        console.log(data);
     };
+
     //Funcion para crear hoja de vida de computadores
     const getCv = () => {
 
@@ -148,17 +177,142 @@ const useCvComputers = () => {
 
     }
 
+    const ScreenHistoricoArticulo = () => {
+        navigate("/dashboard/almacen/reportes/reporte-historico-activo");
+    };
+
+    const ScreenProgramarMantnimiento = () => {
+        navigate(
+            "/dashboard/almacen/gestion-de-inventario/programacion-mantenimiento"
+        );
+    };
+
+    const handledSearch = () => {
+        dispatch(getCvComputersService(dataCvComputers.codigo));
+        setArticuloEncontrado(!articuloEncontrado);
+    };
+    console.log(dataCvComputers.codigo, 'dataCvComputers.codigo')
     const onGridReady = (params) => {
         console.log(params, 'params');
     };
 
+    const columnDefs = [
+        { headerName: "Número", field: "NU", minWidth: 150 },
+        { headerName: "Tipo", field: "TI", minWidth: 150 },
+        { headerName: "Fecha", field: "FE", minWidth: 150 },
+        { headerName: "Estado", field: "ES", minWidth: 150 },
+        { headerName: "Responsable", field: "RE", minWidth: 150 },
+    ];
+    const columnDefs2 = [
+        { headerName: "Número", field: "NU", minWidth: 150 },
+        { headerName: "Responsable", field: "RE", minWidth: 150 },
+        { headerName: "Grupo", field: "GR", minWidth: 150 },
+        { headerName: "Fecha inicial", field: "FEIN", minWidth: 150 },
+        { headerName: "Fecha final", field: "FEFI", minWidth: 150 },
+        { headerName: "Tipo", field: "TI", minWidth: 150 },
+    ];
+    const rowData = [
+        {
+            NU: "01",
+            TI: "Correctivo",
+            FE: "19/05/2020",
+            ES: "Completado",
+            RE: "Compuarreglo",
+        },
+        {
+            NU: "02",
+            TI: "Correctivo",
+            FE: "19/05/2020",
+            ES: "Completado",
+            RE: "Compuarreglo",
+        },
+        {
+            NU: "03",
+            TI: "Correctivo",
+            FE: "19/05/2020",
+            ES: "Completado",
+            RE: "Compuarreglo",
+        },
+        {
+            NU: "04",
+            TI: "Correctivo",
+            FE: "19/05/2020",
+            ES: "Completado",
+            RE: "Compuarreglo",
+        },
+    ];
+    const asignacionPrestamos = [
+        {
+            NU: "01",
+            RE: "Gina Hernandez",
+            GR: "Administración",
+            FEIN: "19/05/2020",
+            FEFI: "13/08/2020",
+            TI: "Asignacion",
+        },
+        {
+            NU: "02",
+            RE: "Gina Hernandez",
+            GR: "Administración",
+            FEIN: "19/05/2020",
+            FEFI: "13/08/2020",
+            TI: "Asignacion",
+        },
+        {
+            NU: "03",
+            RE: "Gina Hernandez",
+            GR: "Administración",
+            FEIN: "19/05/2020",
+            FEFI: "13/08/2020",
+            TI: "Asignacion",
+        },
+        {
+            NU: "04",
+            RE: "Gina Hernandez",
+            GR: "Administración",
+            FEIN: "19/05/2020",
+            FEFI: "13/08/2020",
+            TI: "Asignacion",
+        },
+        {
+            NU: "05",
+            RE: "Gina Hernandez",
+            GR: "Administración",
+            FEIN: "19/05/2020",
+            FEFI: "13/08/2020",
+            TI: "Asignacion",
+        },
+    ];
+
     return {
         //States
-
+        columnDefs,
+        columnDefs2,
+        rowData,
+        asignacionPrestamos,
+        articuloEncontrado,
+        otrasAplicaciones,
+        estadoDeActio,
+        otrasPerisfericos,
+        control,
+        dataCvComputers,
+        defaultColDef,
+        errors,
         //Edita States
-
+        setArticuloEncontrado,
+        setOtrasAplicaciones,
+        setOtrasPerisfericos,
         //Functions
-
+        ScreenHistoricoArticulo,
+        ScreenProgramarMantnimiento,
+        handledSearch,
+        onSubmit,
+        register,
+        handleSubmit,
+        reset,
+        watch,
+        setValue,
+        onGridReady
     };
 }
 

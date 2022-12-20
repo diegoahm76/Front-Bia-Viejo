@@ -13,165 +13,41 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 //Interfaces
 import { IGeneric } from "../../../../Interfaces/Generic";
+import useCvComputers from "./hooks/useCvComputers";
 
 const HojaDeVidaComputoScreen = () => {
 
-  const initialOptions: IGeneric[] = [{
-    label: "",
-    value: ""
-  }]
-  const [articuloEncontrado, setArticuloEncontrado] = useState(false);
-  const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
-  const [estadoDeActio, setEstadoDeActivo] = useState([initialOptions]);
-  const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
-
-
-
-  useEffect(() => {
-    const getSelectsOptions = async () => {
-      try {
-        const { data: estadoDeActivoData } = await clienteAxios.get(
-          "/almacen/choices/estados-articulo/"
-        );
-        const documentosFormat = textChoiseAdapter(estadoDeActivoData);
-        // setEstadoDeActivo(documentosFormat);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getSelectsOptions();
-  }, []);
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  const navigate = useNavigate();
-  const ScreenProgramarMantnimiento = () => {
-    navigate(
-      "/dashboard/almacen/gestion-de-inventario/programacion-mantenimiento"
-    );
-  };
-  const ScreenHistoricoArticulo = () => {
-    navigate("/dashboard/almacen/reportes/reporte-historico-activo");
-  };
-
-  const { register, control: controlBuscar, handleSubmit } = useForm();
-
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-
-  const defaultColDef2 = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  let gridApi;
-  const rowData = [
-    {
-      NU: "01",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-    {
-      NU: "02",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-    {
-      NU: "03",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-    {
-      NU: "04",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-  ];
-  const asignacionPrestamos = [
-    {
-      NU: "01",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "02",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "03",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "04",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "05",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-  ];
-  const columnDefs = [
-    { headerName: "Número", field: "NU", minWidth: 150 },
-    { headerName: "Tipo", field: "TI", minWidth: 150 },
-    { headerName: "Fecha", field: "FE", minWidth: 150 },
-    { headerName: "Estado", field: "ES", minWidth: 150 },
-    { headerName: "Responsable", field: "RE", minWidth: 150 },
-  ];
-  const columnDefs2 = [
-    { headerName: "Número", field: "NU", minWidth: 150 },
-    { headerName: "Responsable", field: "RE", minWidth: 150 },
-    { headerName: "Grupo", field: "GR", minWidth: 150 },
-    { headerName: "Fecha inicial", field: "FEIN", minWidth: 150 },
-    { headerName: "Fecha final", field: "FEFI", minWidth: 150 },
-    { headerName: "Tipo", field: "TI", minWidth: 150 },
-  ];
+  //Hooks
+  const {
+    //States
+    columnDefs,
+    columnDefs2,
+    rowData,
+    asignacionPrestamos,
+    articuloEncontrado,
+    otrasAplicaciones,
+    estadoDeActio,
+    otrasPerisfericos,
+    control,
+    dataCvComputers,
+    defaultColDef,
+    errors,
+    //Edita States
+    setArticuloEncontrado,
+    setOtrasAplicaciones,
+    setOtrasPerisfericos,
+    //Functions
+    ScreenHistoricoArticulo,
+    ScreenProgramarMantnimiento,
+    handledSearch,
+    onSubmit,
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    onGridReady
+  } = useCvComputers();
 
   return (
     <div className="row min-vh-100">
@@ -198,7 +74,11 @@ const HojaDeVidaComputoScreen = () => {
                     className="border border-terciary form-control border rounded-pill px-3"
                     type="text"
                     placeholder="Codigo"
+                    {...register("codigo", { required: true })}
                   />
+                  {errors.codigo && (
+                    <p className="text-danger">Este campo es obligatorio</p>
+                  )}
                 </div>
               </div>
 
@@ -212,6 +92,7 @@ const HojaDeVidaComputoScreen = () => {
                     type="text"
                     placeholder="Nombre del activo"
                     disabled
+                    {...register("tipo_de_equipo", { required: false })}
                   />
                 </div>
               </div>
@@ -219,7 +100,7 @@ const HojaDeVidaComputoScreen = () => {
                 <button
                   className="btn btn-sm btn-tablas  mt-5"
                   type="button"
-                  onClick={() => setArticuloEncontrado(!articuloEncontrado)}
+                  onClick={() => handledSearch()}
                 >
                   <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
@@ -411,7 +292,7 @@ const HojaDeVidaComputoScreen = () => {
                     <label className="ms-2 text-terciary">Estado</label>
                     <Controller
                       name="tipoDocumento"
-                      control={controlBuscar}
+                      control={control}
                       rules={{
                         required: true,
                       }}
@@ -550,7 +431,7 @@ const HojaDeVidaComputoScreen = () => {
                       <AgGridReact
                         columnDefs={columnDefs2}
                         rowData={asignacionPrestamos}
-                        defaultColDef={defaultColDef2}
+                        defaultColDef={defaultColDef}
                       />
                     </div>
                   </div>

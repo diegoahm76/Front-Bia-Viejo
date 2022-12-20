@@ -62,6 +62,9 @@ export interface IcvComputers {
     otras_aplicaciones: string;
     ruta_imagen_foto: string;
     id_articulo: number;
+
+    tipoDocumento: string;
+    codigo: string;
 }
 
 

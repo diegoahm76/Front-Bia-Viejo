@@ -27,7 +27,7 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
 export const getCvComputersService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.put(`almacen/hoja-de-vida/computadores/get-by-id/${id}/`);
+            const { data } = await clienteAxios.get(`almacen/hoja-de-vida/computadores/get-by-id/${id}/`);
             dispatch(getCvComputers(data.data));
             notificationSuccess(data.detail);
             return data;
