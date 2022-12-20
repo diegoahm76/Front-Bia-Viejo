@@ -296,6 +296,7 @@ const useEdicionOrganigrama = () => {
             setOptionAgrupacionD(prev => prev.map(item => ({ ...item, isDisabled: true })));
         } else {
             setOptionNivel(prev => prev.map(item => item.value === 'N1' ? { ...item, isDisabled: false } : item));
+            setOptionAgrupacionD(prev => prev.map(item => ({ ...item, isDisabled: false })));
         }
     }, [datosUnidades.tipoUnidad]);
 

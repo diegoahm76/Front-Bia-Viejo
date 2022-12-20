@@ -109,7 +109,7 @@ const CatalogoDeBienesScreen = () => {
       <div>
         <Button
           type="button"
-          icon="pi pi-plus-circle"
+          icon="fa-regular fa-plus fs-3"
           className="p-button-success"
           style={{ marginRight: ".5em" }}
           onClick={() => {
@@ -119,14 +119,14 @@ const CatalogoDeBienesScreen = () => {
         ></Button>
         <Button
           type="button"
-          icon="pi pi-pencil"
+          icon="fa-regular fa-pen-to-square fs-3"
           className="p-button-warning"
           style={{ marginRight: ".5em" }}
           disabled={node.data.editar}
         ></Button>
         <Button
           type="button"
-          icon="pi pi-minus-circle"
+          icon="fa-regular fa-trash-can fs-3"
           className="p-button-danger"
           style={{ marginRight: ".5em" }}
           disabled={node.data.eliminar}
@@ -669,10 +669,10 @@ const CatalogoDeBienesScreen = () => {
                 ></Column>
                 <Column
                   field="codigo"
-                  header="Codigo"
+                  header="Código"
                   style={{ width: "450px" }}
                   filter
-                  filterPlaceholder="Filter por codigo"
+                  filterPlaceholder="Filter por código"
                 ></Column>
                 <Column
                   header="Acciones"
