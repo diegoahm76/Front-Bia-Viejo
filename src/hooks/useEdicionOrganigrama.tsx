@@ -152,7 +152,7 @@ const useEdicionOrganigrama = () => {
             checkboxSelection: false,
             showDisabledCheckboxes: false,
             cellRendererFramework: ({ data: { unidad_raiz } }) => (
-                <i className={`${unidad_raiz === true ? "fa-solid fa-circle-check fs-3" : "fa-regular fa-xmark fs-3"}`}></i>
+                <i className={`${unidad_raiz === true ? "fa-solid fa-circle-check fs-3" : "fa-solid fa-x fs-3"}`}></i>
             ),
         },
         {
