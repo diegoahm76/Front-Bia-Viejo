@@ -1,15 +1,13 @@
-import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import IconoEditar from "../../../assets/iconosEstaciones/edit-svgrepo-com.svg";
-import {
-  obtenerConfiguracionEditarAction,
-  obtenerConfiguracionesAction,
-} from "../../../actions/configuracionesEstacionesActions";
-import EditarConfiguracionModal from "../../../components/EditarConfiguracionModal";
+import { AgGridReact } from "ag-grid-react";
+import { useForm } from "react-hook-form";
+import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
+import ConfiguracionModal from "../../../components/ConfiguracionModal";
 import Subtitle from "../../../components/Subtitle";
-import { useAppSelector } from "../../../store/hooks/hooks";
-import { useAppDispatch } from "../../../store/store";
+import {
+  obtenerConguracionEstaciones, seleccionarConfiguracion,
+} from "../../../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
 // const defaultValuesResetConfiguration = {
 //   t003frecuencia: "",
@@ -33,30 +31,51 @@ import { useAppDispatch } from "../../../store/store";
 //   t003velocidadAguaMin: "",
 // };
 
-const defaultColDef = {
-  sortable: true,
-  flex: 1,
-  filter: true,
-  wrapHeaderText: true,
-  resizable: true,
-  initialWidth: 200,
-  autoHeaderHeight: false,
-  suppressMovable: true,
-};
-
 const ConfiguracionesScreen = () => {
+ 
+  const [isModalActive, setIsModalActive] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const dispatch = useAppDispatch();
-  const [isModalEditarActive, setIsModalEditarActivate] = useState(false);
 
   useEffect(() => {
     const getConfiguraciones = async () =>
-      dispatch(obtenerConfiguracionesAction());
+      obtenerConguracionEstaciones(dispatch);
     getConfiguraciones();
   }, []);
 
-  // const { configuraciones } = useAppSelector(
-  //   (state) => state.configuracionEstacion
-  // );
+  const configuraciones = useAppSelector(
+    (state) => state.configuracion.configuracion
+  );
+
+  const {
+    handleSubmit,
+    register,
+    control,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const editarAction = (data) => {
+    seleccionarConfiguracion(dispatch, data);
+    setIsEdit(true);
+    setIsModalActive(true);
+
+  };
+
+  //Definicion tabla
+
+  const defaultColDef = {
+    sortable: true,
+    flex: 1,
+    filter: true,
+    wrapHeaderText: true,
+    resizable: true,
+    initialWidth: 200,
+    autoHeaderHeight: false,
+    suppressMovable: true,
+  };
 
   const columnDefs = [
     {
@@ -156,15 +175,12 @@ const ConfiguracionesScreen = () => {
         <div className="d-flex justify-content-center align-items-center gap-2">
           <div>
             <button
-              className="btn btn-sm btn-tablas btn-outline-warning "
+              className="btn btn-sm btn-tablas"
               type="button"
               title="Send"
-              onClick={() => {
-                dispatch(obtenerConfiguracionEditarAction(params.data));
-                setIsModalEditarActivate(!isModalEditarActive);
-              }}
+              onClick={() => editarAction(params.data)}
             >
-              <img src={IconoEditar} alt="editar" />
+              <img src={IconoEditarBia} alt="editar" />
             </button>
           </div>
         </div>
@@ -180,7 +196,9 @@ const ConfiguracionesScreen = () => {
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Configuracion de estaciones</h3>
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">
+            Configuracion de estaciones
+          </h3>
           <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row">
             <div className="multisteps-form__content">
@@ -190,7 +208,7 @@ const ConfiguracionesScreen = () => {
               >
                 <AgGridReact
                   columnDefs={columnDefs}
-                 // rowData={configuraciones}
+                  rowData={configuraciones as any}
                   defaultColDef={defaultColDef}
                 ></AgGridReact>
               </div>
@@ -198,9 +216,17 @@ const ConfiguracionesScreen = () => {
           </form>
         </div>
       </div>
-      <EditarConfiguracionModal
-        setIsModalActive={setIsModalEditarActivate}
-        isModalActive={isModalEditarActive}
+      <ConfiguracionModal
+        setValue={setValue}
+        isModalActive={isModalActive}
+        setIsModalActive={setIsModalActive}
+        isEdit={isEdit}
+        handleSubmit={handleSubmit}
+        register={register}
+        control={control}
+        reset={reset}
+        errors={errors}
+        watch={watch}
       />
     </div>
   );

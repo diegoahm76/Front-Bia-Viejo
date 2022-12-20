@@ -26,7 +26,7 @@ import UserProtectedRoutes from "./components/UserProtectedRoutes";
 import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/DesbloqueoUsuarioScreen";
 import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
 import { getUserFromLocalStorage } from "./store/slices/Login";
-import { useAppDispatch } from "./store/store";
+import { useAppDispatch } from "./store/hooks/hooks";
 
 function App() {
   const dispatch = useAppDispatch();

@@ -2,13 +2,14 @@ import React from "react";
 import Scrollbars from "react-custom-scrollbars";
 import { Link } from "react-router-dom";
 import LogoCormacarena from "../assets/logos/Web-Bia-logo.png";
-import IconoAlmacen from "../assets/open-box-svgrepo-com.svg";
-import IconoRecaudo from "../assets/profit-svgrepo-com.svg";
-import IconoSeguimientoPlanes from "../assets/planning-svgrepo-com.svg";
-import IconoConservacion from "../assets/plant-leaf-svgrepo-com.svg";
-import IconoGestionDocumental from "../assets/files-document-svgrepo-com.svg";
-import IconoTramitesServicios from "../assets/ecology-svgrepo-com.svg";
-import IconoRecursoHidrico from "../assets/water-svgrepo-com.svg";
+import IconoTablerosDeControl from "../assets/sub-sistema-Tablerosdecontrol1.svg";
+import IconoAlmacen from "../assets/Sub-sistema-Almacen.svg";
+import IconoRecaudo from "../assets/Sub-sistema-Recaudo.svg";
+import IconoSeguimientoPlanes from "../assets/Sub-sistema-SeguimientoPlanes.svg";
+import IconoConservacion from "../assets/Sub-sistema-Conservacion.svg";
+import IconoGestionDocumental from "../assets/Sub-sistema-GestionDocumental.svg";
+import IconoTramitesServicios from "../assets/Sub-sistema-Tramitesyservicios.svg";
+import IconoRecursoHidrico from "../assets/Sub-sistema-RecursoHidrico.svg";
 import IconoAgregarVivero from "../assets/iconosConservacion/add-svgrepo-com.svg";
 import IconoGestorVivero from "../assets/iconosConservacion/leaves-plant-svgrepo-com.svg";
 import IconoEditarVivero from "../assets/iconosConservacion/edit-svgrepo-com.svg";
@@ -23,18 +24,17 @@ import IconoReportes from "../assets/iconosAlmacen/market-research-svgrepo-com.s
 import IconoSolicitudesArticulo from "../assets/iconosAlmacen/cart-basket-ecommerce-svgrepo-com.svg";
 import IconoGestionVehiculo from "../assets/iconosAlmacen/delivery-logistics-vehicle-svgrepo-com.svg";
 import Vineta from "../assets/iconosAlmacen/white-circle-svgrepo-com.svg";
-import IconoTablerosDeControl from "../assets/presentation-svgrepo-com.svg";
-import IconoSeguridad from "../assets/security-lock-svgrepo-com.svg";
+import IconoSeguridad from "../assets/sub-sistema-seguridad1.svg";
 import IconoUser from "../assets/imgs/perfil.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
 
-import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/climate-change-svgrepo-com.svg";
+import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/Sub-sistema-EstacionesHidrometereologicas.svg";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { logoutUser } from "../store/slices/Login";
 
 const Aside = ({ showAside }) => {
-  const userInfo = useAppSelector((state) => state.login.userinfo);
+  const userInfo = useAppSelector((state) => state.login);
   const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
@@ -76,9 +76,9 @@ const Aside = ({ showAside }) => {
                 role="button"
                 aria-expanded="false"
               >
-                {/* <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userInfo?.userName ? userSesion?.dataSesion?.userName : userInfo?.userinfo?.nombre_de_usuario ? userInfo?.userinfo?.nombre_de_usuario : userInfo?.nombre_de_usuario}
-                </span> */}
+                <span className="nav-link-text ms-2 ps-1 d-block text-center">
+                  {userInfo.userSesion ? userInfo?.userSesion : userInfo?.userinfo.nombre_de_usuario}
+                </span>
               </a>
               <div className="collapse" id="ProfileNav">
                 <ul className="nav ">
@@ -87,10 +87,10 @@ const Aside = ({ showAside }) => {
                       className="nav-link text-white"
                       onClick={logoutHandler} to={""}                    >
                       <span className="sidenav-mini-icon"> F </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Finalizar sesión</span>
+                      <span className="sidenav-normal  ms-3  ps-1">Cerrar sesión</span>
                     </Link>
                   </li>
-                  {!userInfo?.is_superuser && (
+                  {!userInfo?.userinfo.is_superuser && (
                     <>
                       <li className="nav-item active">
                         <Link
@@ -121,7 +121,7 @@ const Aside = ({ showAside }) => {
             </li>
             <hr className="horizontal light mt-0" />
 
-            {!userInfo?.is_superuser && (
+            {!userInfo?.userinfo.is_superuser && (
               <>
                 <li className="nav-item mb-2 mt-0">
                   <a
@@ -2385,7 +2385,7 @@ const Aside = ({ showAside }) => {
                 </li>
               </>
             )}
-            {userInfo?.is_superuser && (
+            {userInfo?.userinfo.is_superuser && (
               <>
                 <li className="nav-item">
                   <a

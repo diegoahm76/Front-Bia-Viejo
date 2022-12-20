@@ -4,9 +4,22 @@ import { useDispatch } from "react-redux";
 import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
+import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
-import configuracionesReducer from './slices/configuracionEstaciones/indexConfiguraciones'
+import bodegaReducer from "./slices/bodega/indexBodega";
+import organigramReducer from "./slices/organigrama/indexOrganigram";
+import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
+import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
+import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+import marcaReducer from "./slices/marca/indexMarca";
 // import thunk from "redux-thunk";
+import loadingReducer, {
+  cancelLoading,
+  startLoading,
+} from "./slices/loading/indexLoading";
+import instance from "../config/clienteAxiosEstaciones";
+import { useAppDispatch } from "./hooks/hooks";
+import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
 
 const store = configureStore({
   reducer: {
@@ -14,15 +27,39 @@ const store = configureStore({
     modalSelector: modalReducer,
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
-    configuracionEstacion:configuracionesReducer
-  }
+    loading: loadingReducer,
+    usuarioEstaciones: usuarioEstacionesReducer,
+    administradorEstacionesSlice: estacionesReducer,
+    configuracion: configuracionReducer,
+    bodegaSlice: bodegaReducer,
+    organigram: organigramReducer,
+    monitoreoSlice: monitoreoReducer,
+    marcaReducer: marcaReducer
+  },
 });
 
 export default store;
 
 // Dispatch
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch: () => AppDispatch = useDispatch
-
+export type AppDispatch = typeof store.dispatch;
 // Selector
 export type RootState = ReturnType<typeof store.getState>;
+
+// Interceptors
+// instance.interceptors.request.use(
+//   () => {
+//     startLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );
+
+// instance.interceptors.response.use(
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   },
+//   () => {
+//     cancelLoading(useAppDispatch);
+//   }
+// );

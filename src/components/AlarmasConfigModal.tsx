@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
-import { useDispatch, useSelector } from "react-redux";
 import { editarAlarmaConfigAction } from "../actions/alarmasConfigActions";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import { editarAlarmasConfig } from "../store/slices/alarmasConfig/indexAlarmasConfig";
@@ -38,8 +37,8 @@ const AlarmasConfigModal = ({
   errors,
   watch,
 }) => {
-  const { loading, dataEdit } = useAppSelector((state) => state.alarma);
-
+  const alarmas = useAppSelector((state) => state.alarma);
+  const { loading } = useAppSelector((state) => state.loading);
   const dispatch = useAppDispatch();
 
   const onSubmit = (data) => {
@@ -54,9 +53,9 @@ const AlarmasConfigModal = ({
     reset(defaultValues);
   };
 
-  useEffect(() => {
-    reset(dataEdit);
-  }, [dataEdit]);
+  // useEffect(() => {
+  //   reset(dataEdit);
+  // }, [dataEdit]);
 
   return (
     <Modal
