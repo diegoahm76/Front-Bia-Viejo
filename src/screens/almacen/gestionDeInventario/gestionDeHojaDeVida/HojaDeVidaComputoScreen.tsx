@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
-import Subtitle from "../../../../components/Subtitle";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+
+//Components
+import Subtitle from "../../../../components/Subtitle";
+import clienteAxios from "../../../../config/clienteAxios";
+import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
+//Styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
-import clienteAxios from "../../../../config/clienteAxios";
-import { useNavigate } from "react-router-dom";
+//Interfaces
 import { IGeneric } from "../../../../Interfaces/Generic";
 
-const HojaDeVidaScreen = () => {
+const HojaDeVidaComputoScreen = () => {
 
   const initialOptions: IGeneric[] = [{
     label: "",
@@ -21,7 +25,7 @@ const HojaDeVidaScreen = () => {
   const [estadoDeActio, setEstadoDeActivo] = useState([initialOptions]);
   const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
 
-  
+
 
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -599,4 +603,4 @@ const HojaDeVidaScreen = () => {
     </div>
   );
 };
-export default HojaDeVidaScreen;
+export default HojaDeVidaComputoScreen;

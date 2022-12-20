@@ -6,7 +6,7 @@ import { AxiosError, AxiosResponse } from "axios";
 // Reducers
 import { currentOrganigram, getLevels, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels} from '../../Interfaces/Organigrama';
+import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: "center",
@@ -52,7 +52,7 @@ export const editOrganigramsService = (organigrama: IObjCreateOrganigram, id: st
         try {
             const { data } = await clienteAxios.patch(`almacen/organigrama/update/${id}/`, organigrama);
             dispatch(getOrganigramsService());
-            Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
+            Swal.fire("Correcto", "El organigrama se editó correctamente", "success");
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -67,10 +67,7 @@ export const toFinalizeOrganigramService = (id: string, navigate: NavigateFuncti
             const { data } = await clienteAxios.put(`almacen/organigrama/finalizar/${id}/`);
             dispatch(getOrganigramsService());
             Swal.fire({
-                position: "center",
-                icon: "info",
-                title: "Atención",
-                text: data.detail,
+                position: "center", icon: "info", title: "Atención", text: data.detail,
             });
             navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
             return data;
