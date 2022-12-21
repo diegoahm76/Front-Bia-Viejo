@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import Subtitle from "../../../components/Subtitle";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 export const CreacionArticulosFijosScreen = () => {
   const [checkboxSoli, setCheckboxSoli] = useState(true);
@@ -71,7 +72,7 @@ export const CreacionArticulosFijosScreen = () => {
                   Código<span className="text-danger">*</span>
                 </label>
                 <input
-                  name="codigo"
+                  //name="codigo"
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
                   placeholder="Código"
@@ -146,7 +147,7 @@ export const CreacionArticulosFijosScreen = () => {
                   Carpeta padre<span className="text-danger">*</span>
                 </label>
                 <input
-                  name="padre"
+                 // name="padre"
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
                   placeholder="Carpeta Padre"
@@ -292,7 +293,7 @@ export const CreacionArticulosFijosScreen = () => {
                     Cantidad de vida útil<span className="text-danger">*</span>
                   </label>
                   <input
-                    name="cantidadvida"
+                    //name="cantidadvida"
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Cantidad de vida util"
@@ -314,7 +315,7 @@ export const CreacionArticulosFijosScreen = () => {
                     Valor residual<span className="text-danger">*</span>
                   </label>
                   <input
-                    name="valorresidual"
+                  //  name="valorresidual"
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Valor residual"
@@ -427,18 +428,18 @@ export const CreacionArticulosFijosScreen = () => {
             <div className="row ">
               <div className="d-flex justify-content-end mt-3">
                 <button type="button" className="btn   text-capitalize" onClick={() => volver()}>
-                  <i class="fa-solid fa-x fs-3"></i>
+                  <i className="fa-solid fa-x fs-3"></i>
                 </button>
                 <button type="button" className="btn   text-capitalize">
-                  <i class="fa-regular fa-floppy-disk fs-3"></i>
+                  <i className="fa-regular fa-floppy-disk fs-3"></i>
                 </button>
                 
               </div>
             </div>
-            <button type="button" className="btn   text-capitalize">
+            <Button type="button" className="btn   text-capitalize">
             
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                </button>
+            <i className="fa-solid fa-wand-magic-sparkles"></i>
+                </Button>
           </form>
         </div>
       </div>

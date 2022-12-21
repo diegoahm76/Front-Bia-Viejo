@@ -6,6 +6,15 @@ import Recaudo from "../";
 import ArticulosFijosScreen from "../gestorInstanciaCobro/ArticulosFijosScreen";
 import CrearArticulosFijosScreen from "../gestorInstanciaCobro/CrearArticulosFijosScreen";
 import CatalogoDeBienesScreen from "../gestorInstanciaCobro/CatalogoDeBienesScreen";
+import FacturacionScreen from "../FacturacionScreen";
+import { OficioInvitacionFormalScreen } from "../gestorNotificacion/OficioInvitacionFormalScreen";
+import { SegmentacionDeDeudoresScreen } from "../gestorDeudores/SegmentacionDeDeudoresScreen";
+import { ReporteMinAmbienteScreen } from "../gestorNotificacion/ReporteMinAmbienteScreen";
+import { InformeBDMEScreen } from "../gestorDeudores/InformeBDMEScreen";
+import { InformacionDeudaScreen } from "../gestorDeudores/InformacionDeudaScreen";
+import { AsignacionFuncionariosScreen } from "../gestorInstanciaCobro/AsignacionFuncionariosScreen";
+import { PresentacionExcepcionesScreen } from "../gestorInstanciaCobro/PresentacionExcepcionesScreen";
+import { CalculadoraInteresScreen } from "../gestorInstanciaCobro/CalculadoraInteresScreen";
 
 const RecaudoRoutes = () => {
   return (
@@ -25,6 +34,36 @@ const RecaudoRoutes = () => {
           element={<CatalogoDeBienesScreen />}
         />
       </Route>
+
+      <Route path="facturacion" element={<FacturacionScreen />} />
+
+      <Route
+        path="oficioinvitacionformal"
+        element={<OficioInvitacionFormalScreen />}
+      />
+
+      <Route
+        path="segmentaciondeudores"
+        element={<SegmentacionDeDeudoresScreen />}
+      />
+
+      <Route path="reporteminambiente" element={<ReporteMinAmbienteScreen />} />
+
+      <Route path="informeBDME" element={<InformeBDMEScreen />} />
+
+      <Route path="informaciondeuda" element={<InformacionDeudaScreen />} />
+
+      <Route
+        path="asignacionfuncionarios"
+        element={<AsignacionFuncionariosScreen />}
+      />
+
+      <Route
+        path="presentacionexcepciones"
+        element={<PresentacionExcepcionesScreen />}
+      />
+
+      <Route path="calculadorainteres" element={<CalculadoraInteresScreen />} />
 
       <Route path="/*" element={<Navigate to="/dashboard" />} />
     </Routes>
