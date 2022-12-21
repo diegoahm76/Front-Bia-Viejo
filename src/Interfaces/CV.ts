@@ -65,6 +65,8 @@ export interface IcvComputers {
 
     tipoDocumento: string;
     codigo: string;
+    serial: string;
+    marca: string;
 }
 
 
