@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom/dist";
 
-import Recaudo from "../";
+import Recaudo from "..";
 import CrearArticulosFijosScreen from "../gestorInstanciaCobro/CrearArticulosFijosScreen";
 import CatalogoDeBienesScreen from "../gestorInstanciaCobro/CatalogoDeBienesScreen";
 import FacturacionScreen from "../FacturacionScreen";
@@ -14,6 +14,11 @@ import { InformacionDeudaScreen } from "../gestorDeudores/InformacionDeudaScreen
 import { AsignacionFuncionariosScreen } from "../gestorInstanciaCobro/AsignacionFuncionariosScreen";
 import { PresentacionExcepcionesScreen } from "../gestorInstanciaCobro/PresentacionExcepcionesScreen";
 import { CalculadoraInteresScreen } from "../gestorInstanciaCobro/CalculadoraInteresScreen";
+import SeguimientoCondicionesTuaTrScreen from "../gestorInstanciaCobro/SeguimientoCondicionesTuaTrScreen";
+import BienesProcesoExtincionDominioScreen from "../gestorInstanciaCobro/BienesProcesoExtincionDominioScreen";
+import InformacionCuencasScreen from "../gestorInstanciaCobro/InformacionCuencasScreen";
+import DocumentoCobroTUAScreen from "../gestorInstanciaCobro/DocumentoCobroTUAScreen";
+import AutodeclaracionTuaScreen from "../gestorInstanciaCobro/AutodeclaracionTuaScreen";
 
 const RecaudoRoutes = () => {
   return (
