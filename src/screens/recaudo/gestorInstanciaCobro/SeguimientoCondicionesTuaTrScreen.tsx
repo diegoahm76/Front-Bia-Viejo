@@ -4,8 +4,6 @@ import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 import React, { useState, } from 'react';
 
-
-
 const optionUser = [
     { label: "Persona natural", value: "PN" },
     { label: "Persona juridica", value: "PJ" },

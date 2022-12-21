@@ -20,17 +20,32 @@ const busquedaAvanzadaModel = {
   tipoDocumento: { value: "", label: "" },
   cedula: "",
   nombreCompleto: "",
-  idResponsable: 0
+  idResponsable: 0,
+};
+
+const infoBodegaModel = {
+  id_bodega: 0,
+  nombreBodega: "",
+  departamento: { value: "", label: "" },
+  municipio: { value: "", label: "" },
+  direccionBodega: "",
+  principal: false
 }
 
 const CreacionBodegaScreen = () => {
-  const initialOptions: IGeneric[] = [{
-    label: "",
-    value: ""
-  }]
-  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
+  const initialOptions: IGeneric[] = [
+    {
+      label: "",
+      value: "",
+    },
+  ];
+  const [departamentosOptions, setDepartamentosOptions] =
+    useState(initialOptions);
+
+  const [createModel, setCreateModel] = useState(infoBodegaModel);
   const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] =
+    useState(initialOptions);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
@@ -41,6 +56,7 @@ const CreacionBodegaScreen = () => {
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
+    setValue,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -52,22 +68,35 @@ const CreacionBodegaScreen = () => {
     formState: { errors: errorsBodega },
   } = useForm();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCreateModel({ ...createModel, [name]: value });
+  };
 
-  const submitBodega = (data) => {
+  const changeSelectMuni = (e) => {
+    let municipio = { ...createModel }
+    municipio.municipio = {
+      value: e.value,
+      label: e.label
+    }
+    setValue("cod_municipio", municipio.municipio);
+    setCreateModel(municipio)
+  }
+  const submitBodega = () => {
     const idPersona = busquedaModel.idResponsable;
     const bodegaCreate: IBodegaCreate = {
-      nombre: data.nombre,
-      cod_municipio: data.cod_municipio.value,
+      nombre: createModel.nombreBodega,
+      cod_municipio: createModel.municipio.value,
       id_responsable: idPersona,
-      es_principal: data.es_principal,
-      direccion: data.direccion
+      es_principal: createModel.principal,
+      direccion: createModel.direccionBodega,
     };
     crearBodega(dispatch, bodegaCreate);
   };
 
   const AdministradorBodegas = () => {
-    navigate("/dashboard/almacen/configuracion/administrador-bodegas")
-  }
+    navigate("/dashboard/almacen/configuracion/administrador-bodegas");
+  };
 
   useEffect(() => {
     getSelectsOptions();
@@ -95,9 +124,7 @@ const CreacionBodegaScreen = () => {
     }
   };
 
-  const changeInput = (e) => {
-    const { name, value } = e.target;
-  }
+
 
   return (
     <div className="row min-vh-100">
@@ -115,7 +142,9 @@ const CreacionBodegaScreen = () => {
             </h3>
             <Subtitle title={"Datos del responsable"} mb={3} />
             <div className="col-12 col-md-3">
-              <label className="ms-3 text-terciary">Tipo de Documento</label>
+              <label className="ms-3 text-terciary">
+                Tipo de documento<span className="text-danger">*</span>
+              </label>
               <Controller
                 name="tipoDocumento"
                 control={controlBuscar}
@@ -139,11 +168,13 @@ const CreacionBodegaScreen = () => {
             </div>
             <div className="col-12 col-md-3">
               <div>
-                <label className="ms-2 text-terciary">Número de cedula</label>
+                <label className="ms-2 text-terciary">
+                  Número de documento<span className="text-danger">*</span>
+                </label>
                 <input
                   className="border border-terciary form-control border rounded-pill px-3"
                   type="text"
-                  placeholder="Numero de cedula"
+                  placeholder="Número de documento"
                   disabled={true}
                   value={busquedaModel.cedula}
                 />
@@ -162,9 +193,8 @@ const CreacionBodegaScreen = () => {
                 <input
                   className="form-control border border-terciary border rounded-pill px-3"
                   type="text"
-                  placeholder="nombre completo"
+                  placeholder="Nombre completo"
                   value={busquedaModel.nombreCompleto}
-                  onChange={changeInput}
                   disabled
                 />
               </div>
@@ -176,7 +206,7 @@ const CreacionBodegaScreen = () => {
                   type="button"
                   onClick={() => setBusquedaAvanzadaIsOpen(true)}
                 >
-                  Busqueda Avanzada
+                  Búsqueda avanzada
                 </button>
               </div>
             </div>
@@ -199,12 +229,16 @@ const CreacionBodegaScreen = () => {
             <Subtitle title="Información de la bodega" mb={3} />
             <div className="col-12 col-sm-3 mt-2">
               <div>
-                <label className="ms-3 text-terciary">Nombre de bodega</label>
+                <label className="ms-3 text-terciary">
+                  Nombre de la bodega<span className="text-danger">*</span>
+                </label>
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
-                  placeholder="nombre"
-                  {...registerBodega("nombre", { required: true })}
+                  name="nombreBodega"
+                  placeholder="Nombre de la bodega"
+                  value={createModel.nombreBodega}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -218,9 +252,6 @@ const CreacionBodegaScreen = () => {
                 <Controller
                   name="departamento"
                   control={controlBodega}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -242,15 +273,14 @@ const CreacionBodegaScreen = () => {
                 <Controller
                   name="cod_municipio"
                   control={controlBodega}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
                       className="col-12 mt-2"
                       options={municipiosOptions}
                       placeholder="Seleccionar"
+                      value={createModel.municipio}
+                      onChange={changeSelectMuni}
                     />
                   )}
                 />
@@ -259,14 +289,15 @@ const CreacionBodegaScreen = () => {
             <div className="col-12 col-sm-3 mt-2">
               <div>
                 <label className="ms-3 text-terciary">
-                  Dirección de bodega
+                  Dirección de bodega<span className="text-danger">*</span>
                 </label>
                 <input
-
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
-                  placeholder="dirección"
-                  {...registerBodega("direccion", { required: true })}
+                  name="direccionBodega"
+                  placeholder="Dirección"
+                  value={createModel.direccionBodega}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -287,16 +318,16 @@ const CreacionBodegaScreen = () => {
 
             <div className="d-flex justify-content-end mt-3">
               <button
+                className="border  px-3 btn text-capitalize"
                 type="submit"
-                className="btn btn-secondary mx-2 p-2 w-7 text-capitalize"
+                title="Guardar"
               >
-                Guardar
+                <i className="fa-regular fa-floppy-disk fs-3"></i>
               </button>
               <button
                 type="button"
-                className="btn btn-secondary mx-2 text-capitalize"
+                className="btn btn-primary mx-2 text-capitalize"
                 onClick={() => AdministradorBodegas()}
-
               >
                 Administrador
               </button>

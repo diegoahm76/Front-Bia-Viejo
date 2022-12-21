@@ -72,7 +72,7 @@ const BusquedaAvanzadaModal = ({
     await clienteAxios(
       `personas/get-personas-naturales/`
     ).then((res) => {
-      setPersonaSearched(res.data);
+      setPersonaSearched(res.data.Persona);
     }).catch(() => { });
   }
 

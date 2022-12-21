@@ -27,10 +27,12 @@ import DesbloqueoUsuarioScreen from "./screens/auth/desbloqueoUsuario/Desbloqueo
 import ActualizarContrasenaScreenBloqueo from "./screens/auth/recuperarContrasena/ActualizarContrasenaScreenBloqueo";
 import { getUserFromLocalStorage } from "./store/slices/Login";
 import { useAppDispatch } from "./store/hooks/hooks";
+import { obtenerTodosBienes } from "./store/slices/catalogoBienes/indexCatalogoBien";
 
 function App() {
   const dispatch = useAppDispatch();
   getUserFromLocalStorage(dispatch);
+  obtenerTodosBienes(dispatch);
 
   return (
     <Routes>
