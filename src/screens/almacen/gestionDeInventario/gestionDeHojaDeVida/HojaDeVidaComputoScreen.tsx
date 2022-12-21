@@ -119,7 +119,7 @@ const HojaDeVidaComputoScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6  mt-3 text-justify">
+              <div className="col-12 col-lg-6  mt-3 ">
                 <div className="row">
                   <Card style={{ width: "18rem" }}>
                   
@@ -144,7 +144,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Color
-                        <span className="text-danger">*</span>
+                        
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -157,7 +157,7 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Marca<span className="text-danger">*</span>
+                        Marca
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -187,7 +187,7 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Tipo de equipo <span className="text-danger">*</span>
+                        Tipo de equipo 
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -206,7 +206,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Sistema operativo
-                        <span className="text-danger">*</span>
+                        
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -219,7 +219,7 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Suite ofimática<span className="text-danger">*</span>
+                        Suite ofimática
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -232,7 +232,7 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Antivirus<span className="text-danger">*</span>
+                        Antivirus
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -293,7 +293,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Tipo de almacenamiento
-                        <span className="text-danger">*</span>
+                        
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -307,7 +307,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Capacidad 
-                        <span className="text-danger">*</span>
+                        
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -320,7 +320,7 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Procesador<span className="text-danger">*</span>
+                        Procesador
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -333,7 +333,7 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Memoria ram<span className="text-danger">*</span>
+                        Memoria ram
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
