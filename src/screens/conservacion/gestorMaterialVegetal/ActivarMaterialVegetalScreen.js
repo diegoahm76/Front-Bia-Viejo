@@ -259,10 +259,10 @@ const ActivarMaterialCuarentenaScreen = () => {
 
             <div className="col-12 col-md-3 ">
               <button
-                className="mt-5 btn btn-primary text-capitalize "
+                className="mt-5 btn  text-capitalize "
                 type="submit"
               >
-                Buscar
+                <i class="fa-solid fa-magnifying-glass fs-3"></i>
               </button>
             </div>
           </div>
@@ -282,12 +282,12 @@ const ActivarMaterialCuarentenaScreen = () => {
 
             <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               <button
-                className="btn bg-gradient-danger mb-0"
+                className="btn mb-0"
                 type="submit"
-                title="Send"
+                title="Salir"
                 form="configForm"
               >
-                Salir
+                <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
               </button>
             </div>
           </div>)

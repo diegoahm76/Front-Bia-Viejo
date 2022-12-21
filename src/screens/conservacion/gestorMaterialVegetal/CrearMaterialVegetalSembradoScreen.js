@@ -148,9 +148,10 @@ const InventarioViveroCompensacion = () => {
               <div className="col-12 col-md-3">
                 <button
                   type="submit"
-                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                  className="btn-min-width border rounded-pill mt-2 px-3 btn "
+                  title="Buscar"
                 >
-                  Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -294,7 +295,7 @@ const InventarioViveroCompensacion = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
-                          placeholder="Escribe el porcentaje"
+                          placeholder="Escribe el porcentaje de la cama de germinación"
                           name="porcentajeParcial1"
                           {...register("porcentajeParcial1", { required: true })}
                         />
@@ -350,7 +351,7 @@ const InventarioViveroCompensacion = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
-                          placeholder="Escribe el porcentaje"
+                          placeholder="Escribe el porcentaje de la cama de germinación"
                           name="porcentajeParcial2"
                           {...register("porcentajeParcial2", { required: true })}
                         />
@@ -404,7 +405,7 @@ const InventarioViveroCompensacion = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
-                          placeholder="Escribe el porcentaje"
+                          placeholder="Escribe el porcentaje de la cama de germinación"
                           name="porcentajeParcial3"
                           {...register("porcentajeParcial3", { required: true })}
                         />
@@ -457,7 +458,7 @@ const InventarioViveroCompensacion = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
-                          placeholder="Escribe el porcentaje"
+                          placeholder="Escribe el porcentaje de la cama de germinación"
                           name="porcentajeParcial4"
                           {...register("porcentajeParcial4", { required: true })}
                         />
@@ -476,18 +477,18 @@ const InventarioViveroCompensacion = () => {
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
-                    className="btn bg-gradient-danger me-md-2"
+                    className="btn  me-md-2"
                     type="button"
-                    title="Send"
+                    title="Cancelar"
                   >
-                    Cancelar
+                    <i class="fa-solid fa-x fs-3"></i>
                   </button>
                   <button
-                    className="btn bg-gradient-primary "
+                    className="btn  "
                     type="button"
-                    title="Send"
+                    title="Guardar"
                   >
-                    Guardar
+                    <i class="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
                 </div>
               </form>

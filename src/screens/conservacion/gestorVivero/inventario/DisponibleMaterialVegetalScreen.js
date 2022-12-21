@@ -295,10 +295,9 @@ const DisponibleMaterialVegetalScreen = () => {
 
               <div className="col-12 col-md-3 ">
                 <button
-                  className="mt-5 btn btn-primary text-capitalize"
+                  className="mt-5 btn text-capitalize"
                   type="submit"
-                >
-                  Buscar
+                ><i class="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
