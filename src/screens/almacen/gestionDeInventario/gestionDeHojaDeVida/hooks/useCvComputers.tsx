@@ -25,35 +25,34 @@ const useCvComputers = () => {
     const { cvComputers } = useAppSelector((state) => state.cv);
 
     //Local State
-    const initialOptions: IGeneric[] = [{
-        label: "",
-        value: ""
-    }]
+    const initialOptions: IGeneric[] = [{ label: "", value: "" }]
     const [articuloEncontrado, setArticuloEncontrado] = useState(false);
     const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
-    const [estadoDeActio, setEstadoDeActivo] = useState([initialOptions]);
+    const [estadoDeActio, setEstadoDeActivo] = useState<IGeneric[]>(initialOptions);
     const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
 
 
     //Estado Inicial de Hojas de Vida de Computadores
     const initialState: IcvComputers = {
-        id_hoja_de_vida: 1,
-        sistema_operativo: "string 3",
-        suite_ofimatica: "string 5",
-        antivirus: "string 2",
-        color: "string 2",
-        tipo_de_equipo: "string 2",
-        tipo_almacenamiento: "string 6",
-        capacidad_almacenamiento: "string 3",
-        procesador: "string 2",
-        memoria_ram: 12345,
-        observaciones_adicionales: "string 2",
-        otras_aplicaciones: "string 2",
-        ruta_imagen_foto: "/media/string",
-        id_articulo: 9,
+        id_hoja_de_vida: 0,
+        sistema_operativo: "",
+        suite_ofimatica: "",
+        antivirus: "",
+        color: "",
+        tipo_de_equipo: "",
+        tipo_almacenamiento: "",
+        capacidad_almacenamiento: "",
+        procesador: "",
+        memoria_ram: 0,
+        observaciones_adicionales: "",
+        otras_aplicaciones: "",
+        ruta_imagen_foto: "",
+        id_articulo: 0,
 
         tipoDocumento: "",
         codigo: "",
+        serial: "",
+        marca: "",
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -81,56 +80,15 @@ const useCvComputers = () => {
     } = useForm<IcvComputers>({ defaultValues: initialState });
     const dataCvComputers = watch();
 
-    //columnas hojas de vida de computadoresf
-    // const columns = [
-    //     { headerName: "Nivel", field: "orden_nivel", minWidth: 100 },
-    //     { headerName: "Nombre", field: "nombre", minWidth: 200 },
-    //     {
-    //         headerName: "Acciones",
-    //         field: "editar",
-    //         minWidth: 140,
-    //         cellRendererFramework: ({ data }) => (
-    //             <div className="d-flex justify-content-center gap-1">
-    //                 <button
-    //                     type="button"
-    //                     title="Editar"
-    //                     style={{ border: "none", background: "none" }}
-    //                     onClick={() => {
-    //                         setTitle_nivel('Editar');
-    //                         setOrden_nivel(data.orden_nivel);
-    //                         resetNivel(data)
-    //                     }}
-    //                 >
-    //                     <i className="fa-regular fa-pen-to-square fs-3"></i>
-    //                 </button>
-    //                 <button
-    //                     className={`${data.orden_nivel !== levelsOrganigram[levelsOrganigram.length - 1].orden_nivel && "d-none"}`}
-    //                     style={{ border: "none", background: "none" }}
-    //                     type="button"
-    //                     title="Eliminar"
-    //                     onClick={() => {
-    //                         // deleteLevel(data.orden_nivel)
-    //                     }}
-    //                 >
-    //                     <i className="fa-regular fa-trash-can fs-3"></i>
-    //                 </button>
-    //             </div>
-    //         ),
-    //     },
-    // ];
-
     //useEffect para consultar  options
     useEffect(() => {
         const getSelectsOptions = async () => {
             try {
-                const { data: agrupacionDocumentalNoFormat } = await clienteAxios.get("almacen/choices/agrupacion-documental/");
-                const { data: tipoUnidadNoFormat } = await clienteAxios.get("almacen/choices/tipo-unidad/");
+                const { data: estadoDeActivoData } = await clienteAxios.get("almacen/choices/estados-articulo/");
 
-                const agrupacionDocumentalFormat = textChoiseAdapter(agrupacionDocumentalNoFormat);
-                const tipoUnidadFormat = textChoiseAdapter(tipoUnidadNoFormat);
+                const agrupacionDocumentalFormat = textChoiseAdapter(estadoDeActivoData);
 
-                // setOptionAgrupacionD(agrupacionDocumentalFormat.map(item => ({ ...item, isDisabled: false })));
-                // setOptionTipoUnidad(tipoUnidadFormat.map(item => ({ ...item, isDisabled: false })));
+                setEstadoDeActivo(agrupacionDocumentalFormat);
             } catch (err) {
                 console.log(err);
             }
@@ -138,20 +96,25 @@ const useCvComputers = () => {
         getSelectsOptions();
     }, []);
 
+    //ueeEffect para obtener el organigrama a editar
     useEffect(() => {
-        const getSelectsOptions = async () => {
-            try {
-                const { data: estadoDeActivoData } = await clienteAxios.get(
-                    "/almacen/choices/estados-articulo/"
-                );
-                const documentosFormat = textChoiseAdapter(estadoDeActivoData);
-                // setEstadoDeActivo(documentosFormat);
-            } catch (err) {
-                console.log(err);
-            }
-        };
-        getSelectsOptions();
-    }, []);
+        if (cvComputers) {
+            let data = { ...cvComputers, serial: dataCvComputers.serial, codigo: dataCvComputers.codigo, tipoDocumento: dataCvComputers.tipoDocumento };
+            reset(data);
+            // let flagObservaciones: boolean = cvComputers.observaciones_adicionales !== '' ? true : false}
+            setOtrasPerisfericos(true);
+            setOtrasAplicaciones(true);
+        }
+    }, [cvComputers]);
+
+    //ueeEffect para obtener el organigrama a editar
+    useEffect(() => {
+        if (Object.keys(cvComputers).length !== 0) {
+            setArticuloEncontrado(true);
+        } else {
+            setArticuloEncontrado(false);
+        }
+    }, [cvComputers]);
 
     //submit Hojas de Vida de Computadores
     const onSubmit: SubmitHandler<IcvComputers> = (data) => {
@@ -188,10 +151,9 @@ const useCvComputers = () => {
     };
 
     const handledSearch = () => {
-        dispatch(getCvComputersService(dataCvComputers.codigo));
-        setArticuloEncontrado(!articuloEncontrado);
+        dispatch(getCvComputersService(dataCvComputers.serial));
     };
-    console.log(dataCvComputers.codigo, 'dataCvComputers.codigo')
+    console.log(dataCvComputers.serial, 'dataCvComputers.serial')
     const onGridReady = (params) => {
         console.log(params, 'params');
     };

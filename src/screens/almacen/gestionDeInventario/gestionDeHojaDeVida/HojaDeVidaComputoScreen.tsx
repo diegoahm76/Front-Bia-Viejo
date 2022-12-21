@@ -73,9 +73,9 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        {...register("codigo", { required: true })}
+                        {...register("serial", { required: true })}
                       />
-                      {errors.codigo && (
+                      {errors.serial && (
                         <p className="text-danger">Este campo es obligatorio</p>
                       )}
                     </div>
@@ -103,8 +103,8 @@ const HojaDeVidaComputoScreen = () => {
                       className="border border-terciary form-control border rounded-pill px-3"
                       type="text"
                       placeholder="Código"
-                      value={"10203040506"}
                       disabled
+                      {...register("codigo", { required: false })}
                     />
                   </div>
 
@@ -119,10 +119,9 @@ const HojaDeVidaComputoScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6  mt-3 text-justify">
+              <div className="col-12 col-lg-6  mt-3 justify-content-end">
                 <div className="row">
                   <Card style={{ width: "18rem" }}>
-                  
                     <Card.Body>
                       <Card.Title>FOTO DEL COMPUTADOR</Card.Title>
                       <Card.Text>
@@ -138,7 +137,6 @@ const HojaDeVidaComputoScreen = () => {
             {articuloEncontrado === true ? (
               <div>
                 <Subtitle title="Especificaciones físicas" mt={3} />
-
                 <div className="row">
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
@@ -149,7 +147,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Negro"
+                        {...register("color", { required: false })}
                       />
                     </div>
                   </div>
@@ -163,6 +161,7 @@ const HojaDeVidaComputoScreen = () => {
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
                         value="Lenovo"
+                        {...register("marca", { required: false })}
                       />
                     </div>
                   </div>
@@ -192,7 +191,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Portatil"
+                        {...register("tipo_de_equipo", { required: false })}
                       />
                       <p>portatil, tablet, all-in-one</p>
                     </div>
@@ -211,7 +210,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Windows 11"
+                        {...register("sistema_operativo", { required: false })}
                       />
                     </div>
                   </div>
@@ -224,7 +223,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Microsoft office"
+                        {...register("suite_ofimatica", { required: false })}
                       />
                     </div>
                   </div>
@@ -237,7 +236,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="McAfee"
+                        {...register("antivirus", { required: false })}
                       />
                     </div>
                   </div>
@@ -276,7 +275,7 @@ const HojaDeVidaComputoScreen = () => {
                           <textarea
                             className="form-control border rounded-pill px-4 border border-terciary"
                             placeholder="Observaciones"
-                            value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
+                            {...register("otras_aplicaciones", { required: false })}
                           />
                         </div>
                       </div>
@@ -289,7 +288,7 @@ const HojaDeVidaComputoScreen = () => {
                 <Subtitle title="Especificaciones técnicas" mt={3} />
 
                 <div className="row">
-                <div className="col-12 col-lg-3  mt-3">
+                  <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
                         Tipo de almacenamiento
@@ -298,7 +297,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Disco duro "
+                        {...register("tipo_almacenamiento", { required: false })}
                       />
                     </div>
                     <p>disco duro, SSD, NVME</p>
@@ -306,13 +305,13 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Capacidad 
+                        Capacidad
                         <span className="text-danger">*</span>
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="1 TB"
+                        {...register("capacidad_almacenamiento", { required: false })}
                       />
                     </div>
                   </div>
@@ -325,7 +324,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Core i5"
+                        {...register("procesador", { required: false })}
                       />
                     </div>
                   </div>
@@ -338,14 +337,14 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="8 GB"
+                        {...register("memoria_ram", { required: false })}
                       />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3 text-center">
                     <label className="ms-2 text-terciary">
-                    Observaciones
+                      Observaciones
                     </label>
                     <br></br>
                     <button
@@ -368,20 +367,20 @@ const HojaDeVidaComputoScreen = () => {
                     </button>
                   </div>
                   {otrasPerisfericos == true ? (
-                    
-                      <div className="col-12 col-md-9 ">
-                        <div className="mx-3">
-                          <label className="text-terciary" htmlFor="ms-2">
-                            Observaciones
-                          </label>
-                          <textarea
-                            className="form-control border rounded-pill px-4 border border-terciary"
-                            placeholder="Observaciones"
-                            value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
-                          />
-                        </div>
+
+                    <div className="col-12 col-md-9 ">
+                      <div className="mx-3">
+                        <label className="text-terciary" htmlFor="ms-2">
+                          Observaciones
+                        </label>
+                        <textarea
+                          className="form-control border rounded-pill px-4 border border-terciary"
+                          placeholder="Observaciones"
+                          {...register("observaciones_adicionales", { required: false })}
+                        />
                       </div>
-                    
+                    </div>
+
                   ) : (
                     ""
                   )}
