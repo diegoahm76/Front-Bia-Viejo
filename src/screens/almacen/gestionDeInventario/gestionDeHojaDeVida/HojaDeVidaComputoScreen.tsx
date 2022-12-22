@@ -26,7 +26,7 @@ const HojaDeVidaComputoScreen = () => {
     asignacionPrestamos,
     articuloEncontrado,
     otrasAplicaciones,
-    estadoDeActio,
+    ListMark,
     otrasPerisfericos,
     control,
     dataCvComputers,
@@ -142,7 +142,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Color
-                        
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -157,36 +157,42 @@ const HojaDeVidaComputoScreen = () => {
                       <label className="ms-2 text-terciary">
                         Marca
                       </label>
-                      <input
+                      {/* <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
                         value="Lenovo"
                         {...register("marca", { required: false })}
+                      /> */}
+                      <Controller
+                        name="tipoDocumento"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            options={ListMark}
+                            placeholder="Seleccionar"
+                          />
+                        )}
                       />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="ms-2 text-terciary">Estado</label>
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          options={estadoDeActio}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                    <input
+                      className="border border-terciary form-control border rounded-pill px-3"
+                      type="text"
+                      disabled
+                      {...register("estado", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Tipo de equipo 
+                        Tipo de equipo
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -205,7 +211,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Sistema operativo
-                        
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -247,7 +253,7 @@ const HojaDeVidaComputoScreen = () => {
                     </label>
                     <br></br>
                     <button
-                      className="btn btn-sm btn-tablas "
+                      className="btn btn-sm btn-tablas"
                       type="button"
                       title="Solicitudes"
                       onClick={() => setOtrasAplicaciones(!otrasAplicaciones)}
@@ -292,7 +298,7 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Tipo de almacenamiento
-                        
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -305,8 +311,8 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Capacidad 
-                        
+                        Capacidad
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"

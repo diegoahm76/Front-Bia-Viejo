@@ -9,7 +9,8 @@ import { IcvComputers } from "../../../../../Interfaces/CV";
 import { IGeneric } from "../../../../../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
-import { getCvComputersService } from "../../../../../services/cv/CvComputers";
+import { getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
+import { IMarcas } from "../../../../../Interfaces/Marca";
 //Interfaces
 
 
@@ -25,10 +26,15 @@ const useCvComputers = () => {
     const { cvComputers } = useAppSelector((state) => state.cv);
 
     //Local State
-    const initialOptions: IGeneric[] = [{ label: "", value: "" }]
+    const initialOptions: IMarcas[] = [{
+        id_marca: 0,
+        nombre: "",
+        activo: true,
+        item_ya_usado: false
+    }]
     const [articuloEncontrado, setArticuloEncontrado] = useState(false);
     const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
-    const [estadoDeActio, setEstadoDeActivo] = useState<IGeneric[]>(initialOptions);
+    const [ListMark, setListMark] = useState<IMarcas[]>(initialOptions);
     const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
 
 
@@ -53,6 +59,7 @@ const useCvComputers = () => {
         codigo: "",
         serial: "",
         marca: "",
+        estado: "",
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -84,11 +91,8 @@ const useCvComputers = () => {
     useEffect(() => {
         const getSelectsOptions = async () => {
             try {
-                const { data: estadoDeActivoData } = await clienteAxios.get("almacen/choices/estados-articulo/");
-
-                const agrupacionDocumentalFormat = textChoiseAdapter(estadoDeActivoData);
-
-                setEstadoDeActivo(agrupacionDocumentalFormat);
+                const { data: listMarkData } = await clienteAxios.get("/almacen/marcas/get-list/");
+                setListMark(listMarkData.map((item: IMarcas) => ({ ...item, label: item.nombre, value: item.nombre })));
             } catch (err) {
                 console.log(err);
             }
@@ -96,12 +100,16 @@ const useCvComputers = () => {
         getSelectsOptions();
     }, []);
 
+    //useEffect para consultar  options
+    useEffect(() => {
+        dispatch(getCvMaintenanceService('1'));
+    }, []);
+
     //ueeEffect para obtener el organigrama a editar
     useEffect(() => {
         if (cvComputers) {
             let data = { ...cvComputers, serial: dataCvComputers.serial, codigo: dataCvComputers.codigo, tipoDocumento: dataCvComputers.tipoDocumento };
             reset(data);
-            // let flagObservaciones: boolean = cvComputers.observaciones_adicionales !== '' ? true : false}
             setOtrasPerisfericos(true);
             setOtrasAplicaciones(true);
         }
@@ -254,7 +262,7 @@ const useCvComputers = () => {
         asignacionPrestamos,
         articuloEncontrado,
         otrasAplicaciones,
-        estadoDeActio,
+        ListMark,
         otrasPerisfericos,
         control,
         dataCvComputers,

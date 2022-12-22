@@ -6,6 +6,7 @@ const initialState: Icv = {
     cvOtherAssets: [],
     cvVehicles: [],
     cvComputers: [],
+    cvMaintenance: [],
 };
 
 const cvSlice = createSlice({
@@ -21,8 +22,11 @@ const cvSlice = createSlice({
         getCvComputers: (state: Icv, action: PayloadAction<IcvComputers[]>) => {
             state.cvComputers = action.payload;
         },
+        getCvMaintenance: (state: Icv, action: PayloadAction<any[]>) => {
+            state.cvComputers = action.payload;
+        },
     }
 })
 
-export const { getCvOtherAssets, getCvVehicles, getCvComputers } = cvSlice.actions;
+export const { getCvOtherAssets, getCvVehicles, getCvComputers, getCvMaintenance } = cvSlice.actions;
 export default cvSlice.reducer;

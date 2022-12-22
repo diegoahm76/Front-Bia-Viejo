@@ -1,13 +1,9 @@
-export interface IGetCvOtherAssets {
-    success: boolean;
-    detail: string;
-    data: Icv;
-}
-
 export interface Icv {
     cvOtherAssets: IcvOtherAssets[];
     cvVehicles: IcvVehicles[];
     cvComputers: IcvComputers[];
+    cvMaintenance: any;
+    // cvMantainance: IcvMantainance[];
 }
 
 export interface IcvOtherAssets {
@@ -67,6 +63,19 @@ export interface IcvComputers {
     codigo: string;
     serial: string;
     marca: string;
+    estado: string;
+}
+interface IMarcas {
+    id_marca: number;
+    nombre: string;
+    activo: boolean;
+    item_ya_usado: boolean;
+}
+interface IcvMantainance {
+    id_marca: number;
+    nombre: string;
+    activo: boolean;
+    item_ya_usado: boolean;
 }
 
 
