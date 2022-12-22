@@ -183,10 +183,11 @@ export const MoverMaterialVegetalScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-2 btn-primary text-capitalize"
+            className="btn text-capitalize"
             type="button"
+            title="Remover"
           >
-            Remover
+            <i class="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -310,10 +311,12 @@ export const MoverMaterialVegetalScreen = () => {
                   </div>
                   <div className="col-12 col-md-4 justify-content-end">
                     <button
-                      className="mt-4 btn btn-primary text-capitalize "
+                      className="mt-4 btn text-capitalize "
                       type="submit"
+                      title="Buscar"
+                      
                     >
-                      Buscar
+                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -359,29 +362,29 @@ export const MoverMaterialVegetalScreen = () => {
                     
                     <div>
                       <button
-                        className="btn  btn-primary mt-4 text-capitalize"
+                        className="btn   mt-4 text-capitalize"
                         type="button"
-                       
-                      >
-                        Mover
+                       title="Mover"
+                       >
+                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-primary text-capitalize"
+                        className="btn  text-capitalize"
                         type="button"
-                      
+                      title="Mover todo"
                       >
-                        Mover todo
+                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-primary text-capitalize"
+                        className="btn  text-capitalize"
                         type="button"
-                        
+                        title="Remover todo"
                       >
-                        Remover todo
+                        <i class="fa-regular fa-trash-can fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -411,19 +414,22 @@ export const MoverMaterialVegetalScreen = () => {
                     }}
                   >
                     <button
-                      className="btn btn-2 btn-danger ms-4  text-capitalize"
+                      className="btn ms-4  text-capitalize"
                       type="button"
-                      
+                      title="Cancelar"
                     >
-                      Cancelar
+                     <i class="fa-solid fa-x fs-3"></i>
                     </button>
 
-                    <input
-                      className="btn btn-2 btn-secondary ms-2 me-5 text-capitalize"
+                    <button
+                      className="btn  ms-2 me-5 text-capitalize"
                       type="submit"
-                      
+                      title="Aceptar"
                       value="Aceptar"
-                    />
+                      >
+                        <i class="fa-solid fa-circle-check fs-3"></i>
+                      </button>
+                    
                   </div>
                 </div>
               </div>
@@ -480,10 +486,11 @@ export const MoverMaterialVegetalScreen = () => {
 
                   <div className="col-12 col-md-4 mt-2">
                     <button
-                      className="mt-4 btn btn-primary text-capitalize "
+                      className="mt-4 btn  text-capitalize "
                       type="submit"
+                      title="Buscar"
                     >
-                      Buscar
+                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -527,29 +534,29 @@ export const MoverMaterialVegetalScreen = () => {
                     
                     <div>
                       <button
-                        className="btn  btn-primary mt-4 text-capitalize"
+                        className="btn   mt-4 text-capitalize"
                         type="button"
-                        
-                      >
-                        Mover
+                        title="Mover"
+                        >
+                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn  btn-primary text-capitalize"
+                        className="btn   text-capitalize"
                         type="button"
-                        
-                      >
-                        Mover todo
+                        title="Mover todo"
+                        >
+                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn  btn-primary text-capitalize"
+                        className="btn   text-capitalize"
                         type="button"
-                        
+                        title="Remover todo"
                       >
-                        Remover todo
+                        <i class="fa-regular fa-trash-can fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -579,19 +586,22 @@ export const MoverMaterialVegetalScreen = () => {
                     }}
                   >
                     <button
-                      className=" btn btn-2 btn-danger ms-4 text-capitalize"
+                      className=" btn  ms-4 text-capitalize"
                       type="button"
-                   
+                   title="Cancelar"
                     >
-                      Cancelar
+                     <i class="fa-solid fa-x fs-3"></i>
                     </button>
 
-                    <input
-                      className="btn btn-2 btn-secondary ms-2 me-5  text-capitalize"
+                    <button
+                      className="btn ms-2 me-5  text-capitalize"
                       type="submit"
-                      
+                  title="Aceptar"
                       value="aceptar"
-                    />
+                      >
+                       <i class="fa-solid fa-circle-check fs-3"></i>
+                      </button>
+                  
                   </div>
                 </div>
               </div>
@@ -625,10 +635,11 @@ export const MoverMaterialVegetalScreen = () => {
                   <div className="col-12 col-md-4  "></div>
                   <div className="col-12 col-md-4  ">
                     <button
-                      className="mt-4 btn btn-primary text-capitalize "
+                      className="mt-4 btn  text-capitalize "
                       type="submit"
+                      title="Buscar"
                     >
-                      Buscar
+                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -674,29 +685,29 @@ export const MoverMaterialVegetalScreen = () => {
                     
                     <div>
                       <button
-                        className="btn btn-primary mt-4 text-capitalize"
+                        className="btn  mt-4 text-capitalize"
                         type="button"
-                        
-                      >
-                        Mover
+                        title="Mover"
+                        >
+                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-primary text-capitalize"
+                        className="btn  text-capitalize"
                         type="button"
-                        
-                      >
-                        Mover todo
+                        title="Mover todo"
+                        >
+                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
                       <button
-                        className="btn btn-primary text-capitalize"
+                        className="btn  text-capitalize"
                         type="button"
-                       
+                       title="Remover todo"
                       >
-                        Remover todo
+                        <i class="fa-regular fa-trash-can fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -726,19 +737,22 @@ export const MoverMaterialVegetalScreen = () => {
                     }}
                   >
                     <button
-                      className=" btn btn-2 btn-danger ms-4 text-capitalize"
+                      className=" btn  ms-4 text-capitalize"
                       type="button"
                       
                     >
-                      Cancelar
+                      <i class="fa-solid fa-x fs-3"></i>
                     </button>
 
-                    <input
-                      className="btn btn-2 btn-secondary ms-2  me-5 text-capitalize"
+                    <button
+                      className="btn ms-2  me-5 text-capitalize"
                       type="submit"
-                    
+                   title="Aceptar"
                       value="aceptar"
-                    />
+                      > <i class="fa-solid fa-circle-check fs-3"></i></button>
+                     
+
+                    
                   </div>
                 </div>
               </div>

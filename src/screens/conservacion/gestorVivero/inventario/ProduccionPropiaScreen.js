@@ -39,6 +39,7 @@ function ProduccionPropiaScreen() {
     { label: "Cubarral", value: "CU" },
     { label: "Cumaral", value: "CM" },
     { label: "El Calvario", value: "CL" },
+    { label:"Villavicencio",value:"vi"}
   ];
 
   let gridApi;
@@ -120,10 +121,11 @@ function ProduccionPropiaScreen() {
       cellRendererFramework: (params) => (
         <div>
           <button
-            className="btn btn-primary mx-auto my-1 d-flex btn-sm text-xxs border rounded-pill px-3 text-capitalize"
+            className="btn mx-auto my-1 d-flex btn-sm text-xxs border rounded-pill px-3 text-capitalize"
             onClick={() => actionButton(params)}
+            title="Editar material"
           >
-            Editar
+            <i class="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -134,7 +136,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Mata Raton",
       nombreCientifico: "Quiebraroedor",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 550,
       disponibleVivero: 300,
       mortalidad: 500,
@@ -143,7 +145,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Rahul",
       nombreCientifico: "Raul",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 501,
       disponibleVivero: 0,
       mortalidad: 500,
@@ -152,7 +154,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Duranta",
       nombreCientifico: "Amarillea",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 10,
       disponibleVivero: 300,
       mortalidad: 0,
@@ -161,7 +163,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Mango",
       nombreCientifico: "Biche",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 320,
       disponibleVivero: 300,
       mortalidad: 500,
@@ -170,7 +172,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Palma Africana",
       nombreCientifico: "Aceitepalm",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 1111,
       disponibleVivero: 2017,
       mortalidad: 500,
@@ -179,7 +181,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Rahul",
       nombreCientifico: "Perez",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 1,
       disponibleVivero: 1,
       mortalidad: 2,
@@ -188,7 +190,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Ixora",
       nombreCientifico: "Frondosa",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 230,
       disponibleVivero: 300,
       mortalidad: 500,
@@ -197,7 +199,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Mata Raton",
       nombreCientifico: "Quiebraroedor",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 550,
       disponibleVivero: 300,
       mortalidad: 500,
@@ -206,7 +208,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Rahul",
       nombreCientifico: "Raul",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 501,
       disponibleVivero: 0,
       mortalidad: 500,
@@ -215,7 +217,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Duranta",
       nombreCientifico: "Amarillea",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 10,
       disponibleVivero: 300,
       mortalidad: 0,
@@ -224,7 +226,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Mango",
       nombreCientifico: "Biche",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 320,
       disponibleVivero: 300,
       mortalidad: 500,
@@ -233,7 +235,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Palma Africana",
       nombreCientifico: "Aceitepalm",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 1111,
       disponibleVivero: 2017,
       mortalidad: 500,
@@ -242,7 +244,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Rahul",
       nombreCientifico: "Perez",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 1,
       disponibleVivero: 1,
       mortalidad: 2,
@@ -251,7 +253,7 @@ function ProduccionPropiaScreen() {
     {
       nombreComun: "Ixora",
       nombreCientifico: "Frondosa",
-      viveros: 9876543210,
+      viveros: "Villavicencio",
       produccion: 230,
       disponibleVivero: 300,
       mortalidad: 500,
@@ -291,7 +293,7 @@ function ProduccionPropiaScreen() {
             data-animation="FadeIn"
           >
             <h3 className="mt-3 text-start mb-3 fw-light ms-3">
-              Producción Propia
+              Inventario de vivero
             </h3>
             <Subtitle title={"Produccion propia por vivero"} mt={3} />
 
@@ -323,18 +325,18 @@ function ProduccionPropiaScreen() {
               <div className="col-12 col-md-3">
                 <button
                   type="submit"
-                  title="Send"
+                  title="Buscar"
                   form="configForm"
                   Value="buscar"
-                  className="btn btn-primary border rounded-pill px-3 text-capitalize mt-5"
+                  className="btn border rounded-pill px-3 text-capitalize mt-5"
                 >
-                  Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
               <div className="col-12 col-md-3 mt-3 d-flex flex-column justify-content-center align-items-center">
               <label className="text-terciary">Crear producto nuevo</label>
-                <button className="btn btn-secondary mx-auto border rounded-pill px-3 text-capitalize">
-                  Crear
+                <button className="btn  mx-auto border rounded-pill px-3 text-capitalize" title="Crear producción propia">
+                <i class="fa-regular fa-plus fs-3"></i>
                 </button>
                 
               </div>
@@ -408,12 +410,12 @@ function ProduccionPropiaScreen() {
                   {" "}
                   {/*  BOTONES DE ABAJO  */}
                   <button
-                    className="btn bg-gradient-danger mb-0 border rounded-pill px-3 text-capitalize"
+                    className="btn mb-0 border rounded-pill px-3 text-capitalize"
                     type="submit"
-                    title="Send"
+                    title="Siguiente opción de inventario"
                     form="configForm"
                   >
-                    Salir
+                    <i class="fa-solid fa-angles-right fs-3"></i>
                   </button>
                 </div>
               </div>

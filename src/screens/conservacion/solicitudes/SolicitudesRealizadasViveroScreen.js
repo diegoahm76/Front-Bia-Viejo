@@ -13,6 +13,7 @@ import {
 } from "../../../actions/modalActions";
 
 import CalendarModal from "../../../components/CalendarModal";
+import ModalLocal from "../../../components/ModalLocal";
 const SolicitudesRealizadasViveroScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
     tipoConsulta: "",
@@ -107,11 +108,11 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-secondary text-capitalize "
+            class="btn text-capitalize "
             type="button"
             onClick={handleOpenModal}
           >
-            Gestionar
+            <i class="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -124,11 +125,11 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-secondary text-capitalize"
+            class="btn text-capitalize"
             type="button"
             onClick={handleOpenModal}
           >
-            Ver
+            <i class="fa-solid fa-eye fs-3"></i>
           </button>
         </div>
       ),
@@ -241,12 +242,13 @@ const SolicitudesRealizadasViveroScreen = () => {
 
   const dispatch = useDispatch();
 
+  const [modal, setModal] = useState(false)
   const handleOpenModal = () => {
-    dispatch(activeModalAction());
+    setModal(true);
   };
 
   const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+    setModal(false);
   };
 
   return (
@@ -360,10 +362,11 @@ const SolicitudesRealizadasViveroScreen = () => {
 
                   <div className="col-12 col-md-3 ">
                     <button
-                      className="mt-5 btn btn-primary text-capitalize "
+                      className="mt-5 btn text-capitalize "
                       type="submit"
+                      title="Buscar"
                     >
-                      Buscar
+                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -395,12 +398,12 @@ const SolicitudesRealizadasViveroScreen = () => {
 
                       <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                         <button
-                          className="btn bg-gradient-danger mb-0"
+                          className="btn mb-0"
                           type="submit"
-                          title="Send"
+                          title="Salir"
                           form="configForm"
                         >
-                          Salir
+                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -464,10 +467,11 @@ const SolicitudesRealizadasViveroScreen = () => {
 
                   <div className="col-12 col-md-3 ">
                     <button
-                      className="mt-5 btn btn-primary text-capitalize "
+                      className="mt-5 btn text-capitalize "
                       type="submit"
-                    >
-                      Buscar
+                      title="Buscar"
+                      >
+                        <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -497,12 +501,12 @@ const SolicitudesRealizadasViveroScreen = () => {
                         {" "}
                         {/*  BOTONES DE ABAJO  */}
                         <button
-                          className="btn bg-gradient-danger mb-0"
+                          className="btn  mb-0"
                           type="submit"
-                          title="Send"
+                          title="Salir"
                           form="configForm"
                         >
-                          Salir
+                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -515,7 +519,7 @@ const SolicitudesRealizadasViveroScreen = () => {
               ""
             )}
           </form>
-          <CalendarModal>
+          <ModalLocal localState={modal}>
             <div className="d-flex">
               <div className="col-12 col-sm-3">
                 {" "}
@@ -561,17 +565,18 @@ const SolicitudesRealizadasViveroScreen = () => {
               {" "}
               {/*  BOTONES DE ABAJO  */}'
               <button
-                className="btn bg-gradient-danger mb-0"
+                className="btn mb-0"
                 type="submit"
-                title="Send"
+                title="Salir"
                 form="configForm"
                 onClick={handleCloseModal}
               >
-                Salir
+                
+                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
               </button>
               
             </div>
-          </CalendarModal>
+          </ModalLocal>
         </div>
       </div>
     </div>

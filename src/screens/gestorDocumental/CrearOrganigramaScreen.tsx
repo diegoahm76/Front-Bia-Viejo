@@ -63,28 +63,28 @@ function CrearOrganigramaScreen() {
       wrapText: true,
     },
     {
-      headerName: "Fecha Terminado",
+      headerName: "Fecha terminado",
       field: "fecha_terminado",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
-      headerName: "Fecha Publicación",
+      headerName: "Fecha publicación",
       field: "fecha_puesta_produccion",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
-      headerName: "Fecha Retiro",
+      headerName: "Fecha retiro",
       field: "fecha_retiro_produccion",
       minWidth: 110,
       maxWidth: 200,
       wrapText: true,
     },
     {
-      headerName: "Justificación Nueva Versión",
+      headerName: "Justificación nueva versión",
       field: "justificacion_nueva_version",
       minWidth: 100,
       wrapText: true,
@@ -143,15 +143,16 @@ function CrearOrganigramaScreen() {
           data-animation="FadeIn"
         >
           <h3 className="mt-3 text-start mb-3 fw-light ms-3">
-            Crear Organigrama
+            Crear organigrama
           </h3>
           <button
-            className="ms-3 mt-3 btn btn-primary flex-center text-capitalize border rounded-pill px-3"
+            className="ms-3  btn text-capitalize"
             type="button"
             form="configForm"
             onClick={() => setCrearOrganigramaIsActive(true)}
+            title="Crear organigrama"
           >
-            Crear
+            <i className="fa-regular fa-plus fs-3"></i>
           </button>
 
           <label

@@ -18,7 +18,7 @@ import { IAlarmasEdit } from "../../../Interfaces/Alarmas";
 
 const defaultColDef = {
   sortable: true,
-  flex: 1,
+  flex: 1, 
   filter: true,
   wrapHeaderText: true,
   resizable: true,

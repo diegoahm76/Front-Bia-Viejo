@@ -1,5 +1,6 @@
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
+import Subtitle from "../../../components/Subtitle";
 
 const options = [
   { label: "Si", value: true },
@@ -15,17 +16,15 @@ const ConfiguracionScreen = () => {
 
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-10 col-md-10 col-12 mx-auto">
-        <h3 className="mt-3 mb-0 text-center mb-6">Configuración</h3>
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
+       
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
           data-animation="FadeIn"
           onSubmit={handleSubmit(submit)}
           id="configForm"
-        >
-          <h5 className="font-weight-bolder">
-            Configuración de notificaciones
-          </h5>
+        > <h3 className="mt-3 mb-0  mb-6">Configuración</h3>
+          <Subtitle title={"configuracion de notificaciones"}/>
           <label className="d-block mt-4">
             Notificaciones, alarmas y alertas:{" "}
           </label>

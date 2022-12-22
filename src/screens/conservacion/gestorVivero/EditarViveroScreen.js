@@ -9,9 +9,10 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import Subtitle from "../../../components/Subtitle"
 
 const rowDataInicial = [
-  { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
-  { latitud: "jobo", longitud: "spondias mombin L.", accion: "" },
-];
+ 
+    { latitud: "4°05'10.0''N", longitud: "73°33'49.1''W ", accion: "" },
+    
+  ];
 
 const options = [
   { label: "Vivero 1", value: "V1" },
@@ -96,6 +97,7 @@ function AgregarViveroScreen() {
     { label: "Cubarral", value: "Cuba" },
     { label: "Cumaral", value: "Cuma" },
     { label: "El Calvario", value: "Elca" },
+    { label:"Villavicencio", value:"Vi"}
   ];
 
 
@@ -108,8 +110,8 @@ function AgregarViveroScreen() {
     {
       headerName: "Acción", field: "accion", cellRendererFramework: (params) => (
         <div className="col-12 ">
-          <button className=" border rounded-pill px-3 btn btn-danger me-md-2" type="button" title="Send">
-            Eliminar
+          <button className=" border rounded-pill px-3 " type="button" title="Send">
+          <i class="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -159,8 +161,8 @@ function AgregarViveroScreen() {
               Editar vivero
             </h3>
             <Subtitle title="Edición de vivero" mt={3} />
-            <div className="row d-flex align-items-end mt-2 mx-2">
-              <div className="col-12 col-md-3 mb-3">
+            <div className="row d-flex align-items-end mt-2 ms-2">
+              <div className="col-12 col-md-3">
                 <label className="text-terciary">
                   Selecciona vivero: <span className="text-danger">*</span>
                 </label>
@@ -185,9 +187,10 @@ function AgregarViveroScreen() {
               <div className="col-12 col-md-3">
                 <button
                   type="submit"
-                  className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                  className=" border rounded-pill mt-2 px-3 "
                 >
-                  Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+               
                 </button>
               </div>
             </div>
@@ -198,7 +201,7 @@ function AgregarViveroScreen() {
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Nombre: <span className="text-danger">*</span>
+                      Nombre: 
                     </label>
                     <input
                       type="text"
@@ -216,7 +219,7 @@ function AgregarViveroScreen() {
                   </div>
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Municipio:<span className="text-danger">*</span>
+                      Municipio:
                     </label>
                     <Controller
                       name="municipioOpcion"
@@ -224,7 +227,7 @@ function AgregarViveroScreen() {
                       render={({ field }) => (
                         <Select
                           {...field}
-                          options={options}
+                          options={opcionMunicipio}
                           placeholder="Selecciona municipio"
                           {...register("municipioOpcion", { required: true })}
 
@@ -237,7 +240,7 @@ function AgregarViveroScreen() {
                   </div>
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Dirección: <span className="text-danger">*</span>
+                      Dirección: 
                     </label>
                     <input
                       name="direccionVivero"
@@ -257,10 +260,10 @@ function AgregarViveroScreen() {
                 </div>
 
                 <Subtitle title="Georreferenciación" mt={3} />
-                <div className="row d-flex align-items-center mt-2 mx-2">
+                <div className="row align-items-end mt-3 ms-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Latitud: <span className="text-danger">*</span>
+                      Latitud: 
                     </label>
                     <input
                       name="latitudTable"
@@ -279,7 +282,7 @@ function AgregarViveroScreen() {
                   </div>
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Longitud: <span className="text-danger">*</span>
+                      Longitud: 
                     </label>
                     <input
                       name="longitudVivero"
@@ -296,36 +299,36 @@ function AgregarViveroScreen() {
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-3 mb-3 mt-5">
+                  <div className="col-12 col-md-3 mb-3">
                     <button
-                      className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
+                      className="btn-min-width border rounded-pill px-3"
                       type="button"
-                      title="Send"
+                      title="Guardar"
                     // handleAddGrid={handleAddGrid}
                     >
-                      Guardar
+                      <i class="fa-regular fa-floppy-disk fs-3"></i>
                     </button>
                   </div>
 
-                  <div
-                    className="ag-theme-alpine mb-3 "
-                    style={{ height: "225px" }}
+                 
+                </div>
+                <div
+                    className="ag-theme-alpine mb-3 ms-2 align-items-center"
+                    style={{ height: "225px",width:"600px" }}
                   >
                     <AgGridReact
                       columnDefs={columnDefs}
-                      rowData={rowData}
+                      rowData={rowDataInicial}
                       defaultColDef={defaultColDef}
                       onGridReady={onGridReady}
                     // handleAddGrid={handleAddGrid}
 
                     ></AgGridReact>
                   </div>
-                </div>
-
-                <div className="row d-flex align-items-center mt-2 mx-2">
+                <div className="row d-flex align-items-center mt-4 mx-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Área: <span className="text-danger">*</span>
+                      Área (metros cuadrados): 
                     </label>
                     <input
                       name="areaVivero"
@@ -344,7 +347,7 @@ function AgregarViveroScreen() {
                   </div>
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Área de propagación: <span className="text-danger">*</span>
+                      Área de propagación (metros cuadrados): 
                     </label>
                     <input
                       name="areaPropagacionVivero"
@@ -366,7 +369,7 @@ function AgregarViveroScreen() {
                 <div className="row d-flex align-items-center mt-2 mx-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Área de producción: <span className="text-danger">*</span>
+                      Área de producción: 
                     </label>
                   </div>
                   <div className="form-check col-12 col-md-1 mb-3">
@@ -404,7 +407,7 @@ function AgregarViveroScreen() {
                 <div className="row d-flex align-items-center mt-2 mx-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Área de preparacion de sustrato: <span className="text-danger">*</span>
+                      Área de preparacion de sustrato: 
                     </label>
                   </div>
                   <div className="form-check col-12 col-md-1 mb-3">
@@ -442,7 +445,7 @@ function AgregarViveroScreen() {
                 <div className="row d-flex align-items-center mt-2 mx-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Area de embolsado: <span className="text-danger">*</span>
+                      Area de embolsado: 
                     </label>
                     <input
                       placeholder="Selecciona cantidad de embolsado"
@@ -460,7 +463,7 @@ function AgregarViveroScreen() {
                   </div>
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Numero de bodegas: <span className="text-danger">*</span>
+                      Numero de bodegas: 
                     </label>
                     <input
                       name="numeroBodegasVivero"
@@ -482,31 +485,31 @@ function AgregarViveroScreen() {
                 <div className="row d-flex align-items-center mt-2 mx-2">
                   <div className="col-12 col-md-4 mb-3">
                     <label className="text-terciary">
-                      Estado de bodegas:
+                      Estado de Vivero:
                     </label>
                     <div className=" input-group input-group-dynamic ms-1">
                       <button
                         type="button"
                         name="nombre"
-                        className="btn btn-primary"
+            
                         onClick={change}
                         onChange={() => setBotonGuardar(true)}
                         disabled={!inactivar ? "false" : ""}
                         {...register("nombre", { required: true })}
                       >
-                        Fuera de servicio
+                        <i class="fa-solid fa-toggle-off fs-3"></i>
                       </button>
                       <button
                         type="button"
                         name="nombre"
-                        className="btn btn-primary"
+                        
                         onClick={change}
                         disabled={inactivar ? "true" : ""}
                         {...register("nombre", {
                           required: true,
                         })}
                       >
-                        Habilitar
+                        <i class="fa-solid fa-toggle-on fs-3"></i>
                       </button>
                     </div>
                     {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
@@ -521,7 +524,7 @@ function AgregarViveroScreen() {
                     </label>
                     <textarea
                       className="form-control border rounded-pill px-3"
-                      placeholder="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas, las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum."
+                      placeholder="Observaciones disponibles."
                       rows={3}
                     />
                   </div>
@@ -531,7 +534,7 @@ function AgregarViveroScreen() {
                 <div className="row d-flex align-items-center mx-2 mt-2">
                   <div className="col-12 col-md-3 mb-3">
                     <label className="text-terciary">
-                      Anexar Documentación <span className="text-danger">*</span>
+                      Anexar Documentación 
                     </label>
                     <input
                       className="form-control"
@@ -549,12 +552,12 @@ function AgregarViveroScreen() {
                     </label>
                   </div>
                 </div>
-                <div className="d-grid gap-2 d-md-flex justify-content-md-left mt-3">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-left mt-3 me-5">
                   <button
                     type="submit"
-                    className="border rounded-pill px-3 btn btn-primary ms-auto mb-0"
+                    className="border rounded-pill px-3 ms-auto mb-0"
                   >
-                    Finalizar
+                    <i class="fa-solid fa-circle-check fs-3"></i>
                   </button>
                 </div>
 

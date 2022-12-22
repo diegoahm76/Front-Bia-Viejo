@@ -53,27 +53,27 @@ const CrearProduccionPropiaScreen = () => {
     {
       nombre: "Palo cruz",
       descripcion: " ",
-      vivero: "",
+      vivero: "5000",
     },
     {
-      nombre: "Palo cruz",
+      nombre: "Pomarroso",
       descripcion: " ",
-      vivero: "",
+      vivero: "6500",
     },
     {
-      nombre: "Palo cruz",
+      nombre: "Ceiba",
       descripcion: " ",
-      vivero: "",
+      vivero: "3650",
     },
     {
-      nombre: "Palo cruz",
+      nombre: "Flor amarillo",
       descripcion: " ",
-      vivero: "",
+      vivero: "14256",
     },
     {
-      nombre: "Palo cruz",
+      nombre: "Flor morado",
       descripcion: " ",
-      vivero: "",
+      vivero: "12360",
     },
   ]);
 
@@ -190,9 +190,10 @@ const CrearProduccionPropiaScreen = () => {
                 <div className="d-grid gap-2 d-flex">
                   <button
                     type="submit"
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    title="Buscar"
                   >
-                    Buscar
+                   <i class="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
               </div>
@@ -205,7 +206,7 @@ const CrearProduccionPropiaScreen = () => {
               onSubmit={handleSubmit2(onSubmitGuardar)}
             >
               <div className="row">
-                <Subtitle title="información de la solicitud" mb="3" />
+                <Subtitle title="información del material vegetal" mb="3" />
                 <div className="col-12 col-sm-3">
                   <label className="form-control ms-3">
                     Lote de siembra No.
@@ -290,18 +291,18 @@ const CrearProduccionPropiaScreen = () => {
 
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                     <button
-                      className="btn bg-gradient-light me-md-2 text-capitalize text-dark"
+                      className="btn  me-md-2 text-capitalize text-dark"
                       type="submit"
-                      title="Send"
+                      title="Cancelar"
                     >
-                      Cancelar
+                <i class="fa-solid fa-x fs-3"></i>
                     </button>
                     <button
-                      className="btn bg-primary text-white text-capitalize"
+                      className="btn  text-capitalize"
                       type="submit"
-                      title="Send"
+                      title="Guardar"
                     >
-                      Guardar
+                     <i class="fa-regular fa-floppy-disk fs-3"></i>
                     </button>
                   </div>
                 </div>

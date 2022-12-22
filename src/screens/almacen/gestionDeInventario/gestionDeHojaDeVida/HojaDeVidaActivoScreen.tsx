@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
-import Subtitle from "../../../../components/Subtitle";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
-import "ag-grid-community/styles/ag-grid.css";
+
+//Styles
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-grid.css";
+//Compones
 import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
 import clienteAxios from "../../../../config/clienteAxios";
-import { useNavigate } from "react-router-dom";
+import Subtitle from "../../../../components/Subtitle";
+//Interfaces
 import { IGeneric } from "../../../../Interfaces/Generic";
+
 
 const HojaDeVidaActivoScreen = () => {
   const initialOptions: IGeneric[] = [{
