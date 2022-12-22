@@ -3,7 +3,7 @@ import clienteAxios from '../../config/clienteAxios';
 // Types
 import { AxiosError, AxiosResponse } from 'axios';
 // Reducers
-import { getCvComputers } from '../../store/slices/cv/indexCv';
+import { getCvComputers, getCvMaintenance } from '../../store/slices/cv/indexCv';
 // Interfaces
 import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 
@@ -22,6 +22,21 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
     showConfirmButton: true,
     confirmButtonText: 'Aceptar',
 }).fire();
+
+//Obtener Mantenimientos
+export const getCvMaintenanceService = (id_articulo: string) => {
+    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+        try {
+            const { data } = await clienteAxios.get(`almacen/mantenimientos/programados/get-five-list/${id_articulo}/`);
+            dispatch(getCvMaintenance(data.data));
+            notificationSuccess(data.detail);
+            return data;
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
+            return error as AxiosError;
+        }
+    };
+};
 
 //Obtener Hoja de Vida Vehiculos
 export const getCvComputersService = (id: string) => {

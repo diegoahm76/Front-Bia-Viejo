@@ -9,7 +9,7 @@ import { IcvComputers } from "../../../../../Interfaces/CV";
 import { IGeneric } from "../../../../../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
-import { getCvComputersService } from "../../../../../services/cv/CvComputers";
+import { getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 import { IMarcas } from "../../../../../Interfaces/Marca";
 //Interfaces
 
@@ -98,6 +98,11 @@ const useCvComputers = () => {
             }
         };
         getSelectsOptions();
+    }, []);
+
+    //useEffect para consultar  options
+    useEffect(() => {
+        dispatch(getCvMaintenanceService('1'));
     }, []);
 
     //ueeEffect para obtener el organigrama a editar
