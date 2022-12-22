@@ -6,7 +6,9 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
 import Subtitle from "../../../../components/Subtitle";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
+import { AgGridReact } from "ag-grid-react";
+import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
 
 const options = [
   { label: "Platón", value: "PL" },
@@ -19,7 +21,8 @@ const onSubmit = (data) => {
 };
 
 const HojaDeVidaVehiculoScreen = () => {
-  const [vehiculoEncontado, setVehiculoEncontado] = useState<boolean>(true);
+  const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState(false);
+  const [vehiculoEncontado, setVehiculoEncontado] = useState<boolean>(false);
   const [enCirculacion, setEnCirculacion] = useState<boolean>(true);
   const [arriendo, setArriendo] = useState<boolean>(false);
   const {
@@ -28,6 +31,107 @@ const HojaDeVidaVehiculoScreen = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const columnDefs = [
+    { headerName: "Nombre ", field: "nmb", minWidth: 150 },
+    { headerName: "Desde", field: "des", minWidth: 150 },
+    { headerName: "Hasta", field: "has", minWidth: 150 },
+    { headerName: "Celular", field: "cel", minWidth: 150 },
+    { headerName: "Acciones", field: "acc", minWidth: 150 },
+  ];
+  const columnDefs2 = [
+    { headerName: "Número", field: "num", minWidth: 150 },
+    { headerName: "Tipo", field: "tip", minWidth: 150 },
+    { headerName: "Fecha", field: "fec", minWidth: 150 },
+    { headerName: "Estado", field: "est", minWidth: 150 },
+    { headerName: "Responsable", field: "res", minWidth: 150 },
+  ];
+  const rowData = [
+    {
+      nmb: "Oliver Amaya",
+      des: "12/08/2011",
+      has: "19/05/2020",
+      cel: "320876354",
+      acc: "",
+    },
+    {
+      nmb: "Oliver Amaya",
+      des: "12/08/2011",
+      has: "19/05/2020",
+      cel: "320876354",
+      acc: "",
+    },
+    {
+      nmb: "Oliver Amaya",
+      des: "12/08/2011",
+      has: "19/05/2020",
+      cel: "320876354",
+      acc: "",
+    },
+    {
+      nmb: "Oliver Amaya",
+      des: "12/08/2011",
+      has: "19/05/2020",
+      cel: "320876354",
+      acc: "",
+    },
+    {
+      nmb: "Oliver Amaya",
+      des: "12/08/2011",
+      has: "19/05/2020",
+      cel: "320876354",
+      acc: "",
+    },
+  ];
+  const rowData2 = [
+    {
+      num: "01",
+      tip: "Correctivo",
+      fec: "19/05/2020",
+      est: "Completado",
+      res: "Compuarreglo",
+    },
+    {
+      num: "02",
+      tip: "Correctivo",
+      fec: "19/05/2020",
+      est: "Completado",
+      res: "Compuarreglo",
+    },
+    {
+      num: "03",
+      tip: "Correctivo",
+      fec: "19/05/2020",
+      est: "Completado",
+      res: "Compuarreglo",
+    },
+    {
+      num: "04",
+      tip: "Correctivo",
+      fec: "19/05/2020",
+      est: "Completado",
+      res: "Compuarreglo",
+    },
+    {
+      num: "05",
+      tip: "Correctivo",
+      fec: "19/05/2020",
+      est: "Completado",
+      res: "Compuarreglo",
+    },
+  ];
+
+  const defaultColDef = {
+    sortable: true,
+    editable: false,
+    flex: 1,
+    filter: true,
+    wrapHeaderText: true,
+    resizable: true,
+    initialWidth: 200,
+    autoHeaderHeight: true,
+    suppressMovable: true,
+  };
 
   return (
     <div className="row min-vh-100">
@@ -116,6 +220,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       className="border rounded-pill btn bg-gradient-primary mt-8"
                       type="button"
                       title="Send"
+                      onClick={() => setBusquedaArticuloModalOpen(true)}
                     >
                       Busqueda de articulo
                     </button>
@@ -509,96 +614,94 @@ const HojaDeVidaVehiculoScreen = () => {
                   </div>
                 </div>
 
-                <Subtitle title="Otros datos" mt={3} />
+                <Subtitle title="Conductores anteriores " mt={3} mb={3} />
                 <div className="row ">
-                  <div className="col-12 col-lg-3 mb-3">
-                    <label className="text-terciary">
-                      Capacidad de extintor:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      {...register("capacidadExtintor", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-3 mb-3">
-                    <label className="text-terciary">
-                      Tarjeta de operación:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      {...register("tarjetaOperacion", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-3 mb-3">
-                    <label className="text-terciary">
-                      Extracto contrato FUEC:
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      {...register("ExtractoFuec", { required: true })}
-                    />
-                  </div>
-                  <div className="col-12 col-lg-3 mb-3">
-                    <label className="text-terciary">
-                      Certificado REV preventivo <br /> (Resolución 315/2013):
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      {...register("certificadoREVDatos", { required: true })}
-                    />
+                  <div className="col-12 mb-3">
+                    <div
+                      className="ag-theme-alpine mt-auto mb-3 px-auto"
+                      style={{ height: "275px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnDefs}
+                        rowData={rowData}
+                        defaultColDef={defaultColDef}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="row d-flex align-items-end mt-2 mx-2">
-                  <div className="col-12 col-lg-3 mb-3">
-                    <label className="text-terciary">Póliza Contractual:</label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      {...register("polizaContractual", { required: true })}
-                    />
+                <div className="row">
+                  <div className="d-grid gap-2 d-lg-flex justify-content-lg-end">
+                    <button
+                      className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
+                      type="button"
+                      title="Send"
+                    >
+                      Historial conductores
+                    </button>
                   </div>
-                  <div className="col-12 col-lg-3 mb-3">
-                    <label className="text-terciary">Póliza:</label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      {...register("polizaDatos", { required: true })}
-                    />
+                </div>
+
+                <Subtitle title="Mantenimientos" mb={3} />
+                <div className="row ">
+                  <div className="col-12 mb-3">
+                    <div
+                      className="ag-theme-alpine mt-auto mb-3 px-auto"
+                      style={{ height: "275px" }}
+                    >
+                      <AgGridReact
+                        columnDefs={columnDefs2}
+                        rowData={rowData2}
+                        defaultColDef={defaultColDef}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="d-grid gap-2 d-lg-flex justify-content-lg-end">
+                    <button
+                      className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
+                      type="button"
+                      title="Send"
+                    >
+                      Programar mantenimiento
+                    </button>
                   </div>
                 </div>
 
                 <div className="d-grid gap-2 d-lg-flex justify-content-lg-end mt-3">
-                  <button
-                    className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
-                    type="button"
-                    title="Send"
+               
+                  <button 
+                  className="px-3 btn" 
+                  type="button" 
+                  title="Salir"
                   >
-                    Limpiar
+                    <i className="fa-solid fa-x fs-3"></i>
                   </button>
-                  <button
-                    className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
-                    type="button"
-                    title="Send"
+                  <button 
+                  className="px-3 btn" 
+                  type="button" 
+                  title="Limpiar"
                   >
-                    Guardar
+                    <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                   </button>
-                  <button
-                    className="border rounded-pill px-3 btn bg-gradient-danger "
-                    type="button"
-                    title="Send"
+                  <button 
+                  className="px-3 btn" 
+                  type="button" 
+                  title="Guardar"
                   >
-                    Salir
+                    <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
+                  
                 </div>
               </div>
             ) : (
               ""
             )}
           </form>
+          <BusquedaArticuloModal
+              isModalActive={busquedaArticuloModalOpen}
+              setIsModalActive={setBusquedaArticuloModalOpen}
+            />
         </div>
       </div>
     </div>
