@@ -18,6 +18,7 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     zIndex: "9999",
+    overflow: "hidden",
   },
 };
 interface IProps {
@@ -75,7 +76,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }: IProps) 
               Crear organigrama
             </h3>
             <Subtitle title="Insertar datos" mt={3} />
-            <div className="col-12 col-md-6 mb-3">
+            <div className="col-12 col-md-6 mb-3 mt-3">
               <label className="text-terciary">
                 Nombre<span className="text-danger">*</span>
               </label>
@@ -94,7 +95,7 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }: IProps) 
             </div>
             <div className="col-12 col-md-6 mb-3">
               <label className="text-terciary">
-                Version<span className="text-danger">*</span>
+                Versión<span className="text-danger">*</span>
               </label>
               <input
                 type="text"
@@ -132,17 +133,19 @@ const CrearItemOrganigramaModal = ({ isModalActive, setIsModalActive }: IProps) 
             <div className="row d-flex align-items-end mt-2 mx-2">
               <div className="d-flex justify-content-end gap-4 ">
                 <button
-                  type="submit"
-                  className="border rounded-pill px-3 btn bg-gradient-primary mb-3 text-capitalize"
-                >
-                  Guardar
-                </button>
-                <button
-                  className="btn bg-gradient-primary text-white text-capitalize border rounded-pill px-3"
+                  className="btn   text-capitalize px-3"
                   type="button"
                   onClick={handleCloseCrearOrganigrama}
+                  title="Regresar"
                 >
-                  Regresar
+                  <i className="fa-solid fa-angles-left fs-3"></i>
+                </button>
+                <button
+                  type="submit"
+                  className=" px-3 btn  mb-3 text-capitalize"
+                  title="Guardar"
+                >
+                  <i className="fa-regular fa-floppy-disk fs-3"></i>
                 </button>
               </div>
             </div>

@@ -87,7 +87,7 @@ import ReporteDeExistenciasConsumoScreen from "../reportes/ReporteDeExistenciasC
 import ReporteStockScreen from "../reportes/ReporteStockScreen";
 import AdministradorBodegasScreen from "../configuracion/AdministradorBodegasScreen";
 import EditarBodegaScreen from "../configuracion/EditarBodegaScreen";
-import HojaDeVidaScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaScreen";
+import HojaDeVidaComputoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaComputoScreen";
 
 
 const AlmacenRoutes = () => {
@@ -144,16 +144,16 @@ const AlmacenRoutes = () => {
           path="programacion-mantenimiento"
           element={<ProgamacionDeMantenimientoScreen />}
         />
-        <Route path="cv" element={<HojaDeVidaScreen />} />
-        <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} /> 
-         <Route
+        <Route path="cv-computo" element={<HojaDeVidaComputoScreen />} />
+        <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} />
+        <Route
           path="cv-otros-activos"
           element={<HojaDeVidaOtrosActivosScreen />}
-        /> 
-         <Route
+        />
+        <Route
           path="cv-vehiculo-externo"
           element={<HojaDeVidaVehiculoExternoScreen />}
-        /> 
+        />
         <Route
           path="busqueda-activos"
           element={<BusquedaActivosSubdelegadosScreen />}
@@ -169,7 +169,7 @@ const AlmacenRoutes = () => {
       </Route>
 
       <Route path="entrada-y-salida-de-articulos">
-      <Route path="catalogo-bienes" element={<CatalogoDeBienesScreen />} />
+        <Route path="catalogo-bienes" element={<CatalogoDeBienesScreen />} />
         <Route path="entrada-articulo" element={<EntradaDeArticuloScreen />} />
         <Route
           path="creacion-articulo-devolutivo"
@@ -349,12 +349,12 @@ const AlmacenRoutes = () => {
           element={<TraspasoElementosBodegasScreen />}
         />
         <Route
-        path="administrador-bodegas"
-        element={<AdministradorBodegasScreen />}
+          path="administrador-bodegas"
+          element={<AdministradorBodegasScreen />}
         />
         <Route
-        path="editar-bodegas"
-        element={<EditarBodegaScreen />}
+          path="editar-bodegas"
+          element={<EditarBodegaScreen />}
         ></Route>
       </Route>
 
