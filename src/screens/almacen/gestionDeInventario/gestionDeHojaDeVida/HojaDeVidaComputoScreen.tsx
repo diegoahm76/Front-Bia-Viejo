@@ -69,7 +69,7 @@ const HojaDeVidaComputoScreen = () => {
                 <div className="row">
                   <div className="col-12 col-lg-6">
                     <div>
-                      <label className="ms-2 text-terciary">Serial</label>
+                      <label className="ms-2 text-terciary">Serial<span className="text-danger">*</span></label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
