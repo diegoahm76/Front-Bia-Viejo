@@ -148,8 +148,8 @@ const SolicitudesDeMaterialSreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn btn-2 btn-primary text-capitalize" type="button">
-            Remover
+          <button className="btn text-capitalize" type="button" title="Eliminar">
+          <i class="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -295,11 +295,12 @@ const SolicitudesDeMaterialSreen = () => {
 
               <div className="col-6 col-sm-6 ">
                 <button
-                  className="mt-5 btn btn-primary text-capitalize "
+                  className="mt-5 btn text-capitalize "
                   type="submit"
                   form="configForm"
+                  title="Buscar"
                 >
-                  Buscar
+                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
 
@@ -350,10 +351,11 @@ const SolicitudesDeMaterialSreen = () => {
                 </div>
                 <div className="col-6 col-sm-3 mt-4">
                 <button
-                  className="btn btn-secondary text-capitalize ms-4 "
+                  className="btn text-capitalize ms-4 "
                   type="button"
+                  title="Agregar"
                 >
-                  Agregar
+                  <i class="fa-regular fa-plus fs-3"></i>
                 </button>
                 </div>
             </div>
@@ -376,25 +378,27 @@ const SolicitudesDeMaterialSreen = () => {
             </div>
             <div className="col-12 px-6 d-flex justify-content-end gap-4 mt-4">
               <button
-                className="btn btn-primary text-capitalize"
+                className="btn text-capitalize"
                 type="button"
+                title="Eliminar todo"
               >
-                Remover todo
+                <i class="fa-regular fa-trash-can fs-3"></i>
               </button>
             </div>
           </div>
           <div className="row mt-5">
           
               <div className="col-12 px-6 d-flex justify-content-end gap-4 mt-4">
-                <button className="btn btn-light text-capitalize">
-                  Cancelar
+                <button className="btn text-capitalize" title="Cancelar">
+                <i class="fa-solid fa-x fs-3"></i>
                 </button>
               
                 <button
-                  className="btn  btn-primary  text-capitalize"
+                  className="btn  text-capitalize"
                   onClick={handleOpenModal}
+                  title="Siguiente"
                 >
-                  Siguiente
+                <i class="fa-solid fa-angles-right fs-3"></i>
                 </button>
               </div>
             
@@ -491,16 +495,16 @@ const SolicitudesDeMaterialSreen = () => {
                 <div className="row mt-4">
                   <div className="d-flex justify-content-end">
                     <input
-                      className="btn btn-secondary  text-capitalize"
+                      className="btn btn-primary  text-capitalize"
                       type="submit"
                       value="Solicitar"
                     />
 
                     <button
-                      className="ms-4 btn btn-danger  text-capitalize"
+                      className="ms-4 btn  text-capitalize"
                       onClick={handleCloseModal}
                     >
-                      Atras
+                      <i class="fa-solid fa-angles-left fs-3"></i>
                     </button>
                   </div>
                 </div>
