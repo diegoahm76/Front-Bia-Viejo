@@ -28,7 +28,7 @@ const defaultValues = {
   segundo_apellido: "",
   fechaInput: "",
   fecha_nacimiento: "",
-  ubicacion_georeferenciada: "",
+  ubicacion_georeferenciada: "mi casita",
   pais_residencia: "",
   municipio: "",
   pais_nacimiento: "",
@@ -171,16 +171,10 @@ const RegisterPersonaScreen = () => {
 
     //* Ingresado los datos al objeto persona dependiento de si es Natural o Juridica
     if (createPersonaModel.tipo_persona === "N") {
-      const formatData = { ...createPersonaModel };
-      const data = formatISO(new Date(formatData.fechaInput), {
-        representation: "date",
-      });
-      formatData.fecha_nacimiento = '2022-12-07';
+
       // REVISAR +57
       // formatData.telefono_celular = formatData.telefono_celular;
       // REVISAR 
-      formatData.ubicacion_georeferenciada = "mi casita";
-      setCreatePersonaModel(formatData);
     } else {
       // REVISAR
       // persona.tipo_persona = formValues.tipo_persona.value;
@@ -537,6 +531,16 @@ const RegisterPersonaScreen = () => {
     }
   }
 
+  const selectDatePicker = (e) => {
+    const formatData = { ...createPersonaModel };
+    const data = formatISO(new Date(e), {
+      representation: "date",
+    });
+    formatData.fecha_nacimiento = data;
+    formatData.fechaInput = e;
+    setCreatePersonaModel(formatData);
+  }
+
 
   return (
     <div
@@ -784,11 +788,7 @@ const RegisterPersonaScreen = () => {
                         autoComplete="off"
                         dateFormat="dd/MM/yyyy"
                         selected={createPersonaModel.fechaInput}
-                        onSelect={(e) =>
-                          setCreatePersonaModel({
-                            ...createPersonaModel,
-                            fechaInput: e,
-                          })
+                        onSelect={selectDatePicker
                         }
                         className="border border-terciary form-control border rounded-pill px-3"
                         placeholderText="dd/mm/aaaa"

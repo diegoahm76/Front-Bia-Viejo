@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 export interface IUserInfo {
     permisos: [],
@@ -67,8 +68,14 @@ export const loginUser = async (dispatch, email: string, password: string) => {
     ).then((response) => {
         dispatch(setUserInfo(response.data.userinfo));
         localStorage.setItem("userInfo", JSON.stringify(response.data.userinfo));
-    }).catch(() => {
-        console.log("LoginError");
+    }).catch((error) => {
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: error.response.data.detail,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+        });
     });
 }
 export const logoutUser = (dispatch) => {
