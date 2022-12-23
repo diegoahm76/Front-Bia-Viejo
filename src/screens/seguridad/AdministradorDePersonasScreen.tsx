@@ -23,7 +23,10 @@ interface formValuesInterface {
   digitoVerificacion: number;
   fechaNacimiento: Date | number;
   estadoCivil: number;
-  sexo: number;
+  sexo: {
+    label: "",
+    value: ""
+  };
   paisLaboral: number;
   paisNacimiento: number;
   paisResidencia: number;
@@ -53,7 +56,10 @@ const defaultValues: formValuesInterface = {
   digitoVerificacion: 0,
   fechaNacimiento: new Date(),
   estadoCivil: 0,
-  sexo: 0,
+  sexo: {
+    label: "",
+    value: ""
+  },
   paisLaboral: 0,
   paisNacimiento: 0,
   paisResidencia: 0,
@@ -267,7 +273,7 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.tipo_documento?.cod_tipo_documento,
           tipoDocumentoOptions
         ),
-        sexo: getIndexBySelectOptions(dataPersona.sexo, sexoOptions),
+        // sexo: getIndexBySelectOptions(dataPersona.sexo, sexoOptions),
         estadoCivil: getIndexBySelectOptions(
           dataPersona.estado_civil?.cod_estado_civil,
           estadoCivilOptions
@@ -389,7 +395,7 @@ const AdministradorDePersonasScreen = () => {
   };
 
   const onSubmitPersona = async (data) => {
-    setLoading(true);
+    // setLoading(true);
     console.log("data para submit", data);
     const indicativo = "57";
     const updatedPersona = {
@@ -403,7 +409,7 @@ const AdministradorDePersonasScreen = () => {
       segundo_nombre: data.segundoNombre,
       primer_apellido: data.primerApellido,
       segundo_apellido: data.segundoApellido,
-      sexo: formValues.sexo[0].value,
+      sexo: formValues.sexo.value,
       estado_civil: estadoCivilOptions[formValues.estadoCivil]?.value,
       pais_nacimiento: paisesOptions[formValues.paisNacimiento]?.value,
       fecha_nacimiento: formatISO(formValues.fechaNacimiento, {
@@ -520,7 +526,10 @@ const AdministradorDePersonasScreen = () => {
       ...formValues,
       tipoDocumento: 0,
       digitoVerificacion: 0,
-      sexo: 0,
+      sexo: {
+        label: "",
+        value: ""
+      },
       estadoCivil: 0,
       paisNacimiento: 0,
       paisResidencia: 0,
@@ -1073,7 +1082,7 @@ const AdministradorDePersonasScreen = () => {
                           <Select
                             {...field}
                             options={sexoOptions}
-                            value={sexoOptions[formValues.sexo]}
+                            // value={sexoOptions[formValues.sexo]}
                             onChange={(e: any) =>
                               setFormValues({ ...formValues, sexo: e })
                             }
