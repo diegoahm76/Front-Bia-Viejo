@@ -67,8 +67,16 @@ const defaultValues: formValuesInterface = {
   digito_verificacion: 0,
 };
 
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "", label: "" },
+  cedula: "",
+  nombreCompleto: "",
+  idResponsable: 0
+}
+
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
   const [loading, setLoading] = useState(false);
   const [direccionResidenciaIsOpen, setDireccionResidenciaIsOpen] =
     useState(false);
@@ -128,6 +136,7 @@ const AdministradorDePersonasScreen = () => {
     handleSubmit: handleSumbitPersona,
     control: controlPersona,
     watch: watchPersona,
+    setValue,
     formState: { errors: errorsPersona },
   } = useForm();
 
@@ -186,7 +195,7 @@ const AdministradorDePersonasScreen = () => {
     setLoading(true);
     try {
       const { data: dataPersonaObject } = await clienteAxios.get(
-        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
+        `personas/get-personas-by-document/${busquedaModel.tipoDocumento.value}/${busquedaModel.cedula}`
       );
 
       const { data: dataPersona } = dataPersonaObject;
@@ -215,10 +224,10 @@ const AdministradorDePersonasScreen = () => {
       const defaultValuesOverrite = {
         tipoDocumento:
           tipoDocumentoOptions[
-            getIndexBySelectOptions(
-              dataPersona.tipo_documento?.cod_tipo_documento,
-              tipoDocumentoOptions
-            )
+          getIndexBySelectOptions(
+            dataPersona.tipo_documento?.cod_tipo_documento,
+            tipoDocumentoOptions
+          )
           ],
         numeroDocumento2: dataPersona.numero_documento,
         nombreComercial: dataPersona.nombre_comercial,
@@ -287,8 +296,8 @@ const AdministradorDePersonasScreen = () => {
         ),
         fechaNacimiento: dataPersona.fecha_nacimiento
           ? new Date(
-              getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
-            )
+            getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
+          )
           : 0,
         id_persona: dataPersona.id_persona,
         tipoPersona: dataPersona.tipo_persona,
@@ -756,6 +765,21 @@ const AdministradorDePersonasScreen = () => {
     setPrimeraVez(true);
   }, [actionForm]);
 
+  const changeSelectTipo = (e) => {
+    let tipo = { ...busquedaModel }
+    tipo.tipoDocumento = {
+      value: e.value,
+      label: e.label
+    }
+    setValue("tipo_documento", tipo.tipoDocumento);
+    setBusquedaModel(tipo)
+  }
+
+  const handleChange = (e) => {
+    const data = { ...busquedaModel }
+    data.cedula = e.target.value;
+    setBusquedaModel(data);
+  }
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -774,24 +798,12 @@ const AdministradorDePersonasScreen = () => {
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={controlBuscar}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        value={
-                          tipoDocumentoOptions[
-                            formValuesSearch.index_tipo_documento
-                          ]
-                        }
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                  <Select
+                    name="tipo_documento"
+                    value={busquedaModel.tipoDocumento}
+                    options={tipoDocumentoOptions}
+                    placeholder="Seleccionar"
+                    onChange={changeSelectTipo}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -810,9 +822,9 @@ const AdministradorDePersonasScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
-                      {...registerBuscar("numeroDocumento", {
-                        required: true,
-                      })}
+                      value={busquedaModel.cedula}
+                      onChange={handleChange}
+                      required={true}
                     />
                   </div>
                   {errorsBuscar.numeroDocumento && (
@@ -1523,7 +1535,7 @@ const AdministradorDePersonasScreen = () => {
                             }
                             value={
                               municipiosOptions[
-                                formValues.municipioNotificacion
+                              formValues.municipioNotificacion
                               ]
                             }
                             onChange={(e: any) =>
@@ -1721,6 +1733,7 @@ const AdministradorDePersonasScreen = () => {
             isModalActive={busquedaAvanzadaIsOpen}
             setIsModalActive={setBusquedaAvanzadaIsOpen}
             setFormValues={setFormValuesSearch}
+            setModel={setBusquedaModel}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}
           />
