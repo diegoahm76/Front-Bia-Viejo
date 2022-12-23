@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DatePicker from "react-datepicker";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Select, { SingleValue } from "react-select";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
@@ -18,26 +18,27 @@ import { AxiosError } from 'axios';
 
 const defaultValues = {
   tipo_persona: "",
-  tipoDocumento: "",
+  tipo_documento: "",
   numero_documento: "",
-  razonSocial: "",
+  razon_social: "",
   dv: "",
-  primerNombre: "",
-  segundoNombre: "",
-  primerApellido: "",
-  segundoApellido: "",
-  fechaNacimiento: "",
+  primer_nombre: "",
+  segundo_nombre: "",
+  primer_apellido: "",
+  segundo_apellido: "",
+  fechaInput: "",
+  fecha_nacimiento: "",
   ubicacion_georeferenciada: "",
   pais_residencia: "",
   municipio: "",
   pais_nacimiento: "",
   sexo: "",
-  eMail: "",
+  email: "",
   cEmail: "",
   cod_pais_nacionalidad_empresa: "",
-  celular: "",
+  telefono_celular: "",
   cCelular: "",
-  nombreComercial: "",
+  nombre_comercial: "",
   acepta_notificacion_sms: true,
   acepta_notificacion_email: true,
   acepta_tratamiento_datos: true,
@@ -73,6 +74,8 @@ const RegisterPersonaScreen = () => {
     municipioNotificacion: ""
   });
 
+  // Modelo de creacion 
+  const [createPersonaModel, setCreatePersonaModel] = useState(defaultValues);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -123,16 +126,16 @@ const RegisterPersonaScreen = () => {
 
   const submitForm: SubmitHandler<IDefaultValues> = async (data: IDefaultValues) => {
     //* Validación duplicidad de emails y celular
-    if (data.eMail !== data.cEmail || data.celular !== data.cCelular) {
+    if (createPersonaModel.email !== createPersonaModel.cEmail || createPersonaModel.telefono_celular !== createPersonaModel.cCelular) {
       const dataResponse = {
         ...defaultErrors,
       };
 
-      if (data.eMail !== data.cEmail) {
+      if (createPersonaModel.email !== createPersonaModel.cEmail) {
         dataResponse.confirmacionEmail = true;
       }
 
-      if (data.celular !== data.cCelular) {
+      if (createPersonaModel.telefono_celular !== createPersonaModel.cCelular) {
         dataResponse.confirmacionCelular = true;
       }
 
@@ -167,42 +170,38 @@ const RegisterPersonaScreen = () => {
     const idPersonaRepresentante: string = idRepresentante
 
     //* Ingresado los datos al objeto persona dependiento de si es Natural o Juridica
-    if (formValues.tipo_persona.value === "N") {
-      persona.tipo_persona = formValues.tipo_persona.value;
-      persona.tipo_documento = data.tipoDocumento.value;
-      persona.numero_documento = data.numero_documento;
-      persona.digito_verificacion = formValues.digito_verificacion || null;
-      persona.nombre_comercial = data.nombreComercial || null;
-      persona.primer_nombre = data.primerNombre;
-      persona.segundo_nombre = data.segundoNombre || null;
-      persona.primer_apellido = data.primerApellido;
-      persona.segundo_apellido = data.segundoApellido || null;
-      persona.fecha_nacimiento = formatISO(data.fechaNacimiento, {
+    if (createPersonaModel.tipo_persona === "N") {
+      const formatData = { ...createPersonaModel };
+      const data = formatISO(new Date(formatData.fechaInput), {
         representation: "date",
       });
-      persona.email = data.eMail;
-      persona.telefono_celular = "57" + data.celular;
-      persona.ubicacion_georeferenciada = "mi casita";
+      formatData.fecha_nacimiento = '2022-12-07';
+      // REVISAR +57
+      // formatData.telefono_celular = formatData.telefono_celular;
+      // REVISAR 
+      formatData.ubicacion_georeferenciada = "mi casita";
+      setCreatePersonaModel(formatData);
     } else {
-      persona.tipo_persona = formValues.tipo_persona.value;
-      persona.tipo_documento = data.tipoDocumento.value;
-      persona.numero_documento = data.numero_documento;
-      persona.digito_verificacion = formValues.digito_verificacion || null;
-      persona.razon_social = data.razonSocial;
-      persona.nombre_comercial = data.nombreComercial || null;
-      persona.representante_legal = idPersonaRepresentante;
-      persona.email = data.eMail;
-      persona.telefono_celular_empresa = "57" + data.celular;
-      persona.direccion_notificaciones = data.direccionNotificacion;
-      // persona.departamento_residencia = data.departamento?.value;
-      persona.cod_municipio_notificacion_nal = municipiosOptions[formValues.municipioNotificacion]?.value || null;
-      persona.ubicacion_georeferenciada = "mi casita";
+      // REVISAR
+      // persona.tipo_persona = formValues.tipo_persona.value;
+      // persona.tipo_documento = data.tipoDocumento.value;
+      // persona.numero_documento = data.numero_documento;
+      // persona.digito_verificacion = formValues.digito_verificacion || null;
+      // persona.razon_social = data.razonSocial;
+      // persona.nombre_comercial = data.nombreComercial || null;
+      // persona.representante_legal = idPersonaRepresentante;
+      // persona.email = data.eMail;
+      // persona.telefono_celular_empresa = "57" + data.celular;
+      // persona.direccion_notificaciones = data.direccionNotificacion;
+      // // persona.departamento_residencia = data.departamento?.value;
+      // persona.cod_municipio_notificacion_nal = municipiosOptions[formValues.municipioNotificacion]?.value || null;
+      // persona.ubicacion_georeferenciada = "mi casita";
     }
 
     setLoading(true);
-    if (formValues.tipo_persona.value === "N") {
+    if (createPersonaModel.tipo_persona === "N") {
       try {
-        const { data: dataRegisterPersona } = await clienteAxios.post("personas/persona-natural/create/", persona);
+        const { data: dataRegisterPersona } = await clienteAxios.post("personas/persona-natural/create/", createPersonaModel);
         Swal.fire({
           title: "Registrado como persona natural",
           text: "¿Desea registrarse como usuario?",
@@ -222,66 +221,81 @@ const RegisterPersonaScreen = () => {
         //* Manejo de errores por datos repetidos en la DB (email y numero documento)
       } catch (err: any) {
         console.log(err);
-        if (err.response?.data?.email && err.response?.data?.numero_documento) {
-          Swal.fire({
-            title: "Este documento y correo ya estan relacionados",
-            text: "¿Desea registrarse como usuario?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/registeruser");
-            }
-          });
-        } else if (err.response?.data?.numero_documento) {
-          Swal.fire({
-            title: "Este documento ya existe",
-            text: "¿Desea registrarse como usuario?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/registeruser");
-            }
-          });
-        } else if (err.response?.data?.non_field_errors) {
-          //Cambiaron los errores ahora vienen en este formato
-          Swal.fire({
-            title: "Este documento ya existe",
-            text: "¿Desea registrarse como usuario?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/registeruser");
-            }
-          });
-        } else if (err?.response!.data?.email) {
-          console.log(err);
-          Swal.fire({
-            title: "Este correo electronico ya existe",
-            text: "Verifica tus datos",
-            icon: "info",
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Aceptar",
-          });
-        } else {
-          console.log(err);
-        }
-        return err as AxiosError;
+        setLoading(false);
+        Swal.fire({
+          title: "Este documento y correo ya estan relacionados",
+          text: err.response?.data.detail,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/registeruser");
+          }
+        });
+        // if (err.response?.data?.email && err.response?.data?.numero_documento) {
+        //   Swal.fire({
+        //     title: "Este documento y correo ya estan relacionados",
+        //     text: "¿Desea registrarse como usuario?",
+        //     icon: "warning",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#3BA9E0",
+        //     cancelButtonColor: "#6c757d",
+        //     confirmButtonText: "Si",
+        //     cancelButtonText: "No",
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       navigate("/registeruser");
+        //     }
+        //   });
+        // } else if (err.response?.data?.numero_documento) {
+        //   Swal.fire({
+        //     title: "Este documento ya existe",
+        //     text: "¿Desea registrarse como usuario?",
+        //     icon: "warning",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#3BA9E0",
+        //     cancelButtonColor: "#6c757d",
+        //     confirmButtonText: "Si",
+        //     cancelButtonText: "No",
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       navigate("/registeruser");
+        //     }
+        //   });
+        // } else if (err.response?.data?.non_field_errors) {
+        //   //Cambiaron los errores ahora vienen en este formato
+        //   Swal.fire({
+        //     title: "Este documento ya existe",
+        //     text: "¿Desea registrarse como usuario?",
+        //     icon: "warning",
+        //     showCancelButton: true,
+        //     confirmButtonColor: "#3BA9E0",
+        //     cancelButtonColor: "#6c757d",
+        //     confirmButtonText: "Si",
+        //     cancelButtonText: "No",
+        //   }).then((result) => {
+        //     if (result.isConfirmed) {
+        //       navigate("/registeruser");
+        //     }
+        //   });
+        // } else if (err?.response!.data?.email) {
+        //   console.log(err);
+        //   Swal.fire({
+        //     title: "Este correo electronico ya existe",
+        //     text: "Verifica tus datos",
+        //     icon: "info",
+        //     confirmButtonColor: "#3BA9E0",
+        //     cancelButtonColor: "#6c757d",
+        //     confirmButtonText: "Aceptar",
+        //   });
+        // } else {
+        //   console.log(err);
+        // }
+        // return err as AxiosError;
       }
       setLoading(false);
     } else {
@@ -405,8 +419,9 @@ const RegisterPersonaScreen = () => {
   };
 
   const handleChangeTypePerson = (e) => {
-    resetValues();
-    setFormValues({ ...formValues, tipo_persona: e });
+    const data = { ...createPersonaModel };
+    data.tipo_persona = e.value
+    setCreatePersonaModel(data);
     if (e.value === "J") {
       setIsUser(false);
       setYesOrNo(true);
@@ -510,6 +525,19 @@ const RegisterPersonaScreen = () => {
     }
   }, [datosNotificacion.departamento]);
 
+  // Cambio inputs 
+  const handleChange = (e) => {
+    if (e.label) {
+      const data = { ...createPersonaModel };
+      data.tipo_documento = e.value
+      setCreatePersonaModel(data);
+    } else {
+      const { name, value } = e.target;
+      setCreatePersonaModel({ ...createPersonaModel, [name]: value });
+    }
+  }
+
+
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -545,9 +573,9 @@ const RegisterPersonaScreen = () => {
                       Tipo de persona: <span className="text-danger">*</span>
                     </label>
                     <Select
-                      value={formValues.tipo_persona}
+                      // value={createPersonaModel.tipo_persona}
                       options={tipoPersonaOptions}
-                      defaultValue={formValues.tipo_persona}
+                      // defaultValue={formValues.tipo_persona}
                       placeholder="Seleccionar"
                       onChange={handleChangeTypePerson}
                     />
@@ -556,23 +584,13 @@ const RegisterPersonaScreen = () => {
                     <label className="form-label">
                       Tipo de documento: <span className="text-danger">*</span>
                     </label>
-                    <Controller
-                      name="tipoDocumento"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={tipoDocumentoFiltrado}
-                          placeholder="Seleccionar"
-                        // onChange={(option: SingleValue<IList>) => {
-                        //   // setValueUnidades("tipoUnidad", option!);
-                        // }}
-                        />
-                      )}
+                    <Select
+                      name='tipo_documento'
+                      options={tipoDocumentoFiltrado}
+                      placeholder="Seleccionar"
+                      onChange={handleChange}
                     />
+
                     {errorsForm.tipoDocumento && (
                       <div className="col-12">
                         <small className="text-center text-danger">
@@ -610,9 +628,8 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="number"
-                        {...register("numero_documento", {
-                          required: true,
-                        })}
+                        name='numero_documento'
+                        onChange={handleChange}
                       />
                     </div>
                     {errorsForm.numero_documento && (
@@ -632,7 +649,6 @@ const RegisterPersonaScreen = () => {
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="number"
                             onChange={handleMaxOneDigit}
-                          //{...register("dv", {required: true})}
                           />
                         </div>
                         {errorsForm.dv && (
@@ -652,9 +668,7 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("nombreComercial", {
-                              required: true,
-                            })}
+                            required={false}
                           />
                         </div>
                         {errorsForm.nombreComercial && (
@@ -677,9 +691,7 @@ const RegisterPersonaScreen = () => {
                         <input
                           className="border border-terciary form-control border rounded-pill px-3"
                           type="text"
-                          {...register("razonSocial", {
-                            required: true,
-                          })}
+                          required={false}
                         />
                       </div>
                       {errorsForm.razonSocial && (
@@ -703,7 +715,9 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("primerNombre", { required: true })}
+                            name='primer_nombre'
+                            onChange={handleChange}
+                            required={false}
                           />
                         </div>
                       </div>
@@ -713,7 +727,8 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("segundoNombre")}
+                            name='segundo_nombre'
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -726,7 +741,9 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("primerApellido", { required: true })}
+                            name='primer_apellido'
+                            onChange={handleChange}
+                            required={false}
                           />
                         </div>
                         {errorsForm.primerApellido && (
@@ -743,7 +760,9 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("segundoApellido")}
+                            name='segundo_apellido'
+                            onChange={handleChange}
+                            required={false}
                           />
                         </div>
                       </div>
@@ -755,33 +774,26 @@ const RegisterPersonaScreen = () => {
                         Fecha de nacimiento:{" "}
                         <span className="text-danger">*</span>
                       </label>
-                      <Controller
-                        name="fechaNacimiento"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <DatePicker
-                            {...field}
-                            locale="es"
-                            showYearDropdown
-                            peekNextMonth
-                            showMonthDropdown
-                            scrollableYearDropdown
-                            dropdownMode="select"
-                            autoComplete="off"
-                            dateFormat="dd/MM/yyyy"
-                            selected={formValues.fechaNacimiento}
-                            onSelect={(e) =>
-                              setFormValues({
-                                ...formValues,
-                                fechaNacimiento: e,
-                              })
-                            }
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            placeholderText="dd/mm/aaaa"
-                          />
-                        )}
+                      <DatePicker
+                        locale="es"
+                        showYearDropdown
+                        peekNextMonth
+                        showMonthDropdown
+                        scrollableYearDropdown
+                        dropdownMode="select"
+                        autoComplete="off"
+                        dateFormat="dd/MM/yyyy"
+                        selected={createPersonaModel.fechaInput}
+                        onSelect={(e) =>
+                          setCreatePersonaModel({
+                            ...createPersonaModel,
+                            fechaInput: e,
+                          })
+                        }
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        placeholderText="dd/mm/aaaa"
                       />
+
                       {errorsForm.fechaNacimiento && (
                         <div className="col-12">
                           <small className="text-center text-danger">
@@ -802,20 +814,11 @@ const RegisterPersonaScreen = () => {
                           Tipo de documento:{" "}
                           <span className="text-danger">*</span>
                         </label>
-                        <Controller
-                          name="tipoDocumento"
-                          control={control}
-                          rules={{
-                            required: true,
-                          }}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              options={tipoDocumentoOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
+                        <Select
+                          options={tipoDocumentoOptions}
+                          placeholder="Seleccionar"
                         />
+
                         {errorsForm.tipoDocumento && (
                           <div className="col-12">
                             <small className="text-center text-danger">
@@ -833,9 +836,7 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            {...register("numero_documento", {
-                              required: true,
-                            })}
+                            required={false}
                           />
                         </div>
                         {errorsForm.numero_documento && (
@@ -862,9 +863,11 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
-                        autoComplete="off"
-                        onCopy={(e) => e.preventDefault()}
-                        {...register("eMail", { required: true })}
+                        // autoComplete="off"
+                        // onCopy={(e) => e.preventDefault()}
+                        name='email'
+                        onChange={handleChange}
+                        required={false}
                       />
                     </div>
                     {errorsForm.eMail && (
@@ -892,9 +895,11 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
-                        autoComplete="off"
-                        onPaste={(e) => e.preventDefault()}
-                        {...register("cEmail", { required: true })}
+                        // autoComplete="off"
+                        // onPaste={(e) => e.preventDefault()}
+                        name='cEmail'
+                        onChange={handleChange}
+                        required={false}
                       />
                     </div>
                     {errorsForm.cEmail && (
@@ -921,7 +926,9 @@ const RegisterPersonaScreen = () => {
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
                         onCopy={(e) => e.preventDefault()}
-                        {...register("celular", { required: true })}
+                        name='telefono_celular'
+                        onChange={handleChange}
+                        required={false}
                       />
                     </div>
                     {errorsForm.celular && (
@@ -949,8 +956,10 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
-                        onPaste={(e) => e.preventDefault()}
-                        {...register("cCelular", { required: true })}
+                        // onPaste={(e) => e.preventDefault()}
+                        name='cCelular'
+                        onChange={handleChange}
+                        required={false}
                       />
                     </div>
                     {errorsForm.cCelular && (
@@ -983,9 +992,7 @@ const RegisterPersonaScreen = () => {
                               disabled
                               type="text"
                               value={completeAddress}
-                              {...register("direccionNotificacion", {
-                                required: true,
-                              })}
+                              required={false}
                             />
                           </div>
                           <button
@@ -1030,18 +1037,11 @@ const RegisterPersonaScreen = () => {
                         <label className="form-label text-terciary">
                           País notificación:
                         </label>
-                        <Controller
-                          // control={control}
-                          name="paisNotificacion"
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={paisesOptions[formValues.paisNotificacion]}
-                              options={paisesOptions}
-                              onChange={handleChangePaisNotificacion}
-                              placeholder="Seleccionar"
-                            />
-                          )}
+                        <Select
+                          value={paisesOptions[formValues.paisNotificacion]}
+                          options={paisesOptions}
+                          onChange={handleChangePaisNotificacion}
+                          placeholder="Seleccionar"
                         />
                       </div>
                       {/* <div className="col-12 col-md-6 mt-3">
@@ -1120,29 +1120,22 @@ const RegisterPersonaScreen = () => {
                           <label className="form-label">
                             Municipio notificación:{" "}
                           </label>
-                          <Controller
-                            name="municipioNotificacion"
-                            control={control}
-                            render={({ field }) => (
-                              <Select
-                                {...field}
-                                isDisabled={
-                                  paisesOptions[formValues.paisNotificacion]?.value !== "CO"
-                                }
-                                value={municipiosOptions[formValues.municipioNotificacion]}
-                                onChange={(e: SingleValue<any>) =>
-                                  setFormValues({
-                                    ...formValues,
-                                    municipioNotificacion: getIndexBySelectOptions(
-                                      e.value,
-                                      municipiosOptions
-                                    ),
-                                  })
-                                }
-                                options={municipioNotificacionFiltered}
-                                placeholder="Seleccionar"
-                              />
-                            )}
+                          <Select
+                            isDisabled={
+                              paisesOptions[formValues.paisNotificacion]?.value !== "CO"
+                            }
+                            value={municipiosOptions[formValues.municipioNotificacion]}
+                            onChange={(e: SingleValue<any>) =>
+                              setFormValues({
+                                ...formValues,
+                                municipioNotificacion: getIndexBySelectOptions(
+                                  e.value,
+                                  municipiosOptions
+                                ),
+                              })
+                            }
+                            options={municipioNotificacionFiltered}
+                            placeholder="Seleccionar"
                           />
                         </div>
                       ) : (
