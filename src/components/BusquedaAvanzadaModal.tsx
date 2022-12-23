@@ -77,7 +77,7 @@ const BusquedaAvanzadaModal = ({
   }
 
   const getUsersByQuery = async (data) => {
-    const queryParams = `?search=${data.primerNombre ?? ""} ${data.primerApellido ?? ""}`;
+    const queryParams = `?primer_nombre=${data.primerNombre ?? ""}&primer_apellido${data.primerApellido ?? ""}`;
     await clienteAxios(
       `personas/get-personas-naturales/${queryParams}`
     ).then((res) => {
@@ -86,14 +86,14 @@ const BusquedaAvanzadaModal = ({
   }
 
   const onSubmit = async () => {
-    if (!filtersModel.primerApellido && !filtersModel.primerNombre) {
-      getUsers();
-      setWarning(true);
-      setTimeout(() => {
-        setWarning(false);
-      }, 2000);
-      return;
-    }
+    // if (!filtersModel.primerApellido && !filtersModel.primerNombre) {
+    //   getUsers();
+    //   setWarning(true);
+    //   setTimeout(() => {
+    //     setWarning(false);
+    //   }, 2000);
+    //   return;
+    // }
     getUsersByQuery(filtersModel);
   };
 
