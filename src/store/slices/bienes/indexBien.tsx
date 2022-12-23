@@ -36,7 +36,7 @@ const initialState: IBienGet = {
   dataEdit: {
     id_bien_padre: 0,
     edit: false,
-    nivel_jerarquico:0,
+    nivel_jerarquico: 0,
   },
 };
 
@@ -61,13 +61,36 @@ const bienForm = createSlice({
       state.bienSeleccionado = action.payload;
     },
     seleccionarBienModelCreate: (state, action) => {
-      state.bienSeleccionado = action.payload;
+      state.bienSeleccionado = {
+        ...action.payload,
+        id_bien: null,
+        codigo_bien: null,
+        nro_elemento_bien: null,
+        id_bien_padre: action.payload.id_bien,
+        nombre: null,
+        cod_tipo_bien: null,
+        nivel_jerarquico: action.payload.nivel_jerarquico + 1,
+        nombre_cientifico: null,
+        descripcion: null,
+        doc_identificador_nro: null,
+        cod_metodo_valoracion: null,
+        cod_tipo_depreciacion: null,
+        cantidad_vida_util: null,
+        valor_residual: null,
+        stock_minimo: null,
+        stock_maximo: null,
+        solicitable_vivero: null,
+        id_marca: null,
+        id_unidad_medida: null,
+        id_porcentaje_iva: null,
+        id_unidad_medida_vida_util: null,
+      };
       state.dataEdit.edit = false;
-      state.dataEdit.id_bien_padre = action.payload.id_bien;
-      state.dataEdit.nivel_jerarquico = action.payload.nivel_jerarquico;
+      state.dataEdit.id_bien_padre=action.payload.id_bien;
+      state.dataEdit.nivel_jerarquico=action.payload.nivel_jerarquico + 1;
     },
     seleccionarBienModelEdit: (state, action) => {
-      state.bienSeleccionado = action.payload;
+      state.bienSeleccionado = { ...action.payload };
       state.dataEdit.edit = true;
       state.dataEdit.id_bien_padre = action.payload.id_bien_padre;
       state.dataEdit.nivel_jerarquico = action.payload.nivel_jerarquico;
@@ -117,11 +140,10 @@ export const crearBien = async (dispatch, dataBien) => {
 };
 
 export const seleccionarBien = (dispatch, bien) => {
-  if(bien.id_bien!==null)
-  {
+  if (bien.id_bien !== null) {
     //create
     dispatch(seleccionarBienModelCreate(bien));
-  }else{
+  } else {
     //edit
     dispatch(seleccionarBienModelEdit(bien));
   }
