@@ -38,6 +38,7 @@ const defaultValues = {
   cod_pais_nacionalidad_empresa: "",
   telefono_celular: "",
   cCelular: "",
+  celular: "",
   nombre_comercial: "",
   acepta_notificacion_sms: true,
   acepta_notificacion_email: true,
@@ -126,7 +127,7 @@ const RegisterPersonaScreen = () => {
 
   const submitForm: SubmitHandler<IDefaultValues> = async (data: IDefaultValues) => {
     //* Validación duplicidad de emails y celular
-    if (createPersonaModel.email !== createPersonaModel.cEmail || createPersonaModel.telefono_celular !== createPersonaModel.cCelular) {
+    if (createPersonaModel.email !== createPersonaModel.cEmail || createPersonaModel.celular !== createPersonaModel.cCelular) {
       const dataResponse = {
         ...defaultErrors,
       };
@@ -135,7 +136,7 @@ const RegisterPersonaScreen = () => {
         dataResponse.confirmacionEmail = true;
       }
 
-      if (createPersonaModel.telefono_celular !== createPersonaModel.cCelular) {
+      if (createPersonaModel.celular !== createPersonaModel.cCelular) {
         dataResponse.confirmacionCelular = true;
       }
 
@@ -541,7 +542,12 @@ const RegisterPersonaScreen = () => {
     setCreatePersonaModel(formatData);
   }
 
-
+  const handleChangePhone = (e) => {
+    const formatData = { ...createPersonaModel };
+    formatData.telefono_celular = "57"+ e.target.value;
+    formatData.celular = e.target.value;
+    setCreatePersonaModel(formatData);
+  }
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -926,8 +932,8 @@ const RegisterPersonaScreen = () => {
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
                         onCopy={(e) => e.preventDefault()}
-                        name='telefono_celular'
-                        onChange={handleChange}
+                        name='celular'
+                        onChange={handleChangePhone}
                         required={false}
                       />
                     </div>
