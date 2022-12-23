@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,9 @@ import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
+import Login from "../../store/slices/Login";
+import { useAppSelector } from "../../store/hooks/hooks";
+import { IGeneric } from "../../Interfaces/Generic";
 
 //Todo: Esto se debe quitar cuando se tengan los roles
 const paisesOptions = [
@@ -32,17 +35,23 @@ const defaultDataOverride = {
   roles: [],
   tipoTercero: [],
 };
+const initialOptions: IGeneric[] = [
+  {
+    label: "",
+    value: "",
+  },
+];
 
 const AdministradosDeUsuario = () => {
-  const { id_usuario } = useSelector((state) => state.user.user);
+  const { id_usuario } = useAppSelector((state) => state.login.userinfo);
   const [loading, setLoading] = useState(false);
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState([]);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
   const [userData, setUserData] = useState(null);
   const [isHandleSubmit, setIsHandleSubmit] = useState(false);
-  const [errorPassword, setErrorPassword] = useState(null);
+  const [errorPassword, setErrorPassword] = useState(false);
   const [personaData, setPersonaData] = useState({});
-  const [actionForm, setActionForm] = useState(null);
+  const [actionForm, setActionForm] = useState("");
   const [rolesOptions, setRolesOptions] = useState([]);
   const [bloqueoTipoUsuario, setBloqueoTipoUsuario] = useState(false);
   const [formValuesSearch, setFormValuesSearch] = useState({
@@ -70,8 +79,8 @@ const AdministradosDeUsuario = () => {
     formState: { errors: errorsUsuario },
   } = useForm();
 
-  const accessToken = getTokenAccessLocalStorage();
-  const config = getConfigAuthBearer(accessToken);
+  // const accessToken = getTokenAccessLocalStorage();
+  // const config = getConfigAuthBearer(accessToken);
 
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -82,8 +91,7 @@ const AdministradosDeUsuario = () => {
         );
 
         const { data: dataRoles } = await clienteAxios.get(
-          "roles/get-list",
-          config
+          "roles/get-list"
         );
 
         const rolesFormat = dataRoles.map((rol) => ({
@@ -240,9 +248,9 @@ const AdministradosDeUsuario = () => {
         const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
 
         const nuevoUsuario = {
-          email: personaData.email,
+          //  email: personaData.email,
           nombre_de_usuario: data.nombreUsuario,
-          persona: personaData.id_persona,
+          // persona: personaData.id_persona,
           password: data.password,
           id_usuario_creador: id_usuario,
           tipo_usuario: "I",
@@ -255,7 +263,7 @@ const AdministradosDeUsuario = () => {
 
         await clienteAxios.post("users/register/", nuevoUsuario, config);
 
-        setActionForm(null);
+        setActionForm("");
         resetUsuario(defaultDataOverride);
 
         Swal.fire({
@@ -271,8 +279,8 @@ const AdministradosDeUsuario = () => {
     } else if (actionForm === "editar") {
       console.log("image", image);
       let form_data = new FormData();
-      form_data.append("image", image);
-      form_data.append("id_usuario", userData.id_usuario)
+      // form_data.append("image", image);
+      // form_data.append("id_usuario", userData.id_usuario)
 
       const configImage = {
         headers: {
@@ -302,11 +310,12 @@ const AdministradosDeUsuario = () => {
           roles: rolesReFormat,
         };
 
-        await clienteAxios.patch(
-          `users/update/${userData.id_usuario}/`,
-          editarUsuario,
-          config
-        );
+        // REVISAR
+        // await clienteAxios.patch(
+        //   `users/update/${userData.id_usuario}/`,
+        //   editarUsuario,
+        //   config
+        // );
 
         Swal.fire(
           "Correcto",
@@ -330,11 +339,12 @@ const AdministradosDeUsuario = () => {
   const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
     const idResult = [];
     const idSelectOptions = selectOptions.map((option) => option.value);
-    idSelectOptions.forEach((optionId, index) => {
-      if (valuesSelect.includes(optionId)) {
-        idResult.push(index);
-      }
-    });
+    // REVISAR
+    // idSelectOptions.forEach((optionId, index) => {
+    //   if (valuesSelect.includes(optionId)) {
+    //     idResult.push(index);
+    //   }
+    // });
     return idResult;
   };
 
@@ -346,7 +356,7 @@ const AdministradosDeUsuario = () => {
   };
 
   const handleCancelAction = () => {
-    setActionForm(null);
+    setActionForm("");
   };
 
   const handleImageChange = async (e) => {

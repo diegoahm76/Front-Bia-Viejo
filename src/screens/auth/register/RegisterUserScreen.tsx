@@ -61,9 +61,9 @@ const RegisterUserScreen = () => {
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
       ).then((dataPersona) => {
         const user = {
-          email: dataPersona.data.email,
+          email: dataPersona.data.data.email,
           nombre_de_usuario: data.nombreDeUsuario,
-          persona: dataPersona.data.id_persona,
+          persona: dataPersona.data.data.id_persona,
           password: data.password,
           id_usuario_creador: null,
           tipo_usuario: "E", // Debería ser por defecto que se creara en E

@@ -1,5 +1,5 @@
 import { AgGridReact } from "ag-grid-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import CalendarModal from "../../components/CalendarModal";
@@ -42,14 +42,13 @@ const RolesScreen = () => {
     permisosRol: [],
   });
 
-  const accessToken = getTokenAccessLocalStorage();
-  const config = getConfigAuthBearer(accessToken);
+  // const accessToken = getTokenAccessLocalStorage();
+  // const config = getConfigAuthBearer(accessToken);
 
   const getRolesList = async () => {
     try {
       const { data: dataRoles } = await clienteAxios.get(
-        "roles/get-list",
-        config
+        "roles/get-list"
       );
       setRoles(dataRoles);
     } catch (err) {
@@ -75,7 +74,7 @@ const RolesScreen = () => {
     getRolesPermisos();
   }, []);
 
-  const [isCreate, setisCreate] = useState(null);
+  const [isCreate, setisCreate] = useState("");
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
 
@@ -89,7 +88,8 @@ const RolesScreen = () => {
   } = useForm();
 
   const columDefs = [
-    { headerName: "Nombre",
+    {
+      headerName: "Nombre",
       field: "nombre_rol",
       minWidth: 150,
       maxWidth: 220
@@ -113,7 +113,7 @@ const RolesScreen = () => {
               handleOpenEditRol(params.data.id_rol);
             }}
           >
-            <img src={botonEditar} alt="editar" title="Editar"/>
+            <img src={botonEditar} alt="editar" title="Editar" />
           </button>
           <button
             className="btn btn-sm btn-tablas"
@@ -122,7 +122,7 @@ const RolesScreen = () => {
               confirmarEliminarRol(params.data.id_rol);
             }}
           >
-            <img src={botonEliminar} alt="eliminar" title="Eliminar"/>
+            <img src={botonEliminar} alt="eliminar" title="Eliminar" />
           </button>
         </div>
       ),
@@ -134,13 +134,11 @@ const RolesScreen = () => {
       const {
         data: { data },
       } = await clienteAxios.get(
-        `permisos/permisos-modulos-rol/get-by-rol/${idRol}/`,
-        config
+        `permisos/permisos-modulos-rol/get-by-rol/${idRol}/`
       );
 
       const { data: dataRol } = await clienteAxios.get(
-        `roles/get-by-id/${idRol}/`,
-        config
+        `roles/get-by-id/${idRol}/`
       );
 
       console.log("data rol", dataRol);
@@ -148,12 +146,14 @@ const RolesScreen = () => {
       const dataFormat = getPermisosAdapterByRolForSelect(data);
       // const valuesIndexs = dataFormat.map((value) => value.value);
       // const indexs = getIndexBySelectOptions(valuesIndexs, permisos);
-      setFormValues({
-        ...formValues,
-        permisosRol: dataFormat,
-        nombreRol: dataRol.nombre_rol,
-        descripcionRol: dataRol.descripcion_rol,
-      });
+
+      // REVISAR
+      // setFormValues({
+      //   ...formValues,
+      //   permisosRol: dataFormat,
+      //   nombreRol: dataRol.nombre_rol,
+      //   descripcionRol: dataRol.descripcion_rol,
+      // });
       resetPermiso({
         idRol: idRol,
         permisosRol: dataFormat,
@@ -164,16 +164,15 @@ const RolesScreen = () => {
     } catch (err) {
       console.log(err);
     }
-    dispatch(activeModalAction());
-    setisCreate(null);
+    // dispatch(activeModalAction());
+    setisCreate("");
     setisCreate("editar");
   };
 
   const eliminarRol = async (idRol) => {
     try {
       const { data } = await clienteAxios.delete(
-        `roles/delete/${idRol}`,
-        config
+        `roles/delete/${idRol}`
       );
 
       Swal.fire({
@@ -207,19 +206,19 @@ const RolesScreen = () => {
   };
 
   const handleCloseModal = () => {
-    setisCreate(null);
+    setisCreate("");
     resetPermiso({
       nombreRol: "",
       descripcionRol: "",
       permisosRol: [],
     });
     setFormValues({ permisosRol: [] });
-    dispatch(desactiveModalAction());
+    // dispatch(desactiveModalAction());
   };
 
   const handleCreateRole = () => {
     setisCreate("crear");
-    dispatch(activeModalAction());
+    // dispatch(activeModalAction());
   };
 
   // const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
@@ -245,8 +244,7 @@ const RolesScreen = () => {
 
         const { data: dataRol } = await clienteAxios.post(
           "roles/create/",
-          rolCreate,
-          config
+          rolCreate
         );
 
         const permisosRol = getPermisosRolPost(
@@ -255,11 +253,10 @@ const RolesScreen = () => {
         );
         await clienteAxios.post(
           "permisos/permisos-modulos-rol/create/",
-          permisosRol,
-          config
+          permisosRol
         );
 
-        dispatch(desactiveModalAction());
+       //  dispatch(desactiveModalAction());
 
         Swal.fire({
           position: "center",
@@ -281,8 +278,7 @@ const RolesScreen = () => {
       try {
         const { data: responseEditRol } = await clienteAxios.put(
           `/roles/update/${data.idRol}/`,
-          datosEditRol,
-          config
+          datosEditRol
         );
         console.log(responseEditRol);
 
@@ -296,8 +292,7 @@ const RolesScreen = () => {
         console.log(dataFormatRequestRol);
         const { data: responseEditPermisosRol } = await clienteAxios.put(
           `permisos/permisos-modulos-rol/update/${data.idRol}/`,
-          dataFormatRequestRol,
-          config
+          dataFormatRequestRol
         );
         console.log(responseEditPermisosRol);
         Swal.fire({
@@ -317,7 +312,7 @@ const RolesScreen = () => {
           timer: 2000,
         });
       }
-      dispatch(desactiveModalAction())
+      // dispatch(desactiveModalAction())
       getRolesList()
     }
   };
@@ -326,8 +321,7 @@ const RolesScreen = () => {
     try {
       if (data.nombreRol) {
         const { data: dataByName } = await clienteAxios.get(
-          `roles/get-by-name/?keyword=${data.nombreRol}`,
-          config
+          `roles/get-by-name/?keyword=${data.nombreRol}`
         );
         setRoles(dataByName);
       } else {
@@ -371,7 +365,7 @@ const RolesScreen = () => {
                   type="submit"
                   className="mb-0 mt-2 btn-image text-capitalize bg-white border boder-none"
                 >
-                  <img src={botonBuscar} alt="" title="Buscar"/>
+                  <img src={botonBuscar} alt="" title="Buscar" />
                 </button>
               </div>
               <div id="myGrid" className="ag-theme-alpine mt-3">
@@ -397,7 +391,7 @@ const RolesScreen = () => {
                   className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   onClick={handleCreateRole}
                 >
-                  <img src={botonAgregar} alt="" title="Crear rol"/>
+                  <img src={botonAgregar} alt="" title="Crear rol" />
                 </button>
               </div>
             </div>
@@ -495,7 +489,7 @@ const RolesScreen = () => {
                 className="row p-3"
                 onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
               >
-                <h4>{isCreate === "crear" ? "Crear Rol" : "Editar Rol"}</h4>
+                {/* <h4>{isCreate === "crear" ? "Crear Rol" : "Editar Rol"}</h4> */}
                 <hr className="rounded-pill hr-modal" />
                 <div className="col-12 col-md-5 mb-3">
                   <label>
@@ -550,10 +544,11 @@ const RolesScreen = () => {
                             ...watchPermiso(),
                             permisosRol: e,
                           });
-                          setFormValues({
-                            ...formValues,
-                            permisosRol: e,
-                          });
+                          // REVISAR
+                          // setFormValues({
+                          //   ...formValues,
+                          //   permisosRol: e,
+                          // });
                         }}
                         // defaultValue={() =>
                         //   getDefaultPermisions(formValues.permisosRol)
