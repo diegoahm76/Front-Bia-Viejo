@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { useDispatch } from "react-redux";
 import modalReducer from "./slices/modal/indexModal";
 import loginReducer from "./slices/Login";
 import alarmasReducer from "./slices/alarmas/indexAlarma";
@@ -13,11 +12,14 @@ import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
 import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 import bienReducer from "./slices/bienes/indexBien";
 import marcaReducer from "./slices/marca/indexMarca";
+import cvReducer from "./slices/cv/indexCv";
+
 // import thunk from "redux-thunk";
 import loadingReducer, {
   cancelLoading,
   startLoading,
 } from "./slices/loading/indexLoading";
+
 import instance from "../config/clienteAxiosEstaciones";
 import { useAppDispatch } from "./hooks/hooks";
 import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
@@ -34,10 +36,10 @@ const store = configureStore({
     configuracion: configuracionReducer,
     bodegaSlice: bodegaReducer,
     organigram: organigramReducer,
-    bien:bienReducer,
-    marca:marcaReducer,
+    bien: bienReducer,
+    marca: marcaReducer,
     monitoreoSlice: monitoreoReducer,
-
+    cv: cvReducer,
   },
 });
 

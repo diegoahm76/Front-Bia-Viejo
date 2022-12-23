@@ -71,8 +71,8 @@ export const loginUser = async (dispatch, email: string, password: string) => {
         console.log("LoginError");
     });
 }
-export const logoutUser = async (dispatch) => {
-    await dispatch(logout());
+export const logoutUser = (dispatch) => {
+    dispatch(logout());
 }
 export const getUserFromLocalStorage = (dispatch) => {
     const dataUserJSON = localStorage.getItem("userInfo");

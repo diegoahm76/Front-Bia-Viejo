@@ -72,7 +72,6 @@ const BusquedaAvanzadaUsuarioModal = ({
         `users/get-by-email/${data.email}/`,
         config
       ).then((response) => {
-        debugger
         const datos = response.data;
         if (datos.Usuario) {
           // REVISAR

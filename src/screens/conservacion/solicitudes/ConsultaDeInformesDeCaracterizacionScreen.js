@@ -13,6 +13,7 @@ import {
 } from "../../../actions/modalActions";
 
 import CalendarModal from "../../../components/CalendarModal";
+import ModalLocal from "../../../components/ModalLocal";
 
 export const ConsultaDeInformesDeCaracterizacionScreen = () => {
   const [selecOpciones, setSelecOpciones] = useState({
@@ -95,10 +96,10 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn btn-2 btn-secondary text-capitalize"
+            class="btn text-capitalize"
             onClick={handleOpenModal}
           >
-            Ver
+            <i class="fa-solid fa-eye fs-3"></i>
           </button>
         </div>
       ),
@@ -202,11 +203,12 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(activeModalAction());
+    setModalInfo(true);
   };
+  const [modalInfo, setModalInfo] = useState(false);
 
   const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+    setModalInfo(false);
   };
 
   return (
@@ -299,10 +301,11 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
 
                   <div className="col-12 col-md-3">
                     <button
-                      className="mt-5 btn btn-primary text-capitalize "
+                      className="mt-5 btn text-capitalize "
                       type="submit"
+                      title="Buscar"
                     >
-                      Buscar
+                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -324,12 +327,12 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
 
                       <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                         <button
-                          className="btn bg-gradient-danger mb-0"
+                          className="btn mb-0"
                           type="submit"
-                          title="Send"
+                          title="Salir"
                           form="configForm"
                         >
-                          Salir
+                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -369,10 +372,11 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
 
                   <div className="col-12 col-md-3 ">
                     <button
-                      className="mt-5 btn btn-primary text-capitalize"
+                      className="mt-5 btn text-capitalize"
                       type="submit"
+                      title="Buscar"
                     >
-                      Buscar
+                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -394,12 +398,12 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
 
                       <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
                         <button
-                          className="btn bg-gradient-danger mb-0"
+                          className="btn mb-0"
                           type="submit"
-                          title="Send"
+                          title="Salir"
                           form="configForm"
                         >
-                          Salir
+                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -412,7 +416,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
               ""
             )}
           </form>
-          <CalendarModal>
+          <ModalLocal localState={modalInfo}>
             <div className="row mt-2">
               {" "}
               {/* primera fila */}
@@ -466,16 +470,16 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
               {" "}
               {/*  BOTONES DE ABAJO  */}'
               <button
-                className="btn bg-gradient-danger mb-0"
+                className="btn mb-0"
                 type="submit"
-                title="Send"
+                title="Salir"
                 form="configForm"
                 onClick={handleCloseModal}
               >
-                Salir
+                <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
               </button>
             </div>
-          </CalendarModal>
+          </ModalLocal>
         </div>
       </div>
     </div>

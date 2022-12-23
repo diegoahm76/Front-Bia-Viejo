@@ -1,173 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useForm, Controller } from "react-hook-form";
-import Subtitle from "../../../../components/Subtitle";
+import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+
+//Components
+import Subtitle from "../../../../components/Subtitle";
+import clienteAxios from "../../../../config/clienteAxios";
+import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
+//Styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
-import clienteAxios from "../../../../config/clienteAxios";
-import { useNavigate } from "react-router-dom";
+//Interfaces
 import { IGeneric } from "../../../../Interfaces/Generic";
+import useCvComputers from "./hooks/useCvComputers";
+import { Card } from "react-bootstrap";
 
-const HojaDeVidaScreen = () => {
-
-  const initialOptions: IGeneric[] = [{
-    label: "",
-    value: ""
-  }]
-  const [articuloEncontrado, setArticuloEncontrado] = useState(false);
-  const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
-  const [estadoDeActio, setEstadoDeActivo] = useState([initialOptions]);
-  const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
-
-  
-
-  useEffect(() => {
-    const getSelectsOptions = async () => {
-      try {
-        const { data: estadoDeActivoData } = await clienteAxios.get(
-          "/almacen/choices/estados-articulo/"
-        );
-        const documentosFormat = textChoiseAdapter(estadoDeActivoData);
-        // setEstadoDeActivo(documentosFormat);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getSelectsOptions();
-  }, []);
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  const navigate = useNavigate();
-  const ScreenProgramarMantnimiento = () => {
-    navigate(
-      "/dashboard/almacen/gestion-de-inventario/programacion-mantenimiento"
-    );
-  };
-  const ScreenHistoricoArticulo = () => {
-    navigate("/dashboard/almacen/reportes/reporte-historico-activo");
-  };
-
-  const { register, control: controlBuscar, handleSubmit } = useForm();
-
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-
-  const defaultColDef2 = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
-
-  let gridApi;
-  const rowData = [
-    {
-      NU: "01",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-    {
-      NU: "02",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-    {
-      NU: "03",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-    {
-      NU: "04",
-      TI: "Correctivo",
-      FE: "19/05/2020",
-      ES: "Completado",
-      RE: "Compuarreglo",
-    },
-  ];
-  const asignacionPrestamos = [
-    {
-      NU: "01",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "02",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "03",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "04",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "05",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-  ];
-  const columnDefs = [
-    { headerName: "Número", field: "NU", minWidth: 150 },
-    { headerName: "Tipo", field: "TI", minWidth: 150 },
-    { headerName: "Fecha", field: "FE", minWidth: 150 },
-    { headerName: "Estado", field: "ES", minWidth: 150 },
-    { headerName: "Responsable", field: "RE", minWidth: 150 },
-  ];
-  const columnDefs2 = [
-    { headerName: "Número", field: "NU", minWidth: 150 },
-    { headerName: "Responsable", field: "RE", minWidth: 150 },
-    { headerName: "Grupo", field: "GR", minWidth: 150 },
-    { headerName: "Fecha inicial", field: "FEIN", minWidth: 150 },
-    { headerName: "Fecha final", field: "FEFI", minWidth: 150 },
-    { headerName: "Tipo", field: "TI", minWidth: 150 },
-  ];
+const HojaDeVidaComputoScreen = () => {
+  //Hooks
+  const {
+    //States
+    columnDefs,
+    columnDefs2,
+    rowData,
+    asignacionPrestamos,
+    articuloEncontrado,
+    otrasAplicaciones,
+    ListMark,
+    otrasPerisfericos,
+    control,
+    dataCvComputers,
+    defaultColDef,
+    errors,
+    //Edita States
+    setArticuloEncontrado,
+    setOtrasAplicaciones,
+    setOtrasPerisfericos,
+    //Functions
+    ScreenHistoricoArticulo,
+    ScreenProgramarMantnimiento,
+    handledSearch,
+    onSubmit,
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    setValue,
+    onGridReady,
+  } = useCvComputers();
 
   return (
     <div className="row min-vh-100">
@@ -179,102 +59,164 @@ const HojaDeVidaScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="text-rigth  fw-light mt-4">
-              Hoja de vida de computo
+              Hoja de vida de cómputo
             </h3>
 
             <Subtitle title="Activo" mt={3} />
 
             <div className="row">
-              <div className="col-12 col-lg-3  mt-3">
-                <div>
-                  <label className="ms-2 text-terciary">
-                    Codigo<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="border border-terciary form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Codigo"
-                  />
-                </div>
-              </div>
+              <div className="col-12 col-lg-6  mt-3">
+                <div className="row">
+                  <div className="col-12 col-lg-6">
+                    <div>
+                      <label className="ms-2 text-terciary">Serial<span className="text-danger">*</span></label>
+                      <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="text"
+                        {...register("serial", { required: true })}
+                      />
+                      {errors.serial && (
+                        <p className="text-danger">Este campo es obligatorio</p>
+                      )}
+                    </div>
+                  </div>
 
-              <div className="col-12 col-lg-3  mt-3">
-                <div>
-                  <label className="ms-2 text-terciary">
-                    Nombre del activo<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    className="border border-terciary form-control border rounded-pill px-3"
-                    type="text"
-                    placeholder="Nombre del activo"
-                    disabled
-                  />
+                  <div className="col-12 col-lg-6 ">
+                    <div>
+                      <label className="ms-2 text-terciary">
+                        Nombre del activo<span className="text-danger">*</span>
+                      </label>
+                      <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="text"
+                        placeholder="Nombre del activo"
+                        disabled
+                        {...register("tipo_de_equipo", { required: false })}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-6  mt-3">
+                    <label className="ms-2 text-terciary">
+                      Código<span className="text-danger">*</span>
+                    </label>
+                    <input
+                      className="border border-terciary form-control border rounded-pill px-3"
+                      type="text"
+                      placeholder="Código"
+                      disabled
+                      {...register("codigo", { required: false })}
+                    />
+                  </div>
+
+                  <div className="col-12 col-lg-6 text-center">
+                    <button
+                      className="btn btn-sm btn-tablas mt-5"
+                      type="button"
+                      onClick={() => handledSearch()}
+                    >
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-3 text-center ">
-                <button
-                  className="btn btn-sm btn-tablas  mt-5"
-                  type="button"
-                  onClick={() => setArticuloEncontrado(!articuloEncontrado)}
-                >
-                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                </button>
-              </div>
-              <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
-                  <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
-                    type="button"
-                  >
-                    Búsqueda de articulo
-                  </button>
+              <div className="col-12 col-lg-6  mt-3 ">
+                <div className="row">
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>FOTO DEL COMPUTADOR</Card.Title>
+                      <Card.Text>
+                        Some quick example text to build on the card title and
+                        make up the bulk of the card's content.
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
                 </div>
               </div>
             </div>
 
             {articuloEncontrado === true ? (
               <div>
+                <Subtitle title="Especificaciones físicas" mt={3} />
                 <div className="row">
-                  <div className="col-12 col-lg-3">
-                    <div>
-                      <label className="ms-2 text-terciary">Serial</label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value={"lrtydo4567"}
-                        disabled
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3">
+                  <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Tipo de articulo
+                        Color
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value={"Computo"}
-                        disabled
+                        {...register("color", { required: false })}
                       />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-3  mt-3">
+                    <div>
+                      <label className="ms-2 text-terciary">
+                        Marca
+                      </label>
+                      {/* <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="text"
+                        value="Lenovo"
+                        {...register("marca", { required: false })}
+                      /> */}
+                      <Controller
+                        name="tipoDocumento"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            options={ListMark}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-3  mt-3">
+                    <label className="ms-2 text-terciary">Estado</label>
+                    <input
+                      className="border border-terciary form-control border rounded-pill px-3"
+                      type="text"
+                      disabled
+                      {...register("estado", { required: false })}
+                    />
+                  </div>
+
+                  <div className="col-12 col-lg-3  mt-3">
+                    <div>
+                      <label className="ms-2 text-terciary">
+                        Tipo de equipo
+                      </label>
+                      <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="text"
+                        {...register("tipo_de_equipo", { required: false })}
+                      />
+                      <p>portatil, tablet, all-in-one</p>
                     </div>
                   </div>
                 </div>
 
-                <Subtitle title="Caracteristicas" mt={3} />
+                <Subtitle title="Características" mt={3} />
 
                 <div className="row">
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
                         Sistema operativo
-                        <span className="text-danger">*</span>
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Windows 11"
+                        {...register("sistema_operativo", { required: false })}
                       />
                     </div>
                   </div>
@@ -282,12 +224,12 @@ const HojaDeVidaScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Suite ofimatica<span className="text-danger">*</span>
+                        Suite ofimática
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Microsoft office"
+                        {...register("suite_ofimatica", { required: false })}
                       />
                     </div>
                   </div>
@@ -295,12 +237,12 @@ const HojaDeVidaScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Antivirus<span className="text-danger">*</span>
+                        Antivirus
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="McAfee"
+                        {...register("antivirus", { required: false })}
                       />
                     </div>
                   </div>
@@ -311,7 +253,7 @@ const HojaDeVidaScreen = () => {
                     </label>
                     <br></br>
                     <button
-                      className="btn btn-sm btn-tablas "
+                      className="btn btn-sm btn-tablas"
                       type="button"
                       title="Solicitudes"
                       onClick={() => setOtrasAplicaciones(!otrasAplicaciones)}
@@ -339,7 +281,7 @@ const HojaDeVidaScreen = () => {
                           <textarea
                             className="form-control border rounded-pill px-4 border border-terciary"
                             placeholder="Observaciones"
-                            value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
+                            {...register("otras_aplicaciones", { required: false })}
                           />
                         </div>
                       </div>
@@ -349,91 +291,33 @@ const HojaDeVidaScreen = () => {
                   )}
                 </div>
 
-                <Subtitle title="Especificaciones físicas" mt={3} />
-
-                <div className="row">
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Color
-                        <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value="Negro"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Marca<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value="Lenovo"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Formato<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value="64px"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Modelo<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value="IdeaPad 1i"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-3  mt-3">
-                    <label className="ms-2 text-terciary">Estado</label>
-                    <Controller
-                      name="tipoDocumento"
-                      control={controlBuscar}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          options={estadoDeActio}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
-
                 <Subtitle title="Especificaciones técnicas" mt={3} />
 
                 <div className="row">
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Disco duro
-                        <span className="text-danger">*</span>
+                        Tipo de almacenamiento
+
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="1 TB"
+                        {...register("tipo_almacenamiento", { required: false })}
+                      />
+                    </div>
+                    <p>disco duro, SSD, NVME</p>
+                  </div>
+                  <div className="col-12 col-lg-3  mt-3">
+                    <div>
+                      <label className="ms-2 text-terciary">
+                        Capacidad
+
+                      </label>
+                      <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="text"
+                        {...register("capacidad_almacenamiento", { required: false })}
                       />
                     </div>
                   </div>
@@ -441,12 +325,12 @@ const HojaDeVidaScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Procesador<span className="text-danger">*</span>
+                        Procesador
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="Core i5"
+                        {...register("procesador", { required: false })}
                       />
                     </div>
                   </div>
@@ -454,19 +338,19 @@ const HojaDeVidaScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Ram<span className="text-danger">*</span>
+                        Memoria ram
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        value="8 GB"
+                        {...register("memoria_ram", { required: false })}
                       />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3 text-center">
                     <label className="ms-2 text-terciary">
-                      Otros (perifericos y accesorios)
+                      Observaciones
                     </label>
                     <br></br>
                     <button
@@ -489,20 +373,20 @@ const HojaDeVidaScreen = () => {
                     </button>
                   </div>
                   {otrasPerisfericos == true ? (
-                    <div>
-                      <div className="col-12 col-md-12 ">
-                        <div className="mx-3">
-                          <label className="text-terciary" htmlFor="ms-2">
-                            Aplicativos
-                          </label>
-                          <textarea
-                            className="form-control border rounded-pill px-4 border border-terciary"
-                            placeholder="Observaciones"
-                            value="Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500,"
-                          />
-                        </div>
+
+                    <div className="col-12 col-md-9 ">
+                      <div className="mx-3">
+                        <label className="text-terciary" htmlFor="ms-2">
+                          Observaciones
+                        </label>
+                        <textarea
+                          className="form-control border rounded-pill px-4 border border-terciary"
+                          placeholder="Observaciones"
+                          {...register("observaciones_adicionales", { required: false })}
+                        />
                       </div>
                     </div>
+
                   ) : (
                     ""
                   )}
@@ -535,7 +419,7 @@ const HojaDeVidaScreen = () => {
                   </div>
                 </div>
 
-                <Subtitle title="Asignaciones/prestamos" mt={3} mb={3} />
+                <Subtitle title="Asignaciones" mt={3} mb={3} />
                 <div className="row d-flex align-items-center mt-2 mx-2">
                   <div className="col-12 mb-3">
                     {" "}
@@ -546,7 +430,7 @@ const HojaDeVidaScreen = () => {
                       <AgGridReact
                         columnDefs={columnDefs2}
                         rowData={asignacionPrestamos}
-                        defaultColDef={defaultColDef2}
+                        defaultColDef={defaultColDef}
                       />
                     </div>
                   </div>
@@ -574,14 +458,14 @@ const HojaDeVidaScreen = () => {
                   </div>
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end col-12 col-lg-6 col-sm-6">
                     <button
-                      className="border px-3 btn  text-capitalize"
+                      className=" px-3 btn  text-capitalize"
                       type="button"
                       title="Salir"
                     >
                       <i className="fa-solid fa-x fs-3"></i>
                     </button>
                     <button
-                      className="border  px-3 btn text-capitalize"
+                      className=" px-3 btn text-capitalize"
                       type="button"
                       title="Guardar"
                     >
@@ -599,4 +483,4 @@ const HojaDeVidaScreen = () => {
     </div>
   );
 };
-export default HojaDeVidaScreen;
+export default HojaDeVidaComputoScreen;

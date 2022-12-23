@@ -86,9 +86,9 @@ const InventarioViveroCompensacion = () => {
                             <div className="col-12 col-md-3">
                                 <button
                                     type="submit"
-                                    className="btn-min-width border rounded-pill mt-2 px-3 btn bg-gradient-primary"
+                                    className="btn-min-width border rounded-pill mt-2 px-3 btn "
                                 >
-                                    Buscar
+                                    <i class="fa-solid fa-magnifying-glass fs-3"></i>
                                 </button>
                             </div>
                         </div>
@@ -160,17 +160,17 @@ const InventarioViveroCompensacion = () => {
                                 </div>
                                 <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                                     <button
-                                        className="border rounded-pill px-3 btn bg-gradient-danger me-md-2"
+                                        className="border rounded-pill px-3 btn me-md-2"
                                         type="button"
                                         title="Send"
                                     >
-                                        Cancelar
+                                        <i class="fa-solid fa-x fs-3"></i>
                                     </button>
                                     <button
-                                        className="border rounded-pill px-3 btn bg-gradient-primary "
+                                        className="border rounded-pill px-3 btn "
                                         type="submit"
                                     >
-                                        Guardar
+                                        <i class="fa-regular fa-floppy-disk fs-3"></i>
                                     </button>
                                 </div>
                             </form>

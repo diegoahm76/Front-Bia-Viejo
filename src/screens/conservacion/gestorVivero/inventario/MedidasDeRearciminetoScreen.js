@@ -5,17 +5,19 @@ import { Controller, useForm} from "react-hook-form";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { SubTitle } from 'chart.js';
+import Subtitle from '../../../../components/Subtitle';
 
 
 const rowDataInicial=[
-  { name1: "Rahul", numberExpedient:"3.11.019.111", vivero: "Villavicencio", number: 9876543210, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
-  { name1: "David", numberExpedient:"3.11.019.111", vivero: "Puerto López", number: 9827654310, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
-  { name1: "Dan", numberExpedient:"3.11.019.111", vivero: "Mapiripan", number: 9765438210, acto: "PS-GJ 1.2.64.21.2055.", password:"********",},
-  { name1: "Rahul", numberExpedient:"3.11.019.111", vivero: "Villavicencio", number: 9876543210, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
-  { name1: "David", numberExpedient:"3.11.019.111", vivero: "La Macarena", number: 9827654310, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
-  { name1: "Dan", numberExpedient:"3.11.019.111", vivero: "La Macarena", number: 9765438210, acto: "PS-GJ 1.2.64.21.2055.", password:"********",},
-  { name1: "Rahul", numberExpedient:"3.11.019.111", vivero: "Puerto Rico", number: 9876543210, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
-  { name1: "David", numberExpedient:"3.11.019.111", vivero: "San Juan de Arama", number: 9827654310, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
+  { name1: "Rahul", numberExpedient:"3.11.019.111", vivero: "Villavicencio", number: 23120, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
+  { name1: "David", numberExpedient:"3.11.019.111", vivero: "Puerto López", number: 1235, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
+  { name1: "Dan", numberExpedient:"3.11.019.111", vivero: "Mapiripan", number: 36541, acto: "PS-GJ 1.2.64.21.2055.", password:"********",},
+  { name1: "Rahul", numberExpedient:"3.11.019.111", vivero: "Villavicencio", number: 23120, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
+  { name1: "David", numberExpedient:"3.11.019.111", vivero: "La Macarena", number: 1235, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
+  { name1: "Dan", numberExpedient:"3.11.019.111", vivero: "La Macarena", number: 36541, acto: "PS-GJ 1.2.64.21.2055.", password:"********",},
+  { name1: "Rahul", numberExpedient:"3.11.019.111", vivero: "Puerto Rico", number: 23120, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
+  { name1: "David", numberExpedient:"3.11.019.111", vivero: "San Juan de Arama", number: 1235, acto: "PS-GJ 1.2.64.21.2055.", password:"********",}, 
 
 ]
 
@@ -99,7 +101,7 @@ const MedidasDeRearciminetoScreen = () => {
     {headerName: "Información", field:"acción",
       cellRendererFramework:(params)=>
       <div>
-        <button type="button" onClick ={() => onExportClick()} className="btn btn-sm btn-primary p-2 mx-auto my-auto d-block"> Ver </button>
+        <button type="button" onClick ={() => onExportClick()} className="btn btn-sm  p-2 mx-auto my-auto d-block"> <i class="fa-solid fa-eye fs-3"></i> </button>
       </div>
     },
 
@@ -135,12 +137,13 @@ const MedidasDeRearciminetoScreen = () => {
   return (
     <div className='row min-vh-100'>
     <div className="col-lg-12 col-md-10 col-12 mx-auto">
-      <h1 className ="mt-3 mb-0 text-center mb-6">Medidas de resarcimiento</h1>
+    
 
       <form className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative" data-animation="FadeIn" onSubmit={handleSubmit(submit)}
       id="configForm" >
-
-        <div className= "row">
+  <h3 className ="mt-3 mb-0 mb-4">Inventario Vivero</h3>
+    <Subtitle title={"Medidas de resarcimiento"}/>
+        <div className= "row mt-3">
           <div className ="col-12 col-md-4">
             <label className="form-floating input-group input-group-dynamic ms-2"> Seleccionar Vivero: <span className="text-danger">*</span></label>
             <Controller
@@ -166,7 +169,7 @@ const MedidasDeRearciminetoScreen = () => {
           </div>
                       
           <div className="col-6 mt-4 p-1">
-            <button type="button" onClick={handleSearch} className="btn btn-primary">Buscar</button>
+            <button type="button" onClick={handleSearch} className="btn "><i class="fa-solid fa-magnifying-glass fs-3"></i></button>
           </div>
 
         
@@ -183,7 +186,7 @@ const MedidasDeRearciminetoScreen = () => {
             
             <AgGridReact
             columnDefs={columnDefs}
-            rowData={rowData}
+            rowData={rowDataInicial}
             debounceVerticalScrollbar={true}
             defaultColDef={defaultColDef}
             pagination={true}

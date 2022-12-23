@@ -52,95 +52,32 @@ function EditarMaterialVegetalScreen() {
 
   const rowData = [
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "yopo",
+      nombreCientifico: "",
         cantidadVivero: 500,
       },
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "pomarroso",
+      nombreCientifico: "",
       cantidadVivero: 500,
       },
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "Flor morado",
+      nombreCientifico: "",
       cantidadVivero: 0,
     }, 
       {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "Flor amarillo",
+      nombreCientifico: "",
       cantidadVivero: 500,
       },
     {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
+      nombreComun: "ceiba",
+      nombreCientifico: "",
        cantidadVivero: 500,
       },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 2,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-        cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 0,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-       cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 200,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 1,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-         cantidadVivero: 2,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 500,
-      },
-    {
-      nombreComun: "Rahul",
-      nombreCientifico: "Karen",
-      cantidadVivero: 0,
-      },
+ 
+   
   ];
   const defaultColDef = {
     sortable: true,

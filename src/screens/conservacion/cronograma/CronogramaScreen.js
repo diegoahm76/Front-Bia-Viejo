@@ -19,6 +19,7 @@ import {
   activeModalAction,
   desactiveModalAction,
 } from "../../../actions/modalActions";
+import ModalLocal from "../../../components/ModalLocal";
 registerLocale("es", es);
 
 const events = [
@@ -120,13 +121,17 @@ const columnDefs2 = [
 const CronogramaScreen = () => {
   const dispatch = useDispatch();
 
+  const [modalVer, setModalVer] = useState(false)
   const handleOpenModal = () => {
-    dispatch(activeModalAction());
+    setModalVer(true);
   };
 
   const handleCloseModal = () => {
-    dispatch(desactiveModalAction());
+    setModalVer(false);
   };
+
+
+  
 
   const [lastView, setLastView] = useState(
     localStorage.getItem("lastView") || "week"
@@ -259,7 +264,7 @@ const CronogramaScreen = () => {
         <i className="fas fa-plus text-white"></i>
       </button>
 
-      <CalendarModal>
+      <ModalLocal localState={modalVer}>
         <h4> Nuevo evento </h4>
         <hr />
         <div className="container">
@@ -487,7 +492,7 @@ const CronogramaScreen = () => {
               </form>
             )}
         </div>
-      </CalendarModal>
+      </ModalLocal>
     </>
   );
 };

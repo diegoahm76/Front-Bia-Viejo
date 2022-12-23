@@ -6,7 +6,7 @@ import { AxiosError, AxiosResponse } from "axios";
 // Reducers
 import { currentOrganigram, getLevels, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels, IObjOrganigram, IObjUnitys } from '../../Interfaces/Organigrama';
+import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: "center",
@@ -23,9 +23,8 @@ export const getOrganigramsService = () => {
             const { data } = await clienteAxios.get("almacen/organigrama/get/");
             dispatch(getOrganigrams(data.Organigramas));
             return data;
-        } catch (error) {
-            console.log(error);
-            notificationError()
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -40,8 +39,8 @@ export const addOrganigramsService = (organigrama: IObjCreateOrganigram, navigat
             Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
             navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
             return data;
-        } catch (error) {
-            notificationError();
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')
             return error as AxiosError;
         }
@@ -53,10 +52,10 @@ export const editOrganigramsService = (organigrama: IObjCreateOrganigram, id: st
         try {
             const { data } = await clienteAxios.patch(`almacen/organigrama/update/${id}/`, organigrama);
             dispatch(getOrganigramsService());
-            Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
+            Swal.fire("Correcto", "El organigrama se editó correctamente", "success");
             return data;
-        } catch (error) {
-            notificationError();
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -68,15 +67,12 @@ export const toFinalizeOrganigramService = (id: string, navigate: NavigateFuncti
             const { data } = await clienteAxios.put(`almacen/organigrama/finalizar/${id}/`);
             dispatch(getOrganigramsService());
             Swal.fire({
-                position: "center",
-                icon: "info",
-                title: "Atención",
-                text: data.detail,
+                position: "center", icon: "info", title: "Atención", text: data.detail,
             });
             navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
             return data;
-        } catch (error) {
-            notificationError();
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -90,8 +86,8 @@ export const getLevelsService = (id: string | number | null) => {
             const { data } = await clienteAxios.get(`almacen/organigrama/niveles/get-by-organigrama/${id}/`);
             dispatch(getLevels(data.data));
             return data;
-        } catch (error) {
-            notificationError();
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -105,8 +101,8 @@ export const updateLevelsService = (id: string | number | null, newLevels: IObjL
             dispatch(getLevelsService(id));
             Swal.fire("Correcto", "Proceso Exitoso", "success");
             return data;
-        } catch (error) {
-            notificationError();
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -120,8 +116,8 @@ export const getUnitysService = (id: string | number | null) => {
             const { data } = await clienteAxios.get(`almacen/organigrama/unidades/get-by-organigrama/${id}/`);
             dispatch(getUnitys(data.data));
             return data;
-        } catch (error) {
-            notificationError();
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -136,7 +132,6 @@ export const updateUnitysService = (id: string | number | null, newUnitys: FormV
             Swal.fire("Correcto", "Proceso Exitoso", "success");
             return data;
         } catch (error: any) {
-            console.log(error.response.data.detail, 'error')
             notificationError(error.response.data.detail);
             return error as AxiosError;
         }
