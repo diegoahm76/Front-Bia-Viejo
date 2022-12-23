@@ -104,7 +104,6 @@ const CatalogoDeBienesScreen = () => {
     </div>
   );
   const actionTemplate = (node, column) => {
-    //debugger;
     return (
       <div>
         <Button
@@ -169,7 +168,6 @@ const CatalogoDeBienesScreen = () => {
     let existe = nodoRecorrido(bien);
     if (existe && bien.nivel_jerarquico == 1) {
       if (tieneHijos(bien, bienNuevo)) {
-        //debugger;
         let children = [...crearNiveles(bien, keynode, bienNuevo)];
         nodo.children = [...children];
         nodo.data.eliminar = true;
@@ -249,7 +247,6 @@ const CatalogoDeBienesScreen = () => {
       });
     }
     arrayRecorrido.push(bien.id_bien);
-    //debugger;
     return [...hijos];
   }
 

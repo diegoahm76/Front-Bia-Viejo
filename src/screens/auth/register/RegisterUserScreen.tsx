@@ -57,13 +57,23 @@ const RegisterUserScreen = () => {
       /*
        *Petición para verificación existencia de persona
        */
-      const { data: dataPersonaObject } = await clienteAxios.get(
+      await clienteAxios.get(
         `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
-      );
-
-      const { data: dataPersona } = dataPersonaObject;
-
-      if (dataPersonaObject.detail) {
+      ).then((dataPersona) => {
+        const user = {
+          email: dataPersona.data.email,
+          nombre_de_usuario: data.nombreDeUsuario,
+          persona: dataPersona.data.id_persona,
+          password: data.password,
+          id_usuario_creador: null,
+          tipo_usuario: "E", // Debería ser por defecto que se creara en E
+          redirect_url:
+            process.env.NODE_ENV === "production"
+              ? "https://front-bia.netlify.app/#/login"
+              : "http://localhost:3000/#/login",
+        };
+        crearUsuario(user);
+      }).catch(() => {
         Swal.fire({
           title: "No existe un persona con estos datos",
           text: "¿Desea registrarse como persona o empresa?",
@@ -78,37 +88,82 @@ const RegisterUserScreen = () => {
             navigate("/register");
           }
         });
-      }
+      });
 
-      const user = {
-        email: dataPersona.email,
-        nombre_de_usuario: data.nombreDeUsuario,
-        persona: dataPersona.id_persona,
-        password: data.password,
-        id_usuario_creador: null,
-        tipo_usuario: "E", // Debería ser por defecto que se creara en E
-        redirect_url:
-          process.env.NODE_ENV === "production"
-            ? "https://front-bia.netlify.app/#/login"
-            : "http://localhost:3000/#/login",
-      };
+    } catch (error: any) {
+      console.log(error);
+      Swal.fire({
+        title: error.response.data.data.detail,
+        text: "¿Desea registrar una nueva persona?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/register");
+        }
+      });
+      // if (error.response?.data?.errors?.persona) {
+      //   Swal.fire({
+      //     title: "Estos datos ya estan relacionados a una persona",
+      //     text: "¿Desea registrar una nueva persona?",
+      //     icon: "warning",
+      //     showCancelButton: true,
+      //     confirmButtonColor: "#3BA9E0",
+      //     cancelButtonColor: "#6c757d",
+      //     confirmButtonText: "Si",
+      //     cancelButtonText: "No",
+      //   }).then((result) => {
+      //     if (result.isConfirmed) {
+      //       navigate("/register");
+      //     }
+      //   });
+      // } else if (error.response?.data?.detail) {
+      //   Swal.fire({
+      //     position: "center",
+      //     icon: "warning",
+      //     title: error.response?.data?.detail,
+      //     showConfirmButton: false,
+      //     timer: 2000,
+      //   });
+      // } else if (error.response?.data?.errors?.non_field_errors) {
+      //   Swal.fire({
+      //     position: "center",
+      //     icon: "warning",
+      //     title: error.response?.data?.errors?.non_field_errors[0],
+      //     showConfirmButton: false,
+      //     timer: 1500,
+      //   });
+      // } else if (error.response?.data?.errors?.password) {
+      //   console.log(error);
+      //   Swal.fire({
+      //     position: "center",
+      //     icon: "warning",
+      //     title: "La contraseña debe tener almenos 6 caracteres",
+      //     showConfirmButton: false,
+      //     timer: 1500,
+      //   });
+      // } else {
+      //   console.log(error);
+      // }
+      // return error as AxiosError;
+    }
+  };
 
-      console.log("data user post", user);
-
-      const config2 = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-
-      console.log("Este es el usuario", user);
-
-      const { data: userRegister } = await clienteAxios.post(
-        "users/register-externo/",
-        user,
-        config2
-      );
-      console.log("Estoy despues del registro", userRegister);
+  const crearUsuario = async (user) => {
+    const config2 = {
+      headers: {
+        "Content-type": "application/json",
+      },
+    };
+    await clienteAxios.post(
+      "users/register-externo/",
+      user,
+      config2
+    ).then(() => {
       Swal.fire({
         title: "Usuario registrado correctamente",
         text: "Revise su bandeja de correo electronico para confirmar el registro",
@@ -121,55 +176,23 @@ const RegisterUserScreen = () => {
           navigate("/login");
         }
       });
-    } catch (error: any) {
-      console.log(error);
-      if (error.response?.data?.errors?.persona) {
-        Swal.fire({
-          title: "Estos datos ya estan relacionados a una persona",
-          text: "¿Desea registrar una nueva persona?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/register");
-          }
-        });
-      } else if (error.response?.data?.detail) {
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: error.response?.data?.detail,
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      } else if (error.response?.data?.errors?.non_field_errors) {
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: error.response?.data?.errors?.non_field_errors[0],
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else if (error.response?.data?.errors?.password) {
-        console.log(error);
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: "La contraseña debe tener almenos 6 caracteres",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        console.log(error);
-      }
-      return error as AxiosError;
-    }
-  };
-
+    }).catch((err) => {
+      Swal.fire({
+        title: err.response.data.data.detail,
+        text: "¿Desea registrar una nueva persona?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3BA9E0",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/register");
+        }
+      });
+    });
+  }
   const handleClickSubmit = () => {
     setIsHandleSubmit(true);
   };
