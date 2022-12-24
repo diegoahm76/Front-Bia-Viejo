@@ -6,12 +6,11 @@ import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import Swal from "sweetalert2";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
+
 import {
   dataOverriteEmpresaAdapter,
   dataUpdateEmpresaAdapter,
 } from "../../adapters/administradorEmpresa.adapters";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
@@ -54,11 +53,10 @@ const defaultValuesForm: defaulValuesFormInterface = {
   paisNotificacion: 0,
 };
 
-const options = [
-  { label: "Chocolate", value: "chocolate" },
-  { label: "Strawberry", value: "strawberry" },
-  { label: "Vanilla", value: "vanilla" },
-];
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "", label: "" },
+  numeroDocumento: "",
+};
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -71,6 +69,7 @@ const AdministradorDeEmpresasScreen = () => {
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
   const [datosNotificacion, setDatosNotificacion] = useState(initialOptions);
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
   const [actionForm, setActionForm] = useState("");
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<
@@ -86,7 +85,8 @@ const AdministradorDeEmpresasScreen = () => {
   );
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
     useState<ISelectOptions[]>([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
+  const [departamentosOptions, setDepartamentosOptions] =
+    useState(initialOptions);
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
@@ -97,6 +97,7 @@ const AdministradorDeEmpresasScreen = () => {
     control: controlEmpresa,
     reset: resetEmpresa,
     watch: watchEmpresa,
+    setValue,
     formState: { errors: errorsEmpresa },
   } = useForm();
 
@@ -109,19 +110,36 @@ const AdministradorDeEmpresasScreen = () => {
     formState: { errors: errorsBuscar },
   } = useForm();
 
+  const changeSelectTipo = (e) => {
+    let tipoDocuento = { ...busquedaAvanzadaModel };
+    tipoDocuento.tipoDocumento = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("tipo_documento", tipoDocuento.tipoDocumento);
+    setBusquedaModel(tipoDocuento);
+  };
+
+  const handleChange = (e) => {
+    const data = { ...busquedaModel };
+    data.numeroDocumento = e.target.value;
+    setBusquedaModel(data);
+  };
+
   const ACTION_EDITAR = "editar";
   const ACTION_CREAR = "crear";
 
-  const onSubmitBuscar = async (data) => {
+  const onSubmitBuscar = async () => {
     setLoading(true);
     try {
       const { data: dataEmpresaObject } = await clienteAxios.get(
-        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
+        `personas/get-personas-by-document/${busquedaModel?.tipoDocumento.value}/${busquedaModel?.numeroDocumento}`
       );
 
       const { data: dataEmpresa } = dataEmpresaObject;
 
-      if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
+
+      if (dataEmpresa?.tipo_persona !== "J" ) {
         Swal.fire({
           title: "Este documento es de una persona natural",
           text: "¿Quiere ir al administrador de personas?",
@@ -153,13 +171,13 @@ const AdministradorDeEmpresasScreen = () => {
               tipoDocumentoOptions
             )
           ],
-        tipoDocumentoRepresentante:
-          tipoDocumentoOptions[
-            getIndexBySelectOptions(
-              dataEmpresa.representante_legal.tipo_documento,
-              tipoDocumentoOptions
-            )
-          ],
+        // tipoDocumentoRepresentante:
+        //   tipoDocumentoOptions[
+        //     getIndexBySelectOptions(
+        //       dataEmpresa.representante_legal.tipo_documento,
+        //       tipoDocumentoOptions
+        //     )
+        //   ],
         ...dataOverriteInputs,
       };
       const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(
@@ -172,10 +190,10 @@ const AdministradorDeEmpresasScreen = () => {
           dataEmpresa.tipo_documento?.cod_tipo_documento,
           tipoDocumentoOptions
         ),
-        tipoDocumentoRepresentante: getIndexBySelectOptions(
-          dataEmpresa.representante_legal.tipo_documento,
-          tipoDocumentoOptionsRepresentante
-        ),
+        // tipoDocumentoRepresentante: getIndexBySelectOptions(
+        //   dataEmpresa.representante_legal.tipo_documento,
+        //   tipoDocumentoOptionsRepresentante
+        // ),
         paisEmpresa: getIndexBySelectOptions(
           dataEmpresa.cod_pais_nacionalidad_empresa,
           paisesOptions
@@ -302,17 +320,12 @@ const AdministradorDeEmpresasScreen = () => {
       digito_verificacion: data.digito_verificacion,
     };
 
-    console.log("updated persona", updateEmpresa);
-
     if (actionForm === ACTION_EDITAR) {
-      const access = getTokenAccessLocalStorage();
-      const config = getConfigAuthBearer(access);
       try {
         console.log("updateEmpresa", updateEmpresa);
         const { data: dataResponse } = await clienteAxios.patch(
           `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
-          updateEmpresa,
-          config
+          updateEmpresa
         );
         console.log("data response", dataResponse);
         Swal.fire({
@@ -481,14 +494,13 @@ const AdministradorDeEmpresasScreen = () => {
         );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
-
-        const VALUE_NUIP = "NU";
-
+        //FILTRO PARA LISTA PERSONAS JURIDICAS
         const documentosFormatFiltered = documentosFormat.filter(
-          (documento) => documento.value === VALUE_NUIP
+          (documento) => documento.value === "NU" || documento.value === "NT"
         );
 
         setTipoDocumentoOptionsRepresentante(documentosFormat);
@@ -532,7 +544,7 @@ const AdministradorDeEmpresasScreen = () => {
         ...watchEmpresa(),
         municipioNotificacion: "",
       });
-      setDatosNotificacion([{label: "", value: ""}] );
+      setDatosNotificacion([{ label: "", value: "" }]);
     }
     setFormValues({
       ...formValues,
@@ -562,10 +574,10 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (datosNotificacion[0].value === "") {
-      setMunicipioNotificacionFiltered([]);
-      setFormValues({ ...formValues, municipioNotificacion: -1 });
-    } else {
+    // if (datosNotificacion[0].value === "") {
+    //   setMunicipioNotificacionFiltered([]);
+    //   setFormValues({ ...formValues, municipioNotificacion: -1 });
+    // } else {
       //Todo: Revisar
       // const municipioIndicadores = datosNotificacion?.slice(0, 2);
       // const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
@@ -573,8 +585,8 @@ const AdministradorDeEmpresasScreen = () => {
       //   return municipioIndicadores === indicator;
       // });
       // setMunicipioNotificacionFiltered(municipiosCoincidentes);
-      setFormValues({ ...formValues, municipioNotificacion: 0 });
-    }
+    //   setFormValues({ ...formValues, municipioNotificacion: 0 });
+    // }
   }, [datosNotificacion]);
 
   useEffect(() => {
@@ -599,20 +611,15 @@ const AdministradorDeEmpresasScreen = () => {
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={controlBuscar}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+
+                  <Select
+                    name="tipo_documento"
+                    options={tipoDocumentoOptions}
+                    placeholder="Seleccionar"
+                    onChange={changeSelectTipo}
+                    value={busquedaModel.tipoDocumento}
                   />
+
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -630,7 +637,10 @@ const AdministradorDeEmpresasScreen = () => {
                     <input
                       className="form-control border border-terciary rounded-pill px-3"
                       type="text"
-                      {...registerBuscar("numeroDocumento", { required: true })}
+                      required={true}
+                      name="numeroDocumento"
+                      onChange={handleChange}
+                      value={busquedaModel.numeroDocumento}
                     />
                   </div>
                   {errorsBuscar.numeroDocumento && (
@@ -1192,6 +1202,7 @@ const AdministradorDeEmpresasScreen = () => {
             setIsModalActive={setBusquedaAvanzadaIsOpen}
             formValues={formValuesSearch}
             setFormValues={setFormValuesSearch}
+            setModel={setBusquedaModel}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}
           />
