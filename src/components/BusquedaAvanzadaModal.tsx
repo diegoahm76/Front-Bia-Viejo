@@ -77,23 +77,17 @@ const BusquedaAvanzadaModal = ({
   }
 
   const getUsersByQuery = async (data) => {
-    const queryParams = `?primer_nombre=${data.primerNombre ?? ""}&primer_apellido${data.primerApellido ?? ""}`;
+    const queryParams = `?primer_nombre=${data?.primerNombre ?? ""}&primer_apellido${data?.primerApellido ?? ""}`;
     await clienteAxios(
       `personas/get-personas-naturales/${queryParams}`
     ).then((res) => {
-      setPersonaSearched(res.data);
-    }).catch(() => { });
+      setPersonaSearched(res.data.Persona);
+    }).catch(() => {
+      debugger
+     });
   }
 
   const onSubmit = async () => {
-    // if (!filtersModel.primerApellido && !filtersModel.primerNombre) {
-    //   getUsers();
-    //   setWarning(true);
-    //   setTimeout(() => {
-    //     setWarning(false);
-    //   }, 2000);
-    //   return;
-    // }
     getUsersByQuery(filtersModel);
   };
 
@@ -168,7 +162,7 @@ const BusquedaAvanzadaModal = ({
     setIsModalActive(false);
   };
 
-  useEscapeKey(handleCloseModal)
+  // (handleCloseModal)
   const changeValue = (e) => {
     const { name, value } = e.target;
     setFilters({ ...filtersModel, [name]: value });
@@ -187,7 +181,6 @@ const BusquedaAvanzadaModal = ({
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={onSubmit}
             id="configForm"
           >
             <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
@@ -218,7 +211,8 @@ const BusquedaAvanzadaModal = ({
               </div>
               <div className="col-12 col-md-4">
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={onSubmit}
                   className="mb-0 btn-image text-capitalize bg-white border boder-none"
                 >
                   <img src={botonBuscar} alt="" title="Buscar" />

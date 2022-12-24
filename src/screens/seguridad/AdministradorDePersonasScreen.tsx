@@ -197,7 +197,6 @@ const AdministradorDePersonasScreen = () => {
   }, []);
 
   const onSubmitBuscar = async (data) => {
-    // console.log(data);
     setLoading(true);
     try {
       const { data: dataPersonaObject } = await clienteAxios.get(
@@ -431,23 +430,18 @@ const AdministradorDePersonasScreen = () => {
       direccion_laboral: data.direccionLaboral,
       direccion_notificaciones: data.direccionNotificaciones,
       ubicacion_georeferenciada: "mi casita 1",
+      id_cargo: null,
+      id_unidad_organizacional_actual: null,
+      justificacion_cambio : null,
     };
 
     console.log("updated persona", updatedPersona);
 
     if (actionForm === "editar") {
-      const access = getTokenAccessLocalStorage();
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${access}`,
-        },
-      };
       try {
         const { data: dataUpdate } = await clienteAxios.patch(
           `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
-          updatedPersona,
-          config
+          updatedPersona
         );
         console.log("dataUpdate", dataUpdate);
         Swal.fire({
@@ -457,7 +451,7 @@ const AdministradorDePersonasScreen = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        resetBuscar({ ...watchPersona(), numeroDocumento: "" });
+        // resetBuscar({ ...watchPersona(), numeroDocumento: "" });
         setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
@@ -717,7 +711,7 @@ const AdministradorDePersonasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (lugarResidencia.departamento.label === "") {
+    if (lugarResidencia.departamento?.label === "") {
       setmunicipioResidenciaFiltered([]);
       setFormValues({ ...formValues, municipio: 0 });
     } else {
