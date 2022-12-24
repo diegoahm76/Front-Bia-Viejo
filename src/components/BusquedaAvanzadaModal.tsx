@@ -83,7 +83,7 @@ const BusquedaAvanzadaModal = ({
     ).then((res) => {
       setPersonaSearched(res.data.Persona);
     }).catch(() => {
-      debugger
+      
      });
   }
 

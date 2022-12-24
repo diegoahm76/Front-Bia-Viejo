@@ -80,6 +80,7 @@ export const loginUser = async (dispatch, email: string, password: string) => {
 }
 export const logoutUser = (dispatch) => {
     dispatch(logout());
+    localStorage.clear();
 }
 export const getUserFromLocalStorage = (dispatch) => {
     const dataUserJSON = localStorage.getItem("userInfo");
