@@ -196,6 +196,8 @@ const AdministradorDePersonasScreen = () => {
     getSelectsOptions();
   }, []);
 
+  
+
   const onSubmitBuscar = async (data) => {
     setLoading(true);
     try {

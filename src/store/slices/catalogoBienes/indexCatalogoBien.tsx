@@ -9,7 +9,7 @@ const initialState: IBienGet = {
   dataEdit: {
     edit: false,
     id_bien_padre: 0,
-    nivel_jerarquico:0
+    nivel_jerarquico: 0,
   },
   bienSeleccionado: {
     id_bien: 0,
@@ -38,7 +38,6 @@ const initialState: IBienGet = {
     id_unidad_medida_vida_util: 0,
     id_bien_padre: 0,
   },
-  
 };
 
 const bienForm = createSlice({
@@ -61,12 +60,13 @@ const bienForm = createSlice({
     seleccionarBienModelCrete: (state, action) => {
       state.bienSeleccionado = action.payload;
       state.dataEdit.edit = false;
-      state.dataEdit.id_bien_padre=action.payload?.id_bien;
+      state.dataEdit.id_bien_padre = action.payload?.id_bien;
     },
     seleccionarBienModelEdit: (state, action) => {
+      debugger
       state.bienSeleccionado = action.payload;
       state.dataEdit.edit = true;
-      state.dataEdit.id_bien_padre=action.payload?.id_bien_padre;
+      state.dataEdit.id_bien_padre = action.payload?.id_bien_padre;
     },
     obtenerBienAction: (state, action) => {
       state.bienSeleccionado = action.payload;
@@ -104,8 +104,9 @@ export const obtenerTodosBienes = async (dispatch) => {
 };
 
 export const crearBien = async (dispatch, dataBien) => {
+  debugger;
   await clienteAxios
-    .post("almacen/bienes/catalogo-bienes/get-list", dataBien)
+    .put("almacen/bienes/catalogo-bienes/create/", dataBien)
     .then((res) => {
       //falta la llamada del servicio
       dispatch(crearBienAction(dataBien));
@@ -116,23 +117,13 @@ export const crearBien = async (dispatch, dataBien) => {
         showConfirmButton: false,
         timer: 2000,
       }).catch((err) => {
-        if (err.response?.data) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: err.response.data,
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-          });
-        } else {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Algo pasó, intente de nuevo",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-          });
-        }
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: err.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
       });
     });
 };
@@ -154,28 +145,36 @@ export const obtenerBien = async (dispatch, nodo) => {
     });
 };
 
-export const eliminarBien = async (dispatch, nodo) => {
+export const eliminarBien= async (dispatch,nodo) => {
   await clienteAxios
     .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_bien}`)
     .then(() => {
-      dispatch(eliminarBienAction(nodo.id_bien));
       Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
+    })
+    .catch(() => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Ha ocurrido un error intentelo de nuevo por favor",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
     });
 };
 
 export const seleccionarBien = (dispatch, bien, accion) => {
-  if(accion)
-  {
+  debugger
+  if (accion) {
     dispatch(seleccionarBienModelEdit(bien));
-  }else{
+  } else {
     dispatch(seleccionarBienModelCrete(bien));
   }
-  
 };
 export const editarBien = async (dispatch, dataEdit) => {
+  debugger;
   const dataModel = construirModelo(dataEdit);
   await clienteAxios
-    .put("almacen/bienes/catalogo-bienes/create", dataModel)
+    .put("almacen/bienes/catalogo-bienes/create/", dataModel)
     .then(() => {
       //cambiar llamado de servicio
       dispatch(editarBienAction(dataModel));
