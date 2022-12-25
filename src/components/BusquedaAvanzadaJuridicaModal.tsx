@@ -61,7 +61,7 @@ const BusquedaAvanzadaJuridicaModal = ({
 
   useEffect(() => {
     getUsersJuridico();
-  }, []);
+  }, [isModalActive]);
 
   const changeValue = (e) => {
     const { name, value } = e.target;
