@@ -10,6 +10,7 @@ import botonCancelar from "../assets/iconosBotones/cancelar.svg";
 import botonBuscar from "../assets/iconosBotones/buscar.svg";
 import Subtitle from "./Subtitle";
 import useEscapeKey from "../hooks/useEscapeKey";
+import Swal from "sweetalert2";
 
 const customStyles = {
   content: {
@@ -48,13 +49,14 @@ const BusquedaAvanzadaUsuarioModal = ({
   isModalActive,
   setIsModalActive,
   formValues,
+  setModel,
   setFormValues,
   reset,
   tipoDocumentoOptions,
 }) => {
   const [usuarioSearched, setUsuarioSearched] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [email, setEmail] = useState("");
   const {
     handleSubmit,
     register,
@@ -62,28 +64,43 @@ const BusquedaAvanzadaUsuarioModal = ({
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    ;
-    const accessToken = getTokenAccessLocalStorage();
-    const config = getConfigAuthBearer(accessToken);
-
-    try {
-      await clienteAxios.get<IDataUsuarios>(
-        `users/get-by-email/${data.email}/`,
-        config
+  const onSubmit = async () => {
+    const elementModalId = document.getElementById("modal-usuarios-busqueda")!;
+    if (email !== "") {
+      await clienteAxios.get(
+        `users/get-by-email/${email}`
       ).then((response) => {
-        const datos = response.data;
-        if (datos.Usuario) {
-          // REVISAR
-          // setUsuarioSearched([datos.Usuario]);
-        } else {
-          setUsuarioSearched([]);
-        }
+        debugger
+        setUsuarioSearched(response.data);
+      }).catch((err) => {
+        Swal.fire({
+          target: elementModalId,
+          position: "center",
+          icon: "warning",
+          title: err.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
       });
-
-    } catch (err) {
-      console.log(err);
+    } else {
+      await clienteAxios.get(
+        `users/get`
+      ).then((response) => {
+        setUsuarioSearched(response.data);
+      });
     }
+  };
+
+  const seleccionarAction = (dataSearch) => {
+    const busquedaAvanzadaModel = {
+      tipoDocumento: { value: "", label: "" },
+      cedula: "",
+    }
+    busquedaAvanzadaModel.cedula = dataSearch.persona.numero_documento;
+    busquedaAvanzadaModel.tipoDocumento.value = dataSearch.persona.tipo_documento.cod_tipo_documento
+    busquedaAvanzadaModel.tipoDocumento.label = dataSearch.persona.tipo_documento.nombre;
+    setModel(busquedaAvanzadaModel);
+    setIsModalActive(false);
   };
 
   const columnDefs = [
@@ -123,23 +140,6 @@ const BusquedaAvanzadaUsuarioModal = ({
     },
   ];
 
-  const seleccionarAction = (dataSearch) => {
-    const {
-      numero_documento,
-      tipo_documento: { cod_tipo_documento },
-    } = dataSearch.persona;
-    const index = getIndexBySelectOptions(
-      cod_tipo_documento,
-      tipoDocumentoOptions
-    );
-    setFormValues({ index_tipo_documento: index });
-    reset({
-      tipoDocumento: tipoDocumentoOptions[index],
-      numeroDocumento: numero_documento,
-    });
-    setIsModalActive(false);
-  };
-
   const handleCloseModal = () => {
     setIsModalActive(false);
     resetSearch(defaultValues);
@@ -148,6 +148,7 @@ const BusquedaAvanzadaUsuarioModal = ({
   useEscapeKey(handleCloseModal)
   return (
     <Modal
+      id="modal-usuarios-busqueda"
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
@@ -159,7 +160,6 @@ const BusquedaAvanzadaUsuarioModal = ({
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
             <h3 className="mt-2 mb-0 ms-3 mb-0">Búsqueda avanzada</h3>
@@ -169,12 +169,12 @@ const BusquedaAvanzadaUsuarioModal = ({
               <div className="col-12 col-md-4">
                 <div>
                   <label className="ms-2">
-                    Email: <span className="text-danger">*</span>
+                    Email:
                   </label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    {...register("email", { required: true })}
+                    onChange={(e) => { setEmail(e.target.value) }}
                   />
                 </div>
                 {errors.email && (
@@ -187,8 +187,9 @@ const BusquedaAvanzadaUsuarioModal = ({
               </div>
               <div className="col-12 col-md-4 mt-2">
                 <button
-                  type="submit"
+                  type="button"
                   className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                  onClick={onSubmit}
                   disabled={loading}
                 >
                   {loading ? (
