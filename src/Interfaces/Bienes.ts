@@ -34,6 +34,6 @@ export interface IBienes {
 
 interface IDataEdit{
   edit:boolean,
-  id_bien_padre:number,
+  id_bien_padre:number|null,
   nivel_jerarquico:number,
 } 
