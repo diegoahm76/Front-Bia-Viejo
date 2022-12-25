@@ -19,14 +19,16 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const CalendarModal = ({ children }) => {
+const CalendarModal = ({isVisible,setIsVisible, children }) => {
   const userInfo = useAppSelector((state) => state.login.userinfo);
   // REVISAR 
   // isOpen={isModalActive}
   
   return (
     <Modal
-      isOpen={false}
+      id="calendar-modal"
+      isOpen={isVisible}
+      setIsVisible={setIsVisible}
       //onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"
