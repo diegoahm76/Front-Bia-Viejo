@@ -86,8 +86,6 @@ const AdministradorDeEmpresasScreen = () => {
   );
   const [municipiosCoinicidenciaOptions, setmunicipiosCoinicidenciaOptions] =
     useState<ISelectOptions[]>([]);
-  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
-    useState<ISelectOptions[]>([]);
   const [departamentosOptions, setDepartamentosOptions] =
     useState(initialOptions);
   const [formValuesSearch, setFormValuesSearch] = useState({
@@ -165,6 +163,7 @@ const AdministradorDeEmpresasScreen = () => {
     });
     
     setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
+    setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
     setValue("tipo_departamento", form.cod_departamento_notificacion);
     setFormCreate(form);
   };
@@ -191,7 +190,7 @@ const AdministradorDeEmpresasScreen = () => {
   };
 
   const onSubmitBuscar = async () => {
-    setLoading(true);
+    //setLoading(true);
     try {
       const { data: dataEmpresaObject } = await clienteAxios.get(
         `personas/get-personas-by-document/${busquedaModel?.tipoDocumento.value}/${busquedaModel?.numeroDocumento}`
@@ -227,10 +226,11 @@ const AdministradorDeEmpresasScreen = () => {
           (pais) => pais.value === dataEmpresa.cod_pais_nacionalidad_empresa
         );
 
-        const municipioSeleccionado = paisesOptions.filter(
+        const municipioSeleccionado = municipiosOptions.filter(
           (municipio) =>
             municipio.value === dataEmpresa.cod_municipio_notificacion_nal
         );
+        
 
         const modelEdit = {
           ...dataEmpresa,
@@ -258,6 +258,7 @@ const AdministradorDeEmpresasScreen = () => {
             ? dataEmpresa.representante_legal.id_persona
             : 0,
         };
+        
 
         setDireccionNotificacionText(dataEmpresa.direccion_notificaciones);
 
@@ -266,7 +267,7 @@ const AdministradorDeEmpresasScreen = () => {
         setIsVisible(true);
       }
     } catch (err: any) {
-      setLoading(false);
+      //setLoading(false);
       if (err.response.data) {
         const result = await Swal.fire({
           title: err.response.data.detail,
@@ -309,11 +310,11 @@ const AdministradorDeEmpresasScreen = () => {
         }
       }
     }
-    setLoading(false);
+    //setLoading(false);
   };
 
   const onSubmitEmpresa = async (data) => {
-    setLoading(true);
+    //setLoading(true);
 
     let idPersonaRepresentante = null;
 
@@ -339,7 +340,7 @@ const AdministradorDeEmpresasScreen = () => {
           navigate("/dashboard/seguridad/administradordepersonas");
         }
       });
-      setLoading(false);
+     // setLoading(false);
       return;
     }
 
@@ -358,10 +359,11 @@ const AdministradorDeEmpresasScreen = () => {
     if (isEdit) {
       try {
         const { data: dataResponse } = await clienteAxios.patch(
-          `personas/persona-juridica/user-with-permissions/update/${formCreate.tipo_persona.value}/${formCreate.numero_documento_representante}/`,
+          `personas/persona-juridica/user-with-permissions/update/${createEmpresa.tipo_documento}/${createEmpresa.numero_documento}/`,
           createEmpresa
         );
-        console.log("data response", dataResponse);
+        setIsVisible(false);
+        setBusquedaModel(busquedaAvanzadaModel)
         Swal.fire({
           position: "center",
           icon: "success",
@@ -369,8 +371,7 @@ const AdministradorDeEmpresasScreen = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        resetBuscar({ ...watchBuscar(), numeroDocumento: "" });
-        setActionForm("");
+        
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
@@ -419,13 +420,11 @@ const AdministradorDeEmpresasScreen = () => {
             navigate("/dashboard/seguridad/administradordeusuario");
           }
         });
-        resetBuscar({ numeroDocumento: "" });
-        setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
     }
-    setLoading(false);
+    //setLoading(false);
   };
 
   const manejadorErroresSwitAlert = (err) => {
@@ -500,7 +499,7 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     const getSelectsOptions = async () => {
-      setLoading(true);
+      //setLoading(true);
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -537,9 +536,9 @@ const AdministradorDeEmpresasScreen = () => {
         setDepartamentosOptions(departamentosFormat);
       } catch (err) {
         console.log(err);
-        setLoading(false);
+        //setLoading(false);
       }
-      setLoading(false);
+      //setLoading(false);
     };
     getSelectsOptions();
   }, []);
@@ -992,7 +991,7 @@ const AdministradorDeEmpresasScreen = () => {
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
-                    disabled={loading}
+                    disabled={isVisible}
                   >
                     {loading ? (
                       <>
