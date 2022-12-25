@@ -1,14 +1,11 @@
 import { AgGridReact } from "ag-grid-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import clienteAxios from "../config/clienteAxios";
-import { getConfigAuthBearer } from "../helpers/configAxios";
-import { getIndexBySelectOptions } from "../helpers/inputsFormat";
-import { getTokenAccessLocalStorage } from "../helpers/localStorage";
-import botonCancelar from "../assets/iconosBotones/cancelar.svg"
-import botonBuscar from "../assets/iconosBotones/buscar.svg"
-
+import botonCancelar from "../assets/iconosBotones/cancelar.svg";
+import botonBuscar from "../assets/iconosBotones/buscar.svg";
+import Swal from "sweetalert2";
 import Subtitle from "./Subtitle";
 import useEscapeKey from "../hooks/useEscapeKey";
 
@@ -36,9 +33,8 @@ const defaultColDef = {
   suppressMovable: true,
 };
 
-const defaultValues = {
-  primerNombre: "",
-  primerApellido: "",
+const filters = {
+  razonSocial: "",
 };
 
 Modal.setAppElement("#root");
@@ -46,12 +42,14 @@ Modal.setAppElement("#root");
 const BusquedaAvanzadaJuridicaModal = ({
   isModalActive,
   setIsModalActive,
+  setModel,
   formValues,
   setFormValues,
   reset,
   tipoDocumentoOptions,
 }) => {
-  const [empresaSearched, setEmpresaSearched] = useState([]);
+  const [personaJuridicaSearched, setPersonaJuridicaSearched] = useState([]);
+  const [filtersModel, setFilters] = useState(filters);
   const [loading, setLoading] = useState(false);
 
   const {
@@ -61,23 +59,44 @@ const BusquedaAvanzadaJuridicaModal = ({
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    console.log(data);
-    const accessToken = getTokenAccessLocalStorage();
-    const config = getConfigAuthBearer(accessToken);
+  useEffect(() => {
+    getUsersJuridico();
+  }, [isModalActive]);
 
-    try {
-      const queryParams = `?search=${data.razonSocial ?? ""}`;
-      console.log(queryParams);
-      const { data: dataPersonas } = await clienteAxios(
-        `personas/get-personas-juridicas/${queryParams}`,
-        config
-      );
-      console.log(dataPersonas);
-      setEmpresaSearched(dataPersonas);
-    } catch (err) {
-      console.log(err);
-    }
+  const changeValue = (e) => {
+    const { name, value } = e.target;
+    setFilters({ ...filtersModel, [name]: value });
+  };
+
+  const getUsersJuridico = async () => {
+    await clienteAxios(`personas/get-personas-juridicas/`)
+      .then((res) => {
+        setPersonaJuridicaSearched(res.data.Persona);
+      })
+      .catch(() => {});
+  };
+
+  const getUsersByQuery = async (data) => {
+    const elementModalId = document.getElementById("modal-busqueda-juridica")!;
+    const queryParams = `?razon_social=${data.razonSocial ?? ""}`;
+    await clienteAxios(`personas/get-personas-juridicas/${queryParams}`)
+      .then((res) => {
+        setPersonaJuridicaSearched(res.data.Persona);
+      })
+      .catch((error) => {
+        setPersonaJuridicaSearched([]);
+
+        Swal.fire({
+          target: elementModalId,
+          icon: "warning",
+          title: "",
+          text: error.response.data.detail,
+        });
+      });
+  };
+
+  const onSubmit = async () => {
+    getUsersByQuery(filtersModel);
   };
 
   const columnDefs = [
@@ -123,32 +142,30 @@ const BusquedaAvanzadaJuridicaModal = ({
   ];
 
   const seleccionarAction = (dataSearch) => {
-    const {
-      numero_documento,
-      tipo_documento: { cod_tipo_documento },
-    } = dataSearch;
-    console.log(dataSearch, numero_documento, cod_tipo_documento);
-    const index = getIndexBySelectOptions(
-      cod_tipo_documento,
-      tipoDocumentoOptions
-    );
-    console.log(index);
-    setFormValues({ index_tipo_documento: index });
-    reset({
-      tipoDocumento: tipoDocumentoOptions[index],
-      numeroDocumento: numero_documento,
-    });
+    const busquedaAvanzadaModel = {
+      tipoDocumento: { value: "", label: "" },
+      numeroDocumento: "",
+    };
+
+    const { numero_documento, tipo_documento } = dataSearch;
+
+    busquedaAvanzadaModel.tipoDocumento = {
+      label: tipo_documento.nombre,
+      value: tipo_documento.cod_tipo_documento,
+    };
+    busquedaAvanzadaModel.numeroDocumento = numero_documento;
+    setModel(busquedaAvanzadaModel);
     setIsModalActive(false);
   };
 
   const handleCloseModal = () => {
     setIsModalActive(false);
-    resetSearch(defaultValues);
   };
 
-  useEscapeKey(handleCloseModal)
+  useEscapeKey(handleCloseModal);
   return (
     <Modal
+      id="modal-busqueda-juridica"
       isOpen={isModalActive}
       style={customStyles}
       className="modal"
@@ -175,7 +192,8 @@ const BusquedaAvanzadaJuridicaModal = ({
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    {...register("razonSocial", { required: true })}
+                    {...register("razonSocial")}
+                    onChange={changeValue}
                   />
                 </div>
                 {errors.razonSocial && (
@@ -214,7 +232,7 @@ const BusquedaAvanzadaJuridicaModal = ({
                   >
                     <AgGridReact
                       columnDefs={columnDefs}
-                      rowData={empresaSearched}
+                      rowData={personaJuridicaSearched}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>

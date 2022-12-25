@@ -5,7 +5,7 @@ export interface IBienGet {
 }
 
 export interface IBienes {
-  id_bien: number;
+  id_bien: number|null;
   codigo_bien: string;
   nro_elemento_bien: number;
   nombre: string;
