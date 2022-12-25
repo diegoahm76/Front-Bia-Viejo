@@ -42,12 +42,28 @@ const initialOptions: IGeneric[] = [
   },
 ];
 
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "Seleccionar", label: "Seleccionar" },
+  cedula: "",
+}
+
+const usuarioDataModel = {
+  email: "",
+  id_usuario: 0,
+  is_blocked: false,
+  nombre_de_usuario: "",
+  profile_img: "",
+  tipo_usuario: "",
+  user_permissions: []
+}
+
 const AdministradosDeUsuario = () => {
   const { id_usuario } = useAppSelector((state) => state.login.userinfo);
   const [loading, setLoading] = useState(false);
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel)
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState(usuarioDataModel);
   const [isHandleSubmit, setIsHandleSubmit] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [personaData, setPersonaData] = useState({});
@@ -60,13 +76,14 @@ const AdministradosDeUsuario = () => {
   const [formValues, setFormValues] = useState({
     roles: [],
   });
-  const [image, setImage] = useState();
+  const [image, setImage] = useState("");
   const navigate = useNavigate();
   const {
     register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
     control: controlBuscar,
     reset: resetBuscar,
+    setValue,
     formState: { errors: errorsBuscar },
   } = useForm();
 
@@ -113,110 +130,106 @@ const AdministradosDeUsuario = () => {
     getSelectsOptions();
   }, []);
 
-  const onSubmitBuscar = async (data) => {
+  const onSubmitBuscar = async () => {
     setLoading(true);
-    try {
-      const { data: dataPersona } = await clienteAxios.get(
-        `users/get-by-numero-documento/${data.tipoDocumento.value}/${data.numeroDocumento}`
+    await clienteAxios.get(
+      `users/get-by-numero-documento/${busquedaModel.tipoDocumento.value}/${busquedaModel.cedula}`
+    ).then((res) => {
+      setLoading(false);
+      const dataPersona = res.data;
+      setUserData(dataPersona.Usuario);
+      setActionForm("editar");
+
+      if (dataPersona?.Usuario.tipo_usuario === "I") {
+        setBloqueoTipoUsuario(true);
+      } else if (dataPersona?.Usuario.tipo_usuario === "E") {
+        setBloqueoTipoUsuario(false);
+      }
+
+      const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
+
+      const dataRolesIndex = getIndexBySelectOptions(
+        indexRoles,
+        rolesOptions
       );
 
-      console.log(dataPersona, !dataPersona.success);
+      setFormValues({
+        roles: dataRolesIndex,
+      });
 
-      if (!dataPersona.success) {
-        Swal.fire({
-          title: "No existe una persona con este documento",
-          text: "¿Desea registrar una nueva persona?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire({
-              title: "Elegir tipo persona",
-              text: "¿Que tipo de persona desea crear?",
-              icon: "info",
-              showCancelButton: true,
-              confirmButtonColor: "#3BA9E0",
-              cancelButtonColor: "#6c757d",
-              confirmButtonText: "Natural",
-              cancelButtonText: "Juridica",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate("/dashboard/seguridad/administradordepersonas");
-              } else {
-                navigate("/dashboard/seguridad/administradordeempresas");
-              }
-            });
-          }
-        });
-      } else if (!dataPersona.Usuario) {
-        Swal.fire({
-          title: "Este numero de documento no tiene un usuario asignado",
-          text: "¿Desea registrar un nuevo usuario?",
-          icon: "info",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            setActionForm("crear");
-            resetUsuario(defaultDataOverride);
-            setPersonaData(dataPersona?.Persona);
-          }
-        });
-      } else {
-        console.log("entro aca a editar");
-        setUserData(dataPersona?.Usuario);
-        setActionForm("editar");
+      const optionsBySelect = dataRolesIndex.map(
+        (roleIndex) => rolesOptions[roleIndex]
+      );
 
-        if (dataPersona?.Usuario.tipo_usuario === "I") {
-          setBloqueoTipoUsuario(true);
-        } else if (dataPersona?.Usuario.tipo_usuario === "E") {
-          setBloqueoTipoUsuario(false);
-        }
+      const usuarioOverrideData = {
+        nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
+        bloqueado: dataPersona?.Usuario.is_blocked,
+        activo: dataPersona?.Usuario.is_active,
+        tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
+        roles: optionsBySelect,
+      };
 
-        const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
-
-        const dataRolesIndex = getIndexBySelectOptions(
-          indexRoles,
-          rolesOptions
-        );
-
-        setFormValues({
-          roles: dataRolesIndex,
-        });
-
-        const optionsBySelect = dataRolesIndex.map(
-          (roleIndex) => rolesOptions[roleIndex]
-        );
-
-        const usuarioOverrideData = {
-          nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
-          bloqueado: dataPersona?.Usuario.is_blocked,
-          activo: dataPersona?.Usuario.is_active,
-          tipoUsuario: dataPersona?.Usuario.tipo_usuario === "I" ? true : false,
-          roles: optionsBySelect,
-        };
-
-        resetUsuario(usuarioOverrideData);
-      }
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
+      resetUsuario(usuarioOverrideData);
+    }).catch((err) => {
       Swal.fire({
         position: "center",
         icon: "error",
-        title: "Algo pasó, intente de nuevo",
+        title: err.response.data,
         showConfirmButton: true,
-        confirmButtonText: "Aceptar",
       });
-      console.log(err);
-    }
+      setLoading(false);
+    });
+
+    // if (!dataPersona.success) {
+    //   Swal.fire({
+    //     title: "No existe una persona con este documento",
+    //     text: "¿Desea registrar una nueva persona?",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3BA9E0",
+    //     cancelButtonColor: "#6c757d",
+    //     confirmButtonText: "Si",
+    //     cancelButtonText: "No",
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       Swal.fire({
+    //         title: "Elegir tipo persona",
+    //         text: "¿Que tipo de persona desea crear?",
+    //         icon: "info",
+    //         showCancelButton: true,
+    //         confirmButtonColor: "#3BA9E0",
+    //         cancelButtonColor: "#6c757d",
+    //         confirmButtonText: "Natural",
+    //         cancelButtonText: "Juridica",
+    //       }).then((result) => {
+    //         if (result.isConfirmed) {
+    //           navigate("/dashboard/seguridad/administradordepersonas");
+    //         } else {
+    //           navigate("/dashboard/seguridad/administradordeempresas");
+    //         }
+    //       });
+    //     }
+    //   });
+    // } else if (!dataPersona.Usuario) {
+    //   Swal.fire({
+    //     title: "Este numero de documento no tiene un usuario asignado",
+    //     text: "¿Desea registrar un nuevo usuario?",
+    //     icon: "info",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3BA9E0",
+    //     cancelButtonColor: "#6c757d",
+    //     confirmButtonText: "Si",
+    //     cancelButtonText: "No",
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       setActionForm("crear");
+    //       resetUsuario(defaultDataOverride);
+    //       setPersonaData(dataPersona?.Persona);
+    //     }
+    //   });
+    // } else {
+
+    // }
   };
 
   const handleClickSubmit = () => {
@@ -234,38 +247,26 @@ const AdministradosDeUsuario = () => {
   }, [watch("password"), watch("password2")]);
 
   const onSubmitUsuario = async (data) => {
-    if (errorPassword) return;
-    const accessToken = getTokenAccessLocalStorage();
-    const config = {
-      headers: {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-    };
+debugger
     setLoading(true);
     if (actionForm === "crear") {
-      try {
-        const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
+      const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
 
-        const nuevoUsuario = {
-          //  email: personaData.email,
-          nombre_de_usuario: data.nombreUsuario,
-          // persona: personaData.id_persona,
-          password: data.password,
-          id_usuario_creador: id_usuario,
-          tipo_usuario: "I",
-          roles: rolesFormat,
-          redirect_url:
-            process.env.NODE_ENV === "production"
-              ? "https://front-bia.netlify.app/#/login"
-              : "http://localhost:3000/#/login",
-        };
+      const nuevoUsuario = {
+        //  email: personaData.email,
+        nombre_de_usuario: data.nombreUsuario,
+        // persona: personaData.id_persona,
+        password: data.password,
+        id_usuario_creador: id_usuario,
+        tipo_usuario: "I",
+        roles: rolesFormat,
+        redirect_url:
+          process.env.NODE_ENV === "production"
+            ? "https://front-bia.netlify.app/#/login"
+            : "http://localhost:3000/#/login",
+      };
 
-        await clienteAxios.post("users/register/", nuevoUsuario, config);
-
-        setActionForm("");
-        resetUsuario(defaultDataOverride);
-
+      await clienteAxios.post("users/register/", nuevoUsuario).then((res) => {
         Swal.fire({
           title: "Usuario registrado correctamente",
           text: "Revise su bandeja de correo electronico para confirmar el registro",
@@ -273,14 +274,15 @@ const AdministradosDeUsuario = () => {
           confirmButtonColor: "#3BA9E0",
           confirmButtonText: "Continuar",
         });
-      } catch (error) {
-        console.log(error);
-      }
+        setActionForm("");
+        resetUsuario(defaultDataOverride);
+      }).catch((error) => {
+
+      });
     } else if (actionForm === "editar") {
-      console.log("image", image);
       let form_data = new FormData();
-      // form_data.append("image", image);
-      // form_data.append("id_usuario", userData.id_usuario)
+      form_data.append("image", image);
+      form_data.append("id_usuario", userData.id_usuario.toString())
 
       const configImage = {
         headers: {
@@ -293,45 +295,47 @@ const AdministradosDeUsuario = () => {
         .then((res) => {
           console.log(res.data);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: err.data.detail,
+            showConfirmButton: true,
+          });
+        });
 
-      try {
-        const rolesReFormat = data.roles.map((rol) => ({
-          nombre_rol: rol.label,
-          id_rol: rol.value,
-        }));
+      const rolesReFormat = data.roles.map((rol) => ({
+        nombre_rol: rol.label,
+        id_rol: rol.value,
+      }));
+      const editarUsuario = {
+        nombre_de_usuario: data.nombreUsuario,
+        tipo_usuario: data.tipoUsuario ? "I" : "E",
+        profile_img: image,
+        is_active: data.activo,
+        is_blocked: data.bloqueado,
+        roles: rolesReFormat,
+      };
 
-        const editarUsuario = {
-          nombre_de_usuario: data.nombreUsuario,
-          tipo_usuario: data.tipoUsuario ? "I" : "E",
-          //profile_img: image,
-          is_active: data.activo,
-          is_blocked: data.bloqueado,
-          roles: rolesReFormat,
-        };
-
-        // REVISAR
-        // await clienteAxios.patch(
-        //   `users/update/${userData.id_usuario}/`,
-        //   editarUsuario,
-        //   config
-        // );
-
+      await clienteAxios.patch(
+        `users/update/${userData.id_usuario}/`,
+        editarUsuario
+      ).then((res) => {
         Swal.fire(
           "Correcto",
           "El usuario se actualizo correctamente",
           "success"
         );
-      } catch (error) {
-        console.log(error);
+      }).catch((err) => {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "Algo pasó, intente de nuevo",
+          title: err.response.data.detail,
           showConfirmButton: true,
-          confirmButtonText: "Aceptar",
         });
-      }
+      });
+
+
     }
     setLoading(false);
   };
@@ -359,10 +363,28 @@ const AdministradosDeUsuario = () => {
     setActionForm("");
   };
 
-  const handleImageChange = async (e) => {
-    setImage(e.target.files[0]);
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(URL.createObjectURL(e.target.files[0])
+      );
+    }
   };
 
+  const changeSelectTipo = (e) => {
+    let tipo = { ...busquedaModel }
+    tipo.tipoDocumento = {
+      value: e.value,
+      label: e.label
+    }
+    setValue("tipo_documento", tipo.tipoDocumento);
+    setBusquedaModel(tipo)
+  }
+
+  const handleChange = (e) => {
+    let cedula = { ...busquedaModel }
+    cedula.cedula = e.target.value;
+    setBusquedaModel(cedula)
+  }
   return (
     <div className="row min-vh-100">
       <div className="col-12 mx-auto">
@@ -381,19 +403,11 @@ const AdministradosDeUsuario = () => {
                   <label className="text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={controlBuscar}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                  <Select
+                    value={busquedaModel.tipoDocumento}
+                    options={tipoDocumentoOptions}
+                    onChange={changeSelectTipo}
+                    placeholder="Seleccionar"
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -406,11 +420,11 @@ const AdministradosDeUsuario = () => {
                 <div className="col-12 col-md-3">
                   <label className="text-terciary">Número de documento:</label>
                   <input
-                    type="text"
+                    type="number"
+                    name="documento"
                     className="border border-terciary form-control border rounded-pill px-3"
-                    {...registerBuscar("numeroDocumento", {
-                      required: true,
-                    })}
+                    value={busquedaModel.cedula}
+                    onChange={handleChange}
                   />
                   {errorsBuscar.numeroDocumento && (
                     <div className="col-12">
@@ -448,6 +462,8 @@ const AdministradosDeUsuario = () => {
                     accept="image/png, image/jpeg"
                     onChange={handleImageChange}
                   />
+                  {/* <img id="target" style={{ width: "50px", height: "50px" }} alt="imagen" src={image} /> */}
+                  <br />
                   <div className="col-12 col-md-3">
                     <div>
                       <label className="text-terciary">
@@ -696,6 +712,7 @@ const AdministradosDeUsuario = () => {
             setIsModalActive={setBusquedaAvanzadaIsOpen}
             formValues={formValuesSearch}
             setFormValues={setFormValuesSearch}
+            setModel={setBusquedaModel}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}
           />
