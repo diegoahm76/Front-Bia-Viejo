@@ -84,6 +84,8 @@ const AdministradorDeEmpresasScreen = () => {
   const [municipiosOptions, setMunicipiosOptions] = useState<ISelectOptions[]>(
     []
   );
+  const [municipiosCoinicidenciaOptions, setmunicipiosCoinicidenciaOptions] =
+    useState<ISelectOptions[]>([]);
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
     useState<ISelectOptions[]>([]);
   const [departamentosOptions, setDepartamentosOptions] =
@@ -154,6 +156,15 @@ const AdministradorDeEmpresasScreen = () => {
       value: e.value,
       label: e.label,
     };
+
+    const municipioIndicadores =
+      formCreate.cod_departamento_notificacion?.value?.slice(0, 2);
+    const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+      const indicator = municipio.value.slice(0, 2);
+      return municipioIndicadores === indicator;
+    });
+    
+    setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
     setValue("tipo_departamento", form.cod_departamento_notificacion);
     setFormCreate(form);
   };
@@ -187,7 +198,6 @@ const AdministradorDeEmpresasScreen = () => {
       );
 
       const { data: dataEmpresa } = dataEmpresaObject;
-
 
       if (dataEmpresa?.tipo_persona !== "J") {
         Swal.fire({
@@ -248,7 +258,6 @@ const AdministradorDeEmpresasScreen = () => {
             ? dataEmpresa.representante_legal.id_persona
             : 0,
         };
-        debugger
 
         setDireccionNotificacionText(dataEmpresa.direccion_notificaciones);
 
@@ -371,13 +380,31 @@ const AdministradorDeEmpresasScreen = () => {
           "personas/persona-juridica/create/",
           createEmpresa
         );
-        // Swal.fire({
-        //   position: "center",
-        //   icon: "success",
-        //   title: "Empresa creada",
-        //   showConfirmButton: false,
-        //   timer: 1500,
-        // });
+        const modelCreate = {
+          tipo_persona: { value: "", label: "" }, //representante
+          numero_documento_representante: 0,
+          tipo_documento: { value: "", label: "" },
+
+          numero_documento: "",
+          digito_verificacion: "",
+          nombre_comercial: "",
+          razon_social: "",
+          email: "",
+          email_empresarial: "",
+          direccion_notificaciones: "",
+          cod_municipio_notificacion_nal: { value: "", label: "" },
+          cod_departamento_notificacion: { value: "", label: "" },
+          cod_pais_nacionalidad_empresa: { value: "", label: "" },
+          telefono_celular_empresa: "",
+          telefono_empresa_2: "",
+          telefono_empresa: "",
+          acepta_notificacion_sms: true,
+          acepta_notificacion_email: true,
+          acepta_tratamiento_datos: true,
+          representante_legal: 0,
+        };
+        setFormCreate(modelCreate);
+        setIsVisible(false);
         Swal.fire({
           title: "Empresa creada correctamente",
           text: "¿Desea registrarse como usuario?",
@@ -493,6 +520,7 @@ const AdministradorDeEmpresasScreen = () => {
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
+
         //FILTRO PARA LISTA PERSONAS JURIDICAS
         const documentosFormatFiltered = documentosFormat.filter(
           (documento) => documento.value === "NT"
@@ -505,6 +533,7 @@ const AdministradorDeEmpresasScreen = () => {
         setTipoDocumentoOptions(documentosFormatFiltered);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
+        setmunicipiosCoinicidenciaOptions(municipiosFormat);
         setDepartamentosOptions(departamentosFormat);
       } catch (err) {
         console.log(err);
@@ -515,45 +544,10 @@ const AdministradorDeEmpresasScreen = () => {
     getSelectsOptions();
   }, []);
 
-  const getIndexBySelectOptions = (valueSelect, selectOptions) => {
-    let indexValue = -1;
-    selectOptions.filter((selectOption, index) => {
-      if (selectOption.value === valueSelect) {
-        indexValue = index;
-        return true;
-      }
-      return false;
-    });
-    return indexValue;
-  };
-
   const handleCancelAction = () => {
-    setActionForm("");
-  };
-
-  const handleChangePaisNotificacion = (e) => {
-    const objectSend = {
-      paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
-      municipioNotificacion: -1,
-    };
-    if (e.value !== "CO" || !e.value) {
-      objectSend.municipioNotificacion = -1;
-      resetEmpresa({
-        ...watchEmpresa(),
-        municipioNotificacion: "",
-      });
-      setDatosNotificacion([{ label: "", value: "" }]);
-    }
-  };
-
-  const getIndexColombia = () => {
-    let indexColombia = -1;
-    paisesOptions.forEach((pais, index) => {
-      if (pais.value === "CO") {
-        indexColombia = index;
-      }
-    });
-    return indexColombia;
+    setIsVisible(false)
+    setBusquedaModel(busquedaAvanzadaModel)
+    
   };
 
   useEffect(() => {
@@ -609,6 +603,7 @@ const AdministradorDeEmpresasScreen = () => {
                   <Select
                     name="tipo_documento"
                     options={tipoDocumentoOptions}
+                    required={true}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipo}
                     value={busquedaModel.tipoDocumento}
@@ -703,6 +698,7 @@ const AdministradorDeEmpresasScreen = () => {
                           value={formCreate.numero_documento}
                           onChange={handleChangeCreate}
                           disabled={isEdit}
+                          required={true}
                         />
                         {errorsEmpresa.numeroDocumento2 && (
                           <div className="col-12">
@@ -721,12 +717,12 @@ const AdministradorDeEmpresasScreen = () => {
                         </label>
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
-                          type="number"
+                          type="text"
                           name="digito_verificacion"
                           value={formCreate.digito_verificacion}
                           onChange={handleChangeCreate}
                           disabled={isEdit}
-                          required
+                          required={true}
                           maxLength={1}
                         />
                         {errorsEmpresa.digito_verificacion && (
@@ -759,7 +755,7 @@ const AdministradorDeEmpresasScreen = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
-                          required
+                          required={true}
                           onChange={handleChangeCreate}
                           value={formCreate.razon_social}
                           name="razon_social"
@@ -789,6 +785,7 @@ const AdministradorDeEmpresasScreen = () => {
                       onChange={changeSelectTipoRepresentante}
                       value={formCreate.tipo_persona}
                       isDisabled={isEdit}
+                      required={true}
                     />
 
                     {errorsEmpresa.tipoDocumentoRepresentante && (
@@ -808,7 +805,7 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="border border-terciary form-control rounded-pill px-3"
                         type="number"
-                        required
+                        required={true}
                         onChange={handleChangeCreate}
                         name="numero_documento_representante"
                         value={formCreate.numero_documento_representante}
@@ -832,6 +829,7 @@ const AdministradorDeEmpresasScreen = () => {
                       value={formCreate.cod_pais_nacionalidad_empresa}
                       onChange={changeSelectPais}
                       options={paisesOptions}
+                      name="tipo_pais"
                       placeholder="Seleccionar"
                     />
                   </div>
@@ -854,7 +852,7 @@ const AdministradorDeEmpresasScreen = () => {
                       </label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
-                        type="number"
+                        type="tet"
                         name="telefono_celular_empresa"
                         value={formCreate.telefono_celular_empresa}
                         onChange={handleChangeCreate}
@@ -950,6 +948,7 @@ const AdministradorDeEmpresasScreen = () => {
                     </label>
                     <Select
                       placeholder="Seleccionar"
+                      options={municipiosCoinicidenciaOptions}
                       onChange={changeSelectMunicipio}
                       value={formCreate.cod_municipio_notificacion_nal}
                     />
