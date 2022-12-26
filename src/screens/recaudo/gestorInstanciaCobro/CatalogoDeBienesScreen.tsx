@@ -19,10 +19,9 @@ import { InputText } from "primereact/inputtext";
 
 import {
   obtenerTodosBienes,
-  obtenerBien,
-  seleccionarBienModelEdit,
+  seleccionarBienEdit,
+  seleccionarBienCreate,
   eliminarBien,
-  seleccionarBien,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IBienes } from "../../../Interfaces/Bienes";
@@ -264,16 +263,22 @@ const CatalogoDeBienesScreen = () => {
     return [...hijos];
   }
 
-   function enviarDatos(nodo, accion) {
-       seleccionarBien(dispatch,nodo.data.bien,accion);
+  function enviarDatos(nodo, accion) {
+    if(accion)
+    {
+      seleccionarBienEdit(dispatch,nodo.data.bien)
+    }else{
+      seleccionarBienCreate(dispatch,nodo.data.bien)
+    }
     
-     navigate(
+
+    navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   }
 
   function eliminarNodo(nodo) {
-    eliminarBien(dispatch,nodo.data.bien);
+    eliminarBien(dispatch, nodo.data.bien);
   }
 
   const {
@@ -282,17 +287,13 @@ const CatalogoDeBienesScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const submit = (data) => {};
-
   const navigate = useNavigate();
   const CrearArticulo = () => {
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   };
-  const Articulo = () => {
-    navigate("/dashboard/Recaudo/gestor-notificacion/entrada-articulos-fijos");
-  };
+ 
 
   return (
     <div className="row min-vh-100">
@@ -300,7 +301,6 @@ const CatalogoDeBienesScreen = () => {
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
-          onSubmit={handleSubmit(submit)}
           id="configForm"
         >
           <div className="row">

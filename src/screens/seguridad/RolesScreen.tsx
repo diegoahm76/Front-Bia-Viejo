@@ -18,10 +18,10 @@ import {
   getPermisosAdapterSelect,
   getPermisosRolPost,
 } from "../../adapters/roles.adapters";
-import botonBuscar from "../../assets/iconosBotones/buscar.svg"
-import botonAgregar from "../../assets/iconosBotones/agregar.svg"
-import botonEditar from "../../assets/iconosBotones/editar.svg"
-import botonEliminar from "../../assets/iconosBotones/eliminar.svg"
+import botonBuscar from "../../assets/iconosBotones/buscar.svg";
+import botonAgregar from "../../assets/iconosBotones/agregar.svg";
+import botonEditar from "../../assets/iconosBotones/editar.svg";
+import botonEliminar from "../../assets/iconosBotones/eliminar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonGuardar from "../../assets/iconosBotones/guardar.svg";
 
@@ -39,17 +39,18 @@ const RolesScreen = () => {
   const [roles, setRoles] = useState([]);
   const [permisos, setPermisos] = useState([]);
   const [formValues, setFormValues] = useState({
+    nombreRol: "",
     permisosRol: [],
+    descripcionRol: "",
   });
+  const [isVisible, setIsVisible] = useState(false);
 
   // const accessToken = getTokenAccessLocalStorage();
   // const config = getConfigAuthBearer(accessToken);
 
   const getRolesList = async () => {
     try {
-      const { data: dataRoles } = await clienteAxios.get(
-        "roles/get-list"
-      );
+      const { data: dataRoles } = await clienteAxios.get("roles/get-list");
       setRoles(dataRoles);
     } catch (err) {
       console.log(err);
@@ -92,7 +93,7 @@ const RolesScreen = () => {
       headerName: "Nombre",
       field: "nombre_rol",
       minWidth: 150,
-      maxWidth: 220
+      maxWidth: 220,
     },
     {
       headerName: "Descripción",
@@ -141,54 +142,34 @@ const RolesScreen = () => {
         `roles/get-by-id/${idRol}/`
       );
 
-      console.log("data rol", dataRol);
-
       const dataFormat = getPermisosAdapterByRolForSelect(data);
-      // const valuesIndexs = dataFormat.map((value) => value.value);
-      // const indexs = getIndexBySelectOptions(valuesIndexs, permisos);
+      const valuesIndexs = dataFormat.map((value) => value.value);
+      const indexs = getIndexBySelectOptions(valuesIndexs, permisos);
 
-      // REVISAR
-      // setFormValues({
-      //   ...formValues,
-      //   permisosRol: dataFormat,
-      //   nombreRol: dataRol.nombre_rol,
-      //   descripcionRol: dataRol.descripcion_rol,
-      // });
+      //  REVISAR
+      setFormValues({
+        ...formValues,
+        permisosRol: dataFormat,
+        nombreRol: dataRol.nombre_rol,
+        descripcionRol: dataRol.descripcion_rol,
+      });
       resetPermiso({
         idRol: idRol,
         permisosRol: dataFormat,
         nombreRol: dataRol.nombre_rol,
         descripcionRol: dataRol.descripcion_rol,
       });
-      console.log("dataFormat", dataFormat);
     } catch (err) {
       console.log(err);
     }
     // dispatch(activeModalAction());
     setisCreate("");
+    setIsVisible(true);
     setisCreate("editar");
   };
 
-  const eliminarRol = async (idRol) => {
-    try {
-      const { data } = await clienteAxios.delete(
-        `roles/delete/${idRol}`
-      );
-
-      Swal.fire({
-        position: "center",
-        icon: "info",
-        title: data.detail,
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
-      });
-    } catch (err) {
-      console.log(err);
-    }
-    getRolesPermisos();
-  };
-
-  const confirmarEliminarRol = async (idRol) => {
+  async function confirmarEliminarRol(idRol) {
+    const elementModalId = document.getElementById("calendar-modal")!;
     Swal.fire({
       title: "Estas seguro?",
       text: "Un rol que se elimina no se puede recuperar",
@@ -198,126 +179,162 @@ const RolesScreen = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, elminar!",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        eliminarRol(idRol);
+        await clienteAxios
+          .delete(`roles/delete/${idRol}`)
+          .then(() => {
+            Swal.fire({
+              target: elementModalId,
+              position: "center",
+              icon: "info",
+              title: "Eliminado correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Continuar",
+            });
+          })
+          .catch(async (err) => {
+            await Swal.fire({
+              target: elementModalId,
+              position: "center",
+              icon: "info",
+              title: "Eliminado correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Continuar",
+            });
+          })
+          .finally(async () => {
+            await getRolesPermisos();
+          });
       }
     });
-  };
+  }
 
   const handleCloseModal = () => {
     setisCreate("");
+    setIsVisible(false);
     resetPermiso({
       nombreRol: "",
       descripcionRol: "",
       permisosRol: [],
     });
-    setFormValues({ permisosRol: [] });
+    setFormValues({ nombreRol: "", descripcionRol: "", permisosRol: [] });
     // dispatch(desactiveModalAction());
   };
 
   const handleCreateRole = () => {
     setisCreate("crear");
+    setIsVisible(true);
     // dispatch(activeModalAction());
   };
 
-  // const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
-  //   const idResult = [];
-  //   const idSelectOptions = selectOptions.map((option) => option.value);
-  //   idSelectOptions.forEach((optionId, index) => {
-  //     if (valuesSelect.includes(optionId)) {
-  //       idResult.push(index);
-  //     }
-  //   });
-  //   return idResult;
-  // };
+  const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
+    const idResult: number[] = [];
+    const idSelectOptions = selectOptions.map((option) => option.value);
+    idSelectOptions.forEach((optionId, index) => {
+      if (valuesSelect.includes(optionId)) {
+        idResult.push(index);
+      }
+    });
+    return idResult;
+  };
+
+  const getDefaultPermisions = (permisosRol) => {
+    const defaultValues = permisosRol.map((permiso) => permisos[permiso]);
+    return defaultValues;
+  };
 
   const onSubmitRolPermiso = async (data) => {
-    console.log("datos comprobacion submit", data.idRol);
+    const elementModalId = document.getElementById("calendar-modal")!;
     if (isCreate === "crear") {
-      try {
-        const rolCreate = {
-          nombre_rol: data.nombreRol,
-          descripcion_rol: data.descripcionRol,
-          Rol_sistema: false,
-        };
+      const rolCreate = {
+        nombre_rol: data.nombreRol,
+        descripcion_rol: data.descripcionRol,
+        Rol_sistema: false,
+      };
 
-        const { data: dataRol } = await clienteAxios.post(
-          "roles/create/",
-          rolCreate
-        );
+      const { data: dataRol } = await clienteAxios.post(
+        "roles/create/",
+        rolCreate
+      );
 
-        const permisosRol = getPermisosRolPost(
-          dataRol.id_rol,
-          data.permisosRol
-        );
-        await clienteAxios.post(
-          "permisos/permisos-modulos-rol/create/",
-          permisosRol
-        );
+      const permisosRol = getPermisosRolPost(dataRol.id_rol, data.permisosRol);
+      await clienteAxios
+        .post("permisos/permisos-modulos-rol/create/", permisosRol)
+        .then(() => {
+          Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "success",
+            title: "Rol creado",
+            showConfirmButton: false,
+            timer: 1500,
+          });
 
-       //  dispatch(desactiveModalAction());
-
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Rol creado",
-          showConfirmButton: false,
-          timer: 1500,
+          getRolesList();
+          handleCloseModal();
+        })
+        .catch((error) => {
+          Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "error",
+            title: "Algo pasó, intente de nuevo",
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+          });
         });
-
-        getRolesList();
-      } catch (error) {
-        console.log(error);
-      }
     } else {
       const datosEditRol = {
         nombre_rol: data.nombreRol,
         descripcion_rol: data.descripcionRol,
       };
-      try {
-        const { data: responseEditRol } = await clienteAxios.put(
-          `/roles/update/${data.idRol}/`,
-          datosEditRol
-        );
-        console.log(responseEditRol);
 
-        const datosEditPermisosRol = getPermisosRolPost(
-          data.idRol,
-          formValues.permisosRol
-        );
-        const dataFormatRequestRol = datosEditPermisosRol.map((permiso) => ({
-          id_permisos_modulo: permiso.id_permiso_modulo,
-        }));
-        console.log(dataFormatRequestRol);
-        const { data: responseEditPermisosRol } = await clienteAxios.put(
+      const { data: responseEditRol } = await clienteAxios.put(
+        `/roles/update/${data.idRol}/`,
+        datosEditRol
+      );
+
+      const datosEditPermisosRol = getPermisosRolPost(
+        data.idRol,
+        formValues.permisosRol
+      );
+      const dataFormatRequestRol = datosEditPermisosRol.map((permiso) => ({
+        id_permisos_modulo: permiso.id_permiso_modulo,
+      }));
+      await clienteAxios
+        .put(
           `permisos/permisos-modulos-rol/update/${data.idRol}/`,
           dataFormatRequestRol
-        );
-        console.log(responseEditPermisosRol);
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Datos del rol actualizados correctamente",
-          showConfirmButton: false,
-          timer: 2000,
+        )
+        .then((data) => {
+          getRolesList();
+
+          Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "success",
+            title: "Datos del rol actualizados correctamente",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          handleCloseModal();
+        })
+        .catch((error) => {
+          Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "warning",
+            title: "Algo pasó consulta con tu developer de confianza",
+            showConfirmButton: false,
+            timer: 2000,
+          });
         });
-      } catch (err) {
-        console.log(err);
-        Swal.fire({
-          position: "center",
-          icon: "warning",
-          title: "Algo pasó consulta con tu developer de confianza",
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }
-      // dispatch(desactiveModalAction())
-      getRolesList()
     }
   };
 
   const onSubmitByName = async (data) => {
+    const elementModalId = document.getElementById("calendar-modal")!;
     try {
       if (data.nombreRol) {
         const { data: dataByName } = await clienteAxios.get(
@@ -328,19 +345,16 @@ const RolesScreen = () => {
         getRolesList();
       }
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        target: elementModalId,
+        position: "center",
+        icon: "warning",
+        title: "Algo pasó consulta con tu developer de confianza",
+        showConfirmButton: false,
+        timer: 2000,
+      });
     }
   };
-
-  // const getDefaultPermisions = (permisosRol) => {
-  //   const defaultValues = permisosRol.map((permiso) => permisos[permiso]);
-  //   console.log("default values", defaultValues);
-  //   return defaultValues;
-  // };
-
-  // const getDefaultNombreRol = () => {
-  //   return formValues.nombreRol;
-  // };
 
   return (
     <div className="row min-vh-100">
@@ -397,7 +411,7 @@ const RolesScreen = () => {
             </div>
           </form>
           {isCreate === "crear" && (
-            <CalendarModal>
+            <CalendarModal isVisible={isVisible} setIsVisible={setIsVisible}>
               <form
                 className="row p-3"
                 onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
@@ -484,7 +498,7 @@ const RolesScreen = () => {
             </CalendarModal>
           )}
           {isCreate === "editar" && (
-            <CalendarModal>
+            <CalendarModal isVisible={isVisible} setIsVisible={setIsVisible}>
               <form
                 className="row p-3"
                 onSubmit={handleSubmitRolPermiso(onSubmitRolPermiso)}
@@ -539,20 +553,20 @@ const RolesScreen = () => {
                         {...field}
                         isMulti
                         value={formValues.permisosRol}
-                        onChange={(e) => {
+                        onChange={(e: any) => {
                           resetPermiso({
                             ...watchPermiso(),
                             permisosRol: e,
                           });
                           // REVISAR
-                          // setFormValues({
-                          //   ...formValues,
-                          //   permisosRol: e,
-                          // });
+                          setFormValues({
+                            ...formValues,
+                            permisosRol: e,
+                          });
                         }}
-                        // defaultValue={() =>
-                        //   getDefaultPermisions(formValues.permisosRol)
-                        // }
+                        defaultValue={() =>
+                          getDefaultPermisions(formValues.permisosRol)
+                        }
                         options={permisos}
                         placeholder="Seleccionar"
                       />

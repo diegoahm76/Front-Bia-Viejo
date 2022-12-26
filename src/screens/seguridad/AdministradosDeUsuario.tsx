@@ -247,7 +247,7 @@ const AdministradosDeUsuario = () => {
   }, [watch("password"), watch("password2")]);
 
   const onSubmitUsuario = async (data) => {
-debugger
+
     setLoading(true);
     if (actionForm === "crear") {
       const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));

@@ -57,16 +57,22 @@ const bienForm = createSlice({
         }
       });
     },
+
     seleccionarBienModelCrete: (state, action) => {
       state.bienSeleccionado = action.payload;
-      state.dataEdit.edit = false;
-      state.dataEdit.id_bien_padre = action.payload?.id_bien;
+      state.dataEdit={
+        nivel_jerarquico:action.payload.nivel_jerarquico + 1,
+        id_bien_padre:action.payload?.id_bien,
+        edit:false
+      } ;
     },
     seleccionarBienModelEdit: (state, action) => {
-      debugger
       state.bienSeleccionado = action.payload;
-      state.dataEdit.edit = true;
-      state.dataEdit.id_bien_padre = action.payload?.id_bien_padre;
+      state.dataEdit={
+        nivel_jerarquico:action.payload.nivel_jerarquico,
+        id_bien_padre:action.payload?.id_bien,
+        edit:true
+      };
     },
     obtenerBienAction: (state, action) => {
       state.bienSeleccionado = action.payload;
@@ -104,7 +110,6 @@ export const obtenerTodosBienes = async (dispatch) => {
 };
 
 export const crearBien = async (dispatch, dataBien) => {
-  debugger;
   await clienteAxios
     .put("almacen/bienes/catalogo-bienes/create/", dataBien)
     .then((res) => {
@@ -145,7 +150,7 @@ export const obtenerBien = async (dispatch, nodo) => {
     });
 };
 
-export const eliminarBien= async (dispatch,nodo) => {
+export const eliminarBien = async (dispatch, nodo) => {
   await clienteAxios
     .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_bien}`)
     .then(() => {
@@ -162,16 +167,17 @@ export const eliminarBien= async (dispatch,nodo) => {
     });
 };
 
-export const seleccionarBien = (dispatch, bien, accion) => {
-  debugger
-  if (accion) {
+export const seleccionarBienEdit = (dispatch, bien) => {
+  
     dispatch(seleccionarBienModelEdit(bien));
-  } else {
-    dispatch(seleccionarBienModelCrete(bien));
-  }
 };
+export const seleccionarBienCreate = (dispatch, bien) => {
+ 
+    dispatch(seleccionarBienModelCrete(bien));
+   
+};
+
 export const editarBien = async (dispatch, dataEdit) => {
-  debugger;
   const dataModel = construirModelo(dataEdit);
   await clienteAxios
     .put("almacen/bienes/catalogo-bienes/create/", dataModel)

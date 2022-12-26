@@ -213,17 +213,18 @@ export const CreacionArticulosFijosScreen = () => {
 
   const crearModeloData = () => {
     const bienModel: IBienes = {
-      id_bien: bienEdit.id_bien,
+      id_bien: bienEdit.id_bien !== 0 ? bienEdit.id_bien : null,
       cantidad_vida_util: bienEdit.cantidad_vida_util,
       cod_metodo_valoracion: bienEdit.cod_metodo_valoracion.value,
       cod_tipo_activo: bienEdit.cod_tipo_activo.value,
       cod_tipo_bien: bienEdit.cod_tipo_bien.value,
       cod_tipo_depreciacion: bienEdit.cod_tipo_depreciacion.value,
-      codigo_bien: "12345", //quemado
+      codigo_bien:bienEdit.codigo_bien, //quemado
       descripcion: bienEdit.descripcion,
       doc_identificador_nro: bienEdit.doc_identificador_nro,
       maneja_hoja_vida: checkboxHoja,
-      nivel_jerarquico: bienEdit.nivel_jerarquico,
+      nivel_jerarquico:
+        bienEdit.nivel_jerarquico !== 0 ? bienEdit.nivel_jerarquico : 1,
       nombre: bienEdit.nombre,
       nombre_cientifico: bienEdit.nombre_cientifico,
       nro_elemento_bien: bienEdit.nro_elemento_bien,
@@ -233,13 +234,13 @@ export const CreacionArticulosFijosScreen = () => {
       tiene_hoja_vida: checkboxHoja,
       valor_residual: bienEdit.valor_residual,
       visible_solicitudes: checkboxSoli,
-      id_bien_padre: bienEdit.id_bien_padre,
+      id_bien_padre:
+        bienEdit.id_bien_padre !== 0 ? bienEdit.id_bien_padre : null,
       id_marca: bienEdit.id_marca.value,
       id_porcentaje_iva: bienEdit.id_porcentaje_iva.value,
       id_unidad_medida: bienEdit.id_unidad_medida.value,
       id_unidad_medida_vida_util: bienEdit.id_unidad_medida_vida_util.value,
     };
-
     return bienModel;
   };
 
@@ -275,7 +276,6 @@ export const CreacionArticulosFijosScreen = () => {
   // };
 
   const onSubmit = () => {
-    debugger;
     if (isEdit) {
       editarBien(dispatch, crearModeloData());
     } else {
@@ -415,9 +415,10 @@ export const CreacionArticulosFijosScreen = () => {
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Código"
+                      disabled={dataEdit.edit!}
                       value={bienEdit.codigo_bien}
-                      disabled
-                      {...register("codigo")}
+                      {...register("codigo_bien")}
+                      onChange={handleChange}
                     />
                     {errors.codigo && (
                       <small className="text-danger">
