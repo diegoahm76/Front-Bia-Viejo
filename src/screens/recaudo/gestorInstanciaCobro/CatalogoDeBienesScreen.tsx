@@ -267,10 +267,8 @@ const CatalogoDeBienesScreen = () => {
     if(accion)
     {
       seleccionarBienEdit(dispatch,nodo.data.bien)
-      debugger
     }else{
       seleccionarBienCreate(dispatch,nodo.data.bien)
-      debugger
     }
     
 

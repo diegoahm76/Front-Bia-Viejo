@@ -70,7 +70,6 @@ const BusquedaAvanzadaUsuarioModal = ({
       await clienteAxios.get(
         `users/get-by-email/${email}`
       ).then((response) => {
-        debugger
         setUsuarioSearched(response.data);
       }).catch((err) => {
         Swal.fire({
