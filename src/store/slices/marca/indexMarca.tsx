@@ -88,11 +88,26 @@ export const eliminarMarca = async (dispatch, id) => {
 
 
 // Edita la estacion
-export const editarMarca = async (dispatch, estacion) => {
+export const editarMarca = async (dispatch, marca) => {
     // REVISAR ID MARCA
-    await clienteAxios.put("almacen/marcas/update/", estacion).then(() => {
-        dispatch(editarMarcaAction(estacion));
-        Swal.fire("Correcto", "La Marca se actualizo correctamente", "success");
+    const elementModalId = document.getElementById("modal-marca-id")!;
+    await clienteAxios.put(`almacen/marcas/update/${marca.id_marca}/`, marca).then(() => {
+        dispatch(editarMarcaAction(marca));
+        Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "success",
+            title: "Marca Actualizada correctamente",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+    }).catch((error)=>{
+        Swal.fire({
+            target: elementModalId,
+            icon: "error",
+            title: "Hubo un error",
+            text: "Hubo un error, intenta de nuevo",
+        });
     });
 };
 
