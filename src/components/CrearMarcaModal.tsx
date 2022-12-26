@@ -64,7 +64,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
     const nombre = { nombre: marcaEdit.nombre };
     if (edit) {
       editarMarca(dispatch, marcaEdit);
-      setEdit(false);
+      setEdit(true);
       setMarcaEdit(editState);
       obtenerMarcasLista(dispatch);
     } else {
