@@ -32,7 +32,6 @@ import { obtenerTodosBienes } from "./store/slices/catalogoBienes/indexCatalogoB
 function App() {
   const dispatch = useAppDispatch();
   getUserFromLocalStorage(dispatch);
-  // obtenerTodosBienes(dispatch);
 
   return (
     <Routes>
