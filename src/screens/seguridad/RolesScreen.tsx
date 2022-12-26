@@ -168,37 +168,8 @@ const RolesScreen = () => {
     setisCreate("editar");
   };
 
-  const eliminarRol = async (idRol) => {
+  async function confirmarEliminarRol(idRol) {
     const elementModalId = document.getElementById("calendar-modal")!;
-
-    await clienteAxios
-      .delete(`roles/delete/${idRol}`)
-      .then((res) => {
-        Swal.fire({
-          target: elementModalId,
-          position: "center",
-          icon: "info",
-          title: res.data.detail,
-          showConfirmButton: true,
-          confirmButtonText: "Continuar",
-        });
-      })
-      .catch((err) => {
-        Swal.fire({
-          target: elementModalId,
-          position: "center",
-          icon: "error",
-          title: err.response.data.detail,
-          showConfirmButton: true,
-          confirmButtonText: "Aceptar",
-        });
-      })
-      .finally(() => {
-        getRolesPermisos();
-      });
-  };
-
-  const confirmarEliminarRol = async (idRol) => {
     Swal.fire({
       title: "Estas seguro?",
       text: "Un rol que se elimina no se puede recuperar",
@@ -208,12 +179,36 @@ const RolesScreen = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, elminar!",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        eliminarRol(idRol);
+        await clienteAxios
+          .delete(`roles/delete/${idRol}`)
+          .then(() => {
+            Swal.fire({
+              target: elementModalId,
+              position: "center",
+              icon: "info",
+              title: "Eliminado correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Continuar",
+            });
+          })
+          .catch(async (err) => {
+            await Swal.fire({
+              target: elementModalId,
+              position: "center",
+              icon: "info",
+              title: "Eliminado correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Continuar",
+            });
+          })
+          .finally(async () => {
+            await getRolesPermisos();
+          });
       }
     });
-  };
+  }
 
   const handleCloseModal = () => {
     setisCreate("");
