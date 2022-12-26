@@ -212,7 +212,6 @@ export const CreacionArticulosFijosScreen = () => {
   };
 
   const crearModeloData = () => {
-    debugger
     const bienModel: IBienes = {
       id_bien: bienEdit.id_bien !== 0 ? bienEdit.id_bien : null,
       cantidad_vida_util: bienEdit.cantidad_vida_util,
@@ -242,7 +241,7 @@ export const CreacionArticulosFijosScreen = () => {
       id_unidad_medida: bienEdit.id_unidad_medida.value,
       id_unidad_medida_vida_util: bienEdit.id_unidad_medida_vida_util.value,
     };
-    debugger
+
 
     return bienModel;
   };
@@ -279,7 +278,6 @@ export const CreacionArticulosFijosScreen = () => {
   // };
 
   const onSubmit = () => {
-    debugger;
     if (isEdit) {
       editarBien(dispatch, crearModeloData());
     } else {

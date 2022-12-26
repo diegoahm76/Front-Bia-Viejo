@@ -170,28 +170,32 @@ const RolesScreen = () => {
 
   const eliminarRol = async (idRol) => {
     const elementModalId = document.getElementById("calendar-modal")!;
-    try {
-      const { data } = await clienteAxios.delete(`roles/delete/${idRol}`);
 
-      Swal.fire({
-        target: elementModalId,
-        position: "center",
-        icon: "info",
-        title: data.detail,
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
+    await clienteAxios
+      .delete(`roles/delete/${idRol}`)
+      .then((res) => {
+        Swal.fire({
+          target: elementModalId,
+          position: "center",
+          icon: "info",
+          title: res.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Continuar",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          target: elementModalId,
+          position: "center",
+          icon: "error",
+          title: err.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
+      })
+      .finally(() => {
+        getRolesPermisos();
       });
-    } catch (err) {
-      Swal.fire({
-        target: elementModalId,
-        position: "center",
-        icon: "error",
-        title: "Algo pasó, intente de nuevo",
-        showConfirmButton: true,
-        confirmButtonText: "Aceptar",
-      });
-    }
-    getRolesPermisos();
   };
 
   const confirmarEliminarRol = async (idRol) => {
@@ -310,7 +314,7 @@ const RolesScreen = () => {
         )
         .then((data) => {
           getRolesList();
-          
+
           Swal.fire({
             target: elementModalId,
             position: "center",
