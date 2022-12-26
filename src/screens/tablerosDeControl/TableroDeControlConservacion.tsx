@@ -168,6 +168,7 @@ const valueSel = {
 }
 const TableroDeControlConservacion = () => {
   const [currentSelectValue, setCurrentSelectValue] = useState(valueSel);
+  const [isVisible, setIsVisible] = useState(false);
   const dispatch = useAppDispatch();
 
   const handleOpenModal = () => {
@@ -285,7 +286,9 @@ const TableroDeControlConservacion = () => {
             </button>
           </div>
           {/*Renderizado del modal*/}
-          <CalendarModal>
+          <CalendarModal
+            isVisible={isVisible} 
+            setIsVisible={setIsVisible}>
             <h5 className="font-weight-bolder mt-2">
               Instalaciones del vivero
             </h5>
