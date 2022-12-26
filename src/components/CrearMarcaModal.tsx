@@ -64,9 +64,13 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
     const nombre = { nombre: marcaEdit.nombre };
     if (edit) {
       editarMarca(dispatch, marcaEdit);
+      setEdit(true);
+      setMarcaEdit(editState);
       obtenerMarcasLista(dispatch);
     } else {
       crearMarca(dispatch, nombre);
+      setEdit(false);
+      setMarcaEdit(editState);
       obtenerMarcasLista(dispatch);
     }
   };
@@ -88,7 +92,7 @@ function CrearMarcaModal({ isModalActive, setIsModalActive }) {
   };
 
   const editarAction = (data) => {
-    const dataEdit = { ...marcaEdit }
+    const dataEdit = { ...marcaEdit };
     dataEdit.nombre = data.nombre;
     dataEdit.activo = data.activo;
     dataEdit.item_ya_usado = data.item_ya_usado;
