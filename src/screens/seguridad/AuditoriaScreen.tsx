@@ -1,38 +1,37 @@
-import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { adapterSubsistemasChoices } from "../../adapters/auditorias.adapters";
-import Subtitle from "../../components/Subtitle";
-import clienteAxios from "../../config/clienteAxios";
-import Select from "react-select";
+import { AgGridReact } from "ag-grid-react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import Select, { SingleValue } from "react-select";
 import DatePicker from "react-datepicker";
-import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
-import { formatISO } from "date-fns";
-import { getDateFromAAAAMMDDToDDMMAAAA } from "../../helpers/dateHelpers";
+import Swal from "sweetalert2";
+//Styles
 import botonBuscar from "../../assets/iconosBotones/buscar.svg"
-import { IGeneric } from "../../Interfaces/Generic";
+//Components
+import clienteAxios from "../../config/clienteAxios";
+import Subtitle from "../../components/Subtitle";
+import { adapterSubsistemasChoices } from "../../adapters/auditorias.adapters";
+import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
+import { setDatesFormat } from "../../utils";
 
 const columDefs = [
   {
     headerName: "Usuario",
-    field: "id_usuario.nombre_de_usuario",
+    field: "id_usuario",
     minWidth: 150,
   },
   {
     headerName: "Tipo documento",
-    field: "id_usuario.persona.tipo_documento.nombre",
+    field: "tipo_documento",
     minWidth: 200,
   },
   {
     headerName: "Documento",
-    field: "id_usuario.persona.numero_documento",
+    field: "numero_documento",
     minWidth: 150,
   },
   {
     headerName: "Módulo",
-    field: "id_modulo.nombre_modulo",
+    field: "id_modulo",
     minWidth: 150,
   },
   {
@@ -66,79 +65,87 @@ const defaultColDef = {
   initialWidth: 100,
   suppressMovable: true,
 };
-const initialOptions: IGeneric[] = [
-  {
-    label: "",
-    value: "",
-  },
-];
+
+interface IFormValues {
+  rango_inicial_fecha: string | Date;
+  rango_final_fecha: string | Date;
+  rango_actual_fecha: string | Date;
+  numero_documento: string;
+  tipo_documento: IList;
+  subsistema: IList;
+  page: string;
+}
+
+export interface IList {
+  label: string;
+  value: string;
+}
 
 const AuditoriaScreen = () => {
-  const [auditorias, setAuditorias] = useState([]);
-  const [subsistemasOptions, setSubsistemasOptions] = useState([]);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
-  const [formValues, setFormValues] = useState({
-    fechaIni: "",
-    fechaEnd: "",
-    fechaNow: new Date(),
-  });
 
-  // REVISAR
-  // const fechaIniMenosEnd = (formValues.fechaEnd - formValues.fechaIni) / (1000 * 60 * 60 * 24);
-  // console.log(fechaIniMenosEnd);
-  // const diasFechaIniMenosEnd = fechaIniMenosEnd/(1000 * 60 * 60 * 24);
-  // const fechaIniMenosEnd = formValues.fechaIni-formValues.fechaEnd;
+  const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
+    position: "center",
+    icon: "error",
+    title: message,
+    showConfirmButton: true,
+    confirmButtonText: "Aceptar",
+  }).fire();
+
+
+  const [auditorias, setAuditorias] = useState([]);
+  const [subsistemasOptions, setSubsistemasOptions] = useState<any>([]);
+  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<any>([]);
+
+  // inicializar valores del formulario
+  const formValues: IFormValues = {
+    rango_inicial_fecha: new Date(),
+    rango_final_fecha: new Date(),
+    rango_actual_fecha: new Date(),
+    numero_documento: "",
+    tipo_documento: {
+      label: "",
+      value: ""
+    },
+    subsistema: {
+      label: "",
+      value: ""
+    },
+    page: '1',
+  };
 
   const {
     register,
     handleSubmit,
     control,
-    // reset,
-    // watch,
+    watch,
+    setValue,
     formState: { errors },
-  } = useForm();
 
-  const onSubmit = async (data) => {
-    const accessToken = getTokenAccessLocalStorage();
-    const config = getConfigAuthBearer(accessToken);
+  } = useForm({ defaultValues: formValues });
 
-    // REVISAR 
-    let fechaIniNoFormat;
-    let fechaEndNoFormat;
-    // const fechaIniNoFormat = formatISO(formValues.fechaIni, {
-    //   representation: "date",
-    // });
-    // const fechaEndNoFormat = formatISO(formValues.fechaEnd, {
-    //   representation: "date",
-    // });
-    const fechaNowNoFormat = formatISO(formValues.fechaNow, {
-      representation: "date",
-    });
+  const dataScreen = watch();
 
-    const fechaIni = getDateFromAAAAMMDDToDDMMAAAA(fechaIniNoFormat);
-    const fechaEnd = getDateFromAAAAMMDDToDDMMAAAA(fechaEndNoFormat);
-    const fechaNow = getDateFromAAAAMMDDToDDMMAAAA(fechaNowNoFormat);
-    console.log(fechaIni);
-    console.log(fechaEnd);
-    console.log(fechaNow);
+  const onSubmit: SubmitHandler<IFormValues> = async (data: IFormValues) => {
 
-    try {
-      //console.log("data submit", fechaIni, fechaEnd, fechaNow);
-      const queryParamsUrl = `auditorias/get-by-query-params/?rango-inicial-fecha=${fechaIni}&rango-final-fecha=${fechaEnd}${data.numeroDocumento
-        ? `&tipo-documento=${data.tipoDocumento.value}&numero-documento=${data.numeroDocumento}`
-        : ""
-        }${data.subsistema ? `&subsistema=${data.subsistema.value}` : ""}`;
-      const { data: dataAuditorias } = await clienteAxios.get(
-        queryParamsUrl,
-        config
-      );
-      console.log("data response auditorias, success", dataAuditorias);
-      const dataSend = dataAuditorias.auditorias ?? [];
-      setAuditorias(dataSend);
-    } catch (err) {
-      console.log(err);
-    }
+    let newDateIni = setDatesFormat(data.rango_inicial_fecha.toLocaleString())
+    let newDateFin = setDatesFormat(data.rango_final_fecha.toLocaleString())
+
+    queryAuditorias(data, newDateIni, newDateFin);
   };
+
+  const queryAuditorias = async (
+    { tipo_documento, numero_documento, subsistema, page }: IFormValues,
+    newDateIni: string,
+    newDateFin: string
+  ) => {
+    try {
+      const { data } = await clienteAxios.get(`auditorias/get-by-query-params/?rango-inicial-fecha=${newDateIni}&rango-final-fecha=${newDateFin}&tipo-documento=${tipo_documento.value}&numero-documento=${numero_documento}&subsistema=${subsistema.value}&page=${page}`);
+      setAuditorias(data);
+      Swal.fire("Correcto", "Proceso Exitoso", "success");
+    } catch (error: any) {
+      notificationError(error.response.data.Message);
+    }
+  }
 
   useEffect(() => {
     const getInfo = async () => {
@@ -176,14 +183,8 @@ const AuditoriaScreen = () => {
                     Fecha de inicio: <span className="text-danger">*</span>
                   </label>
                   <Controller
-                    name="fechaIni"
+                    name="rango_inicial_fecha"
                     control={control}
-                    // rules={{
-                    //   required: true,
-                    //   validate: {
-                    //     fechaCorrecta: v => formValues.fechaIni <= formValues.fechaNow,
-                    //   }
-                    // }}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -194,28 +195,27 @@ const AuditoriaScreen = () => {
                         dropdownMode="select"
                         scrollableYearDropdown
                         autoComplete="off"
-                        selected={formValues.fechaIni}
-                        onSelect={(e) =>
-                          setFormValues({ ...formValues, fechaIni: e })
-                        }
+                        selected={dataScreen.rango_inicial_fecha}
                         className="form-control border border-terciary rounded-pill px-3"
-                        placeholderText="aaaa/mm/dd"
-                        dateFormat="yyyy/MM/dd"
+                        maxDate={new Date()}
+                        dateFormat="dd-MM-yyyy"
                       />
                     )}
                   />
-                  {/* {formValues.fechaIni > formValues.fechaNow ? <small className="text-center text-danger">
-                        No puede ser mayor que la fecha actual
-                      </small> : ""}                   */}
-
-                  {errors.fechaIni?.type === "required" && (
+                  {dataScreen.rango_inicial_fecha > dataScreen.rango_actual_fecha ? <small className="text-center text-danger">
+                    No puede ser mayor que la fecha actual
+                  </small> : ""}
+                  {errors.rango_inicial_fecha && (
+                    <p className="text-danger">Este campo es obligatorio</p>
+                  )}
+                  {errors.rango_inicial_fecha && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
                       </small>
                     </div>
                   )}
-                  {errors.fechaIni?.type === "fechaCorrecta" && (
+                  {errors.rango_inicial_fecha?.type === "fechaCorrecta" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         No puede ser mayor que la fecha actual
@@ -230,15 +230,8 @@ const AuditoriaScreen = () => {
                     Fecha fin: <span className="text-danger">*</span>
                   </label>
                   <Controller
-                    name="fechaEnd"
+                    name="rango_final_fecha"
                     control={control}
-                    // rules={{
-                    //   required: true,
-                    //   validate: {
-                    //     fechaPosterior: v => formValues.fechaIni <= formValues.fechaEnd,
-                    //     fechaLimite: v => fechaIniMenosEnd < 8,
-                    //   }
-                    // }}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -249,38 +242,34 @@ const AuditoriaScreen = () => {
                         dropdownMode="select"
                         scrollableYearDropdown
                         autoComplete="off"
-                        selected={formValues.fechaEnd}
-                        onSelect={(e) =>
-                          setFormValues({ ...formValues, fechaEnd: e })
-                        }
+                        selected={dataScreen.rango_final_fecha}
                         className="form-control border border-terciary rounded-pill px-3"
-                        placeholderText="aaaa/mm/dd"
-                        dateFormat="yyyy/MM/dd"
+                        maxDate={new Date()}
+                        dateFormat="dd-MM-yyyy"
                       />
                     )}
                   />
-                  {/* {formValues.fechaIni > formValues.fechaEnd ? <small className="text-center text-danger">
-                        Seleccione una fecha posterior a fecha inicio
-                      </small> : ""}  */}
-                  {/* {fechaIniMenosEnd > 7 ? <small className="text-center text-danger">
-                        No puede haber más de 8 días
-                      </small> : ""} 
-                       */}
-                  {errors.fechaEnd?.type === "required" && (
+                  {dataScreen.rango_inicial_fecha > dataScreen.rango_final_fecha ? <small className="text-center text-danger">
+                    Seleccione una fecha posterior a fecha inicio
+                  </small> : ""}
+                  {/* {dataScreen.rango_final_fecha > 7 ? <small className="text-center text-danger">
+                    No puede haber más de 8 días
+                  </small> : ""} */}
+                  {errors.rango_final_fecha && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Este campo es obligatorio
                       </small>
                     </div>
                   )}
-                  {errors.fechaEnd?.type === "fechaPosterior" && (
+                  {errors.rango_final_fecha?.type === "fechaPosterior" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         Seleccione una fecha igual o posterior a fecha inicio
                       </small>
                     </div>
                   )}
-                  {errors.fechaEnd?.type === "fechaLimite" && (
+                  {errors.rango_final_fecha?.type === "fechaLimite" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
                         No puede haber más de 8 días
@@ -295,36 +284,39 @@ const AuditoriaScreen = () => {
               <Controller
                 name="subsistema"
                 control={control}
-                // rules={{
-                //   required: true,
-                // }}
                 render={({ field }) => (
                   <Select
                     {...field}
+                    value={field.value}
+                    onChange={(option: SingleValue<IList>) => {
+                      setValue('subsistema', option!)
+                    }}
                     options={subsistemasOptions}
                     placeholder="Seleccionar"
                   />
                 )}
               />
-              {/* {errors.subsistema && (
+              {errors.subsistema && (
                 <div className="col-12">
                   <small className="text-center text-danger">
                     Este campo es obligatorio
                   </small>
                 </div>
-              )} */}
+              )}
             </div>
             <div className="col-12 col-md-2 mt-4">
               <label className="form-label">Tipo documento:</label>
               <Controller
-                name="tipoDocumento"
+                name="tipo_documento"
                 control={control}
-                rules={{
-                  required: false,
-                }}
                 render={({ field }) => (
                   <Select
                     {...field}
+                    value={field.value}
+                    onChange={(option: SingleValue<IList>) => {
+                      setValue('tipo_documento', option!)
+                    }}
+                    name="tipo_documento"
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                   />
@@ -344,10 +336,10 @@ const AuditoriaScreen = () => {
                 <input
                   className="form-control border rounded-pill px-3 border-terciary"
                   type="text"
-                  {...register("numeroDocumento", { required: false })}
+                  {...register("numero_documento", { required: false })}
                 />
               </div>
-              {errors.numeroDocumento && (
+              {errors.numero_documento && (
                 <div className="col-12">
                   <small className="text-center text-danger">
                     Este campo es obligatorio
