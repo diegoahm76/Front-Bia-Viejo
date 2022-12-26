@@ -16,22 +16,22 @@ import { setDatesFormat } from "../../utils";
 const columDefs = [
   {
     headerName: "Usuario",
-    field: "id_usuario",
+    field: "nombre_completo",
     minWidth: 150,
   },
   {
     headerName: "Tipo documento",
-    field: "tipo_documento",
+    field: "cod_tipo_documento",
     minWidth: 200,
   },
   {
     headerName: "Documento",
-    field: "numero_documento",
+    field: "nombre_tipo_documento",
     minWidth: 150,
   },
   {
     headerName: "Módulo",
-    field: "id_modulo",
+    field: "nombre_modulo",
     minWidth: 150,
   },
   {
@@ -134,16 +134,16 @@ const AuditoriaScreen = () => {
   };
 
   const queryAuditorias = async (
-    { tipo_documento, numero_documento, subsistema, page }: IFormValues,
+    { tipo_documento, numero_documento, subsistema }: IFormValues,
     newDateIni: string,
     newDateFin: string
   ) => {
     try {
-      const { data } = await clienteAxios.get(`auditorias/get-by-query-params/?rango-inicial-fecha=${newDateIni}&rango-final-fecha=${newDateFin}&tipo-documento=${tipo_documento.value}&numero-documento=${numero_documento}&subsistema=${subsistema.value}&page=${page}`);
-      setAuditorias(data);
+      const { data } = await clienteAxios.get(`auditorias/get-by-query-params/?rango-inicial-fecha=${newDateIni}&rango-final-fecha=${newDateFin}&tipo-documento=${tipo_documento.value}&numero-documento=${numero_documento}&subsistema=${subsistema.value}`);
+      setAuditorias(data.detail);
       Swal.fire("Correcto", "Proceso Exitoso", "success");
     } catch (error: any) {
-      notificationError(error.response.data.Message);
+      notificationError(error.response.data.detail);
     }
   }
 
