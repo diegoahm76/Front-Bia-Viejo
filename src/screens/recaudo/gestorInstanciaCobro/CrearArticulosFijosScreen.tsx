@@ -241,8 +241,6 @@ export const CreacionArticulosFijosScreen = () => {
       id_unidad_medida: bienEdit.id_unidad_medida.value,
       id_unidad_medida_vida_util: bienEdit.id_unidad_medida_vida_util.value,
     };
-
-
     return bienModel;
   };
 
