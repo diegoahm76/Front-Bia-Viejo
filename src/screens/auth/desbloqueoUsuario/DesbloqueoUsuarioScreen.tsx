@@ -69,15 +69,16 @@ const DesbloqueoUsuarioScreen = () => {
   };
 
   useEffect(() => {
-    const getData = async () => {
-      const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
-        "choices/tipo-documento/"
-      );
-      const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
-      setTipoDocumentoOptions(documentosFormat);
-    };
     getData();
   }, []);
+
+  const getData = async () => {
+    const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
+      "choices/tipo-documento/"
+    );
+    const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+    setTipoDocumentoOptions(documentosFormat);
+  };
 
   return (
     <div
@@ -95,11 +96,6 @@ const DesbloqueoUsuarioScreen = () => {
               onSubmit={handleSubmit(onSubmit)}
               id="configForm"
             >
-              <form
-                className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                data-animation="FadeIn"
-                onSubmit={handleSubmit(onSubmit)}
-              >
                 <h3 className="text-rigth  fw-light mb-3 mb-2">
                   Desbloqueo de usuario
                 </h3>
@@ -129,19 +125,9 @@ const DesbloqueoUsuarioScreen = () => {
                     <label className="form-label">
                       Tipo de documento: <span className="text-danger">*</span>
                     </label>
-                    <Controller
-                      name="tipo_documento"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={tipoDocumentoOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                    <Select
+                      options={tipoDocumentoOptions}
+                      placeholder="Seleccionar"
                     />
                     {errors.tipo_documento && (
                       <div className="col-12">
@@ -277,7 +263,6 @@ const DesbloqueoUsuarioScreen = () => {
                   </div>
                 </div>
               </form>
-            </form>
           </div>
         </div>
       </div>
