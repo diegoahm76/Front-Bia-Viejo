@@ -1,7 +1,7 @@
 export interface Icv {
     cvOtherAssets: IcvOtherAssets[];
     cvVehicles: IcvVehicles[];
-    cvComputers: IcvComputers[];
+    cvComputers: IcvComputers | null;
     cvMaintenance: any;
     // cvMantainance: IcvMantainance[];
 }
@@ -44,7 +44,36 @@ export interface IcvVehicles {
     id_proveedor?: any;
 }
 export interface IcvComputers {
-    id_hoja_de_vida: number;
+    id_bien: number;
+    marca: null | string;
+    codigo_bien: string;
+    nro_elemento_bien: number;
+    nombre: string;
+    cod_tipo_bien: string;
+    cod_tipo_activo: string;
+    nivel_jerarquico: number;
+    nombre_cientifico: null;
+    descripcion: null;
+    doc_identificador_nro: string;
+    cod_metodo_valoracion: null;
+    cod_tipo_depreciacion: null;
+    cantidad_vida_util: null;
+    valor_residual: null;
+    stock_minimo: null;
+    stock_maximo: null;
+    solicitable_vivero: boolean;
+    tiene_hoja_vida: null;
+    maneja_hoja_vida: boolean;
+    visible_solicitudes: boolean;
+    id_marca: null;
+    id_unidad_medida: number;
+    id_porcentaje_iva: number;
+    id_unidad_medida_vida_util: null;
+    id_bien_padre: number;
+    estado: string;
+}
+
+export interface IcvComputersForm {
     sistema_operativo: string;
     suite_ofimatica: string;
     antivirus: string;
@@ -59,17 +88,17 @@ export interface IcvComputers {
     ruta_imagen_foto: string;
     id_articulo: number;
 
-    tipoDocumento: string;
-    codigo: string;
-    serial: string;
-    marca: string;
-    estado: string;
-}
-interface IMarcas {
-    id_marca: number;
+    codigo_bien: string;
+    cod_tipo_bien: string | number;
     nombre: string;
-    activo: boolean;
-    item_ya_usado: boolean;
+    doc_identificador_nro: string;
+    marca: IListMarks;
+    estado: string;
+    id_bien: number;
+}
+export interface IListMarks {
+    label: string | null;
+    value: number | null;
 }
 interface IcvMantainance {
     id_marca: number;

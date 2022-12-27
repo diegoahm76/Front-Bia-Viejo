@@ -73,9 +73,9 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        {...register("serial", { required: true })}
+                        {...register("doc_identificador_nro", { required: true })}
                       />
-                      {errors.serial && (
+                      {errors.doc_identificador_nro && (
                         <p className="text-danger">Este campo es obligatorio</p>
                       )}
                     </div>
@@ -91,7 +91,7 @@ const HojaDeVidaComputoScreen = () => {
                         type="text"
                         placeholder="Nombre del activo"
                         disabled
-                        {...register("tipo_de_equipo", { required: false })}
+                        {...register("nombre", { required: false })}
                       />
                     </div>
                   </div>
@@ -104,7 +104,7 @@ const HojaDeVidaComputoScreen = () => {
                       type="text"
                       placeholder="Código"
                       disabled
-                      {...register("codigo", { required: false })}
+                      {...register("codigo_bien", { required: false })}
                     />
                   </div>
 
@@ -164,7 +164,7 @@ const HojaDeVidaComputoScreen = () => {
                         {...register("marca", { required: false })}
                       /> */}
                       <Controller
-                        name="tipoDocumento"
+                        name="marca"
                         control={control}
                         rules={{
                           required: true,
@@ -211,7 +211,6 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Sistema operativo
-
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"

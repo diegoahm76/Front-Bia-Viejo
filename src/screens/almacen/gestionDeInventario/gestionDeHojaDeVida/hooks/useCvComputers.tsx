@@ -5,12 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { textChoiseAdapter } from "../../../../../adapters/textChoices.adapter";
 //components
 import clienteAxios from "../../../../../config/clienteAxios";
-import { IcvComputers } from "../../../../../Interfaces/CV";
+import { IcvComputers, IcvComputersForm, IListMarks } from "../../../../../Interfaces/CV";
 import { IGeneric } from "../../../../../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
 import { getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
-import { IMarcas } from "../../../../../Interfaces/Marca";
 //Interfaces
 
 
@@ -26,40 +25,39 @@ const useCvComputers = () => {
     const { cvComputers } = useAppSelector((state) => state.cv);
 
     //Local State
-    const initialOptions: IMarcas[] = [{
-        id_marca: 0,
-        nombre: "",
-        activo: true,
-        item_ya_usado: false
+    const initialOptions: IListMarks[] = [{
+        label: "",
+        value: 0,
     }]
     const [articuloEncontrado, setArticuloEncontrado] = useState(false);
     const [otrasAplicaciones, setOtrasAplicaciones] = useState(false);
-    const [ListMark, setListMark] = useState<IMarcas[]>(initialOptions);
+    const [ListMark, setListMark] = useState<IListMarks[]>(initialOptions);
     const [otrasPerisfericos, setOtrasPerisfericos] = useState(false);
 
 
     //Estado Inicial de Hojas de Vida de Computadores
-    const initialState: IcvComputers = {
-        id_hoja_de_vida: 0,
-        sistema_operativo: "",
-        suite_ofimatica: "",
-        antivirus: "",
-        color: "",
-        tipo_de_equipo: "",
-        tipo_almacenamiento: "",
-        capacidad_almacenamiento: "",
-        procesador: "",
+    const initialState: IcvComputersForm = {
+        sistema_operativo: '',
+        suite_ofimatica: '',
+        antivirus: '',
+        color: '',
+        tipo_de_equipo: '',
+        tipo_almacenamiento: '',
+        capacidad_almacenamiento: '',
+        procesador: '',
         memoria_ram: 0,
-        observaciones_adicionales: "",
-        otras_aplicaciones: "",
-        ruta_imagen_foto: "",
+        observaciones_adicionales: '',
+        otras_aplicaciones: '',
+        ruta_imagen_foto: '',
         id_articulo: 0,
 
-        tipoDocumento: "",
-        codigo: "",
-        serial: "",
-        marca: "",
-        estado: "",
+        codigo_bien: '',
+        cod_tipo_bien: '',
+        nombre: '',
+        doc_identificador_nro: '',
+        marca: { label: '', value: 0 },
+        estado: '',
+        id_bien: 0,
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -84,7 +82,7 @@ const useCvComputers = () => {
         setValue,
         formState: { errors: errors },
 
-    } = useForm<IcvComputers>({ defaultValues: initialState });
+    } = useForm<IcvComputersForm>({ defaultValues: initialState });
     const dataCvComputers = watch();
 
     //useEffect para consultar  options
@@ -92,7 +90,8 @@ const useCvComputers = () => {
         const getSelectsOptions = async () => {
             try {
                 const { data: listMarkData } = await clienteAxios.get("/almacen/marcas/get-list/");
-                setListMark(listMarkData.map((item: IMarcas) => ({ ...item, label: item.nombre, value: item.nombre })));
+                console.log(listMarkData, "listMarkData");
+                setListMark(listMarkData.map((item) => ({ label: item.nombre, value: item.id_marca })));
             } catch (err) {
                 console.log(err);
             }
@@ -102,22 +101,32 @@ const useCvComputers = () => {
 
     //useEffect para consultar  options
     useEffect(() => {
-        dispatch(getCvMaintenanceService('1'));
-    }, []);
+        if (cvComputers) dispatch(getCvMaintenanceService(cvComputers.id_bien));
+    }, [cvComputers]);
 
-    //ueeEffect para obtener el organigrama a editar
+    // ueeEffect para obtener el organigrama a editar
     useEffect(() => {
         if (cvComputers) {
-            let data = { ...cvComputers, serial: dataCvComputers.serial, codigo: dataCvComputers.codigo, tipoDocumento: dataCvComputers.tipoDocumento };
+            let data = {
+                ...cvComputers,
+                marca: { label: cvComputers.marca, value: cvComputers.id_marca },
+                nombre: cvComputers.nombre,
+                cod_tipo_bien: cvComputers.cod_tipo_bien,
+                codigo_bien: cvComputers.codigo_bien,
+                doc_identificador_nro: cvComputers.doc_identificador_nro,
+                estado: cvComputers.estado,
+                id_articulo: cvComputers.id_bien,
+            };
             reset(data);
             setOtrasPerisfericos(true);
             setOtrasAplicaciones(true);
+            console.log(cvComputers!.marca, "cvComputers");
         }
     }, [cvComputers]);
 
     //ueeEffect para obtener el organigrama a editar
     useEffect(() => {
-        if (Object.keys(cvComputers).length !== 0) {
+        if (cvComputers) {
             setArticuloEncontrado(true);
         } else {
             setArticuloEncontrado(false);
@@ -125,7 +134,7 @@ const useCvComputers = () => {
     }, [cvComputers]);
 
     //submit Hojas de Vida de Computadores
-    const onSubmit: SubmitHandler<IcvComputers> = (data) => {
+    const onSubmit: SubmitHandler<IcvComputersForm> = (data) => {
         console.log(data);
     };
 
@@ -159,9 +168,9 @@ const useCvComputers = () => {
     };
 
     const handledSearch = () => {
-        dispatch(getCvComputersService(dataCvComputers.serial));
+        dispatch(getCvComputersService(dataCvComputers.doc_identificador_nro));
     };
-    console.log(dataCvComputers.serial, 'dataCvComputers.serial')
+    console.log(dataCvComputers.doc_identificador_nro, 'dataCvComputers.doc_identificador_nro')
     const onGridReady = (params) => {
         console.log(params, 'params');
     };

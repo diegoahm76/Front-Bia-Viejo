@@ -3,9 +3,9 @@ import clienteAxios from '../../config/clienteAxios';
 // Types
 import { AxiosError, AxiosResponse } from 'axios';
 // Reducers
-import { getCvComputers, getCvMaintenance } from '../../store/slices/cv/indexCv';
+
 // Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
+import { getCvComputers, getCvMaintenance } from '../../store/slices/cv/indexCv';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -24,15 +24,15 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
 }).fire();
 
 //Obtener Mantenimientos
-export const getCvMaintenanceService = (id_articulo: string) => {
+export const getCvMaintenanceService = (id_articulo: number) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get(`almacen/mantenimientos/programados/get-five-list/${id_articulo}/`);
             dispatch(getCvMaintenance(data.data));
-            notificationSuccess(data.detail);
+            // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
-            notificationError(error.response.data.detail);
+            // notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -42,8 +42,8 @@ export const getCvMaintenanceService = (id_articulo: string) => {
 export const getCvComputersService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.get(`almacen/hoja-de-vida/computadores/get-by-id/${id}/`);
-            dispatch(getCvComputers(data.data));
+            const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nro-identificador/?cod_tipo_activo=Com&doc_identificador_nro=${id}`);
+            dispatch(getCvComputers(data.Elementos));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
