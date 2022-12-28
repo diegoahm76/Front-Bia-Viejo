@@ -21,7 +21,7 @@ const onSubmit = (data) => {
 };
 
 const HojaDeVidaVehiculoScreen = () => {
-  const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState(false);
+  const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
   const [vehiculoEncontado, setVehiculoEncontado] = useState<boolean>(false);
   const [enCirculacion, setEnCirculacion] = useState<boolean>(true);
   const [arriendo, setArriendo] = useState<boolean>(false);
@@ -669,29 +669,29 @@ const HojaDeVidaVehiculoScreen = () => {
                 </div>
 
                 <div className="d-grid gap-2 d-lg-flex justify-content-lg-end mt-3">
-               
-                  <button 
-                  className="px-3 btn" 
-                  type="button" 
-                  title="Salir"
+
+                  <button
+                    className="px-3 btn"
+                    type="button"
+                    title="Salir"
                   >
                     <i className="fa-solid fa-x fs-3"></i>
                   </button>
-                  <button 
-                  className="px-3 btn" 
-                  type="button" 
-                  title="Limpiar"
+                  <button
+                    className="px-3 btn"
+                    type="button"
+                    title="Limpiar"
                   >
                     <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                   </button>
-                  <button 
-                  className="px-3 btn" 
-                  type="button" 
-                  title="Guardar"
+                  <button
+                    className="px-3 btn"
+                    type="button"
+                    title="Guardar"
                   >
                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
-                  
+
                 </div>
               </div>
             ) : (
@@ -699,9 +699,9 @@ const HojaDeVidaVehiculoScreen = () => {
             )}
           </form>
           <BusquedaArticuloModal
-              isModalActive={busquedaArticuloModalOpen}
-              setIsModalActive={setBusquedaArticuloModalOpen}
-            />
+            isModalActive={busquedaArticuloModalOpen}
+            setIsModalActive={setBusquedaArticuloModalOpen}
+          />
         </div>
       </div>
     </div>

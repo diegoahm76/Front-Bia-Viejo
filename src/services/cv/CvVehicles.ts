@@ -23,11 +23,11 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
     confirmButtonText: 'Aceptar',
 }).fire();
 
-//Obtener Hoja de Vida Vehiculos
+//Obtener Vehiculos Vehiculos
 export const getCvVehiclesService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.put(`almacen/hoja-de-vida/vehiculos/get-by-id/${id}/`);
+            const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nro-identificador/?cod_tipo_activo=Veh&doc_identificador_nro=${id}`);
             dispatch(getCvVehicles(data.data));
             notificationSuccess(data.detail);
             return data;
@@ -38,35 +38,12 @@ export const getCvVehiclesService = (id: string) => {
     };
 };
 
-//Crear Hoja de Vida Vehiculos
-export const createCvVehiclesService = (file: any, id: string) => {
+//Crear Vehiculos Vehiculos
+export const createCvVehiclesService = (formdata: any) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        const formdata = new FormData()
-        formdata.append('cod_tipo_vehiculo', id);
-        formdata.append('tiene_platon', id);
-        formdata.append('capacidad_pasajeros', id);
-        formdata.append('color', id);
-        formdata.append('linea', id);
-        formdata.append('tipo_combustible', id);
-        formdata.append('es_arrendado', id);
-        formdata.append('ultimo_kilometraje', id);
-        formdata.append('fecha_adquisicion', id);
-        formdata.append('fecha_vigencia_garantia', id);
-        formdata.append('numero_motor', id);
-        formdata.append('numero_chasis', id);
-        formdata.append('cilindraje', id);
-        formdata.append('transmision', id);
-        formdata.append('dimesion_llantas', id);
-        formdata.append('capacidad_extintor', id);
-        formdata.append('tarjeta_operacion', id);
-        formdata.append('observaciones_adicionales', id);
-        formdata.append('es_agendable', id);
-        formdata.append('en_circulacion', id);
-        formdata.append('fecha_circulacion', id);
-        formdata.append('ruta_imagen_foto', file);
+
         try {
             const { data } = await clienteAxios.post('almacen/hoja-de-vida/vehiculos/create/', formdata);
-            dispatch(getCvVehiclesService(id));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -75,7 +52,7 @@ export const createCvVehiclesService = (file: any, id: string) => {
         }
     };
 };
-//Actualizar Hoja de Vida Vehiculos
+//Actualizar Vehiculos Vehiculos
 export const updateCvVehiclesService = (id: string, file: any) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         const formdata = new FormData()
@@ -112,7 +89,7 @@ export const updateCvVehiclesService = (id: string, file: any) => {
         }
     };
 };
-//Eliminar Hoja de Vida Vehiculos
+//Eliminar Vehiculos Vehiculos
 export const deleteCvVehiclesService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {

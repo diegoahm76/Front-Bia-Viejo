@@ -54,25 +54,11 @@ export const getCvComputersService = (id: string) => {
 };
 
 //Crear Hoja de Vida Vehiculos
-export const createCvVehiclesService = (file: any, id: string) => {
+export const createCvVehiclesService = (formdata: any) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        const formdata = new FormData()
-        formdata.append('sistema_operativo', id);
-        formdata.append('suite_ofimatica', id);
-        formdata.append('antivirus', id);
-        formdata.append('color', id);
-        formdata.append('tipo_de_equipo', id);
-        formdata.append('tipo_almacenamiento', id);
-        formdata.append('capacidad_almacenamiento', id);
-        formdata.append('procesador', id);
-        formdata.append('memoria_ram', id);
-        formdata.append('observaciones_adicionales', id);
-        formdata.append('otras_aplicaciones', id);
-        formdata.append('id_articulo', id);
-        formdata.append('ruta_imagen_foto', file);
         try {
             const { data } = await clienteAxios.post('almacen/hoja-de-vida/computadores/create/', formdata);
-            dispatch(getCvComputersService(id));
+            // dispatch(getCvComputersService(id));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {

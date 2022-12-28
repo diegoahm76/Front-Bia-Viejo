@@ -178,12 +178,6 @@ const AuditoriaScreen = () => {
                   <Controller
                     name="fechaIni"
                     control={control}
-                    // rules={{
-                    //   required: true,
-                    //   validate: {
-                    //     fechaCorrecta: v => formValues.fechaIni <= formValues.fechaNow,
-                    //   }
-                    // }}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -204,10 +198,6 @@ const AuditoriaScreen = () => {
                       />
                     )}
                   />
-                  {/* {formValues.fechaIni > formValues.fechaNow ? <small className="text-center text-danger">
-                        No puede ser mayor que la fecha actual
-                      </small> : ""}                   */}
-
                   {errors.fechaIni?.type === "required" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -232,13 +222,6 @@ const AuditoriaScreen = () => {
                   <Controller
                     name="fechaEnd"
                     control={control}
-                    // rules={{
-                    //   required: true,
-                    //   validate: {
-                    //     fechaPosterior: v => formValues.fechaIni <= formValues.fechaEnd,
-                    //     fechaLimite: v => fechaIniMenosEnd < 8,
-                    //   }
-                    // }}
                     render={({ field }) => (
                       <DatePicker
                         {...field}
@@ -259,13 +242,6 @@ const AuditoriaScreen = () => {
                       />
                     )}
                   />
-                  {/* {formValues.fechaIni > formValues.fechaEnd ? <small className="text-center text-danger">
-                        Seleccione una fecha posterior a fecha inicio
-                      </small> : ""}  */}
-                  {/* {fechaIniMenosEnd > 7 ? <small className="text-center text-danger">
-                        No puede haber más de 8 días
-                      </small> : ""} 
-                       */}
                   {errors.fechaEnd?.type === "required" && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -295,9 +271,6 @@ const AuditoriaScreen = () => {
               <Controller
                 name="subsistema"
                 control={control}
-                // rules={{
-                //   required: true,
-                // }}
                 render={({ field }) => (
                   <Select
                     {...field}
@@ -306,13 +279,6 @@ const AuditoriaScreen = () => {
                   />
                 )}
               />
-              {/* {errors.subsistema && (
-                <div className="col-12">
-                  <small className="text-center text-danger">
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )} */}
             </div>
             <div className="col-12 col-md-2 mt-4">
               <label className="form-label">Tipo documento:</label>

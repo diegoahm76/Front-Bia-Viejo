@@ -4,7 +4,7 @@ import { Icv, IcvComputers, IcvOtherAssets, IcvVehicles } from "../../../Interfa
 
 const initialState: Icv = {
     cvOtherAssets: [],
-    cvVehicles: [],
+    cvVehicles: null,
     cvComputers: null,
     cvMaintenance: [],
 };
@@ -16,7 +16,7 @@ const cvSlice = createSlice({
         getCvOtherAssets: (state: Icv, action: PayloadAction<IcvOtherAssets[]>) => {
             state.cvOtherAssets = action.payload;
         },
-        getCvVehicles: (state: Icv, action: PayloadAction<IcvVehicles[]>) => {
+        getCvVehicles: (state: Icv, action: PayloadAction<IcvVehicles>) => {
             state.cvVehicles = action.payload;
         },
         getCvComputers: (state: Icv, action: PayloadAction<IcvComputers>) => {

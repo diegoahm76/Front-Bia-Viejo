@@ -1,6 +1,6 @@
 export interface Icv {
     cvOtherAssets: IcvOtherAssets[];
-    cvVehicles: IcvVehicles[];
+    cvVehicles: IcvVehicles | null;
     cvComputers: IcvComputers | null;
     cvMaintenance: any;
     // cvMantainance: IcvMantainance[];
@@ -82,7 +82,7 @@ export interface IcvComputersForm {
     tipo_almacenamiento: string;
     capacidad_almacenamiento: string;
     procesador: string;
-    memoria_ram: number;
+    memoria_ram: string;
     observaciones_adicionales: string;
     otras_aplicaciones: string;
     ruta_imagen_foto: string;
@@ -105,6 +105,42 @@ interface IcvMantainance {
     nombre: string;
     activo: boolean;
     item_ya_usado: boolean;
+}
+
+export interface IcvVehiclesForm {
+    id_hoja_de_vida: number;
+    codigo_bien: string;
+    nombre: string;
+    doc_identificador_nro: null | string;
+    id_marca: number;
+    marca: string;
+    cod_tipo_vehiculo: string;
+    tiene_platon: boolean;
+    capacidad_pasajeros: number;
+    color: string;
+    linea: string;
+    tipo_combustible: string;
+    es_arrendado: boolean;
+    ultimo_kilometraje: number;
+    fecha_ultimo_kilometraje: Date | null | string;
+    fecha_adquisicion: Date | null | string;
+    fecha_vigencia_garantia: Date | null | string;
+    numero_motor: string;
+    numero_chasis: string;
+    cilindraje: number;
+    transmision: string;
+    dimesion_llantas: number;
+    capacidad_extintor: number;
+    tarjeta_operacion: string;
+    observaciones_adicionales: string;
+    es_agendable: boolean;
+    en_circulacion: boolean;
+    fecha_circulacion: Date | null | string;
+    ruta_imagen_foto: string;
+    id_articulo: number;
+    id_vehiculo_arrendado: null | number | string;
+    id_proveedor: null | number | string;
+    estado: null | string;
 }
 
 

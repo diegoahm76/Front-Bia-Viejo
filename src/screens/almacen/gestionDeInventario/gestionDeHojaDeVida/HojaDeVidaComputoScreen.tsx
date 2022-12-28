@@ -14,7 +14,10 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 //Interfaces
 import { IGeneric } from "../../../../Interfaces/Generic";
 import useCvComputers from "./hooks/useCvComputers";
-import { Card } from "react-bootstrap";
+import { Button, Card, Figure, Form } from "react-bootstrap";
+
+import img from "../../../../assets/svg/img_backgraund.svg"
+import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
 
 const HojaDeVidaComputoScreen = () => {
   //Hooks
@@ -26,16 +29,19 @@ const HojaDeVidaComputoScreen = () => {
     asignacionPrestamos,
     articuloEncontrado,
     otrasAplicaciones,
+    busquedaArticuloModalOpen,
     ListMark,
     otrasPerisfericos,
     control,
     dataCvComputers,
+    file,
     defaultColDef,
     errors,
     //Edita States
     setArticuloEncontrado,
     setOtrasAplicaciones,
     setOtrasPerisfericos,
+    setBusquedaArticuloModalOpen,
     //Functions
     ScreenHistoricoArticulo,
     ScreenProgramarMantnimiento,
@@ -47,6 +53,7 @@ const HojaDeVidaComputoScreen = () => {
     watch,
     setValue,
     onGridReady,
+    handleUpload
   } = useCvComputers();
 
   return (
@@ -119,22 +126,42 @@ const HojaDeVidaComputoScreen = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6  mt-3 ">
-                <div className="row">
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Body>
-                      <Card.Title>FOTO DEL COMPUTADOR</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+              {articuloEncontrado ? (
+                <div className="col-12 col-lg-6">
+                  <div className="row">
+                    <Card style={{ width: "100%" }}>
+                      <Card.Body>
+                        <Figure style={{ display: "flex" }}>
+                          <Figure.Image
+                            style={{ margin: "auto" }}
+                            width={171}
+                            height={180}
+                            alt="171x180"
+                            src={!file ? img : URL.createObjectURL(file!)}
+                          />
+                        </Figure>
+                        <Form.Group controlId="formFileSm" className="mb-3" style={{ margin: "auto" }}>
+                          <Form.Control type="file" accept="image/*" size="sm" onChange={(e) => handleUpload(e)} />
+                        </Form.Group>
+                      </Card.Body>
+                    </Card>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="col-12 col-lg-6">
+                  <button
+                    className="border rounded-pill btn bg-gradient-primary mt-8"
+                    type="button"
+                    onClick={() => setBusquedaArticuloModalOpen(true)}
+                  >
+                    Busqueda de articulo
+                  </button>
+                </div>
+              )}
+
             </div>
 
-            {articuloEncontrado === true ? (
+            {articuloEncontrado ? (
               <div>
                 <Subtitle title="Especificaciones físicas" mt={3} />
                 <div className="row">
@@ -142,7 +169,6 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Color
-
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -341,7 +367,7 @@ const HojaDeVidaComputoScreen = () => {
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
+                        type="number"
                         {...register("memoria_ram", { required: false })}
                       />
                     </div>
@@ -465,7 +491,7 @@ const HojaDeVidaComputoScreen = () => {
                     </button>
                     <button
                       className=" px-3 btn text-capitalize"
-                      type="button"
+                      type="submit"
                       title="Guardar"
                     >
                       <i className="fa-regular fa-floppy-disk fs-3"></i>
@@ -477,6 +503,10 @@ const HojaDeVidaComputoScreen = () => {
               ""
             )}
           </form>
+          <BusquedaArticuloModal
+            isModalActive={busquedaArticuloModalOpen}
+            setIsModalActive={setBusquedaArticuloModalOpen}
+          />
         </div>
       </div>
     </div>

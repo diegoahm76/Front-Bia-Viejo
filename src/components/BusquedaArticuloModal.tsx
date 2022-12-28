@@ -38,7 +38,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
   return (
     <Modal
       isOpen={isModalActive}
-      //onRequestClose={onCloseModal}
+      onRequestClose={handleCloseAgregarProducto}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
