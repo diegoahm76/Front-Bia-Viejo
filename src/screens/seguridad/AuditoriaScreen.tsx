@@ -368,6 +368,7 @@ const AuditoriaScreen = () => {
                 <input
                   className="form-control border rounded-pill px-3 border-terciary"
                   type="text"
+                  maxLength={15}
                   {...register("numero_documento", { required: false })}
                 />
               </div>

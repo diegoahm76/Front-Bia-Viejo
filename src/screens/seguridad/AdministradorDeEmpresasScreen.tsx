@@ -626,6 +626,7 @@ const AdministradorDeEmpresasScreen = () => {
                       className="form-control border border-terciary rounded-pill px-3"
                       type="text"
                       required={true}
+                      maxLength={15}
                       name="numeroDocumento"
                       onChange={handleChange}
                       value={busquedaModel.numeroDocumento}
@@ -694,6 +695,7 @@ const AdministradorDeEmpresasScreen = () => {
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           name="numero_documento"
+                          maxLength={15}
                           value={formCreate.numero_documento}
                           onChange={handleChangeCreate}
                           disabled={isEdit}
@@ -758,6 +760,7 @@ const AdministradorDeEmpresasScreen = () => {
                           onChange={handleChangeCreate}
                           value={formCreate.razon_social}
                           name="razon_social"
+                          disabled={isEdit}
                         />
                       </div>
                       {errorsEmpresa.razonSocial && (
@@ -805,6 +808,7 @@ const AdministradorDeEmpresasScreen = () => {
                         className="border border-terciary form-control rounded-pill px-3"
                         type="number"
                         required={true}
+                        maxLength={15}
                         onChange={handleChangeCreate}
                         name="numero_documento_representante"
                         value={formCreate.numero_documento_representante}
@@ -875,6 +879,8 @@ const AdministradorDeEmpresasScreen = () => {
                         className="form-control border border-terciary rounded-pill px-3"
                         type="number"
                         name="telefono_empresa"
+                        minLength={10}
+                        maxLength={10}
                         value={formCreate.telefono_empresa}
                         onChange={handleChangeCreate}
                       />
@@ -891,6 +897,8 @@ const AdministradorDeEmpresasScreen = () => {
                         className="form-control border border-terciary rounded-pill px-3"
                         type="text"
                         name="telefono_empresa_2"
+                        minLength={10}
+                        maxLength={10}
                         value={formCreate.telefono_empresa_2}
                         onChange={handleChangeCreate}
                       />

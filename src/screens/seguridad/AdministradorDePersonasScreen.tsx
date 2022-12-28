@@ -23,10 +23,7 @@ interface formValuesInterface {
   digitoVerificacion: number;
   fechaNacimiento: Date | number;
   estadoCivil: number;
-  sexo: {
-    label: "",
-    value: ""
-  };
+  sexo: ISelectOptions | any;
   paisLaboral: number;
   paisNacimiento: number;
   paisResidencia: number;
@@ -56,10 +53,7 @@ const defaultValues: formValuesInterface = {
   digitoVerificacion: 0,
   fechaNacimiento: new Date(),
   estadoCivil: 0,
-  sexo: {
-    label: "",
-    value: ""
-  },
+  sexo: { label: "", value: "" },
   paisLaboral: 0,
   paisNacimiento: 0,
   paisResidencia: 0,
@@ -77,8 +71,8 @@ const busquedaAvanzadaModel = {
   tipoDocumento: { value: "", label: "" },
   cedula: "",
   nombreCompleto: "",
-  idResponsable: 0
-}
+  idResponsable: 0,
+};
 
 const AdministradorDePersonasScreen = () => {
   const navigate = useNavigate();
@@ -196,7 +190,15 @@ const AdministradorDePersonasScreen = () => {
     getSelectsOptions();
   }, []);
 
-  
+  const changeSelectSexo = (e) => {
+    let form = { ...defaultValues };
+    form.sexo = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("sexo", form.sexo);
+    setFormValues(form);
+  };
 
   const onSubmitBuscar = async (data) => {
     setLoading(true);
@@ -228,13 +230,25 @@ const AdministradorDePersonasScreen = () => {
       setPrimeraVez(false);
       setActionForm("editar");
 
+      const sexo = sexoOptions.filter(
+        (sexo) => sexo.value === dataPersona.sexo
+      );
+
+      let form = { ...formValues };
+      form.sexo.label= sexo[0].label;
+      form.sexo.value= sexo[0].value;
+
+      setFormValues(form);
+      debugger;
+
+      debugger;
       const defaultValuesOverrite = {
         tipoDocumento:
           tipoDocumentoOptions[
-          getIndexBySelectOptions(
-            dataPersona.tipo_documento?.cod_tipo_documento,
-            tipoDocumentoOptions
-          )
+            getIndexBySelectOptions(
+              dataPersona.tipo_documento?.cod_tipo_documento,
+              tipoDocumentoOptions
+            )
           ],
         numeroDocumento2: dataPersona.numero_documento,
         nombreComercial: dataPersona.nombre_comercial,
@@ -256,6 +270,7 @@ const AdministradorDePersonasScreen = () => {
         municipioNotificacion: dataPersona.cod_municipio_notificacion_nal,
         fechaNacimiento: dataPersona.fecha_nacimiento,
       };
+      debugger;
       resetDepartamentoYMunicipio(
         dataPersona.municipio_residencia,
         setLugarResidencia
@@ -274,7 +289,6 @@ const AdministradorDePersonasScreen = () => {
           dataPersona.tipo_documento?.cod_tipo_documento,
           tipoDocumentoOptions
         ),
-        // sexo: getIndexBySelectOptions(dataPersona.sexo, sexoOptions),
         estadoCivil: getIndexBySelectOptions(
           dataPersona.estado_civil?.cod_estado_civil,
           estadoCivilOptions
@@ -303,14 +317,14 @@ const AdministradorDePersonasScreen = () => {
         ),
         fechaNacimiento: dataPersona.fecha_nacimiento
           ? new Date(
-            getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
-          )
+              getArrayFromStringDateAAAAMMDD(dataPersona.fecha_nacimiento)
+            )
           : 0,
         id_persona: dataPersona.id_persona,
         tipoPersona: dataPersona.tipo_persona,
         digitoVerificacion: dataPersona.digito_verificacion,
       });
-
+      debugger;
       resetPersona(defaultValuesOverrite);
     } catch (err: any) {
       console.log(err);
@@ -397,7 +411,7 @@ const AdministradorDePersonasScreen = () => {
 
   const onSubmitPersona = async (data) => {
     // setLoading(true);
-    console.log("data para submit", data);
+    debugger;
     const indicativo = "57";
     const updatedPersona = {
       tipo_persona: formValues.tipoPersona,
@@ -434,10 +448,8 @@ const AdministradorDePersonasScreen = () => {
       ubicacion_georeferenciada: "mi casita 1",
       id_cargo: null,
       id_unidad_organizacional_actual: null,
-      justificacion_cambio : null,
+      justificacion_cambio: null,
     };
-
-    console.log("updated persona", updatedPersona);
 
     if (actionForm === "editar") {
       try {
@@ -445,7 +457,6 @@ const AdministradorDePersonasScreen = () => {
           `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
           updatedPersona
         );
-        console.log("dataUpdate", dataUpdate);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -462,13 +473,12 @@ const AdministradorDePersonasScreen = () => {
       try {
         const COD_TIPO_PERSONA_NATURAL = "N";
 
-        console.log("data create persona", updatedPersona);
-
         updatedPersona.tipo_persona = COD_TIPO_PERSONA_NATURAL;
         await clienteAxios.post(
           "personas/persona-natural/create/",
           updatedPersona
         );
+
         Swal.fire({
           title: "Persona creada",
           text: "¿Desea registrar un usuario?",
@@ -522,10 +532,6 @@ const AdministradorDePersonasScreen = () => {
       ...formValues,
       tipoDocumento: 0,
       digitoVerificacion: 0,
-      sexo: {
-        label: "",
-        value: ""
-      },
       estadoCivil: 0,
       paisNacimiento: 0,
       paisResidencia: 0,
@@ -771,20 +777,20 @@ const AdministradorDePersonasScreen = () => {
   }, [actionForm]);
 
   const changeSelectTipo = (e) => {
-    let tipo = { ...busquedaModel }
+    let tipo = { ...busquedaModel };
     tipo.tipoDocumento = {
       value: e.value,
-      label: e.label
-    }
+      label: e.label,
+    };
     setValue("tipo_documento", tipo.tipoDocumento);
-    setBusquedaModel(tipo)
-  }
+    setBusquedaModel(tipo);
+  };
 
   const handleChange = (e) => {
-    const data = { ...busquedaModel }
+    const data = { ...busquedaModel };
     data.cedula = e.target.value;
     setBusquedaModel(data);
-  }
+  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -809,6 +815,7 @@ const AdministradorDePersonasScreen = () => {
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipo}
+                    required={true}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -830,6 +837,7 @@ const AdministradorDePersonasScreen = () => {
                       value={busquedaModel.cedula}
                       onChange={handleChange}
                       required={true}
+                      maxLength={15}
                     />
                   </div>
                   {errorsBuscar.numeroDocumento && (
@@ -941,6 +949,7 @@ const AdministradorDePersonasScreen = () => {
                         <input
                           className="form-control border rounded-pill px-3 border-terciary"
                           type="text"
+                          maxLength={15}
                           disabled={actionForm === "editar"}
                           {...registerPersona("numeroDocumento2", {
                             required: true,
@@ -981,6 +990,7 @@ const AdministradorDePersonasScreen = () => {
                           className="border border-terciary hola form-control border rounded-pill px-3 border-terciary"
                           type="number"
                           disabled={!yesOrNot}
+                          maxLength={1}
                           // {...registerPersona("digitoVerificacion", {
                           //   maxLength: 1,
                           // })}
@@ -1071,20 +1081,13 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                     <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">Sexo:</label>
-                      <Controller
+
+                      <Select
                         name="sexo"
-                        control={controlBuscar}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={sexoOptions}
-                            // value={sexoOptions[formValues.sexo]}
-                            onChange={(e: any) =>
-                              setFormValues({ ...formValues, sexo: e })
-                            }
-                            placeholder="Seleccionar"
-                          />
-                        )}
+                        options={sexoOptions}
+                        value={formValues.sexo}
+                        onChange={changeSelectSexo}
+                        placeholder="Seleccionar"
                       />
                     </div>
                     <div className="col-12 col-md-3 mt-2">
@@ -1426,6 +1429,8 @@ const AdministradorDePersonasScreen = () => {
                       <input
                         className="form-control border rounded-pill px-3 border-terciary"
                         type="tel"
+                        maxLength={10}
+                        minLength={10}
                         {...registerPersona("telefonoEmpresa2")}
                       />
                     </div>
@@ -1540,7 +1545,7 @@ const AdministradorDePersonasScreen = () => {
                             }
                             value={
                               municipiosOptions[
-                              formValues.municipioNotificacion
+                                formValues.municipioNotificacion
                               ]
                             }
                             onChange={(e: any) =>
@@ -1599,11 +1604,11 @@ const AdministradorDePersonasScreen = () => {
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 border-terciary"
-                        type="tel"
+                        type="text"
+                        maxLength={10}
+                        minLength={10}
                         {...registerPersona("celular", {
                           required: true,
-                          maxLength: 10,
-                          minLength: 10,
                         })}
                       />
                     </div>
@@ -1620,7 +1625,9 @@ const AdministradorDePersonasScreen = () => {
                       <label className="ms-2">Teléfono fijo:</label>
                       <input
                         className="form-control border rounded-pill px-3 border-terciary"
-                        type="tel"
+                        type="text"
+                        minLength={10}
+                        maxLength={10}
                         {...registerPersona("telefonoFijo")}
                       />
                     </div>

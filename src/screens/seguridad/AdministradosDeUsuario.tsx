@@ -425,6 +425,7 @@ const AdministradosDeUsuario = () => {
                     className="border border-terciary form-control border rounded-pill px-3"
                     value={busquedaModel.cedula}
                     onChange={handleChange}
+                    maxLength={15}
                   />
                   {errorsBuscar.numeroDocumento && (
                     <div className="col-12">
@@ -550,7 +551,7 @@ const AdministradosDeUsuario = () => {
                           className="border border-terciary form-check-input"
                           type="checkbox"
                           value=""
-                          id="flexCheckDefault"
+                          id="flexCheckDefault1"
                           {...registerUsuario("bloqueado")}
                         />
                       </div>
