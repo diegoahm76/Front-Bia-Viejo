@@ -36,7 +36,6 @@ const modelCreate = {
   tipo_persona: { value: "", label: "" }, //representante
   numero_documento_representante: 0,
   tipo_documento: { value: "", label: "" },
-
   numero_documento: "",
   digito_verificacion: "",
   nombre_comercial: "",
