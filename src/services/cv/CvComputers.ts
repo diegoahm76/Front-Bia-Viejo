@@ -5,7 +5,8 @@ import { AxiosError, AxiosResponse } from 'axios';
 // Reducers
 
 // Interfaces
-import { getCvComputers, getCvMaintenance } from '../../store/slices/cv/indexCv';
+import { getCvArticles, getCvComputers, getCvMaintenance } from '../../store/slices/cv/indexCv';
+import { StyleSheet } from '@react-pdf/renderer';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -28,7 +29,20 @@ export const getCvMaintenanceService = (id_articulo: number) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get(`almacen/mantenimientos/programados/get-five-list/${id_articulo}/`);
-            dispatch(getCvMaintenance(data.data));
+            dispatch(getCvMaintenance(data.detail));
+            return data;
+        } catch (error: any) {
+            return error as AxiosError;
+        }
+    };
+};
+
+//Obtener Artculo por nombre o codigo
+export const getCvArticleAllService = (serial: string, nombre: string, cod_tipo_activo: string) => {
+    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+        try {
+            const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nombre-nroidentificador/?cod_tipo_activo=${cod_tipo_activo}&nombre=${nombre}&doc_identificador_nro=${serial}`);
+            dispatch(getCvArticles(data.Elementos));
             // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -38,7 +52,7 @@ export const getCvMaintenanceService = (id_articulo: number) => {
     };
 };
 
-//Obtener Hoja de Vida Vehiculos
+//Obtener Hoja de Vida PC
 export const getCvComputersService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
@@ -53,13 +67,13 @@ export const getCvComputersService = (id: string) => {
     };
 };
 
-//Crear Hoja de Vida Vehiculos
-export const createCvVehiclesService = (formdata: any) => {
+//Crear Hoja de Vida PC
+export const createCvComputersService = (formdata: any) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post('almacen/hoja-de-vida/computadores/create/', formdata);
-            // dispatch(getCvComputersService(id));
             notificationSuccess(data.detail);
+            dispatch(getCvComputers(null));
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -67,8 +81,8 @@ export const createCvVehiclesService = (formdata: any) => {
         }
     };
 };
-//Actualizar Hoja de Vida Vehiculos
-export const updateCvVehiclesService = (id: string, file: any) => {
+//Actualizar Hoja de Vida PC
+export const updateCvComputersService = (id: string, file: any) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         const formdata = new FormData()
         formdata.append('sistema_operativo', id);
@@ -95,8 +109,8 @@ export const updateCvVehiclesService = (id: string, file: any) => {
         }
     };
 };
-//Eliminar Hoja de Vida Vehiculos
-export const deleteCvVehiclesService = (id: string) => {
+//Eliminar Hoja de Vida PC
+export const deleteCvComputersService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.delete(`almacen/hoja-de-vida/computadores/delete/${id}/`);

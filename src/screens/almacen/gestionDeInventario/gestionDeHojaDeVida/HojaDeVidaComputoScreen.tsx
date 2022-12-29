@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Controller } from "react-hook-form";
 import Select from "react-select";
 
 //Components
 import Subtitle from "../../../../components/Subtitle";
-import clienteAxios from "../../../../config/clienteAxios";
-import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
+import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
 //Styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-//Interfaces
-import { IGeneric } from "../../../../Interfaces/Generic";
-import useCvComputers from "./hooks/useCvComputers";
-import { Button, Card, Figure, Form } from "react-bootstrap";
-
+import { Card, Figure, Form } from "react-bootstrap";
 import img from "../../../../assets/svg/img_backgraund.svg"
-import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
+//Interfaces
+import useCvComputers from "./hooks/useCvComputers";
+//Hooks
+import { useAppSelector } from "../../../../store/hooks/hooks";
 
 const HojaDeVidaComputoScreen = () => {
+
+  // Redux State Extraction
+  const { cvMaintenance } = useAppSelector((state) => state.cv);
+
   //Hooks
   const {
     //States
-    columnDefs,
+    columnDefsMaintenance,
     columnDefs2,
-    rowData,
+    columnDefsArticles,
     asignacionPrestamos,
     articuloEncontrado,
     otrasAplicaciones,
@@ -33,7 +34,7 @@ const HojaDeVidaComputoScreen = () => {
     ListMark,
     otrasPerisfericos,
     control,
-    dataCvComputers,
+    initialState,
     file,
     defaultColDef,
     errors,
@@ -50,9 +51,6 @@ const HojaDeVidaComputoScreen = () => {
     register,
     handleSubmit,
     reset,
-    watch,
-    setValue,
-    onGridReady,
     handleUpload
   } = useCvComputers();
 
@@ -119,9 +117,18 @@ const HojaDeVidaComputoScreen = () => {
                     <button
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
+                      title="Buscar"
                       onClick={() => handledSearch()}
                     >
                       <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                    </button>
+                    <button
+                      className="btn btn-sm btn-tablas mt-5"
+                      type="button"
+                      onClick={() => { reset(initialState); setArticuloEncontrado(false) }}
+                      title="Limpiar"
+                    >
+                      <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -183,12 +190,6 @@ const HojaDeVidaComputoScreen = () => {
                       <label className="ms-2 text-terciary">
                         Marca
                       </label>
-                      {/* <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value="Lenovo"
-                        {...register("marca", { required: false })}
-                      /> */}
                       <Controller
                         name="marca"
                         control={control}
@@ -426,8 +427,8 @@ const HojaDeVidaComputoScreen = () => {
                       style={{ height: "275px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
+                        columnDefs={columnDefsMaintenance}
+                        rowData={cvMaintenance}
                         defaultColDef={defaultColDef}
                       />
                     </div>
@@ -503,9 +504,11 @@ const HojaDeVidaComputoScreen = () => {
               ""
             )}
           </form>
-          <BusquedaArticuloModal
+          <SearchArticleCvModal
             isModalActive={busquedaArticuloModalOpen}
             setIsModalActive={setBusquedaArticuloModalOpen}
+            cod_tipo_activo='Com'
+            columnDefsArticles={columnDefsArticles}
           />
         </div>
       </div>

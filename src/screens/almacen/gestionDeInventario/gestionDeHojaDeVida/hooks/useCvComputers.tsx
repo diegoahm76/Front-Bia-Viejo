@@ -2,16 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { textChoiseAdapter } from "../../../../../adapters/textChoices.adapter";
+import Swal, { SweetAlertIcon } from "sweetalert2";
 //components
 import clienteAxios from "../../../../../config/clienteAxios";
-import { IcvComputers, IcvComputersForm, IListMarks } from "../../../../../Interfaces/CV";
-import { IGeneric } from "../../../../../Interfaces/Generic";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
-import { createCvVehiclesService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
-import Swal, { SweetAlertIcon } from "sweetalert2";
+import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 //Interfaces
+import { IcvComputersForm, IListMarks } from "../../../../../Interfaces/CV";
 
 
 const useCvComputers = () => {
@@ -36,7 +34,6 @@ const useCvComputers = () => {
     const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
     const [ListMark, setListMark] = useState<IListMarks[]>(initialOptions);
     const [file, setFile] = useState(null);
-
 
     //Estado Inicial de Hojas de Vida de Computadores
     const initialState: IcvComputersForm = {
@@ -82,7 +79,6 @@ const useCvComputers = () => {
         control,
         reset,
         watch,
-        setValue,
         formState: { errors: errors },
 
     } = useForm<IcvComputersForm>({ defaultValues: initialState });
@@ -111,7 +107,7 @@ const useCvComputers = () => {
         getSelectsOptions();
     }, []);
 
-    //useEffect para consultar  options
+    //useEffect para consultar Mantenimiento
     useEffect(() => {
         if (cvComputers && !cvComputers.tiene_hoja_vida) dispatch(getCvMaintenanceService(cvComputers.id_bien));
     }, [cvComputers]);
@@ -130,16 +126,14 @@ const useCvComputers = () => {
                 id_articulo: cvComputers.id_bien,
             };
             reset(data);
-            // setOtrasPerisfericos(true);
-            // setOtrasAplicaciones(true);
-        } else {
+        } else if (cvComputers) {
             notificationSuccess('El bien ya tiene una hoja de vida', 'warning');
             reset(initialState);
             setFile(null);
         }
     }, [cvComputers]);
 
-    //ueeEffect para obtener el organigrama a editar
+    //ueeEffect para cambiar el estado de articuloEncontrado
     useEffect(() => {
         if (cvComputers && !cvComputers.tiene_hoja_vida) {
             setArticuloEncontrado(true);
@@ -170,34 +164,31 @@ const useCvComputers = () => {
         formdata.append('otras_aplicaciones', dataCvComputers.otras_aplicaciones);
         formdata.append('id_articulo', dataCvComputers.id_bien.toString());
         // formdata.append('ruta_imagen_foto', file!);
-        dispatch(createCvVehiclesService(formdata))
+        dispatch(createCvComputersService(formdata))
     };
     //Funcion para actualizar hoja de vida de computadores
     const updateCv = () => {
 
     };
 
-
-    //Funcion para eliminar hoja de vida de computadores
-    const deleteCv = (id) => {
-
-    }
-
     //Cargue de archivos de imagen
     const handleUpload = ({ target }) => {
         if (target.files.length > 0) setFile(target.files[0])
     };
 
+    //Funcion para navegar a la pantalla de historico de articulos
     const ScreenHistoricoArticulo = () => {
         navigate("/dashboard/almacen/reportes/reporte-historico-activo");
     };
 
+    //Funcion para navegar a la pantalla de programar mantenimiento
     const ScreenProgramarMantnimiento = () => {
         navigate(
             "/dashboard/almacen/gestion-de-inventario/programacion-mantenimiento"
         );
     };
 
+    //Funcion para Buscar Articulo
     const handledSearch = () => {
         dispatch(getCvComputersService(dataCvComputers.doc_identificador_nro));
     };
@@ -205,14 +196,15 @@ const useCvComputers = () => {
     const onGridReady = (params) => {
         console.log(params, 'params');
     };
-
-    const columnDefs = [
-        { headerName: "Número", field: "NU", minWidth: 150 },
-        { headerName: "Tipo", field: "TI", minWidth: 150 },
-        { headerName: "Fecha", field: "FE", minWidth: 150 },
-        { headerName: "Estado", field: "ES", minWidth: 150 },
-        { headerName: "Responsable", field: "RE", minWidth: 150 },
+    //Columnas de la tabla de Mantenimientos
+    const columnDefsMaintenance = [
+        { headerName: "Estado", field: "estado", minWidth: 150 },
+        { headerName: "Fecha", field: "fecha", minWidth: 150 },
+        { headerName: "Responsable", field: "responsable", minWidth: 150 },
+        { headerName: "Tipo", field: "tipo", minWidth: 150 },
+        { headerName: "Descripción", field: "tipo_descripcion", minWidth: 150 },
     ];
+    //Columnas de la tabla de Asignaciones
     const columnDefs2 = [
         { headerName: "Número", field: "NU", minWidth: 150 },
         { headerName: "Responsable", field: "RE", minWidth: 150 },
@@ -221,6 +213,37 @@ const useCvComputers = () => {
         { headerName: "Fecha final", field: "FEFI", minWidth: 150 },
         { headerName: "Tipo", field: "TI", minWidth: 150 },
     ];
+
+    //Columnas de la tabla de articulos
+    const columnDefsArticles = [
+        { headerName: "Nombre", field: "nombre", minWidth: 180 },
+        { headerName: "Serial", field: "doc_identificador_nro", minWidth: 150 },
+        { headerName: "Tipo Activo", field: "cod_tipo_activo", minWidth: 120 },
+        { headerName: "Estado", field: "estado", minWidth: 120 },
+        { headerName: "Codigo", field: "codigo_bien", minWidth: 150 },
+        {
+            headerName: "Acción",
+            field: "editar",
+            minWidth: 100,
+            maxWidth: 100,
+            cellRendererFramework: ({ data }) => (
+                <div className="d-flex gap-1">
+                    <button
+                        type="button"
+                        style={{ border: "none", background: "none" }}
+                        onClick={() => {
+                            dispatch(getCvComputersService(data.doc_identificador_nro));
+                            setBusquedaArticuloModalOpen(false);
+                        }}
+                        title="Seleccionar"
+                    >
+                        <i className="fa-solid fa-circle-check fs-3"></i>
+                    </button>
+                </div>
+            ),
+        },
+    ];
+
     const rowData = [
         {
             NU: "01",
@@ -296,9 +319,9 @@ const useCvComputers = () => {
 
     return {
         //States
-        columnDefs,
+        columnDefsMaintenance,
         columnDefs2,
-        rowData,
+        columnDefsArticles,
         asignacionPrestamos,
         articuloEncontrado,
         otrasAplicaciones,
@@ -306,7 +329,7 @@ const useCvComputers = () => {
         ListMark,
         otrasPerisfericos,
         control,
-        dataCvComputers,
+        initialState,
         file,
         defaultColDef,
         errors,
@@ -323,9 +346,6 @@ const useCvComputers = () => {
         register,
         handleSubmit,
         reset,
-        watch,
-        setValue,
-        onGridReady,
         handleUpload
     };
 }

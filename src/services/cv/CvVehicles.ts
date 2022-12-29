@@ -28,7 +28,7 @@ export const getCvVehiclesService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nro-identificador/?cod_tipo_activo=Veh&doc_identificador_nro=${id}`);
-            dispatch(getCvVehicles(data.data));
+            dispatch(getCvVehicles(data.Elementos));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -41,7 +41,6 @@ export const getCvVehiclesService = (id: string) => {
 //Crear Vehiculos Vehiculos
 export const createCvVehiclesService = (formdata: any) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-
         try {
             const { data } = await clienteAxios.post('almacen/hoja-de-vida/vehiculos/create/', formdata);
             notificationSuccess(data.detail);
