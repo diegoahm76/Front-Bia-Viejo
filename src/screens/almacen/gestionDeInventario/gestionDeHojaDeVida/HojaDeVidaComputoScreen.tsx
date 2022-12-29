@@ -165,7 +165,6 @@ const HojaDeVidaComputoScreen = () => {
                   </button>
                 </div>
               )}
-
             </div>
 
             {articuloEncontrado ? (
@@ -508,6 +507,8 @@ const HojaDeVidaComputoScreen = () => {
             isModalActive={busquedaArticuloModalOpen}
             setIsModalActive={setBusquedaArticuloModalOpen}
             cod_tipo_activo='Com'
+            label='Nombre'
+            title="Busqueda de articulos"
             columnDefsArticles={columnDefsArticles}
           />
         </div>

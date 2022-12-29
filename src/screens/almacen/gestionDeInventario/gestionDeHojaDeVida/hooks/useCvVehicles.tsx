@@ -47,41 +47,58 @@ const useCvVehicles = () => {
 
     //Estado Inicial de Hojas de Vida de Computadores
     const initialState: IcvVehiclesForm = {
-        id_hoja_de_vida: 1,
-        codigo_bien: "1002",
-        nombre: "Nivel 3 3",
+        id_hoja_de_vida: 0,
+        codigo_bien: "",
+        nombre: "",
         doc_identificador_nro: '',
-        id_marca: 2,
-        marca: "Marca prueba 2",
-        cod_tipo_vehiculo: "C",
-        tiene_platon: true,
-        capacidad_pasajeros: 123,
-        color: "verde",
-        linea: "linea 2",
-        tipo_combustible: "GAS",
-        es_arrendado: true,
-        ultimo_kilometraje: 123,
-        fecha_ultimo_kilometraje: "2022-11-30",
-        fecha_adquisicion: "2022-11-30",
-        fecha_vigencia_garantia: "2022-11-30",
-        numero_motor: "uno",
-        numero_chasis: "uno",
-        cilindraje: 123,
-        transmision: "test",
-        dimesion_llantas: 321,
-        capacidad_extintor: 321,
-        tarjeta_operacion: "test",
-        observaciones_adicionales: "test",
-        es_agendable: true,
-        en_circulacion: true,
-        fecha_circulacion: "2022-11-30",
-        ruta_imagen_foto: "/media/string",
-        id_articulo: 8,
+        id_marca: 0,
+        marca: "",
+        cod_tipo_vehiculo: "",
+        tiene_platon: null,
+        capacidad_pasajeros: 0,
+        color: "",
+        linea: "",
+        tipo_combustible: "",
+        es_arrendado: null,
+        ultimo_kilometraje: 0,
+        fecha_ultimo_kilometraje: null,
+        fecha_adquisicion: null,
+        fecha_vigencia_garantia: null,
+        numero_motor: "",
+        numero_chasis: "",
+        cilindraje: 0,
+        transmision: "",
+        dimesion_llantas: 0,
+        capacidad_extintor: 0,
+        tarjeta_operacion: "",
+        observaciones_adicionales: "",
+        es_agendable: null,
+        en_circulacion: null,
+        fecha_circulacion: null,
+        ruta_imagen_foto: "",
+        id_articulo: 0,
         id_vehiculo_arrendado: null,
         id_proveedor: null,
         estado: null,
 
-        // modelo: "Modelo 2",
+        numero_documentacion: "",
+        fecha_expedicion_op: null,
+        fecha_expiracion_op: null,
+        fecha_expedicion_soat: null,
+        fecha_expiracion_soat: null,
+        numero_soat: "",
+        fecha_expedicion_tecnomecanica: null,
+        fecha_expiracion_tecnomecanica: null,
+        numero_tecnomecanica: "",
+        fecha_expedicion_str: null,
+        fecha_expiracion_str: null,
+        numero_str: "",
+        nombre_conductor: "",
+        tipo_document: "",
+        numero_document: "",
+        celular: "",
+        email: "",
+        direccion: "",
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -161,7 +178,7 @@ const useCvVehicles = () => {
             //     id_articulo: cvVehicles.id_bien,
             // };
             // reset(data);
-        } else {
+        } else if (cvVehicles) {
             notificationSuccess('El bien ya tiene una hoja de vida', 'warning');
             reset(initialState);
             setFile(null);
@@ -334,6 +351,36 @@ const useCvVehicles = () => {
         },
     ];
 
+    //Columnas de la tabla de articulos
+    const columnDefsArticles = [
+        { headerName: "Nombre", field: "nombre", minWidth: 180 },
+        { headerName: "Serial", field: "doc_identificador_nro", minWidth: 150 },
+        { headerName: "Tipo Activo", field: "cod_tipo_activo", minWidth: 120 },
+        { headerName: "Estado", field: "estado", minWidth: 120 },
+        { headerName: "Codigo", field: "codigo_bien", minWidth: 150 },
+        {
+            headerName: "Acción",
+            field: "editar",
+            minWidth: 100,
+            maxWidth: 100,
+            cellRendererFramework: ({ data }) => (
+                <div className="d-flex gap-1">
+                    <button
+                        type="button"
+                        style={{ border: "none", background: "none" }}
+                        onClick={() => {
+                            dispatch(getCvVehiclesService(data.doc_identificador_nro));
+                            setBusquedaArticuloModalOpen(false);
+                        }}
+                        title="Seleccionar"
+                    >
+                        <i className="fa-solid fa-circle-check fs-3"></i>
+                    </button>
+                </div>
+            ),
+        },
+    ];
+
     return {
         //States
         columnDefsMaintenance,
@@ -353,6 +400,7 @@ const useCvVehicles = () => {
         listTypeGasData,
         file,
         defaultColDef,
+        columnDefsArticles,
         errors,
         //Edita States
         setBusquedaArticuloModalOpen,
@@ -367,7 +415,6 @@ const useCvVehicles = () => {
         register,
         handleSubmit,
         reset,
-        watch,
         setValue,
         onGridReady,
         handleUpload

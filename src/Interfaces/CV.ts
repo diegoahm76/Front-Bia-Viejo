@@ -128,12 +128,12 @@ export interface IcvVehiclesForm {
     id_marca: number;
     marca: string;
     cod_tipo_vehiculo: string;
-    tiene_platon: boolean;
+    tiene_platon: boolean | null;
     capacidad_pasajeros: number;
     color: string;
     linea: string;
     tipo_combustible: string;
-    es_arrendado: boolean;
+    es_arrendado: boolean | null;
     ultimo_kilometraje: number;
     fecha_ultimo_kilometraje: Date | null | string;
     fecha_adquisicion: Date | null | string;
@@ -146,14 +146,33 @@ export interface IcvVehiclesForm {
     capacidad_extintor: number;
     tarjeta_operacion: string;
     observaciones_adicionales: string;
-    es_agendable: boolean;
-    en_circulacion: boolean;
+    es_agendable: boolean | null;
+    en_circulacion: boolean | null;
     fecha_circulacion: Date | null | string;
     ruta_imagen_foto: string;
     id_articulo: number;
     id_vehiculo_arrendado: null | number | string;
     id_proveedor: null | number | string;
     estado: null | string;
+
+    numero_documentacion: string;
+    fecha_expedicion_op: Date | null | string;
+    fecha_expiracion_op: Date | null | string;
+    fecha_expedicion_soat: Date | null | string;
+    fecha_expiracion_soat: Date | null | string;
+    numero_soat: string;
+    fecha_expedicion_tecnomecanica: Date | null | string;
+    fecha_expiracion_tecnomecanica: Date | null | string;
+    numero_tecnomecanica: string;
+    fecha_expedicion_str: Date | null | string;
+    fecha_expiracion_str: Date | null | string;
+    numero_str: string;
+    nombre_conductor: string;
+    tipo_document: string;
+    numero_document: string;
+    celular: string;
+    email: string;
+    direccion: string;
 }
 
 export interface IcvArtivlesComputers {

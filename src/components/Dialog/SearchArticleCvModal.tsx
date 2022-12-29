@@ -26,7 +26,7 @@ interface IFormValues {
   nombre: string;
 }
 
-const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo, columnDefsArticles }) => {
+const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo, columnDefsArticles, label, title }) => {
 
   // Dispatch instance
   const dispatch = useAppDispatch();
@@ -85,7 +85,7 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
           <h3 className="fw-light mt-4 mb-2">
-            Busqueda de artículo
+            {title}
           </h3>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
@@ -107,11 +107,11 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
               </div>
               <div className="col-12 col-sm-4 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Nombre</label>
+                  <label className="ms-3 text-terciary">{label}</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="nombre"
+                    placeholder={label}
                     {...register("nombre")}
                   />
                 </div>
