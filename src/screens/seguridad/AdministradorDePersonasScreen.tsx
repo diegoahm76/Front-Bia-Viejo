@@ -46,6 +46,9 @@ const modelCreate = {
   municipio: { label: "", value: "" },
   municipio_labora: { label: "", value: "" },
   municipio_notificacion: { label: "", value: "" },
+  direccion_laboral: "",
+  direccion_residencia: "",
+  direccion_notificiaciones: "",
   id_persona: 0,
   tipo_persona: "",
   indicativoPais: 0,
@@ -243,6 +246,10 @@ const AdministradorDePersonasScreen = () => {
       const sexo = sexoOptions.filter(
         (sexo) => sexo.value === dataPersona.sexo
       );
+
+      setValue("direccionNotificaciones", dataPersona.direccion_notificaciones);
+      setValue("direccionLaboral", dataPersona.direccion_laboral);
+      setValue("direccion_residencia", dataPersona.direccion_residencia);
       let form = {
         ...dataPersona,
         fecha_nacimiento: new Date(),
@@ -253,6 +260,9 @@ const AdministradorDePersonasScreen = () => {
           label: "",
           value: "",
         },
+        direccion_laboral: dataPersona.direccion_laboral,
+        direccion_residencia: dataPersona.direccion_residencia,
+        direccion_notificaciones: dataPersona.direccion_notificaciones,
         municipio: { label: "", value: "" },
         municipio_labora: municipioLaboral[0] || { label: "", value: "" },
         municipio_notificacion: municipioNotificacion || {
@@ -976,9 +986,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       value={formValues.departamento_residencia}
-                      isDisabled={
-                        formValues.pais_residencia.value !== "CO"
-                      }
+                      isDisabled={formValues.pais_residencia.value !== "CO"}
                       onChange={changeSelectDepartamentoResidencia}
                       options={departamentosOptions}
                       placeholder="Seleccionar"
@@ -992,9 +1000,7 @@ const AdministradorDePersonasScreen = () => {
                     <Select
                       value={formValues.municipio_residencia}
                       onChange={changeSelectMunicipioResidencia}
-                      isDisabled={
-                        formValues.pais_residencia.value !== "CO"
-                      }
+                      isDisabled={formValues.pais_residencia.value !== "CO"}
                       options={municipioResidenciaFiltered}
                       placeholder="Seleccionar"
                     />
