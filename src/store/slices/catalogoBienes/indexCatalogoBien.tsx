@@ -57,27 +57,26 @@ const bienForm = createSlice({
         }
       });
     },
-
     seleccionarBienModelCrete: (state, action) => {
       state.bienSeleccionado = action.payload;
-      state.dataEdit={
-        nivel_jerarquico:action.payload.nivel_jerarquico + 1,
-        id_bien_padre:action.payload?.id_bien,
-        edit:false
-      } ;
+      state.dataEdit = {
+        nivel_jerarquico: action.payload.nivel_jerarquico + 1,
+        id_bien_padre: action.payload?.id_bien,
+        edit: false
+      };
     },
     seleccionarBienModelEdit: (state, action) => {
       state.bienSeleccionado = action.payload;
-      state.dataEdit={
-        nivel_jerarquico:action.payload.nivel_jerarquico,
-        id_bien_padre:action.payload?.id_bien,
-        edit:true
+      state.dataEdit = {
+        nivel_jerarquico: action.payload.nivel_jerarquico,
+        id_bien_padre: action.payload?.id_bien,
+        edit: true
       };
     },
     obtenerBienAction: (state, action) => {
       state.bienSeleccionado = action.payload;
     },
-    eliminarBienAction: (state, action) => {},
+    eliminarBienAction: (state, action) => { },
   },
 });
 
@@ -168,13 +167,14 @@ export const eliminarBien = async (dispatch, nodo) => {
 };
 
 export const seleccionarBienEdit = (dispatch, bien) => {
-  
-    dispatch(seleccionarBienModelEdit(bien));
+  dispatch(seleccionarBienModelEdit(bien));
 };
 export const seleccionarBienCreate = (dispatch, bien) => {
- 
-    dispatch(seleccionarBienModelCrete(bien));
-   
+  const data = { ...bien };
+  data.id_bien_padre = data.id_bien;
+  data.nivel_jerarquico = data.nivel_jerarquico + 1;
+  data.id_bien = null;
+  dispatch(seleccionarBienModelCrete(data));
 };
 
 export const editarBien = async (dispatch, dataEdit) => {

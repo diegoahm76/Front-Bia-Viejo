@@ -28,7 +28,6 @@ import { IBienes } from "../../../Interfaces/Bienes";
 import { INodo } from "../../../Interfaces/Nodo";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import { seleccionarBienModelCreate } from "../../../store/slices/bienes/indexBien";
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -193,6 +192,7 @@ const CatalogoDeBienesScreen = () => {
   function crearNiveles(bien, keynode, bienNuevo) {
     let contadorInterno = 0;
     let hijos: INodo[] = [];
+    // ...Children retorman esto 
     let nodoHijo: INodo = {
       key: "",
       data: {
@@ -264,13 +264,12 @@ const CatalogoDeBienesScreen = () => {
   }
 
   function enviarDatos(nodo, accion) {
-    if(accion)
-    {
-      seleccionarBienEdit(dispatch,nodo.data.bien)
-    }else{
-      seleccionarBienCreate(dispatch,nodo.data.bien)
+    if (accion) {
+      seleccionarBienEdit(dispatch, nodo.data.bien)
+    } else {
+      seleccionarBienCreate(dispatch, nodo.data.bien)
     }
-    
+
 
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
@@ -293,7 +292,7 @@ const CatalogoDeBienesScreen = () => {
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   };
- 
+
 
   return (
     <div className="row min-vh-100">

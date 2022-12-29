@@ -183,7 +183,8 @@ const RolesScreen = () => {
       if (result.isConfirmed) {
         await clienteAxios
           .delete(`roles/delete/${idRol}`)
-          .then(() => {
+          .then((res) => {
+
             Swal.fire({
               target: elementModalId,
               position: "center",
@@ -192,9 +193,8 @@ const RolesScreen = () => {
               showConfirmButton: true,
               confirmButtonText: "Continuar",
             });
-          })
-          .catch(async (err) => {
-            await Swal.fire({
+          }).catch((err) => {
+            Swal.fire({
               target: elementModalId,
               position: "center",
               icon: "info",

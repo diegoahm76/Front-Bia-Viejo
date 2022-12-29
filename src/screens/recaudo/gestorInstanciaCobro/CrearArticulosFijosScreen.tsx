@@ -10,6 +10,7 @@ import clienteAxios from "../../../config/clienteAxios";
 import {
   crearBien,
   editarBien,
+  obtenerTodosBienes,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
 
 const editState: any = {
@@ -55,6 +56,8 @@ export const CreacionArticulosFijosScreen = () => {
     formState: { errors },
   } = useForm();
 
+
+  const navigate = useNavigate();
   //state
   const bienSeleccionado: IBienes = useAppSelector(
     (state) => state.bien.bienSeleccionado
@@ -280,6 +283,8 @@ export const CreacionArticulosFijosScreen = () => {
       editarBien(dispatch, crearModeloData());
     } else {
       crearBien(dispatch, crearModeloData());
+      obtenerTodosBienes(dispatch);
+      navigate("/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes");
     }
   };
 
@@ -360,7 +365,6 @@ export const CreacionArticulosFijosScreen = () => {
     setBienEdit(catalogoBien);
   };
 
-  const navigate = useNavigate();
   const volver = () => {
     navigate("/dashboard/Recaudo/gestor-notificacion/catalogo-bienes-Screen");
   };
