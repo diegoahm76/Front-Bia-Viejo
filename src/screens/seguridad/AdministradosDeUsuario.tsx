@@ -73,6 +73,10 @@ const AdministradosDeUsuario = () => {
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
+
+  // MultiSelect Roles
+  const [multiSelect, setMultiSelect] = useState<IGeneric[]>([]);
+
   const [formValues, setFormValues] = useState({
     roles: [],
   });
@@ -147,19 +151,15 @@ const AdministradosDeUsuario = () => {
       }
 
       const indexRoles = dataPersona?.Roles.map((rol) => rol.id_rol);
-
       const dataRolesIndex = getIndexBySelectOptions(
         indexRoles,
         rolesOptions
       );
-
-      setFormValues({
-        roles: dataRolesIndex,
-      });
-
       const optionsBySelect = dataRolesIndex.map(
         (roleIndex) => rolesOptions[roleIndex]
       );
+      // valores por defecto multiselect
+      setMultiSelect(optionsBySelect);
 
       const usuarioOverrideData = {
         nombreUsuario: dataPersona?.Usuario.nombre_de_usuario,
@@ -250,7 +250,7 @@ const AdministradosDeUsuario = () => {
 
     setLoading(true);
     if (actionForm === "crear") {
-      const rolesFormat = data.roles.map((rol) => ({ id_rol: rol.value }));
+      const rolesFormat = multiSelect.map((rol) => ({ id_rol: rol.value }));
 
       const nuevoUsuario = {
         //  email: personaData.email,
@@ -303,8 +303,7 @@ const AdministradosDeUsuario = () => {
             showConfirmButton: true,
           });
         });
-
-      const rolesReFormat = data.roles.map((rol) => ({
+      const rolesReFormat = multiSelect.map((rol) => ({
         nombre_rol: rol.label,
         id_rol: rol.value,
       }));
@@ -341,14 +340,14 @@ const AdministradosDeUsuario = () => {
   };
 
   const getIndexBySelectOptions = (valuesSelect, selectOptions) => {
-    const idResult = [];
+    const idResult: any[] = [];
     const idSelectOptions = selectOptions.map((option) => option.value);
     // REVISAR
-    // idSelectOptions.forEach((optionId, index) => {
-    //   if (valuesSelect.includes(optionId)) {
-    //     idResult.push(index);
-    //   }
-    // });
+    idSelectOptions.forEach((optionId, index) => {
+      if (valuesSelect.includes(optionId)) {
+        idResult.push(index);
+      }
+    });
     return idResult;
   };
 
@@ -384,6 +383,11 @@ const AdministradosDeUsuario = () => {
     let cedula = { ...busquedaModel }
     cedula.cedula = e.target.value;
     setBusquedaModel(cedula)
+  }
+
+  const setMultipleValue = (e) => {
+    setMultiSelect(e);
+
   }
   return (
     <div className="row min-vh-100">
@@ -457,6 +461,7 @@ const AdministradosDeUsuario = () => {
               <form onSubmit={handleSubmitUsuario(onSubmitUsuario)}>
                 <Subtitle title={"Datos de usuario"} mt={4} mb={0} />
                 <div className="row mt-3 ms-1">
+                  <label>Seleccione una imagen</label>
                   <input
                     type="file"
                     id="image"
@@ -606,44 +611,32 @@ const AdministradosDeUsuario = () => {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 align-items-end gap-1 ms-3">
-                  <div className="col-12 col-md-3">
-                    <label className="text-terciary">
-                      Motivo de la accion:
-                    </label>
-                    <input
-                      type="text"
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      {...registerUsuario("ubicacionGeografica")}
-                    />
-                  </div>
-                  <button className="btn bg-gradient-primary text-capitalize mb-0">
-                    Actualizar
-                  </button>
-                </div> */}
+                    <div className="d-flex flex-column flex-md-row align-items-end gap-3 gap-md-1 align-items-end gap-1 ms-3">
+                      <div className="col-12 col-md-3">
+                        <label className="text-terciary">
+                          Motivo de la accion:
+                        </label>
+                        <input
+                          type="text"
+                          className="border border-terciary form-control border rounded-pill px-3"
+                        />
+                      </div>
+                      <button className="btn bg-gradient-primary text-capitalize mb-0">
+                        Actualizar
+                      </button>
+                    </div>
                   </>
                 )}
                 <Subtitle title={"Módulos / Grupos / Roles"} mt={4} mb={0} />
                 <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">Roles:</label>
-                  <Controller
-                    name="roles"
-                    control={controlUsuario}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        isMulti
-                        defaultValue={getDefaultValuesOptions}
-                        options={rolesOptions}
-                        //value={rolesOptions[formValues.roles]}
-                        // onChange={(e) =>{
-                        //   setFormValues({ ...formValues, roles: e })
-                        // }
-                        // }
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                  <Select
+                    isMulti
+                    value={multiSelect}
+                    onChange={setMultipleValue}
+                    options={rolesOptions}
                   />
+                  {/* <button onClick={setMultipleValue}> test boton </button> */}
                 </div>
                 {/* <div className="col-12 col-md-3 ms-3 mt-4">
                   <label className="form-label text-terciary">
@@ -718,8 +711,8 @@ const AdministradosDeUsuario = () => {
             tipoDocumentoOptions={tipoDocumentoOptions}
           />
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 export default AdministradosDeUsuario;
