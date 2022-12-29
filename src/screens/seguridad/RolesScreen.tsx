@@ -9,17 +9,15 @@ import {
 } from "../../actions/modalActions";
 import Swal from "sweetalert2";
 import clienteAxios from "../../config/clienteAxios";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
 import {
   getPermisosAdapterByRolForSelect,
   getPermisosAdapterSelect,
   getPermisosRolPost,
 } from "../../adapters/roles.adapters";
 import botonBuscar from "../../assets/iconosBotones/buscar.svg";
-import botonAgregar from "../../assets/iconosBotones/agregar.svg";
+import botonAgregar from "../../assets/iconosBotones/nuevo.svg";
 import botonEditar from "../../assets/iconosBotones/editar.svg";
 import botonEliminar from "../../assets/iconosBotones/eliminar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
@@ -188,7 +186,7 @@ const RolesScreen = () => {
             Swal.fire({
               target: elementModalId,
               position: "center",
-              icon: "info",
+              icon: "success",
               title: "Eliminado correctamente",
               showConfirmButton: true,
               confirmButtonText: "Continuar",
@@ -198,13 +196,13 @@ const RolesScreen = () => {
               target: elementModalId,
               position: "center",
               icon: "info",
-              title: "Eliminado correctamente",
+              title: err.response.data.detail,
               showConfirmButton: true,
               confirmButtonText: "Continuar",
             });
           })
           .finally(async () => {
-            await getRolesPermisos();
+             getRolesPermisos();
           });
       }
     });
