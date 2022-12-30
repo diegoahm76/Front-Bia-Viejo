@@ -32,6 +32,8 @@ const HojaDeVidaVehiculoScreen = () => {
     vehiculoEncontado,
     arriendo,
     enCirculacion,
+    agendable,
+    platon,
     control,
     dataCvVehicles,
     ListMark,
@@ -47,6 +49,8 @@ const HojaDeVidaVehiculoScreen = () => {
     setVehiculoEncontado,
     setArriendo,
     setEnCirculacion,
+    setAgendable,
+    setPlaton,
     setFile,
     //Functions
     ScreenHistoricoArticulo,
@@ -60,8 +64,6 @@ const HojaDeVidaVehiculoScreen = () => {
     onGridReady,
     handleUpload
   } = useCvVehicles();
-
-  console.log("dataCvVehicles", dataCvVehicles);
 
   return (
     <div className="row min-vh-100">
@@ -144,16 +146,6 @@ const HojaDeVidaVehiculoScreen = () => {
 
               <div className="col-12 col-lg-6 mt-2">
                 <div className="row">
-                  {/* <div className="col-12 col-lg-6 text-center">
-                    <button
-                      className="btn btn-sm btn-tablas mt-8"
-                      type="button"
-                      title="Buscar"
-                      onClick={() => handledSearch()}
-                    >
-                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                    </button>
-                  </div> */}
                   <div className="col-12 col-lg-6 text-center">
                     <button
                       className="btn btn-sm btn-tablas mt-5"
@@ -172,7 +164,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                     </button>
                   </div>
-                  {vehiculoEncontado ? (
+                  {/* {vehiculoEncontado ? ( */}
+                  {true ? (
                     <div className="col-12 col-lg-6">
                       <div className="row">
                         <Card style={{ width: "100%" }}>
@@ -207,7 +200,8 @@ const HojaDeVidaVehiculoScreen = () => {
                 </div>
               </div>
             </div>
-            {vehiculoEncontado ? (
+            {/* {vehiculoEncontado ? ( */}
+            {true ? (
               <div>
                 <div className="row">
                   <div className="col-12 col-lg-3 mt-3 text-center">
@@ -269,9 +263,10 @@ const HojaDeVidaVehiculoScreen = () => {
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Kilometraje</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("ultimo_kilometraje", { required: true })}
+                      {...register("ultimo_kilometraje", { required: false })}
                     />
                   </div>
 
@@ -281,6 +276,53 @@ const HojaDeVidaVehiculoScreen = () => {
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
                       {...register("fecha_ultimo_kilometraje", { required: true })}
+                    />
+                  </div>
+                  <div className="col-12 col-lg-3 mt-3 text-center">
+                    <label className="ms-2 text-terciary">Platon</label>
+                    <br></br>
+                    <button
+                      className="btn btn-sm btn-tablas "
+                      type="button"
+                      title="Solicitudes"
+                      onClick={() => setPlaton(!platon)}
+                    >
+                      {platon === false ? (
+                        <i
+                          className="fa-solid fa-toggle-off fs-3"
+                          style={{ color: "black" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa-solid fa-toggle-on fs-3"
+                          style={{ color: "#8cd81e" }}
+                        ></i>
+                      )}
+                    </button>
+                  </div>
+                  <div className="col-12 col-lg-3 mt-3 text-center">
+                    <label className="ms-2 text-terciary">Es Agendable</label>
+                    <br></br>
+                    <button
+                      className="btn btn-sm btn-tablas "
+                      type="button"
+                      title="Solicitudes"
+                      onClick={() => setAgendable(!agendable)}
+                    >
+                      {agendable ? (
+                        <i className="fa-solid fa-toggle-on fs-3" style={{ color: "#8cd81e" }}></i>
+                      ) : (
+                        <i className="fa-solid fa-toggle-off fs-3" style={{ color: "black" }}></i>
+                      )}
+                    </button>
+                  </div>
+                  <div className="col-12 col-lg-12 mt-3">
+                    <label className="text-terciary">Observaciones</label>
+                    <input
+                      disabled={arriendo}
+                      type="text"
+                      className="form-control border border-terciary rounded-pill px-3"
+                      {...register("observaciones_adicionales", { required: false })}
                     />
                   </div>
                 </div>
@@ -309,17 +351,19 @@ const HojaDeVidaVehiculoScreen = () => {
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Linea</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("linea", { required: true })}
+                      {...register("linea", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Color</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("color", { required: true })}
+                      {...register("color", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
@@ -363,36 +407,40 @@ const HojaDeVidaVehiculoScreen = () => {
                       Fecha de adquisición
                     </label>
                     <input
+                      disabled={arriendo}
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_adquisicion", { required: true })}
+                      {...register("fecha_adquisicion", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Número de motor</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_motor", { required: true })}
+                      {...register("numero_motor", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Trasmisión</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("transmision", { required: true })}
+                      {...register("transmision", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Cilindraje</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("cilindraje", { required: true })}
+                      {...register("cilindraje", { required: false })}
                     />
                   </div>
 
@@ -401,18 +449,20 @@ const HojaDeVidaVehiculoScreen = () => {
                       Vigencia de garantia
                     </label>
                     <input
+                      disabled={arriendo}
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_vigencia_garantia", { required: true })}
+                      {...register("fecha_vigencia_garantia", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Numero de chasis</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_chasis", { required: true })}
+                      {...register("numero_chasis", { required: false })}
                     />
                   </div>
 
@@ -421,9 +471,10 @@ const HojaDeVidaVehiculoScreen = () => {
                       Dimencion de llantas{" "}
                     </label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("dimesion_llantas", { required: true })}
+                      {...register("dimesion_llantas", { required: false })}
                     />
                   </div>
 
@@ -432,6 +483,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       Capacidad de extintor{" "}
                     </label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
                       {...register("capacidad_extintor", { required: true })}
@@ -448,9 +500,10 @@ const HojaDeVidaVehiculoScreen = () => {
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Numero</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("tarjeta_operacion", { required: true })}
+                      {...register("tarjeta_operacion", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">

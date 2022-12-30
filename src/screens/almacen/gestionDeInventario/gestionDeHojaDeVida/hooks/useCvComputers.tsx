@@ -163,7 +163,7 @@ const useCvComputers = () => {
         formdata.append('observaciones_adicionales', dataCvComputers.observaciones_adicionales);
         formdata.append('otras_aplicaciones', dataCvComputers.otras_aplicaciones);
         formdata.append('id_articulo', dataCvComputers.id_bien.toString());
-        // formdata.append('ruta_imagen_foto', file!);
+        formdata.append('ruta_imagen_foto', file === null ? '' : file);
         dispatch(createCvComputersService(formdata))
     };
     //Funcion para actualizar hoja de vida de computadores

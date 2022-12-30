@@ -33,7 +33,9 @@ const useCvVehicles = () => {
     }]
     const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
     const [vehiculoEncontado, setVehiculoEncontado] = useState<boolean>(false);
+    const [agendable, setAgendable] = useState<boolean | null>(null);
     const [enCirculacion, setEnCirculacion] = useState<boolean>(true);
+    const [platon, setPlaton] = useState<boolean>(true);
     const [arriendo, setArriendo] = useState<boolean>(false);
     const [ListMark, setListMark] = useState<IList[]>(initialOptionsMark);
     const [listTypeVehicleData, setListTypeVehicleData] = useState<IList[]>([]);
@@ -41,7 +43,6 @@ const useCvVehicles = () => {
     const [listTypeGasData, setListTypeGasData] = useState<IList[]>([]);
     const [file, setFile] = useState(null);
 
-    console.log(listTypeVehicleData, "listTypeVehicleData");
     //Estado Inicial de Hojas de Vida de Computadores
     const initialState: IcvVehiclesForm = {
         id_hoja_de_vida: 0,
@@ -121,10 +122,9 @@ const useCvVehicles = () => {
 
     } = useForm<IcvVehiclesForm>({ defaultValues: initialState });
     const dataCvVehicles = watch();
-    console.log(dataCvVehicles, "dataCvVehicles");
 
     //Función para las alertas
-    const notificationSuccess = (message = 'Proceso Exitoso', state: SweetAlertIcon) => Swal.mixin({
+    const notificationAlert = (message = 'Proceso Exitoso', state: SweetAlertIcon) => Swal.mixin({
         position: 'center',
         icon: state,
         title: message,
@@ -175,7 +175,7 @@ const useCvVehicles = () => {
             };
             reset(data);
         } else if (cvVehicles) {
-            notificationSuccess('El bien ya tiene una hoja de vida', 'warning');
+            notificationAlert('El bien ya tiene una hoja de vida', 'warning');
             reset(initialState);
             setFile(null);
         }
@@ -190,6 +190,15 @@ const useCvVehicles = () => {
         }
     }, [cvVehicles]);
 
+    //ueeEffect para mostrar alerta de agendable
+    useEffect(() => {
+        if (agendable) {
+            notificationAlert('Al desactivar este switch el vehículo ya no se podrá asignar', 'info');
+        } else if (agendable === false) {
+            notificationAlert('El vehículo podrá ser asignado a funcionarios a partir de ese momento.', 'info');
+        }
+    }, [agendable]);
+
     //submit Hojas de Vida de Computadores
     const onSubmit: SubmitHandler<IcvVehiclesForm> = () => {
         createCv();
@@ -199,8 +208,7 @@ const useCvVehicles = () => {
     const createCv = () => {
         const formdata = new FormData()
         formdata.append('cod_tipo_vehiculo', dataCvVehicles.cod_tipo_vehiculo.value!.toString());
-        // formdata.append('tiene_platon', dataCvVehicles.tiene_platon!.toString());
-        formdata.append('tiene_platon', 'false');
+        formdata.append('tiene_platon', platon.toString());
         formdata.append('capacidad_pasajeros', dataCvVehicles.capacidad_pasajeros.toString());
         formdata.append('color', dataCvVehicles.color);
         formdata.append('linea', dataCvVehicles.linea);
@@ -216,9 +224,8 @@ const useCvVehicles = () => {
         formdata.append('dimesion_llantas', dataCvVehicles.dimesion_llantas.toString());
         formdata.append('capacidad_extintor', dataCvVehicles.capacidad_extintor.toString());
         formdata.append('tarjeta_operacion', dataCvVehicles.tarjeta_operacion);
-        formdata.append('observaciones_adicionales', '');
-        // formdata.append('es_agendable', dataCvVehicles.es_agendable!.toString());
-        formdata.append('es_agendable', 'false');
+        formdata.append('observaciones_adicionales', dataCvVehicles.observaciones_adicionales);
+        formdata.append('es_agendable', agendable!.toString());
         formdata.append('en_circulacion', enCirculacion!.toString());
         formdata.append('fecha_circulacion', dataCvVehicles.fecha_circulacion!.toString());
         formdata.append('id_articulo', dataCvVehicles.id_bien.toString());
@@ -382,8 +389,6 @@ const useCvVehicles = () => {
         },
     ];
 
-    console.log(listTypeGasData, 'listTypeGasData');
-    console.log(ListMark, 'ListMark');
     return {
         //States
         columnDefsMaintenance,
@@ -395,6 +400,8 @@ const useCvVehicles = () => {
         vehiculoEncontado,
         arriendo,
         enCirculacion,
+        agendable,
+        platon,
         control,
         dataCvVehicles,
         ListMark,
@@ -410,6 +417,8 @@ const useCvVehicles = () => {
         setVehiculoEncontado,
         setArriendo,
         setEnCirculacion,
+        setAgendable,
+        setPlaton,
         setFile,
         //Functions
         ScreenHistoricoArticulo,
