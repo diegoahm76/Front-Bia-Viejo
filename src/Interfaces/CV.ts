@@ -107,17 +107,7 @@ export interface IcvComputersForm {
 }
 export interface IList {
     label: string | null;
-    value: string | number | null;
-}
-export interface IListMarks {
-    label: string | null;
-    value: number | null;
-}
-interface IcvMantainance {
-    id_marca: number;
-    nombre: string;
-    activo: boolean;
-    item_ya_usado: boolean;
+    value: number | null | string;
 }
 
 export interface IcvVehiclesForm {
@@ -125,14 +115,13 @@ export interface IcvVehiclesForm {
     codigo_bien: string;
     nombre: string;
     doc_identificador_nro: string;
-    id_marca: number;
-    marca: string;
-    cod_tipo_vehiculo: string;
+    marca: IList;
+    cod_tipo_vehiculo: IList;
     tiene_platon: boolean | null;
     capacidad_pasajeros: number;
     color: string;
     linea: string;
-    tipo_combustible: string;
+    tipo_combustible: IList;
     es_arrendado: boolean | null;
     ultimo_kilometraje: number;
     fecha_ultimo_kilometraje: Date | null | string;
@@ -155,7 +144,7 @@ export interface IcvVehiclesForm {
     id_proveedor: null | number | string;
     estado: null | string;
 
-    numero_documentacion: string;
+    id_bien: number | string;
     fecha_expedicion_op: Date | null | string;
     fecha_expiracion_op: Date | null | string;
     fecha_expedicion_soat: Date | null | string;
@@ -168,7 +157,7 @@ export interface IcvVehiclesForm {
     fecha_expiracion_str: Date | null | string;
     numero_str: string;
     nombre_conductor: string;
-    tipo_document: string;
+    tipo_document: IList;
     numero_document: string;
     celular: string;
     email: string;

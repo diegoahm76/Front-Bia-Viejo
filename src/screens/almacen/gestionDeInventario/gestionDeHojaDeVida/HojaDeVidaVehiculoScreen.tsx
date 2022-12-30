@@ -47,6 +47,7 @@ const HojaDeVidaVehiculoScreen = () => {
     setVehiculoEncontado,
     setArriendo,
     setEnCirculacion,
+    setFile,
     //Functions
     ScreenHistoricoArticulo,
     ScreenProgramarMantnimiento,
@@ -130,6 +131,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       }}
                       render={({ field }) => (
                         <Select
+                          {...field}
+                          value={field.value}
                           options={listTypeVehicleData}
                           placeholder="Seleccionar"
                         />
@@ -163,7 +166,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <button
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
-                      onClick={() => { reset(initialState); setVehiculoEncontado(false) }}
+                      onClick={() => { reset(initialState); setVehiculoEncontado(false); setFile(null); }}
                       title="Limpiar"
                     >
                       <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
@@ -295,6 +298,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       }}
                       render={({ field }) => (
                         <Select
+                          {...field}
+                          value={field.value}
                           options={ListMark}
                           placeholder="Seleccionar"
                         />
@@ -329,6 +334,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       }}
                       render={({ field }) => (
                         <Select
+                          {...field}
+                          value={field.value}
                           options={listTypeGasData}
                           placeholder="Seleccionar"
                         />
@@ -443,7 +450,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_documentacion", { required: true })}
+                      {...register("tarjeta_operacion", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -572,6 +579,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       }}
                       render={({ field }) => (
                         <Select
+                          {...field}
+                          value={field.value}
                           options={listTypeDocData}
                           placeholder="Seleccionar"
                         />
@@ -685,16 +694,16 @@ const HojaDeVidaVehiculoScreen = () => {
                   >
                     <i className="fa-solid fa-x fs-3"></i>
                   </button>
-                  <button
+                  {/* <button
                     className="px-3 btn"
                     type="button"
                     title="Limpiar"
                   >
                     <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
-                  </button>
+                  </button> */}
                   <button
                     className="px-3 btn"
-                    type="button"
+                    type="submit"
                     title="Guardar"
                   >
                     <i className="fa-regular fa-floppy-disk fs-3"></i>

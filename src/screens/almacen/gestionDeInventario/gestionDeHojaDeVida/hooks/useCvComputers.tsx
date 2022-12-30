@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks
 //Actions
 import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 //Interfaces
-import { IcvComputersForm, IListMarks } from "../../../../../Interfaces/CV";
+import { IcvComputersForm, IList } from "../../../../../Interfaces/CV";
 
 
 const useCvComputers = () => {
@@ -24,7 +24,7 @@ const useCvComputers = () => {
     const { cvComputers } = useAppSelector((state) => state.cv);
 
     //Local State
-    const initialOptions: IListMarks[] = [{
+    const initialOptions: IList[] = [{
         label: "",
         value: 0,
     }]
@@ -32,7 +32,7 @@ const useCvComputers = () => {
     const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
     const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
     const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
-    const [ListMark, setListMark] = useState<IListMarks[]>(initialOptions);
+    const [ListMark, setListMark] = useState<IList[]>(initialOptions);
     const [file, setFile] = useState(null);
 
     //Estado Inicial de Hojas de Vida de Computadores
@@ -338,6 +338,7 @@ const useCvComputers = () => {
         setOtrasAplicaciones,
         setOtrasPerisfericos,
         setBusquedaArticuloModalOpen,
+        setFile,
         //Functions
         ScreenHistoricoArticulo,
         ScreenProgramarMantnimiento,

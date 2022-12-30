@@ -43,6 +43,7 @@ const HojaDeVidaComputoScreen = () => {
     setOtrasAplicaciones,
     setOtrasPerisfericos,
     setBusquedaArticuloModalOpen,
+    setFile,
     //Functions
     ScreenHistoricoArticulo,
     ScreenProgramarMantnimiento,
@@ -125,7 +126,7 @@ const HojaDeVidaComputoScreen = () => {
                     <button
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
-                      onClick={() => { reset(initialState); setArticuloEncontrado(false) }}
+                      onClick={() => { reset(initialState); setArticuloEncontrado(false); setFile(null) }}
                       title="Limpiar"
                     >
                       <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
@@ -197,6 +198,8 @@ const HojaDeVidaComputoScreen = () => {
                         }}
                         render={({ field }) => (
                           <Select
+                            {...field}
+                            value={field.value}
                             options={ListMark}
                             placeholder="Seleccionar"
                           />

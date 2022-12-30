@@ -40,6 +40,7 @@ export const getCvVehiclesService = (id: string) => {
 
 //Crear Vehiculos Vehiculos
 export const createCvVehiclesService = (formdata: any) => {
+    console.log(formdata, 'formdata');
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post('almacen/hoja-de-vida/vehiculos/create/', formdata);
