@@ -15,7 +15,7 @@ export interface IUserInfo {
         }
     },
     userSesion: string;
-    reintentos: number;
+    reintentos: boolean;
 
 }
 const initialState: IUserInfo = {
@@ -32,7 +32,7 @@ const initialState: IUserInfo = {
     userSesion: "",
     permisos: [],
     representante_legal: [],
-    reintentos: 0
+    reintentos: false
 
 };
 
@@ -45,6 +45,7 @@ const loginSlice = createSlice({
             state.userinfo = action.payload.userinfo;
             state.permisos = action.payload.permisos;
             state.representante_legal = action.payload.representante_legal
+            state.reintentos = false;
         },
         logout: (state) => {
             state.userinfo = initialState.userinfo;
@@ -54,11 +55,14 @@ const loginSlice = createSlice({
         },
         nameSesionUpdate: (state, action) => {
             state.userSesion = action.payload
+        },
+        setReintentos: (state) => {
+            state.reintentos = true;
         }
     }
 });
 
-export const { setUserInfo, logout, nameSesionUpdate } = loginSlice.actions;
+export const { setReintentos, setUserInfo, logout, nameSesionUpdate } = loginSlice.actions;
 export default loginSlice.reducer;
 
 export const loginUser = async (dispatch, email: string, password: string) => {
@@ -69,6 +73,9 @@ export const loginUser = async (dispatch, email: string, password: string) => {
         dispatch(setUserInfo(response.data.userinfo));
         localStorage.setItem("userInfo", JSON.stringify(response.data.userinfo));
     }).catch((error) => {
+        if (error.response.status === 403) {
+            dispatch(setReintentos())
+        }
         Swal.fire({
             position: "center",
             icon: "warning",
@@ -80,6 +87,7 @@ export const loginUser = async (dispatch, email: string, password: string) => {
 }
 export const logoutUser = (dispatch) => {
     dispatch(logout());
+    localStorage.clear();
 }
 export const getUserFromLocalStorage = (dispatch) => {
     const dataUserJSON = localStorage.getItem("userInfo");

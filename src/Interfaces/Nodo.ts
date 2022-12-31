@@ -1,3 +1,4 @@
+import { IBienes } from "./Bienes";
 export interface INodo {
     key:string;
     data:data;
@@ -12,4 +13,5 @@ export interface INodo {
     crear?:boolean;
     editar?:boolean;
     eliminar?:boolean;
+    bien?:IBienes;
   }

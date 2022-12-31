@@ -13,8 +13,11 @@ import { loginUser } from "../../store/slices/Login";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 
 function LoginScreen() {
+  const navigate = useNavigate();
   const captchaRef = useRef(null);
   const userInfoEmail = useAppSelector((state) => state.login.userinfo.email);
+  const reintentos = useAppSelector((state) => state.login.reintentos);
+
   const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
@@ -63,9 +66,9 @@ function LoginScreen() {
   //   }
   // }, [error]);
 
-  // const handleClickToDesbloqueo = () => {
-  //   navigate("/desbloqueo-usuario");
-  // };
+  const handleClickToDesbloqueo = () => {
+    navigate("/desbloqueo-usuario");
+  };
 
   return (
     <div
@@ -135,12 +138,10 @@ function LoginScreen() {
                       {...register("password")}
                     />
                   </div>
-                  {/* {error?.detail ===
-                  "Su usuario está bloqueado, debe comunicarse con el administrador" ? (
+                  {reintentos ? (
                     <div>
                       <label className="text-white text-center fw-lighter fs-5">
-                        {error?.detail}
-
+                        Su usuario há sido bloqueado
                         <button
                           type="button"
                           className="btn bg-gradient-primary rounded-pill justify-content-center px-5 my-4 mb-2 fw-normal"
@@ -152,7 +153,7 @@ function LoginScreen() {
                     </div>
                   ) : (
                     ""
-                  )} */}
+                  )}
 
                   {/* <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha
