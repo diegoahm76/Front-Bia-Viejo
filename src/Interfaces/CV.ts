@@ -1,5 +1,5 @@
 export interface Icv {
-    cvOtherAssets: IcvOtherAssets[];
+    cvOtherAssets: IcvOtherAssets | null;
     cvVehicles: IcvVehicles | null;
     cvComputers: IcvComputers | null;
     cvMaintenance: IcvMaintenance[];

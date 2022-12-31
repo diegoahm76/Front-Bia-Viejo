@@ -147,7 +147,6 @@ const useCvComputers = () => {
         createCv();
     };
 
-    console.log(dataCvComputers, "dataCvComputers");
     //Funcion para crear hoja de vida de computadores
     const createCv = () => {
         const formdata = new FormData()
@@ -165,10 +164,6 @@ const useCvComputers = () => {
         formdata.append('id_articulo', dataCvComputers.id_bien.toString());
         formdata.append('ruta_imagen_foto', file === null ? '' : file);
         dispatch(createCvComputersService(formdata))
-    };
-    //Funcion para actualizar hoja de vida de computadores
-    const updateCv = () => {
-
     };
 
     //Cargue de archivos de imagen
@@ -193,9 +188,6 @@ const useCvComputers = () => {
         dispatch(getCvComputersService(dataCvComputers.doc_identificador_nro));
     };
 
-    const onGridReady = (params) => {
-        console.log(params, 'params');
-    };
     //Columnas de la tabla de Mantenimientos
     const columnDefsMaintenance = [
         { headerName: "Estado", field: "estado", minWidth: 150 },
@@ -244,36 +236,7 @@ const useCvComputers = () => {
         },
     ];
 
-    const rowData = [
-        {
-            NU: "01",
-            TI: "Correctivo",
-            FE: "19/05/2020",
-            ES: "Completado",
-            RE: "Compuarreglo",
-        },
-        {
-            NU: "02",
-            TI: "Correctivo",
-            FE: "19/05/2020",
-            ES: "Completado",
-            RE: "Compuarreglo",
-        },
-        {
-            NU: "03",
-            TI: "Correctivo",
-            FE: "19/05/2020",
-            ES: "Completado",
-            RE: "Compuarreglo",
-        },
-        {
-            NU: "04",
-            TI: "Correctivo",
-            FE: "19/05/2020",
-            ES: "Completado",
-            RE: "Compuarreglo",
-        },
-    ];
+    //Datos de la tabla de asignaciones
     const asignacionPrestamos = [
         {
             NU: "01",

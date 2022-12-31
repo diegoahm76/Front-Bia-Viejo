@@ -43,10 +43,10 @@ export const getCvArticleAllService = (serial: string, nombre: string, cod_tipo_
         try {
             const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nombre-nroidentificador/?cod_tipo_activo=${cod_tipo_activo}&nombre=${nombre}&doc_identificador_nro=${serial}`);
             dispatch(getCvArticles(data.Elementos));
-            // notificationSuccess(data.detail);
+            notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
-            // notificationError(error.response.data.detail);
+            notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };

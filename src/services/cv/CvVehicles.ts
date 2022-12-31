@@ -4,8 +4,6 @@ import clienteAxios from '../../config/clienteAxios';
 import { AxiosError, AxiosResponse } from 'axios';
 // Reducers
 import { getCvVehicles } from '../../store/slices/cv/indexCv';
-// Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -40,11 +38,11 @@ export const getCvVehiclesService = (id: string) => {
 
 //Crear Vehiculos Vehiculos
 export const createCvVehiclesService = (formdata: any) => {
-    console.log(formdata, 'formdata');
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post('almacen/hoja-de-vida/vehiculos/create/', formdata);
             notificationSuccess(data.detail);
+            dispatch(getCvVehicles(null));
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);

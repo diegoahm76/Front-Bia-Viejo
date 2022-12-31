@@ -1,19 +1,18 @@
 
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import Swal, { SweetAlertIcon } from "sweetalert2";
-import { textChoiseAdapter } from "../../../../../adapters/textChoices.adapter";
+import { useNavigate } from "react-router-dom";
 //components
+import { textChoiseAdapter } from "../../../../../adapters/textChoices.adapter";
 import clienteAxios from "../../../../../config/clienteAxios";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
 import { getCvVehiclesService, createCvVehiclesService } from "../../../../../services/cv/CvVehicles";
+import { getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
+import { getCvArticles } from "../../../../../store/slices/cv/indexCv";
 //Interfaces
 import { IcvVehiclesForm, IList } from "../../../../../Interfaces/CV";
-import { getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
-import { GroupBase } from "react-select";
-import { IGeneric } from "../../../../../Interfaces/Generic";
 
 
 const useCvVehicles = () => {
@@ -43,7 +42,7 @@ const useCvVehicles = () => {
     const [listTypeGasData, setListTypeGasData] = useState<IList[]>([]);
     const [file, setFile] = useState(null);
 
-    //Estado Inicial de Hojas de Vida de Computadores
+    //Estado Inicial de Hojas de Vida de Vehículos
     const initialState: IcvVehiclesForm = {
         id_hoja_de_vida: 0,
         codigo_bien: "",
@@ -110,7 +109,7 @@ const useCvVehicles = () => {
         suppressMovable: true,
     };
 
-    //useForm Hojas de Vida de Computadores
+    //useForm Hojas de Vida de Vehículos
     const {
         register,
         handleSubmit,
@@ -199,12 +198,12 @@ const useCvVehicles = () => {
         }
     }, [agendable]);
 
-    //submit Hojas de Vida de Computadores
+    //submit Hojas de Vida de Vehículos
     const onSubmit: SubmitHandler<IcvVehiclesForm> = () => {
         createCv();
     };
 
-    //Funcion para crear hoja de vida de computadores
+    //Funcion para crear hoja de vida de Vehículos
     const createCv = () => {
         const formdata = new FormData()
         formdata.append('cod_tipo_vehiculo', dataCvVehicles.cod_tipo_vehiculo.value!.toString());
@@ -234,23 +233,13 @@ const useCvVehicles = () => {
         formdata.append('ruta_imagen_foto', file === null ? '' : file);
         dispatch(createCvVehiclesService(formdata))
     };
-    //Funcion para actualizar hoja de vida de computadores
-    const updateCv = () => {
-
-    };
-
-
-    //Funcion para eliminar hoja de vida de computadores
-    const deleteCv = (id) => {
-
-    }
 
     //Cargue de archivos de imagen
     const handleUpload = ({ target }) => {
         if (target.files.length > 0) setFile(target.files[0])
     };
 
-    const ScreenHistoricoArticulo = () => {
+    const ScreenHistoricoConductores = () => {
         navigate("/dashboard/almacen/reportes/reporte-historico-activo");
     };
 
@@ -264,10 +253,6 @@ const useCvVehicles = () => {
         dispatch(getCvVehiclesService(dataCvVehicles.doc_identificador_nro));
     };
 
-    const onGridReady = (params) => {
-        console.log(params, 'params');
-    };
-
     //Columnas de la tabla de Mantenimientos
     const columnDefsMaintenance = [
         { headerName: "Estado", field: "estado", minWidth: 150 },
@@ -275,88 +260,6 @@ const useCvVehicles = () => {
         { headerName: "Responsable", field: "responsable", minWidth: 150 },
         { headerName: "Tipo", field: "tipo", minWidth: 150 },
         { headerName: "Descripción", field: "tipo_descripcion", minWidth: 150 },
-    ];
-    //Columnas de la tabla de Asignaciones
-    const columnDefs2 = [
-        { headerName: "Número", field: "num", minWidth: 150 },
-        { headerName: "Tipo", field: "tip", minWidth: 150 },
-        { headerName: "Fecha", field: "fec", minWidth: 150 },
-        { headerName: "Estado", field: "est", minWidth: 150 },
-        { headerName: "Responsable", field: "res", minWidth: 150 },
-    ];
-    const rowData = [
-        {
-            nmb: "Oliver Amaya",
-            des: "12/08/2011",
-            has: "19/05/2020",
-            cel: "320876354",
-            acc: "",
-        },
-        {
-            nmb: "Oliver Amaya",
-            des: "12/08/2011",
-            has: "19/05/2020",
-            cel: "320876354",
-            acc: "",
-        },
-        {
-            nmb: "Oliver Amaya",
-            des: "12/08/2011",
-            has: "19/05/2020",
-            cel: "320876354",
-            acc: "",
-        },
-        {
-            nmb: "Oliver Amaya",
-            des: "12/08/2011",
-            has: "19/05/2020",
-            cel: "320876354",
-            acc: "",
-        },
-        {
-            nmb: "Oliver Amaya",
-            des: "12/08/2011",
-            has: "19/05/2020",
-            cel: "320876354",
-            acc: "",
-        },
-    ];
-    const rowData2 = [
-        {
-            num: "01",
-            tip: "Correctivo",
-            fec: "19/05/2020",
-            est: "Completado",
-            res: "Compuarreglo",
-        },
-        {
-            num: "02",
-            tip: "Correctivo",
-            fec: "19/05/2020",
-            est: "Completado",
-            res: "Compuarreglo",
-        },
-        {
-            num: "03",
-            tip: "Correctivo",
-            fec: "19/05/2020",
-            est: "Completado",
-            res: "Compuarreglo",
-        },
-        {
-            num: "04",
-            tip: "Correctivo",
-            fec: "19/05/2020",
-            est: "Completado",
-            res: "Compuarreglo",
-        },
-        {
-            num: "05",
-            tip: "Correctivo",
-            fec: "19/05/2020",
-            est: "Completado",
-            res: "Compuarreglo",
-        },
     ];
 
     //Columnas de la tabla de articulos
@@ -378,6 +281,7 @@ const useCvVehicles = () => {
                         style={{ border: "none", background: "none" }}
                         onClick={() => {
                             dispatch(getCvVehiclesService(data.doc_identificador_nro));
+                            dispatch(getCvArticles([]));
                             setBusquedaArticuloModalOpen(false);
                         }}
                         title="Seleccionar"
@@ -392,9 +296,6 @@ const useCvVehicles = () => {
     return {
         //States
         columnDefsMaintenance,
-        columnDefs2,
-        rowData,
-        rowData2,
         busquedaArticuloModalOpen,
         initialState,
         vehiculoEncontado,
@@ -421,15 +322,13 @@ const useCvVehicles = () => {
         setPlaton,
         setFile,
         //Functions
-        ScreenHistoricoArticulo,
+        ScreenHistoricoConductores,
         ScreenProgramarMantnimiento,
         handledSearch,
         onSubmit,
         register,
         handleSubmit,
         reset,
-        setValue,
-        onGridReady,
         handleUpload
     };
 }

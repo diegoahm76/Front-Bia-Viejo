@@ -42,7 +42,7 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
   } = useForm<IFormValues>({ defaultValues: initialState });
 
   //ueeEffect para limpiar el store
@@ -53,11 +53,13 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
   //Función para limpiar el store y limbia el formulario
   const clean = () => {
     dispatch(getCvArticles([]));
+    reset(initialState);
   };
 
   //Función para enviar los datos del formulario
   const onSubmit: SubmitHandler<IFormValues> = (data: IFormValues) => {
     dispatch(getCvArticleAllService(data.codigo, data.nombre, cod_tipo_activo));
+    clean();
   };
 
   //configuración de tabla por defecto

@@ -1,19 +1,21 @@
-//import "react-quill/dist/quill.snow.css";
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
-import { useForm, Controller } from "react-hook-form";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
-import Subtitle from "../../../../components/Subtitle";
-import { Button, Card, Figure, Form } from "react-bootstrap";
 import { AgGridReact } from "ag-grid-react";
-import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
-import useCvVehicles from "./hooks/useCvVehicles";
+import { Controller } from "react-hook-form";
+
+//Hooks
+import Subtitle from "../../../../components/Subtitle";
 import { useAppSelector } from "../../../../store/hooks/hooks";
-import DatePicker from "react-datepicker";
-import img from "../../../../assets/svg/img_backgraund.svg"
+import useCvVehicles from "./hooks/useCvVehicles";
+
+//Components
 import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
+
+//Styles
+import { Card, Figure, Form } from "react-bootstrap";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-grid.css";
+import img from "../../../../assets/svg/img_backgraund.svg"
 
 const HojaDeVidaVehiculoScreen = () => {
 
@@ -24,9 +26,6 @@ const HojaDeVidaVehiculoScreen = () => {
   const {
     //States
     columnDefsMaintenance,
-    columnDefs2,
-    rowData,
-    rowData2,
     busquedaArticuloModalOpen,
     initialState,
     vehiculoEncontado,
@@ -53,15 +52,13 @@ const HojaDeVidaVehiculoScreen = () => {
     setPlaton,
     setFile,
     //Functions
-    ScreenHistoricoArticulo,
+    ScreenHistoricoConductores,
     ScreenProgramarMantnimiento,
     handledSearch,
     onSubmit,
     register,
     handleSubmit,
     reset,
-    setValue,
-    onGridReady,
     handleUpload
   } = useCvVehicles();
 
@@ -164,8 +161,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                     </button>
                   </div>
-                  {/* {vehiculoEncontado ? ( */}
-                  {true ? (
+                  {vehiculoEncontado ? (
                     <div className="col-12 col-lg-6">
                       <div className="row">
                         <Card style={{ width: "100%" }}>
@@ -200,8 +196,7 @@ const HojaDeVidaVehiculoScreen = () => {
                 </div>
               </div>
             </div>
-            {/* {vehiculoEncontado ? ( */}
-            {true ? (
+            {vehiculoEncontado ? (
               <div>
                 <div className="row">
                   <div className="col-12 col-lg-3 mt-3 text-center">
@@ -318,12 +313,15 @@ const HojaDeVidaVehiculoScreen = () => {
                   </div>
                   <div className="col-12 col-lg-12 mt-3">
                     <label className="text-terciary">Observaciones</label>
-                    <input
+                    <textarea
                       disabled={arriendo}
-                      type="text"
+                      maxLength={250}
                       className="form-control border border-terciary rounded-pill px-3"
                       {...register("observaciones_adicionales", { required: false })}
                     />
+                    {dataCvVehicles.observaciones_adicionales && (
+                      <p className="text-danger">{`Caractéres restantes ${250 - dataCvVehicles.observaciones_adicionales.length}`}</p>
+                    )}
                   </div>
                 </div>
 
@@ -704,7 +702,8 @@ const HojaDeVidaVehiculoScreen = () => {
                     <button
                       className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
                       type="button"
-                      title="Send"
+                      title="ir a historial de conductores"
+                      onClick={() => ScreenHistoricoConductores()}
                     >
                       Historial conductores
                     </button>
@@ -719,8 +718,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       style={{ height: "275px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs2}
-                        rowData={rowData2}
+                        columnDefs={columnDefsMaintenance}
+                        rowData={cvMaintenance}
                         defaultColDef={defaultColDef}
                       />
                     </div>
@@ -731,7 +730,8 @@ const HojaDeVidaVehiculoScreen = () => {
                     <button
                       className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
                       type="button"
-                      title="Send"
+                      title="ir a mantenimientos"
+                      onClick={() => ScreenProgramarMantnimiento()}
                     >
                       Programar mantenimiento
                     </button>
@@ -779,7 +779,6 @@ const HojaDeVidaVehiculoScreen = () => {
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 export default HojaDeVidaVehiculoScreen;
