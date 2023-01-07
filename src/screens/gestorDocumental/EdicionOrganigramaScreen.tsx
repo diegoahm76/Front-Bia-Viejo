@@ -17,7 +17,6 @@ import {
   ILevelFather,
   ILevelUnity,
   ITypeUnity,
-  IUnityRoot,
 } from "../../Interfaces/Organigrama";
 import OrganigramDialog from "../../components/Dialog/OrganigramDialog";
 
@@ -50,7 +49,6 @@ export const EdicionOrganigramaScreen = () => {
     optionUnidadPadre,
     orden_nivel,
     title_nivel,
-    title_unidades,
     //Edita States
 
     //Functions
@@ -64,10 +62,8 @@ export const EdicionOrganigramaScreen = () => {
 
     handleSubmitUnidades,
     registerUnidades,
-    resetUnidades,
     setValueUnidades,
     submitUnidades,
-    watchUnidades,
 
     onGridReady,
   } = useEdicionOrganigrama();

@@ -1,137 +1,66 @@
-//import "react-quill/dist/quill.snow.css";
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
-import { useForm, Controller } from "react-hook-form";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
-import Subtitle from "../../../../components/Subtitle";
-import { Button, Card } from "react-bootstrap";
 import { AgGridReact } from "ag-grid-react";
-import BusquedaArticuloModal from "../../../../components/BusquedaArticuloModal";
+import { Controller } from "react-hook-form";
 
-const options = [
-  { label: "Platón", value: "PL" },
-  { label: "Cabina", value: "CA" },
-  { label: "Otros", value: "OT" },
-];
+//Hooks
+import Subtitle from "../../../../components/Subtitle";
+import { useAppSelector } from "../../../../store/hooks/hooks";
+import useCvVehicles from "./hooks/useCvVehicles";
 
-const onSubmit = (data) => {
-  console.log(data);
-};
+//Components
+import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
+
+//Styles
+import { Card, Figure, Form } from "react-bootstrap";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import "ag-grid-community/styles/ag-grid.css";
+import img from "../../../../assets/svg/img_backgraund.svg"
 
 const HojaDeVidaVehiculoScreen = () => {
-  const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState(false);
-  const [vehiculoEncontado, setVehiculoEncontado] = useState<boolean>(false);
-  const [enCirculacion, setEnCirculacion] = useState<boolean>(true);
-  const [arriendo, setArriendo] = useState<boolean>(false);
+
+  // Redux State Extractio
+  const { cvMaintenance } = useAppSelector((state) => state.cv);
+
+  //Hooks
   const {
-    register,
+    //States
+    columnDefsMaintenance,
+    busquedaArticuloModalOpen,
+    initialState,
+    vehiculoEncontado,
+    arriendo,
+    enCirculacion,
+    agendable,
+    platon,
     control,
+    dataCvVehicles,
+    ListMark,
+    listTypeVehicleData,
+    listTypeDocData,
+    listTypeGasData,
+    file,
+    defaultColDef,
+    columnDefsArticles,
+    errors,
+    //Edita States
+    setBusquedaArticuloModalOpen,
+    setVehiculoEncontado,
+    setArriendo,
+    setEnCirculacion,
+    setAgendable,
+    setPlaton,
+    setFile,
+    //Functions
+    ScreenHistoricoConductores,
+    ScreenProgramarMantnimiento,
+    handledSearch,
+    onSubmit,
+    register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const columnDefs = [
-    { headerName: "Nombre ", field: "nmb", minWidth: 150 },
-    { headerName: "Desde", field: "des", minWidth: 150 },
-    { headerName: "Hasta", field: "has", minWidth: 150 },
-    { headerName: "Celular", field: "cel", minWidth: 150 },
-    { headerName: "Acciones", field: "acc", minWidth: 150 },
-  ];
-  const columnDefs2 = [
-    { headerName: "Número", field: "num", minWidth: 150 },
-    { headerName: "Tipo", field: "tip", minWidth: 150 },
-    { headerName: "Fecha", field: "fec", minWidth: 150 },
-    { headerName: "Estado", field: "est", minWidth: 150 },
-    { headerName: "Responsable", field: "res", minWidth: 150 },
-  ];
-  const rowData = [
-    {
-      nmb: "Oliver Amaya",
-      des: "12/08/2011",
-      has: "19/05/2020",
-      cel: "320876354",
-      acc: "",
-    },
-    {
-      nmb: "Oliver Amaya",
-      des: "12/08/2011",
-      has: "19/05/2020",
-      cel: "320876354",
-      acc: "",
-    },
-    {
-      nmb: "Oliver Amaya",
-      des: "12/08/2011",
-      has: "19/05/2020",
-      cel: "320876354",
-      acc: "",
-    },
-    {
-      nmb: "Oliver Amaya",
-      des: "12/08/2011",
-      has: "19/05/2020",
-      cel: "320876354",
-      acc: "",
-    },
-    {
-      nmb: "Oliver Amaya",
-      des: "12/08/2011",
-      has: "19/05/2020",
-      cel: "320876354",
-      acc: "",
-    },
-  ];
-  const rowData2 = [
-    {
-      num: "01",
-      tip: "Correctivo",
-      fec: "19/05/2020",
-      est: "Completado",
-      res: "Compuarreglo",
-    },
-    {
-      num: "02",
-      tip: "Correctivo",
-      fec: "19/05/2020",
-      est: "Completado",
-      res: "Compuarreglo",
-    },
-    {
-      num: "03",
-      tip: "Correctivo",
-      fec: "19/05/2020",
-      est: "Completado",
-      res: "Compuarreglo",
-    },
-    {
-      num: "04",
-      tip: "Correctivo",
-      fec: "19/05/2020",
-      est: "Completado",
-      res: "Compuarreglo",
-    },
-    {
-      num: "05",
-      tip: "Correctivo",
-      fec: "19/05/2020",
-      est: "Completado",
-      res: "Compuarreglo",
-    },
-  ];
-
-  const defaultColDef = {
-    sortable: true,
-    editable: false,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
+    reset,
+    handleUpload
+  } = useCvVehicles();
 
   return (
     <div className="row min-vh-100">
@@ -154,9 +83,9 @@ const HojaDeVidaVehiculoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        {...register("serial", { required: true })}
+                        {...register("doc_identificador_nro", { required: true })}
                       />
-                      {errors.serial && (
+                      {errors.doc_identificador_nro && (
                         <p className="text-danger">Este campo es obligatorio</p>
                       )}
                     </div>
@@ -172,7 +101,7 @@ const HojaDeVidaVehiculoScreen = () => {
                         type="text"
                         placeholder="Nombre del activo"
                         disabled
-                        {...register("tipo_de_equipo", { required: false })}
+                        {...register("nombre", { required: false })}
                       />
                     </div>
                   </div>
@@ -185,7 +114,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       type="text"
                       placeholder="Código"
                       disabled
-                      {...register("codigo", { required: false })}
+                      {...register("codigo_bien", { required: false })}
                     />
                   </div>
 
@@ -193,12 +122,20 @@ const HojaDeVidaVehiculoScreen = () => {
                     <label className="ms-2 text-terciary">
                       Tipo de vehiculo
                     </label>
-                    <Select
-                      options={[
-                        { label: "Carro", value: "C" },
-                        { label: "Moto", value: "M" },
-                      ]}
-                      placeholder="Seleccionar"
+                    <Controller
+                      name="cod_tipo_vehiculo"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={field.value}
+                          options={listTypeVehicleData}
+                          placeholder="Seleccionar"
+                        />
+                      )}
                     />
                   </div>
                 </div>
@@ -208,39 +145,58 @@ const HojaDeVidaVehiculoScreen = () => {
                 <div className="row">
                   <div className="col-12 col-lg-6 text-center">
                     <button
-                      className="btn btn-sm btn-tablas mt-8"
+                      className="btn btn-sm btn-tablas mt-5"
                       type="button"
-                      onClick={() => setVehiculoEncontado(!vehiculoEncontado)}
+                      title="Buscar"
+                      onClick={() => handledSearch()}
                     >
                       <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
-                  </div>
-                  <div className="col-12 col-lg-6 text-center">
                     <button
-                      className="border rounded-pill btn bg-gradient-primary mt-8"
+                      className="btn btn-sm btn-tablas mt-5"
                       type="button"
-                      title="Send"
-                      onClick={() => setBusquedaArticuloModalOpen(true)}
+                      onClick={() => { reset(initialState); setVehiculoEncontado(false); setFile(null); }}
+                      title="Limpiar"
                     >
-                      Busqueda de articulo
+                      <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                     </button>
                   </div>
+                  {vehiculoEncontado ? (
+                    <div className="col-12 col-lg-6">
+                      <div className="row">
+                        <Card style={{ width: "100%" }}>
+                          <Card.Body>
+                            <Figure style={{ display: "flex" }}>
+                              <Figure.Image
+                                style={{ margin: "auto" }}
+                                width={171}
+                                height={180}
+                                alt="171x180"
+                                src={!file ? img : URL.createObjectURL(file!)}
+                              />
+                            </Figure>
+                            <Form.Group controlId="formFileSm" className="mb-3" style={{ margin: "auto" }}>
+                              <Form.Control type="file" accept="image/*" size="sm" onChange={(e) => handleUpload(e)} />
+                            </Form.Group>
+                          </Card.Body>
+                        </Card>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="col-12 col-lg-6">
+                      <button
+                        className="border rounded-pill btn bg-gradient-primary mt-8"
+                        type="button"
+                        onClick={() => setBusquedaArticuloModalOpen(true)}
+                      >
+                        Busqueda de articulo
+                      </button>
+                    </div>
+                  )}
                 </div>
-
-                {/* <div className="row">
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Body>
-                      <Card.Title>FOTO DEL COMPUTADOR</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </div> */}
               </div>
             </div>
-            {vehiculoEncontado == true ? (
+            {vehiculoEncontado ? (
               <div>
                 <div className="row">
                   <div className="col-12 col-lg-3 mt-3 text-center">
@@ -271,6 +227,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_circulacion", { required: true })}
                     />
                   </div>
 
@@ -301,8 +258,10 @@ const HojaDeVidaVehiculoScreen = () => {
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Kilometraje</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("ultimo_kilometraje", { required: false })}
                     />
                   </div>
 
@@ -311,7 +270,58 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_ultimo_kilometraje", { required: true })}
                     />
+                  </div>
+                  <div className="col-12 col-lg-3 mt-3 text-center">
+                    <label className="ms-2 text-terciary">Platon</label>
+                    <br></br>
+                    <button
+                      className="btn btn-sm btn-tablas "
+                      type="button"
+                      title="Solicitudes"
+                      onClick={() => setPlaton(!platon)}
+                    >
+                      {platon === false ? (
+                        <i
+                          className="fa-solid fa-toggle-off fs-3"
+                          style={{ color: "black" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa-solid fa-toggle-on fs-3"
+                          style={{ color: "#8cd81e" }}
+                        ></i>
+                      )}
+                    </button>
+                  </div>
+                  <div className="col-12 col-lg-3 mt-3 text-center">
+                    <label className="ms-2 text-terciary">Es Agendable</label>
+                    <br></br>
+                    <button
+                      className="btn btn-sm btn-tablas "
+                      type="button"
+                      title="Solicitudes"
+                      onClick={() => setAgendable(!agendable)}
+                    >
+                      {agendable ? (
+                        <i className="fa-solid fa-toggle-on fs-3" style={{ color: "#8cd81e" }}></i>
+                      ) : (
+                        <i className="fa-solid fa-toggle-off fs-3" style={{ color: "black" }}></i>
+                      )}
+                    </button>
+                  </div>
+                  <div className="col-12 col-lg-12 mt-3">
+                    <label className="text-terciary">Observaciones</label>
+                    <textarea
+                      disabled={arriendo}
+                      maxLength={250}
+                      className="form-control border border-terciary rounded-pill px-3"
+                      {...register("observaciones_adicionales", { required: false })}
+                    />
+                    {dataCvVehicles.observaciones_adicionales && (
+                      <p className="text-danger">{`Caractéres restantes ${250 - dataCvVehicles.observaciones_adicionales.length}`}</p>
+                    )}
                   </div>
                 </div>
 
@@ -320,43 +330,58 @@ const HojaDeVidaVehiculoScreen = () => {
                 <div className="row">
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Marca</label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                    />
-                  </div>
-                  <div className="col-12 col-lg-3 mt-3">
-                    <label className="text-terciary">Modelo</label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
+                    <Controller
+                      name="marca"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={field.value}
+                          options={ListMark}
+                          placeholder="Seleccionar"
+                        />
+                      )}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Linea</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("linea", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Color</label>
                     <input
-                      name="ModeloEspecificaciones"
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("color", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="ms-2 text-terciary">
                       Tipo combustible
                     </label>
-                    <Select
-                      options={[
-                        { label: "Gasolina", value: "GS" },
-                        { label: "ACPM", value: "ACPM" },
-                      ]}
-                      placeholder="Seleccionar"
+                    <Controller
+                      name="tipo_combustible"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={field.value}
+                          options={listTypeGasData}
+                          placeholder="Seleccionar"
+                        />
+                      )}
                     />
                   </div>
 
@@ -367,6 +392,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("capacidad_pasajeros", { required: true })}
                     />
                   </div>
                 </div>
@@ -379,32 +405,40 @@ const HojaDeVidaVehiculoScreen = () => {
                       Fecha de adquisición
                     </label>
                     <input
+                      disabled={arriendo}
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_adquisicion", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Número de motor</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numero_motor", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Trasmisión</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("transmision", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Cilindraje</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("cilindraje", { required: false })}
                     />
                   </div>
 
@@ -413,16 +447,20 @@ const HojaDeVidaVehiculoScreen = () => {
                       Vigencia de garantia
                     </label>
                     <input
+                      disabled={arriendo}
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_vigencia_garantia", { required: false })}
                     />
                   </div>
 
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Numero de chasis</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numero_chasis", { required: false })}
                     />
                   </div>
 
@@ -431,8 +469,10 @@ const HojaDeVidaVehiculoScreen = () => {
                       Dimencion de llantas{" "}
                     </label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("dimesion_llantas", { required: false })}
                     />
                   </div>
 
@@ -441,8 +481,10 @@ const HojaDeVidaVehiculoScreen = () => {
                       Capacidad de extintor{" "}
                     </label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("capacidad_extintor", { required: true })}
                     />
                   </div>
                 </div>
@@ -456,8 +498,10 @@ const HojaDeVidaVehiculoScreen = () => {
                   <div className="col-12 col-lg-3 mt-3">
                     <label className="text-terciary">Numero</label>
                     <input
+                      disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("tarjeta_operacion", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -465,6 +509,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expedicion_op", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -472,6 +517,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expiracion_op", { required: true })}
                     />
                   </div>
                 </div>
@@ -485,6 +531,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numero_soat", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -492,6 +539,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expedicion_soat", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -499,6 +547,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expiracion_soat", { required: true })}
                     />
                   </div>
                 </div>
@@ -511,6 +560,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numero_tecnomecanica", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -518,6 +568,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expedicion_tecnomecanica", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -525,6 +576,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expiracion_tecnomecanica", { required: true })}
                     />
                   </div>
                 </div>
@@ -537,6 +589,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numero_str", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -544,6 +597,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expedicion_str", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -551,6 +605,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("fecha_expiracion_str", { required: true })}
                     />
                   </div>
                 </div>
@@ -562,16 +617,25 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("nombre_conductor", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="ms-2 text-terciary">Tipo documento</label>
-                    <Select
-                      options={[
-                        { label: "Cedula", value: "CC" },
-                        { label: "NIT", value: "NIT" },
-                      ]}
-                      placeholder="Seleccionar"
+                    <Controller
+                      name="tipo_document"
+                      control={control}
+                      rules={{
+                        required: true,
+                      }}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={field.value}
+                          options={listTypeDocData}
+                          placeholder="Seleccionar"
+                        />
+                      )}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -579,6 +643,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("numero_document", { required: true })}
                     />
                   </div>
 
@@ -587,6 +652,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("celular", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -594,6 +660,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("email", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -601,6 +668,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("direccion", { required: true })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -622,8 +690,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       style={{ height: "275px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
+                        columnDefs={columnDefsMaintenance}
+                        rowData={cvMaintenance}
                         defaultColDef={defaultColDef}
                       />
                     </div>
@@ -634,7 +702,8 @@ const HojaDeVidaVehiculoScreen = () => {
                     <button
                       className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
                       type="button"
-                      title="Send"
+                      title="ir a historial de conductores"
+                      onClick={() => ScreenHistoricoConductores()}
                     >
                       Historial conductores
                     </button>
@@ -649,8 +718,8 @@ const HojaDeVidaVehiculoScreen = () => {
                       style={{ height: "275px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs2}
-                        rowData={rowData2}
+                        columnDefs={columnDefsMaintenance}
+                        rowData={cvMaintenance}
                         defaultColDef={defaultColDef}
                       />
                     </div>
@@ -661,7 +730,8 @@ const HojaDeVidaVehiculoScreen = () => {
                     <button
                       className="border rounded-pill px-3 btn bg-gradient-primary me-lg-2"
                       type="button"
-                      title="Send"
+                      title="ir a mantenimientos"
+                      onClick={() => ScreenProgramarMantnimiento()}
                     >
                       Programar mantenimiento
                     </button>
@@ -669,43 +739,46 @@ const HojaDeVidaVehiculoScreen = () => {
                 </div>
 
                 <div className="d-grid gap-2 d-lg-flex justify-content-lg-end mt-3">
-               
-                  <button 
-                  className="px-3 btn" 
-                  type="button" 
-                  title="Salir"
+
+                  <button
+                    className="px-3 btn"
+                    type="button"
+                    title="Salir"
                   >
                     <i className="fa-solid fa-x fs-3"></i>
                   </button>
-                  <button 
-                  className="px-3 btn" 
-                  type="button" 
-                  title="Limpiar"
+                  {/* <button
+                    className="px-3 btn"
+                    type="button"
+                    title="Limpiar"
                   >
                     <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
-                  </button>
-                  <button 
-                  className="px-3 btn" 
-                  type="button" 
-                  title="Guardar"
+                  </button> */}
+                  <button
+                    className="px-3 btn"
+                    type="submit"
+                    title="Guardar"
                   >
                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
-                  
+
                 </div>
               </div>
             ) : (
               ""
             )}
           </form>
-          <BusquedaArticuloModal
-              isModalActive={busquedaArticuloModalOpen}
-              setIsModalActive={setBusquedaArticuloModalOpen}
-            />
+          <SearchArticleCvModal
+            isModalActive={busquedaArticuloModalOpen}
+            setIsModalActive={setBusquedaArticuloModalOpen}
+            cod_tipo_activo='Veh'
+            label='Placa'
+            title='Busqueda de vehiculos'
+            columnDefsArticles={columnDefsArticles}
+          />
         </div>
       </div>
     </div>
-    // </div>
   );
 };
 export default HojaDeVidaVehiculoScreen;
