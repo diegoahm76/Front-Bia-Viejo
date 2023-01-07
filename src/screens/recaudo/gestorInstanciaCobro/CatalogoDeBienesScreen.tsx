@@ -28,6 +28,7 @@ import { IBienes } from "../../../Interfaces/Bienes";
 import { INodo } from "../../../Interfaces/Nodo";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import clienteAxios from "../../../config/clienteAxios";
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -40,25 +41,20 @@ const CatalogoDeBienesScreen = () => {
   const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
   const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
 
-  const armarArbol = useCallback((bienNuevo) => {
-    let contador = 0;
-    console.log("BIEN cargado", bienNuevo);
-    bienNuevo?.forEach((bienElement) => {
-      agregarNodosBase(bienElement, contador, bienNuevo);
-      contador = arrayTotal.length;
-    });
-  }, []);
 
   useEffect(() => {
-    obtenerTodosBienes(dispatch);
-  }, [dispatch]);
-  useEffect(
-    () => console.log(" after first render or message updated", bien),
-    [bien]
-  );
-  useEffect(() => {
-    armarArbol(bien);
-  }, [bien]);
+    getBienes();
+  }, []);
+
+  const getBienes = async () => {
+    await clienteAxios
+      .get("almacen/bienes/catalogo-bienes/get-list")
+      .then((bienes) => {
+        setArrayTotal(bienes.data.array_total);
+      })
+      .catch(() => {
+      });
+  }
 
   // useEffect(() => {
   //   armarArbol(bien);
