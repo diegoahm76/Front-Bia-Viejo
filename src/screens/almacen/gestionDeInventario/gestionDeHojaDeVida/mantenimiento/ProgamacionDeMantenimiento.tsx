@@ -135,7 +135,7 @@ const ProgamacionDeMantenimiento = () => {
             className="form-check"
             type="checkbox"
             id="rememberMe"
-            disabled="true"
+            disabled={true}
           />
         </div>
       ),
@@ -238,13 +238,13 @@ const ProgamacionDeMantenimiento = () => {
                     form="configForm"
                     onClick={() => setBusquedaPersonalIsActive(true)}
                   >
-                    Buscar personal
+                    Buscar articulo
                   </button>
                 </div>
               </div>
 
-              <Subtitle title="Datalles del articulo" mt={3} />
-              <div className="row d-flex align-items-center mt-2 mx-2">
+              {/* <Subtitle title="Datalles del articulo" mt={3} /> */}
+              {/* <div className="row d-flex align-items-center mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
                     Marca: <span className="text-danger">*</span>
@@ -254,13 +254,6 @@ const ProgamacionDeMantenimiento = () => {
                     className="form-control border border-terciary rounded-pill px-3"
                   // {...register("marcaArticulo", { required: true })}
                   />
-                  {/* {errors.marcaArticulo && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )} */}
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
@@ -271,13 +264,6 @@ const ProgamacionDeMantenimiento = () => {
                     className="form-control border border-terciary rounded-pill px-3"
                   // {...register("serialArticulo", { required: true })}
                   />
-                  {/* {errors.serialArticulo && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )} */}
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
@@ -288,13 +274,6 @@ const ProgamacionDeMantenimiento = () => {
                     className="form-control border border-terciary rounded-pill px-3"
                   // {...register("modeloArticulo", { required: true })}
                   />
-                  {/* {errors.modeloArticulo && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )} */}
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
@@ -305,7 +284,7 @@ const ProgamacionDeMantenimiento = () => {
                     type="text"
                   />
                 </div>
-              </div>
+              </div> */}
 
               <Subtitle title="Articulo" mt={3} />
               <div className="row d-flex align-items-end mt-2 mx-2">
@@ -329,7 +308,16 @@ const ProgamacionDeMantenimiento = () => {
                       )}
                     />
                   </div>
-
+                  <div className="col-12 col-md-3 mb-3">
+                    <label className="text-terciary">
+                      Motivo Mantenimiento: <span className="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control border border-terciary rounded-pill px-3"
+                      // {...register("nombreArticulo", { required: true })}
+                    />
+                  </div>
                 </div>
               </div>
               <div className="row d-flex align-items-center mb-2 mx-2">
@@ -371,20 +359,14 @@ const ProgamacionDeMantenimiento = () => {
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
-                    Cada: {/*<span className="text-danger">*</span> */}
+                    Cada: 
                   </label>
                   <input
                     type="number"
                     className="form-control border border-terciary rounded-pill px-3"
                     {...register("cadaNumero", { required: true })}
                   />
-                  {/* {errors.cadaNumero && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )} */}
+
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
@@ -408,7 +390,7 @@ const ProgamacionDeMantenimiento = () => {
 
                 <div className="col-12 col-md-3 mb-3 ">
                   <label className="text-terciary">
-                    Fecha de solicitud {""} {/*<span className="text-danger">*</span> */}
+                    Fecha generada  {""} {/*<span className="text-danger">*</span> */}
                   </label>
                   <input
                     type="date"
@@ -428,7 +410,7 @@ const ProgamacionDeMantenimiento = () => {
               <div className="row d-flex align-items-end mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
-                    Hasta {""} {/*<span className="text-danger">*</span> */}
+                    Fecha programada {""} {/*<span className="text-danger">*</span> */}
                   </label>
                   <input
                     type="date"
@@ -440,11 +422,11 @@ const ProgamacionDeMantenimiento = () => {
               </div>
 
 
-              <div className="row d-flex align-items-end mx-2">
+              {/* <div className="row d-flex align-items-end mx-2">
                 <div className="form-check col-md-5 col-12 ps-0 pe-10 ms-3 mb-3 d-flex">
                   <label className="form-check-label text-terciary"
                   >
-                    Incluir sabados y domingos {""} {/*<span className="text-danger">*</span> */}
+                    Incluir sabados y domingos {""} 
                   </label>
                   <input
                     className="form-check-input "
@@ -454,12 +436,12 @@ const ProgamacionDeMantenimiento = () => {
                     {...register("IncluirFinSemana")}
                   />
                 </div>
-              </div>
-              <div className="row d-flex align-items-end mx-2">
+              </div> */}
+              {/* <div className="row d-flex align-items-end mx-2">
                 <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                   <label className="form-check-label text-terciary"
                   >
-                    Incluir festivos {""} {/*<span className="text-danger">*</span> */}
+                    Incluir festivos {""}
                   </label>
                   <input
                     className="form-check-input"
@@ -469,7 +451,7 @@ const ProgamacionDeMantenimiento = () => {
                     {...register("incluirFestivos")}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button
@@ -495,7 +477,7 @@ const ProgamacionDeMantenimiento = () => {
                   />
                 </div>
               </div>
-              <div className="row d-flex align-items-end mt-2 mx-2">
+              {/* <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
                     2) Cada:
@@ -516,7 +498,7 @@ const ProgamacionDeMantenimiento = () => {
                     placeholder="Kilometros"
                   />
                 </div>
-              </div>
+              </div> */}
 
               <Subtitle title="Previsualizacion" mt={3} />
 
