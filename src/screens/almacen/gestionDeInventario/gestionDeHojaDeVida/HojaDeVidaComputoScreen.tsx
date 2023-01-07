@@ -1,41 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import { useForm, Controller } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Controller } from "react-hook-form";
 import Select from "react-select";
 
 //Components
 import Subtitle from "../../../../components/Subtitle";
-import clienteAxios from "../../../../config/clienteAxios";
-import { textChoiseAdapter } from "../../../../adapters/textChoices.adapter";
+import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
 //Styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import { Card, Figure, Form } from "react-bootstrap";
+import img from "../../../../assets/svg/img_backgraund.svg"
 //Interfaces
-import { IGeneric } from "../../../../Interfaces/Generic";
 import useCvComputers from "./hooks/useCvComputers";
-import { Card } from "react-bootstrap";
+//Hooks
+import { useAppSelector } from "../../../../store/hooks/hooks";
 
 const HojaDeVidaComputoScreen = () => {
+
+  // Redux State Extraction
+  const { cvMaintenance } = useAppSelector((state) => state.cv);
+
   //Hooks
   const {
     //States
-    columnDefs,
+    columnDefsMaintenance,
     columnDefs2,
-    rowData,
+    columnDefsArticles,
     asignacionPrestamos,
     articuloEncontrado,
     otrasAplicaciones,
+    busquedaArticuloModalOpen,
     ListMark,
     otrasPerisfericos,
     control,
-    dataCvComputers,
+    initialState,
+    file,
     defaultColDef,
     errors,
     //Edita States
     setArticuloEncontrado,
     setOtrasAplicaciones,
     setOtrasPerisfericos,
+    setBusquedaArticuloModalOpen,
+    setFile,
     //Functions
     ScreenHistoricoArticulo,
     ScreenProgramarMantnimiento,
@@ -44,9 +52,7 @@ const HojaDeVidaComputoScreen = () => {
     register,
     handleSubmit,
     reset,
-    watch,
-    setValue,
-    onGridReady,
+    handleUpload
   } = useCvComputers();
 
   return (
@@ -73,9 +79,9 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        {...register("serial", { required: true })}
+                        {...register("doc_identificador_nro", { required: true })}
                       />
-                      {errors.serial && (
+                      {errors.doc_identificador_nro && (
                         <p className="text-danger">Este campo es obligatorio</p>
                       )}
                     </div>
@@ -91,7 +97,7 @@ const HojaDeVidaComputoScreen = () => {
                         type="text"
                         placeholder="Nombre del activo"
                         disabled
-                        {...register("tipo_de_equipo", { required: false })}
+                        {...register("nombre", { required: false })}
                       />
                     </div>
                   </div>
@@ -104,7 +110,7 @@ const HojaDeVidaComputoScreen = () => {
                       type="text"
                       placeholder="Código"
                       disabled
-                      {...register("codigo", { required: false })}
+                      {...register("codigo_bien", { required: false })}
                     />
                   </div>
 
@@ -112,29 +118,57 @@ const HojaDeVidaComputoScreen = () => {
                     <button
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
+                      title="Buscar"
                       onClick={() => handledSearch()}
                     >
                       <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
+                    <button
+                      className="btn btn-sm btn-tablas mt-5"
+                      type="button"
+                      onClick={() => { reset(initialState); setArticuloEncontrado(false); setFile(null) }}
+                      title="Limpiar"
+                    >
+                      <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
+                    </button>
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6  mt-3 ">
-                <div className="row">
-                  <Card style={{ width: "18rem" }}>
-                    <Card.Body>
-                      <Card.Title>FOTO DEL COMPUTADOR</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+              {articuloEncontrado ? (
+                <div className="col-12 col-lg-6">
+                  <div className="row">
+                    <Card style={{ width: "100%" }}>
+                      <Card.Body>
+                        <Figure style={{ display: "flex" }}>
+                          <Figure.Image
+                            style={{ margin: "auto" }}
+                            width={171}
+                            height={180}
+                            alt="171x180"
+                            src={!file ? img : URL.createObjectURL(file!)}
+                          />
+                        </Figure>
+                        <Form.Group controlId="formFileSm" className="mb-3" style={{ margin: "auto" }}>
+                          <Form.Control type="file" accept="image/*" size="sm" onChange={(e) => handleUpload(e)} />
+                        </Form.Group>
+                      </Card.Body>
+                    </Card>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="col-12 col-lg-6">
+                  <button
+                    className="border rounded-pill btn bg-gradient-primary mt-8"
+                    type="button"
+                    onClick={() => setBusquedaArticuloModalOpen(true)}
+                  >
+                    Busqueda de articulo
+                  </button>
+                </div>
+              )}
             </div>
 
-            {articuloEncontrado === true ? (
+            {articuloEncontrado ? (
               <div>
                 <Subtitle title="Especificaciones físicas" mt={3} />
                 <div className="row">
@@ -142,7 +176,6 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Color
-
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -157,20 +190,16 @@ const HojaDeVidaComputoScreen = () => {
                       <label className="ms-2 text-terciary">
                         Marca
                       </label>
-                      {/* <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        value="Lenovo"
-                        {...register("marca", { required: false })}
-                      /> */}
                       <Controller
-                        name="tipoDocumento"
+                        name="marca"
                         control={control}
                         rules={{
                           required: true,
                         }}
                         render={({ field }) => (
                           <Select
+                            {...field}
+                            value={field.value}
                             options={ListMark}
                             placeholder="Seleccionar"
                           />
@@ -211,7 +240,6 @@ const HojaDeVidaComputoScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Sistema operativo
-
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
@@ -342,7 +370,7 @@ const HojaDeVidaComputoScreen = () => {
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
+                        type="number"
                         {...register("memoria_ram", { required: false })}
                       />
                     </div>
@@ -401,8 +429,8 @@ const HojaDeVidaComputoScreen = () => {
                       style={{ height: "275px" }}
                     >
                       <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={rowData}
+                        columnDefs={columnDefsMaintenance}
+                        rowData={cvMaintenance}
                         defaultColDef={defaultColDef}
                       />
                     </div>
@@ -466,7 +494,7 @@ const HojaDeVidaComputoScreen = () => {
                     </button>
                     <button
                       className=" px-3 btn text-capitalize"
-                      type="button"
+                      type="submit"
                       title="Guardar"
                     >
                       <i className="fa-regular fa-floppy-disk fs-3"></i>
@@ -478,6 +506,14 @@ const HojaDeVidaComputoScreen = () => {
               ""
             )}
           </form>
+          <SearchArticleCvModal
+            isModalActive={busquedaArticuloModalOpen}
+            setIsModalActive={setBusquedaArticuloModalOpen}
+            cod_tipo_activo='Com'
+            label='Nombre'
+            title="Busqueda de articulos"
+            columnDefsArticles={columnDefsArticles}
+          />
         </div>
       </div>
     </div>

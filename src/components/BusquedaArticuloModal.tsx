@@ -18,6 +18,7 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
+
   const {
     register,
     handleSubmit,
@@ -33,12 +34,12 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
   const handleCloseAgregarProducto = () => {
     setIsModalActive(false);
   };
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => { };
 
   return (
     <Modal
       isOpen={isModalActive}
-      //onRequestClose={onCloseModal}
+      onRequestClose={handleCloseAgregarProducto}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
@@ -89,7 +90,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
               </div>
             </div>
 
-            
+
 
             <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
               <button
