@@ -3,8 +3,9 @@ import Swal from "sweetalert2";
 import { IBienGet, IBienes } from "../../../Interfaces/Bienes";
 
 import clienteAxios from "../../../config/clienteAxios";
+import clienteBack from "../../../config/clienteBack";
 
-const initialState: IBienGet = {
+export const initialStateBien: IBienGet = {
   bien: [],
   dataEdit: {
     edit: false,
@@ -36,13 +37,13 @@ const initialState: IBienGet = {
     id_unidad_medida: 0,
     id_porcentaje_iva: 0,
     id_unidad_medida_vida_util: 0,
-    id_bien_padre: 0,
+    id_bien_padre: null,
   },
 };
 
 const bienForm = createSlice({
   name: "bien",
-  initialState,
+  initialState: initialStateBien,
   reducers: {
     obtenerBienes: (state, action) => {
       state.bien = action.payload;
@@ -92,7 +93,7 @@ export const {
 export default bienForm.reducer;
 
 export const obtenerTodosBienes = async (dispatch) => {
-  await clienteAxios
+  await clienteBack
     .get("almacen/bienes/catalogo-bienes/get-list")
     .then((bienes) => {
       dispatch(obtenerBienes(bienes.data.data));
@@ -109,7 +110,8 @@ export const obtenerTodosBienes = async (dispatch) => {
 };
 
 export const crearBien = async (dispatch, dataBien) => {
-  await clienteAxios
+
+  await clienteBack
     .put("almacen/bienes/catalogo-bienes/create/", dataBien)
     .then((res) => {
       //falta la llamada del servicio
@@ -120,20 +122,20 @@ export const crearBien = async (dispatch, dataBien) => {
         title: "Articulo agreado correctamente",
         showConfirmButton: false,
         timer: 2000,
-      }).catch((err) => {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: err.response.data.detail,
-          showConfirmButton: true,
-          confirmButtonText: "Aceptar",
-        });
+      })
+    }).catch((err) => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: err.response.data.detail,
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
       });
-    });
+    });;
 };
 
 export const obtenerBien = async (dispatch, nodo) => {
-  await clienteAxios
+  await clienteBack
     .get(`almacen/bienes/catalogo-bienes/get/${nodo.id_bien}`) //la peticion se llma delete pero es get
     .then((response) => {
       dispatch(obtenerBienAction(response.data));
@@ -150,7 +152,7 @@ export const obtenerBien = async (dispatch, nodo) => {
 };
 
 export const eliminarBien = async (dispatch, nodo) => {
-  await clienteAxios
+  await clienteBack
     .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_bien}`)
     .then(() => {
       Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
@@ -171,7 +173,7 @@ export const seleccionarBienEdit = (dispatch, bien) => {
 };
 export const seleccionarBienCreate = (dispatch, bien) => {
   const data = { ...bien };
-  data.id_bien_padre = data.id_bien;
+  data.id_bien_padre = data.id_bien === 0 ? 0 : data.id_bien;
   data.nivel_jerarquico = data.nivel_jerarquico + 1;
   data.id_bien = null;
   dispatch(seleccionarBienModelCrete(data));
@@ -179,7 +181,7 @@ export const seleccionarBienCreate = (dispatch, bien) => {
 
 export const editarBien = async (dispatch, dataEdit) => {
   const dataModel = construirModelo(dataEdit);
-  await clienteAxios
+  await clienteBack
     .put("almacen/bienes/catalogo-bienes/create/", dataModel)
     .then(() => {
       //cambiar llamado de servicio
