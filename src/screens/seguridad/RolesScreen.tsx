@@ -9,17 +9,15 @@ import {
 } from "../../actions/modalActions";
 import Swal from "sweetalert2";
 import clienteAxios from "../../config/clienteAxios";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
 import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
 import {
   getPermisosAdapterByRolForSelect,
   getPermisosAdapterSelect,
   getPermisosRolPost,
 } from "../../adapters/roles.adapters";
 import botonBuscar from "../../assets/iconosBotones/buscar.svg";
-import botonAgregar from "../../assets/iconosBotones/agregar.svg";
+import botonAgregar from "../../assets/iconosBotones/nuevo.svg";
 import botonEditar from "../../assets/iconosBotones/editar.svg";
 import botonEliminar from "../../assets/iconosBotones/eliminar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
@@ -168,33 +166,8 @@ const RolesScreen = () => {
     setisCreate("editar");
   };
 
-  const eliminarRol = async (idRol) => {
+  async function confirmarEliminarRol(idRol) {
     const elementModalId = document.getElementById("calendar-modal")!;
-    try {
-      const { data } = await clienteAxios.delete(`roles/delete/${idRol}`);
-
-      Swal.fire({
-        target: elementModalId,
-        position: "center",
-        icon: "info",
-        title: data.detail,
-        showConfirmButton: true,
-        confirmButtonText: "Continuar",
-      });
-    } catch (err) {
-      Swal.fire({
-        target: elementModalId,
-        position: "center",
-        icon: "error",
-        title: "Algo pasó, intente de nuevo",
-        showConfirmButton: true,
-        confirmButtonText: "Aceptar",
-      });
-    }
-    getRolesPermisos();
-  };
-
-  const confirmarEliminarRol = async (idRol) => {
     Swal.fire({
       title: "Estas seguro?",
       text: "Un rol que se elimina no se puede recuperar",
@@ -204,12 +177,36 @@ const RolesScreen = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, elminar!",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        eliminarRol(idRol);
+        await clienteAxios
+          .delete(`roles/delete/${idRol}`)
+          .then((res) => {
+
+            Swal.fire({
+              target: elementModalId,
+              position: "center",
+              icon: "success",
+              title: "Eliminado correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Continuar",
+            });
+          }).catch((err) => {
+            Swal.fire({
+              target: elementModalId,
+              position: "center",
+              icon: "info",
+              title: err.response.data.detail,
+              showConfirmButton: true,
+              confirmButtonText: "Continuar",
+            });
+          })
+          .finally(async () => {
+             getRolesPermisos();
+          });
       }
     });
-  };
+  }
 
   const handleCloseModal = () => {
     setisCreate("");
@@ -310,7 +307,7 @@ const RolesScreen = () => {
         )
         .then((data) => {
           getRolesList();
-          
+
           Swal.fire({
             target: elementModalId,
             position: "center",

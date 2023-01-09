@@ -29,7 +29,7 @@ export interface IBienes {
   id_unidad_medida?: number;
   id_porcentaje_iva?: number;
   id_unidad_medida_vida_util?: number;
-  id_bien_padre?: number;
+  id_bien_padre?: number | null;
 }
 
 interface IDataEdit{

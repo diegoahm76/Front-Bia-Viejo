@@ -36,7 +36,6 @@ const modelCreate = {
   tipo_persona: { value: "", label: "" }, //representante
   numero_documento_representante: 0,
   tipo_documento: { value: "", label: "" },
-
   numero_documento: "",
   digito_verificacion: "",
   nombre_comercial: "",
@@ -46,7 +45,8 @@ const modelCreate = {
   direccion_notificaciones: "",
   cod_municipio_notificacion_nal: { value: "", label: "" },
   cod_departamento_notificacion: { value: "", label: "" },
-  cod_pais_nacionalidad_empresa: { value: "", label: "" },
+  pais_residencia: { value: "CO", label: "Colombia" },
+  pais_notificacion: { value: "CO", label: "Colombia" },
   telefono_celular_empresa: "",
   telefono_empresa_2: "",
   telefono_empresa: "",
@@ -138,13 +138,23 @@ const AdministradorDeEmpresasScreen = () => {
     setFormCreate(form);
   };
 
-  const changeSelectPais = (e) => {
+  const changeSelectPaisNotificacion = (e) => {
     let form = { ...formCreate };
-    form.cod_pais_nacionalidad_empresa = {
+    form.pais_notificacion = {
       value: e.value,
       label: e.label,
     };
-    setValue("tipo_pais", form.cod_pais_nacionalidad_empresa);
+    setValue("pais_notificacion", form.pais_notificacion);
+    setFormCreate(form);
+  };
+
+  const changeSelectPais = (e) => {
+    let form = { ...formCreate };
+    form.pais_residencia = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("pais_residencia", form.pais_residencia);
     setFormCreate(form);
   };
 
@@ -155,16 +165,14 @@ const AdministradorDeEmpresasScreen = () => {
       label: e.label,
     };
 
-    const municipioIndicadores =
-      formCreate.cod_departamento_notificacion?.value?.slice(0, 2);
     const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
       const indicator = municipio.value.slice(0, 2);
-      return municipioIndicadores === indicator;
+      return form.cod_departamento_notificacion.value === indicator;
     });
-    
-    setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
+
     setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
     setValue("tipo_departamento", form.cod_departamento_notificacion);
+    setValue("cod_municipio_notificacion_nal", { label: "", value: "" });
     setFormCreate(form);
   };
 
@@ -230,7 +238,12 @@ const AdministradorDeEmpresasScreen = () => {
           (municipio) =>
             municipio.value === dataEmpresa.cod_municipio_notificacion_nal
         );
-        
+
+        const departamentoSeleccionado = departamentosOptions.filter(
+          (departamento) =>
+            departamento.value ===
+            dataEmpresa.cod_municipio_notificacion_nal.slice(0, 2)
+        );
 
         const modelEdit = {
           ...dataEmpresa,
@@ -250,18 +263,21 @@ const AdministradorDeEmpresasScreen = () => {
           cod_municipio_notificacion_nal: municipioSeleccionado
             ? municipioSeleccionado[0]
             : { value: "", label: "" },
-          cod_departamento_notificacion: { value: "", label: "" },
-          cod_pais_nacionalidad_empresa: paisSeleccionado
+          cod_departamento_notificacion: departamentoSeleccionado
+            ? departamentoSeleccionado[0]
+            : { value: "", label: "" },
+          pais_notificacion: paisSeleccionado
             ? paisSeleccionado[0]
-            : { label: "", value: "" },
+            : { label: "Colombia", value: "CO" },
+          pais_residencia: paisSeleccionado
+            ? paisSeleccionado[0]
+            : { label: "Colombia", value: "CO" },
           representante_legal: dataEmpresa.representante_legal
             ? dataEmpresa.representante_legal.id_persona
             : 0,
         };
-        
 
-        setDireccionNotificacionText(dataEmpresa.direccion_notificaciones);
-
+        setValue("direccionNotificacion", dataEmpresa.direccion_notificaciones);
         setFormCreate(modelEdit);
         setIsEdit(true);
         setIsVisible(true);
@@ -294,7 +310,9 @@ const AdministradorDeEmpresasScreen = () => {
             direccion_notificaciones: "",
             cod_municipio_notificacion_nal: { value: "", label: "" },
             cod_departamento_notificacion: { value: "", label: "" },
-            cod_pais_nacionalidad_empresa: { value: "", label: "" },
+            pais_residencia: { value: "CO", label: "Colombia" },
+            municipio_residencia: { value: "", label: "" },
+            pais_notificacion: { value: "CO", label: "Colombia" },
             telefono_celular_empresa: "",
             telefono_empresa_2: "",
             telefono_empresa: "",
@@ -315,7 +333,6 @@ const AdministradorDeEmpresasScreen = () => {
 
   const onSubmitEmpresa = async (data) => {
     //setLoading(true);
-
     let idPersonaRepresentante = null;
 
     try {
@@ -340,7 +357,7 @@ const AdministradorDeEmpresasScreen = () => {
           navigate("/dashboard/seguridad/administradordepersonas");
         }
       });
-     // setLoading(false);
+      // setLoading(false);
       return;
     }
 
@@ -351,8 +368,8 @@ const AdministradorDeEmpresasScreen = () => {
       direccion_notificaciones: data.direccionDeNotificacion,
       cod_municipio_notificacion_nal:
         formCreate.cod_municipio_notificacion_nal.value,
-      cod_pais_nacionalidad_empresa:
-        formCreate.cod_pais_nacionalidad_empresa.value,
+      cod_pais_nacionalidad_empresa: formCreate.pais_notificacion.value,
+      pais_residencia: formCreate.pais_residencia.value,
       representante_legal: idPersonaRepresentante,
     };
 
@@ -363,7 +380,7 @@ const AdministradorDeEmpresasScreen = () => {
           createEmpresa
         );
         setIsVisible(false);
-        setBusquedaModel(busquedaAvanzadaModel)
+        setBusquedaModel(busquedaAvanzadaModel);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -371,7 +388,6 @@ const AdministradorDeEmpresasScreen = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
@@ -385,7 +401,6 @@ const AdministradorDeEmpresasScreen = () => {
           tipo_persona: { value: "", label: "" }, //representante
           numero_documento_representante: 0,
           tipo_documento: { value: "", label: "" },
-
           numero_documento: "",
           digito_verificacion: "",
           nombre_comercial: "",
@@ -395,7 +410,8 @@ const AdministradorDeEmpresasScreen = () => {
           direccion_notificaciones: "",
           cod_municipio_notificacion_nal: { value: "", label: "" },
           cod_departamento_notificacion: { value: "", label: "" },
-          cod_pais_nacionalidad_empresa: { value: "", label: "" },
+          pais_residencia: { value: "CO", label: "Colombia" },
+          pais_notificacion: { value: "CO", label: "Colombia" },
           telefono_celular_empresa: "",
           telefono_empresa_2: "",
           telefono_empresa: "",
@@ -544,9 +560,8 @@ const AdministradorDeEmpresasScreen = () => {
   }, []);
 
   const handleCancelAction = () => {
-    setIsVisible(false)
-    setBusquedaModel(busquedaAvanzadaModel)
-    
+    setIsVisible(false);
+    setBusquedaModel(busquedaAvanzadaModel);
   };
 
   useEffect(() => {
@@ -626,6 +641,7 @@ const AdministradorDeEmpresasScreen = () => {
                       className="form-control border border-terciary rounded-pill px-3"
                       type="text"
                       required={true}
+                      maxLength={15}
                       name="numeroDocumento"
                       onChange={handleChange}
                       value={busquedaModel.numeroDocumento}
@@ -694,6 +710,7 @@ const AdministradorDeEmpresasScreen = () => {
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
                           name="numero_documento"
+                          maxLength={15}
                           value={formCreate.numero_documento}
                           onChange={handleChangeCreate}
                           disabled={isEdit}
@@ -758,6 +775,7 @@ const AdministradorDeEmpresasScreen = () => {
                           onChange={handleChangeCreate}
                           value={formCreate.razon_social}
                           name="razon_social"
+                          disabled={isEdit}
                         />
                       </div>
                       {errorsEmpresa.razonSocial && (
@@ -805,6 +823,7 @@ const AdministradorDeEmpresasScreen = () => {
                         className="border border-terciary form-control rounded-pill px-3"
                         type="number"
                         required={true}
+                        maxLength={15}
                         onChange={handleChangeCreate}
                         name="numero_documento_representante"
                         value={formCreate.numero_documento_representante}
@@ -825,10 +844,10 @@ const AdministradorDeEmpresasScreen = () => {
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País:</label>
                     <Select
-                      value={formCreate.cod_pais_nacionalidad_empresa}
+                      value={formCreate.pais_residencia}
                       onChange={changeSelectPais}
+                      isDisabled={true}
                       options={paisesOptions}
-                      name="tipo_pais"
                       placeholder="Seleccionar"
                     />
                   </div>
@@ -873,8 +892,10 @@ const AdministradorDeEmpresasScreen = () => {
                       <label className="ms-2">Teléfono empresa:</label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
-                        type="number"
+                        type="text"
                         name="telefono_empresa"
+                        minLength={10}
+                        maxLength={10}
                         value={formCreate.telefono_empresa}
                         onChange={handleChangeCreate}
                       />
@@ -891,6 +912,8 @@ const AdministradorDeEmpresasScreen = () => {
                         className="form-control border border-terciary rounded-pill px-3"
                         type="text"
                         name="telefono_empresa_2"
+                        minLength={10}
+                        maxLength={10}
                         value={formCreate.telefono_empresa_2}
                         onChange={handleChangeCreate}
                       />
@@ -923,9 +946,10 @@ const AdministradorDeEmpresasScreen = () => {
                       País notificación:
                     </label>
                     <Select
-                      value={formCreate.cod_pais_nacionalidad_empresa}
+                      value={formCreate.pais_notificacion}
                       options={paisesOptions}
-                      onChange={changeSelectPais}
+                      isDisabled={true}
+                      onChange={changeSelectPaisNotificacion}
                       placeholder="Seleccionar"
                     />
                   </div>
@@ -950,6 +974,7 @@ const AdministradorDeEmpresasScreen = () => {
                       options={municipiosCoinicidenciaOptions}
                       onChange={changeSelectMunicipio}
                       value={formCreate.cod_municipio_notificacion_nal}
+                      name="cod_municipio_notificacion_nal"
                     />
                   </div>
 
@@ -963,9 +988,10 @@ const AdministradorDeEmpresasScreen = () => {
                         <input
                           className="form-control rounded-pill px-3 border border-terciary"
                           type="text"
-                          name="direccion_notificaciones "
-                          value={direccionNotificacionText}
-                          onChange={handleChangeCreate}
+                          readOnly
+                          {...registerEmpresa("direccionDeNotificacion", {
+                            required: true,
+                          })}
                         />
                       </div>
                       <button

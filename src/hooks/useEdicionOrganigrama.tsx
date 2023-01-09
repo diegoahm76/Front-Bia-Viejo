@@ -424,7 +424,6 @@ const useEdicionOrganigrama = () => {
         optionUnidadPadre,
         orden_nivel,
         title_nivel,
-        title_unidades,
         //Edita States
 
         //Functions
@@ -438,12 +437,10 @@ const useEdicionOrganigrama = () => {
 
         handleSubmitUnidades,
         registerUnidades,
-        resetUnidades,
         setValueUnidades,
         submitUnidades,
-        watchUnidades,
 
-        onGridReady
+        onGridReady,
     };
 }
 

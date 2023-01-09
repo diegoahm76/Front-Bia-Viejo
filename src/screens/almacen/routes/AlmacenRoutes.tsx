@@ -25,7 +25,6 @@ import { RegistroDeBajaScreen } from "../entradaYSalidaDeArticulos/RegistroDeBaj
 import CreacionArticuloScreen from "../entradaYSalidaDeArticulos/CreacionArticuloScreen";
 import HojaDeVidaVehiculoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoScreen";
 import HojaDeVidaOtrosActivosScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaOtrosActivosScreen";
-import HojaDeVidaVehiculoExternoScreen from "../gestionDeInventario/gestionDeHojaDeVida/HojaDeVidaVehiculoExternoScreen";
 import BusquedaActivosSubdelegadosScreen from "../gestionDeInventario/subdelegacion/BusquedaActivosSubdelegadosScreen";
 import ReasignacionElementosSubAsignadosScreen from "../gestionDeInventario/subdelegacion/ReasignacionElementosSubAsignadosScreen";
 import SubasignarElementosScreen from "../gestionDeInventario/subdelegacion/SubasignarElementosScreen";
@@ -146,14 +145,7 @@ const AlmacenRoutes = () => {
         />
         <Route path="cv-computo" element={<HojaDeVidaComputoScreen />} />
         <Route path="cv-vehiculo" element={<HojaDeVidaVehiculoScreen />} />
-        <Route
-          path="cv-otros-activos"
-          element={<HojaDeVidaOtrosActivosScreen />}
-        />
-        <Route
-          path="cv-vehiculo-externo"
-          element={<HojaDeVidaVehiculoExternoScreen />}
-        />
+        <Route path="cv-otros-activos" element={<HojaDeVidaOtrosActivosScreen />} />
         <Route
           path="busqueda-activos"
           element={<BusquedaActivosSubdelegadosScreen />}

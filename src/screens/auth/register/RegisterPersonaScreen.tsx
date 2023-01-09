@@ -794,8 +794,7 @@ const RegisterPersonaScreen = () => {
                         autoComplete="off"
                         dateFormat="dd/MM/yyyy"
                         selected={createPersonaModel.fechaInput}
-                        onSelect={selectDatePicker
-                        }
+                        onSelect={selectDatePicker}
                         className="border border-terciary form-control border rounded-pill px-3"
                         placeholderText="dd/mm/aaaa"
                       />

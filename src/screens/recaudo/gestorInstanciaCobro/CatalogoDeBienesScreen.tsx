@@ -22,13 +22,15 @@ import {
   seleccionarBienEdit,
   seleccionarBienCreate,
   eliminarBien,
+  initialStateBien,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IBienes } from "../../../Interfaces/Bienes";
 import { INodo } from "../../../Interfaces/Nodo";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-import { seleccionarBienModelCreate } from "../../../store/slices/bienes/indexBien";
+import clienteAxios from "../../../config/clienteAxios";
+import clienteBack from "../../../config/clienteBack";
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -41,25 +43,20 @@ const CatalogoDeBienesScreen = () => {
   const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
   const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
 
-  const armarArbol = useCallback((bienNuevo) => {
-    let contador = 0;
-    console.log("BIEN cargado", bienNuevo);
-    bienNuevo?.forEach((bienElement) => {
-      agregarNodosBase(bienElement, contador, bienNuevo);
-      contador = arrayTotal.length;
-    });
-  }, []);
 
   useEffect(() => {
-    obtenerTodosBienes(dispatch);
-  }, [dispatch]);
-  useEffect(
-    () => console.log(" after first render or message updated", bien),
-    [bien]
-  );
-  useEffect(() => {
-    armarArbol(bien);
-  }, [bien]);
+    getBienes();
+  }, []);
+
+  const getBienes = async () => {
+    await clienteBack
+      .get("almacen/bienes/catalogo-bienes/get-list")
+      .then((bienes) => {
+        setArrayTotal(bienes.data.data);
+      })
+      .catch(() => {
+      });
+  }
 
   // useEffect(() => {
   //   armarArbol(bien);
@@ -117,7 +114,7 @@ const CatalogoDeBienesScreen = () => {
           onClick={() => {
             enviarDatos(node, false); //crear
           }}
-          disabled={node.data.crear}
+          disabled={!node.data.crear}
         ></Button>
         <Button
           type="button"
@@ -127,14 +124,14 @@ const CatalogoDeBienesScreen = () => {
           onClick={() => {
             enviarDatos(node, true); //true
           }}
-          disabled={node.data.editar}
+          disabled={!node.data.editar}
         ></Button>
         <Button
           type="button"
           icon="fa-regular fa-trash-can fs-3"
           className="p-button-danger"
           style={{ marginRight: ".5em" }}
-          disabled={node.data.eliminar}
+          disabled={!node.data.eliminar}
           onClick={() => {
             eliminarNodo(node); //true
           }}
@@ -143,134 +140,14 @@ const CatalogoDeBienesScreen = () => {
     );
   };
 
-  //let arrayTotal: INodo[] = [];
-
-  function tieneHijos(bien, bienNuevo) {
-    let bandera = 0;
-    bienNuevo.forEach((bienElement) => {
-      if (bien.id_bien === bienElement.id_bien_padre) {
-        bandera++;
-      }
-    });
-    return bandera > 0 ? true : false;
-  }
-
-  function nodoRecorrido(bien) {
-    return arrayRecorrido.includes(bien.id_bien) ? false : true;
-  }
-
-  function agregarNodosBase(bien, contador, bienNuevo) {
-    let hijos: INodo[] = [];
-    let keynode = contador.toString() + "-";
-    let nodo: INodo = {
-      key: contador.toString(),
-      data: {
-        nombre: bien.nombre + " (" + contador.toString() + ")",
-        codigo: bien.codigo_bien,
-        id_nodo: bien.id_bien,
-        editar: false,
-        eliminar: false,
-        crear: false,
-        bien: bien,
-      },
-      children: hijos,
-    };
-    let existe = nodoRecorrido(bien);
-    if (existe && bien.nivel_jerarquico == 1) {
-      if (tieneHijos(bien, bienNuevo)) {
-        let children = [...crearNiveles(bien, keynode, bienNuevo)];
-        nodo.children = [...children];
-        nodo.data.eliminar = true;
-        arrayTotal.push({ ...nodo });
-      } else {
-        arrayTotal.push({ ...nodo });
-        nodo.data.eliminar = false;
-        arrayRecorrido.push({ ...bien }.id_bien);
-      }
-    }
-  }
-
-  function crearNiveles(bien, keynode, bienNuevo) {
-    let contadorInterno = 0;
-    let hijos: INodo[] = [];
-    let nodoHijo: INodo = {
-      key: "",
-      data: {
-        nombre: "",
-        codigo: "",
-        id_nodo: 0,
-        editar: false,
-        crear: false,
-        bien: bien,
-      },
-      children: hijos,
-    };
-    let existe = nodoRecorrido(bien);
-    if (existe) {
-      bienNuevo.forEach((bienElement) => {
-        if (bienElement.id_bien_padre === bien.id_bien) {
-          let existe2 = nodoRecorrido(bienElement);
-          if (existe2) {
-            nodoHijo.key = keynode + contadorInterno.toString();
-            if (tieneHijos(bienElement, bienNuevo)) {
-              let hijo = [
-                ...crearNiveles(
-                  bienElement,
-                  keynode + contadorInterno.toString() + "-",
-                  bienNuevo
-                ),
-              ];
-              nodoHijo.data = {
-                id_nodo: bienElement.id_bien,
-                codigo: bienElement.codigo_bien,
-                nombre:
-                  bienElement.nombre +
-                  " (" +
-                  keynode +
-                  " " +
-                  contadorInterno.toString() +
-                  ")",
-                eliminar: true,
-                bien: bienElement,
-              };
-              nodoHijo.data.id_nodo = { ...bienElement }.id_bien;
-              nodoHijo.children = [...hijo];
-            } else {
-              nodoHijo.data = {
-                id_nodo: bienElement.id_bien,
-                codigo: bienElement.codigo_bien,
-                nombre:
-                  bienElement.nombre +
-                  " (" +
-                  keynode +
-                  " " +
-                  contadorInterno.toString() +
-                  ")",
-                eliminar: false,
-                bien: bienElement,
-              };
-              nodoHijo.children = [];
-              nodoHijo.data.eliminar = false;
-            }
-            arrayRecorrido.push(bienElement.id_bien);
-            hijos.push({ ...nodoHijo });
-          }
-          contadorInterno++;
-        }
-      });
-    }
-    arrayRecorrido.push(bien.id_bien);
-    return [...hijos];
-  }
 
   function enviarDatos(nodo, accion) {
-    if(accion)
-    {
-      seleccionarBienEdit(dispatch,nodo.data.bien)
-    }else{
-      seleccionarBienCreate(dispatch,nodo.data.bien)
+    if (accion) {
+      seleccionarBienEdit(dispatch, nodo.data.bien)
+    } else {
+      seleccionarBienCreate(dispatch, nodo.data.bien)
     }
-    
+
 
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
@@ -279,6 +156,7 @@ const CatalogoDeBienesScreen = () => {
 
   function eliminarNodo(nodo) {
     eliminarBien(dispatch, nodo.data.bien);
+    obtenerTodosBienes(dispatch);
   }
 
   const {
@@ -289,11 +167,12 @@ const CatalogoDeBienesScreen = () => {
 
   const navigate = useNavigate();
   const CrearArticulo = () => {
+    seleccionarBienCreate(dispatch, initialStateBien.bienSeleccionado);
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   };
- 
+
 
   return (
     <div className="row min-vh-100">

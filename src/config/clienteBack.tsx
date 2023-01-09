@@ -1,21 +1,22 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
-
-export const clienteEstaciones: AxiosInstance = axios.create({
-  baseURL: "http://isamc2022-001-site1.itempurl.com/",
+import axios from "axios";
+const clienteBack= axios.create({
+  baseURL: "https://backend-bia-develop-production.up.railway.app/api/",
 });
 
-clienteEstaciones.interceptors.request.use(
-  async (request: AxiosRequestConfig) => {
+clienteBack.interceptors.request.use(
+  async (request) => {
     try {
       const { userinfo: { tokens } } = JSON.parse(localStorage.getItem('userInfo')!);
       if (tokens.access) {
         request.headers!['Authorization'] = `Bearer ${tokens.access}`;
       }
     } catch (e) { }
+
     return request;
   },
   (error) => {
     return Promise.reject(error);
   }
 );
-export default clienteEstaciones;
+
+export default clienteBack;

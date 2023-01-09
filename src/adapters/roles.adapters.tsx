@@ -21,4 +21,3 @@ export const getPermisosRolPost = (idRol, permisos) => {
   }));
   return permisosPorRolAdapted;
 };
- 

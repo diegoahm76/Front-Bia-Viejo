@@ -563,19 +563,6 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="almacen/gestion-de-inventario/cv-vehiculo-externo"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Hoja de vida <br /> un vehiculo externo
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-otros-activos"
                               >
                                 <span className="sidenav-mini-icon">
