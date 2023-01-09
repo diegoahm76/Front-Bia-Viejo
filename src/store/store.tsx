@@ -10,7 +10,7 @@ import organigramReducer from "./slices/organigrama/indexOrganigram";
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
 import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
 import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
-import bienReducer from "./slices/bienes/indexBien";
+import bienReducer from "./slices/catalogoBienes/indexCatalogoBien";
 import marcaReducer from "./slices/marca/indexMarca";
 import cvReducer from "./slices/cv/indexCv";
 

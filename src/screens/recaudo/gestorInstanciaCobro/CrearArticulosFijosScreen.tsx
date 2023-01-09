@@ -10,6 +10,7 @@ import clienteAxios from "../../../config/clienteAxios";
 import {
   crearBien,
   editarBien,
+  obtenerTodosBienes,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
 
 const editState: any = {
@@ -55,6 +56,8 @@ export const CreacionArticulosFijosScreen = () => {
     formState: { errors },
   } = useForm();
 
+
+  const navigate = useNavigate();
   //state
   const bienSeleccionado: IBienes = useAppSelector(
     (state) => state.bien.bienSeleccionado
@@ -101,44 +104,73 @@ export const CreacionArticulosFijosScreen = () => {
 
   useEffect(() => {
     cargarDatosIniciales();
-  }, []);
+  }, [
+    porcentajeOptions, tipoBienOptions, unidadMedidaOptions, metodoValoracionOptions,
+    depresiacionOptions, marcaOptions
+  ]);
 
   const cargarDatosIniciales = () => {
     let catalogoBien;
     if (isEdit) {
+
+      const bienEdit = tipoBienOptions.filter((perce) => {
+        return perce.value.toString() === bienSeleccionado.cod_tipo_bien?.toString();
+      });
+      const activoEdit = tipoActivoOptions.filter((perce) => {
+        return perce.value.toString() === bienSeleccionado.cod_tipo_activo?.toString();
+      });
+      const porcentajeEdit = porcentajeOptions.filter((perce) => {
+        return perce.value.toString() === bienSeleccionado.id_porcentaje_iva?.toString();
+      });
+      const marcaEdit = marcaOptions.filter((marca) => {
+        return marca.value.toString() === bienSeleccionado.id_marca?.toString();
+      });
+      const valoraEdit = metodoValoracionOptions.filter((val) => {
+        return val.value.toString() === bienSeleccionado.cod_metodo_valoracion?.toString();
+      });
+
+      const unidadVidaEdit = unidadMedidaOptions.filter((unidad) => {
+        return unidad.value.toString() === bienSeleccionado.id_unidad_medida_vida_util?.toString();
+      });
+      const depresiacionEdit = depresiacionOptions.filter((unidad) => {
+        return unidad.value.toString() === bienSeleccionado.cod_tipo_depreciacion?.toString();
+      });
+
+
+
       catalogoBien = {
         ...bienSeleccionado,
-        cod_tipo_bien: { value: bienSeleccionado.cod_tipo_bien, label: "" },
-        cod_tipo_activo: { value: bienSeleccionado.cod_tipo_activo, label: "" },
+        cod_tipo_bien: { value: bienEdit[0]?.value, label: bienEdit[0]?.label },
+        cod_tipo_activo: { value: activoEdit[0]?.value, label: activoEdit[0]?.label },
 
         cod_metodo_valoracion: {
-          value: bienSeleccionado.cod_metodo_valoracion,
-          label: "",
+          value: valoraEdit[0]?.value,
+          label: valoraEdit[0]?.label,
         },
         cod_tipo_depreciacion: {
-          value: bienSeleccionado.cod_tipo_depreciacion,
-          label: "",
+          value: depresiacionEdit[0]?.value,
+          label: depresiacionEdit[0]?.label,
         },
-        id_marca: { value: bienSeleccionado.id_marca, label: "" },
+        id_marca: { value: marcaEdit[0]?.value, label: marcaEdit[0]?.label },
         id_unidad_medida: {
-          value: bienSeleccionado.id_unidad_medida,
-          label: "",
+          value: unidadVidaEdit[0]?.value,
+          label: unidadVidaEdit[0]?.label,
         },
         id_porcentaje_iva: {
-          value: bienSeleccionado.id_porcentaje_iva,
-          label: "",
+          value: porcentajeEdit[0]?.value,
+          label: porcentajeEdit[0]?.label,
         },
         id_unidad_medida_vida_util: {
-          value: bienSeleccionado.id_unidad_medida_vida_util,
-          label: "",
+          value: unidadVidaEdit[0]?.value,
+          label: unidadVidaEdit[0]?.label,
         },
       };
     } else {
       catalogoBien = {
         ...bienEdit,
         id_bien: bienSeleccionado.id_bien,
-        id_bien_padre: dataEdit.id_bien_padre,
-        nivel_jerarquico: dataEdit.nivel_jerarquico,
+        id_bien_padre: bienSeleccionado.id_bien_padre,
+        nivel_jerarquico: bienSeleccionado.nivel_jerarquico,
       };
     }
     setBienEdit(catalogoBien);
@@ -219,7 +251,7 @@ export const CreacionArticulosFijosScreen = () => {
       cod_tipo_activo: bienEdit.cod_tipo_activo.value,
       cod_tipo_bien: bienEdit.cod_tipo_bien.value,
       cod_tipo_depreciacion: bienEdit.cod_tipo_depreciacion.value,
-      codigo_bien:bienEdit.codigo_bien, //quemado
+      codigo_bien: bienEdit.codigo_bien, //quemado
       descripcion: bienEdit.descripcion,
       doc_identificador_nro: bienEdit.doc_identificador_nro,
       maneja_hoja_vida: checkboxHoja,
@@ -278,8 +310,12 @@ export const CreacionArticulosFijosScreen = () => {
   const onSubmit = () => {
     if (isEdit) {
       editarBien(dispatch, crearModeloData());
+      obtenerTodosBienes(dispatch);
+      navigate("/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes");
     } else {
       crearBien(dispatch, crearModeloData());
+      obtenerTodosBienes(dispatch);
+      navigate("/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes");
     }
   };
 
@@ -360,7 +396,6 @@ export const CreacionArticulosFijosScreen = () => {
     setBienEdit(catalogoBien);
   };
 
-  const navigate = useNavigate();
   const volver = () => {
     navigate("/dashboard/Recaudo/gestor-notificacion/catalogo-bienes-Screen");
   };
@@ -474,8 +509,7 @@ export const CreacionArticulosFijosScreen = () => {
                       type="text"
                       placeholder="Carpeta Padre"
                       value={bienEdit.id_bien_padre}
-                      disabled
-                      {...register("padre")}
+                      disabled={true}
                     />
                     {errors.padre && (
                       <small className="text-danger">
@@ -604,18 +638,12 @@ export const CreacionArticulosFijosScreen = () => {
                     <label className="form-floating input-group input-group-dynamic ms-2">
                       Marca
                     </label>
-                    <Controller
+                    <Select
                       name="marca"
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={marcaOptions}
-                          placeholder="Seleccionar"
-                          value={bienEdit.id_marca}
-                          onChange={changeSelectTipoMarca}
-                        />
-                      )}
+                      options={marcaOptions}
+                      placeholder="Seleccionar"
+                      value={bienEdit.id_marca}
+                      onChange={changeSelectTipoMarca}
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3 d-flex">

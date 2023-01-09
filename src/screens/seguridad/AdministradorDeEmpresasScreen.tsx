@@ -172,7 +172,6 @@ const AdministradorDeEmpresasScreen = () => {
 
     setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
     setValue("tipo_departamento", form.cod_departamento_notificacion);
-    debugger
     setValue("cod_municipio_notificacion_nal", { label: "", value: "" });
     setFormCreate(form);
   };
@@ -206,8 +205,6 @@ const AdministradorDeEmpresasScreen = () => {
       );
 
       const { data: dataEmpresa } = dataEmpresaObject;
-
-      debugger;
 
       if (dataEmpresa?.tipo_persona !== "J") {
         Swal.fire({
@@ -336,8 +333,6 @@ const AdministradorDeEmpresasScreen = () => {
 
   const onSubmitEmpresa = async (data) => {
     //setLoading(true);
-    debugger;
-
     let idPersonaRepresentante = null;
 
     try {
@@ -377,7 +372,6 @@ const AdministradorDeEmpresasScreen = () => {
       pais_residencia: formCreate.pais_residencia.value,
       representante_legal: idPersonaRepresentante,
     };
-    debugger;
 
     if (isEdit) {
       try {

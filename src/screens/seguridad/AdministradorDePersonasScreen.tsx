@@ -193,7 +193,6 @@ const AdministradorDePersonasScreen = () => {
       );
 
       const { data: dataPersona } = dataPersonaObject;
-      debugger;
       if (dataPersona?.tipo_persona !== "N" && dataPersona?.id_persona) {
         Swal.fire({
           title: "Este documento es de una persona juridica",
@@ -212,7 +211,6 @@ const AdministradorDePersonasScreen = () => {
         return setIsVisible(false);
       }
       //cambiar
-      debugger;
       setIsVisible(true);
       setIsEdit(true);
       //metodo falta settear los datos
@@ -291,7 +289,7 @@ const AdministradorDePersonasScreen = () => {
       };
 
       setFormValues(form);
-      debugger;
+
     } catch (err: any) {
       console.log(err);
       if (err.response.data.detail) {
@@ -320,7 +318,6 @@ const AdministradorDePersonasScreen = () => {
 
   const onSubmitPersona = async (data) => {
     // setLoading(true);
-    debugger;
     const indicativo = "57";
     const updatedPersona = {
       tipo_persona: "N",

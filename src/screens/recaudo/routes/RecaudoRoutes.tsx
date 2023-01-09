@@ -24,7 +24,7 @@ import { useAppDispatch } from "../../../store/hooks/hooks";
 
 const RecaudoRoutes = () => {
   const dispatch = useAppDispatch();
-  obtenerTodosBienes(dispatch);
+  // obtenerTodosBienes(dispatch);
   return (
     <Routes>
       <Route index element={<Recaudo />} />
