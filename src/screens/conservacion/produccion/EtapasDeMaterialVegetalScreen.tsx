@@ -216,7 +216,7 @@ const EtapasDeMaterialVegetalScreen = () => {
                   type="submit"
                   title="Buscar"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -226,7 +226,7 @@ const EtapasDeMaterialVegetalScreen = () => {
 
           {selecOpciones.lote && selecOpciones.etapa ? (
             <div>
-              <div div id="myGrid" className="ag-theme-alpine mt-4">
+              <div  id="myGrid" className="ag-theme-alpine mt-4">
                 <div className="ag-theme-alpine" style={{ height: "400px" }}>
                   <AgGridReact
                     columnDefs={columnDefs}
@@ -237,7 +237,7 @@ const EtapasDeMaterialVegetalScreen = () => {
                 </div>
               </div>
 
-              {/* <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+              {/* <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                 <button
                   className="btn bg-gradient-primary mb-0"
                   type="submit"
@@ -248,14 +248,14 @@ const EtapasDeMaterialVegetalScreen = () => {
                 </button>
               </div> */}
 
-              <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+              <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                 <button
                   className="btn  mb-0"
                   type="submit"
                   title="Salir"
                   form="configForm"
                 >
-                  <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                  <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                 </button>
               </div>
             </div>

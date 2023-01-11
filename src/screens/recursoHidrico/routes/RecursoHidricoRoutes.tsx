@@ -40,6 +40,7 @@ const RecursoHidricoRoutes = () => {
 
         <Route path="monitoreo" element={<MonitoreoScreen />} />
 
+
         <Route
           path="alarmas-configuraciones"
           element={<AlarmasConfiguracionesScreen />}

@@ -284,7 +284,7 @@ const HistorialDeSolicitudesScreen = () => {
                     type="submit"
                     title="Buscar"
                   >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
         
@@ -312,7 +312,7 @@ const HistorialDeSolicitudesScreen = () => {
               title="Send"
               form="configForm"
             >
-              <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+              <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
             </button>
           </div>
         </div>)
@@ -379,7 +379,7 @@ const HistorialDeSolicitudesScreen = () => {
                     type="submit"
                     title="Buscar"
                     >
-                    <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                    <i className="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
 
@@ -409,7 +409,7 @@ const HistorialDeSolicitudesScreen = () => {
                         title="Send"
                         form="configForm"
                       >
-                        <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                        <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                       </button>
                     </div>
                   </div>

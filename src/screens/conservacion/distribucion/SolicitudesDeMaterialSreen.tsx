@@ -149,7 +149,7 @@ const SolicitudesDeMaterialSreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button className="btn text-capitalize" type="button" title="Eliminar">
-          <i class="fa-regular fa-trash-can fs-3"></i>
+          <i className="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -236,10 +236,10 @@ const SolicitudesDeMaterialSreen = () => {
             <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="number"
-                      disabled="true"
+                      disabled={true}
                       placeholder="000960"
-                      rules={{ required: true }}
-                      {...register("consecutivo")}
+                      required={ true }
+                   
                     />
 </div>
 
@@ -300,7 +300,7 @@ const SolicitudesDeMaterialSreen = () => {
                   form="configForm"
                   title="Buscar"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
 
@@ -338,8 +338,8 @@ const SolicitudesDeMaterialSreen = () => {
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="number"
                       placeholder="Digitar cantidad de material vegetal"
-                      rules={{ required: true }}
-                      {...register("cantidad")}
+                       required= {true }
+                  
                     />
                  
                   
@@ -355,7 +355,7 @@ const SolicitudesDeMaterialSreen = () => {
                   type="button"
                   title="Agregar"
                 >
-                  <i class="fa-regular fa-plus fs-3"></i>
+                  <i className="fa-regular fa-plus fs-3"></i>
                 </button>
                 </div>
             </div>
@@ -382,7 +382,7 @@ const SolicitudesDeMaterialSreen = () => {
                 type="button"
                 title="Eliminar todo"
               >
-                <i class="fa-regular fa-trash-can fs-3"></i>
+                <i className="fa-regular fa-trash-can fs-3"></i>
               </button>
             </div>
           </div>
@@ -390,7 +390,7 @@ const SolicitudesDeMaterialSreen = () => {
           
               <div className="col-12 px-6 d-flex justify-content-end gap-4 mt-4">
                 <button className="btn text-capitalize" title="Cancelar">
-                <i class="fa-solid fa-x fs-3"></i>
+                <i className="fa-solid fa-x fs-3"></i>
                 </button>
               
                 <button
@@ -398,7 +398,7 @@ const SolicitudesDeMaterialSreen = () => {
                   onClick={handleOpenModal}
                   title="Siguiente"
                 >
-                <i class="fa-solid fa-angles-right fs-3"></i>
+                <i className="fa-solid fa-angles-right fs-3"></i>
                 </button>
               </div>
             
@@ -418,8 +418,8 @@ const SolicitudesDeMaterialSreen = () => {
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
                       placeholder="Numero de Informe"
-                      rules={{ required: true }}
-                      {...register("NumeroInforme")}
+                      required={true }
+                
                     />
                     
                   
@@ -461,8 +461,8 @@ const SolicitudesDeMaterialSreen = () => {
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
                       placeholder="Vereda"
-                      rules={{ required: true }}
-                      {...register("Vereda")}
+                      required={true }
+                   
                     />
                    
                   
@@ -476,9 +476,9 @@ const SolicitudesDeMaterialSreen = () => {
 
                 <div className="row ms-5">
                   <div className="col-6">
-                    <label for="formFileLg" class="form-label mt-4 text-terciary">Anexar Documentacion</label>
+                    <label form="formFileLg" className="form-label mt-4 text-terciary">Anexar Documentacion</label>
                     <input
-                      class="form-control border rounded-pill px-3 border-terciary"
+                      className="form-control border rounded-pill px-3 border-terciary"
                       id="formFileLg"
                       type="file"
                     />
@@ -504,7 +504,7 @@ const SolicitudesDeMaterialSreen = () => {
                       className="ms-4 btn  text-capitalize"
                       onClick={handleCloseModal}
                     >
-                      <i class="fa-solid fa-angles-left fs-3"></i>
+                      <i className="fa-solid fa-angles-left fs-3"></i>
                     </button>
                   </div>
                 </div>

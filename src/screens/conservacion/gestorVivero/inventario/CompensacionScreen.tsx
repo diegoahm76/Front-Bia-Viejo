@@ -92,8 +92,7 @@ const CompensacionScreen = () => {
                   Seleccione vivero
                 </label>
                 <Select
-                  defaultValue={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.label)}
+                  defaultValue={options}
                   options={options}
                   placeholder="Seleccionar"
                 />
@@ -105,7 +104,7 @@ const CompensacionScreen = () => {
                   className=" border rounded-pill  px-3"
                   type="button"
                   title="Buscar"
-                ><i class="fa-solid fa-magnifying-glass fs-3"></i>
+                ><i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
               {/**Ver Documentacion */}
@@ -120,7 +119,7 @@ const CompensacionScreen = () => {
                   className="btn-min-width border rounded-pill  px-3 "
                 title="Ver documentos"
                 >
-                  <i class="fa-solid fa-eye fs-3"></i>
+                  <i className="fa-solid fa-eye fs-3"></i>
                 </button>
               </div>
               </div>

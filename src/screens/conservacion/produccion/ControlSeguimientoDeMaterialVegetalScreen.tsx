@@ -25,10 +25,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    setSelectores({
-      seleccioneVivero: data.seleccioneVivero,
-      periodoSiembra: data.periodoSiembra,
-    });
+   
   };
 
   const [rowData] = useState([
@@ -232,7 +229,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
         <h3 className="text-rigth  fw-light mb-3 mb-2">
           Control y Seguimiento de Material Vegetal
         </h3>
-        <Subtitle title="Información general" mb="3" />
+        <Subtitle title="Información general" />
           <div className="row">
             <div className="col-12 col-sm-3">
               <label className="text-terciary ms-3">Seleccione vivero</label>
@@ -355,7 +352,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   type="submit"
                   title="Buscar"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -365,7 +362,7 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   className="ag-theme-alpine mt-2 mb-4"
                   style={{ height: "300px" }}
                 >
-                  <Subtitle title="Informacion de material vegetal " mt="3" mb="3" />
+                  <Subtitle title="Informacion de material vegetal " />
                   <AgGridReact
                     columnDefs={columnDefs}
                     rowData={rowData}
@@ -404,9 +401,9 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                   </label>
                   <textarea
                     className="form-control border rounded-pill px-4 border-terciary"
-                    type="text"
+                    title="text"
                     placeholder="Observaciones generales"
-                    rows="3"
+                    rows={3}
                     name="Observaciones"
                   />
                 </div>
@@ -417,14 +414,14 @@ const ControlSeguimientoDeMaterialVegetalScreen = () => {
                     type="button"
                     title="Anterior"
                   >
-                  <i class="fa-solid fa-angles-left fs-3"></i>
+                  <i className="fa-solid fa-angles-left fs-3"></i>
                   </button>
                   <button
                     className="btn text-capitalize"
                     type="button"
                     title="Continuar"
                   >
-                    <i class="fa-solid fa-angles-right fs-3"></i>
+                    <i className="fa-solid fa-angles-right fs-3"></i>
                   </button>
                 </div>
               </div>

@@ -6,7 +6,7 @@ import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import Subtitle from "../../../../components/Subtitle";
 
-const DisponibleMaterialVegetalScreen = () => {
+const DonacionesScreen = () => {
   const [selecVivero, setSelecVivero] = useState({
     viveros: "",
   });
@@ -46,72 +46,7 @@ const DisponibleMaterialVegetalScreen = () => {
       maxWidth: 200,
     },
     { headerName: "Viveros", field: "Viveros", minWidth: 150, maxWidth: 200 },
-    {
-      headerName: "produccion propia",
-      field: "produccion propia",
-      minWidth: 150,
-      maxWidth: 200,
-      cellStyle: (params) => {
-        if (params.value < 0) {
-          return { backgroundColor: "red" };
-        }
-        if (params.value > 0) {
-          return { backgroundColor: "green" };
-        }
-        return null;
-      },
-    },
-    {
-      headerName: "compensaciones",
-      field: "compensaciones",
-      minWidth: 150,
-      maxWidth: 200,
-      cellStyle: (params) => {
-        if (params.value < 0) {
-          return { backgroundColor: "green" };
-        }
-        if (params.value > 0) {
-          return { backgroundColor: "red" };
-        }
-        return null;
-      },
-    },
-    {
-      headerName: "Medidas de resacimiento",
-      field: "Medidas de resacimiento",
-      minWidth: 150,
-      maxWidth: 200,
-      cellStyle: (params) => {
-        if (params.value < 0) {
-          return { backgroundColor: "green" };
-        }
-        if (params.value > 0) {
-          return { backgroundColor: "red" };
-        }
-        return null;
-      },
-    },
-    {
-      headerName: "Donaciones",
-      field: "Donaciones",
-      minWidth: 150,
-      maxWidth: 200,
-      cellStyle: (params) => {
-        if (params.value < 0) {
-          return { backgroundColor: "green" };
-        }
-        if (params.value > 0) {
-          return { backgroundColor: "red" };
-        }
-        return null;
-      },
-    },
-    {
-      headerName: "Total de material disponible",
-      field: "Total de material disponible",
-      minWidth: 150,
-      maxWidth: 200,
-    },
+    { headerName: "Total", field: "Total", minWidth: 150, maxWidth: 200 },
   ];
 
   const rowData = [
@@ -119,121 +54,97 @@ const DisponibleMaterialVegetalScreen = () => {
       "Nombre Comun": "cola de zorra",
       "Nombre Cientifico": "Alopecurus myosuroides",
       Viveros: "Mapirípan",
-      "produccion propia": 140,
-      compensaciones: 160,
-      "Medidas de resacimiento": 0,
-      Donaciones: "104",
-      "Total de material disponible": 300,
+      Total: "100",
     },
     {
       "Nombre Comun": "sabia",
       "Nombre Cientifico": "Amaranthus blitoides",
       Viveros: "Villavicencio",
-      "produccion propia": 350,
-      compensaciones: 0,
-      "Medidas de resacimiento": 0,
-      Donaciones: 5,
-      "Total de material disponible": 355,
+      Total: "200",
     },
     {
       "Nombre Comun": "manzanilla loca",
       "Nombre Cientifico": "Anacyclus clavatus",
       Viveros: "Mapirípan",
-      "produccion propia": 400,
-      compensaciones: 0,
-      "Medidas de resacimiento": 300,
-      Donaciones: 0,
-      "Total de material disponible": 700,
+      Total: "150",
     },
     {
       "Nombre Comun": "avena loca",
       "Nombre Cientifico": "Avena barbata",
       Viveros: "La Macarena",
-      "produccion propia": 0,
-      compensaciones: 300,
-      "Medidas de resacimiento": 160,
-      Donaciones: 0,
-      "Total de material disponible": 460,
+      Total: "30",
     },
     {
       "Nombre Comun": "cola de zorra",
       "Nombre Cientifico": "Alopecurus myosuroides",
       Viveros: "Mapirípan",
-      "produccion propia": 140,
-      compensaciones: 160,
-      "Medidas de resacimiento": 0,
-      Donaciones: "104",
-      "Total de material disponible": 300,
+      Total: "100",
     },
     {
       "Nombre Comun": "sabia",
       "Nombre Cientifico": "Amaranthus blitoides",
       Viveros: "Villavicencio",
-      "produccion propia": 350,
-      compensaciones: 0,
-      "Medidas de resacimiento": 0,
-      Donaciones: 5,
-      "Total de material disponible": 355,
+      Total: "200",
     },
     {
       "Nombre Comun": "manzanilla loca",
       "Nombre Cientifico": "Anacyclus clavatus",
       Viveros: "Mapirípan",
-      "produccion propia": 400,
-      compensaciones: 0,
-      "Medidas de resacimiento": 300,
-      Donaciones: 0,
-      "Total de material disponible": 700,
+      Total: "150",
     },
     {
       "Nombre Comun": "avena loca",
       "Nombre Cientifico": "Avena barbata",
       Viveros: "La Macarena",
-      "produccion propia": 0,
-      compensaciones: 300,
-      "Medidas de resacimiento": 160,
-      Donaciones: 0,
-      "Total de material disponible": 460,
+      Total: "30",
     },
     {
       "Nombre Comun": "cola de zorra",
       "Nombre Cientifico": "Alopecurus myosuroides",
       Viveros: "Mapirípan",
-      "produccion propia": 140,
-      compensaciones: 160,
-      "Medidas de resacimiento": 0,
-      Donaciones: "104",
-      "Total de material disponible": 300,
+      Total: "100",
     },
     {
       "Nombre Comun": "sabia",
       "Nombre Cientifico": "Amaranthus blitoides",
       Viveros: "Villavicencio",
-      "produccion propia": 350,
-      compensaciones: 0,
-      "Medidas de resacimiento": 0,
-      Donaciones: 5,
-      "Total de material disponible": 355,
+      Total: "200",
     },
     {
       "Nombre Comun": "manzanilla loca",
       "Nombre Cientifico": "Anacyclus clavatus",
       Viveros: "Mapirípan",
-      "produccion propia": 400,
-      compensaciones: 0,
-      "Medidas de resacimiento": 300,
-      Donaciones: 0,
-      "Total de material disponible": 700,
+      Total: "150",
     },
     {
       "Nombre Comun": "avena loca",
       "Nombre Cientifico": "Avena barbata",
       Viveros: "La Macarena",
-      "produccion propia": 0,
-      compensaciones: 300,
-      "Medidas de resacimiento": 160,
-      Donaciones: 0,
-      "Total de material disponible": 460,
+      Total: "30",
+    },
+    {
+      "Nombre Comun": "cola de zorra",
+      "Nombre Cientifico": "Alopecurus myosuroides",
+      Viveros: "Mapirípan",
+      Total: "100",
+    },
+    {
+      "Nombre Comun": "sabia",
+      "Nombre Cientifico": "Amaranthus blitoides",
+      Viveros: "Villavicencio",
+      Total: "200",
+    },
+    {
+      "Nombre Comun": "manzanilla loca",
+      "Nombre Cientifico": "Anacyclus clavatus",
+      Viveros: "Mapirípan",
+      Total: "150",
+    },
+    {
+      "Nombre Comun": "avena loca",
+      "Nombre Cientifico": "Avena barbata",
+      Viveros: "La Macarena",
+      Total: "30",
     },
   ];
 
@@ -252,6 +163,7 @@ const DisponibleMaterialVegetalScreen = () => {
   const onGridReady = (params) => {
     gridApi = params.api;
   };
+
   const onExportClick = () => {
     gridApi.exportDataAsCsv();
   };
@@ -267,13 +179,13 @@ const DisponibleMaterialVegetalScreen = () => {
             id="configForm"
           >
             <h3 className="mt-3 mb-4  ms-3 fw-light text-terciary">
-            Inventario Disponible Material Vegetal 
+              Inventario de Viveros
             </h3>
-            <Subtitle title="Material Vegetal" />
+            <Subtitle title="Inventario de las donaciones hechas a la Corporación" />
 
             <div className="row">
               <div className="col-12 col-md-3 ms-3">
-                <label className="text-terciary form-control ms-0">Seleccione Vivero: </label>
+                <label className="text-terciary form-control ms-0">Seleccione Vivero :</label>
                 <Controller
                   name="viveros"
                   control={control}
@@ -293,12 +205,17 @@ const DisponibleMaterialVegetalScreen = () => {
                 )}
               </div>
 
-              <div className="col-12 col-md-3 ">
-                <button
-                  className="mt-5 btn text-capitalize"
-                  type="submit"
-                ><i class="fa-solid fa-magnifying-glass fs-3"></i>
-                </button>
+              <div className="col-12 col-md-3 mt-4">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    type="submit"
+                    title="Buscar"
+                    form="configForm"
+                  >
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -306,16 +223,16 @@ const DisponibleMaterialVegetalScreen = () => {
               <div>
                 <div className="d-flex mt-3 px-4 justify-content-end">
                   <div>
-                    <label type="number"> Material Vegetal Disponible |</label>
+                    <label> Total de plantas |</label>
                   </div>
                   <div>
-                    <label type="number" align="right">
+                    <label>
                       1460
                     </label>
                   </div>
                 </div>
 
-                <div id="myGrid" className="ag-theme-alpine ">
+                <div id="myGrid" className="ag-theme-alpine">
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnDefs}
@@ -327,8 +244,9 @@ const DisponibleMaterialVegetalScreen = () => {
                 </div>
 
                 <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
-                  <button className="text-capitalize btn bg-gradient-danger mb-0" type="submit">
-                    Salir
+                  <button className="text-capitalize btn mb-0" type="submit" title="Siguiente">
+                  <i className="fa-solid fa-angles-right fs-3"></i>
+                    
                   </button>
                 </div>
               </div>
@@ -341,4 +259,4 @@ const DisponibleMaterialVegetalScreen = () => {
     </div>
   );
 };
-export default DisponibleMaterialVegetalScreen;
+export default DonacionesScreen;

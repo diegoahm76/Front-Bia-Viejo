@@ -162,7 +162,7 @@ const EntregasPendientesScreen = () => {
         profesionalSelect === "Todos"
     );
 
-    setRowData(dataFilteredByProfesional);
+   // setRowData(dataFilteredByProfesional);
   };
 
   const handleClickBuscar = () => {
@@ -187,7 +187,7 @@ const EntregasPendientesScreen = () => {
               <Select
                 options={getOptionsForSelects("Vivero relacionado")}
                 placeholder="Seleccione"
-                onChange={(e) => setViveroSelect(e.value)}
+               // onChange={(e) => setViveroSelect(e.value)}
               />
             </div>
             <div className="col-12 col-md-6">
@@ -195,7 +195,7 @@ const EntregasPendientesScreen = () => {
               <Select
                 options={getOptionsForSelects("Nombre de profesional")}
                 placeholder="Seleccione"
-                onChange={(e) => setProfesionalSelect(e.value)}
+               // onChange={(e) => setProfesionalSelect(e.value)}
               />
             </div>
           </div>
@@ -204,7 +204,7 @@ const EntregasPendientesScreen = () => {
             className="btn d-block ms-auto mt-3 text-capitalize"
             title="Buscar"
           >
-            <i class="fa-solid fa-magnifying-glass fs-3"></i>
+            <i className="fa-solid fa-magnifying-glass fs-3"></i>
           </button>
           <div id="myGrid" className="ag-theme-alpine mt-3">
             <div
@@ -225,7 +225,7 @@ const EntregasPendientesScreen = () => {
             className="btn s ms-auto d-block mt-3 text-capitalize"
             title="Gestionar"
           >
-           <i class="fa-regular fa-pen-to-square fs-3"></i>
+           <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
           <ModalLocal localState={modalVer}>
             <Subtitle
@@ -246,7 +246,7 @@ const EntregasPendientesScreen = () => {
                   <label className="d-block m-0 ">Contratos</label>
                 </div>
                 <button className="btn ms-auto d-block mt-3 text-capitalize" title="Anexar documentos">
-                <i class="fa-solid fa-file-arrow-up fs-3"></i>
+                <i className="fa-solid fa-file-arrow-up fs-3"></i>
                 </button>
               </div>
             </div>
@@ -265,7 +265,7 @@ const EntregasPendientesScreen = () => {
               </div>
             </div>
             <button className="btn d-block ms-auto mt-3 text-capitalize"title="Gestionar">
-            <i class="fa-regular fa-pen-to-square fs-3"></i>
+            <i className="fa-regular fa-pen-to-square fs-3"></i>
             </button>
             <div className="input-group input-group-dynamic flex-column">
               <label htmlFor="exampleFormControlInput1" className="text-terciary">
@@ -279,14 +279,14 @@ const EntregasPendientesScreen = () => {
                 onClick={handleCloseModal}
                 title="Rechazar entrega de material"
               >
-                <i class="fa-solid fa-x fs-3"></i>
+                <i className="fa-solid fa-x fs-3"></i>
               </button>
               <button
                 className="btn d-block mt-3 text-capitalize"
                 onClick={handleCloseModal}
                 title="Entregar material"
               >
-                <i class="fa-solid fa-circle-check fs-3"></i>
+                <i className="fa-solid fa-circle-check fs-3"></i>
               </button>
             </div>
           </ModalLocal>
