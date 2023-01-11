@@ -124,7 +124,7 @@ const PropagacionScreen = () => {
                   type="submit"
                   className=" btn text-capitalize"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -132,19 +132,19 @@ const PropagacionScreen = () => {
               <div>
                 <div className="d-flex mt-4 px-4 justify-content-end">
                   <div>
-                    <label type="number"> Total en vivero |</label>
+                    <label> Total en vivero |</label>
                   </div>
                   <div>
-                    <label type="number" align="right">
+                    <label>
                       {" "}
                       Cant KG 20 |
                     </label>
                   </div>
                   <div>
-                    <label type="number">Sembrada Kg 22 |</label>
+                    <label >Sembrada Kg 22 |</label>
                   </div>
                   <div>
-                    <label type="number">Total 23</label>
+                    <label >Total 23</label>
                   </div>
                 </div>
 
@@ -164,7 +164,7 @@ const PropagacionScreen = () => {
                     type="button"
                     className="mt-4 btn flex-center text-capitalize"
                   >
-                    <i class="fa-regular fa-plus fs-3"></i>
+                    <i className="fa-regular fa-plus fs-3"></i>
                   </button>
                 </div>
               </div>

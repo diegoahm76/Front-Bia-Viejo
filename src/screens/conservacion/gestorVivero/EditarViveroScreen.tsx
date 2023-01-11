@@ -1,7 +1,6 @@
 // import "react-quill/dist/quill.snow.css";
 import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
-import { Row, Col } from "react-bootstrap";
 import { useForm, Controller } from "react-hook-form";
 import React, { useState } from "react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -111,7 +110,7 @@ function AgregarViveroScreen() {
       headerName: "Acción", field: "accion", cellRendererFramework: (params) => (
         <div className="col-12 ">
           <button className=" border rounded-pill px-3 " type="button" title="Send">
-          <i class="fa-regular fa-trash-can fs-3"></i>
+          <i className="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -189,7 +188,7 @@ function AgregarViveroScreen() {
                   type="submit"
                   className=" border rounded-pill mt-2 px-3 "
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                
                 </button>
               </div>
@@ -243,7 +242,7 @@ function AgregarViveroScreen() {
                       Dirección: 
                     </label>
                     <input
-                      name="direccionVivero"
+                      title="direccion Vivero"
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
                       placeholder="Escribe la dirección"
@@ -266,7 +265,7 @@ function AgregarViveroScreen() {
                       Latitud: 
                     </label>
                     <input
-                      name="latitudTable"
+                      title="latitud"
                       placeholder="Ingresa la latitud"
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -285,7 +284,7 @@ function AgregarViveroScreen() {
                       Longitud: 
                     </label>
                     <input
-                      name="longitudVivero"
+                      title="longitud"
                       placeholder="Ingresa la longitud"
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -306,7 +305,7 @@ function AgregarViveroScreen() {
                       title="Guardar"
                     // handleAddGrid={handleAddGrid}
                     >
-                      <i class="fa-regular fa-floppy-disk fs-3"></i>
+                      <i className="fa-regular fa-floppy-disk fs-3"></i>
                     </button>
                   </div>
 
@@ -331,7 +330,7 @@ function AgregarViveroScreen() {
                       Área (metros cuadrados): 
                     </label>
                     <input
-                      name="areaVivero"
+                      title="area Vivero"
                       placeholder="Ingresa área para el vivero"
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -350,7 +349,7 @@ function AgregarViveroScreen() {
                       Área de propagación (metros cuadrados): 
                     </label>
                     <input
-                      name="areaPropagacionVivero"
+                      title="area Propagacion Vivero"
                       placeholder="Selecciona cantidad de área"
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -466,7 +465,7 @@ function AgregarViveroScreen() {
                       Numero de bodegas: 
                     </label>
                     <input
-                      name="numeroBodegasVivero"
+                      title="numero Bodegas Vivero"
                       placeholder="Selecciona cantidad de bodegas"
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
@@ -490,26 +489,19 @@ function AgregarViveroScreen() {
                     <div className=" input-group input-group-dynamic ms-1">
                       <button
                         type="button"
-                        name="nombre"
+                        title="nombre"
             
-                        onClick={change}
-                        onChange={() => setBotonGuardar(true)}
-                        disabled={!inactivar ? "false" : ""}
-                        {...register("nombre", { required: true })}
+                       
                       >
-                        <i class="fa-solid fa-toggle-off fs-3"></i>
+                        <i className="fa-solid fa-toggle-off fs-3"></i>
                       </button>
                       <button
                         type="button"
                         name="nombre"
                         
-                        onClick={change}
-                        disabled={inactivar ? "true" : ""}
-                        {...register("nombre", {
-                          required: true,
-                        })}
+                      
                       >
-                        <i class="fa-solid fa-toggle-on fs-3"></i>
+                        <i className="fa-solid fa-toggle-on fs-3"></i>
                       </button>
                     </div>
                     {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
@@ -557,7 +549,7 @@ function AgregarViveroScreen() {
                     type="submit"
                     className="border rounded-pill px-3 ms-auto mb-0"
                   >
-                    <i class="fa-solid fa-circle-check fs-3"></i>
+                    <i className="fa-solid fa-circle-check fs-3"></i>
                   </button>
                 </div>
 

@@ -100,7 +100,7 @@ const PlantasEnCuarentenaScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button className="btn text-capitalize" type="button" title="Editar material">
-          <i class="fa-regular fa-pen-to-square fs-3"></i>
+          <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -173,7 +173,7 @@ title="Informacion de plantas en cuarentena"/>
                   type="submit"
                   title="Buscar"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -182,7 +182,7 @@ title="Informacion de plantas en cuarentena"/>
               <div>
                 <div className="d-flex mt-4 px-4 justify-content-end">
                   <div>
-                    <label type="number"> Material Vegetal Disponible</label>
+                    <label> Material Vegetal Disponible</label>
                   </div>
                   
                 </div>
