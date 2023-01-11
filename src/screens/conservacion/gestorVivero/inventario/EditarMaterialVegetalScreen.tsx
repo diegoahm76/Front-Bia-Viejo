@@ -117,16 +117,15 @@ function EditarMaterialVegetalScreen() {
               <label className="text-terciary">Seleccione vivero </label>
               <label className="text-danger">*</label>
                 
-              <Select {...register('vivero')}
-                      defaultValue={selectedCategory}
-                      onChange={setSelectedCategory}
+              <Select 
+                      defaultValue={options}
                       options={options}
                       placeholder="Seleccione vivero"
                     />
 
               </div>
               <div className="col d-flex align-items-end">
-              <button type="submit" Value="buscar" className="btn btn-primary btn-sm text-xxs text-capitalize mt-5">
+              <button className="btn btn-primary btn-sm text-xxs text-capitalize mt-5">
                   Buscar
                 </button>
               </div>
@@ -150,7 +149,7 @@ function EditarMaterialVegetalScreen() {
                     <label className="ms-3">
                       Cantidad de material vegetal disponible:
                     </label>
-                    <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled="true" value="1200" ></input>
+                    <input className="text-start input small border border-0 w-5" type="text" id="name" name="name" disabled={true} value="1200" ></input>
                   </div>
                   <div className="row">
                     <div className="col col-6">

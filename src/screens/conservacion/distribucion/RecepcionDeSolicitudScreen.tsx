@@ -72,14 +72,14 @@ const RecepcionDeSolicitudScreen = () => {
     setProfesional({ opcProfesional: data.opcProfesional });
   };
   const submitvivero = (data) => {
-    setVivero({ opcViveros: data.opcViveros });
+    //setVivero({ opcViveros: data.opcViveros });
   };
 
   const submitpro2 = (data) => {
     setProfesional2({ opcProfesional2: data.opcProfesional2 });
   };
   const submitvivero2 = (data) => {
-    setVivero2({ opcViveros2: data.opcViveros2 });
+    //setVivero2({ opcViveros2: data.opcViveros2 });
   };
 
   const [datosFilasSinGEstionar] = useState([
@@ -116,7 +116,7 @@ const RecepcionDeSolicitudScreen = () => {
             title="Gestionar"
             onClick={handleOpenModalGes}
           >
-            <i class="fa-regular fa-pen-to-square fs-3"></i>
+            <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -140,7 +140,7 @@ const RecepcionDeSolicitudScreen = () => {
             title="Ver"
             onClick={handleOpenModalVer}
           >
-          <i class="fa-solid fa-eye fs-3"></i>
+          <i className="fa-solid fa-eye fs-3"></i>
           </button>
         </div>
       ),
@@ -284,12 +284,12 @@ const RecepcionDeSolicitudScreen = () => {
                 type="submit"
                 title="Buscar"
               >
-                <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                <i className="fa-solid fa-magnifying-glass fs-3"></i>
               </button>
             </div>
           </div>
 
-          {estado.options.value === "PEND" ? (
+          {estado.options === "PEND" ? (
             <div>
               <div className="row mt-1">
                <Subtitle 
@@ -344,7 +344,7 @@ const RecepcionDeSolicitudScreen = () => {
                 type="submit"
                 title="Buscar"
               >
-                <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                <i className="fa-solid fa-magnifying-glass fs-3"></i>
               </button>
             </div>
                   </div>
@@ -373,7 +373,7 @@ const RecepcionDeSolicitudScreen = () => {
             ""
           )}
 
-          {estado.options.value === "GEST" ? (
+          {estado.options === "GEST" ? (
             <div>
               <div className="row mt-1 align-items-end">
                 <Subtitle
@@ -427,7 +427,7 @@ const RecepcionDeSolicitudScreen = () => {
                         type="submit"
                         title="Buscar"
                       >
-                        <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                        <i className="fa-solid fa-magnifying-glass fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -501,20 +501,20 @@ const RecepcionDeSolicitudScreen = () => {
                         onClick={handleCloseModalGes}
                         title="Regresar"
                       >
-                        <i class="fa-solid fa-angles-left fs-3"></i>
+                        <i className="fa-solid fa-angles-left fs-3"></i>
                       </button>
                       <button
                         className="ms-2 btn  text-capitalize"
                         type="button"
                       >
-                        <i class="fa-solid fa-x fs-3"></i>
+                        <i className="fa-solid fa-x fs-3"></i>
                       </button>
 
                       <button
                         className="ms-2 btn text-capitalize "
                         type="submit"
                       >
-                        <i class="fa-solid fa-circle-check fs-3"></i>
+                        <i className="fa-solid fa-circle-check fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -565,7 +565,7 @@ const RecepcionDeSolicitudScreen = () => {
                       onClick={handleCloseModalVer}
                       title="Regresar"
                     >
-                      <i class="fa-solid fa-angles-left fs-3"></i>
+                      <i className="fa-solid fa-angles-left fs-3"></i>
                     </button>
                   </div>
                 

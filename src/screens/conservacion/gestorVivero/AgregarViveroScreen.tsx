@@ -20,8 +20,7 @@ function AgregarViveroScreen() {
 
   const onSubmit = (data) => {
     console.log(data)
-    setVivero(data.seleccioneVivero.value);
-    setSiembra(data.periodoSiembra.value);
+   
   };
 
   const optionViveroCreados = [
@@ -65,7 +64,7 @@ function AgregarViveroScreen() {
             type="button"
             title="Send"
           >
-            <i class="fa-regular fa-trash-can fs-3"></i>
+            <i className="fa-regular fa-trash-can fs-3"></i>
           
           </button>
         </div>
@@ -134,19 +133,23 @@ function AgregarViveroScreen() {
                 <label className="text-terciary">
                   Municipio:<span className="text-danger">*</span>
                 </label>
-                <Controller
-                  name="municipioOpcion"
-                  control={control}
-                  render={({ field }) => (
+                
                     <Select
-                      {...field}
-                      options={options}
-                      placeholder="Selecciona municipio"
-                      {...register("municipioOpcion", { required: true })}
+                    options={[
+                       { label: "Acacías", value: "Acac" },
+                       { label: "Barranca de Upía", value: "Barra" },
+                       { label: "Cabuyaro", value: "Cabuy" },
+                       { label: "Castilla La Nueva", value: "Cast" },
+                       { label: "Cubarral", value: "Cuba" },
+                       { label: "Cumaral", value: "Cuma" },
+                       { label: "El Calvario", value: "Elca" },
+                       { label: "Villavicencio", value:"vi"},
+                      ]}
+                       placeholder="Selecciona municipio"
+                      required={true}
 
                     />
-                  )}
-                />
+                
                 {errors.municipioOpcion && (
                   <p className="text-danger">Este campo es obligatorio</p>
                 )}
@@ -156,7 +159,7 @@ function AgregarViveroScreen() {
                   Direccion de: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="ubicacionVivero"
+                  title="Ubicación Vivero"
                   placeholder="Ingresa ubicación del vivero"
                   type="text"
                   className="form-control border border-terciary rounded-pill px-3"
@@ -218,7 +221,7 @@ function AgregarViveroScreen() {
                   Latitud: <span className="text-danger">*</span>
                 </label>
                 <input
-                  name="latitudTable"
+                  title="latitud"
                   placeholder="Ingresa la latitud"
                   type="text"
                   className="form-control border border-terciary rounded-pill px-3"
@@ -257,7 +260,7 @@ function AgregarViveroScreen() {
                   type="button"
                   title="Send"
                 >
-                  <i class="fa-regular fa-floppy-disk fs-3"></i>
+                  <i className="fa-regular fa-floppy-disk fs-3"></i>
                   
                 </button>
               </div>
@@ -438,18 +441,17 @@ function AgregarViveroScreen() {
                 <label className="text-terciary">
                   Asignar viverista: <span className="text-danger">*</span>
                 </label>
-                <Controller
-                  name="asignarViverista"
-                  control={control}
-                  render={({ field }) => (
+              
                     <Select
-                      {...field}
-                      options={options}
+                    
+                      options={[
+                        {label:"viverista 1", value:"vi1"},
+                        {label:"viverista 2", value:"vi2"},
+                     ] }
                       placeholder="Selecciona usuario"
-                      {...register("asignarViverista", { required: true })}
+                      required= {true }
                     />
-                  )}
-                />
+                
 
                 {errors.asignarViverista && (
                   <p className="text-danger">Este campo es obligatorio</p>
@@ -459,19 +461,15 @@ function AgregarViveroScreen() {
                 <label className="text-terciary">
                   Vivero creado por medio de: <span className="text-danger">*</span>
                 </label>
-                <Controller
-                  name="viveroCreado"
-                  control={control}
-                  render={({ field }) => (
+                
                     <Select
-                      {...field}
+                      
                       options={optionViveroCreados}
                       placeholder="Seleccione"
-                      {...register("viveroCreado", { required: true })}
+                      required= {true }
 
                     />
-                  )}
-                />
+               
 
                 {errors.viveroCreado && (
                   <p className="text-danger">Este campo es obligatorio</p>
@@ -505,7 +503,7 @@ function AgregarViveroScreen() {
                 className="btn border rounded-pill mt-2 px-3"
                 type="submit"
               >
-                <i class="fa-solid fa-circle-check fs-3"></i>
+                <i className="fa-solid fa-circle-check fs-3"></i>
                 
               </button>
             </div>

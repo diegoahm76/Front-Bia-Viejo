@@ -101,7 +101,7 @@ const MedidasDeRearciminetoScreen = () => {
     {headerName: "Información", field:"acción",
       cellRendererFramework:(params)=>
       <div>
-        <button type="button" onClick ={() => onExportClick()} className="btn btn-sm  p-2 mx-auto my-auto d-block"> <i class="fa-solid fa-eye fs-3"></i> </button>
+        <button type="button" onClick ={() => onExportClick()} className="btn btn-sm  p-2 mx-auto my-auto d-block"> <i className="fa-solid fa-eye fs-3"></i> </button>
       </div>
     },
 
@@ -169,7 +169,7 @@ const MedidasDeRearciminetoScreen = () => {
           </div>
                       
           <div className="col-6 mt-4 p-1">
-            <button type="button" onClick={handleSearch} className="btn "><i class="fa-solid fa-magnifying-glass fs-3"></i></button>
+            <button type="button" onClick={handleSearch} className="btn "><i className="fa-solid fa-magnifying-glass fs-3"></i></button>
           </div>
 
         

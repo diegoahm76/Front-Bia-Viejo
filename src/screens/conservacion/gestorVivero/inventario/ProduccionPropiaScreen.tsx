@@ -125,7 +125,7 @@ function ProduccionPropiaScreen() {
             onClick={() => actionButton(params)}
             title="Editar material"
           >
-            <i class="fa-regular fa-pen-to-square fs-3"></i>
+            <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -327,16 +327,15 @@ function ProduccionPropiaScreen() {
                   type="submit"
                   title="Buscar"
                   form="configForm"
-                  Value="buscar"
                   className="btn border rounded-pill px-3 text-capitalize mt-5"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
               <div className="col-12 col-md-3 mt-3 d-flex flex-column justify-content-center align-items-center">
               <label className="text-terciary">Crear producto nuevo</label>
                 <button className="btn  mx-auto border rounded-pill px-3 text-capitalize" title="Crear producción propia">
-                <i class="fa-regular fa-plus fs-3"></i>
+                <i className="fa-regular fa-plus fs-3"></i>
                 </button>
                 
               </div>
@@ -355,7 +354,7 @@ function ProduccionPropiaScreen() {
                         type="text"
                         id="name"
                         name="name"
-                        disabled="true"
+                        disabled={true}
                         value="500"
                       ></input>
                       <label className="ms-3 my-auto">
@@ -366,7 +365,7 @@ function ProduccionPropiaScreen() {
                         type="text"
                         id="name"
                         name="name"
-                        disabled="true"
+                        disabled={true}
                         value="1200"
                       ></input>
                       <label className="ms-3 my-auto">Mortalidad: &#32;</label>
@@ -375,7 +374,7 @@ function ProduccionPropiaScreen() {
                         type="text"
                         id="name"
                         name="name"
-                        disabled="true"
+                        disabled={true}
                         value="1100"
                       ></input>
                       <label className="ms-3 my-auto">Total: &#32;</label>
@@ -384,7 +383,7 @@ function ProduccionPropiaScreen() {
                         type="text"
                         id="name"
                         name="name"
-                        disabled="true"
+                        disabled={true}
                         value="1050"
                       ></input>
                     </span>
@@ -415,7 +414,7 @@ function ProduccionPropiaScreen() {
                     title="Siguiente opción de inventario"
                     form="configForm"
                   >
-                    <i class="fa-solid fa-angles-right fs-3"></i>
+                    <i className="fa-solid fa-angles-right fs-3"></i>
                   </button>
                 </div>
               </div>

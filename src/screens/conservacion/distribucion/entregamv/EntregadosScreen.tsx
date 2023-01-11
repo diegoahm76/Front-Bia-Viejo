@@ -153,10 +153,10 @@ const EntregadosScreen = () => {
         <div>
           <button
             className="btn mx-auto my-auto btn-sm text-xxs text-capitalize"
-            onClick={() => handleOpenModal(params)}
+            onClick={ handleOpenModal}
             title="Editar"
           >
-        <i class="fa-regular fa-pen-to-square fs-3"></i>   
+        <i className="fa-regular fa-pen-to-square fs-3"></i>   
           </button>
         </div>
       ),
@@ -181,7 +181,7 @@ const EntregadosScreen = () => {
         data["Nombre de profesional"] === profesionalSelect ||
         profesionalSelect === "Todos"
     );
-    setRowData(dataFilteredByProfesional);
+  //  setRowData(dataFilteredByProfesional);
   };
 
   const handleClickBuscar = () => {
@@ -206,7 +206,7 @@ const EntregadosScreen = () => {
               <Select
                 options={getOptionsForSelects("Vivero relacionado")}
                 placeholder="Seleccione"
-                onChange={(e) => setViveroSelect(e.label)}
+              
               />
             </div>
             <div className="col-6 col-sm-3">
@@ -214,7 +214,7 @@ const EntregadosScreen = () => {
               <Select
                 options={getOptionsForSelects("Nombre de profesional")}
                 placeholder="Seleccione"
-                onChange={(e) => setProfesionalSelect(e.label)}
+               
               />
             </div>
 <div className="col-6 col-sm-3 mt-3">
@@ -223,7 +223,7 @@ const EntregadosScreen = () => {
             className="btn d-block ms-auto mt-3 text-capitalize"
             title="Buscar"
           >
-            <i class="fa-solid fa-magnifying-glass fs-3"></i>
+            <i className="fa-solid fa-magnifying-glass fs-3"></i>
           </button>
           </div>
           </div>

@@ -108,11 +108,11 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn text-capitalize "
+            className="btn text-capitalize "
             type="button"
             onClick={handleOpenModal}
           >
-            <i class="fa-regular fa-pen-to-square fs-3"></i>
+            <i className="fa-regular fa-pen-to-square fs-3"></i>
           </button>
         </div>
       ),
@@ -125,11 +125,11 @@ const SolicitudesRealizadasViveroScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn text-capitalize"
+            className="btn text-capitalize"
             type="button"
             onClick={handleOpenModal}
           >
-            <i class="fa-solid fa-eye fs-3"></i>
+            <i className="fa-solid fa-eye fs-3"></i>
           </button>
         </div>
       ),
@@ -366,7 +366,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       type="submit"
                       title="Buscar"
                     >
-                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -403,7 +403,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                           title="Salir"
                           form="configForm"
                         >
-                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                          <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -471,7 +471,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                       type="submit"
                       title="Buscar"
                       >
-                        <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                        <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -506,7 +506,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                           title="Salir"
                           form="configForm"
                         >
-                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                          <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -561,7 +561,7 @@ const SolicitudesRealizadasViveroScreen = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               {" "}
               {/*  BOTONES DE ABAJO  */}'
               <button
@@ -572,7 +572,7 @@ const SolicitudesRealizadasViveroScreen = () => {
                 onClick={handleCloseModal}
               >
                 
-                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                          <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
               </button>
               
             </div>

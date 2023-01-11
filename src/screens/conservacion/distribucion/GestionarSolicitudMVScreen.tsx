@@ -97,7 +97,8 @@ export const GestionarSolicitudMVScreen = () => {
                 className="col btn btn-2 btn-secondary ms-8 me-8 mb-5 "
                 type="button"
                 onClick={() => {
-                  this.props.history.replace(
+                 // this.props.history.replace
+                  (
                     "/dashboard/conservacion-distribucion-solicitudinfo"
                   );
                 }}

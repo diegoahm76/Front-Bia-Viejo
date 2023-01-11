@@ -136,7 +136,7 @@ const HerraminetasScreen = () => {
                   type="submit"
                   className="mt-5 btn flex-center text-capitalize"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>

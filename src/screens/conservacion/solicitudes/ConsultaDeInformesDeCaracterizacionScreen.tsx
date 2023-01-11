@@ -96,10 +96,10 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
       cellRendererFramework: (params) => (
         <div>
           <button
-            class="btn text-capitalize"
+            className="btn text-capitalize"
             onClick={handleOpenModal}
           >
-            <i class="fa-solid fa-eye fs-3"></i>
+            <i className="fa-solid fa-eye fs-3"></i>
           </button>
         </div>
       ),
@@ -305,7 +305,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                       type="submit"
                       title="Buscar"
                     >
-                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -332,7 +332,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                           title="Salir"
                           form="configForm"
                         >
-                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                          <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -376,7 +376,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                       type="submit"
                       title="Buscar"
                     >
-                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -396,14 +396,14 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                         </div>
                       </div>
 
-                      <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+                      <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
                         <button
                           className="btn mb-0"
                           type="submit"
                           title="Salir"
                           form="configForm"
                         >
-                          <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                          <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
                         </button>
                       </div>
                     </div>
@@ -466,7 +466,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
               </div>
             </div>
 
-            <div class="d-grid gap-2 d-flex justify-content-end  mt-3">
+            <div className="d-grid gap-2 d-flex justify-content-end  mt-3">
               {" "}
               {/*  BOTONES DE ABAJO  */}'
               <button
@@ -476,7 +476,7 @@ export const ConsultaDeInformesDeCaracterizacionScreen = () => {
                 form="configForm"
                 onClick={handleCloseModal}
               >
-                <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
               </button>
             </div>
           </ModalLocal>

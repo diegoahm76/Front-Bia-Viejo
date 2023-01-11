@@ -9,6 +9,11 @@ import Subtitle from "../../../components/Subtitle";
 
 export const MoverMaterialVegetalScreen = () => {
   const [selectedMover, setSelectedMover] = useState({});
+
+  const selectChange=(event:React.ChangeEvent<HTMLSelectElement>)=>{
+  const value =event.target.value;
+  setSelectedMover(value);
+}
   const opcMover = [
     { label: "Desde Almacen", value: "Desde" },
     { label: "Entre viveros", value: "Entre" },
@@ -187,7 +192,7 @@ export const MoverMaterialVegetalScreen = () => {
             type="button"
             title="Remover"
           >
-            <i class="fa-regular fa-trash-can fs-3"></i>
+            <i className="fa-regular fa-trash-can fs-3"></i>
           </button>
         </div>
       ),
@@ -246,10 +251,11 @@ export const MoverMaterialVegetalScreen = () => {
               <label className="text-terciary">Tipo de movimiento</label>
               <Select
                 defaultValue={selectedMover}
-                onChange={setSelectedMover}
-                options={opcMover}
+                //onChange={selectChange}
                 placeholder="Seleccionar"
               />
+               
+            
             </div>
             
             <div className="col-6 col-sm-3 justify-content-end">
@@ -283,7 +289,7 @@ export const MoverMaterialVegetalScreen = () => {
 
               <div>
             </div>
-            {selectedMover.value === "Desde" ? (
+            {selectedMover === "Desde" ? (
               <div>
                 <div className="row mt-3">
                   <div className="col-6 col-sm-3 ">
@@ -316,7 +322,7 @@ export const MoverMaterialVegetalScreen = () => {
                       title="Buscar"
                       
                     >
-                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -366,7 +372,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                        title="Mover"
                        >
-                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
+                      <i className="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
@@ -375,7 +381,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                       title="Mover todo"
                       >
-                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
+                      <i className="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
@@ -384,7 +390,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                         title="Remover todo"
                       >
-                        <i class="fa-regular fa-trash-can fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -418,7 +424,7 @@ export const MoverMaterialVegetalScreen = () => {
                       type="button"
                       title="Cancelar"
                     >
-                     <i class="fa-solid fa-x fs-3"></i>
+                     <i className="fa-solid fa-x fs-3"></i>
                     </button>
 
                     <button
@@ -427,7 +433,7 @@ export const MoverMaterialVegetalScreen = () => {
                       title="Aceptar"
                       value="Aceptar"
                       >
-                        <i class="fa-solid fa-circle-check fs-3"></i>
+                        <i className="fa-solid fa-circle-check fs-3"></i>
                       </button>
                     
                   </div>
@@ -437,7 +443,7 @@ export const MoverMaterialVegetalScreen = () => {
               ""
             )}
 
-            {selectedMover.value === "Entre" &&
+            {selectedMover === "Entre" &&
             selectedViveroOrigen &&
             selectedViveroDestino ? (
               <div>
@@ -490,7 +496,7 @@ export const MoverMaterialVegetalScreen = () => {
                       type="submit"
                       title="Buscar"
                     >
-                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -538,7 +544,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                         title="Mover"
                         >
-                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
+                      <i className="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
@@ -547,7 +553,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                         title="Mover todo"
                         >
-                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
+                      <i className="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
@@ -556,7 +562,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                         title="Remover todo"
                       >
-                        <i class="fa-regular fa-trash-can fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -590,7 +596,7 @@ export const MoverMaterialVegetalScreen = () => {
                       type="button"
                    title="Cancelar"
                     >
-                     <i class="fa-solid fa-x fs-3"></i>
+                     <i className="fa-solid fa-x fs-3"></i>
                     </button>
 
                     <button
@@ -599,7 +605,7 @@ export const MoverMaterialVegetalScreen = () => {
                   title="Aceptar"
                       value="aceptar"
                       >
-                       <i class="fa-solid fa-circle-check fs-3"></i>
+                       <i className="fa-solid fa-circle-check fs-3"></i>
                       </button>
                   
                   </div>
@@ -609,7 +615,7 @@ export const MoverMaterialVegetalScreen = () => {
               ""
             )}
 
-            {selectedMover.value === "En" ? (
+            {selectedMover === "En" ? (
               <div>
                 <div className="row mt-3 align-items-end">
                   <div className="col-6 col-sm-3 ">
@@ -639,7 +645,7 @@ export const MoverMaterialVegetalScreen = () => {
                       type="submit"
                       title="Buscar"
                     >
-                      <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   </div>
 
@@ -689,7 +695,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                         title="Mover"
                         >
-                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
+                      <i className="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
@@ -698,7 +704,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                         title="Mover todo"
                         >
-                      <i class="fa-solid fa-arrows-up-down-left-right fs-3"></i>
+                      <i className="fa-solid fa-arrows-up-down-left-right fs-3"></i>
                       </button>
                     </div>
                     <div>
@@ -707,7 +713,7 @@ export const MoverMaterialVegetalScreen = () => {
                         type="button"
                        title="Remover todo"
                       >
-                        <i class="fa-regular fa-trash-can fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-3"></i>
                       </button>
                     </div>
                   </div>
@@ -741,7 +747,7 @@ export const MoverMaterialVegetalScreen = () => {
                       type="button"
                       
                     >
-                      <i class="fa-solid fa-x fs-3"></i>
+                      <i className="fa-solid fa-x fs-3"></i>
                     </button>
 
                     <button
@@ -749,7 +755,7 @@ export const MoverMaterialVegetalScreen = () => {
                       type="submit"
                    title="Aceptar"
                       value="aceptar"
-                      > <i class="fa-solid fa-circle-check fs-3"></i></button>
+                      > <i className="fa-solid fa-circle-check fs-3"></i></button>
                      
 
                     

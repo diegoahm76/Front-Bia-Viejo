@@ -205,7 +205,7 @@ export const AsignacionFuncionariosScreen = () => {
                 className="form-control border rounded-pill px-3 border border-terciary"
                 //type="text"
                 placeholder="Comentarios"
-                {...register("Commit")}
+              
               />
             </div>
             <div className="row mt-3">
