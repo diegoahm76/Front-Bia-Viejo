@@ -55,7 +55,6 @@ export const obtenerTodosUsuarios = async (dispatch) => {
   await clienteEstaciones
     .get("Usuarios")
     .then((usuarioEstaciones) => {
-      debugger
       dispatch(obtenerUsuarioEstaciones(usuarioEstaciones));
     })
     .catch(() => {

@@ -5,7 +5,7 @@ export interface IBienGet {
 }
 
 export interface IBienes {
-  id_bien: number;
+  id_bien: number|null;
   codigo_bien: string;
   nro_elemento_bien: number;
   nombre: string;
@@ -29,11 +29,11 @@ export interface IBienes {
   id_unidad_medida?: number;
   id_porcentaje_iva?: number;
   id_unidad_medida_vida_util?: number;
-  id_bien_padre?: number;
+  id_bien_padre?: number | null;
 }
 
 interface IDataEdit{
   edit:boolean,
-  id_bien_padre:number,
+  id_bien_padre:number|null,
   nivel_jerarquico:number,
 } 

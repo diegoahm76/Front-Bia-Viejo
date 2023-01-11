@@ -32,8 +32,7 @@ import { obtenerTodosBienes } from "./store/slices/catalogoBienes/indexCatalogoB
 function App() {
   const dispatch = useAppDispatch();
   getUserFromLocalStorage(dispatch);
-  obtenerTodosBienes(dispatch);
-
+  // obtenerTodosBienes(dispatch);
   return (
     <Routes>
       <Route element={<ProtectedRoutes redirectTo={"/login"} />}>

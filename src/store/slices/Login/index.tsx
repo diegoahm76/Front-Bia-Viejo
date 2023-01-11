@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 export interface IUserInfo {
     permisos: [],
@@ -14,7 +15,7 @@ export interface IUserInfo {
         }
     },
     userSesion: string;
-    reintentos: number;
+    reintentos: boolean;
 
 }
 const initialState: IUserInfo = {
@@ -31,7 +32,7 @@ const initialState: IUserInfo = {
     userSesion: "",
     permisos: [],
     representante_legal: [],
-    reintentos: 0
+    reintentos: false
 
 };
 
@@ -44,6 +45,7 @@ const loginSlice = createSlice({
             state.userinfo = action.payload.userinfo;
             state.permisos = action.payload.permisos;
             state.representante_legal = action.payload.representante_legal
+            state.reintentos = false;
         },
         logout: (state) => {
             state.userinfo = initialState.userinfo;
@@ -53,11 +55,14 @@ const loginSlice = createSlice({
         },
         nameSesionUpdate: (state, action) => {
             state.userSesion = action.payload
+        },
+        setReintentos: (state) => {
+            state.reintentos = true;
         }
     }
 });
 
-export const { setUserInfo, logout, nameSesionUpdate } = loginSlice.actions;
+export const { setReintentos, setUserInfo, logout, nameSesionUpdate } = loginSlice.actions;
 export default loginSlice.reducer;
 
 export const loginUser = async (dispatch, email: string, password: string) => {
@@ -67,12 +72,22 @@ export const loginUser = async (dispatch, email: string, password: string) => {
     ).then((response) => {
         dispatch(setUserInfo(response.data.userinfo));
         localStorage.setItem("userInfo", JSON.stringify(response.data.userinfo));
-    }).catch(() => {
-        console.log("LoginError");
+    }).catch((error) => {
+        if (error.response.status === 403) {
+            dispatch(setReintentos())
+        }
+        Swal.fire({
+            position: "center",
+            icon: "warning",
+            title: error.response.data.detail,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+        });
     });
 }
-export const logoutUser = async (dispatch) => {
-    await dispatch(logout());
+export const logoutUser = (dispatch) => {
+    dispatch(logout());
+    localStorage.clear();
 }
 export const getUserFromLocalStorage = (dispatch) => {
     const dataUserJSON = localStorage.getItem("userInfo");

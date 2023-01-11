@@ -1,17 +1,12 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
 import Swal from "sweetalert2";
-import { getTokenAccessLocalStorage } from "../../helpers/localStorage";
-import {
-  dataOverriteEmpresaAdapter,
-  dataUpdateEmpresaAdapter,
-} from "../../adapters/administradorEmpresa.adapters";
-import { getConfigAuthBearer } from "../../helpers/configAxios";
+
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaJuridicaModal from "../../components/BusquedaAvanzadaJuridicaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
@@ -19,17 +14,6 @@ import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
-
-interface defaulValuesFormInterface {
-  tipoDocumento: number;
-  tipoDocumentoRepresentante: number;
-  paisEmpresa: number;
-  id_persona: String;
-  tipoPersona: String;
-  municipioNotificacion: number;
-  digito_verificacion: number;
-  paisNotificacion: number;
-}
 
 interface ISelectOptions {
   label: string;
@@ -43,22 +27,34 @@ export const initialOptions: ISelectOptions[] = [
   },
 ];
 
-const defaultValuesForm: defaulValuesFormInterface = {
-  tipoDocumento: 0,
-  tipoDocumentoRepresentante: 0,
-  paisEmpresa: 0,
-  id_persona: "",
-  tipoPersona: "",
-  municipioNotificacion: 0,
-  digito_verificacion: 0,
-  paisNotificacion: 0,
+const busquedaAvanzadaModel = {
+  tipoDocumento: { value: "", label: "" },
+  numeroDocumento: "",
 };
 
-const options = [
-  { label: "Chocolate", value: "chocolate" },
-  { label: "Strawberry", value: "strawberry" },
-  { label: "Vanilla", value: "vanilla" },
-];
+const modelCreate = {
+  tipo_persona: { value: "", label: "" }, //representante
+  numero_documento_representante: 0,
+  tipo_documento: { value: "", label: "" },
+  numero_documento: "",
+  digito_verificacion: "",
+  nombre_comercial: "",
+  razon_social: "",
+  email: "",
+  email_empresarial: "",
+  direccion_notificaciones: "",
+  cod_municipio_notificacion_nal: { value: "", label: "" },
+  cod_departamento_notificacion: { value: "", label: "" },
+  pais_residencia: { value: "CO", label: "Colombia" },
+  pais_notificacion: { value: "CO", label: "Colombia" },
+  telefono_celular_empresa: "",
+  telefono_empresa_2: "",
+  telefono_empresa: "",
+  acepta_notificacion_sms: true,
+  acepta_notificacion_email: true,
+  acepta_tratamiento_datos: true,
+  representante_legal: 0,
+};
 
 const AdministradorDeEmpresasScreen = () => {
   const navigate = useNavigate();
@@ -70,7 +66,11 @@ const AdministradorDeEmpresasScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [datosNotificacion, setDatosNotificacion] = useState(initialOptions);
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
   const [direccionEmpresaText, setDireccionEmpresaText] = useState("");
   const [actionForm, setActionForm] = useState("");
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<
@@ -84,44 +84,129 @@ const AdministradorDeEmpresasScreen = () => {
   const [municipiosOptions, setMunicipiosOptions] = useState<ISelectOptions[]>(
     []
   );
-  const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
+  const [municipiosCoinicidenciaOptions, setmunicipiosCoinicidenciaOptions] =
     useState<ISelectOptions[]>([]);
-  const [departamentosOptions, setDepartamentosOptions] = useState(initialOptions);
+  const [departamentosOptions, setDepartamentosOptions] =
+    useState(initialOptions);
   const [formValuesSearch, setFormValuesSearch] = useState({
     tipoDocumento: "",
   });
-  const [formValues, setFormValues] = useState(defaultValuesForm);
+  const [formCreate, setFormCreate] = useState(modelCreate);
   const {
     register: registerEmpresa,
     handleSubmit: handleSubmitEmpresa,
-    control: controlEmpresa,
     reset: resetEmpresa,
     watch: watchEmpresa,
+    setValue,
     formState: { errors: errorsEmpresa },
   } = useForm();
 
   const {
-    register: registerBuscar,
     handleSubmit: handleSubmitBuscar,
-    control: controlBuscar,
     reset: resetBuscar,
     watch: watchBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
 
-  const ACTION_EDITAR = "editar";
-  const ACTION_CREAR = "crear";
+  const changeSelectTipo = (e) => {
+    let tipoDocuento = { ...busquedaAvanzadaModel };
+    tipoDocuento.tipoDocumento = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("tipo_documento", tipoDocuento.tipoDocumento);
+    setBusquedaModel(tipoDocuento);
+  };
 
-  const onSubmitBuscar = async (data) => {
-    setLoading(true);
+  const changeSelectTipoEmpresa = (e) => {
+    let form = { ...formCreate };
+    form.tipo_documento = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("tipo_documento", form.tipo_documento);
+    setFormCreate(form);
+  };
+
+  const changeSelectTipoRepresentante = (e) => {
+    let form = { ...formCreate };
+    form.tipo_persona = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("tipo_documento_representante", form.tipo_persona);
+    setFormCreate(form);
+  };
+
+  const changeSelectPaisNotificacion = (e) => {
+    let form = { ...formCreate };
+    form.pais_notificacion = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("pais_notificacion", form.pais_notificacion);
+    setFormCreate(form);
+  };
+
+  const changeSelectPais = (e) => {
+    let form = { ...formCreate };
+    form.pais_residencia = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("pais_residencia", form.pais_residencia);
+    setFormCreate(form);
+  };
+
+  const changeSelectDepartamento = (e) => {
+    let form = { ...formCreate };
+    form.cod_departamento_notificacion = {
+      value: e.value,
+      label: e.label,
+    };
+
+    const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+      const indicator = municipio.value.slice(0, 2);
+      return form.cod_departamento_notificacion.value === indicator;
+    });
+
+    setmunicipiosCoinicidenciaOptions(municipiosCoincidentes);
+    setValue("tipo_departamento", form.cod_departamento_notificacion);
+    setValue("cod_municipio_notificacion_nal", { label: "", value: "" });
+    setFormCreate(form);
+  };
+
+  const changeSelectMunicipio = (e) => {
+    let form = { ...formCreate };
+    form.cod_municipio_notificacion_nal = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("tipo_municipio", form.cod_municipio_notificacion_nal);
+    setFormCreate(form);
+  };
+
+  const handleChange = (e) => {
+    const data = { ...busquedaModel };
+    data.numeroDocumento = e.target.value;
+    setBusquedaModel(data);
+  };
+
+  const handleChangeCreate = (e) => {
+    const { name, value } = e.target;
+    setFormCreate({ ...formCreate, [name]: value });
+  };
+
+  const onSubmitBuscar = async () => {
+    //setLoading(true);
     try {
       const { data: dataEmpresaObject } = await clienteAxios.get(
-        `personas/get-personas-by-document/${data?.tipoDocumento.value}/${data?.numeroDocumento}`
+        `personas/get-personas-by-document/${busquedaModel?.tipoDocumento.value}/${busquedaModel?.numeroDocumento}`
       );
 
       const { data: dataEmpresa } = dataEmpresaObject;
 
-      if (dataEmpresa?.tipo_persona !== "J" && dataEmpresa?.id_persona) {
+      if (dataEmpresa?.tipo_persona !== "J") {
         Swal.fire({
           title: "Este documento es de una persona natural",
           text: "¿Quiere ir al administrador de personas?",
@@ -136,63 +221,69 @@ const AdministradorDeEmpresasScreen = () => {
             navigate("/dashboard/seguridad/administradordepersonas");
           }
         });
-        setActionForm("");
+
+        setIsEdit(false);
         return;
       } else {
-        setActionForm(ACTION_EDITAR);
-        setPrimeraVez(false);
-      }
+        const documentoRepresentante = tipoDocumentoOptionsRepresentante.filter(
+          (documento) =>
+            documento.value === dataEmpresa.representante_legal.tipo_documento
+        );
 
-      console.log("Data get del buscar empresa", dataEmpresa);
-      const dataOverriteInputs = dataOverriteEmpresaAdapter(dataEmpresa);
-      const defaultValuesOverrite = {
-        tipoDocumento:
-          tipoDocumentoOptions[
-            getIndexBySelectOptions(
-              dataEmpresa.tipo_documento?.cod_tipo_documento,
-              tipoDocumentoOptions
-            )
-          ],
-        tipoDocumentoRepresentante:
-          tipoDocumentoOptions[
-            getIndexBySelectOptions(
-              dataEmpresa.representante_legal.tipo_documento,
-              tipoDocumentoOptions
-            )
-          ],
-        ...dataOverriteInputs,
-      };
-      const indexPaisNotificacion = resetPaisDepartamentoYMunicipio(
-        dataEmpresa.cod_municipio_notificacion_nal,
-        setDatosNotificacion
-      );
-      setFormValues({
-        ...formValues,
-        tipoDocumento: getIndexBySelectOptions(
-          dataEmpresa.tipo_documento?.cod_tipo_documento,
-          tipoDocumentoOptions
-        ),
-        tipoDocumentoRepresentante: getIndexBySelectOptions(
-          dataEmpresa.representante_legal.tipo_documento,
-          tipoDocumentoOptionsRepresentante
-        ),
-        paisEmpresa: getIndexBySelectOptions(
-          dataEmpresa.cod_pais_nacionalidad_empresa,
-          paisesOptions
-        ),
-        municipioNotificacion: getIndexBySelectOptions(
-          dataEmpresa.cod_municipio_notificacion_nal,
-          municipiosOptions
-        ),
-        id_persona: dataEmpresa.id_persona,
-        tipoPersona: dataEmpresa.tipo_persona,
-        paisNotificacion: indexPaisNotificacion,
-      });
-      console.log("override data", defaultValuesOverrite);
-      resetEmpresa(defaultValuesOverrite);
+        const paisSeleccionado = paisesOptions.filter(
+          (pais) => pais.value === dataEmpresa.cod_pais_nacionalidad_empresa
+        );
+
+        const municipioSeleccionado = municipiosOptions.filter(
+          (municipio) =>
+            municipio.value === dataEmpresa.cod_municipio_notificacion_nal
+        );
+
+        const departamentoSeleccionado = departamentosOptions.filter(
+          (departamento) =>
+            departamento.value ===
+            dataEmpresa.cod_municipio_notificacion_nal.slice(0, 2)
+        );
+
+        const modelEdit = {
+          ...dataEmpresa,
+
+          tipo_persona: documentoRepresentante[0], //representante
+          numero_documento_representante:
+            dataEmpresa.representante_legal.numero_documento,
+          tipo_documento: {
+            value: dataEmpresa.tipo_documento
+              ? dataEmpresa.tipo_documento.cod_tipo_documento
+              : "",
+            label: dataEmpresa.tipo_documento
+              ? dataEmpresa.tipo_documento.nombre
+              : "",
+          },
+          direccion_notificaciones: "",
+          cod_municipio_notificacion_nal: municipioSeleccionado
+            ? municipioSeleccionado[0]
+            : { value: "", label: "" },
+          cod_departamento_notificacion: departamentoSeleccionado
+            ? departamentoSeleccionado[0]
+            : { value: "", label: "" },
+          pais_notificacion: paisSeleccionado
+            ? paisSeleccionado[0]
+            : { label: "Colombia", value: "CO" },
+          pais_residencia: paisSeleccionado
+            ? paisSeleccionado[0]
+            : { label: "Colombia", value: "CO" },
+          representante_legal: dataEmpresa.representante_legal
+            ? dataEmpresa.representante_legal.id_persona
+            : 0,
+        };
+
+        setValue("direccionNotificacion", dataEmpresa.direccion_notificaciones);
+        setFormCreate(modelEdit);
+        setIsEdit(true);
+        setIsVisible(true);
+      }
     } catch (err: any) {
-      console.log(err);
-      setLoading(false);
+      //setLoading(false);
       if (err.response.data) {
         const result = await Swal.fire({
           title: err.response.data.detail,
@@ -205,58 +296,49 @@ const AdministradorDeEmpresasScreen = () => {
           cancelButtonText: "Crear",
         });
         if (!result.isConfirmed) {
-          resetEmptyValues();
-          setFormValues(defaultValuesForm);
-          return setActionForm(ACTION_CREAR);
-        }
-      }
-    }
-    setLoading(false);
-  };
+          const modelCreate = {
+            tipo_persona: { value: "", label: "" }, //representante
+            numero_documento_representante: 0,
+            tipo_documento: { value: "", label: "" },
 
-  const resetPaisDepartamentoYMunicipio = (
-    municipioResidencia,
-    setDepartamento
-  ) => {
-    const indexMunicipioResidencia = getIndexBySelectOptions(
-      municipioResidencia,
-      municipiosOptions
-    );
-    const departamentoIdentifier = municipiosOptions[
-      indexMunicipioResidencia
-    ]?.value.slice(0, 2);
-    let indexDepartamento = -1;
-    departamentosOptions.forEach((departamento, index) => {
-      if (departamento.value === departamentoIdentifier) {
-        indexDepartamento = index;
-      }
-    });
-    if (indexDepartamento !== null) {
-      let indexColombia = -1;
-      paisesOptions.forEach((pais, index) => {
-        if (pais.value === "CO") {
-          indexColombia = index;
+            numero_documento: "",
+            digito_verificacion: "",
+            nombre_comercial: "",
+            razon_social: "",
+            email: "",
+            email_empresarial: "",
+            direccion_notificaciones: "",
+            cod_municipio_notificacion_nal: { value: "", label: "" },
+            cod_departamento_notificacion: { value: "", label: "" },
+            pais_residencia: { value: "CO", label: "Colombia" },
+            municipio_residencia: { value: "", label: "" },
+            pais_notificacion: { value: "CO", label: "Colombia" },
+            telefono_celular_empresa: "",
+            telefono_empresa_2: "",
+            telefono_empresa: "",
+            acepta_notificacion_sms: true,
+            acepta_notificacion_email: true,
+            acepta_tratamiento_datos: true,
+            representante_legal: 0,
+          };
+          setFormCreate(modelCreate);
+          setIsVisible(true);
+
+          return setIsEdit(false);
         }
-      });
-      setDepartamento({
-        departamento: departamentosOptions[indexDepartamento],
-      });
-      return indexColombia;
-    } else {
-      return -1;
+      }
     }
+    //setLoading(false);
   };
 
   const onSubmitEmpresa = async (data) => {
-    setLoading(true);
-
+    //setLoading(true);
     let idPersonaRepresentante = null;
 
     try {
       const { data: dataRepresentante } = await clienteAxios.get(
-        `personas/get-personas-naturales-by-document/${data.tipoDocumentoRepresentante.value}/${data.numero_documento_representante}/`
+        `personas/get-personas-naturales-by-document/${formCreate.tipo_persona.value}/${formCreate.numero_documento_representante}/`
       );
-      console.log("dataRepresentante", dataRepresentante);
       idPersonaRepresentante = dataRepresentante?.data?.id_persona;
     } catch (error) {
       console.log(error);
@@ -275,46 +357,30 @@ const AdministradorDeEmpresasScreen = () => {
           navigate("/dashboard/seguridad/administradordepersonas");
         }
       });
-      setLoading(false);
+      // setLoading(false);
       return;
     }
 
-    //const idPersonaRepresentante = idRepresentante;
-    console.log("id", idPersonaRepresentante);
-
-    const dataEmpresa = {
-      ...data,
-      representanteLegal: idPersonaRepresentante,
-    };
-
-    console.log("dataEmpresa", dataEmpresa);
-
-    const dataUpdateInputs = dataUpdateEmpresaAdapter(dataEmpresa);
-    const updateEmpresa = {
-      ...dataUpdateInputs,
-      tipo_persona: formValues.tipoPersona,
-      id_persona: formValues.id_persona,
-      tipo_documento: tipoDocumentoOptions[formValues.tipoDocumento]?.value,
-      cod_pais_nacionalidad_empresa:
-        paisesOptions[formValues.paisEmpresa]?.value || null,
+    const createEmpresa = {
+      ...formCreate,
+      tipo_persona: "J",
+      tipo_documento: formCreate.tipo_documento.value,
+      direccion_notificaciones: data.direccionDeNotificacion,
       cod_municipio_notificacion_nal:
-        municipiosOptions[formValues.municipioNotificacion]?.value || null,
-      digito_verificacion: data.digito_verificacion,
+        formCreate.cod_municipio_notificacion_nal.value,
+      cod_pais_nacionalidad_empresa: formCreate.pais_notificacion.value,
+      pais_residencia: formCreate.pais_residencia.value,
+      representante_legal: idPersonaRepresentante,
     };
 
-    console.log("updated persona", updateEmpresa);
-
-    if (actionForm === ACTION_EDITAR) {
-      const access = getTokenAccessLocalStorage();
-      const config = getConfigAuthBearer(access);
+    if (isEdit) {
       try {
-        console.log("updateEmpresa", updateEmpresa);
         const { data: dataResponse } = await clienteAxios.patch(
-          `personas/persona-juridica/user-with-permissions/update/${updateEmpresa.tipo_documento}/${updateEmpresa.numero_documento}/`,
-          updateEmpresa,
-          config
+          `personas/persona-juridica/user-with-permissions/update/${createEmpresa.tipo_documento}/${createEmpresa.numero_documento}/`,
+          createEmpresa
         );
-        console.log("data response", dataResponse);
+        setIsVisible(false);
+        setBusquedaModel(busquedaAvanzadaModel);
         Swal.fire({
           position: "center",
           icon: "success",
@@ -322,25 +388,40 @@ const AdministradorDeEmpresasScreen = () => {
           showConfirmButton: false,
           timer: 1500,
         });
-        resetBuscar({ ...watchBuscar(), numeroDocumento: "" });
-        setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
     } else {
       try {
-        updateEmpresa.tipo_persona = "J";
         await clienteAxios.post(
           "personas/persona-juridica/create/",
-          updateEmpresa
+          createEmpresa
         );
-        // Swal.fire({
-        //   position: "center",
-        //   icon: "success",
-        //   title: "Empresa creada",
-        //   showConfirmButton: false,
-        //   timer: 1500,
-        // });
+        const modelCreate = {
+          tipo_persona: { value: "", label: "" }, //representante
+          numero_documento_representante: 0,
+          tipo_documento: { value: "", label: "" },
+          numero_documento: "",
+          digito_verificacion: "",
+          nombre_comercial: "",
+          razon_social: "",
+          email: "",
+          email_empresarial: "",
+          direccion_notificaciones: "",
+          cod_municipio_notificacion_nal: { value: "", label: "" },
+          cod_departamento_notificacion: { value: "", label: "" },
+          pais_residencia: { value: "CO", label: "Colombia" },
+          pais_notificacion: { value: "CO", label: "Colombia" },
+          telefono_celular_empresa: "",
+          telefono_empresa_2: "",
+          telefono_empresa: "",
+          acepta_notificacion_sms: true,
+          acepta_notificacion_email: true,
+          acepta_tratamiento_datos: true,
+          representante_legal: 0,
+        };
+        setFormCreate(modelCreate);
+        setIsVisible(false);
         Swal.fire({
           title: "Empresa creada correctamente",
           text: "¿Desea registrarse como usuario?",
@@ -355,13 +436,11 @@ const AdministradorDeEmpresasScreen = () => {
             navigate("/dashboard/seguridad/administradordeusuario");
           }
         });
-        resetBuscar({ numeroDocumento: "" });
-        setActionForm("");
       } catch (err) {
         manejadorErroresSwitAlert(err);
       }
     }
-    setLoading(false);
+    //setLoading(false);
   };
 
   const manejadorErroresSwitAlert = (err) => {
@@ -434,38 +513,9 @@ const AdministradorDeEmpresasScreen = () => {
     }
   };
 
-  const resetEmptyValues = () => {
-    const emptyValues = {
-      tipoDocumento: "",
-      numeroDocumento2: "",
-      codVerificacion: "",
-      nombreComercial: "",
-      razonSocial: "",
-      representanteLegal: "",
-      eMail: "",
-      emailNotificacion: "",
-      celular: "",
-      telefonoEmpresa: "",
-      telefonoAlterno: "",
-      direccionDeNotificacion: "",
-      direccionEmpresa: "",
-      municipioNotificacion: "",
-      digito_verificacion: "",
-    };
-    resetEmpresa(emptyValues);
-    setFormValues({
-      ...formValues,
-      tipoDocumento: -1,
-      paisEmpresa: -1,
-      municipioNotificacion: -1,
-      id_persona: "",
-      tipoPersona: "",
-    });
-  };
-
   useEffect(() => {
     const getSelectsOptions = async () => {
-      setLoading(true);
+      //setLoading(true);
       try {
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
           "choices/tipo-documento/"
@@ -481,73 +531,37 @@ const AdministradorDeEmpresasScreen = () => {
         );
 
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
+
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
 
-        const VALUE_NUIP = "NU";
-
+        //FILTRO PARA LISTA PERSONAS JURIDICAS
         const documentosFormatFiltered = documentosFormat.filter(
-          (documento) => documento.value === VALUE_NUIP
+          (documento) => documento.value === "NT"
+        );
+        const documentosFormatFilteredPersona = documentosFormat.filter(
+          (documento) => documento.value !== "NT"
         );
 
-        setTipoDocumentoOptionsRepresentante(documentosFormat);
+        setTipoDocumentoOptionsRepresentante(documentosFormatFilteredPersona);
         setTipoDocumentoOptions(documentosFormatFiltered);
         setPaisesOptions(paisesFormat);
         setMunicipiosOptions(municipiosFormat);
+        setmunicipiosCoinicidenciaOptions(municipiosFormat);
         setDepartamentosOptions(departamentosFormat);
       } catch (err) {
         console.log(err);
-        setLoading(false);
+        //setLoading(false);
       }
-      setLoading(false);
+      //setLoading(false);
     };
     getSelectsOptions();
   }, []);
 
-  const getIndexBySelectOptions = (valueSelect, selectOptions) => {
-    let indexValue = -1;
-    selectOptions.filter((selectOption, index) => {
-      if (selectOption.value === valueSelect) {
-        indexValue = index;
-        return true;
-      }
-      return false;
-    });
-    return indexValue;
-  };
-
   const handleCancelAction = () => {
-    setActionForm("");
-  };
-
-  const handleChangePaisNotificacion = (e) => {
-    const objectSend = {
-      paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
-      municipioNotificacion: -1,
-    };
-    if (e.value !== "CO" || !e.value) {
-      objectSend.municipioNotificacion = -1;
-      resetEmpresa({
-        ...watchEmpresa(),
-        municipioNotificacion: "",
-      });
-      setDatosNotificacion([{label: "", value: ""}] );
-    }
-    setFormValues({
-      ...formValues,
-      ...objectSend,
-    });
-  };
-
-  const getIndexColombia = () => {
-    let indexColombia = -1;
-    paisesOptions.forEach((pais, index) => {
-      if (pais.value === "CO") {
-        indexColombia = index;
-      }
-    });
-    return indexColombia;
+    setIsVisible(false);
+    setBusquedaModel(busquedaAvanzadaModel);
   };
 
   useEffect(() => {
@@ -562,19 +576,19 @@ const AdministradorDeEmpresasScreen = () => {
 
   useEffect(() => {
     if (!primeraVez) return;
-    if (datosNotificacion[0].value === "") {
-      setMunicipioNotificacionFiltered([]);
-      setFormValues({ ...formValues, municipioNotificacion: -1 });
-    } else {
-      //Todo: Revisar
-      // const municipioIndicadores = datosNotificacion?.slice(0, 2);
-      // const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
-      //   const indicator = municipio.value.slice(0, 2);
-      //   return municipioIndicadores === indicator;
-      // });
-      // setMunicipioNotificacionFiltered(municipiosCoincidentes);
-      setFormValues({ ...formValues, municipioNotificacion: 0 });
-    }
+    // if (datosNotificacion[0].value === "") {
+    //   setMunicipioNotificacionFiltered([]);
+    //   setFormValues({ ...formValues, municipioNotificacion: -1 });
+    // } else {
+    //Todo: Revisar
+    // const municipioIndicadores = datosNotificacion?.slice(0, 2);
+    // const municipiosCoincidentes = municipiosOptions.filter((municipio) => {
+    //   const indicator = municipio.value.slice(0, 2);
+    //   return municipioIndicadores === indicator;
+    // });
+    // setMunicipioNotificacionFiltered(municipiosCoincidentes);
+    //   setFormValues({ ...formValues, municipioNotificacion: 0 });
+    // }
   }, [datosNotificacion]);
 
   useEffect(() => {
@@ -599,20 +613,16 @@ const AdministradorDeEmpresasScreen = () => {
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
-                  <Controller
-                    name="tipoDocumento"
-                    control={controlBuscar}
-                    rules={{
-                      required: true,
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={tipoDocumentoOptions}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+
+                  <Select
+                    name="tipo_documento"
+                    options={tipoDocumentoOptions}
+                    required={true}
+                    placeholder="Seleccionar"
+                    onChange={changeSelectTipo}
+                    value={busquedaModel.tipoDocumento}
                   />
+
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -630,7 +640,11 @@ const AdministradorDeEmpresasScreen = () => {
                     <input
                       className="form-control border border-terciary rounded-pill px-3"
                       type="text"
-                      {...registerBuscar("numeroDocumento", { required: true })}
+                      required={true}
+                      maxLength={15}
+                      name="numeroDocumento"
+                      onChange={handleChange}
+                      value={busquedaModel.numeroDocumento}
                     />
                   </div>
                   {errorsBuscar.numeroDocumento && (
@@ -658,73 +672,34 @@ const AdministradorDeEmpresasScreen = () => {
                 </div>
               </div>
             </form>
-
-            {actionForm && (
+            {isVisible && (
               <form onSubmit={handleSubmitEmpresa(onSubmitEmpresa)}>
                 <Subtitle title={"Datos personales"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
                   <div className="row col-12 align-items-end">
-                    {actionForm !== ACTION_EDITAR ? (
-                      <div className="col-12 col-md-3">
-                        <label className="form-label">
-                          Tipo de documento:{" "}
-                          <span className="text-danger">*</span>
-                        </label>
-                        <Controller
-                          name="tipoDocumento2"
-                          control={controlEmpresa}
-                          rules={{ required: true }}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={
-                                tipoDocumentoOptions[formValues.tipoDocumento]
-                              }
-                              onChange={(e) => {
-                                setFormValues({
-                                  ...formValues,
-                                  tipoDocumento: getIndexBySelectOptions(
-                                    e?.value,
-                                    tipoDocumentoOptions
-                                  ),
-                                });
-                                resetEmpresa({
-                                  ...watchEmpresa(),
-                                  tipoDocumento2: e,
-                                });
-                              }}
-                              options={tipoDocumentoOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        />
-                        {errorsEmpresa.tipoDocumento2 && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="col-12 col-md-3">
-                        <div className="mt-2">
-                          <label className="ms-2">
-                            Tipo de documento:{" "}
-                            <span className="text-danger">*</span>
-                          </label>
-                          <input
-                            className="form-control border border-terciary rounded-pill px-3"
-                            type="number"
-                            value={
-                              tipoDocumentoOptions[formValues.tipoDocumento]
-                                ?.label
-                            }
-                            disabled
-                          />
+                    <div className="col-12 col-md-3">
+                      <label className="form-label">
+                        Tipo de documento:
+                        <span className="text-danger">*</span>
+                      </label>
+
+                      <Select
+                        value={formCreate.tipo_documento}
+                        onChange={changeSelectTipoEmpresa}
+                        options={tipoDocumentoOptions}
+                        placeholder="Seleccionar"
+                        isDisabled={isEdit}
+                      />
+
+                      {errorsEmpresa.tipoDocumento2 && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
@@ -734,10 +709,12 @@ const AdministradorDeEmpresasScreen = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
-                          disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("numeroDocumento2", {
-                            required: actionForm === ACTION_CREAR,
-                          })}
+                          name="numero_documento"
+                          maxLength={15}
+                          value={formCreate.numero_documento}
+                          onChange={handleChangeCreate}
+                          disabled={isEdit}
+                          required={true}
                         />
                         {errorsEmpresa.numeroDocumento2 && (
                           <div className="col-12">
@@ -751,19 +728,18 @@ const AdministradorDeEmpresasScreen = () => {
                     <div className="col-12 col-md-3">
                       <div className="mt-2">
                         <label className="ms-2">
-                          Digito verificación:{" "}
+                          Digito verificación
                           <span className="text-danger">*</span>
                         </label>
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
-                          type="number"
-                          disabled={actionForm === ACTION_EDITAR}
-                          // value={formValues.digito_verificacion}
-                          // onChange={handleMaxOneDigit}
-                          {...registerEmpresa("digito_verificacion", {
-                            required: true,
-                            maxLength: 1,
-                          })}
+                          type="text"
+                          name="digito_verificacion"
+                          value={formCreate.digito_verificacion}
+                          onChange={handleChangeCreate}
+                          disabled={isEdit}
+                          required={true}
+                          maxLength={1}
                         />
                         {errorsEmpresa.digito_verificacion && (
                           <div className="col-12">
@@ -780,8 +756,10 @@ const AdministradorDeEmpresasScreen = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
-                          disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("nombreComercial")}
+                          name="nombre_comercial"
+                          value={formCreate.nombre_comercial}
+                          disabled={isEdit}
+                          onChange={handleChangeCreate}
                         />
                       </div>
                     </div>
@@ -793,10 +771,11 @@ const AdministradorDeEmpresasScreen = () => {
                         <input
                           className="form-control border border-terciary rounded-pill px-3"
                           type="text"
-                          disabled={actionForm === ACTION_EDITAR}
-                          {...registerEmpresa("razonSocial", {
-                            required: true,
-                          })}
+                          required={true}
+                          onChange={handleChangeCreate}
+                          value={formCreate.razon_social}
+                          name="razon_social"
+                          disabled={isEdit}
                         />
                       </div>
                       {errorsEmpresa.razonSocial && (
@@ -815,39 +794,17 @@ const AdministradorDeEmpresasScreen = () => {
                     <label className="form-label">
                       Tipo de documento: <span className="text-danger">*</span>
                     </label>
-                    <Controller
-                      name="tipoDocumentoRepresentante"
-                      control={controlEmpresa}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={
-                            tipoDocumentoOptionsRepresentante[
-                              formValues.tipoDocumentoRepresentante
-                            ]
-                          }
-                          onChange={(e: any) => {
-                            setFormValues({
-                              ...formValues,
-                              tipoDocumentoRepresentante:
-                                getIndexBySelectOptions(
-                                  e.value,
-                                  tipoDocumentoOptionsRepresentante
-                                ),
-                            });
-                            resetEmpresa({
-                              ...watchEmpresa(),
-                              tipoDocumentoRepresentante: e,
-                            });
-                          }}
-                          options={tipoDocumentoOptionsRepresentante}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+
+                    <Select
+                      name="tipo_documento_representante"
+                      options={tipoDocumentoOptionsRepresentante}
+                      placeholder="Seleccionar"
+                      onChange={changeSelectTipoRepresentante}
+                      value={formCreate.tipo_persona}
+                      isDisabled={isEdit}
+                      required={true}
                     />
+
                     {errorsEmpresa.tipoDocumentoRepresentante && (
                       <div className="col-12">
                         <small className="text-center text-danger">
@@ -859,20 +816,18 @@ const AdministradorDeEmpresasScreen = () => {
                   <div className="col-md-3 col-12 mt-3">
                     <div>
                       <label className="ms-2">
-                        Número de documento:{" "}
+                        Número de documento
                         <span className="text-danger">*</span>
                       </label>
                       <input
                         className="border border-terciary form-control rounded-pill px-3"
-                        type={
-                          watchEmpresa("tipoDocumentoRepresentante")?.value ===
-                          "PA"
-                            ? "text"
-                            : "number"
-                        }
-                        {...registerEmpresa("numero_documento_representante", {
-                          required: true,
-                        })}
+                        type="number"
+                        required={true}
+                        maxLength={15}
+                        onChange={handleChangeCreate}
+                        name="numero_documento_representante"
+                        value={formCreate.numero_documento_representante}
+                        disabled={isEdit}
                       />
                     </div>
                     {errorsEmpresa.numero_documento_representante && (
@@ -888,26 +843,12 @@ const AdministradorDeEmpresasScreen = () => {
                 <div className="row mx-1 mt-2 align-items-end">
                   <div className="col-12 col-md-3 mt-2">
                     <label className="form-label">País:</label>
-                    <Controller
-                      name="paisEmpresa"
-                      control={controlEmpresa}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={paisesOptions[formValues.paisEmpresa]}
-                          onChange={(e: any) => {
-                            setFormValues({
-                              ...formValues,
-                              paisEmpresa: getIndexBySelectOptions(
-                                e.value,
-                                paisesOptions
-                              ),
-                            });
-                          }}
-                          options={paisesOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                    <Select
+                      value={formCreate.pais_residencia}
+                      onChange={changeSelectPais}
+                      isDisabled={true}
+                      options={paisesOptions}
+                      placeholder="Seleccionar"
                     />
                   </div>
                   <div className="col-12 col-md-3">
@@ -916,7 +857,9 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
                         type="email"
-                        {...registerEmpresa("emailNotificacion")}
+                        name="email"
+                        value={formCreate.email}
+                        onChange={handleChangeCreate}
                       />
                     </div>
                   </div>
@@ -927,12 +870,13 @@ const AdministradorDeEmpresasScreen = () => {
                       </label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
-                        type="number"
-                        {...registerEmpresa("celular", {
-                          required: true,
-                          maxLength: 10,
-                          minLength: 10,
-                        })}
+                        type="tet"
+                        name="telefono_celular_empresa"
+                        value={formCreate.telefono_celular_empresa}
+                        onChange={handleChangeCreate}
+                        required={true}
+                        maxLength={10}
+                        minLength={10}
                       />
                     </div>
                     {errorsEmpresa.celular && (
@@ -948,8 +892,12 @@ const AdministradorDeEmpresasScreen = () => {
                       <label className="ms-2">Teléfono empresa:</label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
-                        type="number"
-                        {...registerEmpresa("telefonoEmpresa")}
+                        type="text"
+                        name="telefono_empresa"
+                        minLength={10}
+                        maxLength={10}
+                        value={formCreate.telefono_empresa}
+                        onChange={handleChangeCreate}
                       />
                     </div>
                   </div>
@@ -963,22 +911,26 @@ const AdministradorDeEmpresasScreen = () => {
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
                         type="text"
-                        {...registerEmpresa("telefonoAlterno")}
+                        name="telefono_empresa_2"
+                        minLength={10}
+                        maxLength={10}
+                        value={formCreate.telefono_empresa_2}
+                        onChange={handleChangeCreate}
                       />
                     </div>
                   </div>
                   <div className="col-12 col-md-3">
                     <div className="mt-2">
                       <label className="ms-2">
-                        E-mail de notificación:{" "}
+                        E-mail de notificación:
                         <span className="text-danger">*</span>
                       </label>
                       <input
                         className="form-control border border-terciary rounded-pill px-3"
                         type="email"
-                        disabled={actionForm === ACTION_EDITAR}
-                        readOnly={actionForm === ACTION_EDITAR}
-                        {...registerEmpresa("eMail", { required: true })}
+                        name="email_empresarial"
+                        value={formCreate.email_empresarial}
+                        onChange={handleChangeCreate}
                       />
                     </div>
                     {errorsEmpresa.eMail && (
@@ -993,101 +945,39 @@ const AdministradorDeEmpresasScreen = () => {
                     <label className="form-label text-terciary">
                       País notificación:
                     </label>
-                    <Controller
-                      name="cod_pais_notificacion_nal"
-                      control={controlEmpresa}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={paisesOptions[formValues.paisNotificacion]}
-                          options={paisesOptions}
-                          onChange={handleChangePaisNotificacion}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                    <Select
+                      value={formCreate.pais_notificacion}
+                      options={paisesOptions}
+                      isDisabled={true}
+                      onChange={changeSelectPaisNotificacion}
+                      placeholder="Seleccionar"
                     />
                   </div>
-                  {formValues.paisNotificacion === getIndexColombia() ? (
-                    <div className="col-12 col-md-3 mt-2">
-                      <label className="form-label text-terciary">
-                        Departamento notificación:{" "}
-                      </label>
-                      <Select
-                        options={departamentosOptions}
-                        isDisabled={
-                          paisesOptions[formValues.paisNotificacion]?.value !==
-                          "CO"
-                        }
-                        onChange={(e: any) => {
-                          //Todo: Revisar
-                          // setDatosNotificacion({
-                          //   ...datosNotificacion,
-                          //   departamento: e,
-                          // });
-                        }}
-                        value={datosNotificacion[0]}
-                        placeholder="Seleccionar"
-                      />
-                    </div>
-                  ) : (
-                    <div className="col-12 col-md-3 mt-2">
-                      <label className="form-label text-terciary">
-                        Departamento notificación:{" "}
-                      </label>
-                      <Select
-                        isDisabled
-                        placeholder="Seleccionar"
-                        value={"Seleccionar"}
-                      />
-                    </div>
-                  )}
-                  {formValues.paisNotificacion === getIndexColombia() ? (
-                    <div className="col-12 col-md-3 mt-2">
-                      <label className="form-label">
-                        Municipio notificación:{" "}
-                      </label>
-                      <Controller
-                        name="municipioNotificacion"
-                        control={controlEmpresa}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            isDisabled={
-                              paisesOptions[formValues.paisNotificacion]
-                                ?.value !== "CO"
-                            }
-                            value={
-                              municipiosOptions[
-                                formValues.municipioNotificacion
-                              ]
-                            }
-                            onChange={(e: any) =>
-                              setFormValues({
-                                ...formValues,
-                                municipioNotificacion: getIndexBySelectOptions(
-                                  e.value,
-                                  municipiosOptions
-                                ),
-                              })
-                            }
-                            options={municipioNotificacionFiltered}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                    </div>
-                  ) : (
-                    <div className="col-12 col-md-3 mt-2">
-                      <label className="form-label">
-                        Municipio notificación:{" "}
-                      </label>
-                      <Select
-                        isDisabled
-                        placeholder="Seleccionar"
-                        value={"Seleccionar"}
-                      />
-                    </div>
-                  )}
+                  <div className="col-12 col-md-3 mt-2">
+                    <label className="form-label text-terciary">
+                      Departamento notificación:{" "}
+                    </label>
+                    <Select
+                      options={departamentosOptions}
+                      onChange={changeSelectDepartamento}
+                      value={formCreate.cod_departamento_notificacion}
+                      placeholder="Seleccionar"
+                    />
+                  </div>
+
+                  <div className="col-12 col-md-3 mt-2">
+                    <label className="form-label">
+                      Municipio notificación:{" "}
+                    </label>
+                    <Select
+                      placeholder="Seleccionar"
+                      options={municipiosCoinicidenciaOptions}
+                      onChange={changeSelectMunicipio}
+                      value={formCreate.cod_municipio_notificacion_nal}
+                      name="cod_municipio_notificacion_nal"
+                    />
+                  </div>
+
                   <div className="col-md-8 col-10 mt-3">
                     <div className="mt-3 d-flex align-items-end">
                       <div className="col-10">
@@ -1127,7 +1017,7 @@ const AdministradorDeEmpresasScreen = () => {
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     type="button"
                     onClick={handleCancelAction}
-                    disabled={loading}
+                    disabled={isVisible}
                   >
                     {loading ? (
                       <>
@@ -1157,7 +1047,7 @@ const AdministradorDeEmpresasScreen = () => {
                         ></span>
                         Cargando...
                       </>
-                    ) : actionForm === ACTION_EDITAR ? (
+                    ) : isEdit ? (
                       <img src={botonActualizar} alt="" />
                     ) : (
                       <img src={botonAgregar} alt="" />
@@ -1177,21 +1067,12 @@ const AdministradorDeEmpresasScreen = () => {
             watch={watchEmpresa}
           />
 
-          <DirecionResidenciaModal
-            isModalActive={direccionEmpresaIsOpen}
-            setIsModalActive={setDireccionEmpresaIsOpen}
-            completeAddress={direccionEmpresaText}
-            setCompleteAddress={setDireccionEmpresaText}
-            reset={resetEmpresa}
-            keyReset="direccionEmpresa"
-            watch={watchEmpresa}
-          />
-
           <BusquedaAvanzadaJuridicaModal
             isModalActive={busquedaAvanzadaIsOpen}
             setIsModalActive={setBusquedaAvanzadaIsOpen}
             formValues={formValuesSearch}
             setFormValues={setFormValuesSearch}
+            setModel={setBusquedaModel}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}
           />

@@ -5,3 +5,11 @@ export const adapterSubsistemasChoices = (subsistemasData) => {
   }));
   return subsistemasOptionsAdapted;
 };
+
+export const adapterModulesChoices = (modulesData) => {
+  const modulesOptionsAdapted = modulesData.map((module) => ({
+    label: module.nombre_modulo,
+    value: module.id_modulo,
+  }));
+  return modulesOptionsAdapted;
+};

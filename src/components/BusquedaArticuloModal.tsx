@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import Subtitle from "./Subtitle";
 import React from "react";
 
-
 const customStyles = {
   content: {
     top: "50%",
@@ -19,6 +18,7 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
+
   const {
     register,
     handleSubmit,
@@ -39,7 +39,7 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
   return (
     <Modal
       isOpen={isModalActive}
-      //onRequestClose={onCloseModal}
+      onRequestClose={handleCloseAgregarProducto}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
@@ -47,18 +47,19 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <h3 className="text-center  fw-light mt-4 mb-2">Busqueda de artículo</h3>
+          <h3 className="fw-light mt-4 mb-2">
+            Busqueda de artículo
+          </h3>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-
               <Subtitle title="Información del articulo" mb={3} />
-              <div className="col-12 col-sm-6 mt-2">
+              <div className="col-12 col-sm-4 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Código</label>
+                  <label className="ms-3 text-terciary">Codigo</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
@@ -67,9 +68,9 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-6 mt-2">
+              <div className="col-12 col-sm-4 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Nombre artículo</label>
+                  <label className="ms-3 text-terciary">Nombre</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
@@ -78,76 +79,37 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive }) => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-6 mt-2">
-                <div>
-                  <label className="ms-3 text-terciary">Marca</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
-                    placeholder="Marca"
-                    {...register("marca")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-sm-6 mt-2">
-                <div>
-                  <label className="ms-3 text-terciary">Código de barras/QR</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
-                    placeholder="codigo"
-                    {...register("codigo")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-sm-6 mt-2">
-                <div>
-                  <label className="ms-3 text-terciary">Serial/Placa</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
-                    placeholder="serial/placa"
-                    {...register("serialPlaca")}
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-sm-6 mt-2">
-                <div>
-                  <label className="ms-3 text-terciary">Cantidad</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
-                    placeholder="cantidad"
-                    {...register("cantidad")}
-                  />
-                </div>
-              </div>
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <div className="col-12 col-sm-4 mt-4">
                 <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize border rounded-pill px-3"
-                  type="submit"
-                  onClick={handleCloseAgregarProducto}
-                  title="Send"
-                >
-                  Limpiar
-                </button>
-                <button
-                  className="btn bg-primary me-md-2 text-white text-capitalize border rounded-pill px-3"
-                  type="submit"
-                  onClick={handleCloseAgregarProducto}
-                  title="Send"
-                >
-                  Buscar
-                </button>
-                <button
-                  className="btn bg-light text-white text-capitalize border rounded-pill px-3"
+                  className="btn me-md-2  text-capitalize  px-3 mt-2"
                   type="button"
-                  onClick={handleCloseAgregarProducto}
-                  title="Send"
+                  title="Buscar"
                 >
-                  Salir
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
+            </div>
+
+
+
+            <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+              <button
+                className="btn me-md-2 text-capitalize  px-3"
+                type="submit"
+                onClick={handleCloseAgregarProducto}
+                title="Send"
+              >
+                <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
+              </button>
+
+              <button
+                className="btn  text-capitalize px-3"
+                type="button"
+                onClick={handleCloseAgregarProducto}
+                title="Send"
+              >
+                <i className="fa-solid fa-x fs-3"></i>
+              </button>
             </div>
           </form>
         </div>

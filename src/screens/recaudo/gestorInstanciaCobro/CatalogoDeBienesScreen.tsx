@@ -17,16 +17,20 @@ import { TreeTable } from "primereact/treetable";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 
-import { 
+import {
   obtenerTodosBienes,
-  obtenerBien,
+  seleccionarBienEdit,
+  seleccionarBienCreate,
+  eliminarBien,
+  initialStateBien,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { IBienes } from "../../../Interfaces/Bienes";
 import { INodo } from "../../../Interfaces/Nodo";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
-
+import clienteAxios from "../../../config/clienteAxios";
+import clienteBack from "../../../config/clienteBack";
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -39,24 +43,20 @@ const CatalogoDeBienesScreen = () => {
   const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
   const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
 
-  const armarArbol = useCallback((bienNuevo) => {
-    let contador = 0;
-    console.log("BIEN cargado", bienNuevo);
-    bienNuevo?.forEach((bienElement) => {
-      agregarNodosBase(bienElement, contador, bienNuevo);
-      contador = arrayTotal.length;
-    });
+
+  useEffect(() => {
+    getBienes();
   }, []);
-  useEffect(() => {
-    obtenerTodosBienes(dispatch);
-  }, [dispatch]);
-  useEffect(
-    () => console.log(" after first render or message updated", bien),
-    [bien]
-  );
-  useEffect(() => {
-    armarArbol(bien);
-  }, [bien]);
+
+  const getBienes = async () => {
+    await clienteBack
+      .get("almacen/bienes/catalogo-bienes/get-list")
+      .then((bienes) => {
+        setArrayTotal(bienes.data.data);
+      })
+      .catch(() => {
+      });
+  }
 
   // useEffect(() => {
   //   armarArbol(bien);
@@ -104,532 +104,75 @@ const CatalogoDeBienesScreen = () => {
     </div>
   );
   const actionTemplate = (node, column) => {
-    //debugger;
     return (
       <div>
         <Button
           type="button"
-          icon="pi pi-plus-circle"
+          icon="fa-regular fa-plus fs-3"
           className="p-button-success"
           style={{ marginRight: ".5em" }}
           onClick={() => {
-            enviarDatos(node);
+            enviarDatos(node, false); //crear
           }}
-          disabled={node.data.crear}
+          disabled={!node.data.crear}
         ></Button>
         <Button
           type="button"
-          icon="pi pi-pencil"
+          icon="fa-regular fa-pen-to-square fs-3"
           className="p-button-warning"
           style={{ marginRight: ".5em" }}
-          disabled={node.data.editar}
+          onClick={() => {
+            enviarDatos(node, true); //true
+          }}
+          disabled={!node.data.editar}
         ></Button>
         <Button
           type="button"
-          icon="pi pi-minus-circle"
+          icon="fa-regular fa-trash-can fs-3"
           className="p-button-danger"
           style={{ marginRight: ".5em" }}
-          disabled={node.data.eliminar}
+          disabled={!node.data.eliminar}
+          onClick={() => {
+            eliminarNodo(node); //true
+          }}
         ></Button>
       </div>
     );
   };
 
-  //let arrayTotal: INodo[] = [];
 
-  function tieneHijos(bien, bienNuevo) {
-    let bandera = 0;
-    bienNuevo.forEach((bienElement) => {
-      if (bien.id_bien === bienElement.id_bien_padre) {
-        bandera++;
-      }
-    });
-    return bandera > 0 ? true : false;
-  }
-
-  function nodoRecorrido(bien) {
-    return arrayRecorrido.includes(bien.id_bien) ? false : true;
-  }
-
-  function agregarNodosBase(bien, contador, bienNuevo) {
-    let hijos: INodo[] = [];
-    let keynode = contador.toString() + "-";
-    let nodo: INodo = {
-      key: contador.toString(),
-      data: {
-        nombre: bien.nombre + " (" + contador.toString() + ")",
-        codigo: bien.codigo_bien,
-        id_nodo: bien.id_bien,
-        editar: false,
-        eliminar: false,
-        crear: false,
-      },
-      children: hijos,
-    };
-    let existe = nodoRecorrido(bien);
-    if (existe && bien.nivel_jerarquico == 1) {
-      if (tieneHijos(bien, bienNuevo)) {
-        //debugger;
-        let children = [...crearNiveles(bien, keynode, bienNuevo)];
-        nodo.children = [...children];
-        nodo.data.eliminar = true;
-        arrayTotal.push({ ...nodo });
-      } else {
-        arrayTotal.push({ ...nodo });
-        nodo.data.eliminar = false;
-        arrayRecorrido.push({ ...bien }.id_bien);
-      }
+  function enviarDatos(nodo, accion) {
+    if (accion) {
+      seleccionarBienEdit(dispatch, nodo.data.bien)
+    } else {
+      seleccionarBienCreate(dispatch, nodo.data.bien)
     }
-  }
 
-  function crearNiveles(bien, keynode, bienNuevo) {
-    let contadorInterno = 0;
-    let hijos: INodo[] = [];
-    let nodoHijo: INodo = {
-      key: "",
-      data: {
-        nombre: "",
-        codigo: "",
-        id_nodo: 0,
-        editar: false,
-        crear: false,
-      },
-      children: hijos,
-    };
-    let existe = nodoRecorrido(bien);
-    if (existe) {
-      bienNuevo.forEach((bienElement) => {
-        if (bienElement.id_bien_padre === bien.id_bien) {
-          let existe2 = nodoRecorrido(bienElement);
-          if (existe2) {
-            nodoHijo.key = keynode + contadorInterno.toString();
-            if (tieneHijos(bienElement, bienNuevo)) {
-              let hijo = [
-                ...crearNiveles(
-                  bienElement,
-                  keynode + contadorInterno.toString() + "-",
-                  bienNuevo
-                ),
-              ];
-              nodoHijo.data = {
-                id_nodo: bienElement.id_bien,
-                codigo: bienElement.codigo_bien,
-                nombre:
-                  bienElement.nombre +
-                  " (" +
-                  keynode +
-                  " " +
-                  contadorInterno.toString() +
-                  ")",
-                eliminar: true,
-              };
-              nodoHijo.data.id_nodo = { ...bienElement }.id_bien;
-              nodoHijo.children = [...hijo];
-            } else {
-              nodoHijo.data = {
-                id_nodo: bienElement.id_bien,
-                codigo: bienElement.codigo_bien,
-                nombre:
-                  bienElement.nombre +
-                  " (" +
-                  keynode +
-                  " " +
-                  contadorInterno.toString() +
-                  ")",
-                eliminar: false,
-              };
-              nodoHijo.children = [];
-              nodoHijo.data.eliminar = false;
-            }
-            arrayRecorrido.push(bienElement.id_bien);
-            hijos.push({ ...nodoHijo });
-          }
-          contadorInterno++;
-        }
-      });
-    }
-    arrayRecorrido.push(bien.id_bien);
-    //debugger;
-    return [...hijos];
-  }
 
-  function enviarDatos(nodo) {
-    obtenerBien(dispatch, nodo);
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   }
 
-  // const nodes = [
-  //   {
-  //     key: "0",
-  //     data: {
-  //       name: "Applications",
-  //       size: "100kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "0-0",
-  //         data: {
-  //           name: "React",
-  //           size: "25kb",
-  //           type: "Folder",
-  //         },
-  //         children: [
-  //           {
-  //             key: "0-0-0",
-  //             data: {
-  //               name: "react.app",
-  //               size: "10kb",
-  //               type: "Application",
-  //             },
-  //           },
-  //           {
-  //             key: "0-0-1",
-  //             data: {
-  //               name: "native.app",
-  //               size: "10kb",
-  //               type: "Application",
-  //             },
-  //           },
-  //           {
-  //             key: "0-0-2",
-  //             data: {
-  //               name: "mobile.app",
-  //               size: "5kb",
-  //               type: "Application",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         key: "0-1",
-  //         data: {
-  //           name: "editor.app",
-  //           size: "25kb",
-  //           type: "Application",
-  //         },
-  //       },
-  //       {
-  //         key: "0-2",
-  //         data: {
-  //           name: "settings.app",
-  //           size: "50kb",
-  //           type: "Application",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "1",
-  //     data: {
-  //       name: "Cloud",
-  //       size: "20kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "1-0",
-  //         data: {
-  //           name: "backup-1.zip",
-  //           size: "10kb",
-  //           type: "Zip",
-  //         },
-  //       },
-  //       {
-  //         key: "1-1",
-  //         data: {
-  //           name: "backup-2.zip",
-  //           size: "10kb",
-  //           type: "Zip",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "2",
-  //     data: {
-  //       name: "Desktop",
-  //       size: "150kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "2-0",
-  //         data: {
-  //           name: "note-meeting.txt",
-  //           size: "50kb",
-  //           type: "Text",
-  //         },
-  //       },
-  //       {
-  //         key: "2-1",
-  //         data: {
-  //           name: "note-todo.txt",
-  //           size: "100kb",
-  //           type: "Text",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "3",
-  //     data: {
-  //       name: "Documents",
-  //       size: "75kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "3-0",
-  //         data: {
-  //           name: "Work",
-  //           size: "55kb",
-  //           type: "Folder",
-  //         },
-  //         children: [
-  //           {
-  //             key: "3-0-0",
-  //             data: {
-  //               name: "Expenses.doc",
-  //               size: "30kb",
-  //               type: "Document",
-  //             },
-  //           },
-  //           {
-  //             key: "3-0-1",
-  //             data: {
-  //               name: "Resume.doc",
-  //               size: "25kb",
-  //               type: "Resume",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         key: "3-1",
-  //         data: {
-  //           name: "Home",
-  //           size: "20kb",
-  //           type: "Folder",
-  //         },
-  //         children: [
-  //           {
-  //             key: "3-1-0",
-  //             data: {
-  //               name: "Invoices",
-  //               size: "20kb",
-  //               type: "Text",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "4",
-  //     data: {
-  //       name: "Downloads",
-  //       size: "25kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "4-0",
-  //         data: {
-  //           name: "Spanish",
-  //           size: "10kb",
-  //           type: "Folder",
-  //         },
-  //         children: [
-  //           {
-  //             key: "4-0-0",
-  //             data: {
-  //               name: "tutorial-a1.txt",
-  //               size: "5kb",
-  //               type: "Text",
-  //             },
-  //           },
-  //           {
-  //             key: "4-0-1",
-  //             data: {
-  //               name: "tutorial-a2.txt",
-  //               size: "5kb",
-  //               type: "Text",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         key: "4-1",
-  //         data: {
-  //           name: "Travel",
-  //           size: "15kb",
-  //           type: "Text",
-  //         },
-  //         children: [
-  //           {
-  //             key: "4-1-0",
-  //             data: {
-  //               name: "Hotel.pdf",
-  //               size: "10kb",
-  //               type: "PDF",
-  //             },
-  //           },
-  //           {
-  //             key: "4-1-1",
-  //             data: {
-  //               name: "Flight.pdf",
-  //               size: "5kb",
-  //               type: "PDF",
-  //             },
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "5",
-  //     data: {
-  //       name: "Main",
-  //       size: "50kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "5-0",
-  //         data: {
-  //           name: "bin",
-  //           size: "50kb",
-  //           type: "Link",
-  //         },
-  //       },
-  //       {
-  //         key: "5-1",
-  //         data: {
-  //           name: "etc",
-  //           size: "100kb",
-  //           type: "Link",
-  //         },
-  //       },
-  //       {
-  //         key: "5-2",
-  //         data: {
-  //           name: "var",
-  //           size: "100kb",
-  //           type: "Link",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "6",
-  //     data: {
-  //       name: "Other",
-  //       size: "5kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "6-0",
-  //         data: {
-  //           name: "todo.txt",
-  //           size: "3kb",
-  //           type: "Text",
-  //         },
-  //       },
-  //       {
-  //         key: "6-1",
-  //         data: {
-  //           name: "logo.png",
-  //           size: "2kb",
-  //           type: "Picture",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "7",
-  //     data: {
-  //       name: "Pictures",
-  //       size: "150kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "7-0",
-  //         data: {
-  //           name: "barcelona.jpg",
-  //           size: "90kb",
-  //           type: "Picture",
-  //         },
-  //       },
-  //       {
-  //         key: "7-1",
-  //         data: {
-  //           name: "primeng.png",
-  //           size: "30kb",
-  //           type: "Picture",
-  //         },
-  //       },
-  //       {
-  //         key: "7-2",
-  //         data: {
-  //           name: "prime.jpg",
-  //           size: "30kb",
-  //           type: "Picture",
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     key: "8",
-  //     data: {
-  //       name: "Videos",
-  //       size: "1500kb",
-  //       type: "Folder",
-  //     },
-  //     children: [
-  //       {
-  //         key: "8-0",
-  //         data: {
-  //           name: "primefaces.mkv",
-  //           size: "1000kb",
-  //           type: "Video",
-  //         },
-  //       },
-  //       {
-  //         key: "8-1",
-  //         data: {
-  //           name: "intro.avi",
-  //           size: "500kb",
-  //           type: "Video",
-  //         },
-  //       },
-  //     ],
-  //   },
-  // ];
+  function eliminarNodo(nodo) {
+    eliminarBien(dispatch, nodo.data.bien);
+    obtenerTodosBienes(dispatch);
+  }
 
   const {
-    reset,
-    register,
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
 
-  const submit = (data) => {};
-
   const navigate = useNavigate();
   const CrearArticulo = () => {
+    seleccionarBienCreate(dispatch, initialStateBien.bienSeleccionado);
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   };
-  const Articulo = () => {
-    navigate("/dashboard/Recaudo/gestor-notificacion/entrada-articulos-fijos");
-  };
+
 
   return (
     <div className="row min-vh-100">
@@ -637,7 +180,6 @@ const CatalogoDeBienesScreen = () => {
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
-          onSubmit={handleSubmit(submit)}
           id="configForm"
         >
           <div className="row">
@@ -669,10 +211,10 @@ const CatalogoDeBienesScreen = () => {
                 ></Column>
                 <Column
                   field="codigo"
-                  header="Codigo"
+                  header="Código"
                   style={{ width: "450px" }}
                   filter
-                  filterPlaceholder="Filter por codigo"
+                  filterPlaceholder="Filter por código"
                 ></Column>
                 <Column
                   header="Acciones"

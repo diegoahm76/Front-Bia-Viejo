@@ -19,8 +19,12 @@ import BienesProcesoExtincionDominioScreen from "../gestorInstanciaCobro/BienesP
 import InformacionCuencasScreen from "../gestorInstanciaCobro/InformacionCuencasScreen";
 import DocumentoCobroTUAScreen from "../gestorInstanciaCobro/DocumentoCobroTUAScreen";
 import AutodeclaracionTuaScreen from "../gestorInstanciaCobro/AutodeclaracionTuaScreen";
+import { obtenerTodosBienes } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
+import { useAppDispatch } from "../../../store/hooks/hooks";
 
 const RecaudoRoutes = () => {
+  const dispatch = useAppDispatch();
+  // obtenerTodosBienes(dispatch);
   return (
     <Routes>
       <Route index element={<Recaudo />} />
