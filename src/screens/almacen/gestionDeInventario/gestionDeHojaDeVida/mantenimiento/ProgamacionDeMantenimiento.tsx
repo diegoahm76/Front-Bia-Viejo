@@ -7,9 +7,47 @@ import { useForm, Controller } from "react-hook-form";
 import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal";
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../../../components/MarcaDeAgua1";
+import DatePicker from "react-datepicker";
 
 import Subtitle from "../../../../../components/Subtitle"
 
+const articuloState = {
+  codigo: "",
+  nombre: "",
+  tipo: { label: "", value: "" },
+  marca: "",
+  serial: "",
+  modelo: "",
+  kilometraje: "",
+  id_articulo: 0
+}
+const dateState = {
+  programacion: { value: "", label: "" },
+  cada: "",
+  tiempo: { value: "", label: "" },
+  fechaDesde: "",
+  fechaHasta: "",
+  fds: "",
+  festivos: ""
+}
+const kilometrosState = {
+  programacion: { value: "", label: "" },
+  cada: "",
+  desde: "",
+  hasta: ""
+}
+
+export interface requestFechas {
+  id_articulo: string;
+  programacion: string;
+  fecha_manual: string;
+  incluir_festivos: string;
+  incluir_fds: string;
+  unidad_cada: string;
+  cada: string;
+  desde: string;
+  hasta: string;
+}
 const ProgamacionDeMantenimiento = () => {
 
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
@@ -25,6 +63,9 @@ const ProgamacionDeMantenimiento = () => {
     nombreArticulo: "",
   });
 
+  const [articuloModel, setArticuloModel] = useState(articuloState)
+  const [fechasModel, setFechasModel] = useState(dateState);
+  const [kilometrosModel, setKilometrosModel] = useState(kilometrosState);
   const onSubmit = (data) => {
     setSelecOpciones({
       ...selecOpciones,
@@ -37,17 +78,72 @@ const ProgamacionDeMantenimiento = () => {
     });
   };
 
+  const handleFechaDesde = (e) => {
+    let form = { ...fechasModel };
+    form.fechaDesde = e;
+    setValue("fecha_desde", form.fechaDesde);
+    setFechasModel(form);
+  };
+  const handleFechaHasta = (e) => {
+    let form = { ...fechasModel };
+    form.fechaHasta = e;
+    setFechasModel(form);
+  };
+  const handleChangeArticulo = (e) => {
+    const { name, value } = e.target;
+    setArticuloModel({ ...articuloModel, [name]: value });
+  }
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFechasModel({ ...fechasModel, [name]: value });
+  }
+  const handleChangeKilometros = (e) => {
+    const { name, value } = e.target;
+    setKilometrosModel({ ...kilometrosModel, [name]: value });
+  }
+
+
+
+  const verificarFechas = () => {
+    console.log(fechasModel);
+    const data: requestFechas = {
+      id_articulo: "6",
+      cada: fechasModel.cada,
+      desde: fechasModel.fechaDesde,
+      hasta: fechasModel.fechaHasta,
+      incluir_fds: fechasModel.fds,
+      incluir_festivos: fechasModel.festivos,
+      fecha_manual: "",
+      programacion: "automatica",
+      unidad_cada: fechasModel.tiempo.value
+    }
+  }
+
+  const verificarKilometros = () => {
+    const data: requestFechas = {
+      id_articulo: "6",
+      cada: kilometrosModel.cada,
+      desde: kilometrosModel.desde,
+      hasta: kilometrosModel.desde,
+      incluir_fds: "false",
+      incluir_festivos: "false",
+      fecha_manual: "",
+      programacion: "kilometraje",
+      unidad_cada: ""
+    }
+  }
   const {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm();
 
   const options = [
     { label: "Árticulo", value: "AR" },
-    { label: "Vehiculo", value: "VE" },
+    { label: "Vehiculo", value: "Veh" },
     { label: "Otro", value: "OT" },
   ];
 
@@ -142,6 +238,10 @@ const ProgamacionDeMantenimiento = () => {
     },
   ];
 
+  const openModal = () => {
+    setBusquedaArticuloIsActive(true)
+  }
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 mx-auto">
@@ -153,24 +253,6 @@ const ProgamacionDeMantenimiento = () => {
             <MarcaDeAgua1>
               <Subtitle title="Articulo" mt={3} />
               <div className="row d-flex align-items-end mt-2 mx-2 justify-content-md-end">
-                <div className="col-12 col-md-3 mb-3 ">
-                  <label className="text-terciary">
-                    Fecha de solicitud {""}<span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="date"
-                    className="form-control border border-terciary rounded-pill px-3"
-                    placeholder="Escribe el nombre del vivero"
-                    {...register("fechaSolicitud", { required: true })}
-                  />
-                  {errors.fechaSolicitud && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
-                </div>
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
@@ -178,9 +260,11 @@ const ProgamacionDeMantenimiento = () => {
                     Código: <span className="text-danger">*</span>
                   </label>
                   <input
-                    type="number"
+                    type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                    {...register("numeroCodigoArticulo", { required: true })}
+                    name="codigo"
+                    value={articuloModel.codigo}
+                    onChange={handleChangeArticulo}
                   />
                   {errors.numeroCodigoArticulo && (
                     <div className="col-12">
@@ -197,7 +281,9 @@ const ProgamacionDeMantenimiento = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                    {...register("nombreArticulo", { required: true })}
+                    name="nombre"
+                    value={articuloModel.nombre}
+                    onChange={handleChangeArticulo}
                   />
                   {errors.nombreArticulo && (
                     <div className="col-12">
@@ -212,22 +298,18 @@ const ProgamacionDeMantenimiento = () => {
                     Tipo{" "}
                   </label>
                   <div className="col-12 ">
-                    <Controller
-                      name="tipoArticulo"
-                      control={control}
-                      rules={{
-                        required: true,
+                    <Select
+                      options={options}
+                      placeholder="Seleccionar"
+                      name="tipo"
+                      value={articuloModel.tipo}
+                      onChange={(e) => {
+                        const copy = { ...articuloModel }
+                        copy.tipo.value = e?.value!;
+                        copy.tipo.label = e?.label!;
+                        setArticuloModel(copy);
                       }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={options}
-                          placeholder="Seleccionar"
-                        // {...register("tipoArticulo", { required: true })}  
-                        />
-                      )}
                     />
-
                   </div>
                 </div>
                 <div className="col-12 col-md-3">
@@ -236,15 +318,15 @@ const ProgamacionDeMantenimiento = () => {
                     type="button"
                     title="Send"
                     form="configForm"
-                    onClick={() => setBusquedaPersonalIsActive(true)}
+                    onClick={openModal}
                   >
                     Buscar articulo
                   </button>
                 </div>
               </div>
 
-              {/* <Subtitle title="Datalles del articulo" mt={3} /> */}
-              {/* <div className="row d-flex align-items-center mt-2 mx-2">
+              <Subtitle title="Datalles del articulo" mt={3} />
+              <div className="row d-flex align-items-center mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
                     Marca: <span className="text-danger">*</span>
@@ -252,7 +334,9 @@ const ProgamacionDeMantenimiento = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                  // {...register("marcaArticulo", { required: true })}
+                    name="marca"
+                    value={articuloModel.marca}
+                    onChange={handleChangeArticulo}
                   />
                 </div>
                 <div className="col-12 col-md-3 mb-3">
@@ -262,7 +346,9 @@ const ProgamacionDeMantenimiento = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                  // {...register("serialArticulo", { required: true })}
+                    name="serial"
+                    value={articuloModel.serial}
+                    onChange={handleChangeArticulo}
                   />
                 </div>
                 <div className="col-12 col-md-3 mb-3">
@@ -272,7 +358,9 @@ const ProgamacionDeMantenimiento = () => {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                  // {...register("modeloArticulo", { required: true })}
+                    name="modelo"
+                    value={articuloModel.modelo}
+                    onChange={handleChangeArticulo}
                   />
                 </div>
                 <div className="col-12 col-md-3 mb-3">
@@ -282,40 +370,23 @@ const ProgamacionDeMantenimiento = () => {
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
+                    name="kilometraje"
+                    value={articuloModel.kilometraje}
+                    onChange={handleChangeArticulo}
                   />
                 </div>
-              </div> */}
+              </div>
 
               <Subtitle title="Articulo" mt={3} />
-              <div className="row d-flex align-items-end mt-2 mx-2">
+              <div className="row d-flex align-items-center mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
                     Tipo de mantenimiento{" "} <span className="text-danger">*</span>
                   </label>
                   <div className="col-12 ">
-                    <Controller
-                      name="tipoMantenimiento"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={opcionMantenimiento}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="col-12 col-md-3 mb-3">
-                    <label className="text-terciary">
-                      Motivo Mantenimiento: <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control border border-terciary rounded-pill px-3"
-                      // {...register("nombreArticulo", { required: true })}
+                    <Select
+                      options={opcionMantenimiento}
+                      placeholder="Seleccionar"
                     />
                   </div>
                 </div>
@@ -331,7 +402,6 @@ const ProgamacionDeMantenimiento = () => {
                     rows={3}
                   />
                 </div>
-                {errors.nombre && <p className="text-danger">Este campo es obligatorio</p>}
               </div>
 
               <Subtitle title="Programar por fechas" mt={3} />
@@ -341,103 +411,111 @@ const ProgamacionDeMantenimiento = () => {
                   <label className="text-terciary">
                     Programación{" "}
                   </label>
-                  <Controller
-                    name="programarFecha"
-                    control={control}
-                    rules={{
-                      required: true,
+                  <Select
+                    name="programacion"
+                    onChange={(e) => {
+                      const copy = { ...fechasModel }
+                      copy.programacion.value = e?.value!;
+                      copy.programacion.label = e?.label!;
+                      setFechasModel(copy);
                     }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcionProgramar}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                    value={fechasModel.programacion}
+                    options={opcionProgramar}
+                    placeholder="Seleccionar"
                   />
-
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
-                    Cada: 
+                    Cada:
                   </label>
                   <input
+                    name="cada"
+                    value={fechasModel.cada}
                     type="number"
+                    onChange={handleChange}
                     className="form-control border border-terciary rounded-pill px-3"
-                    {...register("cadaNumero", { required: true })}
                   />
-
                 </div>
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
                     Tiempo{" "}
                   </label>
-                  <Controller
-                    name="fecha"
-                    control={control}
-                    rules={{
-                      required: true,
+                  <Select
+                    value={fechasModel.tiempo}
+                    options={opcionProgramarFecha}
+                    onChange={(e) => {
+                      const copy = { ...fechasModel }
+                      copy.tiempo.value = e?.value!;
+                      copy.tiempo.label = e?.label!;
+                      setFechasModel(copy);
                     }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        options={opcionProgramarFecha}
-                        placeholder="Seleccionar"
-                      />
-                    )}
+                    placeholder="Seleccionar"
                   />
                 </div>
 
                 <div className="col-12 col-md-3 mb-3 ">
                   <label className="text-terciary">
-                    Fecha generada  {""} {/*<span className="text-danger">*</span> */}
+                    Fecha desde  {""}
                   </label>
-                  <input
-                    type="date"
-                    className="form-control border border-terciary rounded-pill px-3"
-                    placeholder="Escribe el nombre del vivero"
-                  // {...register("fechaSolicitud", { required: true })}
+                  <DatePicker
+                    locale="es"
+                    showYearDropdown
+                    peekNextMonth
+                    showMonthDropdown
+                    scrollableYearDropdown
+                    dropdownMode="select"
+                    autoComplete="off"
+                    selected={fechasModel.fechaDesde}
+                    value={fechasModel.fechaDesde}
+                    onSelect={handleFechaDesde}
+                    className="form-control border rounded-pill px-3 border-terciary"
+                    placeholderText="dd/mm/aaaa"
                   />
-                  {/* {errors.fechaSolicitud && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )} */}
                 </div>
               </div>
               <div className="row d-flex align-items-end mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
-                    Fecha programada {""} {/*<span className="text-danger">*</span> */}
+                    Fecha hasta {""} {/*<span className="text-danger">*</span> */}
                   </label>
-                  <input
-                    type="date"
-                    className="form-control border border-terciary rounded-pill px-3"
-                    placeholder="Escribe el nombre del vivero"
-                  // {...register("fechaSolicitud", { required: true })}
+                  <DatePicker
+                    locale="es"
+                    showYearDropdown
+                    peekNextMonth
+                    showMonthDropdown
+                    scrollableYearDropdown
+                    dropdownMode="select"
+                    autoComplete="off"
+                    selected={fechasModel.fechaHasta}
+                    value={fechasModel.fechaHasta}
+                    onSelect={handleFechaHasta}
+                    className="form-control border rounded-pill px-3 border-terciary"
+                    placeholderText="dd/mm/aaaa"
                   />
                 </div>
               </div>
 
 
-              {/* <div className="row d-flex align-items-end mx-2">
+              <div className="row d-flex align-items-end mx-2">
                 <div className="form-check col-md-5 col-12 ps-0 pe-10 ms-3 mb-3 d-flex">
                   <label className="form-check-label text-terciary"
                   >
-                    Incluir sabados y domingos {""} 
+                    Incluir sabados y domingos {""}
                   </label>
                   <input
                     className="form-check-input "
                     type="checkbox"
-                    value=""
+                    name="fds"
+                    value={fechasModel.fds}
+                    onChange={(e) => {
+                      const { name, checked } = e.target;
+                      setFechasModel({ ...fechasModel, [name]: checked });
+                    }}
                     id="incluirFines"
-                    {...register("IncluirFinSemana")}
                   />
                 </div>
-              </div> */}
-              {/* <div className="row d-flex align-items-end mx-2">
+              </div>
+              <div className="row d-flex align-items-end mx-2">
                 <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
                   <label className="form-check-label text-terciary"
                   >
@@ -446,20 +524,24 @@ const ProgamacionDeMantenimiento = () => {
                   <input
                     className="form-check-input"
                     type="checkbox"
-                    value=""
-                    id="incluirFestivos"
-                    {...register("incluirFestivos")}
+                    name="festivos"
+                    value={fechasModel.festivos}
+                    onChange={(e) => {
+                      const { name, checked } = e.target;
+                      setFechasModel({ ...fechasModel, [name]: checked });
+                    }}
                   />
                 </div>
-              </div> */}
+              </div>
 
               <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button
                   className="btn bg-gradient-primary me-md-2"
                   type="button"
                   title="Send"
+                  onClick={verificarFechas}
                 >
-                  Agregar
+                  Validar Fechas
                 </button>
               </div>
 
@@ -472,18 +554,24 @@ const ProgamacionDeMantenimiento = () => {
                   </label>
                   <input
                     type="number"
+                    name="desde"
+                    value={kilometrosModel.desde}
+                    onChange={handleChangeKilometros}
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Kilometros"
                   />
                 </div>
               </div>
-              {/* <div className="row d-flex align-items-end mt-2 mx-2">
+              <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
                     2) Cada:
                   </label>
                   <input
                     type="number"
+                    name="cada"
+                    value={kilometrosModel.cada}
+                    onChange={handleChangeKilometros}
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Kilometros"
                   />
@@ -494,11 +582,24 @@ const ProgamacionDeMantenimiento = () => {
                   </label>
                   <input
                     type="number"
+                    name="hasta"
+                    value={kilometrosModel.hasta}
+                    onChange={handleChangeKilometros}
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Kilometros"
                   />
                 </div>
-              </div> */}
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <button
+                    className="btn bg-gradient-primary me-md-2"
+                    type="button"
+                    title="Send"
+                    onClick={verificarKilometros}
+                  >
+                    Validar Kilometros
+                  </button>
+                </div>
+              </div>
 
               <Subtitle title="Previsualizacion" mt={3} />
 
@@ -540,14 +641,11 @@ const ProgamacionDeMantenimiento = () => {
               </div>
             </MarcaDeAgua1>
           </form>
-          <BusquedaDePersonalModal
-            isModalActive={busquedaPersonalIsActive}
-            setIsModalActive={setBusquedaPersonalIsActive}
-          />
-
           <BusquedaArticuloModal
             isModalActive={busquedaArticuloIsActive}
             setIsModalActive={setBusquedaArticuloIsActive}
+            setModel={setArticuloModel}
+            articuloModel={articuloModel}
           />
         </div>
       </div>
