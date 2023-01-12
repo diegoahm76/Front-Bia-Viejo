@@ -249,7 +249,41 @@ const ProgamacionDeMantenimiento = () => {
 
   let gridApi;
   const rowData = [
-    //data de la tabla
+    {
+      CO: 122334,
+      SP: "jd72123",
+      KI: ".................",
+      TI: "05/07/2022",
+      X: ".",
+    },
+    {
+      CO: 122334,
+      SP: "jd72123",
+      KI: ".................",
+      TI: "05/07/2022",
+      X: ".",
+    },
+    {
+      CO: 122334,
+      SP: "jd72123",
+      KI: ".................",
+      TI: "05/07/2022",
+      X: ".",
+    },
+    {
+      CO: 122334,
+      SP: "jd72123",
+      KI: ".................",
+      TI: "05/07/2022",
+      X: ".",
+    },
+    {
+      CO: 122334,
+      SP: "jd72123",
+      KI: ".................",
+      TI: "05/07/2022",
+      X: ".",
+    },
   ];
   const columnDefs = [
     { headerName: "Código", field: "CO", minWidth: 150 },
