@@ -4,38 +4,50 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
-import BusquedaDePersonalModal from "../../../../../components/BusquedaArticuloModal";
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../../../components/MarcaDeAgua1";
 import DatePicker from "react-datepicker";
-
-import Subtitle from "../../../../../components/Subtitle"
+import clienteBack from "../../../../../config/clienteBack";
+import Subtitle from "../../../../../components/Subtitle";
+import Swal from "sweetalert2";
+import { formatISO } from "date-fns";
+import {
+  crearTabla,
+  validarFechas,
+  validarKilometros,
+} from "../../../../../store/slices/mantenimiento/indexMantenimiento";
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../../store/hooks/hooks";
 
 const articuloState = {
   codigo: "",
   nombre: "",
   tipo: { label: "", value: "" },
+  tipoMantenimiento: { label: "", value: "" },
   marca: "",
   serial: "",
   modelo: "",
   kilometraje: "",
-  id_articulo: 0
-}
+  id_articulo: 0,
+  user_id: 0,
+};
 const dateState = {
-  programacion: { value: "", label: "" },
+  programacion: { value: "AU", label: "Automatica" },
   cada: "",
   tiempo: { value: "", label: "" },
   fechaDesde: "",
   fechaHasta: "",
   fds: "",
-  festivos: ""
-}
+  festivos: "",
+};
 const kilometrosState = {
   programacion: { value: "", label: "" },
   cada: "",
   desde: "",
-  hasta: ""
-}
+  hasta: "",
+};
 
 export interface requestFechas {
   id_articulo: string;
@@ -49,7 +61,6 @@ export interface requestFechas {
   hasta: string;
 }
 const ProgamacionDeMantenimiento = () => {
-
   const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
     useState(false);
   const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
@@ -62,25 +73,35 @@ const ProgamacionDeMantenimiento = () => {
     codigoArticulo: "",
     nombreArticulo: "",
   });
-
-  const [articuloModel, setArticuloModel] = useState(articuloState)
+  const user = useAppSelector((state) => state.login.userinfo);
+  const [articuloModel, setArticuloModel] = useState({
+    ...articuloState,
+    user_id: user.id_usuario,
+  });
   const [fechasModel, setFechasModel] = useState(dateState);
   const [kilometrosModel, setKilometrosModel] = useState(kilometrosState);
+  const dispatch = useAppDispatch();
+  const fechas = useAppSelector((state) => state.mantenimiento.fechas);
+  const kilometros = useAppSelector((state) => state.mantenimiento.kilometros);
+
   const onSubmit = (data) => {
-    setSelecOpciones({
-      ...selecOpciones,
-      dependencia: data.dependencia?.value,
-      tipoDocumento: data.tipoDocumento?.value,
-      grupo: data.grupo?.value,
-      numeroCedula: data.numeroCedula,
-      codigoArticulo: data.codigoArticulo,
-      nombreArticulo: data.nombreArticulo,
-    });
+    debugger;
+    // setSelecOpciones({
+    //   ...selecOpciones,
+    //   dependencia: data.dependencia?.value,
+    //   tipoDocumento: data.tipoDocumento?.value,
+    //   grupo: data.grupo?.value,
+    //   numeroCedula: data.numeroCedula,
+    //   codigoArticulo: data.codigoArticulo,
+    //   nombreArticulo: data.nombreArticulo,
+    // });
+    crearTabla(dispatch, fechas, kilometros, articuloModel);
   };
 
   const handleFechaDesde = (e) => {
     let form = { ...fechasModel };
     form.fechaDesde = e;
+
     setValue("fecha_desde", form.fechaDesde);
     setFechasModel(form);
   };
@@ -92,47 +113,95 @@ const ProgamacionDeMantenimiento = () => {
   const handleChangeArticulo = (e) => {
     const { name, value } = e.target;
     setArticuloModel({ ...articuloModel, [name]: value });
-  }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFechasModel({ ...fechasModel, [name]: value });
-  }
+  };
   const handleChangeKilometros = (e) => {
     const { name, value } = e.target;
     setKilometrosModel({ ...kilometrosModel, [name]: value });
-  }
+  };
 
+  const changeSelectTipoMantenimiento = (e) => {
+    let form = { ...articuloModel };
+    form.tipoMantenimiento = {
+      value: e.value,
+      label: e.label,
+    };
+    setValue("tipoMantenimiento", form.tipoMantenimiento);
+    setArticuloModel(form);
+  };
 
-
-  const verificarFechas = () => {
-    console.log(fechasModel);
+  const verificarFechas = async () => {
     const data: requestFechas = {
-      id_articulo: "6",
+      id_articulo: articuloModel.id_articulo.toString(),
       cada: fechasModel.cada,
-      desde: fechasModel.fechaDesde,
-      hasta: fechasModel.fechaHasta,
+      desde: "8000",
+      hasta: "15000",
       incluir_fds: fechasModel.fds,
       incluir_festivos: fechasModel.festivos,
-      fecha_manual: "",
+      unidad_cada: fechasModel.tiempo.value,
+      fecha_manual: "d",
       programacion: "automatica",
-      unidad_cada: fechasModel.tiempo.value
-    }
-  }
+    };
+    //servicio
+
+    // await clienteAxios
+    //   .get(`/almacen/mantenimientos/programados/validar-fechas/`, {
+    //     params: data,
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((error) => {
+    //     Swal.fire({
+    //       position: "center",
+    //       icon: "error",
+    //       title: error.response.data.detail,
+    //       showConfirmButton: true,
+    //       confirmButtonText: "Aceptar",
+    //     });
+    //   });
+    let dataPrueba = [
+      "2022-01-12",
+      "2022-01-13",
+      "2022-01-14",
+      "2022-01-15",
+      "2022-01-16",
+      "2022-01-17",
+    ];
+    //arreglofechas
+    debugger;
+    validarFechas(dispatch, "data", dataPrueba);
+  };
 
   const verificarKilometros = () => {
     const data: requestFechas = {
       id_articulo: "6",
       cada: kilometrosModel.cada,
-      desde: kilometrosModel.desde,
-      hasta: kilometrosModel.desde,
+      desde: "8000",
+      hasta: "15000",
       incluir_fds: "false",
       incluir_festivos: "false",
       fecha_manual: "",
       programacion: "kilometraje",
-      unidad_cada: ""
-    }
-  }
+      unidad_cada: "",
+    };
+
+    let dataPrueba = [
+      "2022-01-18",
+      "2022-01-19",
+      "2022-01-20",
+      "2022-01-21",
+      "2022-01-22",
+      "2022-01-23",
+    ];
+    debugger;
+    validarKilometros(dispatch, "data", dataPrueba);
+  };
+
   const {
     register,
     handleSubmit,
@@ -180,41 +249,7 @@ const ProgamacionDeMantenimiento = () => {
 
   let gridApi;
   const rowData = [
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
+    //data de la tabla
   ];
   const columnDefs = [
     { headerName: "Código", field: "CO", minWidth: 150 },
@@ -239,8 +274,8 @@ const ProgamacionDeMantenimiento = () => {
   ];
 
   const openModal = () => {
-    setBusquedaArticuloIsActive(true)
-  }
+    setBusquedaArticuloIsActive(true);
+  };
 
   return (
     <div className="row min-vh-100">
@@ -252,8 +287,7 @@ const ProgamacionDeMantenimiento = () => {
             </h3>
             <MarcaDeAgua1>
               <Subtitle title="Articulo" mt={3} />
-              <div className="row d-flex align-items-end mt-2 mx-2 justify-content-md-end">
-              </div>
+              <div className="row d-flex align-items-end mt-2 mx-2 justify-content-md-end"></div>
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
@@ -294,9 +328,7 @@ const ProgamacionDeMantenimiento = () => {
                   )}
                 </div>
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    Tipo{" "}
-                  </label>
+                  <label className="text-terciary">Tipo </label>
                   <div className="col-12 ">
                     <Select
                       options={options}
@@ -304,7 +336,7 @@ const ProgamacionDeMantenimiento = () => {
                       name="tipo"
                       value={articuloModel.tipo}
                       onChange={(e) => {
-                        const copy = { ...articuloModel }
+                        const copy = { ...articuloModel };
                         copy.tipo.value = e?.value!;
                         copy.tipo.label = e?.label!;
                         setArticuloModel(copy);
@@ -381,12 +413,15 @@ const ProgamacionDeMantenimiento = () => {
               <div className="row d-flex align-items-center mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
-                    Tipo de mantenimiento{" "} <span className="text-danger">*</span>
+                    Tipo de mantenimiento <span className="text-danger">*</span>
                   </label>
                   <div className="col-12 ">
                     <Select
+                      name="tipoMantenimiento"
+                      onChange={changeSelectTipoMantenimiento}
                       options={opcionMantenimiento}
                       placeholder="Seleccionar"
+                      value={articuloModel.tipoMantenimiento}
                     />
                   </div>
                 </div>
@@ -394,7 +429,8 @@ const ProgamacionDeMantenimiento = () => {
               <div className="row d-flex align-items-center mb-2 mx-2">
                 <div className="col-12">
                   <label className="text-terciary">
-                    Especificaciones tecnicas: <span className="text-danger">*</span>
+                    Especificaciones tecnicas:{" "}
+                    <span className="text-danger">*</span>
                   </label>
                   <textarea
                     className="form-control border rounded-pill px-3"
@@ -408,13 +444,11 @@ const ProgamacionDeMantenimiento = () => {
 
               <div className="row d-flex align-items-center mx-2 mt-2">
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    Programación{" "}
-                  </label>
+                  <label className="text-terciary">Programación </label>
                   <Select
                     name="programacion"
                     onChange={(e) => {
-                      const copy = { ...fechasModel }
+                      const copy = { ...fechasModel };
                       copy.programacion.value = e?.value!;
                       copy.programacion.label = e?.label!;
                       setFechasModel(copy);
@@ -425,9 +459,7 @@ const ProgamacionDeMantenimiento = () => {
                   />
                 </div>
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    Cada:
-                  </label>
+                  <label className="text-terciary">Cada:</label>
                   <input
                     name="cada"
                     value={fechasModel.cada}
@@ -437,14 +469,12 @@ const ProgamacionDeMantenimiento = () => {
                   />
                 </div>
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    Tiempo{" "}
-                  </label>
+                  <label className="text-terciary">Tiempo </label>
                   <Select
                     value={fechasModel.tiempo}
                     options={opcionProgramarFecha}
                     onChange={(e) => {
-                      const copy = { ...fechasModel }
+                      const copy = { ...fechasModel };
                       copy.tiempo.value = e?.value!;
                       copy.tiempo.label = e?.label!;
                       setFechasModel(copy);
@@ -454,9 +484,7 @@ const ProgamacionDeMantenimiento = () => {
                 </div>
 
                 <div className="col-12 col-md-3 mb-3 ">
-                  <label className="text-terciary">
-                    Fecha desde  {""}
-                  </label>
+                  <label className="text-terciary">Fecha desde {""}</label>
                   <DatePicker
                     locale="es"
                     showYearDropdown
@@ -476,7 +504,8 @@ const ProgamacionDeMantenimiento = () => {
               <div className="row d-flex align-items-end mx-2">
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">
-                    Fecha hasta {""} {/*<span className="text-danger">*</span> */}
+                    Fecha hasta {""}{" "}
+                    {/*<span className="text-danger">*</span> */}
                   </label>
                   <DatePicker
                     locale="es"
@@ -495,11 +524,9 @@ const ProgamacionDeMantenimiento = () => {
                 </div>
               </div>
 
-
               <div className="row d-flex align-items-end mx-2">
                 <div className="form-check col-md-5 col-12 ps-0 pe-10 ms-3 mb-3 d-flex">
-                  <label className="form-check-label text-terciary"
-                  >
+                  <label className="form-check-label text-terciary">
                     Incluir sabados y domingos {""}
                   </label>
                   <input
@@ -517,8 +544,7 @@ const ProgamacionDeMantenimiento = () => {
               </div>
               <div className="row d-flex align-items-end mx-2">
                 <div className="form-check col-md-4 col-12 ps-0 pe-10 ms-3 d-flex">
-                  <label className="form-check-label text-terciary"
-                  >
+                  <label className="form-check-label text-terciary">
                     Incluir festivos {""}
                   </label>
                   <input
@@ -549,9 +575,7 @@ const ProgamacionDeMantenimiento = () => {
 
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    1) Al llegar a:
-                  </label>
+                  <label className="text-terciary">1) Al llegar a:</label>
                   <input
                     type="number"
                     name="desde"
@@ -564,9 +588,7 @@ const ProgamacionDeMantenimiento = () => {
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    2) Cada:
-                  </label>
+                  <label className="text-terciary">2) Cada:</label>
                   <input
                     type="number"
                     name="cada"
@@ -577,9 +599,7 @@ const ProgamacionDeMantenimiento = () => {
                   />
                 </div>
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">
-                    Hasta:
-                  </label>
+                  <label className="text-terciary">Hasta:</label>
                   <input
                     type="number"
                     name="hasta"
@@ -637,7 +657,6 @@ const ProgamacionDeMantenimiento = () => {
                 >
                   Salir
                 </button>
-
               </div>
             </MarcaDeAgua1>
           </form>
