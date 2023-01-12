@@ -11,8 +11,10 @@ import clienteBack from "../../../../../config/clienteBack";
 import Subtitle from "../../../../../components/Subtitle";
 import Swal from "sweetalert2";
 import { formatISO } from "date-fns";
+import botonEliminar from "../../../../../assets/iconosBotones/eliminar.svg";
 import {
   crearTabla,
+  eliminarElementoTabla,
   validarFechas,
   validarKilometros,
 } from "../../../../../store/slices/mantenimiento/indexMantenimiento";
@@ -79,13 +81,17 @@ const ProgamacionDeMantenimiento = () => {
     user_id: user.id_usuario,
   });
   const [fechasModel, setFechasModel] = useState(dateState);
+  const [rowData, setRowData] = useState([]);
   const [kilometrosModel, setKilometrosModel] = useState(kilometrosState);
   const dispatch = useAppDispatch();
   const fechas = useAppSelector((state) => state.mantenimiento.fechas);
   const kilometros = useAppSelector((state) => state.mantenimiento.kilometros);
+  const arregloTabla = useAppSelector(
+    (state) => state.mantenimiento.arregloTabla
+  );
 
   const onSubmit = (data) => {
-    debugger;
+    //debugger;
     // setSelecOpciones({
     //   ...selecOpciones,
     //   dependencia: data.dependencia?.value,
@@ -95,7 +101,11 @@ const ProgamacionDeMantenimiento = () => {
     //   codigoArticulo: data.codigoArticulo,
     //   nombreArticulo: data.nombreArticulo,
     // });
-    crearTabla(dispatch, fechas, kilometros, articuloModel);
+    //crearTabla(dispatch, fechas, kilometros, articuloModel);
+  };
+  const previsualizar = async () => {
+    await crearTabla(dispatch, fechas, kilometros, articuloModel);
+    await setRowData(arregloTabla);
   };
 
   const handleFechaDesde = (e) => {
@@ -173,7 +183,6 @@ const ProgamacionDeMantenimiento = () => {
       "2022-01-17",
     ];
     //arreglofechas
-    debugger;
     validarFechas(dispatch, "data", dataPrueba);
   };
 
@@ -198,9 +207,13 @@ const ProgamacionDeMantenimiento = () => {
       "2022-01-22",
       "2022-01-23",
     ];
-    debugger;
     validarKilometros(dispatch, "data", dataPrueba);
   };
+
+  const eliminarItem=(index)=>{
+    eliminarElementoTabla(dispatch,index)
+
+  }
 
   const {
     register,
@@ -248,60 +261,27 @@ const ProgamacionDeMantenimiento = () => {
   };
 
   let gridApi;
-  const rowData = [
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-    {
-      CO: 122334,
-      SP: "jd72123",
-      KI: ".................",
-      TI: "05/07/2022",
-      X: ".",
-    },
-  ];
   const columnDefs = [
     { headerName: "Código", field: "CO", minWidth: 150 },
     { headerName: "Serial/Placa", field: "SP", minWidth: 150 },
     { headerName: "Kilometraje", field: "KI", minWidth: 150 },
     { headerName: "Tipo de mantenimiento", field: "TI", minWidth: 150 },
+    { headerName: "Fecha", field: "FE", minWidth: 150 },
     {
       headerName: "",
       field: "X",
       minWidth: 150,
       cellRendererFramework: (params) => (
         <div className="form-check form-switch d-flex align-items-center mt-3">
-          <input
-            className="form-check"
-            type="checkbox"
-            id="rememberMe"
-            disabled={true}
-          />
+           <button
+            className="btn btn-sm btn-tablas"
+            type="button"
+            onClick={() => {
+              eliminarItem(params.data.index);
+            }}
+          >
+            <img src={botonEliminar} alt="eliminar" title="Eliminar" />
+          </button>
         </div>
       ),
     },
@@ -677,6 +657,12 @@ const ProgamacionDeMantenimiento = () => {
                   title="Send"
                 >
                   Limpiar
+                </button>
+                <button
+                  className="btn bg-gradient-primary me-md-2"
+                  onClick={previsualizar}
+                >
+                  Previsualizar
                 </button>
                 <button
                   className="btn bg-gradient-primary me-md-2"

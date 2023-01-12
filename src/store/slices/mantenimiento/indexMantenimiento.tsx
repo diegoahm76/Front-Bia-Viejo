@@ -14,19 +14,20 @@ const mantenimientoSlice = createSlice({
   initialState,
   reducers: {
     previsualizacionFechas: (state, action) => {
-      debugger;
       state.fechas = action.payload;
     },
     previsualizacionKilometros: (state, action) => {
-      debugger;
       state.kilometros = action.payload;
     },
 
     previsualizacionTabla: (state, action) => {
-        state.arregloTabla = action.payload;
+      state.arregloTabla = action.payload;
     },
 
-    eliminarElemento:(state,action)=>{
+    eliminarElemento: (state, action) => {
+      // state.arregloTabla = state.arregloTabla.filter(
+      //   (tabla) => tabla.index !== action.payload
+      // );
     },
 
     getArticulos: (state, action) => {
@@ -40,6 +41,7 @@ export const {
   previsualizacionKilometros,
   getArticulos,
   previsualizacionTabla,
+  eliminarElemento
 } = mantenimientoSlice.actions;
 export default mantenimientoSlice.reducer;
 
@@ -115,6 +117,7 @@ export const validarKilometros = async (dispatch, data, arregloPrueba) => {
 export const crearTabla = async (dispatch, fechas, kilometros, data) => {
   debugger;
   let arregloTotal: any = [];
+  let index = 0;
   let model = {
     tipo_programacion: "fecha",
     cod_tipo_mantenimiento: data.tipoMantenimiento.value,
@@ -129,18 +132,36 @@ export const crearTabla = async (dispatch, fechas, kilometros, data) => {
     id_articulo: data.id_articulo,
     id_persona_solicita: data.user_id,
     id_persona_anula: null,
+    //datos tabla
+    CO: data.codigo,
+    SP: data.serial,
+    KI: data.kilometraje, //cambiar o debe ser del articulo
+    TI: data.tipoMantenimiento.value,
+    FE: "",
+    index: 0,
   };
   fechas.forEach((element) => {
-    arregloTotal.push({ ...model, fecha_programada: element });
+    arregloTotal.push({
+      ...model,
+      fecha_programada: element,
+      FE: element,
+      index: index,
+    });
+    index++;
   });
 
   kilometros.forEach((element) => {
-    arregloTotal.push({ ...model, fecha_programada: element });
+    arregloTotal.push({
+      ...model,
+      fecha_programada: element,
+      FE: element,
+      index: index,
+    });
+    index++;
   });
   dispatch(previsualizacionTabla(arregloTotal));
 };
 
-
-export const eliminarElementoTabla = async (dispatch,index ) => {
-
-}
+export const eliminarElementoTabla = async (dispatch, index) => {
+  dispatch(eliminarElemento(index))
+};
