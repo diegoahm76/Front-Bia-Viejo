@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import BusquedaArticuloModal from "../../../../../components/BusquedaArticuloModal";
 import MarcaDeAgua1 from "../../../../../components/MarcaDeAgua1";
 import DatePicker from "react-datepicker";
-import clienteBack from "../../../../../config/clienteBack";
+import clienteAxios from "../../../../../config/clienteAxios";
 import Subtitle from "../../../../../components/Subtitle";
 import Swal from "sweetalert2";
 import { formatISO } from "date-fns";
@@ -145,48 +145,53 @@ const ProgamacionDeMantenimiento = () => {
   };
 
   const verificarFechas = async () => {
+    const fechaDesde = formatISO(new Date(fechasModel.fechaDesde), {
+      representation: "date",
+    });
+
+    const fechaHasta = formatISO(new Date(fechasModel.fechaHasta), {
+      representation: "date",
+    });
+
     const data: requestFechas = {
       id_articulo: articuloModel.id_articulo.toString(),
       cada: fechasModel.cada,
-      desde: "8000",
-      hasta: "15000",
+      desde: fechaDesde, //fecha
+      hasta: fechaHasta, //fecha
       incluir_fds: fechasModel.fds,
       incluir_festivos: fechasModel.festivos,
       unidad_cada: fechasModel.tiempo.value,
-      fecha_manual: "d",
+      fecha_manual: "",
       programacion: "automatica",
     };
     //servicio
 
-    // await clienteAxios
-    //   .get(`/almacen/mantenimientos/programados/validar-fechas/`, {
-    //     params: data,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   })
-    //   .catch((error) => {
-    //     Swal.fire({
-    //       position: "center",
-    //       icon: "error",
-    //       title: error.response.data.detail,
-    //       showConfirmButton: true,
-    //       confirmButtonText: "Aceptar",
-    //     });
-    //   });
-    let dataPrueba = [
-      "2022-01-12",
-      "2022-01-13",
-      "2022-01-14",
-      "2022-01-15",
-      "2022-01-16",
-      "2022-01-17",
-    ];
+    await clienteAxios
+      .post("/almacen/mantenimientos/programados/validar-fechas/")
+      .then((res) => {
+        validarFechas(dispatch, res.data.detail);
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: error.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
+      });
+    // let dataPrueba = [
+    //   "2022-01-12",
+    //   "2022-01-13",
+    //   "2022-01-14",
+    //   "2022-01-15",
+    //   "2022-01-16",
+    //   "2022-01-17",
+    // ];
     //arreglofechas
-    validarFechas(dispatch, "data", dataPrueba);
   };
 
-  const verificarKilometros = () => {
+  const verificarKilometros =async  () => {
     const data: requestFechas = {
       id_articulo: "6",
       cada: kilometrosModel.cada,
@@ -199,21 +204,25 @@ const ProgamacionDeMantenimiento = () => {
       unidad_cada: "",
     };
 
-    let dataPrueba = [
-      "2022-01-18",
-      "2022-01-19",
-      "2022-01-20",
-      "2022-01-21",
-      "2022-01-22",
-      "2022-01-23",
-    ];
-    validarKilometros(dispatch, "data", dataPrueba);
+    await clienteAxios
+    .post("/almacen/mantenimientos/programados/validar-fechas/")
+    .then((res) => {
+      validarKilometros(dispatch, res.data.detail);
+    })
+    .catch((error) => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: error.response.data.detail,
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
+    });
   };
 
-  const eliminarItem=(index)=>{
-    eliminarElementoTabla(dispatch,index)
-
-  }
+  const eliminarItem = (index) => {
+    eliminarElementoTabla(dispatch, index);
+  };
 
   const {
     register,
@@ -242,8 +251,8 @@ const ProgamacionDeMantenimiento = () => {
   ];
 
   const opcionProgramarFecha = [
-    { label: "Semanas", value: "SE" },
-    { label: "Meses", value: "ME" },
+    { label: "Semanas", value: "semanas" },
+    { label: "Meses", value: "meses" },
   ];
 
   const defaultColDef = {
@@ -273,7 +282,7 @@ const ProgamacionDeMantenimiento = () => {
       minWidth: 150,
       cellRendererFramework: (params) => (
         <div className="form-check form-switch d-flex align-items-center mt-3">
-           <button
+          <button
             className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {

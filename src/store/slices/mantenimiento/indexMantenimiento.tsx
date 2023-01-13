@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import { ProgramacionMantenimiento } from "../../../Interfaces/ProgramacionMantenimiento";
 
 const initialState = {
   fechas: [],
@@ -41,7 +42,7 @@ export const {
   previsualizacionKilometros,
   getArticulos,
   previsualizacionTabla,
-  eliminarElemento
+  eliminarElemento,
 } = mantenimientoSlice.actions;
 export default mantenimientoSlice.reducer;
 
@@ -68,30 +69,11 @@ export const obtenerArticulos = async (dispatch, tipo, nombre?, documento?) => {
     });
 };
 
-export const validarFechas = async (dispatch, data, arregloPrueba) => {
-  // await clienteAxios.get("almacen/mantenimientos/programados/validar-fechas/", data).then((res) => {
-  //     dispatch(previsualizacionFechas(res));
-  //     Swal.fire({
-  //         position: "center",
-  //         icon: "success",
-  //         title: "Se encontraron fechas",
-  //         showConfirmButton: false,
-  //         timer: 2000,
-  //     });
-  // }).catch((error) => {
-  //     Swal.fire({
-  //         position: "center",
-  //         icon: "error",
-  //         title: error.response.data.detail,
-  //         showConfirmButton: true,
-  //         confirmButtonText: "Aceptar",
-  //     });
-  // });
-
-  dispatch(previsualizacionFechas(arregloPrueba));
+export const validarFechas = async (dispatch, data) => {
+  dispatch(previsualizacionFechas(data));
 };
 
-export const validarKilometros = async (dispatch, data, arregloPrueba) => {
+export const validarKilometros = async (dispatch, data) => {
   // await clienteAxios.get("almacen/mantenimientos/programados/validar-fechas/", data).then((res) => {
   //     dispatch(previsualizacionFechas(res));
   //     Swal.fire({
@@ -111,14 +93,14 @@ export const validarKilometros = async (dispatch, data, arregloPrueba) => {
   //     });
   // });
 
-  dispatch(previsualizacionKilometros(arregloPrueba));
+  dispatch(previsualizacionKilometros(data));
 };
 
 export const crearTabla = async (dispatch, fechas, kilometros, data) => {
   debugger;
   let arregloTotal: any = [];
   let index = 0;
-  let model = {
+  let model:ProgramacionMantenimiento = {
     tipo_programacion: "fecha",
     cod_tipo_mantenimiento: data.tipoMantenimiento.value,
     kilometraje_programado: null,
@@ -163,5 +145,5 @@ export const crearTabla = async (dispatch, fechas, kilometros, data) => {
 };
 
 export const eliminarElementoTabla = async (dispatch, index) => {
-  dispatch(eliminarElemento(index))
+  dispatch(eliminarElemento(index));
 };
