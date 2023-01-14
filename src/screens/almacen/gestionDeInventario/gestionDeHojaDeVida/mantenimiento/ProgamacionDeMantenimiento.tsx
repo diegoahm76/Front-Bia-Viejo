@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -63,18 +63,9 @@ export interface requestFechas {
   hasta: string;
 }
 const ProgamacionDeMantenimiento = () => {
-  const [busquedaPersonalIsActive, setBusquedaPersonalIsActive] =
-    useState(false);
   const [busquedaArticuloIsActive, setBusquedaArticuloIsActive] =
     useState(false);
-  const [selecOpciones, setSelecOpciones] = useState({
-    tipoDocumento: "",
-    numeroCedula: "",
-    dependencia: "",
-    grupo: "",
-    codigoArticulo: "",
-    nombreArticulo: "",
-  });
+
   const user = useAppSelector((state) => state.login.userinfo);
   const [articuloModel, setArticuloModel] = useState({
     ...articuloState,
@@ -86,26 +77,35 @@ const ProgamacionDeMantenimiento = () => {
   const dispatch = useAppDispatch();
   const fechas = useAppSelector((state) => state.mantenimiento.fechas);
   const kilometros = useAppSelector((state) => state.mantenimiento.kilometros);
-  const arregloTabla = useAppSelector(
-    (state) => state.mantenimiento.arregloTabla
-  );
 
-  const onSubmit = (data) => {
-    //debugger;
-    // setSelecOpciones({
-    //   ...selecOpciones,
-    //   dependencia: data.dependencia?.value,
-    //   tipoDocumento: data.tipoDocumento?.value,
-    //   grupo: data.grupo?.value,
-    //   numeroCedula: data.numeroCedula,
-    //   codigoArticulo: data.codigoArticulo,
-    //   nombreArticulo: data.nombreArticulo,
-    // });
-    //crearTabla(dispatch, fechas, kilometros, articuloModel);
+  const guardarTabla = async () => {
+    await clienteAxios
+      .post("/almacen/mantenimientos/programados/create/", rowData)
+      .then((res) => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: res.data.detail,
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: error.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
+      });
   };
   const previsualizar = async () => {
-    await crearTabla(dispatch, fechas, kilometros, articuloModel);
-    await setRowData(arregloTabla);
+    await crearTabla(dispatch, fechas, kilometros, articuloModel).then(
+      async (res) => {
+        await setRowData(res);
+      }
+    );
   };
 
   const handleFechaDesde = (e) => {
@@ -158,8 +158,8 @@ const ProgamacionDeMantenimiento = () => {
       cada: fechasModel.cada,
       desde: fechaDesde, //fecha
       hasta: fechaHasta, //fecha
-      incluir_fds: fechasModel.fds,
-      incluir_festivos: fechasModel.festivos,
+      incluir_fds: fechasModel.fds ? "true" : "false",
+      incluir_festivos: fechasModel.festivos! ? "true" : "false",
       unidad_cada: fechasModel.tiempo.value,
       fecha_manual: "",
       programacion: "automatica",
@@ -167,7 +167,7 @@ const ProgamacionDeMantenimiento = () => {
     //servicio
 
     await clienteAxios
-      .post("/almacen/mantenimientos/programados/validar-fechas/")
+      .post("/almacen/mantenimientos/programados/validar-fechas/", data)
       .then((res) => {
         validarFechas(dispatch, res.data.detail);
       })
@@ -191,37 +191,39 @@ const ProgamacionDeMantenimiento = () => {
     //arreglofechas
   };
 
-  const verificarKilometros =async  () => {
+  const verificarKilometros = async () => {
     const data: requestFechas = {
-      id_articulo: "6",
+      id_articulo: articuloModel.id_articulo.toString(),
       cada: kilometrosModel.cada,
-      desde: "8000",
-      hasta: "15000",
-      incluir_fds: "false",
-      incluir_festivos: "false",
+      desde: kilometrosModel.desde,
+      hasta: kilometrosModel.hasta,
+      incluir_fds: "",
+      incluir_festivos: "",
       fecha_manual: "",
       programacion: "kilometraje",
       unidad_cada: "",
     };
 
     await clienteAxios
-    .post("/almacen/mantenimientos/programados/validar-fechas/")
-    .then((res) => {
-      validarKilometros(dispatch, res.data.detail);
-    })
-    .catch((error) => {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: error.response.data.detail,
-        showConfirmButton: true,
-        confirmButtonText: "Aceptar",
+      .post("/almacen/mantenimientos/programados/validar-fechas/", data)
+      .then((res) => {
+        validarKilometros(dispatch, res.data.detail);
+      })
+      .catch((error) => {
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: error.response.data.detail,
+          showConfirmButton: true,
+          confirmButtonText: "Aceptar",
+        });
       });
-    });
   };
 
-  const eliminarItem = (index) => {
-    eliminarElementoTabla(dispatch, index);
+  const eliminarItem = async (data) => {
+    await eliminarElementoTabla(dispatch, rowData, data).then(async (table) => {
+      await setRowData(table);
+    });
   };
 
   const {
@@ -274,7 +276,6 @@ const ProgamacionDeMantenimiento = () => {
     { headerName: "Código", field: "CO", minWidth: 150 },
     { headerName: "Serial/Placa", field: "SP", minWidth: 150 },
     { headerName: "Kilometraje", field: "KI", minWidth: 150 },
-    { headerName: "Tipo de mantenimiento", field: "TI", minWidth: 150 },
     { headerName: "Fecha", field: "FE", minWidth: 150 },
     {
       headerName: "",
@@ -283,10 +284,10 @@ const ProgamacionDeMantenimiento = () => {
       cellRendererFramework: (params) => (
         <div className="form-check form-switch d-flex align-items-center mt-3">
           <button
-            className="btn btn-sm btn-tablas"
+            className="btn btn-sm btn-tablas p-0"
             type="button"
             onClick={() => {
-              eliminarItem(params.data.index);
+              eliminarItem(params.data);
             }}
           >
             <img src={botonEliminar} alt="eliminar" title="Eliminar" />
@@ -304,7 +305,7 @@ const ProgamacionDeMantenimiento = () => {
     <div className="row min-vh-100">
       <div className="col-lg-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <form className="row" onSubmit={handleSubmit(onSubmit)}>
+          <div className="row">
             <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
               Programacion mantenimiento
             </h3>
@@ -598,11 +599,11 @@ const ProgamacionDeMantenimiento = () => {
 
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">1) Al llegar a:</label>
+                  <label className="text-terciary">1) Cada:</label>
                   <input
-                    type="number"
-                    name="desde"
-                    value={kilometrosModel.desde}
+                    type="text"
+                    name="cada"
+                    value={kilometrosModel.cada}
                     onChange={handleChangeKilometros}
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Kilometros"
@@ -611,11 +612,11 @@ const ProgamacionDeMantenimiento = () => {
               </div>
               <div className="row d-flex align-items-end mt-2 mx-2">
                 <div className="col-12 col-md-3 mb-3">
-                  <label className="text-terciary">2) Cada:</label>
+                  <label className="text-terciary">2) Desde:</label>
                   <input
-                    type="number"
-                    name="cada"
-                    value={kilometrosModel.cada}
+                    type="text"
+                    name="desde"
+                    value={kilometrosModel.desde}
                     onChange={handleChangeKilometros}
                     className="form-control border border-terciary rounded-pill px-3"
                     placeholder="Kilometros"
@@ -624,7 +625,7 @@ const ProgamacionDeMantenimiento = () => {
                 <div className="col-12 col-md-3 mb-3">
                   <label className="text-terciary">Hasta:</label>
                   <input
-                    type="number"
+                    type="text"
                     name="hasta"
                     value={kilometrosModel.hasta}
                     onChange={handleChangeKilometros}
@@ -675,7 +676,7 @@ const ProgamacionDeMantenimiento = () => {
                 </button>
                 <button
                   className="btn bg-gradient-primary me-md-2"
-                  type="submit"
+                  onClick={guardarTabla}
                 >
                   Guardar
                 </button>
@@ -688,7 +689,7 @@ const ProgamacionDeMantenimiento = () => {
                 </button>
               </div>
             </MarcaDeAgua1>
-          </form>
+          </div>
           <BusquedaArticuloModal
             isModalActive={busquedaArticuloIsActive}
             setIsModalActive={setBusquedaArticuloIsActive}

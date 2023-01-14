@@ -2,10 +2,10 @@ export interface ProgramacionMantenimiento {
   tipo_programacion: string;
   cod_tipo_mantenimiento: string;
   kilometraje_programado: string | null;
-  fecha_programada: string;
+  fecha_programada: string|null;
   motivo_mantenimiento: string;
   observaciones: string;
-  fecha_solicitud: Date;
+  fecha_solicitud: string;
   fecha_anulacion: null;
   justificacion_anulacion: string;
   ejecutado: boolean;
@@ -16,7 +16,7 @@ export interface ProgramacionMantenimiento {
   CO: string;
   SP: string;
   KI: string; //cambiar o debe ser del articulo
-  TI: string;
+ 
   FE: string;
   index: number;
 }

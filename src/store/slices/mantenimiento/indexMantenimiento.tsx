@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import clienteAxios from "../../../config/clienteAxios";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
@@ -26,9 +27,7 @@ const mantenimientoSlice = createSlice({
     },
 
     eliminarElemento: (state, action) => {
-      // state.arregloTabla = state.arregloTabla.filter(
-      //   (tabla) => tabla.index !== action.payload
-      // );
+      state.arregloTabla = action.payload;
     },
 
     getArticulos: (state, action) => {
@@ -97,17 +96,18 @@ export const validarKilometros = async (dispatch, data) => {
 };
 
 export const crearTabla = async (dispatch, fechas, kilometros, data) => {
-  debugger;
   let arregloTotal: any = [];
   let index = 0;
-  let model:ProgramacionMantenimiento = {
-    tipo_programacion: "fecha",
-    cod_tipo_mantenimiento: data.tipoMantenimiento.value,
+  let model: ProgramacionMantenimiento = {
+    tipo_programacion: "",
+    cod_tipo_mantenimiento: "P",
     kilometraje_programado: null,
-    fecha_programada: "",
+    fecha_programada: null,
     motivo_mantenimiento: "Por que si ",
     observaciones: "No aplica",
-    fecha_solicitud: new Date(),
+    fecha_solicitud: formatISO(new Date(), {
+      representation: "date",
+    }),
     fecha_anulacion: null,
     justificacion_anulacion: "",
     ejecutado: false,
@@ -117,14 +117,14 @@ export const crearTabla = async (dispatch, fechas, kilometros, data) => {
     //datos tabla
     CO: data.codigo,
     SP: data.serial,
-    KI: data.kilometraje, //cambiar o debe ser del articulo
-    TI: data.tipoMantenimiento.value,
+    KI: "", //cambiar o debe ser del articulo
     FE: "",
     index: 0,
   };
   fechas.forEach((element) => {
     arregloTotal.push({
       ...model,
+      tipo_programacion: "fecha",
       fecha_programada: element,
       FE: element,
       index: index,
@@ -135,15 +135,21 @@ export const crearTabla = async (dispatch, fechas, kilometros, data) => {
   kilometros.forEach((element) => {
     arregloTotal.push({
       ...model,
-      fecha_programada: element,
-      FE: element,
+      tipo_programacion: "kilometraje",
+      kilometraje_programado: element,
+      KI: element,
       index: index,
     });
     index++;
   });
-  dispatch(previsualizacionTabla(arregloTotal));
+  await dispatch(previsualizacionTabla(arregloTotal));
+  return arregloTotal;
 };
 
-export const eliminarElementoTabla = async (dispatch, index) => {
-  dispatch(eliminarElemento(index));
+export const eliminarElementoTabla = async (dispatch, rowData, data) => {
+  let table = rowData.filter((item) => {
+    return item !== data;
+  });
+  dispatch(eliminarElemento(table));
+  return table;
 };
