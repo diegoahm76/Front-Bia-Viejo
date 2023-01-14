@@ -1,8 +1,6 @@
 import { useForm } from "react-hook-form";
 import React from 'react';
 import Modal from "react-modal";
-// import { useDispatch, useSelector } from "react-redux";
-// import { crearNuevaEstacionAction } from "../actions/estacionActions";
 import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import iconoAgregar from "../assets/iconosBotones/agregar.svg";
 import {
@@ -32,7 +30,6 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
   const nombre_de_usuario = useAppSelector(
     (state) => state.login.userinfo.nombre_de_usuario
   );
-  // const nombre_de_usuario = useAppSelector((state) => state.user.user);
 
   const {
     register,
@@ -49,19 +46,14 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
       t001fechaMod: new Date().toISOString(),
       t001userMod: nombre_de_usuario,
     };
-
-    console.log("Nueva Estacion", nuevaEstacion);
     crearEstacion(dispatch, nuevaEstacion);
     obtenerEstacion(dispatch);
-    // dispatch(crearNuevaEstacionAction(nuevaEstacion));
-
     setIsModalActive(!isModalActive);
   };
 
   return (
     <Modal
       isOpen={isModalActive}
-      //onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
@@ -162,8 +154,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
-              title="Agregar"
-              //onClick={() => setIsModalActive(!isModalActive)}
+              title="Agregar"              
             >
               <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
