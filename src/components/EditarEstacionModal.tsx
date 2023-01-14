@@ -69,7 +69,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
     setDataEdit({ ...dataEdit, [name]: value });
   }
 
-  const onSumbitEstacion = async (data) => {
+  const onSumbitEstacion = () => {
     const dataChange = { ...dataEdit };
     dataChange.t001fechaMod = new Date().toISOString();
     editarEstacion(dispatch, dataChange);
@@ -79,7 +79,6 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   return (
     <Modal
       isOpen={isModalActive}
-      //onRequestClose={onCloseModal}
       style={customStyles}
       className="modal"
       overlayClassName="modal-fondo"
@@ -121,7 +120,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
                 type="string"
                 name="t001nombre"
                 disabled={true}
-                value={dataEdit.t001nombre}
+                value={dataEdit.t001userMod}
                 onChange={handleChange}
               />
             </div>
@@ -140,6 +139,8 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               </label>
               <input
                 className="form-control border rounded-pill px-3"
+                value={dataEdit.t001nombre}
+                disabled={true}
                 type="text"
               />
             </div>
@@ -206,7 +207,6 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               title="Guardar"
-            //onClick={() => setIsModalActive(!isModalActive)}
             >
               <i className="fa-regular fa-floppy-disk fs-3"></i>
             </button>
