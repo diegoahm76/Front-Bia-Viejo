@@ -65,7 +65,7 @@ const HojaDeVidaComputoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="text-rigth  fw-light mt-4">
-              Hoja de vida de cómputo
+              Crear hoja de vida de cómputo
             </h3>
 
             <Subtitle title="Activo" mt={3} />
@@ -128,8 +128,7 @@ const HojaDeVidaComputoScreen = () => {
                       type="button"
                       onClick={() => { reset(initialState); setArticuloEncontrado(false); setFile(null) }}
                       title="Limpiar"
-                    >
-                      <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
+                    ><i className="fa-solid fa-eraser fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -469,7 +468,7 @@ const HojaDeVidaComputoScreen = () => {
                       title="Send"
                       onClick={() => ScreenHistoricoArticulo()}
                     >
-                      Historico de archivo
+                      Historico 
                     </button>
                   </div>
                 </div>

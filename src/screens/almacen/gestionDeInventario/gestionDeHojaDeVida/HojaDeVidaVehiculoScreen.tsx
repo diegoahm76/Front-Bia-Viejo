@@ -15,10 +15,9 @@ import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvM
 import { Card, Figure, Form } from "react-bootstrap";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import "ag-grid-community/styles/ag-grid.css";
-import img from "../../../../assets/svg/img_backgraund.svg"
+import img from "../../../../assets/svg/img_backgraund.svg";
 
 const HojaDeVidaVehiculoScreen = () => {
-
   // Redux State Extractio
   const { cvMaintenance } = useAppSelector((state) => state.cv);
 
@@ -59,7 +58,7 @@ const HojaDeVidaVehiculoScreen = () => {
     register,
     handleSubmit,
     reset,
-    handleUpload
+    handleUpload,
   } = useCvVehicles();
 
   return (
@@ -68,134 +67,140 @@ const HojaDeVidaVehiculoScreen = () => {
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
           <form className="row" onSubmit={handleSubmit(onSubmit)}>
             <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
-              Hoja de vida de un vehiculo
+              Crear hoja de vida de un vehiculo
             </h3>
             <Subtitle title="Activo" mt={3} />
 
-            <div className="row">
-              <div className="col-12 col-lg-6  mt-3">
-                <div className="row">
-                  <div className="col-12 col-lg-6">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Placa<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        {...register("doc_identificador_nro", { required: true })}
-                      />
-                      {errors.doc_identificador_nro && (
-                        <p className="text-danger">Este campo es obligatorio</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-6 ">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Nombre del activo<span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        placeholder="Nombre del activo"
-                        disabled
-                        {...register("nombre", { required: false })}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-6  mt-3">
-                    <label className="ms-2 text-terciary">
-                      Código<span className="text-danger">*</span>
-                    </label>
-                    <input
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      type="text"
-                      placeholder="Código"
-                      disabled
-                      {...register("codigo_bien", { required: false })}
-                    />
-                  </div>
-
-                  <div className="col-12 col-lg-6  mt-3">
-                    <label className="ms-2 text-terciary">
-                      Tipo de vehiculo
-                    </label>
-                    <Controller
-                      name="cod_tipo_vehiculo"
-                      control={control}
-                      rules={{
-                        required: true,
-                      }}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={field.value}
-                          options={listTypeVehicleData}
-                          placeholder="Seleccionar"
-                        />
-                      )}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-12 col-lg-6 mt-2">
-                <div className="row">
-                  <div className="col-12 col-lg-6 text-center">
-                    <button
-                      className="btn btn-sm btn-tablas mt-5"
-                      type="button"
-                      title="Buscar"
-                      onClick={() => handledSearch()}
-                    >
-                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                    </button>
-                    <button
-                      className="btn btn-sm btn-tablas mt-5"
-                      type="button"
-                      onClick={() => { reset(initialState); setVehiculoEncontado(false); setFile(null); }}
-                      title="Limpiar"
-                    >
-                      <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
-                    </button>
-                  </div>
-                  {vehiculoEncontado ? (
-                    <div className="col-12 col-lg-6">
-                      <div className="row">
-                        <Card style={{ width: "100%" }}>
-                          <Card.Body>
-                            <Figure style={{ display: "flex" }}>
-                              <Figure.Image
-                                style={{ margin: "auto" }}
-                                width={171}
-                                height={180}
-                                alt="171x180"
-                                src={!file ? img : URL.createObjectURL(file!)}
-                              />
-                            </Figure>
-                            <Form.Group controlId="formFileSm" className="mb-3" style={{ margin: "auto" }}>
-                              <Form.Control type="file" accept="image/*" size="sm" onChange={(e) => handleUpload(e)} />
-                            </Form.Group>
-                          </Card.Body>
-                        </Card>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="col-12 col-lg-6">
-                      <button
-                        className="border rounded-pill btn bg-gradient-primary mt-8"
-                        type="button"
-                        onClick={() => setBusquedaArticuloModalOpen(true)}
-                      >
-                        Busqueda de articulo
-                      </button>
-                    </div>
+            <div className="row mt-3">
+              <div className="col-12 col-lg-3">
+                <div>
+                  <label className="ms-2 text-terciary">
+                    Placa<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="border border-terciary form-control border rounded-pill px-3"
+                    type="text"
+                    {...register("doc_identificador_nro", { required: true })}
+                  />
+                  {errors.doc_identificador_nro && (
+                    <p className="text-danger">Este campo es obligatorio</p>
                   )}
                 </div>
               </div>
+
+              <div className="col-12 col-lg-3 ">
+                <div>
+                  <label className="ms-2 text-terciary">
+                    Nombre del activo<span className="text-danger">*</span>
+                  </label>
+                  <input
+                    className="border border-terciary form-control border rounded-pill px-3"
+                    type="text"
+                    placeholder="Nombre del activo"
+                    disabled
+                    {...register("nombre", { required: false })}
+                  />
+                </div>
+              </div>
             </div>
+            <div className="row mt-3">
+              <div className="col-12 col-lg-3">
+                <label className="ms-2 text-terciary">
+                  Código<span className="text-danger">*</span>
+                </label>
+                <input
+                  className="border border-terciary form-control border rounded-pill px-3"
+                  type="text"
+                  placeholder="Código"
+                  disabled
+                  {...register("codigo_bien", { required: false })}
+                />
+              </div>
+              <div className="col-12 col-lg-3">
+                <label className="ms-2 text-terciary">Tipo de vehiculo</label>
+                <Controller
+                  name="cod_tipo_vehiculo"
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      value={field.value}
+                      options={listTypeVehicleData}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-lg-3 text-center">
+                <button
+                  className="btn btn-sm btn-tablas mt-4"
+                  type="button"
+                  title="Buscar"
+                  onClick={() => handledSearch()}
+                >
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                </button>
+                <button
+                  className="btn btn-sm btn-tablas mt-4"
+                  type="button"
+                  onClick={() => {
+                    reset(initialState);
+                    setVehiculoEncontado(false);
+                    setFile(null);
+                  }}
+                  title="Limpiar"
+                >
+                  <i className="fa-solid fa-eraser fs-3"></i>
+                </button>
+              </div>
+              <div className="col-12 col-lg-3 text-center">
+                {vehiculoEncontado ? (
+                  <div className="col-12 col-lg-6">
+                    <div className="row">
+                      <Card style={{ width: "100%" }}>
+                        <Card.Body>
+                          <Figure style={{ display: "flex" }}>
+                            <Figure.Image
+                              style={{ margin: "auto" }}
+                              width={171}
+                              height={180}
+                              alt="171x180"
+                              src={!file ? img : URL.createObjectURL(file!)}
+                            />
+                          </Figure>
+                          <Form.Group
+                            controlId="formFileSm"
+                            className="mb-3"
+                            style={{ margin: "auto" }}
+                          >
+                            <Form.Control
+                              type="file"
+                              accept="image/*"
+                              size="sm"
+                              onChange={(e) => handleUpload(e)}
+                            />
+                          </Form.Group>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="col-12 col-lg-12">
+                    <button
+                      className="border rounded-pill btn bg-gradient-primary mt-4"
+                      type="button"
+                      onClick={() => setBusquedaArticuloModalOpen(true)}
+                    >
+                      Busqueda de articulo
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {vehiculoEncontado ? (
               <div>
                 <div className="row">
@@ -270,7 +275,9 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_ultimo_kilometraje", { required: true })}
+                      {...register("fecha_ultimo_kilometraje", {
+                        required: true,
+                      })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3 text-center">
@@ -305,9 +312,15 @@ const HojaDeVidaVehiculoScreen = () => {
                       onClick={() => setAgendable(!agendable)}
                     >
                       {agendable ? (
-                        <i className="fa-solid fa-toggle-on fs-3" style={{ color: "#8cd81e" }}></i>
+                        <i
+                          className="fa-solid fa-toggle-on fs-3"
+                          style={{ color: "#8cd81e" }}
+                        ></i>
                       ) : (
-                        <i className="fa-solid fa-toggle-off fs-3" style={{ color: "black" }}></i>
+                        <i
+                          className="fa-solid fa-toggle-off fs-3"
+                          style={{ color: "black" }}
+                        ></i>
                       )}
                     </button>
                   </div>
@@ -317,10 +330,14 @@ const HojaDeVidaVehiculoScreen = () => {
                       disabled={arriendo}
                       maxLength={250}
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("observaciones_adicionales", { required: false })}
+                      {...register("observaciones_adicionales", {
+                        required: false,
+                      })}
                     />
                     {dataCvVehicles.observaciones_adicionales && (
-                      <p className="text-danger">{`Caractéres restantes ${250 - dataCvVehicles.observaciones_adicionales.length}`}</p>
+                      <p className="text-danger">{`Caractéres restantes ${
+                        250 - dataCvVehicles.observaciones_adicionales.length
+                      }`}</p>
                     )}
                   </div>
                 </div>
@@ -450,7 +467,9 @@ const HojaDeVidaVehiculoScreen = () => {
                       disabled={arriendo}
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_vigencia_garantia", { required: false })}
+                      {...register("fecha_vigencia_garantia", {
+                        required: false,
+                      })}
                     />
                   </div>
 
@@ -568,7 +587,9 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_expedicion_tecnomecanica", { required: true })}
+                      {...register("fecha_expedicion_tecnomecanica", {
+                        required: true,
+                      })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -576,7 +597,9 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_expiracion_tecnomecanica", { required: true })}
+                      {...register("fecha_expiracion_tecnomecanica", {
+                        required: true,
+                      })}
                     />
                   </div>
                 </div>
@@ -739,12 +762,7 @@ const HojaDeVidaVehiculoScreen = () => {
                 </div>
 
                 <div className="d-grid gap-2 d-lg-flex justify-content-lg-end mt-3">
-
-                  <button
-                    className="px-3 btn"
-                    type="button"
-                    title="Salir"
-                  >
+                  <button className="px-3 btn" type="button" title="Salir">
                     <i className="fa-solid fa-x fs-3"></i>
                   </button>
                   {/* <button
@@ -754,14 +772,9 @@ const HojaDeVidaVehiculoScreen = () => {
                   >
                     <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
                   </button> */}
-                  <button
-                    className="px-3 btn"
-                    type="submit"
-                    title="Guardar"
-                  >
+                  <button className="px-3 btn" type="submit" title="Guardar">
                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
-
                 </div>
               </div>
             ) : (
@@ -771,9 +784,9 @@ const HojaDeVidaVehiculoScreen = () => {
           <SearchArticleCvModal
             isModalActive={busquedaArticuloModalOpen}
             setIsModalActive={setBusquedaArticuloModalOpen}
-            cod_tipo_activo='Veh'
-            label='Placa'
-            title='Busqueda de vehiculos'
+            cod_tipo_activo="Veh"
+            label="Placa"
+            title="Busqueda de vehiculos"
             columnDefsArticles={columnDefsArticles}
           />
         </div>
