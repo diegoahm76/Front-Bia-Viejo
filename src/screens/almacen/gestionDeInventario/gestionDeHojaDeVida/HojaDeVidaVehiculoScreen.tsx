@@ -404,6 +404,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       disabled={arriendo}
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
+                      {...register("modelo", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">

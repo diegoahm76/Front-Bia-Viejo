@@ -121,6 +121,7 @@ export interface IcvVehiclesForm {
     capacidad_pasajeros: number;
     color: string;
     linea: string;
+    modelo: string;
     tipo_combustible: IList;
     es_arrendado: boolean | null;
     ultimo_kilometraje: number;
