@@ -97,21 +97,8 @@ export const obtenerConguracionEstaciones = async (dispatch) => {
         confirmButtonText: "Aceptar",
       });
     });
-  //console.log("Configuraciones", getConfiguraciones);
-
-  // const formatFechaConfiguraciones = getConfiguraciones.map(
-  //   (configuracion) => ({
-  //     ...configuracion,
-  //     t003fechaMod: formatISO(new Date(configuracion.t003fechaMod), {
-  //       representation: "date",
-  //     }),
-  //   })
-  // );
-  // dispatch(obtenerConfiguracionesAction(formatFechaConfiguraciones));
-  //console.log("dataGetEstaciones", dataGetEstaciones);
 };
 
-//select
 
 export const seleccionarConfiguracion = (dispatch, configuracion) => {
   dispatch(seleccionarConfiguracionModal(configuracion));
@@ -152,6 +139,7 @@ export const crearConfiguracion = async (dispatch, dataConfiguracion) => {
 export const editarConfiguracion = async (dispatch, configuracionEdit) => {
   const elementModalId = document.getElementById("modalConfiguracionesId")!;
   const dataModel = construirModelo(configuracionEdit);
+  console.log("DATAMODEL", dataModel)
   await clienteEstaciones.put("Configuraciones", dataModel).then(() => {
       dispatch(editarConfiguracionAction(dataModel));
       Swal.fire({
@@ -205,8 +193,7 @@ const construirModelo = (data) => {
       t001userMod: data.t001Estaciones.t001userMod,
       t001coord1:data.t001Estaciones.t001coord1,
       t001coord2:data.t001Estaciones.t001coord2,
-      t001fechaMod:data.t001Estaciones.t001fechaMod,
-
+      t001fechaMod:data.t001Estaciones.t001fechaMod
     },
   }
 }
