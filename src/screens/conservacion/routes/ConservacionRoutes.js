@@ -85,7 +85,7 @@ const ConservacionRoutes = () => {
         </Route>
       </Route>
 
-      <Route path="gestormaterialvegetal">
+      <Route path="gestormaterialvegetal"> 
         <Route index element={<Navigate to="/dashboard/conservacion" />} />
 
         <Route
