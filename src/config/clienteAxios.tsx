@@ -1,6 +1,7 @@
 import axios from "axios";
 const clienteAxios = axios.create({
-  baseURL: "https://web-production-08ae.up.railway.app/api/",
+  // baseURL: process.env.REACT_BACKEND_URL,
+  baseURL: 'https://backend-bia-beta-production.up.railway.app/api/',
 });
 
 clienteAxios.interceptors.request.use(
