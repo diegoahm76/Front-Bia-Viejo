@@ -1,4 +1,5 @@
 import React from "react";
+import Select from "react-select";
 import { AgGridReact } from "ag-grid-react";
 //Styles
 import "ag-grid-community/styles/ag-grid.css";
@@ -12,6 +13,7 @@ import { useAppSelector } from "../../../../store/hooks/hooks";
 import useCvOtherAssets from "./hooks/useCvOtherAssets";
 //Assets
 import img from "../../../../assets/svg/img_backgraund.svg"
+import { Controller } from "react-hook-form";
 
 const HojaDeVidaOtrosActivosScreen = () => {
 
@@ -27,6 +29,8 @@ const HojaDeVidaOtrosActivosScreen = () => {
     asignacionPrestamos,
     articuloEncontrado,
     otrasAplicaciones,
+    ListMark,
+    control,
     busquedaArticuloModalOpen,
     file,
     defaultColDef,
@@ -171,12 +175,26 @@ const HojaDeVidaOtrosActivosScreen = () => {
                 <div className="row">
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="ms-2 text-terciary">Marca</label>
-                    <input
+                    <Controller
+                        name="marca"
+                        control={control}
+                        rules={{
+                          required: true,
+                        }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            value={field.value}
+                            options={ListMark}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                    {/* <input
                       className="border border-terciary form-control border rounded-pill px-3"
                       type="text"
-                      disabled
                       {...register("estado", { required: false })}
-                    />
+                    /> */}
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">

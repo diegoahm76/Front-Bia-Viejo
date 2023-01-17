@@ -29,7 +29,7 @@ export default function OrganigramVisual() {
                 lineBorderRadius={'10px'}
                 label={<div>{levelsOrganigram[0].nombre} </div>}
             >
-                {levelsOrganigram.shift().map((level) =>
+                {levelsOrganigram.map((level) =>
                     <TreeNode label={<div>{level.nombre}</div>}>
                         {unityOrganigram.map((unity) =>
                             unity.id_nivel_organigrama === level.id_nivel_organigrama ?
