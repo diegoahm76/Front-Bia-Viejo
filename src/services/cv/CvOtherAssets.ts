@@ -23,7 +23,7 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
     confirmButtonText: 'Aceptar',
 }).fire();
 
-//Obtener Vehiculos Vehiculos
+//Obtener Otros Activos por nombre o codigo
 export const getCvVehiclesService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
@@ -42,8 +42,8 @@ export const getCvVehiclesService = (id: string) => {
 export const getCvOtherAssetsService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.put(`almacen/hoja-de-vida/otros/get-by-id/${id}/`);
-            dispatch(getCvOtherAssets(data.data));
+            const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nro-identificador/?cod_tipo_activo=OAc&doc_identificador_nro=${id}`);
+            dispatch(getCvOtherAssets(data.Elementos));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -77,7 +77,7 @@ export const updateCvOtherAssetsService = (id: any, file: any) => {
         formdata.append('ruta_imagen_foto', file);
         try {
             const { data } = await clienteAxios.put(`almacen/hoja-de-vida/otros/update/${id}/`, formdata);
-            dispatch(getCvOtherAssetsService(id));
+            dispatch(getCvVehiclesService(id));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -91,7 +91,7 @@ export const deleteCvOtherAssetsService = (id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.delete(`almacen/hoja-de-vida/otros/delete/${id}/`);
-            dispatch(getCvOtherAssetsService(id));
+            dispatch(getCvVehiclesService(id));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {

@@ -74,7 +74,7 @@ const useCvOtherAssets = () => {
         formState: { errors: errors },
 
     } = useForm<IcvOthersForm>({ defaultValues: initialState });
-    const dataCvComputers = watch();
+    const dataCvOtherAssets = watch();
 
     //Función para las alertas
     const notificationSuccess = (message = 'Proceso Exitoso', state: SweetAlertIcon) => Swal.mixin({
@@ -142,10 +142,10 @@ const useCvOtherAssets = () => {
     //Funcion para crear hoja de vida de Otros Activos
     const createCv = () => {
         const formdata = new FormData()
-        formdata.append('caracteristicas_fisicas', dataCvComputers.caracteristicas_fisicas);
-        formdata.append('especificaciones_tecnicas', dataCvComputers.especificaciones_tecnicas);
-        formdata.append('observaciones_adicionales', dataCvComputers.observaciones_adicionales);
-        formdata.append('id_articulo', dataCvComputers.id_bien.toString());
+        formdata.append('caracteristicas_fisicas', dataCvOtherAssets.caracteristicas_fisicas);
+        formdata.append('especificaciones_tecnicas', dataCvOtherAssets.especificaciones_tecnicas);
+        formdata.append('observaciones_adicionales', dataCvOtherAssets.observaciones_adicionales);
+        formdata.append('id_articulo', dataCvOtherAssets.id_bien.toString());
         formdata.append('ruta_imagen_foto', file === null ? '' : file);
         dispatch(createCvOtherAssetsService(formdata))
     };
@@ -169,7 +169,7 @@ const useCvOtherAssets = () => {
 
     //Funcion para Buscar Articulo
     const handledSearch = () => {
-        dispatch(getCvOtherAssetsService(dataCvComputers.doc_identificador_nro));
+        dispatch(getCvOtherAssetsService(dataCvOtherAssets.doc_identificador_nro));
     };
 
     //Columnas de la tabla de Mantenimientos
