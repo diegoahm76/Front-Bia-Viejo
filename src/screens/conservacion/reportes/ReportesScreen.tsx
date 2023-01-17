@@ -518,7 +518,7 @@ const ReportesScreen = () => {
           >
             <div className="row">
               <h3 className="text-rigth  fw-light mb-3 mb-2">Reportes</h3>
-              <Subtitle title="información de solicitud" mb="3" />
+              <Subtitle title="información de solicitud"  />
               <div className="col-12 col-sm-3">
                 <label className="text-terciary ms-0">Tipo reporte</label>
                 <Controller
@@ -575,14 +575,14 @@ const ReportesScreen = () => {
               </div>
             </div>
           </form>
-          {selectedReporte.tipoReporte.value === "RI" ? (
+          {selectedReporte.tipoReporte === "RI" ? (
             <form
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
               onSubmit={handleSubmit2(onSubmitBotonInventario)}
             >
               <div className="row">
-                <Subtitle title="Reportes de Inventario" mb="3" />
+                <Subtitle title="Reportes de Inventario" />
                 <div className="col-12 col-sm-3">
                   <label className="text-terciary ms-0">Tipo de Reporte</label>
                   <Controller
@@ -666,7 +666,7 @@ const ReportesScreen = () => {
               {botonReportesInventario.tipoReporteInventario &&
               botonReportesInventario.etapaPlanta ? (
                 <div className="row">
-                  <Subtitle title="Información del reporte" mb="3" />
+                  <Subtitle title="Información del reporte"  />
                   <div
                     className="ag-theme-alpine mt-2 mb-4"
                     style={{ height: "300px" }}
@@ -698,14 +698,14 @@ const ReportesScreen = () => {
             ""
           )}
 
-          {selectedReporte.tipoReporte.value === "RD" ? (
+          {selectedReporte.tipoReporte === "RD" ? (
             <form
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
               onSubmit={handleSubmit3(onSubmitBotonDistribucion)}
             >
               <div className="row">
-                <Subtitle title="Reportes de Distribución" mb="3" />
+                <Subtitle title="Reportes de Distribución"  />
                 <div className="col-12 col-sm-3">
                   <label className="text-terciary ms-3">Tipo de Reporte</label>
                   <Controller
@@ -727,7 +727,7 @@ const ReportesScreen = () => {
                       Este campo es obligatorio
                     </small>
                   )}
-                  {botonReportesDistribucion.tipoReporteDistribucion.value ===
+                  {botonReportesDistribucion.tipoReporteDistribucion ===
                   "P" ? (
                     <div className="col-12">
                       <label className="text-terciary ms-3">
@@ -757,7 +757,7 @@ const ReportesScreen = () => {
                   ) : (
                     ""
                   )}
-                  {botonReportesDistribucion.tipoReporteDistribucion.value ===
+                  {botonReportesDistribucion.tipoReporteDistribucion ===
                   "PRO" ? (
                     <div className="col-12">
                       <label className="text-terciary ms-3">
@@ -787,7 +787,7 @@ const ReportesScreen = () => {
                   ) : (
                     ""
                   )}
-                  {botonReportesDistribucion.tipoReporteDistribucion.value ===
+                  {botonReportesDistribucion.tipoReporteDistribucion ===
                   "D" ? (
                     <div className="col-12">
                       <label className="text-terciary ms-3">
@@ -862,7 +862,7 @@ const ReportesScreen = () => {
                     data-animation="FadeIn"
                     onSubmit={handleSubmit3(onSubmitBotonDistribucion)}
                   >
-                    <Subtitle title="Información del reporte" mb="3" />
+                    <Subtitle title="Información del reporte"  />
                     <div
                       className="ag-theme-alpine mt-2 mb-4"
                       style={{ height: "300px" }}
@@ -894,14 +894,14 @@ const ReportesScreen = () => {
           ) : (
             ""
           )}
-          {selectedReporte.tipoReporte.value === "RMV" ? (
+          {selectedReporte.tipoReporte === "RMV" ? (
             <form
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
               onSubmit={handleSubmit4(onSubmitBotonMaterialVegetal)}
             >
               <div className="row">
-                <Subtitle title="Reportes de Material Vegetal" mb="3" />
+                <Subtitle title="Reportes de Material Vegetal"  />
                 <div className="col-12 col-sm-3">
                   <label className="text-terciary ms-3">Tipo de Reporte</label>
                   <Controller
@@ -923,8 +923,7 @@ const ReportesScreen = () => {
                       Este campo es obligatorio
                     </small>
                   )}
-                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal
-                    .value === "PL" ? (
+                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal === "PL" ? (
                     <div className="col-12">
                       <label className="text-terciary ms-3">
                         Nombre de planta
@@ -953,8 +952,7 @@ const ReportesScreen = () => {
                   ) : (
                     ""
                   )}
-                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal
-                    .value === "SE" ? (
+                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal === "SE" ? (
                     <div className="col-12">
                       <label className="text-terciary ms-3">
                         Nombre de la semilla
@@ -983,8 +981,7 @@ const ReportesScreen = () => {
                   ) : (
                     ""
                   )}
-                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal
-                    .value === "T" ? (
+                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal === "T" ? (
                     <div className="col-12">
                       <label className="text-terciary ms-3">
                         Todo el material
@@ -1052,9 +1049,13 @@ const ReportesScreen = () => {
                   </div>
                 </div>
 
-                {botonReporteMaterialVegetal.nombrePlantaMaterialVegetal ||
+                {/* {botonReporteMaterialVegetal.nombrePlantaMaterialVegetal ||
                 botonReporteMaterialVegetal.nombreSemilla ||
-                botonReporteMaterialVegetal.todoMaterial ? (
+                botonReporteMaterialVegetal.todoMaterial ? ( */}
+
+                  {botonReporteMaterialVegetal.tipoReporteMaterialVegetal ||
+                    botonReporteMaterialVegetal.nombreSemilla ||
+                    botonReporteMaterialVegetal.todoMaterial ? (
                   <form
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
@@ -1064,7 +1065,7 @@ const ReportesScreen = () => {
                       style={{ height: "300px" }}
                     >
                       <div className="row">
-                      <Subtitle title="Información de la solicitud" mb="3" /></div>
+                      <Subtitle title="Información de la solicitud" /></div>
 
                       <AgGridReact
                         columnDefs={columnDefsMaterialVegetal}
@@ -1093,7 +1094,7 @@ const ReportesScreen = () => {
           ) : (
             ""
           )}
-          {selectedReporte.tipoReporte.value === "RAMV" ? (
+          {selectedReporte.tipoReporte === "RAMV" ? (
             <form
               className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
               data-animation="FadeIn"
@@ -1102,7 +1103,7 @@ const ReportesScreen = () => {
               <div className="row">
                 <Subtitle
                   title="Reportes de Adquisición de Material Vegetal"
-                  mb="3"
+                  
                 />
                 <div className="col-12 col-sm-3">
                   <label className="text-terciary ms-0">Tipo de Reporte</label>
@@ -1195,7 +1196,7 @@ const ReportesScreen = () => {
                   data-animation="FadeIn"
                 >
                   <div className="row">
-                    <Subtitle title="Información del reporte" mb="3" />
+                    <Subtitle title="Información del reporte"  />
                   </div>
                   <div
                     className="ag-theme-alpine mt-2 mb-4"

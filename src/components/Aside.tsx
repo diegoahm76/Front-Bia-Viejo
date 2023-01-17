@@ -28,6 +28,7 @@ import IconoSeguridad from "../assets/sub-sistema-seguridad1.svg";
 import IconoUser from "../assets/imgs/perfil.svg";
 import IconoEntradaYSalida from "../assets/iconosAlmacen/eco-store-svgrepo-com.svg";
 import IconoGestioDeInventario from "../assets/iconosAlmacen/receptionist-svgrepo-com.svg";
+import Iconocuarentena from "../assets/iconosConservacion/cuarentena.png"
 
 import IconoEstacionesHidrometereologicas from "../assets/iconosRecursoHidrico/Sub-sistema-EstacionesHidrometereologicas.svg";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
@@ -1553,7 +1554,7 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="conservacion/gestorvivero/agregarvivero"
+                                to="conservacion/gestorvivero/administrarvivero"
                               >
                                 <img
                                   src={IconoAgregarVivero}
@@ -1561,21 +1562,37 @@ const Aside = ({ showAside }) => {
                                   alt="Agregar vivero"
                                 />
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Agregar Vivero
+                                  Administración de Vivero
                                 </span>
                               </Link>
                             </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="conservacion/gestorvivero/editarvivero"
+                                to="conservacion/gestorvivero/aperturaycierre"
                               >
                                 <img
                                   src={IconoEditarVivero}
-                                  alt="Editar vivero"
+                                  alt="Apertura y cierre vivero"
                                 />
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Editar Vivero
+                                  Apertura y cierre de Vivero
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="conservacion/gestorvivero/cuarentenavivero"
+                              >
+                                <img
+                                  src={Iconocuarentena}
+                                  style={{width:"15px", height:"15px"}}
+                                  alt="Cuarentena vivero"
+                                />
+                                
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Cuarentena de Vivero
                                 </span>
                               </Link>
                             </li>

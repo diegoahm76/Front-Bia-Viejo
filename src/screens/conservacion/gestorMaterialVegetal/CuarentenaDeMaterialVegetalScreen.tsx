@@ -88,7 +88,7 @@ const InventarioViveroCompensacion = () => {
                                     type="submit"
                                     className="btn-min-width border rounded-pill mt-2 px-3 btn "
                                 >
-                                    <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                                    <i className="fa-solid fa-magnifying-glass fs-3"></i>
                                 </button>
                             </div>
                         </div>
@@ -116,7 +116,7 @@ const InventarioViveroCompensacion = () => {
                                             Cantidad de material vegetal: <span className="text-danger">*</span>
                                         </label>
                                         <input
-                                            name="cantidadMaterialVegetal"
+                                            //name="cantidadMaterialVegetal"
                                             type="number"
                                             className="form-control border border-terciary rounded-pill px-3"
                                             {...register("cantidadMaterialVegetal", { required: true })}
@@ -133,7 +133,7 @@ const InventarioViveroCompensacion = () => {
                                         Ubicación de material vegetal: <span className="text-danger">*</span>
                                     </label>
                                         <input
-                                            name="ubicaciónMaterialVegetal"
+                                           // name="ubicaciónMaterialVegetal"
                                             type="text"
                                             className="form-control border border-terciary rounded-pill px-3"
                                             {...register("ubicaciónMaterialVegetal", { required: true })}
@@ -164,13 +164,13 @@ const InventarioViveroCompensacion = () => {
                                         type="button"
                                         title="Send"
                                     >
-                                        <i class="fa-solid fa-x fs-3"></i>
+                                        <i className="fa-solid fa-x fs-3"></i>
                                     </button>
                                     <button
                                         className="border rounded-pill px-3 btn "
                                         type="submit"
                                     >
-                                        <i class="fa-regular fa-floppy-disk fs-3"></i>
+                                        <i className="fa-regular fa-floppy-disk fs-3"></i>
                                     </button>
                                 </div>
                             </form>

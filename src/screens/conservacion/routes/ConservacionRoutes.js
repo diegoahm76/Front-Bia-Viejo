@@ -2,8 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Conservacion from "../";
 import CentroNotificacionesScreen from "../gestorVivero/CentroNotificacionesScreen"
-import EditarViveroScreen from "../gestorVivero/EditarViveroScreen"
-import AgregarViveroScreen from "../gestorVivero/AgregarViveroScreen";
 import PropagacionScreen from "../gestorVivero/inventario/PropagacionScreen";
 import ProduccionPropiaScreen from "../gestorVivero/inventario/ProduccionPropiaScreen";
 import CronogramaScreen from "../cronograma/CronogramaScreen";
@@ -32,6 +30,9 @@ import SolicitudesDeMaterialSreen from "../distribucion/SolicitudesDeMaterialSre
 import HistorialDeMovimientosScreen from "../distribucion/HistorialDeMovimientosScreen";
 import ReportesScreen from "../reportes/ReportesScreen";
 import RecepcionDeSolicitudScreen from "../distribucion/RecepcionDeSolicitudScreen";
+import { CuarentenaScreen } from "../gestorVivero/CuarentenaScreen";
+import AdministrarViveroScreen from "../gestorVivero/AdministrarViveroScreen";
+import AperturayCierreViveroScreen from "../gestorVivero/AperturaycCierreViveroScreen";
 
 
 const ConservacionRoutes = () => {
@@ -42,11 +43,13 @@ const ConservacionRoutes = () => {
       <Route path="gestorvivero">
         <Route index element={<Navigate to="/dashboard/conservacion" />} />
 
-        <Route path="agregarvivero" element={<AgregarViveroScreen />} /> 
+        <Route path="administrarvivero" element={<AdministrarViveroScreen />} /> 
 
-        <Route path="editarvivero" element={<EditarViveroScreen />} />
+        <Route path="aperturaycierre" element={<AperturayCierreViveroScreen />} />
 
-        
+        <Route path="cuarentenavivero" element={<CuarentenaScreen />} />
+
+
 
         <Route path="inventario">
           <Route index element={<Navigate to="/dashboard/conservacion" />} />

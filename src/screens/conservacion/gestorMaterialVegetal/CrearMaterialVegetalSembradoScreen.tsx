@@ -61,10 +61,7 @@ const InventarioViveroCompensacion = () => {
   const onSubmit = (data) => {
     setSelecOpciones({
       asignarViverista: data.asignarViverista,
-      porcentajeParcial: data.porcentajeParcial,
-      porcentajeParcial2: data.porcentajeParcial,
-      porcentajeParcial3: data.porcentajeParcial,
-      porcentajeParcial4: data.porcentajeParcial,
+     
 
     });
   };
@@ -151,7 +148,7 @@ const InventarioViveroCompensacion = () => {
                   className="btn-min-width border rounded-pill mt-2 px-3 btn "
                   title="Buscar"
                 >
-                  <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
             </div>
@@ -232,7 +229,7 @@ const InventarioViveroCompensacion = () => {
                       className="form-control border border-terciary rounded-pill px-3"
                       type="text"
                       placeholder="Cantidad KG"
-                      name="nombre"
+                     // name="nombre"
                       {...register("nombre", { required: true })}
                     />
 
@@ -296,7 +293,7 @@ const InventarioViveroCompensacion = () => {
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
                           placeholder="Escribe el porcentaje de la cama de germinación"
-                          name="porcentajeParcial1"
+                         // name="porcentajeParcial1"
                           {...register("porcentajeParcial1", { required: true })}
                         />
                         {errors.porcentajeParcial1 && (
@@ -334,12 +331,12 @@ const InventarioViveroCompensacion = () => {
                   </div>
                   <div className="form-check col-12 col-md-2 ms-4">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       name="nombrebotonRadio2"
                       id="idbotonRadioParcial2"
                       onChange={() => setPorcentaje2(true)}
-                    />
+                    ></input>
                     <label className="text-terciary">
                       Parcial
                     </label>
@@ -352,7 +349,7 @@ const InventarioViveroCompensacion = () => {
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
                           placeholder="Escribe el porcentaje de la cama de germinación"
-                          name="porcentajeParcial2"
+                          //name="porcentajeParcial2"
                           {...register("porcentajeParcial2", { required: true })}
                         />
                         {errors.porcentajeParcial2 && (
@@ -406,7 +403,7 @@ const InventarioViveroCompensacion = () => {
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
                           placeholder="Escribe el porcentaje de la cama de germinación"
-                          name="porcentajeParcial3"
+                       //   name="porcentajeParcial3"
                           {...register("porcentajeParcial3", { required: true })}
                         />
                         {errors.porcentajeParcial3 && (
@@ -459,7 +456,7 @@ const InventarioViveroCompensacion = () => {
                           className="form-control border border-terciary rounded-pill px-3 mt-2"
                           type="text"
                           placeholder="Escribe el porcentaje de la cama de germinación"
-                          name="porcentajeParcial4"
+                        //  name="porcentajeParcial4"
                           {...register("porcentajeParcial4", { required: true })}
                         />
                         {errors.porcentajeParcial4 && (
@@ -475,20 +472,20 @@ const InventarioViveroCompensacion = () => {
                 </div>
 
 
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                <div className="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
                   <button
                     className="btn  me-md-2"
                     type="button"
                     title="Cancelar"
                   >
-                    <i class="fa-solid fa-x fs-3"></i>
+                    <i className="fa-solid fa-x fs-3"></i>
                   </button>
                   <button
                     className="btn  "
                     type="button"
                     title="Guardar"
                   >
-                    <i class="fa-regular fa-floppy-disk fs-3"></i>
+                    <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
                 </div>
               </form>
