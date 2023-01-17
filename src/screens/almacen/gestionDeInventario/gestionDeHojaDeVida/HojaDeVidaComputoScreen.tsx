@@ -172,18 +172,7 @@ const HojaDeVidaComputoScreen = () => {
               <div>
                 <Subtitle title="Especificaciones físicas" mt={3} />
                 <div className="row">
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Color
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        {...register("color", { required: false })}
-                      />
-                    </div>
-                  </div>
+                  
 
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
@@ -221,11 +210,26 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
+                        Color
+                      </label>
+                      <input
+                        className="border border-terciary form-control border rounded-pill px-3"
+                        type="text"
+                        maxLength={20}
+                        {...register("color", { required: false })}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-3  mt-3">
+                    <div>
+                      <label className="ms-2 text-terciary">
                         Tipo de equipo
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={20}
                         {...register("tipo_de_equipo", { required: false })}
                       />
                       <p>portatil, tablet, all-in-one</p>
@@ -244,6 +248,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={40}
                         {...register("sistema_operativo", { required: false })}
                       />
                     </div>
@@ -257,6 +262,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={40}
                         {...register("suite_ofimatica", { required: false })}
                       />
                     </div>
@@ -270,6 +276,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={40}
                         {...register("antivirus", { required: false })}
                       />
                     </div>
@@ -309,6 +316,7 @@ const HojaDeVidaComputoScreen = () => {
                           <textarea
                             className="form-control border rounded-pill px-4 border border-terciary"
                             placeholder="Observaciones"
+                            maxLength={255}
                             {...register("otras_aplicaciones", { required: false })}
                           />
                         </div>
@@ -331,6 +339,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={30}
                         {...register("tipo_almacenamiento", { required: false })}
                       />
                     </div>
@@ -339,12 +348,13 @@ const HojaDeVidaComputoScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Capacidad
+                        Capacidad de Almcnto
 
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={20}
                         {...register("capacidad_almacenamiento", { required: false })}
                       />
                     </div>
@@ -358,6 +368,7 @@ const HojaDeVidaComputoScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
+                        maxLength={20}
                         {...register("procesador", { required: false })}
                       />
                     </div>
@@ -385,6 +396,7 @@ const HojaDeVidaComputoScreen = () => {
                       className="btn btn-sm btn-tablas "
                       type="button"
                       title="Solicitudes"
+                    
                       onClick={() => setOtrasPerisfericos(!otrasPerisfericos)}
                     >
                       {otrasPerisfericos == false ? (
@@ -410,6 +422,7 @@ const HojaDeVidaComputoScreen = () => {
                         <textarea
                           className="form-control border rounded-pill px-4 border border-terciary"
                           placeholder="Observaciones"
+                          maxLength={255}
                           {...register("observaciones_adicionales", { required: false })}
                         />
                       </div>

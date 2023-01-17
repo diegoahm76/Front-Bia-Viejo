@@ -9,7 +9,7 @@ export default function OrganigramVisual() {
 
     return (
         <>
-            {levelsOrganigram.map((level) =>
+            {/* {levelsOrganigram.map((level) =>
                 <Tree
                     lineWidth={'2px'}
                     lineColor={'green'}
@@ -22,14 +22,14 @@ export default function OrganigramVisual() {
                             : null
                     )}
                 </Tree>
-            )}
-            {/* <Tree
+            )} */}
+            <Tree
                 lineWidth={'2px'}
                 lineColor={'green'}
                 lineBorderRadius={'10px'}
-                label={<div>{organigramCurrent.nombre} </div>}
+                label={<div>{levelsOrganigram[0].nombre} </div>}
             >
-                {levelsOrganigram.map((level) =>
+                {levelsOrganigram.shift().map((level) =>
                     <TreeNode label={<div>{level.nombre}</div>}>
                         {unityOrganigram.map((unity) =>
                             unity.id_nivel_organigrama === level.id_nivel_organigrama ?
@@ -38,7 +38,7 @@ export default function OrganigramVisual() {
                         )}
                     </TreeNode>
                 )}
-            </Tree> */}
+            </Tree>
         </>
     )
 }
