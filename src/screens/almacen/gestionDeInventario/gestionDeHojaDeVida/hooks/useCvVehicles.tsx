@@ -54,6 +54,7 @@ const useCvVehicles = () => {
         capacidad_pasajeros: 0,
         color: "",
         linea: "",
+        modelo : "",
         tipo_combustible: { label: '', value: '' },
         es_arrendado: null,
         ultimo_kilometraje: 0,

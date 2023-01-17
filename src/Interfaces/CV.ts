@@ -162,7 +162,7 @@ export interface IcvVehiclesForm {
     tipo_combustible: IList;
     transmision: string;
     ultimo_kilometraje: number;
-
+    modelo: string;
     celular: string;
     direccion: string;
     email: string;
