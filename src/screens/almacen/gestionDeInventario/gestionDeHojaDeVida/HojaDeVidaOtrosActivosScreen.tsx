@@ -31,6 +31,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
     file,
     defaultColDef,
     errors,
+    initialState,
     //Edita States
     setArticuloEncontrado,
     setOtrasAplicaciones,
@@ -122,6 +123,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
                       title="Limpiar"
+                      onClick={() => { reset(initialState); setArticuloEncontrado(false); setFile(null) }}
                     >
                       <i className="fa-solid fa-eraser fs-3"></i>
                     </button>
