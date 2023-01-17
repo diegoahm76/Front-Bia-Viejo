@@ -12,7 +12,7 @@ import {
 } from "../../../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import { formatISO } from "date-fns";
-// import ExportExcelFile from "../../../components/ExportExcelFile";
+
 const AdministradorDeEstaciones = () => {
   const dispatch = useAppDispatch();
   const [isModalActive, setIsModalActive] = useState(false);
@@ -24,19 +24,9 @@ const AdministradorDeEstaciones = () => {
 
   useEffect(() => {
     obtenerEstacion(dispatch);
-    //callService();
   }, []);
 
-  // const dataExcel = estaciones.map((estacion) => ({
-  //   OBJECTID: estacion.objectid,
-  //   Estación: estacion.t001nombre,
-  //   "Coordenada 1": estacion.t001coord1,
-  //   "Coordenada 2": estacion.t001coord2,
-  //   Modificado: estacion.t001fechaMod,
-  //   Usuario: estacion.t001userMod,
-  // }));
-
-  const columnDefs = [
+ const columnDefs = [
     { headerName: "OBJECTID", field: "objectid", minWidth: 120 },
     { headerName: "Estación", field: "t001nombre", minWidth: 140 },
     { headerName: "Longitud", field: "t001coord1", minWidth: 140 },
@@ -54,7 +44,6 @@ const AdministradorDeEstaciones = () => {
             type="button"
             title="editar"
             onClick={() => {
-              // dispatch(obtenerEstacionEditarAction(params.data));
               setEstacionEditarModelo(dispatch, params.data);
               setIsModalEditarActivate(!isModalActive);
             }}
