@@ -10,6 +10,7 @@ import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvM
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Card, Figure, Form } from "react-bootstrap";
+//Assets
 import img from "../../../../assets/svg/img_backgraund.svg"
 //Interfaces
 import useCvComputers from "./hooks/useCvComputers";
@@ -167,7 +168,7 @@ const HojaDeVidaComputoScreen = () => {
               )}
             </div>
 
-            {articuloEncontrado ? (
+            {articuloEncontrado && (
               <div>
                 <Subtitle title="Especificaciones físicas" mt={3} />
                 <div className="row">
@@ -468,7 +469,7 @@ const HojaDeVidaComputoScreen = () => {
                       title="Send"
                       onClick={() => ScreenHistoricoArticulo()}
                     >
-                      Historico 
+                      Historico
                     </button>
                   </div>
                 </div>
@@ -501,8 +502,6 @@ const HojaDeVidaComputoScreen = () => {
                   </div>
                 </div>
               </div>
-            ) : (
-              ""
             )}
           </form>
           <SearchArticleCvModal

@@ -1,120 +1,53 @@
-import React, { useState } from "react";
+import React from "react";
 import { AgGridReact } from "ag-grid-react";
-import { Controller, useForm } from "react-hook-form";
+//Styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import MarcaDeAgua1 from "../../../../components/MarcaDeAgua1";
+import { Card, Figure, Form } from "react-bootstrap";
+//Components
 import Subtitle from "../../../../components/Subtitle";
 import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
-import { Select } from "@material-ui/core";
+//Hooks
+import { useAppSelector } from "../../../../store/hooks/hooks";
+import useCvOtherAssets from "./hooks/useCvOtherAssets";
+//Assets
+import img from "../../../../assets/svg/img_backgraund.svg"
 
 const HojaDeVidaOtrosActivosScreen = () => {
-  const { register, handleSubmit } = useForm();
 
-  const [buscarArticulo, setBuscarArticulo] = useState(false);
+  // Redux State Extraction
+  const { cvMaintenance } = useAppSelector((state) => state.cv);
 
-  const columdemantenimiento = [
-    { Numero: "Numero", field: "numero", minWidth: 150 },
-    { headerName: "Tipo", field: "tipo", minWidth: 150 },
-    { headerName: "Fecha", field: "fecha", minWidth: 150 },
-    { headerName: "Estado", field: "estado", minWidth: 150 },
-    { headerName: "Responsable", field: "responsable", minWidth: 150 },
-  ];
-  const rowdata = [
-    {
-      numero: "01",
-      tipo: "correctivo",
-      fecha: "20/01/2022",
-      estado: "completado",
-      responsable: "Oliver Amaya",
-    },
-    {
-      numero: "02",
-      tipo: "preventivo",
-      fecha: "23/02/2022",
-      estado: "completado",
-      responsable: "Julian Castillo",
-    },
-    {
-      numero: "03",
-      tipo: "correctivo",
-      fecha: "20/01/2022",
-      estado: "completado",
-      responsable: "Oliver Amaya",
-    },
-    {
-      numero: "04",
-      tipo: "preventivo",
-      fecha: "23/02/2022",
-      estado: "completado",
-      responsable: "Julian Castillo",
-    },
-  ];
-  const defaultColDef = {
-    sortable: true,
-    editable: false,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-  const columnDefs2 = [
-    { headerName: "Número", field: "NU", minWidth: 150 },
-    { headerName: "Responsable", field: "RE", minWidth: 150 },
-    { headerName: "Grupo", field: "GR", minWidth: 150 },
-    { headerName: "Fecha inicial", field: "FEIN", minWidth: 150 },
-    { headerName: "Fecha final", field: "FEFI", minWidth: 150 },
-    { headerName: "Tipo", field: "TI", minWidth: 150 },
-  ];
-  const asignacionPrestamos = [
-    {
-      NU: "01",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "02",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "03",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "04",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-    {
-      NU: "05",
-      RE: "Gina Hernandez",
-      GR: "Administración",
-      FEIN: "19/05/2020",
-      FEFI: "13/08/2020",
-      TI: "Asignacion",
-    },
-  ];
+  //Hooks
+  const {
+    //States
+    columnDefsMaintenance,
+    columnDefs2,
+    columnDefsArticles,
+    asignacionPrestamos,
+    articuloEncontrado,
+    otrasAplicaciones,
+    busquedaArticuloModalOpen,
+    file,
+    defaultColDef,
+    errors,
+    //Edita States
+    setArticuloEncontrado,
+    setOtrasAplicaciones,
+    setOtrasPerisfericos,
+    setBusquedaArticuloModalOpen,
+    setFile,
+    //Functions
+    ScreenHistoricoArticulo,
+    ScreenProgramarMantnimiento,
+    handledSearch,
+    onSubmit,
+    register,
+    handleSubmit,
+    reset,
+    handleUpload
+  } = useCvOtherAssets();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -143,6 +76,9 @@ const HojaDeVidaOtrosActivosScreen = () => {
                           required: true,
                         })}
                       />
+                      {errors.doc_identificador_nro && (
+                        <p className="text-danger">Este campo es obligatorio</p>
+                      )}
                     </div>
                   </div>
 
@@ -178,7 +114,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
                       title="Buscar"
-                      onClick={() => setBuscarArticulo(!buscarArticulo)}
+                      onClick={() => handledSearch()}
                     >
                       <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
@@ -193,36 +129,41 @@ const HojaDeVidaOtrosActivosScreen = () => {
                   <div></div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6  mt-3">
-                <div className="row">
-                  <div className="col-12 col-lg-6 ">
-                    <button
-                      className="border rounded-pill btn bg-gradient-primary mt-8"
-                      type="button"
-                    >
-                      Busqueda de articulo
-                    </button>
+              {articuloEncontrado ? (
+                <div className="col-12 col-lg-6">
+                  <div className="row">
+                    <Card style={{ width: "100%" }}>
+                      <Card.Body>
+                        <Figure style={{ display: "flex" }}>
+                          <Figure.Image
+                            style={{ margin: "auto" }}
+                            width={171}
+                            height={180}
+                            alt="171x180"
+                            src={!file ? img : URL.createObjectURL(file!)}
+                          />
+                        </Figure>
+                        <Form.Group controlId="formFileSm" className="mb-3" style={{ margin: "auto" }}>
+                          <Form.Control type="file" accept="image/*" size="sm" onChange={(e) => handleUpload(e)} />
+                        </Form.Group>
+                      </Card.Body>
+                    </Card>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="col-12 col-lg-6">
+                  <button
+                    className="border rounded-pill btn bg-gradient-primary mt-8"
+                    type="button"
+                    onClick={() => setBusquedaArticuloModalOpen(true)}
+                  >
+                    Busqueda de articulo
+                  </button>
+                </div>
+              )}
             </div>
-            {buscarArticulo === true ? (
+            {articuloEncontrado && (
               <div>
-                <h2 className="text-danger">
-                  para tener en cuenta (borrar cuando sea leido)
-                </h2>
-                <h6 className="text-danger">
-                  También, como con las demás hojas de vida, la información
-                  básica del activo (código, nombre, serial) se obtiene con el
-                  ID "T067Id_Articulo" a través de la tabla a la cual dicha
-                  llave foránea hace referencia, adicionalmente, los datos
-                  "Marca" y "Modelo" también se obtienen de dicha tabla
-                  (T057Articulos). El Estado del activo se obtiene de la tabla
-                  de inventarios (T062Inventario). Solo puede haber una hoja de
-                  vida por activo y esta NO se podrá borrar si se le ha hecho
-                  por lo menos un (1) mantenimiento o si ya ha tenido alguna
-                  asignación.
-                </h6>
                 <Subtitle title="Especificaciones" mt={3} />
 
                 <div className="row">
@@ -265,7 +206,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       </label>
                       <textarea
                         className="form-control border rounded-pill px-4 border border-terciary"
-                        {...register("otras_aplicaciones", {
+                        {...register("caracteristicas_fisicas", {
                           required: false,
                         })}
                       />
@@ -281,7 +222,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       </label>
                       <textarea
                         className="form-control border rounded-pill px-4 border border-terciary"
-                        {...register("otras_aplicaciones", {
+                        {...register("especificaciones_tecnicas", {
                           required: false,
                         })}
                       />
@@ -297,8 +238,8 @@ const HojaDeVidaOtrosActivosScreen = () => {
                       style={{ height: "275px" }}
                     >
                       <AgGridReact
-                        columnDefs={columdemantenimiento}
-                        rowData={rowdata}
+                        columnDefs={columnDefsMaintenance}
+                        rowData={cvMaintenance}
                         defaultColDef={defaultColDef}
                       />
                     </div>
@@ -366,10 +307,16 @@ const HojaDeVidaOtrosActivosScreen = () => {
                   </div>
                 </div>
               </div>
-            ) : (
-              ""
             )}
           </form>
+          <SearchArticleCvModal
+            isModalActive={busquedaArticuloModalOpen}
+            setIsModalActive={setBusquedaArticuloModalOpen}
+            cod_tipo_activo='OAc'
+            label='Nombre'
+            title="Busqueda de articulos"
+            columnDefsArticles={columnDefsArticles}
+          />
         </div>
       </div>
     </div>

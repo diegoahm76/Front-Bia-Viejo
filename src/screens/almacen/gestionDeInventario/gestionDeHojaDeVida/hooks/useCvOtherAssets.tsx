@@ -7,12 +7,13 @@ import Swal, { SweetAlertIcon } from "sweetalert2";
 import clienteAxios from "../../../../../config/clienteAxios";
 import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
 //Actions
-import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
+import { createCvOtherAssetsService, getCvOtherAssetsService } from "../../../../../services/cv/CvOtherAssets";
 //Interfaces
-import { IcvComputersForm, IList } from "../../../../../Interfaces/CV";
+import { IcvComputersForm, IcvOthersForm, IList } from "../../../../../Interfaces/CV";
+import { getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 
 
-const useCvComputers = () => {
+const useCvOtherAssets = () => {
 
     // Dispatch instance
     const dispatch = useAppDispatch();
@@ -21,7 +22,7 @@ const useCvComputers = () => {
     const navigate = useNavigate();
 
     // Redux State Extraction
-    const { cvComputers } = useAppSelector((state) => state.cv);
+    const { cvOtherAssets } = useAppSelector((state) => state.cv);
 
     //Local State
     const initialOptions: IList[] = [{
@@ -35,28 +36,19 @@ const useCvComputers = () => {
     const [ListMark, setListMark] = useState<IList[]>(initialOptions);
     const [file, setFile] = useState(null);
 
-    //Estado Inicial de Hojas de Vida de Computadores
-    const initialState: IcvComputersForm = {
-        antivirus: '',
-        capacidad_almacenamiento: '',
-        color: '',
-        id_articulo: 0,
-        memoria_ram: '',
+    //Estado Inicial de Hojas de Vida de Otros Activos
+    const initialState: IcvOthersForm = {
+        especificaciones_tecnicas: '',
+        caracteristicas_fisicas: '',
+        doc_identificador_nro: '',
         observaciones_adicionales: '',
-        otras_aplicaciones: '',
-        procesador: '',
-        ruta_imagen_foto: '',
-        sistema_operativo: '',
-        suite_ofimatica: '',
-        tipo_almacenamiento: '',
-        tipo_de_equipo: '',
 
+        estado: null,
         cod_tipo_bien: '',
         codigo_bien: '',
-        doc_identificador_nro: '',
-        estado: '',
         id_bien: 0,
         marca: { label: '', value: 0 },
+        modelo: '',
         nombre: '',
     }
     //configuración de tabla por defecto
@@ -72,7 +64,7 @@ const useCvComputers = () => {
         suppressMovable: true,
     };
 
-    //useForm Hojas de Vida de Computadores
+    //useForm Hojas de Vida de Otros Activos
     const {
         register,
         handleSubmit,
@@ -81,7 +73,7 @@ const useCvComputers = () => {
         watch,
         formState: { errors: errors },
 
-    } = useForm<IcvComputersForm>({ defaultValues: initialState });
+    } = useForm<IcvOthersForm>({ defaultValues: initialState });
     const dataCvComputers = watch();
 
     //Función para las alertas
@@ -109,61 +101,53 @@ const useCvComputers = () => {
 
     //useEffect para consultar Mantenimiento
     useEffect(() => {
-        if (cvComputers && !cvComputers.tiene_hoja_vida) dispatch(getCvMaintenanceService(cvComputers.id_bien));
-    }, [cvComputers]);
+        if (cvOtherAssets && !cvOtherAssets.tiene_hoja_vida) dispatch(getCvMaintenanceService(cvOtherAssets.id_bien));
+    }, [cvOtherAssets]);
 
     // ueeEffect para obtener el articulo
     useEffect(() => {
-        if (cvComputers && !cvComputers.tiene_hoja_vida) {
+        if (cvOtherAssets && !cvOtherAssets.tiene_hoja_vida) {
             let data = {
-                ...cvComputers,
-                marca: { label: cvComputers.marca, value: cvComputers.id_marca },
-                nombre: cvComputers.nombre,
-                cod_tipo_bien: cvComputers.cod_tipo_bien,
-                codigo_bien: cvComputers.codigo_bien,
-                doc_identificador_nro: cvComputers.doc_identificador_nro,
-                estado: cvComputers.estado,
-                id_articulo: cvComputers.id_bien,
+                ...cvOtherAssets,
+                marca: { label: cvOtherAssets.marca, value: cvOtherAssets.id_marca },
+                nombre: cvOtherAssets.nombre,
+                cod_tipo_bien: cvOtherAssets.cod_tipo_bien,
+                codigo_bien: cvOtherAssets.codigo_bien,
+                doc_identificador_nro: cvOtherAssets.doc_identificador_nro,
+                estado: cvOtherAssets.estado,
+                id_articulo: cvOtherAssets.id_bien,
             };
             reset(data);
-        } else if (cvComputers) {
+        } else if (cvOtherAssets) {
             notificationSuccess('El bien ya tiene una hoja de vida', 'warning');
             reset(initialState);
             setFile(null);
         }
-    }, [cvComputers]);
+    }, [cvOtherAssets]);
 
     //ueeEffect para cambiar el estado de articuloEncontrado
     useEffect(() => {
-        if (cvComputers && !cvComputers.tiene_hoja_vida) {
+        if (cvOtherAssets && !cvOtherAssets.tiene_hoja_vida) {
             setArticuloEncontrado(true);
         } else {
             setArticuloEncontrado(false);
         }
-    }, [cvComputers]);
+    }, [cvOtherAssets]);
 
-    //submit Hojas de Vida de Computadores
-    const onSubmit: SubmitHandler<IcvComputersForm> = () => {
+    //submit Hojas de Vida de Otros Activos
+    const onSubmit: SubmitHandler<IcvOthersForm> = () => {
         createCv();
     };
 
-    //Funcion para crear hoja de vida de computadores
+    //Funcion para crear hoja de vida de Otros Activos
     const createCv = () => {
         const formdata = new FormData()
-        formdata.append('sistema_operativo', dataCvComputers.sistema_operativo);
-        formdata.append('suite_ofimatica', dataCvComputers.suite_ofimatica);
-        formdata.append('antivirus', dataCvComputers.antivirus);
-        formdata.append('color', dataCvComputers.color);
-        formdata.append('tipo_de_equipo', dataCvComputers.tipo_de_equipo);
-        formdata.append('tipo_almacenamiento', dataCvComputers.tipo_almacenamiento);
-        formdata.append('capacidad_almacenamiento', dataCvComputers.capacidad_almacenamiento);
-        formdata.append('procesador', dataCvComputers.procesador);
-        formdata.append('memoria_ram', dataCvComputers.memoria_ram);
+        formdata.append('caracteristicas_fisicas', dataCvComputers.caracteristicas_fisicas);
+        formdata.append('especificaciones_tecnicas', dataCvComputers.especificaciones_tecnicas);
         formdata.append('observaciones_adicionales', dataCvComputers.observaciones_adicionales);
-        formdata.append('otras_aplicaciones', dataCvComputers.otras_aplicaciones);
         formdata.append('id_articulo', dataCvComputers.id_bien.toString());
         formdata.append('ruta_imagen_foto', file === null ? '' : file);
-        dispatch(createCvComputersService(formdata))
+        dispatch(createCvOtherAssetsService(formdata))
     };
 
     //Cargue de archivos de imagen
@@ -185,7 +169,7 @@ const useCvComputers = () => {
 
     //Funcion para Buscar Articulo
     const handledSearch = () => {
-        dispatch(getCvComputersService(dataCvComputers.doc_identificador_nro));
+        dispatch(getCvOtherAssetsService(dataCvComputers.doc_identificador_nro));
     };
 
     //Columnas de la tabla de Mantenimientos
@@ -224,7 +208,7 @@ const useCvComputers = () => {
                         type="button"
                         style={{ border: "none", background: "none" }}
                         onClick={() => {
-                            dispatch(getCvComputersService(data.doc_identificador_nro));
+                            dispatch(getCvOtherAssetsService(data.doc_identificador_nro));
                             setBusquedaArticuloModalOpen(false);
                         }}
                         title="Seleccionar"
@@ -314,4 +298,4 @@ const useCvComputers = () => {
     };
 }
 
-export default useCvComputers;
+export default useCvOtherAssets;
