@@ -19,7 +19,6 @@ export default function OrganigramVisual() {
                 lineBorderRadius={'10px'}
                 label={<div style={{ ...stylesTree, background: 'yellow' }}>{levelsOrganigram[0].nombre} </div>}
             >
-
                 <TreeNode label={<div style={{ ...stylesTreeNode, background: '#A8B7DC ' }}>{unityOrganigram[0].nombre}</div>}>
                     {levelsOrganigram.map((level, idx) =>
                         idx === 0 ? null :
@@ -33,7 +32,6 @@ export default function OrganigramVisual() {
                     )}
                 </TreeNode>
             </Tree>
-            {/*  */}
         </>
     )
 }
