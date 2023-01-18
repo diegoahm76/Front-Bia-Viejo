@@ -118,8 +118,6 @@ const HojaDeVidaVehiculoScreen = () => {
                       {...register("codigo_bien", { required: false })}
                     />
                   </div>
-
-                  
                   <div className="col-12 col-lg-6 text-center">
                     <button
                       className="btn btn-sm btn-tablas mt-5"
