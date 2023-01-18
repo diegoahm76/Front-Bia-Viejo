@@ -224,7 +224,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       type="date"
                       disabled
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_circulacion", { required: true })}
+                      {...register("fecha_circulacion", { required: false })}
                     />
                   </div>
 
@@ -269,7 +269,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       disabled
                       className="form-control border border-terciary rounded-pill px-3"
                       {...register("fecha_ultimo_kilometraje", {
-                        required: true,
+                        required: false,
                       })}
                     />
                   </div>
@@ -346,7 +346,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       name="cod_tipo_vehiculo"
                       control={control}
                       rules={{
-                        required: true,
+                        required: false,
                       }}
                       render={({ field }) => (
                         <Select
@@ -366,7 +366,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       name="tipo_combustible"
                       control={control}
                       rules={{
-                        required: true,
+                        required: false,
                       }}
                       render={({ field }) => (
                         <Select
@@ -384,7 +384,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       name="marca"
                       control={control}
                       rules={{
-                        required: true,
+                        required: false,
                       }}
                       render={({ field }) => (
                         <Select
@@ -434,7 +434,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("capacidad_pasajeros", { required: true })}
+                      {...register("capacidad_pasajeros", { required: false })}
                     />
                   </div>
                 </div>
@@ -531,7 +531,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       disabled={arriendo}
                       type="number"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("capacidad_extintor", { required: true })}
+                      {...register("capacidad_extintor", { required: false })}
                     />
                   </div>
                 </div>
@@ -564,7 +564,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_soat", { required: true })}
+                      {...register("numero_soat", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -572,7 +572,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_expedicion_soat", { required: true })}
+                      {...register("fecha_expedicion_soat", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -580,7 +580,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_expiracion_soat", { required: true })}
+                      {...register("fecha_expiracion_soat", { required: false })}
                     />
                   </div>
                 </div>
@@ -593,7 +593,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_tecnomecanica", { required: true })}
+                      {...register("numero_tecnomecanica", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -602,7 +602,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
                       {...register("fecha_expedicion_tecnomecanica", {
-                        required: true,
+                        required: false,
                       })}
                     />
                   </div>
@@ -612,7 +612,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
                       {...register("fecha_expiracion_tecnomecanica", {
-                        required: true,
+                        required: false,
                       })}
                     />
                   </div>
@@ -626,7 +626,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_str", { required: true })}
+                      {...register("numero_str", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -634,7 +634,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_expedicion_str", { required: true })}
+                      {...register("fecha_expedicion_str", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -642,7 +642,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="date"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("fecha_expiracion_str", { required: true })}
+                      {...register("fecha_expiracion_str", { required: false })}
                     />
                   </div>
                 </div>
@@ -654,8 +654,11 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("nombre_conductor", { required: true })}
+                      {...register("nombre_conductor", { required: false })}
                     />
+                    {errors.nombre_conductor && (
+                        <p className="text-danger">Este campo es obligatorio</p>
+                      )}
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="ms-2 text-terciary">Tipo documento</label>
@@ -663,7 +666,7 @@ const HojaDeVidaVehiculoScreen = () => {
                       name="tipo_document"
                       control={control}
                       rules={{
-                        required: true,
+                        required: false,
                       }}
                       render={({ field }) => (
                         <Select
@@ -680,7 +683,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("numero_document", { required: true })}
+                      {...register("numero_document", { required: false })}
                     />
                   </div>
 
@@ -689,7 +692,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("celular", { required: true })}
+                      {...register("celular", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -697,7 +700,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("email", { required: true })}
+                      {...register("email", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">
@@ -705,7 +708,7 @@ const HojaDeVidaVehiculoScreen = () => {
                     <input
                       type="text"
                       className="form-control border border-terciary rounded-pill px-3"
-                      {...register("direccion", { required: true })}
+                      {...register("direccion", { required: false })}
                     />
                   </div>
                   <div className="col-12 col-lg-3 mt-3">

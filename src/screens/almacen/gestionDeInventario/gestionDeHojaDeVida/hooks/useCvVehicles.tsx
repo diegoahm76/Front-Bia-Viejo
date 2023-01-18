@@ -202,21 +202,23 @@ const useCvVehicles = () => {
     //submit Hojas de Vida de Vehículos
     const onSubmit: SubmitHandler<IcvVehiclesForm> = () => {
         createCv();
+        console.log("entre")
     };
+    console.log(dataCvVehicles)
 
     //Funcion para crear hoja de vida de Vehículos
     const createCv = () => {
         const formdata = new FormData()
-        formdata.append('cod_tipo_vehiculo', dataCvVehicles.cod_tipo_vehiculo.value!.toString());
+        formdata.append('cod_tipo_vehiculo',dataCvVehicles.cod_tipo_vehiculo ? dataCvVehicles.cod_tipo_vehiculo.value!.toString() : "") ;
         formdata.append('tiene_platon', platon.toString());
         formdata.append('capacidad_pasajeros', dataCvVehicles.capacidad_pasajeros.toString());
         formdata.append('color', dataCvVehicles.color);
         formdata.append('linea', dataCvVehicles.linea);
-        formdata.append('tipo_combustible', dataCvVehicles.tipo_combustible.value!.toString());
-        formdata.append('es_arrendado', arriendo!.toString());
+        formdata.append('tipo_combustible',dataCvVehicles.tipo_combustible ? dataCvVehicles.tipo_combustible.value!.toString():"");
+        formdata.append('es_arrendado',arriendo ? arriendo!.toString() : "");
         formdata.append('ultimo_kilometraje', dataCvVehicles.ultimo_kilometraje.toString());
-        formdata.append('fecha_adquisicion', dataCvVehicles.fecha_adquisicion!.toString());
-        formdata.append('fecha_vigencia_garantia', dataCvVehicles.fecha_vigencia_garantia!.toString());
+        formdata.append('fecha_adquisicion' ,dataCvVehicles.fecha_adquisicion ? dataCvVehicles.fecha_adquisicion!.toString():"");
+        formdata.append('fecha_vigencia_garantia', dataCvVehicles.fecha_vigencia_garantia ? dataCvVehicles.fecha_vigencia_garantia!.toString():"");
         formdata.append('numero_motor', dataCvVehicles.numero_motor);
         formdata.append('numero_chasis', dataCvVehicles.numero_chasis);
         formdata.append('cilindraje', dataCvVehicles.cilindraje.toString());
@@ -225,9 +227,9 @@ const useCvVehicles = () => {
         formdata.append('capacidad_extintor', dataCvVehicles.capacidad_extintor.toString());
         formdata.append('tarjeta_operacion', dataCvVehicles.tarjeta_operacion);
         formdata.append('observaciones_adicionales', dataCvVehicles.observaciones_adicionales);
-        formdata.append('es_agendable', agendable!.toString());
-        formdata.append('en_circulacion', enCirculacion!.toString());
-        formdata.append('fecha_circulacion', dataCvVehicles.fecha_circulacion!.toString());
+        formdata.append('es_agendable',agendable ? agendable!.toString():"");
+        formdata.append('en_circulacion',enCirculacion ? enCirculacion!.toString():"");
+        formdata.append('fecha_circulacion',dataCvVehicles.fecha_circulacion ? dataCvVehicles.fecha_circulacion!.toString():"");
         formdata.append('id_articulo', dataCvVehicles.id_bien.toString());
         formdata.append('id_vehiculo_arrendado', '');
         formdata.append('id_proveedor', '');
