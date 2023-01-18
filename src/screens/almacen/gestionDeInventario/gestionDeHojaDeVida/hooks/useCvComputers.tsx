@@ -99,7 +99,8 @@ const useCvComputers = () => {
             try {
                 const { data: listMarkData } = await clienteAxios.get("/almacen/marcas/get-list/");
 
-                setListMark(listMarkData.map((item) => ({ label: item.nombre, value: item.id_marca })));
+                setListMark(listMarkData.map((item) => ({ label: item.nombre, value: item.id_marca, isDisabled: true })));
+                // setOptionAgrupacionD(agrupacionDocumentalFormat.map(item => ({ ...item, isDisabled: false })));
             } catch (err) {
                 console.log(err);
             }
