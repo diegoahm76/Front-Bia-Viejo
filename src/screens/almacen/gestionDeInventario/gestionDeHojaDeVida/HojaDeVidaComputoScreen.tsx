@@ -172,7 +172,7 @@ const HojaDeVidaComputoScreen = () => {
               <div>
                 <Subtitle title="Especificaciones físicas" mt={3} />
                 <div className="row">
-                  
+
 
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
@@ -191,6 +191,7 @@ const HojaDeVidaComputoScreen = () => {
                             value={field.value}
                             options={ListMark}
                             placeholder="Seleccionar"
+                            isDisabled={true}
                           />
                         )}
                       />
@@ -396,7 +397,7 @@ const HojaDeVidaComputoScreen = () => {
                       className="btn btn-sm btn-tablas "
                       type="button"
                       title="Solicitudes"
-                    
+
                       onClick={() => setOtrasPerisfericos(!otrasPerisfericos)}
                     >
                       {otrasPerisfericos == false ? (

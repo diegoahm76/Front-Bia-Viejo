@@ -1,18 +1,18 @@
 
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import Swal, { SweetAlertIcon } from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import Swal, { SweetAlertIcon } from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 //components
-import { textChoiseAdapter } from "../../../../../adapters/textChoices.adapter";
-import clienteAxios from "../../../../../config/clienteAxios";
-import { useAppDispatch, useAppSelector } from "../../../../../store/hooks/hooks";
+import { textChoiseAdapter } from '../../../../../adapters/textChoices.adapter';
+import clienteAxios from '../../../../../config/clienteAxios';
+import { useAppDispatch, useAppSelector } from '../../../../../store/hooks/hooks';
 //Actions
-import { getCvVehiclesService, createCvVehiclesService } from "../../../../../services/cv/CvVehicles";
-import { getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
-import { getCvArticles } from "../../../../../store/slices/cv/indexCv";
+import { getCvVehiclesService, createCvVehiclesService } from '../../../../../services/cv/CvVehicles';
+import { getCvMaintenanceService } from '../../../../../services/cv/CvComputers';
+import { getCvArticles } from '../../../../../store/slices/cv/indexCv';
 //Interfaces
-import { IcvVehiclesForm, IList } from "../../../../../Interfaces/CV";
+import { IcvVehiclesForm, IList } from '../../../../../Interfaces/CV';
 
 
 const useCvVehicles = () => {
@@ -27,7 +27,7 @@ const useCvVehicles = () => {
     const { cvVehicles } = useAppSelector((state) => state.cv);
 
     const initialOptionsMark: IList[] = [{
-        label: "",
+        label: '',
         value: 0,
     }]
     const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
@@ -45,34 +45,34 @@ const useCvVehicles = () => {
     //Estado Inicial de Hojas de Vida de Vehículos
     const initialState: IcvVehiclesForm = {
         id_hoja_de_vida: 0,
-        codigo_bien: "",
-        nombre: "",
+        codigo_bien: '',
+        nombre: '',
         doc_identificador_nro: '',
         marca: { label: '', value: 0 },
         cod_tipo_vehiculo: { label: '', value: '' },
         tiene_platon: null,
         capacidad_pasajeros: 0,
-        color: "",
-        linea: "",
-        modelo : "",
+        color: '',
+        linea: '',
+        modelo: '',
         tipo_combustible: { label: '', value: '' },
         es_arrendado: null,
         ultimo_kilometraje: 0,
         fecha_ultimo_kilometraje: null,
         fecha_adquisicion: null,
         fecha_vigencia_garantia: null,
-        numero_motor: "",
-        numero_chasis: "",
+        numero_motor: '',
+        numero_chasis: '',
         cilindraje: 0,
-        transmision: "",
+        transmision: '',
         dimesion_llantas: 0,
         capacidad_extintor: 0,
-        tarjeta_operacion: "",
-        observaciones_adicionales: "",
+        tarjeta_operacion: '',
+        observaciones_adicionales: '',
         es_agendable: null,
         en_circulacion: null,
         fecha_circulacion: null,
-        ruta_imagen_foto: "",
+        ruta_imagen_foto: '',
         id_articulo: 0,
         id_vehiculo_arrendado: null,
         id_proveedor: null,
@@ -83,19 +83,19 @@ const useCvVehicles = () => {
         fecha_expiracion_op: null,
         fecha_expedicion_soat: null,
         fecha_expiracion_soat: null,
-        numero_soat: "",
+        numero_soat: '',
         fecha_expedicion_tecnomecanica: null,
         fecha_expiracion_tecnomecanica: null,
-        numero_tecnomecanica: "",
+        numero_tecnomecanica: '',
         fecha_expedicion_str: null,
         fecha_expiracion_str: null,
-        numero_str: "",
-        nombre_conductor: "",
+        numero_str: '',
+        nombre_conductor: '',
         tipo_document: { label: '', value: '' },
-        numero_document: "",
-        celular: "",
-        email: "",
-        direccion: "",
+        numero_document: '',
+        celular: '',
+        email: '',
+        direccion: '',
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -136,10 +136,10 @@ const useCvVehicles = () => {
     useEffect(() => {
         const getSelectsOptions = async () => {
             try {
-                const { data: listMarkData } = await clienteAxios.get("/almacen/marcas/get-list/");
-                const { data: listTypeGasData } = await clienteAxios.get("/almacen/choices/tipo-combustible/");
-                const { data: listTypeDocData } = await clienteAxios.get("/almacen/choices/tipo-documento/");
-                const { data: listTypeVehicleData } = await clienteAxios.get("/almacen/choices/tipo-vehiculo/");
+                const { data: listMarkData } = await clienteAxios.get('/almacen/marcas/get-list/');
+                const { data: listTypeGasData } = await clienteAxios.get('/almacen/choices/tipo-combustible/');
+                const { data: listTypeDocData } = await clienteAxios.get('/choices/tipo-documento/');
+                const { data: listTypeVehicleData } = await clienteAxios.get('/almacen/choices/tipo-vehiculo/');
 
                 const tipoCombustibleFormat = textChoiseAdapter(listTypeGasData);
                 const tipoDocumentoFormat = textChoiseAdapter(listTypeDocData);
@@ -199,39 +199,56 @@ const useCvVehicles = () => {
         }
     }, [agendable]);
 
+    //ueeEffect para mostrar alerta de agendable
+    useEffect(() => {
+        if (arriendo) {
+        setValue('ultimo_kilometraje', 0)
+        setValue('modelo', '')
+        setValue('linea', '')
+        setValue('color', '')
+        setValue('numero_motor', '')
+        setValue('transmision', '')
+        setValue('cilindraje', 0)
+        setValue('fecha_vigencia_garantia', '')
+        setValue('numero_chasis', '')
+        setValue('dimesion_llantas', 0)
+        setValue('capacidad_extintor', 0)
+        setValue('tarjeta_operacion', '')
+        }
+    }, [arriendo]);
+
     //submit Hojas de Vida de Vehículos
     const onSubmit: SubmitHandler<IcvVehiclesForm> = () => {
         createCv();
-        console.log("entre")
+        console.log('entre')
     };
-    console.log(dataCvVehicles)
 
     //Funcion para crear hoja de vida de Vehículos
     const createCv = () => {
         const formdata = new FormData()
-        formdata.append('cod_tipo_vehiculo',dataCvVehicles.cod_tipo_vehiculo ? dataCvVehicles.cod_tipo_vehiculo.value!.toString() : "") ;
+        formdata.append('cod_tipo_vehiculo', dataCvVehicles.cod_tipo_vehiculo ? dataCvVehicles.cod_tipo_vehiculo.value!.toString() : '');
         formdata.append('tiene_platon', platon.toString());
-        formdata.append('capacidad_pasajeros', dataCvVehicles.capacidad_pasajeros.toString());
-        formdata.append('color', dataCvVehicles.color);
-        formdata.append('linea', dataCvVehicles.linea);
-        formdata.append('tipo_combustible',dataCvVehicles.tipo_combustible ? dataCvVehicles.tipo_combustible.value!.toString():"");
-        formdata.append('es_arrendado',arriendo ? arriendo!.toString() : "");
-        formdata.append('ultimo_kilometraje', dataCvVehicles.ultimo_kilometraje.toString());
-        formdata.append('fecha_adquisicion' ,dataCvVehicles.fecha_adquisicion ? dataCvVehicles.fecha_adquisicion!.toString():"");
-        formdata.append('fecha_vigencia_garantia', dataCvVehicles.fecha_vigencia_garantia ? dataCvVehicles.fecha_vigencia_garantia!.toString():"");
-        formdata.append('numero_motor', dataCvVehicles.numero_motor);
-        formdata.append('numero_chasis', dataCvVehicles.numero_chasis);
-        formdata.append('cilindraje', dataCvVehicles.cilindraje.toString());
-        formdata.append('transmision', dataCvVehicles.transmision);
-        formdata.append('dimesion_llantas', dataCvVehicles.dimesion_llantas.toString());
-        formdata.append('capacidad_extintor', dataCvVehicles.capacidad_extintor.toString());
-        formdata.append('tarjeta_operacion', dataCvVehicles.tarjeta_operacion);
-        formdata.append('observaciones_adicionales', dataCvVehicles.observaciones_adicionales);
-        formdata.append('es_agendable',agendable ? agendable!.toString():"");
-        formdata.append('en_circulacion',enCirculacion ? enCirculacion!.toString():"");
-        formdata.append('fecha_circulacion',dataCvVehicles.fecha_circulacion ? dataCvVehicles.fecha_circulacion!.toString():"");
-        formdata.append('id_articulo', dataCvVehicles.id_bien.toString());
-        formdata.append('id_vehiculo_arrendado', '');
+        formdata.append('capacidad_pasajeros', dataCvVehicles.capacidad_pasajeros ? dataCvVehicles.capacidad_pasajeros.toString() : '');
+        formdata.append('color', dataCvVehicles.color ? dataCvVehicles.color : '');
+        formdata.append('linea', dataCvVehicles.linea ? dataCvVehicles.linea : '');
+        formdata.append('tipo_combustible', dataCvVehicles.tipo_combustible ? dataCvVehicles.tipo_combustible.value!.toString() : '');
+        formdata.append('es_arrendado', arriendo ? arriendo!.toString() : 'false');
+        formdata.append('ultimo_kilometraje', dataCvVehicles.ultimo_kilometraje ? dataCvVehicles.ultimo_kilometraje.toString() : '');
+        formdata.append('fecha_adquisicion', dataCvVehicles.fecha_adquisicion ? dataCvVehicles.fecha_adquisicion!.toString() : '');
+        formdata.append('fecha_vigencia_garantia', dataCvVehicles.fecha_vigencia_garantia ? dataCvVehicles.fecha_vigencia_garantia!.toString() : '');
+        formdata.append('numero_motor', dataCvVehicles.numero_motor ? dataCvVehicles.numero_motor : '');
+        formdata.append('numero_chasis', dataCvVehicles.numero_chasis ? dataCvVehicles.numero_chasis : '');
+        formdata.append('cilindraje', dataCvVehicles.cilindraje ? dataCvVehicles.cilindraje.toString() : '');
+        formdata.append('transmision', dataCvVehicles.transmision ? dataCvVehicles.transmision : '');
+        formdata.append('dimesion_llantas', dataCvVehicles.dimesion_llantas ? dataCvVehicles.dimesion_llantas.toString() : '');
+        formdata.append('capacidad_extintor', dataCvVehicles.capacidad_extintor ? dataCvVehicles.capacidad_extintor.toString() : '');
+        formdata.append('tarjeta_operacion', dataCvVehicles.tarjeta_operacion ? dataCvVehicles.tarjeta_operacion : '');
+        formdata.append('observaciones_adicionales', dataCvVehicles.observaciones_adicionales ? dataCvVehicles.observaciones_adicionales : '');
+        formdata.append('es_agendable', agendable ? agendable!.toString() : 'false');
+        formdata.append('en_circulacion', enCirculacion ? enCirculacion!.toString() : 'false');
+        formdata.append('fecha_circulacion', dataCvVehicles.fecha_circulacion ? dataCvVehicles.fecha_circulacion!.toString() : '');
+        formdata.append('id_articulo', dataCvVehicles.id_bien ? dataCvVehicles.id_bien.toString() : '');
+        formdata.append('id_vehiculo_arrendado', dataCvVehicles.id_vehiculo_arrendado ? dataCvVehicles.id_vehiculo_arrendado.toString() : '');
         formdata.append('id_proveedor', '');
         formdata.append('ruta_imagen_foto', file === null ? '' : file);
         dispatch(createCvVehiclesService(formdata))
@@ -243,12 +260,12 @@ const useCvVehicles = () => {
     };
 
     const ScreenHistoricoConductores = () => {
-        navigate("/dashboard/almacen/reportes/reporte-historico-activo");
+        navigate('/dashboard/almacen/reportes/reporte-historico-activo');
     };
 
     const ScreenProgramarMantnimiento = () => {
         navigate(
-            "/dashboard/almacen/gestion-de-inventario/programacion-mantenimiento"
+            '/dashboard/almacen/gestion-de-inventario/programacion-mantenimiento'
         );
     };
 
@@ -258,38 +275,38 @@ const useCvVehicles = () => {
 
     //Columnas de la tabla de Mantenimientos
     const columnDefsMaintenance = [
-        { headerName: "Estado", field: "estado", minWidth: 150 },
-        { headerName: "Fecha", field: "fecha", minWidth: 150 },
-        { headerName: "Responsable", field: "responsable", minWidth: 150 },
-        { headerName: "Tipo", field: "tipo", minWidth: 150 },
-        { headerName: "Descripción", field: "tipo_descripcion", minWidth: 150 },
+        { headerName: 'Estado', field: 'estado', minWidth: 150 },
+        { headerName: 'Fecha', field: 'fecha', minWidth: 150 },
+        { headerName: 'Responsable', field: 'responsable', minWidth: 150 },
+        { headerName: 'Tipo', field: 'tipo', minWidth: 150 },
+        { headerName: 'Descripción', field: 'tipo_descripcion', minWidth: 150 },
     ];
 
     //Columnas de la tabla de articulos
     const columnDefsArticles = [
-        { headerName: "Nombre", field: "nombre", minWidth: 180 },
-        { headerName: "Serial", field: "doc_identificador_nro", minWidth: 150 },
-        { headerName: "Tipo Activo", field: "cod_tipo_activo", minWidth: 120 },
-        { headerName: "Estado", field: "estado", minWidth: 120 },
-        { headerName: "Codigo", field: "codigo_bien", minWidth: 150 },
+        { headerName: 'Nombre', field: 'nombre', minWidth: 180 },
+        { headerName: 'Serial', field: 'doc_identificador_nro', minWidth: 150 },
+        { headerName: 'Tipo Activo', field: 'cod_tipo_activo', minWidth: 120 },
+        { headerName: 'Estado', field: 'estado', minWidth: 120 },
+        { headerName: 'Codigo', field: 'codigo_bien', minWidth: 150 },
         {
-            headerName: "Acción",
-            field: "editar",
+            headerName: 'Acción',
+            field: 'editar',
             minWidth: 100,
             maxWidth: 100,
             cellRendererFramework: ({ data }) => (
-                <div className="d-flex gap-1">
+                <div className='d-flex gap-1'>
                     <button
-                        type="button"
-                        style={{ border: "none", background: "none" }}
+                        type='button'
+                        style={{ border: 'none', background: 'none' }}
                         onClick={() => {
                             dispatch(getCvVehiclesService(data.doc_identificador_nro));
                             dispatch(getCvArticles([]));
                             setBusquedaArticuloModalOpen(false);
                         }}
-                        title="Seleccionar"
+                        title='Seleccionar'
                     >
-                        <i className="fa-solid fa-circle-check fs-3"></i>
+                        <i className='fa-solid fa-circle-check fs-3'></i>
                     </button>
                 </div>
             ),
