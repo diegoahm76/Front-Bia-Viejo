@@ -313,7 +313,7 @@ const DirecionResidenciaModal = ({
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-6 mb-3">
                     <label className="text-terciary">
-                      Ubicación: <span className="text-danger">*</span>
+                      Principal: <span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="ubicacion"
@@ -362,7 +362,7 @@ const DirecionResidenciaModal = ({
                 <div className="row d-flex align-items-end mt-2 mx-2">
                   <div className="col-12 col-md-6 mb-3">
                     <label className="text-terciary">
-                      Residencia:
+                      Complemento:
                     </label>
                     <Controller
                       name="residencia"

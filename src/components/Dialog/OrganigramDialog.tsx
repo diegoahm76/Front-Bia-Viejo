@@ -45,7 +45,7 @@ const OrganigramDialog = ({ isModalActive, setIsModalActive }: IProps) => {
         >
             <div className="row min-vh-100 ">
                 <div className="col-12 mx-auto">
-                    <Subtitle title={`Organigrama: ${organigramCurrent.nombre}`} mb={3} />
+                    <Subtitle title={` ${organigramCurrent.nombre}`} mb={3} />
                     <OrganigramVisual />
                 </div>
             </div>
