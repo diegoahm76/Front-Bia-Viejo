@@ -17,15 +17,15 @@ export default function OrganigramVisual() {
                 lineWidth={'2px'}
                 lineColor={'green'}
                 lineBorderRadius={'10px'}
-                label={<div style={{ ...stylesTree, background: 'yellow' }}>{levelsOrganigram[0].nombre} </div>}
+                label={<div style={{ ...stylesTree, background: '#003400', color: '#fff' }}>{levelsOrganigram[0].nombre} </div>}
             >
-                <TreeNode label={<div style={{ ...stylesTreeNode, background: '#A8B7DC ' }}>{unityOrganigram[0].nombre}</div>}>
+                <TreeNode label={<div style={{ ...stylesTreeNode, background: '#009929 ', color: '#fff' }}>{unityOrganigram[0].nombre}</div>}>
                     {levelsOrganigram.map((level, idx) =>
                         idx === 0 ? null :
-                            <TreeNode label={<div style={{ ...stylesTree, background: '#4579FA' }}>{level.nombre}</div>}>
+                            <TreeNode label={<div style={{ ...stylesTree, background: '#006414', color: '#fff' }}>{level.nombre}</div>}>
                                 {unityOrganigram.map((unity) =>
                                     unity.id_nivel_organigrama === level.id_nivel_organigrama ?
-                                        <TreeNode label={<div style={{ ...stylesTreeNode, background: '#A8B7DC ' }}>{unity.nombre}</div>} />
+                                        <TreeNode label={<div style={{ ...stylesTreeNode, background: '#009929 ', color: '#fff' }}>{unity.nombre}</div>} />
                                         : null
                                 )}
                             </TreeNode>

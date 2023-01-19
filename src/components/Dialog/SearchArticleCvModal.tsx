@@ -26,7 +26,7 @@ interface IFormValues {
   nombre: string;
 }
 
-const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo, columnDefsArticles, label, title }) => {
+const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo, columnDefsArticles, label, labelCode = 'Serial', title }) => {
 
   // Dispatch instance
   const dispatch = useAppDispatch();
@@ -98,11 +98,11 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
               <Subtitle title="Información del articulo" mb={3} />
               <div className="col-12 col-sm-4 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Codigo</label>
+                  <label className="ms-3 text-terciary">{labelCode}</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="Código"
+                    placeholder={labelCode}
                     {...register("codigo")}
                   />
                 </div>

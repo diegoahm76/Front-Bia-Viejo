@@ -793,13 +793,6 @@ const HojaDeVidaVehiculoScreen = () => {
                   <button className="px-3 btn" type="button" title="Salir">
                     <i className="fa-solid fa-x fs-3"></i>
                   </button>
-                  {/* <button
-                    className="px-3 btn"
-                    type="button"
-                    title="Limpiar"
-                  >
-                    <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
-                  </button> */}
                   <button className="px-3 btn" type="submit" title="Guardar">
                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
@@ -813,7 +806,7 @@ const HojaDeVidaVehiculoScreen = () => {
             isModalActive={busquedaArticuloModalOpen}
             setIsModalActive={setBusquedaArticuloModalOpen}
             cod_tipo_activo="Veh"
-            label="Placa"
+            label="Nombre del vehiculo"
             title="Busqueda de vehiculos"
             columnDefsArticles={columnDefsArticles}
           />

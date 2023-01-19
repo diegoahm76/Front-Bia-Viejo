@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import Modal from "react-modal";
 import { useAppSelector } from "../../store/hooks/hooks";
 import OrganigramVisual from "../ModelOrganigram/OrganigramVisual";
+import Subtitle from "../Subtitle";
 
 
 const customStyles = {
@@ -44,9 +45,7 @@ const OrganigramDialog = ({ isModalActive, setIsModalActive }: IProps) => {
         >
             <div className="row min-vh-100 ">
                 <div className="col-12 mx-auto">
-                    <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
-                        Organigrama: {organigramCurrent.nombre}
-                    </h3>
+                    <Subtitle title={`Organigrama: ${organigramCurrent.nombre}`} mb={3} />
                     <OrganigramVisual />
                 </div>
             </div>
