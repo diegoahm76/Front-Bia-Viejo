@@ -133,7 +133,7 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
                   onClick={() => clean()}
                   title="Limpiar"
                 >
-                  <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
+                  <i className="fa-solid fa-eraser fs-3"></i>
                 </button>
               </div>
             </div>

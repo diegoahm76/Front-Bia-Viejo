@@ -808,6 +808,7 @@ const HojaDeVidaVehiculoScreen = () => {
             cod_tipo_activo="Veh"
             label="Nombre del vehiculo"
             title="Busqueda de vehiculos"
+            labelCode="Placa"
             columnDefsArticles={columnDefsArticles}
           />
         </div>
