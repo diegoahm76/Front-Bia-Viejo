@@ -285,7 +285,7 @@ const useCvVehicles = () => {
     //Columnas de la tabla de articulos
     const columnDefsArticles = [
         { headerName: 'Nombre', field: 'nombre', minWidth: 180 },
-        { headerName: 'Serial', field: 'doc_identificador_nro', minWidth: 150 },
+        { headerName: 'Placa', field: 'doc_identificador_nro', minWidth: 150 },
         { headerName: 'Tipo Activo', field: 'cod_tipo_activo', minWidth: 120 },
         { headerName: 'Estado', field: 'estado', minWidth: 120 },
         { headerName: 'Codigo', field: 'codigo_bien', minWidth: 150 },
