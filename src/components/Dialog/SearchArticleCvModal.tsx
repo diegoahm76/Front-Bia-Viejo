@@ -81,6 +81,7 @@ const SearchArticleCvModal = ({ isModalActive, setIsModalActive, cod_tipo_activo
       onRequestClose={() => setIsModalActive(false)}
       style={customStyles}
       className="modal"
+      id="modal-article-id"
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
