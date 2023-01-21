@@ -334,7 +334,7 @@ const HojaDeVidaOtrosActivosScreen = () => {
             setIsModalActive={setBusquedaArticuloModalOpen}
             cod_tipo_activo='OAc'
             label='Nombre'
-            title="Busqueda de articulos"
+            title="Busqueda de otros activos"
             columnDefsArticles={columnDefsArticles}
           />
         </div>

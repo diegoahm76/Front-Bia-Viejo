@@ -523,7 +523,7 @@ const HojaDeVidaComputoScreen = () => {
             setIsModalActive={setBusquedaArticuloModalOpen}
             cod_tipo_activo='Com'
             label='Nombre'
-            title="Busqueda de articulos"
+            title="Busqueda de computadores"
             columnDefsArticles={columnDefsArticles}
           />
         </div>
