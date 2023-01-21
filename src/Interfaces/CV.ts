@@ -1,198 +1,218 @@
 export interface Icv {
-    cvOtherAssets: IcvOtherAssets | null;
-    cvVehicles: IcvVehicles | null;
+    cvArticles: IcvArtivlesComputers[];
     cvComputers: IcvComputers | null;
     cvMaintenance: IcvMaintenance[];
-    cvArticles: IcvArtivlesComputers[];
+    cvOtherAssets: IcvOtherAssets | null;
+    cvVehicles: IcvVehicles | null;
 }
 
 export interface IcvMaintenance {
-    id_programacion_mantenimiento: number;
-    tipo: string;
-    fecha: Date | string;
     estado: string;
+    fecha: Date | string;
+    id_programacion_mantenimiento: number;
     responsable: string;
     tipo_descripcion: string;
+    tipo: string;
 }
 
 export interface IcvOtherAssets {
-    id_hoja_de_vida: number;
     caracteristicas_fisicas: string;
+    cod_tipo_bien: string | number;
+    codigo_bien: string;
+    doc_identificador_nro: string;
     especificaciones_tecnicas: string;
+    estado: string | null;
+    id_articulo: number;
+    id_bien: number;
+    id_hoja_de_vida: number;
+    id_marca: null | number;
+    marca: null | string;
+    nombre: string;
     observaciones_adicionales: string;
     ruta_imagen_foto: string;
-    id_articulo: number;
+    tiene_hoja_vida: null | boolean;
+}
+
+export interface IcvOthersForm {
+    especificaciones_tecnicas: string;
+    caracteristicas_fisicas: string;
+    observaciones_adicionales: string;
+
+    cod_tipo_bien: string | number;
+    codigo_bien: string;
+    doc_identificador_nro: string;
+    estado: string | null;
+    id_bien: number;
+    marca: IList;
+    modelo: string;
+    nombre: string;
 }
 export interface IcvVehicles {
-    id_bien: number;
-    marca: null | string;
-    codigo_bien: string;
-    nro_elemento_bien: number;
-    nombre: string;
-    cod_tipo_bien: string;
+    cantidad_vida_util: null | number | string;
+    cod_metodo_valoracion: null | string;
     cod_tipo_activo: string;
-    nivel_jerarquico: number;
-    nombre_cientifico: null | string;
+    cod_tipo_bien: string;
+    cod_tipo_depreciacion: null | string;
+    codigo_bien: string;
     descripcion: null | string;
     doc_identificador_nro: string;
-    cod_metodo_valoracion: null | string;
-    cod_tipo_depreciacion: null | string;
-    cantidad_vida_util: null | number | string;
-    valor_residual: null | number | string;
-    stock_minimo: null | number | string;
-    stock_maximo: null | number | string;
-    solicitable_vivero: boolean;
-    tiene_hoja_vida: null | boolean;
-    maneja_hoja_vida: boolean;
-    visible_solicitudes: boolean;
+    estado: string;
+    id_bien_padre: null | number;
+    id_bien: number;
     id_marca: null | number;
-    id_unidad_medida: number;
     id_porcentaje_iva: number;
     id_unidad_medida_vida_util: null | number;
-    id_bien_padre: null | number;
-    estado: string;
+    id_unidad_medida: number;
+    maneja_hoja_vida: boolean;
+    marca: null | string;
+    nivel_jerarquico: number;
+    nombre_cientifico: null | string;
+    nombre: string;
+    nro_elemento_bien: number;
+    solicitable_vivero: boolean;
+    stock_maximo: null | number | string;
+    stock_minimo: null | number | string;
+    tiene_hoja_vida: null | boolean;
+    valor_residual: null | number | string;
+    visible_solicitudes: boolean;
 }
 export interface IcvComputers {
-    id_bien: number;
-    marca: null | string;
-    codigo_bien: string;
-    nro_elemento_bien: number;
-    nombre: string;
-    cod_tipo_bien: string;
+    cantidad_vida_util: null;
+    cod_metodo_valoracion: null;
     cod_tipo_activo: string;
-    nivel_jerarquico: number;
-    nombre_cientifico: null;
+    cod_tipo_bien: string;
+    cod_tipo_depreciacion: null;
+    codigo_bien: string;
     descripcion: null;
     doc_identificador_nro: string;
-    cod_metodo_valoracion: null;
-    cod_tipo_depreciacion: null;
-    cantidad_vida_util: null;
-    valor_residual: null;
-    stock_minimo: null;
-    stock_maximo: null;
-    solicitable_vivero: boolean;
-    tiene_hoja_vida: null | boolean;
-    maneja_hoja_vida: boolean;
-    visible_solicitudes: boolean;
+    estado: string;
+    id_bien_padre: number;
+    id_bien: number;
     id_marca: null;
-    id_unidad_medida: number;
     id_porcentaje_iva: number;
     id_unidad_medida_vida_util: null;
-    id_bien_padre: number;
-    estado: string;
+    id_unidad_medida: number;
+    maneja_hoja_vida: boolean;
+    marca: null | string;
+    nivel_jerarquico: number;
+    nombre_cientifico: null;
+    nombre: string;
+    nro_elemento_bien: number;
+    solicitable_vivero: boolean;
+    stock_maximo: null;
+    stock_minimo: null;
+    tiene_hoja_vida: null | boolean;
+    valor_residual: null;
+    visible_solicitudes: boolean;
 }
 
 export interface IcvComputersForm {
-    sistema_operativo: string;
-    suite_ofimatica: string;
     antivirus: string;
-    color: string;
-    tipo_de_equipo: string;
-    tipo_almacenamiento: string;
     capacidad_almacenamiento: string;
-    procesador: string;
+    color: string;
+    id_articulo: number;
     memoria_ram: string;
     observaciones_adicionales: string;
     otras_aplicaciones: string;
+    procesador: string;
     ruta_imagen_foto: string;
-    id_articulo: number;
+    sistema_operativo: string;
+    suite_ofimatica: string;
+    tipo_almacenamiento: string;
+    tipo_de_equipo: string;
 
-    codigo_bien: string;
     cod_tipo_bien: string | number;
-    nombre: string;
+    codigo_bien: string;
     doc_identificador_nro: string;
-    marca: IList;
     estado: string;
     id_bien: number;
+    marca: IList;
+    nombre: string;
+}
+export interface IcvVehiclesForm {
+    capacidad_extintor: number;
+    capacidad_pasajeros: number;
+    cilindraje: number;
+    cod_tipo_vehiculo: IList;
+    codigo_bien: string;
+    color: string;
+    dimesion_llantas: number;
+    doc_identificador_nro: string;
+    en_circulacion: boolean | null;
+    es_agendable: boolean | null;
+    es_arrendado: boolean | null;
+    estado: null | string;
+    fecha_adquisicion: Date | null | string;
+    fecha_circulacion: Date | null | string;
+    fecha_ultimo_kilometraje: Date | null | string;
+    fecha_vigencia_garantia: Date | null | string;
+    id_articulo: number;
+    id_hoja_de_vida: number;
+    id_proveedor: null | number | string;
+    id_vehiculo_arrendado: null | number | string;
+    linea: string;
+    marca: IList;
+    nombre: string;
+    numero_chasis: string;
+    numero_motor: string;
+    observaciones_adicionales: string;
+    ruta_imagen_foto: string;
+    tarjeta_operacion: string;
+    tiene_platon: boolean | null;
+    tipo_combustible: IList;
+    transmision: string;
+    ultimo_kilometraje: number;
+    modelo: string;
+    celular: string;
+    direccion: string;
+    email: string;
+    fecha_expedicion_op: Date | null | string;
+    fecha_expedicion_soat: Date | null | string;
+    fecha_expedicion_str: Date | null | string;
+    fecha_expedicion_tecnomecanica: Date | null | string;
+    fecha_expiracion_op: Date | null | string;
+    fecha_expiracion_soat: Date | null | string;
+    fecha_expiracion_str: Date | null | string;
+    fecha_expiracion_tecnomecanica: Date | null | string;
+    id_bien: number | string;
+    nombre_conductor: string;
+    numero_document: string;
+    numero_soat: string;
+    numero_str: string;
+    numero_tecnomecanica: string;
+    tipo_document: IList;
+}
+
+export interface IcvArtivlesComputers {
+    cantidad_vida_util: null | number;
+    cod_metodo_valoracion: null | string;
+    cod_tipo_activo: string;
+    cod_tipo_bien: string;
+    cod_tipo_depreciacion: null | string;
+    codigo_bien: string;
+    descripcion: null | string;
+    doc_identificador_nro: string;
+    estado: string;
+    id_bien_padre: number | null;
+    id_bien: number;
+    id_marca: number | null;
+    id_porcentaje_iva: number;
+    id_unidad_medida_vida_util: null | number;
+    id_unidad_medida: number;
+    maneja_hoja_vida: boolean;
+    marca: null | string;
+    nivel_jerarquico: number;
+    nombre_cientifico: null | string;
+    nombre: string;
+    nro_elemento_bien: number;
+    solicitable_vivero: boolean;
+    stock_maximo: null | number;
+    stock_minimo: null | number;
+    tiene_hoja_vida: boolean | null;
+    valor_residual: null | number;
+    visible_solicitudes: boolean;
 }
 export interface IList {
     label: string | null;
     value: number | null | string;
 }
-
-export interface IcvVehiclesForm {
-    id_hoja_de_vida: number;
-    codigo_bien: string;
-    nombre: string;
-    doc_identificador_nro: string;
-    marca: IList;
-    cod_tipo_vehiculo: IList;
-    tiene_platon: boolean | null;
-    capacidad_pasajeros: number;
-    color: string;
-    linea: string;
-    tipo_combustible: IList;
-    es_arrendado: boolean | null;
-    ultimo_kilometraje: number;
-    fecha_ultimo_kilometraje: Date | null | string;
-    fecha_adquisicion: Date | null | string;
-    fecha_vigencia_garantia: Date | null | string;
-    numero_motor: string;
-    numero_chasis: string;
-    cilindraje: number;
-    transmision: string;
-    dimesion_llantas: number;
-    capacidad_extintor: number;
-    tarjeta_operacion: string;
-    observaciones_adicionales: string;
-    es_agendable: boolean | null;
-    en_circulacion: boolean | null;
-    fecha_circulacion: Date | null | string;
-    ruta_imagen_foto: string;
-    id_articulo: number;
-    id_vehiculo_arrendado: null | number | string;
-    id_proveedor: null | number | string;
-    estado: null | string;
-
-    id_bien: number | string;
-    fecha_expedicion_op: Date | null | string;
-    fecha_expiracion_op: Date | null | string;
-    fecha_expedicion_soat: Date | null | string;
-    fecha_expiracion_soat: Date | null | string;
-    numero_soat: string;
-    fecha_expedicion_tecnomecanica: Date | null | string;
-    fecha_expiracion_tecnomecanica: Date | null | string;
-    numero_tecnomecanica: string;
-    fecha_expedicion_str: Date | null | string;
-    fecha_expiracion_str: Date | null | string;
-    numero_str: string;
-    nombre_conductor: string;
-    tipo_document: IList;
-    numero_document: string;
-    celular: string;
-    email: string;
-    direccion: string;
-}
-
-export interface IcvArtivlesComputers {
-    id_bien: number;
-    marca: null | string;
-    codigo_bien: string;
-    nro_elemento_bien: number;
-    nombre: string;
-    cod_tipo_bien: string;
-    cod_tipo_activo: string;
-    nivel_jerarquico: number;
-    nombre_cientifico: null | string;
-    descripcion: null | string;
-    doc_identificador_nro: string;
-    cod_metodo_valoracion: null | string;
-    cod_tipo_depreciacion: null | string;
-    cantidad_vida_util: null | number;
-    valor_residual: null | number;
-    stock_minimo: null | number;
-    stock_maximo: null | number;
-    solicitable_vivero: boolean;
-    tiene_hoja_vida: boolean | null;
-    maneja_hoja_vida: boolean;
-    visible_solicitudes: boolean;
-    id_marca: number | null;
-    id_unidad_medida: number;
-    id_porcentaje_iva: number;
-    id_unidad_medida_vida_util: null | number;
-    id_bien_padre: number | null;
-    estado: string;
-}
-
-
-

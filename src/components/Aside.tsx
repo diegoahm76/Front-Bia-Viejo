@@ -610,7 +610,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Programacion de mantenimiento
+                                  Programacion de <br/> mantenimiento
                                 </span>
                               </Link>
                             </li>

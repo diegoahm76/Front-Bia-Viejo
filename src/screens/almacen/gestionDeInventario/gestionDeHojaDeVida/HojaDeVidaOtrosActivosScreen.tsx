@@ -1,23 +1,21 @@
 import React from "react";
-import { AgGridReact } from "ag-grid-react";
-import { Controller } from "react-hook-form";
 import Select from "react-select";
-
-//Components
-import Subtitle from "../../../../components/Subtitle";
-import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
+import { AgGridReact } from "ag-grid-react";
 //Styles
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { Card, Figure, Form } from "react-bootstrap";
-//Assets
-import img from "../../../../assets/svg/img_backgraund.svg"
-//Interfaces
-import useCvComputers from "./hooks/useCvComputers";
+//Components
+import Subtitle from "../../../../components/Subtitle";
+import SearchArticleCvModal from "../../../../components/Dialog/SearchArticleCvModal";
 //Hooks
 import { useAppSelector } from "../../../../store/hooks/hooks";
+import useCvOtherAssets from "./hooks/useCvOtherAssets";
+//Assets
+import img from "../../../../assets/svg/img_backgraund.svg"
+import { Controller } from "react-hook-form";
 
-const HojaDeVidaComputoScreen = () => {
+const HojaDeVidaOtrosActivosScreen = () => {
 
   // Redux State Extraction
   const { cvMaintenance } = useAppSelector((state) => state.cv);
@@ -31,14 +29,13 @@ const HojaDeVidaComputoScreen = () => {
     asignacionPrestamos,
     articuloEncontrado,
     otrasAplicaciones,
-    busquedaArticuloModalOpen,
     ListMark,
-    otrasPerisfericos,
     control,
-    initialState,
+    busquedaArticuloModalOpen,
     file,
     defaultColDef,
     errors,
+    initialState,
     //Edita States
     setArticuloEncontrado,
     setOtrasAplicaciones,
@@ -54,7 +51,7 @@ const HojaDeVidaComputoScreen = () => {
     handleSubmit,
     reset,
     handleUpload
-  } = useCvComputers();
+  } = useCvOtherAssets();
 
   return (
     <div className="row min-vh-100">
@@ -66,21 +63,23 @@ const HojaDeVidaComputoScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <h3 className="text-rigth  fw-light mt-4">
-              Crear hoja de vida de cómputo
+              Crear hoja de vida de otros activos
             </h3>
-
             <Subtitle title="Activo" mt={3} />
-
             <div className="row">
               <div className="col-12 col-lg-6  mt-3">
                 <div className="row">
                   <div className="col-12 col-lg-6">
                     <div>
-                      <label className="ms-2 text-terciary">Serial<span className="text-danger">*</span></label>
+                      <label className="ms-2 text-terciary">
+                        Serial<span className="text-danger">*</span>
+                      </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="text"
-                        {...register("doc_identificador_nro", { required: true })}
+                        {...register("doc_identificador_nro", {
+                          required: true,
+                        })}
                       />
                       {errors.doc_identificador_nro && (
                         <p className="text-danger">Este campo es obligatorio</p>
@@ -127,11 +126,13 @@ const HojaDeVidaComputoScreen = () => {
                     <button
                       className="btn btn-sm btn-tablas mt-5"
                       type="button"
-                      onClick={() => { reset(initialState); setArticuloEncontrado(false); setFile(null) }}
                       title="Limpiar"
-                    ><i className="fa-solid fa-eraser fs-3"></i>
+                      onClick={() => { reset(initialState); setArticuloEncontrado(false); setFile(null) }}
+                    >
+                      <i className="fa-solid fa-eraser fs-3"></i>
                     </button>
                   </div>
+                  <div></div>
                 </div>
               </div>
               {articuloEncontrado ? (
@@ -167,19 +168,14 @@ const HojaDeVidaComputoScreen = () => {
                 </div>
               )}
             </div>
-
             {articuloEncontrado && (
               <div>
-                <Subtitle title="Especificaciones físicas" mt={3} />
+                <Subtitle title="Especificaciones" mt={3} />
+
                 <div className="row">
-
-
                   <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Marca
-                      </label>
-                      <Controller
+                    <label className="ms-2 text-terciary">Marca</label>
+                    <Controller
                         name="marca"
                         control={control}
                         rules={{
@@ -191,11 +187,14 @@ const HojaDeVidaComputoScreen = () => {
                             value={field.value}
                             options={ListMark}
                             placeholder="Seleccionar"
-                            isDisabled={true}
                           />
                         )}
                       />
-                    </div>
+                    {/* <input
+                      className="border border-terciary form-control border rounded-pill px-3"
+                      type="text"
+                      {...register("estado", { required: false })}
+                    /> */}
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">
@@ -207,233 +206,49 @@ const HojaDeVidaComputoScreen = () => {
                       {...register("estado", { required: false })}
                     />
                   </div>
-
                   <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Color
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={20}
-                        {...register("color", { required: false })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Tipo de equipo
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={20}
-                        {...register("tipo_de_equipo", { required: false })}
-                      />
-                      <p>portatil, tablet, all-in-one</p>
-                    </div>
+                    <label className="ms-2 text-terciary">Modelo</label>
+                    <input
+                      className="border border-terciary form-control border rounded-pill px-3"
+                      type="text"
+                      disabled
+                      {...register("modelo", { required: false })}
+                    />
                   </div>
                 </div>
 
-                <Subtitle title="Características" mt={3} />
-
-                <div className="row">
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Sistema operativo
+                <Subtitle title="Características físicas" mt={3} />
+                <div className="row mt-3">
+                  <div>
+                    <div className="col-12 col-md-12 ">
+                      <label className="text-terciary" htmlFor="ms-2">
+                        Descripción
                       </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={40}
-                        {...register("sistema_operativo", { required: false })}
+                      <textarea
+                        className="form-control border rounded-pill px-4 border border-terciary"
+                        {...register("caracteristicas_fisicas", {
+                          required: false,
+                        })}
                       />
                     </div>
                   </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Suite ofimática
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={40}
-                        {...register("suite_ofimatica", { required: false })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Antivirus
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={40}
-                        {...register("antivirus", { required: false })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3 mt-3 text-center">
-                    <label className="ms-2 text-terciary">
-                      Otros aplicativos
-                    </label>
-                    <br></br>
-                    <button
-                      className="btn btn-sm btn-tablas"
-                      type="button"
-                      title="Solicitudes"
-                      onClick={() => setOtrasAplicaciones(!otrasAplicaciones)}
-                    >
-                      {otrasAplicaciones == false ? (
-                        <i
-                          className="fa-solid fa-toggle-off fs-3"
-                          style={{ color: "black" }}
-                        ></i>
-                      ) : (
-                        <i
-                          className="fa-solid fa-toggle-on fs-3"
-                          style={{ color: "#8cd81e" }}
-                        ></i>
-                      )}
-                    </button>
-                  </div>
-                  {otrasAplicaciones == true ? (
-                    <div>
-                      <div className="col-12 col-md-12 ">
-                        <div className="mx-3">
-                          <label className="text-terciary" htmlFor="ms-2">
-                            Aplicativos
-                          </label>
-                          <textarea
-                            className="form-control border rounded-pill px-4 border border-terciary"
-                            placeholder="Observaciones"
-                            maxLength={255}
-                            {...register("otras_aplicaciones", { required: false })}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    ""
-                  )}
                 </div>
-
                 <Subtitle title="Especificaciones técnicas" mt={3} />
-
-                <div className="row">
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Tipo de almacenamiento
-
+                <div className="row mt-3">
+                  <div>
+                    <div className="col-12 col-md-12 ">
+                      <label className="text-terciary" htmlFor="ms-2">
+                        Descripción
                       </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={30}
-                        {...register("tipo_almacenamiento", { required: false })}
-                      />
-                    </div>
-                    <p>disco duro, SSD, NVME</p>
-                  </div>
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Capacidad de Almcnto
-
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={20}
-                        {...register("capacidad_almacenamiento", { required: false })}
+                      <textarea
+                        className="form-control border rounded-pill px-4 border border-terciary"
+                        {...register("especificaciones_tecnicas", {
+                          required: false,
+                        })}
                       />
                     </div>
                   </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Procesador
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="text"
-                        maxLength={20}
-                        {...register("procesador", { required: false })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3  mt-3">
-                    <div>
-                      <label className="ms-2 text-terciary">
-                        Memoria ram
-                      </label>
-                      <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="number"
-                        {...register("memoria_ram", { required: false })}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="col-12 col-lg-3 mt-3 text-center">
-                    <label className="ms-2 text-terciary">
-                      Observaciones
-                    </label>
-                    <br></br>
-                    <button
-                      className="btn btn-sm btn-tablas "
-                      type="button"
-                      title="Solicitudes"
-
-                      onClick={() => setOtrasPerisfericos(!otrasPerisfericos)}
-                    >
-                      {otrasPerisfericos == false ? (
-                        <i
-                          className="fa-solid fa-toggle-off fs-3"
-                          style={{ color: "black" }}
-                        ></i>
-                      ) : (
-                        <i
-                          className="fa-solid fa-toggle-on fs-3"
-                          style={{ color: "#8cd81e" }}
-                        ></i>
-                      )}
-                    </button>
-                  </div>
-                  {otrasPerisfericos == true ? (
-
-                    <div className="col-12 col-md-9 ">
-                      <div className="mx-3">
-                        <label className="text-terciary" htmlFor="ms-2">
-                          Observaciones
-                        </label>
-                        <textarea
-                          className="form-control border rounded-pill px-4 border border-terciary"
-                          placeholder="Observaciones"
-                          maxLength={255}
-                          {...register("observaciones_adicionales", { required: false })}
-                        />
-                      </div>
-                    </div>
-
-                  ) : (
-                    ""
-                  )}
                 </div>
-
                 <Subtitle title="Mantenimientos" mt={3} mb={3} />
 
                 <div className="row d-flex align-items-center mt-2 mx-2">
@@ -454,13 +269,11 @@ const HojaDeVidaComputoScreen = () => {
                       className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
                       type="button"
                       title="Send"
-                      onClick={() => ScreenProgramarMantnimiento()}
                     >
                       Programar
                     </button>
                   </div>
                 </div>
-
                 <Subtitle title="Asignaciones" mt={3} mb={3} />
                 <div className="row d-flex align-items-center mt-2 mx-2">
                   <div className="col-12 mb-3">
@@ -481,13 +294,11 @@ const HojaDeVidaComputoScreen = () => {
                       className="btn-min-width border rounded-pill px-3 btn bg-gradient-primary"
                       type="button"
                       title="Send"
-                      onClick={() => ScreenHistoricoArticulo()}
                     >
                       Historico
                     </button>
                   </div>
                 </div>
-
                 <div className="row mb-3">
                   <div className="d-grid gap-2 d-md-flex justify-content-md-left col-12 col-lg-6 col-sm-6">
                     <button
@@ -521,9 +332,9 @@ const HojaDeVidaComputoScreen = () => {
           <SearchArticleCvModal
             isModalActive={busquedaArticuloModalOpen}
             setIsModalActive={setBusquedaArticuloModalOpen}
-            cod_tipo_activo='Com'
+            cod_tipo_activo='OAc'
             label='Nombre'
-            title="Busqueda de computadores"
+            title="Busqueda de otros activos"
             columnDefsArticles={columnDefsArticles}
           />
         </div>
@@ -531,4 +342,4 @@ const HojaDeVidaComputoScreen = () => {
     </div>
   );
 };
-export default HojaDeVidaComputoScreen;
+export default HojaDeVidaOtrosActivosScreen;
