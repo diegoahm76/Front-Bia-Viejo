@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 export const clienteEstaciones: AxiosInstance = axios.create({
   baseURL: "http://isamc2022-001-site1.itempurl.com/",
+  //baseURL: "http://localhost:5105/",
 });
 
 clienteEstaciones.interceptors.request.use(

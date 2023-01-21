@@ -36,7 +36,7 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const editState = {
+const editModelConfigEstacion = {
   idConfiguracion: 0,
   t003frecuencia: 0,
   t003temperaturaAmbienteMax: 0,
@@ -83,16 +83,21 @@ const ConfiguracionModal = ({
   watch,
 }) => {
   const [estacionesOptions, setEstacionesOptions] = useState<IGeneric[]>([]);
-  const [configuracionEdit, setConfiguracionEdit] = useState(editState);
+  const [configuracionEdit, setConfiguracionEdit] = useState(
+    editModelConfigEstacion
+  );
   const { loading } = useAppSelector((state) => state.loading);
-  const configuracionSeleccionada = useAppSelector((state) => state.configuracion.configuracionSeleccionada);
+  const configuracionSeleccionada = useAppSelector(
+    (state) => state.configuracion.configuracionSeleccionada
+  );
+
+  console.log({configuracionSeleccionada})
+
   const state = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
-  // False = crear
-  // true = editar
 
   useEffect(() => {
-    setDataEdit()
+    setDataEdit();
     getEstaciones();
   }, [configuracionSeleccionada]);
 
@@ -126,13 +131,12 @@ const ConfiguracionModal = ({
         t001nombre: configuracionSeleccionada.t001Estaciones.t001nombre,
         t001coord1: configuracionSeleccionada.t001Estaciones.t001coord1!,
         t001coord2: configuracionSeleccionada.t001Estaciones.t001coord2!,
-        t001fechaMod: "",
+        t001fechaMod: configuracionSeleccionada.t001Estaciones.t001fechaMod,
         t001userMod: state.login.userinfo.nombre_de_usuario,
-      }
-    }
-    //setValue("t006mensajeUp", configuracionSeleccionada.t006mensajeUp);
+      },
+    };
     setConfiguracionEdit(dataForm);
-  }
+  };
 
   const [formValues, setFormValues] = useState({
     index_objectid: 0,
@@ -143,18 +147,9 @@ const ConfiguracionModal = ({
   );
 
   const onSubmit = () => {
-    if (isEdit) {
-      editarConfiguracion(dispatch, configuracionEdit);
-    } else {
-
-    }
-    // if (alarmaMode) {
-    //   data.objectid = estacionesOptions[formValues.index_objectid].value;
-    //   editarAlarma(dispatch, data);
-    // } else {
-    //   handleCrearAlarma(data);
-    // }
-    // setIsModalActive(false);
+    
+    editarConfiguracion(dispatch, configuracionEdit);
+    
   };
 
   const getEstaciones = async () => {
@@ -174,28 +169,7 @@ const ConfiguracionModal = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
     setConfiguracionEdit({ ...configuracionEdit, [name]: value });
-  }
-
-
-  const {
-    //   register: registerConfiguracion,
-    //   reset: resetConfiguracion,
-    //   handleSubmit: handleSubmitConfiguracion,
-    formState: { errors: errorsConfiguracion },
-  } = useForm();
-
-
-
-  // const onSubmitConfiguracion = (data) => {
-  //   const configuracionUpdate = {
-  //     ...data,
-  //     t003userMod: nombre_de_usuario,
-  //     t003fechaMod: new Date().toISOString(),
-  //   };
-
-  //   dispatch(configuracionEstacionesEditarAction(configuracionUpdate));
-  //   setIsModalActive(!isModalActive);
-  // };
+  };
 
   return (
     <Modal
@@ -206,580 +180,630 @@ const ConfiguracionModal = ({
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
-      <h3 className="mt-3 mb-0 text-center mb-4">Editar configuración</h3>
-      <form
-        className="row" onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="d-flex justify-content-center align-items-center gap-2">
-          <label className="mt-3 w-20 text-end">Estación</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2 mt-1" >Nombre: </label>
+      <div className="container p-3">
+        <h3>Editar configuración</h3>
+        <hr className="rounded-pill hr-modal" />
+        <form className="row" onSubmit={handleSubmit(onSubmit)}>
+          <div className="col-12">
+            <div className="col-12 mb-3">
+              <label>
+                Estación: <span className="text-danger">*</span>
+              </label>
               <input
                 className="form-control border rounded-pill px-3 text-center"
                 type="text"
                 name="t001nombreEstacion"
-                value={configuracionEdit?.t001Estaciones.t001nombre}
+                value={configuracionSeleccionada.t001Estaciones.t001nombre}
                 onChange={handleChange}
                 required={true}
                 disabled={isEdit}
                 readOnly={isEdit}
+              />
+            </div>
+          </div>
 
-              />
+          <div className="col-12">
+            <div className="mt-3">
+              <label>
+                Frecuencia: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex justify-content-end ">
+                <input
+                  className="col-8 border rounded-pill text-center"
+                  type="number"
+                  name="t003frecuencia"
+                  value={configuracionEdit?.t003frecuencia}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.t003frecuencia && (
+                  <div className="col-12">
+                    <small
+                      className="text-center text-danger"
+                      style={{ fontSize: "12px" }}
+                    >
+                      Este campo es obligatorio
+                    </small>
+                  </div>
+                )}
+                <label className="col-2 mt-3">Minuto(s)</label>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Frecuencia</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2 mt-1">
-                Valor: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t006rango"
-                value={configuracionEdit.t003frecuencia}
-                onChange={handleChange}
-                required
-              />
-              {errorsConfiguracion.t003frecuencia && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">Minutos</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Temperatura ambiente</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2 mt-1">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003temperaturaAmbienteMax"
-                value={configuracionEdit?.t003temperaturaAmbienteMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003temperaturaAmbienteMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2 mt-1">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003temperaturaAmbienteMin"
-                value={configuracionEdit?.t003temperaturaAmbienteMin}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003temperaturaAmbienteMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">°C</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Humedad ambiente</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2 mt-1">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003humedadAmbienteMax"
-                value={configuracionEdit?.t003humedadAmbienteMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003humedadAmbienteMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003humedadAmbienteMin"
-                value={configuracionEdit?.t003humedadAmbienteMin}
-                onChange={handleChange}
 
-              />
-              {errorsConfiguracion.t003humedadAmbienteMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">%</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Presión barométrica</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Temperatura Ambiente: <span className="text-danger">*</span>
               </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003presionBarometricaMax"
-                value={configuracionEdit?.t003presionBarometricaMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003presionBarometricaMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003presionBarometricaMin"
-                value={configuracionEdit?.t003presionBarometricaMin}
-                onChange={handleChange}
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <i className="order-1 mt-3 fa-solid fa-temperature-arrow-down"></i>
+                  <label className="order-2 mt-3 ">Min:</label>
 
-              />
-              {errorsConfiguracion.t003presionBarometricaMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003temperaturaAmbienteMin"
+                    value={configuracionEdit?.t003temperaturaAmbienteMin}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.t003temperaturaAmbienteMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">°C</label>
                 </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">hPa</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Velocidad del viento</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003velocidadVientoMax"
-                value={configuracionEdit?.t003velocidadVientoMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003velocidadVientoMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003velocidadVientoMin"
-                value={configuracionEdit?.t003velocidadVientoMin}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003velocidadVientoMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">m/s</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Dirección del viento</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003direccionVientoMax"
-                value={configuracionEdit?.t003direccionVientoMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003direccionVientoMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                placeholder="t003direccionVientoMin"
-                name="t003direccionVientoMin"
-                value={configuracionEdit?.t003direccionVientoMin}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003direccionVientoMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">°</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">Precipitación</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003precipitacionMax"
-                value={configuracionEdit?.t003precipitacionMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003precipitacionMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003precipitacionMin"
-                value={configuracionEdit?.t003precipitacionMin}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003precipitacionMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">mm</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5  w-50 text-end">Luminosidad</label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003luminocidadMax"
-                value={configuracionEdit?.t003luminocidadMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003luminocidadMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003luminocidadMin"
-                value={configuracionEdit?.t003luminocidadMin}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003luminocidadMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <label className="mt-5">KLux</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5  w-50 text-end">
-            Nivel de agua del rio por sensor radar
-          </label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003nivelAguaMax"
-                value={configuracionEdit?.t003nivelAguaMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003nivelAguaMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003nivelAguaMin"
-                value={configuracionEdit?.t003nivelAguaMin}
-                onChange={handleChange}
 
-              />
-              {errorsConfiguracion.t003nivelAguaMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
+                <div className="col-5 d-flex">
+                  <i className="order-1 mt-3 fa-solid fa-temperature-arrow-up"></i>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003temperaturaAmbienteMax"
+                    value={configuracionEdit?.t003temperaturaAmbienteMax}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.t003temperaturaAmbienteMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">°C</label>
                 </div>
-              )}
+              </div>
             </div>
           </div>
-          <label className="mt-5">m</label>
-        </div>
-        <div className="d-flex justify-content-start align-items-center gap-2">
-          <label className="mt-5 w-50 text-end">
-            Velocidad del agua por radar
-          </label>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Min: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003velocidadAguaMax"
-                value={configuracionEdit?.t003velocidadAguaMax}
-                onChange={handleChange}
-              />
-              {errorsConfiguracion.t003velocidadAguaMax && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="ms-2">
-              <label className="ms-2">
-                Max: <span className="text-danger">*</span>
-              </label>
-              <input
-                className="form-control border rounded-pill px-3"
-                type="number"
-                name="t003velocidadAguaMin"
-                value={configuracionEdit?.t003velocidadAguaMin}
-                onChange={handleChange}
 
-              />
-              {errorsConfiguracion.t003velocidadAguaMin && (
-                <div className="col-12">
-                  <small
-                    className="text-center text-danger"
-                    style={{ fontSize: "12px" }}
-                  >
-                    Este campo es obligatorio
-                  </small>
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Humedad ambiente: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "grey" }}>
+                    &#xe798;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003humedadAmbienteMin"
+                    value={configuracionEdit?.t003humedadAmbienteMin}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.t003humedadAmbienteMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">%</label>
                 </div>
-              )}
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xe798;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003humedadAmbienteMax"
+                    value={configuracionEdit?.t003humedadAmbienteMax}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.t003humedadAmbienteMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">%</label>
+                </div>
+              </div>
             </div>
           </div>
-          <label className="mt-5">m/s</label>
-        </div>
-        <div className="d-flex justify-content-end gap-2 mt-3">
-          <button
-            type="button"
-            className="mb-0 btn-image text-capitalize bg-white border boder-none"
-            disabled={loading}
-            onClick={() => {
-              setIsModalActive(!isModalActive);
-              //resetConfiguracion(defaultValuesResetConfiguration);
-            }}
-          >
-            {loading ? (
-              <>
-                <span
-                  className="spinner-border spinner-border-sm me-1"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                Cargando...
-              </>
-            ) : (
-              <img src={iconoCancelar} alt="" title="Cacelar" />
-            )}
-          </button>
-          <button
-            type="submit"
-            className="mb-0 btn-image text-capitalize bg-white border boder-none"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span
-                  className="spinner-border spinner-border-sm me-1"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                Cargando...
-              </>) : isEdit ? (
-                "Actualizar"
-              ) : (
-              "Crear"
-            )}
 
-          </button>
-        </div>
-      </form>
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Presion Barométrica: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xe94d;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003presionBarometricaMin"
+                    value={configuracionEdit?.t003presionBarometricaMin}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.t003presionBarometricaMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">hPa</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xe94d;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003presionBarometricaMax"
+                    value={configuracionEdit?.t003presionBarometricaMax}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errors.t003presionBarometricaMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">hPa</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Velocidad del Viento: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xe9e4;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003velocidadVientoMin"
+                    value={configuracionEdit?.t003velocidadVientoMin}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003velocidadVientoMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">m/s</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xe9e4;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003velocidadVientoMax"
+                    value={configuracionEdit?.t003velocidadVientoMax}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003velocidadVientoMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">m/s</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Direccion del Viento: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xefd8;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003direccionVientoMin"
+                    value={configuracionEdit?.t003direccionVientoMin}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003direccionVientoMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">°</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xefd8;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003direccionVientoMax"
+                    value={configuracionEdit?.t003direccionVientoMax}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003direccionVientoMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">°</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Precipitacion: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xebdb;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003precipitacionMin"
+                    value={configuracionEdit?.t003precipitacionMin}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003precipitacionMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">mm</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xebdb;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003precipitacionMax"
+                    value={configuracionEdit?.t003precipitacionMax}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003precipitacionMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">mm</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Luminosidad: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xe42e;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003luminocidadMin"
+                    value={configuracionEdit?.t003luminocidadMin}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003luminocidadMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">Klux</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xe42e;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003luminocidadMax"
+                    value={configuracionEdit?.t003luminocidadMax}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003luminocidadMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">Klux</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Nivel de Agua: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xe176;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003nivelAguaMin"
+                    value={configuracionEdit?.t003nivelAguaMin}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003nivelAguaMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">m</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xe176;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003nivelAguaMax"
+                    value={configuracionEdit?.t003nivelAguaMax}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003nivelAguaMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">m</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12">
+            <div className="mt-3">
+              <label className="mt-3 w-50 text-start">
+                Velocidad de Agua: <span className="text-danger">*</span>
+              </label>
+              <div className="col-12 d-flex mt-3 mb-3 justify-content-around align-items-center">
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "gray" }}>
+                    &#xe01f;
+                  </span>
+                  <label className="order-2 mt-3 ">Min:</label>
+
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003velocidadAguaMin"
+                    value={configuracionEdit?.t003velocidadAguaMin}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003velocidadAguaMin && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">m/s</label>
+                </div>
+
+                <div className="col-5 d-flex">
+                  <span className="material-icons" style={{ color: "black" }}>
+                    &#xe01f;
+                  </span>
+                  <label className="order-2 mt-3 ">Max:</label>
+                  <input
+                    className="col-8 order-3 border rounded-pill text-center"
+                    type="number"
+                    name="t003velocidadAguaMax"
+                    value={configuracionEdit?.t003velocidadAguaMax}
+                    onChange={handleChange}
+                    required={true}
+                  />
+                  {errors.t003velocidadAguaMax && (
+                    <div className="col-12">
+                      <small
+                        className="text-center text-danger"
+                        style={{ fontSize: "12px" }}
+                      >
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                  <label className="order-4 mt-3">m/s</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="d-flex gap-3 justify-content-end">
+            <button
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
+              type="button"
+              title="Cancelar"
+              onClick={() => setIsModalActive(!isModalActive)}
+            >
+              <i className="fa-solid fa-x fs-3"></i>
+            </button>
+            <button
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
+              type="submit"
+              title="Guardar"
+            >
+              <i className="fa-regular fa-floppy-disk fs-3"></i>
+            </button>
+          </div>
+        </form>
+      </div>
     </Modal>
   );
 };

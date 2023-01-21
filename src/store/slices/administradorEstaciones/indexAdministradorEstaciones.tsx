@@ -74,7 +74,6 @@ export const obtenerEstacion = async (dispatch) => {
     }));
     dispatch(obtenerEstacionAction(formatFechaEstaciones));
   });
-  //console.log("dataGetEstaciones", dataGetEstaciones);
 };
 
 export const eliminarEstacion = async (dispatch, id) => {
