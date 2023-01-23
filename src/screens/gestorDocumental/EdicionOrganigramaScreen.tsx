@@ -6,10 +6,9 @@ import Select, { SingleValue } from "react-select";
 import { useNavigate } from "react-router-dom";
 //Hooks
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+import useEdicionOrganigrama from "../../hooks/useEdicionOrganigrama";
 //Components
 import Subtitle from "../../components/Subtitle";
-//Hooks
-import useEdicionOrganigrama from "../../hooks/useEdicionOrganigrama";
 //Actions
 import { toFinalizeOrganigramService } from "../../services/organigram/OrganigramServices";
 import {

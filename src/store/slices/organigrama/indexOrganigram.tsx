@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { IObjLevels, IObjOrganigram, IObjUnitys, IOrganigram } from "../../../Interfaces/Organigrama";
+import { IDatum, IObjLevels, IObjOrganigram, IObjUnitys, IOrganigram } from "../../../Interfaces/Organigrama";
 
 const initialStateOrganigrmCurrent = {
     id_organigrama: null,
@@ -27,7 +27,7 @@ const organigramaSlice = createSlice({
     name: "organigram",
     initialState,
     reducers: {
-        getMoldOrganigrams: (state: IOrganigram, action: PayloadAction<any[]>) => {
+        getMoldOrganigrams: (state: any, action: PayloadAction<any[]>) => {
             state.moldOrganigram = action.payload;
         },
         getOrganigrams: (state: IOrganigram, action: PayloadAction<IObjOrganigram[]>) => {

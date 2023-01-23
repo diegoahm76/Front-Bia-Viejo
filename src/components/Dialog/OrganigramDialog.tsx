@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Modal from "react-modal";
 import { useAppSelector } from "../../store/hooks/hooks";
+import GroupButtonsOrganigram from "../GroupButtonsOrganigram";
 import OrganigramVisual from "../ModelOrganigram/OrganigramVisual";
 import Subtitle from "../Subtitle";
 
@@ -47,6 +48,7 @@ const OrganigramDialog = ({ isModalActive, setIsModalActive }: IProps) => {
                 <div className="col-12 mx-auto">
                     <Subtitle title={` ${organigramCurrent.nombre}`} mb={3} />
                     <OrganigramVisual />
+                    <GroupButtonsOrganigram />
                 </div>
             </div>
         </Modal>

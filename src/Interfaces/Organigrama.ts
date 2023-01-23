@@ -84,7 +84,7 @@ export interface ILevelFather {
     isDisabled: boolean;
 }
 
-interface IDatum {
+export interface IDatum {
     id_unidad_organizacional: number;
     id_organigrama: number;
     id_nivel_organigrama: number;
@@ -112,7 +112,7 @@ interface IUnidadesstaff {
     orden_nivel: number;
 }
 
-interface ISon {
+export interface ISon {
     id_unidad_organizacional?: number;
     id_organigrama: number;
     id_nivel_organigrama: number;
