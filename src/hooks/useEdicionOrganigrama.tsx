@@ -259,7 +259,7 @@ const useEdicionOrganigrama = () => {
     //useEffect para obtener el MoldOrganigram (jerarquia de niveles & unidades)
     useEffect(() => {
         dispatch(getMoldOrganigramsService(organigramCurrent.id_organigrama));
-    }, [])
+    }, [unityOrganigram])
 
     useEffect(() => {
         setOrden_nivel(levelsOrganigram.length + 1);
