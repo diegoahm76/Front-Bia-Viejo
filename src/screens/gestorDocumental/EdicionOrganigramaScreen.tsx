@@ -28,8 +28,7 @@ export const EdicionOrganigramaScreen = () => {
   const navigate = useNavigate();
 
   // Redux State Extraction
-  const { organigramCurrent, levelsOrganigram, unityOrganigram } =
-    useAppSelector((state) => state.organigram);
+  const { organigramCurrent, levelsOrganigram, unityOrganigram, moldOrganigram } = useAppSelector((state) => state.organigram);
 
   const [viewOrganigram, setViewOrganigram] = useState(false);
   //Hooks
@@ -73,13 +72,13 @@ export const EdicionOrganigramaScreen = () => {
       "unidadRaiz",
       option!.orden === 1
         ? {
-            label: "Si",
-            value: true,
-          }
+          label: "Si",
+          value: true,
+        }
         : {
-            label: "No",
-            value: false,
-          }
+          label: "No",
+          value: false,
+        }
     );
     setValueUnidades("nivelUnidad", option!);
   };
@@ -418,6 +417,7 @@ export const EdicionOrganigramaScreen = () => {
               </button>
 
               <button
+                disabled={moldOrganigram.length === 0}
                 type="button"
                 onClick={() => setViewOrganigram(true)}
                 title="Visualizar organigrama"

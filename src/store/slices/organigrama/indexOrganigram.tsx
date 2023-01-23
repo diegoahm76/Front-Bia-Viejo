@@ -16,6 +16,7 @@ const initialStateOrganigrmCurrent = {
 };
 
 const initialState: IOrganigram = {
+    moldOrganigram: [],
     organigram: [],
     organigramCurrent: initialStateOrganigrmCurrent,
     levelsOrganigram: [],
@@ -26,6 +27,9 @@ const organigramaSlice = createSlice({
     name: "organigram",
     initialState,
     reducers: {
+        getMoldOrganigrams: (state: IOrganigram, action: PayloadAction<any[]>) => {
+            state.moldOrganigram = action.payload;
+        },
         getOrganigrams: (state: IOrganigram, action: PayloadAction<IObjOrganigram[]>) => {
             state.organigram = action.payload;
         },
@@ -41,5 +45,5 @@ const organigramaSlice = createSlice({
     }
 })
 
-export const { getOrganigrams, currentOrganigram, getLevels, getUnitys } = organigramaSlice.actions;
+export const { getMoldOrganigrams, getOrganigrams, currentOrganigram, getLevels, getUnitys } = organigramaSlice.actions;
 export default organigramaSlice.reducer;

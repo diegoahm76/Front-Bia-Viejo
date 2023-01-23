@@ -58,7 +58,7 @@ export const getCvArticleAllService = (serial: string, nombre: string, cod_tipo_
             Swal.fire({
                 target: elementModalId,
                 position: "center",
-                icon: "success",
+                icon: "error",
                 title: error.response.data.detail,
                 showConfirmButton: true,
                 confirmButtonText: 'Aceptar',

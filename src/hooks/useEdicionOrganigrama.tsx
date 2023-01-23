@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import {
     editOrganigramsService,
     getLevelsService,
+    getMoldOrganigramsService,
     getUnitysService,
     updateLevelsService,
     updateUnitysService
@@ -254,6 +255,11 @@ const useEdicionOrganigrama = () => {
     useEffect(() => {
         resetOrganigrama(organigramCurrent);
     }, [organigramCurrent]);
+
+    //useEffect para obtener el MoldOrganigram (jerarquia de niveles & unidades)
+    useEffect(() => {
+        dispatch(getMoldOrganigramsService(organigramCurrent.id_organigrama));
+    }, [])
 
     useEffect(() => {
         setOrden_nivel(levelsOrganigram.length + 1);
