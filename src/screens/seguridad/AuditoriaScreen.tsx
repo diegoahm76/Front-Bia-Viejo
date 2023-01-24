@@ -383,25 +383,26 @@ const AuditoriaScreen = () => {
             <div className="col-12 col-md-1 mt-1">
               <div>
                 <button
-                  type="button"
-                  onClick={() => reset(formValues)}
+                  type="submit"
                   className="mb-0 btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-4 me-2"
-                  title="Limpiar"
                 >
-                  <i className="fa-solid fa-wand-magic-sparkles fs-3"></i>
+                  <i className="fa-solid fa-magnifying-glass fs-3" title="Buscar"></i>
                 </button>
               </div>
             </div>
             <div className="col-12 col-md-1 mt-1">
               <div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={() => reset(formValues)}
                   className="mb-0 btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-4 me-2"
+                  title="Limpiar"
                 >
-                  <img src={botonBuscar} alt="" title="Buscar" />
+                  <i className="fa-solid fa-eraser fs-3"></i>
                 </button>
               </div>
             </div>
+            
             {/* <div>
               <button
                 type="submit"

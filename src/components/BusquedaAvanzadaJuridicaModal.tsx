@@ -220,7 +220,7 @@ const BusquedaAvanzadaJuridicaModal = ({
                       Cargando...
                     </>
                   ) : (
-                    <img src={botonBuscar} alt="" />
+                    <i className="fa-solid fa-magnifying-glass fs-3" title="Buscar"></i>
                   )}
                 </button>
               </div>
