@@ -672,8 +672,8 @@ const AdministradorDePersonasScreen = () => {
                 Administrador de personas
               </h3>
               <Subtitle title={"Buscar persona"} mt={0} mb={0} />
-              <div className="row ">
-                <div className="col-12 col-md-3 mt-4">
+              <div className="mt-4 row align-items-end ms-1">
+                <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
@@ -693,8 +693,8 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-3 mt-4 ">
-                  
+                <div className="col-12 col-md-3">
+                  <div>
                     <label className="ms-2">
                       Número de documento:{" "}
                       <span className="text-danger">*</span>
@@ -707,6 +707,7 @@ const AdministradorDePersonasScreen = () => {
                       //required={true}
                       maxLength={15}
                     />
+                  </div>
                   {errorsBuscar.numeroDocumento && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -715,17 +716,17 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-6 mt-5">
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn-image text-capitalize bg-white border"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={onSubmitBuscar}
                   >
-                    <i className="fa-solid fa-magnifying-glass fs-3 mt-2" title="Buscar"></i>
+                    <img src={botonBuscar} alt="" title="Buscar" />
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary  text-uppercase"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-uppercase"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Búsqueda avanzada
@@ -1315,7 +1316,7 @@ const AdministradorDePersonasScreen = () => {
                         Cargando...
                       </>
                     ) : (
-                      <i className="fa-solid fa-x fs-3" title="Cancelar" ></i>
+                      <img src={botonCancelar} alt="" title="Cancelar" />
                     )}
                   </button>
 
@@ -1334,9 +1335,9 @@ const AdministradorDePersonasScreen = () => {
                         Cargando...
                       </>
                     ) : isEdit ? (
-                      <i className="fa-solid fa-arrows-rotate fs-3" title="Actualizar"></i>
+                      <img src={botonActualizar} alt="" title="Actualizar" />
                     ) : (
-                      <i className="fa-regular fa-plus fs-3" title="Crear"></i>
+                      <img src={botonAgregar} alt="" title="Crear" />
                     )}
                   </button>
                 </div>
