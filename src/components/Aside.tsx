@@ -611,7 +611,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Programacion de mantenimiento
+                                  Programacion de <br/> mantenimiento
                                 </span>
                               </Link>
                             </li>
@@ -743,7 +743,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Formulario de revisión de inventario
+                                  Formulario de revisión <br/> de inventario
                                 </span>
                               </Link>
                             </li>
@@ -952,7 +952,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Reporte historico de un activo
+                                  Reporte historico de <br/> un activo
                                 </span>
                               </Link>
                             </li>

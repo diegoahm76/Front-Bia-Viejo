@@ -608,7 +608,7 @@ const AdministradorDeEmpresasScreen = () => {
                 Administrador de empresas
               </h3>
               <Subtitle title={"Buscar empresa"} mt={0} mb={0} />
-              <div className="mt-4 row align-items-end ms-1">
+              <div className="mt-4 row ">
                 <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
@@ -655,16 +655,16 @@ const AdministradorDeEmpresasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-6 mt-3 mt-md-0">
+                <div className="col-12 col-md-6 mt-4">
                   <button
                     type="submit"
-                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                    className="btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" />
+                    <i className="fa-solid fa-magnifying-glass fs-3 mt-2" title="Buscar"></i>
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    className="ms-3 btn bg-gradient-primary  text-capitalize"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Búsqueda avanzada
@@ -1021,6 +1021,7 @@ const AdministradorDeEmpresasScreen = () => {
                   >
                     {loading ? (
                       <>
+                      
                         <span
                           className="spinner-border spinner-border-sm me-1"
                           role="status"
@@ -1029,7 +1030,7 @@ const AdministradorDeEmpresasScreen = () => {
                         Cargando...
                       </>
                     ) : (
-                      <img src={botonCancelar} alt="" />
+                      <i className="fa-solid fa-x fs-3" title="Cancelar"></i>
                     )}
                   </button>
 
@@ -1048,9 +1049,9 @@ const AdministradorDeEmpresasScreen = () => {
                         Cargando...
                       </>
                     ) : isEdit ? (
-                      <img src={botonActualizar} alt="" />
+                      <i className="fa-solid fa-arrows-rotate fs-3" title="Actualizar"></i>
                     ) : (
-                      <img src={botonAgregar} alt="" />
+                      <i className="fa-regular fa-plus fs-3" title="Agregar"></i>
                     )}
                   </button>
                 </div>

@@ -1,4 +1,5 @@
 export interface IOrganigram {
+    moldOrganigram: IDatum[];
     organigram: IObjOrganigram[];
     organigramCurrent: IObjOrganigram;
     levelsOrganigram: IObjLevels[];
@@ -81,4 +82,46 @@ export interface ILevelFather {
     value: string | number | null;
     id_nivel_organigrama: number;
     isDisabled: boolean;
+}
+
+export interface IDatum {
+    id_unidad_organizacional: number;
+    id_organigrama: number;
+    id_nivel_organigrama: number;
+    nombre: string;
+    codigo: string;
+    cod_tipo_unidad: string;
+    cod_agrupacion_documental: string;
+    unidad_raiz: boolean;
+    id_unidad_org_padre?: any;
+    orden_nivel: number;
+    hijos: ISon[];
+    unidades_staff: IUnidadesstaff[];
+}
+
+interface IUnidadesstaff {
+    id_unidad_organizacional: number;
+    id_organigrama: number;
+    id_nivel_organigrama: number;
+    nombre: string;
+    codigo: string;
+    cod_tipo_unidad: string;
+    cod_agrupacion_documental?: any;
+    unidad_raiz: boolean;
+    id_unidad_org_padre?: any;
+    orden_nivel: number;
+}
+
+export interface ISon {
+    id_unidad_organizacional?: number;
+    id_organigrama: number;
+    id_nivel_organigrama: number;
+    nombre: string;
+    codigo: string;
+    cod_tipo_unidad: string;
+    cod_agrupacion_documental: null | string;
+    unidad_raiz: boolean;
+    id_unidad_org_padre?: null | number | string;
+    cod_unidad_org_padre: null | string | number;
+    hijos: ISon[];
 }
