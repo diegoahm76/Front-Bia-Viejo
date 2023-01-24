@@ -215,7 +215,7 @@ const BusquedaAvanzadaModal = ({
                   onClick={onSubmit}
                   className="mb-0 btn-image text-capitalize bg-white border boder-none"
                 >
-                  <img src={botonBuscar} alt="" title="Buscar" />
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
               </div>
               <div className="col-12 mt-3">
@@ -243,7 +243,7 @@ const BusquedaAvanzadaModal = ({
               <div className="d-flex justify-content-end gap-2 mt-3">
                 <button
                   type="button"
-                  className="btn bg-gradient-light text-capitalize"
+                  className="btn bg-white text-capitalize"
                   disabled={loading}
                   onClick={() => handleCloseModal()}
                 >
@@ -257,7 +257,7 @@ const BusquedaAvanzadaModal = ({
                       Cargando...
                     </>
                   ) : (
-                    "Cancelar"
+                    <i className="fa-solid fa-x fs-3"></i>
                   )}
                 </button>
               </div>

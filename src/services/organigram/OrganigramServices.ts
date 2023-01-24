@@ -4,7 +4,7 @@ import { NavigateFunction } from 'react-router-dom';
 // Types
 import { AxiosError, AxiosResponse } from "axios";
 // Reducers
-import { currentOrganigram, getLevels, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
+import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
 import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 
@@ -15,6 +15,20 @@ const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mix
     showConfirmButton: true,
     confirmButtonText: "Aceptar",
 }).fire();
+
+//Obtener Organigrama
+export const getMoldOrganigramsService = (id: string | number | null) => {
+    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+        try {
+            const { data } = await clienteAxios.get(`almacen/organigrama/unidades/get-jerarquia/${id}/`);
+            dispatch(getMoldOrganigrams(data.data));
+            return data;
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
+            return error as AxiosError;
+        }
+    };
+};
 
 //Obtener Organigrama
 export const getOrganigramsService = () => {

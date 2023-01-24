@@ -402,7 +402,7 @@ const AdministradosDeUsuario = () => {
                 Administrador de usuarios
               </h3>
               <Subtitle title={"Buscar persona"} mt={3} />
-              <div className="mt-4 row align-items-end ms-1">
+              <div className="mt-4 row ">
                 <div className="col-12 col-md-3">
                   <label className="text-terciary">
                     Tipo de documento: <span className="text-danger">*</span>
@@ -439,16 +439,16 @@ const AdministradosDeUsuario = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-6 mt-3 mt-md-0">
+                <div className="col-12 col-md-6 mt-4">
                   <button
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonBuscar} alt="" title="Buscar" />
+                    <i className="fa-solid fa-magnifying-glass fs-3 mt-2" title="Buscar"></i>
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-capitalize"
+                    className="ms-3 btn bg-gradient-primary  text-capitalize"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Búsqueda avanzada
@@ -673,7 +673,7 @@ const AdministradosDeUsuario = () => {
                         Cargando...
                       </>
                     ) : (
-                      <img src={botonCancelar} alt="" title="Cancelar" />
+                      <i className="fa-solid fa-x fs-3" title="Cancelar"></i>
                     )}
                   </button>
 
@@ -692,9 +692,9 @@ const AdministradosDeUsuario = () => {
                         Cargando...
                       </>
                     ) : actionForm === "editar" ? (
-                      <img src={botonActualizar} alt="" title="Actualizar" />
+                      <i className="fa-solid fa-arrows-rotate fs-3" title="Actualizar"></i>
                     ) : (
-                      <img src={botonAgregar} alt="" title="Crear" />
+                      <i className="fa-regular fa-plus fs-3" title="Crear" ></i>
                     )}
                   </button>
                 </div>
