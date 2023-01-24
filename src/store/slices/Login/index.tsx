@@ -80,6 +80,8 @@ export const loginUser = async (dispatch, email: string, password: string) => {
         if (error.response.status === 403) {
             dispatch(setReintentos())
         }
+        console.log(setReintentos)
+        console.log("soy yo")
         Swal.fire({
             position: "center",
             icon: "warning",

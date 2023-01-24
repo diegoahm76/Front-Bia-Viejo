@@ -32,23 +32,27 @@ function LoginScreen() {
     setRecaptchaValue(captchaRef);
     console.log(captchaRef);
 
+    //   // const token = captchaRef;
+    //   // return (token);
   }
 
-  const [token, setToken] = useState("");
+ // const [token, setToken] = useState("");
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
-  function submitHandler(dataForm, event) {
+  function submitHandler(dataForm) {
     //  this.setRecaptchaValue({captchaRef});
-
+console.log(recaptchaValue)
     console.log(isCaptchaValid);
-    event.preventDefault();
+    //event.preventDefault();
 
     if (!isCaptchaValid) {
       Swal.fire({
         position: "center",
         icon: "info",
         text: "Es necesario validar el Captcha, para poder ingresar",
-      
+        //     //ButtonText: "Aceptar",
+        //     //ButtonColor: "#3085d6",
+        //     //  is_active: true,
       });
 
       return;
@@ -64,7 +68,7 @@ function LoginScreen() {
     console.log(dataForm.captcha);
   }
 
-
+ 
 
   const handleClickToDesbloqueo = () => {
     navigate("/desbloqueo-usuario");
@@ -159,6 +163,7 @@ function LoginScreen() {
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
                       hl="es"
+                   
                      onChange={() => setIsCaptchaValid(true)}
                      onExpired={() => setIsCaptchaValid(false)}
                      onError={() => setIsCaptchaValid(false)}
