@@ -275,8 +275,8 @@ const AdministradorDePersonasScreen = () => {
         } || { label: "", value: "" },
         sexo: sexo || { label: "", value: "" },
         estado_civil: {
-          value: dataPersona.estado_civil.cod_estado_civil,
-          label: dataPersona.estado_civil.nombre,
+          value: dataPersona.estado_civil?.cod_estado_civil,
+          label: dataPersona.estado_civil?.nombre,
         } || { label: "", value: "" },
         pais_residencia: paisResidencia[0] || { label: "", value: "" },
         pais_nacimiento: paisNacimiento[0] || { label: "", value: "" },
