@@ -702,6 +702,7 @@ const AdministradorDePersonasScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
+                      name="numeroDocumento"
                       value={busquedaModel.cedula}
                       onChange={handleChange}
                       //required={true}
