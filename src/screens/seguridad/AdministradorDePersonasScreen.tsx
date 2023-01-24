@@ -126,6 +126,7 @@ const AdministradorDePersonasScreen = () => {
     []
   );
   const [formValues, setFormValues] = useState(modelCreate);
+  console.log(formValues,"este es ")
 
   const {
     reset: resetPersona,
@@ -275,8 +276,8 @@ const AdministradorDePersonasScreen = () => {
         } || { label: "", value: "" },
         sexo: sexo || { label: "", value: "" },
         estado_civil: {
-          value: dataPersona.estado_civil.cod_estado_civil,
-          label: dataPersona.estado_civil.nombre,
+          value: dataPersona.estado_civil?.cod_estado_civil,
+          label: dataPersona.estado_civil?.nombre,
         } || { label: "", value: "" },
         pais_residencia: paisResidencia[0] || { label: "", value: "" },
         pais_nacimiento: paisNacimiento[0] || { label: "", value: "" },
@@ -291,7 +292,7 @@ const AdministradorDePersonasScreen = () => {
       setFormValues(form);
 
     } catch (err: any) {
-      console.log(err);
+      console.log(err, "entre al error");
       if (err.response.data.detail) {
         Swal.fire({
           title:
@@ -659,6 +660,8 @@ const AdministradorDePersonasScreen = () => {
     setFormValues(form);
   };
 
+  console.log(formValues.primer_nombre)
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -847,6 +850,7 @@ const AdministradorDePersonasScreen = () => {
                           name="primer_nombre"
                           value={formValues.primer_nombre}
                           onChange={handleChangeCreate}
+                      
                         />
                       </div>
                       {errorsPersona.primerNombre && (
