@@ -112,7 +112,7 @@ const RolesScreen = () => {
               handleOpenEditRol(params.data.id_rol);
             }}
           >
-            <img src={botonEditar} alt="editar" title="Editar" />
+            <i className="fa-regular fa-pen-to-square fs-4" title="Editar"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas"
@@ -121,7 +121,7 @@ const RolesScreen = () => {
               confirmarEliminarRol(params.data.id_rol);
             }}
           >
-            <img src={botonEliminar} alt="eliminar" title="Eliminar" />
+            <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
           </button>
         </div>
       ),
@@ -182,7 +182,6 @@ const RolesScreen = () => {
         await clienteAxios
           .delete(`roles/delete/${idRol}`)
           .then((res) => {
-
             Swal.fire({
               target: elementModalId,
               position: "center",
@@ -191,7 +190,8 @@ const RolesScreen = () => {
               showConfirmButton: true,
               confirmButtonText: "Continuar",
             });
-          }).catch((err) => {
+          })
+          .catch((err) => {
             Swal.fire({
               target: elementModalId,
               position: "center",
@@ -202,7 +202,7 @@ const RolesScreen = () => {
             });
           })
           .finally(async () => {
-             getRolesPermisos();
+            getRolesPermisos();
           });
       }
     });
@@ -373,12 +373,26 @@ const RolesScreen = () => {
                     {...register("nombreRol")}
                   />
                 </div>
+
                 <button
                   type="submit"
-                  className="mb-0 mt-2 btn-image text-capitalize bg-white border boder-none"
+                  className="mb-0 mt-4 btn-image text-capitalize bg-white border boder-none"
                 >
-                  <img src={botonBuscar} alt="" title="Buscar" />
+                  <i
+                    className="fa-solid fa-magnifying-glass fs-3"
+                    title="Buscar"
+                  ></i>
                 </button>
+
+                <div className="d-flex justify-content-end mt-4">
+                  <button
+                    type="button"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                    onClick={handleCreateRole}
+                  >
+                    <i className="fa-regular fa-plus fs-3" title="Crear"></i>
+                  </button>
+                </div>
               </div>
               <div id="myGrid" className="ag-theme-alpine mt-3">
                 <div
@@ -396,15 +410,6 @@ const RolesScreen = () => {
                     }
                   ></AgGridReact>
                 </div>
-              </div>
-              <div className="d-flex justify-content-end mt-2">
-                <button
-                  type="button"
-                  className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                  onClick={handleCreateRole}
-                >
-                  <img src={botonAgregar} alt="" title="Crear rol" />
-                </button>
               </div>
             </div>
           </form>
@@ -483,13 +488,13 @@ const RolesScreen = () => {
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleCloseModal}
                   >
-                    <img src={botonCancelar} alt="" title="Cancelar" />
+                    <i className="fa-solid fa-x fs-3" title=""></i>
                   </button>
                   <button
                     type="submit"
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                   >
-                    <img src={botonGuardar} alt="" title="Guardar" />
+                    <i className="fa-regular fa-floppy-disk fs-3" title="Guardar"></i>
                   </button>
                 </div>
               </form>

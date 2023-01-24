@@ -6,7 +6,6 @@ import { AxiosError, AxiosResponse } from 'axios';
 
 // Interfaces
 import { getCvArticles, getCvComputers, getCvMaintenance } from '../../store/slices/cv/indexCv';
-import { StyleSheet } from '@react-pdf/renderer';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -39,14 +38,32 @@ export const getCvMaintenanceService = (id_articulo: number) => {
 
 //Obtener Artculo por nombre o codigo
 export const getCvArticleAllService = (serial: string, nombre: string, cod_tipo_activo: string) => {
+    const elementModalId = document.getElementById("modal-article-id")!;
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get(`almacen/bienes/catalogo-bienes/get-by-nombre-nroidentificador/?cod_tipo_activo=${cod_tipo_activo}&nombre=${nombre}&doc_identificador_nro=${serial}`);
             dispatch(getCvArticles(data.Elementos));
-            notificationSuccess(data.detail);
+            Swal.fire({
+                target: elementModalId,
+                position: "center",
+                icon: "success",
+                title: data.detail,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                timer: 2000,
+            });
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
+            Swal.fire({
+                target: elementModalId,
+                position: "center",
+                icon: "error",
+                title: error.response.data.detail,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
+                timer: 2000,
+            });
             return error as AxiosError;
         }
     };

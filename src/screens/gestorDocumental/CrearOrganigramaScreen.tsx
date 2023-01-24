@@ -14,6 +14,7 @@ import { currentOrganigram } from "../../store/slices/organigrama/indexOrganigra
 import "react-datepicker/dist/react-datepicker.css";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import Subtitle from "../../components/Subtitle";
 
 function CrearOrganigramaScreen() {
   // Redux State Extraction
@@ -154,15 +155,8 @@ function CrearOrganigramaScreen() {
           >
             <i className="fa-regular fa-plus fs-3"></i>
           </button>
-
-          <label
-            className="mt-4 form-control ms-0 fw-bolder text-white text-center"
-            style={{
-              background: "#002c42",
-            }}
-          >
-            Organigramas
-          </label>
+          <Subtitle title="Organigramas"/>
+                <div className="row"></div>
           <div id="myGrid" className="ag-theme-alpine mt-2">
             <div
               className="ag-theme-alpine my-1 mx-3"

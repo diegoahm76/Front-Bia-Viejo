@@ -3,18 +3,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Icv, IcvArtivlesComputers, IcvComputers, IcvMaintenance, IcvOtherAssets, IcvVehicles } from "../../../Interfaces/CV";
 
 const initialState: Icv = {
-    cvOtherAssets: null,
-    cvVehicles: null,
+    cvArticles: [],
     cvComputers: null,
     cvMaintenance: [],
-    cvArticles: [],
+    cvOtherAssets: null,
+    cvVehicles: null,
 };
 
 const cvSlice = createSlice({
     name: "cv",
     initialState,
     reducers: {
-        getCvOtherAssets: (state: Icv, action: PayloadAction<IcvOtherAssets>) => {
+        getCvOtherAssets: (state: Icv, action: PayloadAction<IcvOtherAssets | null>) => {
             state.cvOtherAssets = action.payload;
         },
         getCvVehicles: (state: Icv, action: PayloadAction<IcvVehicles | null>) => {
