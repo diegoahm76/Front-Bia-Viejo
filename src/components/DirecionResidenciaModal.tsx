@@ -186,19 +186,6 @@ const DirecionResidenciaModal = ({
     setSelecDireccion({ value: "" })
   };
 
-  const formatChoisesJuanDavid = (objectChoise: IGeneric) => {
-    const formatGeneric = genericInitial;
-    const data = Object.entries(objectChoise).map((value) => ({
-      label: value[0],
-      value: value[1],
-    }));
-    formatGeneric.push({
-      label: data[0].label,
-      value: data[0].value
-    });
-    return formatGeneric;
-  };
-
   const handleChangeTypeLocation = (e) => {
     setSelecDireccion(e)
     resetDirection({ ...watchDirection(), direccion: e })
@@ -207,25 +194,16 @@ const DirecionResidenciaModal = ({
   useEffect(() => {
     const getDataDirecciones = async () => {
       const { data } = await clienteAxios.get<IGeneric>("choices/direcciones/");
-      setPrincipalRuralOptionsOptions(
-        formatChoisesJuanDavid(data["Principal rural"])
-      );
-      setComplementoRuralOptions(
-        formatChoisesJuanDavid(data["Complemento rural"])
-      );
-      setPrincipalUrbanoOptions(
-        formatChoisesJuanDavid(data["Principal urbano"])
-      );
-      setComplementoUrbanoOptions(
-        formatChoisesJuanDavid(data["Complemento urbano"])
-      );
-      setOrientacionUrbanoOptions(
-        formatChoisesJuanDavid(data["Orientacion urbano"])
-      );
+      setPrincipalRuralOptionsOptions(data["Principal rural"].map((item) => ({ label: item.label, value: item.id })));
+      setComplementoRuralOptions(data["Complemento rural"].map((item) => ({ label: item.label, value: item.id })));
+      setPrincipalUrbanoOptions(data["Principal urbano"].map((item) => ({ label: item.label, value: item.id })));
+      setComplementoUrbanoOptions(data["Complemento urbano"].map((item) => ({ label: item.label, value: item.id })));
+      setOrientacionUrbanoOptions(data["Orientacion urbano"].map((item) => ({ label: item.label, value: item.id })));
     };
     getDataDirecciones();
   }, []);
 
+  console.log(principalRuralOptions, 'principalRuralOptions')
   useEffect(() => {
     let fullAddress = "";
     if (selecDireccion.value === "urb") {
