@@ -16,6 +16,9 @@ export interface IUserInfo {
     },
     userSesion: string;
     reintentos: boolean;
+    
+    
+    
 
 }
 const initialState: IUserInfo = {
@@ -32,7 +35,8 @@ const initialState: IUserInfo = {
     userSesion: "",
     permisos: [],
     representante_legal: [],
-    reintentos: false
+    reintentos: false,
+
 
 };
 
