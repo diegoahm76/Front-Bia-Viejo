@@ -1,3 +1,4 @@
+import React from "react";
 import Select from "react-select";
 import { useForm, Controller } from "react-hook-form";
 import Subtitle from "../../../components/Subtitle";
@@ -13,7 +14,7 @@ const ConfiguracionScreen = () => {
   const submit = (data) => {
     console.log(data);
   };
-
+ 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">

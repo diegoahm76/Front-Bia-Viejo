@@ -5,7 +5,7 @@ import { addHours } from "date-fns";
 import { localizer } from "../../../helpers/calendarLocalizer";
 import { getMessagesES } from "../../../helpers/getMessages";
 import CalendarEvent from "../../../components/CalendarEvent";
-import { useState } from "react";
+import React,{ useState } from "react";
 import CalendarModal from "../../../components/CalendarModal";
 import { AgGridReact } from "ag-grid-react";
 
@@ -457,9 +457,9 @@ const CronogramaScreen = () => {
                     <label htmlFor="exampleFormControlInput1">Cantidad</label>
                     <textarea
                       className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                      type="text"
+                    
                       placeholder="Nombre"
-                      rows="3"
+                      rows={3}
                       name="nombre"
                     />
                   </div>
@@ -467,9 +467,9 @@ const CronogramaScreen = () => {
                     <label htmlFor="exampleFormControlInput1">Cantidad</label>
                     <textarea
                       className="multisteps-form__input form-control p-2 mw-100 w-auto"
-                      type="text"
+                    
                       placeholder="Nombre"
-                      rows="3"
+                      rows={3}
                       name="nombre"
                     />
                   </div>

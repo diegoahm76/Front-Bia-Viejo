@@ -264,7 +264,7 @@ const InventarioViveroCompensacion = () => {
                           </label>
                           <input
                             type="text"
-                            name="valorPorcentaje1"
+                            //name="valorPorcentaje1"
                             className="form-control border rounded-pill px-3"
                             {...register("valorPorcentaje1", { required: true })}
                           />
@@ -306,7 +306,7 @@ const InventarioViveroCompensacion = () => {
                           </label>
                           <input
                             type="text"
-                            name="valorPorcentaje2"
+                           // name="valorPorcentaje2"
                             className="form-control border rounded-pill px-3"
                             {...register("valorPorcentaje2", { required: true })}
                           />
@@ -347,7 +347,7 @@ const InventarioViveroCompensacion = () => {
                           </label>
                           <input
                             type="text"
-                            name="valorPorcentaje3"
+                           // name="valorPorcentaje3"
                             className="form-control border rounded-pill px-3"
                             {...register("valorPorcentaje3", { required: true })}
                           />
@@ -388,7 +388,7 @@ const InventarioViveroCompensacion = () => {
                           </label>
                           <input
                             type="text"
-                            name="valorPorcentaje4"
+                         //   name="valorPorcentaje4"
                             className="form-control border rounded-pill px-3"
                             {...register("valorPorcentaje4", { required: true })}
                           />
