@@ -8,11 +8,11 @@ import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import Subtitle from "../../../components/Subtitle";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { IList } from "../../../Interfaces/auth";
 
-const INDICATIVO_PAIS_COLOMBIA = 57
+const INDICATIVO_PAIS_COLOMBIA = "57";
 const desbloqueoModel = {
   nombre_de_usuario: "",
   tipo_documento: {
@@ -25,15 +25,20 @@ const desbloqueoModel = {
   email: "",
   fecha_nacimiento: "",
   fecha_input: "",
-  redirect_url: ""
+  redirect_url: "",
+};
 
-}
+desbloqueoModel.telefono_celular = INDICATIVO_PAIS_COLOMBIA+desbloqueoModel.telefono;
+
 const DesbloqueoUsuarioScreen = () => {
   const [modelo, setModelo] = useState(desbloqueoModel);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
-  const [formValues, setFormValues] = useState<{ fechaNacimiento: Date | number }>();
+  const [formValues, setFormValues] = useState<{
+    fechaNacimiento: Date | number;
+    
+    
+  }>();
   const dispatch = useDispatch();
-
 
   const {
     register,
@@ -44,31 +49,41 @@ const DesbloqueoUsuarioScreen = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = async () => {
-    const data = { ...modelo };
-    modelo.redirect_url = process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo" : "http://localhost:3000/#/actualizar-contrasena-bloqueo";
-    data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono}`
-    await clienteAxios.post(
-      "users/unblock/",
-      data
-    ).then((res) => {
-      Swal.fire({
-        position: "center",
-        icon: "info",
-        title: "Datos correctos, revisa tu correo electronico",
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-      })
-    }).catch((err) => {
-      Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: "Datos invalidos",
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-      });
-    });
+ 
 
+  
+const onSubmit = async () => {
+    const data = { ...modelo };
+    console.log(modelo)
+  
+    modelo.redirect_url =
+      process.env.NODE_ENV === "production"
+        ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo"
+        : "localhost:3000/#/actualizar-contrasena-bloqueo";
+   
+    console.log(data.telefono_celular)
+    console.log(desbloqueoModel.telefono_celular)
+    console.log(modelo)
+    await clienteAxios
+      .post("users/unblock/", data)
+      .then((res) => {  console.log(data.telefono_celular)
+        Swal.fire({
+          position: "center",
+          icon: "info",
+          title: "Datos correctos, revisa tu correo electronico",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#3085d6",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Datos invalidos",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#3085d6",
+        });
+      });
   };
 
   useEffect(() => {
@@ -76,24 +91,21 @@ const DesbloqueoUsuarioScreen = () => {
   }, []);
 
   const getData = async () => {
-    await clienteAxios.get(
-      "choices/tipo-documento/"
-    ).then((res) => {
+    await clienteAxios.get("choices/tipo-documento/").then((res) => {
       const documentosFormat = textChoiseAdapter(res.data);
       setTipoDocumentoOptions(documentosFormat);
     });
-
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setModelo({ ...modelo, [name]: value });
-  }
+  };
   const handleChangeMulti = (e) => {
-    const data = { ...modelo }
+    const data = { ...modelo };
     data.tipo_documento.label = e.label;
     data.tipo_documento.value = e.value;
     setModelo(data);
-  }
+  };
   const selectDatePicker = (e) => {
     const formatData = { ...modelo };
     const data = formatISO(new Date(e), {
@@ -102,7 +114,7 @@ const DesbloqueoUsuarioScreen = () => {
     formatData.fecha_nacimiento = data;
     formatData.fecha_input = e;
     setModelo(formatData);
-  }
+  };
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -127,8 +139,7 @@ const DesbloqueoUsuarioScreen = () => {
                 <div className="col-12 ">
                   <div>
                     <label className="ms-3 text-terciary">
-                      Nombre de usuario:{" "}
-                      <span className="text-danger">*</span>
+                      Nombre de usuario: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border  border-terciary rounded-pill px-3"
@@ -190,8 +201,7 @@ const DesbloqueoUsuarioScreen = () => {
                 <div className="col-12">
                   <div>
                     <label className="ms-3 mt-2 text-terciary">
-                      Número de celular:{" "}
-                      <span className="text-danger">*</span>
+                      Número de celular: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border-terciary border rounded-pill px-3"
@@ -212,8 +222,7 @@ const DesbloqueoUsuarioScreen = () => {
                 <div className="col-12">
                   <div>
                     <label className="ms-3 mt-2 text-terciary">
-                      Correo electrónico:{" "}
-                      <span className="text-danger">*</span>
+                      Correo electrónico: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border-terciary border rounded-pill px-3"
