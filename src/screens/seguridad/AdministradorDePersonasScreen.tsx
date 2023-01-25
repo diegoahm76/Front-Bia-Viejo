@@ -62,7 +62,7 @@ const modelCreate = {
   telefono_empresa_2: "",
   telefono_fijo: "",
   email: "",
-  celular: "",
+  telefono_celular: "",
 };
 
 const busquedaAvanzadaModel = {
@@ -339,7 +339,7 @@ const AdministradorDePersonasScreen = () => {
       }),
       email: formValues.email, //Queda por comprobar si mejor se bloquea
       email_empresarial: formValues.email_empresarial || null,
-      telefono_celular: indicativo + formValues.celular,
+      telefono_celular: indicativo + formValues.telefono_celular,
       telefono_fijo_residencial: formValues.telefono_fijo,
       telefono_empresa_2: formValues.telefono_empresa_2,
       pais_residencia: formValues.pais_residencia?.value,
@@ -1244,11 +1244,11 @@ const AdministradorDePersonasScreen = () => {
                         maxLength={10}
                         minLength={10}
                         name="celular"
-                        value={formValues.celular}
+                        value={formValues.telefono_celular}
                         onChange={handleChangeCreate}
                       />
                     </div>
-                    {errorsPersona.celular && (
+                    {errorsPersona.telefono_celular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
                           Este campo es obligatorio, solo 10 caracteres
