@@ -203,7 +203,7 @@ const DirecionResidenciaModal = ({
     getDataDirecciones();
   }, []);
 
-  console.log(principalRuralOptions, 'principalRuralOptions')
+ 
   useEffect(() => {
     let fullAddress = "";
     if (selecDireccion.value === "urb") {
