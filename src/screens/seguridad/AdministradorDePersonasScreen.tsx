@@ -335,9 +335,6 @@ const AdministradorDePersonasScreen = () => {
       estado_civil: formValues.estado_civil?.value,
       pais_nacimiento: formValues.pais_nacimiento?.value,
       fecha_nacimiento: formValues.fecha_nacimiento,
-      // fecha_nacimiento: formatISO(formValues.fecha_nacimiento, {
-      //   representation: "date",
-      // }),
       email: formValues.email, //Queda por comprobar si mejor se bloquea
       email_empresarial: formValues.email_empresarial || null,
       telefono_celular: indicativo + formValues.telefono_celular,
@@ -1249,7 +1246,7 @@ const AdministradorDePersonasScreen = () => {
                     <div className="col-12 col-md-4" >
                         <label>Indicativo:</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary"
+                          className="form-control border rounded-pill px-3 border-terciary "
                           type="text"
                           maxLength={10}
                           minLength={10}
