@@ -145,6 +145,22 @@ const AdministradorDePersonasScreen = () => {
     formState: { errors: errorsBuscar },
   } = useForm();
 
+  const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
+    position: 'center',
+    icon: 'error',
+    title: message,
+    showConfirmButton: true,
+    confirmButtonText: 'Aceptar',
+  }).fire();
+
+  const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
+    position: 'center',
+    icon: 'success',
+    title: message,
+    showConfirmButton: true,
+    confirmButtonText: 'Aceptar',
+  }).fire();
+
   useEffect(() => {
     const getSelectsOptions = async () => {
       setLoading(true);
@@ -337,7 +353,7 @@ const AdministradorDePersonasScreen = () => {
       fecha_nacimiento: formValues.fecha_nacimiento,
       email: formValues.email, //Queda por comprobar si mejor se bloquea
       email_empresarial: formValues.email_empresarial || null,
-      telefono_celular: indicativo + formValues.telefono_celular,
+      telefono_celular: formValues.telefono_celular,
       telefono_fijo_residencial: formValues.telefono_fijo,
       telefono_empresa_2: formValues.telefono_empresa_2,
       pais_residencia: formValues.pais_residencia?.value,
@@ -357,21 +373,14 @@ const AdministradorDePersonasScreen = () => {
       id_unidad_organizacional_actual: null,
       justificacion_cambio: null,
     };
-
+    console.log(isEdit, "isEdit")
     if (isEdit) {
       try {
         const { data: dataUpdate } = await clienteAxios.patch(
-          `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
+          `personas/persona-natural/user-with-permissions/update/${formValues.tipo_documento.label}/${updatedPersona.numero_documento}/`,
           updatedPersona
         );
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Datos actualizados",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        // resetBuscar({ ...watchPersona(), numeroDocumento: "" });
+        notificationSuccess(dataUpdate.message);
         setIsVisible(false);
       } catch (err) {
         manejadorErroresSwitAlert(err);
@@ -684,7 +693,7 @@ const AdministradorDePersonasScreen = () => {
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipoDocumentoBusqueda}
-                    //required={true}
+                  //required={true}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -888,7 +897,7 @@ const AdministradorDePersonasScreen = () => {
                           name="primer_apellido"
                           value={formValues.primer_apellido}
                           onChange={handleChangeCreate}
-                          //required={true}
+                        //required={true}
                         />
                       </div>
                       {errorsPersona.primerApellido && (
@@ -1243,7 +1252,7 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div className="row">
-                    <div className="col-12 col-md-4" >
+                      <div className="col-12 col-md-4" >
                         <label>Indicativo:</label>
                         <input
                           className="form-control border rounded-pill px-3 border-terciary "
@@ -1258,7 +1267,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                       <div className="col-6 col-md-8">
                         <label>
-                          Celular: 
+                          Celular:
                         </label>
                         <input
                           className="form-control border rounded-pill px-3 border-terciary"
@@ -1279,7 +1288,7 @@ const AdministradorDePersonasScreen = () => {
                         </div>
                       )}
                     </div>
-                      
+
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div>
