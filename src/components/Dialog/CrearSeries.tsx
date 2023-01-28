@@ -26,25 +26,18 @@ interface IFormValues {
   nombre: string;
 }
 
-const CrearSeries= ({ isModalActive, setIsModalActive }) => {
-    
-
+const CrearSeries = ({ isModalActive, setIsModalActive }) => {
   // Dispatch instance
   const dispatch = useAppDispatch();
-
-  // Redux State Extraction
-  const { cvArticles } = useAppSelector((state) => state.cv);
 
   const initialState = {
     codigo: "",
     nombre: "",
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm<IFormValues>({ defaultValues: initialState });
+  const { register, handleSubmit, reset } = useForm<IFormValues>({
+    defaultValues: initialState,
+  });
 
   //ueeEffect para limpiar el store
   useEffect(() => {
@@ -69,34 +62,49 @@ const CrearSeries= ({ isModalActive, setIsModalActive }) => {
       maxWidth: 200,
     },
     {
-        headerName: "Nombre",
-        field: "Nombre",
-        minWidth: 150,
-        maxWidth: 200,
-      },
-      {
-        headerName: "Acciones",
-        field: "Acciones",
-        minWidth: 150,
-        maxWidth: 200,
-      },
-      {
-    
-        headerName: "Acciones",
-        field: "accion",
-        cellRendererFramework: (params) => (
-          <div>
-            <button className="btn text-capitalize " type="button" title="Editar">
-              <i className="fa-regular fa-pen-to-square fs-4"></i>
-            </button>
-            <button className="btn text-capitalize " type="button" title="Eliminar">
+      headerName: "Nombre",
+      field: "nombre",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+
+    {
+      headerName: "Acciones",
+      field: "accion",
+      cellRendererFramework: (params) => (
+        <div>
+          <button className="btn text-capitalize " type="button" title="Editar">
+            <i className="fa-regular fa-pen-to-square fs-4"></i>
+          </button>
+          <button
+            className="btn text-capitalize "
+            type="button"
+            title="Eliminar"
+          >
             <i className="fa-regular fa-trash-can fs-4"></i>
-            </button>
-            
-          </div>
-        ),
-      },
-    ]
+          </button>
+        </div>
+      ),
+    },
+  ];
+  const rowData = [
+    {
+      codigo: "1",
+      nombre: "serie numero 1",
+    },
+    {
+      codigo: "2",
+      nombre: "serie numero 2",
+    },
+    {
+      codigo: "3",
+      nombre: "serie numero 3",
+    },
+    {
+      codigo: "4",
+      nombre: "serie numero 4",
+    },
+  ];
   //configuración de tabla por defecto
   const defaultColDef = {
     sortable: true,
@@ -122,16 +130,13 @@ const CrearSeries= ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <h3 className="fw-light mt-4 mb-2">
-            Creacion de series 
-          </h3>
+          <h3 className="fw-light mt-4 mx-4">Creacion de series</h3>
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              
               <div className="col-12 col-sm-4 mt-2">
                 <div>
                   <label className="ms-3 text-terciary">Nombre</label>
@@ -149,7 +154,6 @@ const CrearSeries= ({ isModalActive, setIsModalActive }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Código"
-                    
                   />
                 </div>
               </div>
@@ -179,13 +183,22 @@ const CrearSeries= ({ isModalActive, setIsModalActive }) => {
                 >
                   <AgGridReact
                     columnDefs={columseries}
-                    rowData={""}
+                    rowData={rowData}
                     defaultColDef={defaultColDef}
                   />
                 </div>
               </div>
             </div>
-
+            <div className="col-12 col-sm-12 d-flex justify-content-end ">
+              <button
+                className="btn me-md-2  text-capitalize  px-3 mt-2 "
+                type="submit"
+                title="Cerrar"
+                onClick={() => setIsModalActive(false)}
+              >
+                <i className="fa-solid fa-x fs-3"></i>
+              </button>
+            </div>
           </form>
         </div>
       </div>
