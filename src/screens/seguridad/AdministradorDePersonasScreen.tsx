@@ -32,7 +32,8 @@ export const initialOptions: ISelectOptions[] = [
 const modelCreate = {
   tipo_documento: { label: "", value: "" },
   numero_documento: "",
-  fecha_nacimiento: new Date(),
+  fecha_nacimiento: "",
+  // fecha_nacimiento: new Date(),
   estado_civil: { label: "", value: "" },
   sexo: { label: "", value: "" },
   cod_pais_nacionalidad_empresa: { label: "Colombia", value: "CO" },
@@ -62,7 +63,7 @@ const modelCreate = {
   telefono_empresa_2: "",
   telefono_fijo: "",
   email: "",
-  celular: "",
+  telefono_celular: "",
 };
 
 const busquedaAvanzadaModel = {
@@ -126,6 +127,7 @@ const AdministradorDePersonasScreen = () => {
     []
   );
   const [formValues, setFormValues] = useState(modelCreate);
+  console.log(formValues, "este es ");
 
   const {
     reset: resetPersona,
@@ -142,6 +144,22 @@ const AdministradorDePersonasScreen = () => {
     handleSubmit: handleSubmitBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
+
+  const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
+    position: 'center',
+    icon: 'error',
+    title: message,
+    showConfirmButton: true,
+    confirmButtonText: 'Aceptar',
+  }).fire();
+
+  const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
+    position: 'center',
+    icon: 'success',
+    title: message,
+    showConfirmButton: true,
+    confirmButtonText: 'Aceptar',
+  }).fire();
 
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -252,7 +270,7 @@ const AdministradorDePersonasScreen = () => {
       setValue("direccion_residencia", dataPersona.direccion_residencia);
       let form = {
         ...dataPersona,
-        fecha_nacimiento: new Date(),
+        fecha_nacimiento: dataPersona.fecha_nacimiento,
         //departamento_residencia: { label: "", value: "" },
         //departamento_labora: { label: "", value: "" },
         //departamento_notificacion: { label: "", value: "" },
@@ -275,8 +293,8 @@ const AdministradorDePersonasScreen = () => {
         } || { label: "", value: "" },
         sexo: sexo || { label: "", value: "" },
         estado_civil: {
-          value: dataPersona.estado_civil.cod_estado_civil,
-          label: dataPersona.estado_civil.nombre,
+          value: dataPersona.estado_civil?.cod_estado_civil,
+          label: dataPersona.estado_civil?.nombre,
         } || { label: "", value: "" },
         pais_residencia: paisResidencia[0] || { label: "", value: "" },
         pais_nacimiento: paisNacimiento[0] || { label: "", value: "" },
@@ -289,9 +307,8 @@ const AdministradorDePersonasScreen = () => {
       };
 
       setFormValues(form);
-
     } catch (err: any) {
-      console.log(err);
+      console.log(err, "entre al error");
       if (err.response.data.detail) {
         Swal.fire({
           title:
@@ -333,12 +350,10 @@ const AdministradorDePersonasScreen = () => {
       sexo: formValues.sexo?.value,
       estado_civil: formValues.estado_civil?.value,
       pais_nacimiento: formValues.pais_nacimiento?.value,
-      fecha_nacimiento: formatISO(formValues.fecha_nacimiento, {
-        representation: "date",
-      }),
+      fecha_nacimiento: formValues.fecha_nacimiento,
       email: formValues.email, //Queda por comprobar si mejor se bloquea
       email_empresarial: formValues.email_empresarial || null,
-      telefono_celular: indicativo + formValues.celular,
+      telefono_celular: formValues.telefono_celular,
       telefono_fijo_residencial: formValues.telefono_fijo,
       telefono_empresa_2: formValues.telefono_empresa_2,
       pais_residencia: formValues.pais_residencia?.value,
@@ -353,26 +368,19 @@ const AdministradorDePersonasScreen = () => {
       direccion_residencia_ref: data.referenciaAdicional, // no modificar
       direccion_laboral: data.direccionLaboral, //no modificar
       direccion_notificaciones: data.direccionNotificaciones, // no modificar
-      ubicacion_georeferenciada: "mi casita 1",
+      ubicacion_georeferenciada: "villavicencio-meta",
       id_cargo: null,
       id_unidad_organizacional_actual: null,
       justificacion_cambio: null,
     };
-
+    console.log(isEdit, "isEdit")
     if (isEdit) {
       try {
         const { data: dataUpdate } = await clienteAxios.patch(
-          `personas/persona-natural/user-with-permissions/update/${updatedPersona.tipo_documento}/${updatedPersona.numero_documento}/`,
+          `personas/persona-natural/user-with-permissions/update/${formValues.tipo_documento.label}/${updatedPersona.numero_documento}/`,
           updatedPersona
         );
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Datos actualizados",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        // resetBuscar({ ...watchPersona(), numeroDocumento: "" });
+        notificationSuccess(dataUpdate.message);
         setIsVisible(false);
       } catch (err) {
         manejadorErroresSwitAlert(err);
@@ -659,6 +667,8 @@ const AdministradorDePersonasScreen = () => {
     setFormValues(form);
   };
 
+  console.log(formValues.primer_nombre);
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -672,8 +682,8 @@ const AdministradorDePersonasScreen = () => {
                 Administrador de personas
               </h3>
               <Subtitle title={"Buscar persona"} mt={0} mb={0} />
-              <div className="row ">
-                <div className="col-12 col-md-3 mt-4">
+              <div className="mt-4 row align-items-end ms-1">
+                <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
@@ -683,7 +693,7 @@ const AdministradorDePersonasScreen = () => {
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipoDocumentoBusqueda}
-                    //required={true}
+                  //required={true}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -693,8 +703,8 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-3 mt-4 ">
-                  
+                <div className="col-12 col-md-3">
+                  <div>
                     <label className="ms-2">
                       Número de documento:{" "}
                       <span className="text-danger">*</span>
@@ -708,6 +718,7 @@ const AdministradorDePersonasScreen = () => {
                       //required={true}
                       maxLength={15}
                     />
+                  </div>
                   {errorsBuscar.numeroDocumento && (
                     <div className="col-12">
                       <small className="text-center text-danger">
@@ -716,17 +727,20 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-6 mt-5">
+                <div className="col-12 col-md-6 mt-3 mt-md-0">
                   <button
                     type="submit"
-                    className="btn-image text-capitalize bg-white border"
+                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={onSubmitBuscar}
                   >
-                    <i className="fa-solid fa-magnifying-glass fs-3 mt-2" title="Buscar"></i>
+                    <i
+                      className="fa-solid fa-magnifying-glass fs-3"
+                      title="Buscar"
+                    ></i>
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary  text-uppercase"
+                    className="ms-3 btn bg-gradient-primary mb-0 text-uppercase"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Búsqueda avanzada
@@ -883,7 +897,7 @@ const AdministradorDePersonasScreen = () => {
                           name="primer_apellido"
                           value={formValues.primer_apellido}
                           onChange={handleChangeCreate}
-                          //required={true}
+                        //required={true}
                         />
                       </div>
                       {errorsPersona.primerApellido && (
@@ -932,7 +946,7 @@ const AdministradorDePersonasScreen = () => {
                         Fecha de nacimiento{" "}
                         <span className="text-danger">*</span>
                       </label>
-                      <DatePicker
+                      {/* <DatePicker
                         locale="es"
                         showYearDropdown
                         peekNextMonth
@@ -945,6 +959,14 @@ const AdministradorDePersonasScreen = () => {
                         onSelect={handleFechaNacimiento}
                         className="form-control border rounded-pill px-3 border-terciary"
                         placeholderText="dd/mm/aaaa"
+                      /> */}
+                      <input
+                        className="form-control border rounded-pill px-3 border-terciary"
+                        type="text"
+                        disabled={true}
+                        name="segundo_apellido"
+                        onChange={handleChangeCreate}
+                        value={formValues.fecha_nacimiento}
                       />
 
                       {errorsPersona.fechaNacimiento && (
@@ -1229,27 +1251,44 @@ const AdministradorDePersonasScreen = () => {
                     )}
                   </div>
                   <div className="col-12 col-md-3 mt-2">
-                    <div>
-                      <label>
-                        Celular: <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3 border-terciary"
-                        type="text"
-                        maxLength={10}
-                        minLength={10}
-                        name="celular"
-                        value={formValues.celular}
-                        onChange={handleChangeCreate}
-                      />
-                    </div>
-                    {errorsPersona.celular && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio, solo 10 caracteres
-                        </small>
+                    <div className="row">
+                      <div className="col-12 col-md-4" >
+                        <label>Indicativo:</label>
+                        <input
+                          className="form-control border rounded-pill px-3 border-terciary "
+                          type="text"
+                          maxLength={10}
+                          minLength={10}
+                          name="celular"
+                          disabled
+                          value={"+57"}
+                          onChange={handleChangeCreate}
+                        />
                       </div>
-                    )}
+                      <div className="col-6 col-md-8">
+                        <label>
+                          Celular:
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3 border-terciary"
+                          type="text"
+                          maxLength={10}
+                          minLength={10}
+                          name="celular"
+                          disabled
+                          value={formValues.telefono_celular.slice(2)}
+                          onChange={handleChangeCreate}
+                        />
+                      </div>
+                      {errorsPersona.telefono_celular && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio, solo 10 caracteres
+                          </small>
+                        </div>
+                      )}
+                    </div>
+
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div>
@@ -1316,7 +1355,7 @@ const AdministradorDePersonasScreen = () => {
                         Cargando...
                       </>
                     ) : (
-                      <i className="fa-solid fa-x fs-3" title="Cancelar" ></i>
+                      <img src={botonCancelar} alt="" title="Cancelar" />
                     )}
                   </button>
 
@@ -1335,9 +1374,9 @@ const AdministradorDePersonasScreen = () => {
                         Cargando...
                       </>
                     ) : isEdit ? (
-                      <i className="fa-solid fa-arrows-rotate fs-3" title="Actualizar"></i>
+                      <img src={botonActualizar} alt="" title="Actualizar" />
                     ) : (
-                      <i className="fa-regular fa-plus fs-3" title="Crear"></i>
+                      <img src={botonAgregar} alt="" title="Crear" />
                     )}
                   </button>
                 </div>
@@ -1377,7 +1416,6 @@ const AdministradorDePersonasScreen = () => {
           <BusquedaAvanzadaModal
             isModalActive={busquedaAvanzadaIsOpen}
             setIsModalActive={setBusquedaAvanzadaIsOpen}
-            setFormValues={setFormValuesSearch}
             setModel={setBusquedaModel}
             reset={resetBuscar}
             tipoDocumentoOptions={tipoDocumentoOptions}

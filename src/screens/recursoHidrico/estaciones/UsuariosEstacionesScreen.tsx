@@ -67,7 +67,7 @@ const UsuariosEstacionesScreen = () => {
             type="button"
             onClick={() => {
               // dispatch(obtenerUsuarioEditarAction(params.data));
-              setIsModalEditarActive(!isModalEditarActive);
+              //setIsModalEditarActive(!isModalEditarActive);
             }}
           >
             <img src={IconoEditarBia} alt="editar" title="Editar" />
@@ -77,7 +77,7 @@ const UsuariosEstacionesScreen = () => {
             type="button"
             onClick={() => {
               // dispatch(obtenerUsusarioEliminarAction(params.data));
-              setIsModalEliminarActive(!isModalActive);
+              //setIsModalEliminarActive(!isModalActive);
             }}
           >
             <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
@@ -126,7 +126,7 @@ const UsuariosEstacionesScreen = () => {
           </div>
         </div>
       </div>
-      <NuevoUsuarioModal
+      {/* <NuevoUsuarioModal
         setIsModalActive={setIsModalActive}
         isModalActive={isModalActive}
       />
@@ -137,7 +137,7 @@ const UsuariosEstacionesScreen = () => {
       <EliminarUsuarioModal
         setIsModalActive={setIsModalEliminarActive}
         isModalActive={isModalEliminarActive}
-      />
+      /> */}
     </div>
   );
 };
