@@ -44,8 +44,9 @@ const Aside = ({ showAside }) => {
 
   return (
     <aside
-      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"
-        } fixed-start bg-terciary`}
+      className={`collapse sidenav navbar navbar-vertical ${
+        showAside && "navbar-expand-xs"
+      } fixed-start bg-terciary`}
       id="sidenav-main"
       style={{
         minWidth: "273px",
@@ -67,7 +68,11 @@ const Aside = ({ showAside }) => {
           id="sidenav-collapse-main"
         >
           <ul className="navbar-nav">
-            <img src={IconoUser} className="px-5 mb-3 rounded rounded-circle" alt="user" />
+            <img
+              src={IconoUser}
+              className="px-5 mb-3 rounded rounded-circle"
+              alt="user"
+            />
             <li className="nav-item mb-2 mt-0">
               <a
                 data-bs-toggle="collapse"
@@ -78,7 +83,9 @@ const Aside = ({ showAside }) => {
                 aria-expanded="false"
               >
                 <span className="nav-link-text ms-2 ps-1 d-block text-center">
-                  {userInfo.userSesion ? userInfo?.userSesion : userInfo?.userinfo.nombre_de_usuario}
+                  {userInfo.userSesion
+                    ? userInfo?.userSesion
+                    : userInfo?.userinfo.nombre_de_usuario}
                 </span>
               </a>
               <div className="collapse" id="ProfileNav">
@@ -86,9 +93,13 @@ const Aside = ({ showAside }) => {
                   <li className="nav-item">
                     <Link
                       className="nav-link text-white"
-                      onClick={logoutHandler} to={""}                    >
+                      onClick={logoutHandler}
+                      to={""}
+                    >
                       <span className="sidenav-mini-icon"> F </span>
-                      <span className="sidenav-normal  ms-3  ps-1">Cerrar sesión</span>
+                      <span className="sidenav-normal  ms-3  ps-1">
+                        Cerrar sesión
+                      </span>
                     </Link>
                   </li>
                   {!userInfo?.userinfo.is_superuser && (
@@ -2341,6 +2352,19 @@ const Aside = ({ showAside }) => {
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Partes Interesadas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/DashboardEstaciones"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Dashboards Estaciones
                                 </span>
                               </Link>
                             </li>
