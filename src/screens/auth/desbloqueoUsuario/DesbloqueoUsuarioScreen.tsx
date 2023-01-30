@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import ReactDatePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,25 +11,23 @@ import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { IList } from "../../../Interfaces/auth";
+import moment from "moment";
 
-const INDICATIVO_PAIS_COLOMBIA = "57";
+
 const desbloqueoModel = {
   nombre_de_usuario: "",
-  tipo_documento: {
-    value: "",
-    label: "",
-  },
+  tipo_documento: "",
   numero_documento: "",
-  telefono: "",
+ //telefono: "",
   telefono_celular: "",
   email: "",
   fecha_nacimiento: "",
-  fecha_input: "",
+ //fecha_input: "",
   redirect_url: "",
+ 
 };
 
-desbloqueoModel.telefono_celular = INDICATIVO_PAIS_COLOMBIA+desbloqueoModel.telefono;
-
+//const telefono=""
 const DesbloqueoUsuarioScreen = () => {
   const [modelo, setModelo] = useState(desbloqueoModel);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
@@ -49,24 +47,58 @@ const DesbloqueoUsuarioScreen = () => {
 
   const navigate = useNavigate();
 
- 
+const telefono=""
+const indicativo= "57"
 
+const [selectedDate, setSelectedDate] = useState(null);
+const [dateString, setDateString] = useState("");
   
+
+const handleDateChange = date => {
+  setSelectedDate(date);
+};
+
+const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
+
+
+// function handleDateChange(date) {
+//   setSelectedDate(date);
+//   const dateString = date.toLocaleDateString("es-ES", {
+//       day: "2-digit",
+//       month: "2-digit",
+//       year: "numeric"
+//   });
+//   setDateString(dateString);
+
+// }
+
+
 const onSubmit = async () => {
     const data = { ...modelo };
-    console.log(modelo)
+ 
+
+    data.fecha_nacimiento=dateString
   
+    modelo.fecha_nacimiento=data.fecha_nacimiento
     modelo.redirect_url =
       process.env.NODE_ENV === "production"
         ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo"
-        : "localhost:3000/#/actualizar-contrasena-bloqueo";
-   
-    console.log(data.telefono_celular)
-    console.log(desbloqueoModel.telefono_celular)
-    console.log(modelo)
+        : "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo";
+    data.telefono_celular = (`${indicativo}${data.telefono_celular}`);
+    
+    modelo.telefono_celular=data.telefono_celular
+    desbloqueoModel.telefono_celular=modelo.telefono_celular
+   // modelo.telefono=""
+   desbloqueoModel.email=modelo.email
+   desbloqueoModel.fecha_nacimiento=formattedDate
+   desbloqueoModel.nombre_de_usuario=modelo.nombre_de_usuario
+   desbloqueoModel.numero_documento=modelo.numero_documento
+   desbloqueoModel.redirect_url=modelo.redirect_url
+   desbloqueoModel.tipo_documento=modelo.tipo_documento  
+   console.log(desbloqueoModel)
     await clienteAxios
-      .post("users/unblock/", data)
-      .then((res) => {  console.log(data.telefono_celular)
+      .post("users/unblock/", desbloqueoModel)
+      .then((res) => { 
         Swal.fire({
           position: "center",
           icon: "info",
@@ -92,7 +124,7 @@ const onSubmit = async () => {
 
   const getData = async () => {
     await clienteAxios.get("choices/tipo-documento/").then((res) => {
-      const documentosFormat = textChoiseAdapter(res.data);
+      const documentosFormat = textChoiseAdapter(res.data.value);
       setTipoDocumentoOptions(documentosFormat);
     });
   };
@@ -102,19 +134,23 @@ const onSubmit = async () => {
   };
   const handleChangeMulti = (e) => {
     const data = { ...modelo };
-    data.tipo_documento.label = e.label;
-    data.tipo_documento.value = e.value;
+   // data.tipo_documento.label = e.label;
+    data.tipo_documento = e.value;
     setModelo(data);
   };
-  const selectDatePicker = (e) => {
-    const formatData = { ...modelo };
-    const data = formatISO(new Date(e), {
-      representation: "date",
-    });
-    formatData.fecha_nacimiento = data;
-    formatData.fecha_input = e;
-    setModelo(formatData);
-  };
+  // const selectDatePicker = (e) => {
+  //   const formatData = { ...modelo };
+  //   const data = formatISO(new Date(e), {
+  //     representation: "date",
+  //   });
+  //  // const selectedDateString=selectedDate.toLocaleDateString("es-ES")
+  //   formatData.fecha_nacimiento = data;
+  //   console.log(formatData.fecha_nacimiento);
+  //   formatData.fecha_nacimiento = e;
+  //   console.log(formatData.fecha_nacimiento);
+  //   setModelo(formatData);
+  // };
+  
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -162,10 +198,19 @@ const onSubmit = async () => {
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
                   <Select
-                    options={tipoDocumentoOptions}
+                   options={[
+                    { label: "Cédula de ciudadanía", value: "CC" },
+                    { label: "Cédula extranjería", value: "CE" },
+                    { label: "Tarjeta de identidad", value: "TI" },
+                    { label: "Registro civil", value:"RC"},
+                    { label: "NUIP", value: "NU"},
+                    { label: "Pasaporte", value: "PA"},
+                    { label: "Permiso especial de permanencia", value: "PE"},
+                    { label: "NIT", value: "NI"}
+                  ]}
                     placeholder="Seleccionar"
                     name="tipo_documento"
-                    value={modelo.tipo_documento}
+                   // value={modelo.tipo_documento}
                     onChange={handleChangeMulti}
                   />
                   {errors.tipo_documento && (
@@ -206,8 +251,8 @@ const onSubmit = async () => {
                     <input
                       className="form-control border-terciary border rounded-pill px-3"
                       type="number"
-                      name="telefono"
-                      value={modelo.telefono}
+                      name="telefono_celular"
+                      value={modelo.telefono_celular}
                       onChange={handleChange}
                     />
                     {errors.telefono_celular && (
@@ -246,7 +291,7 @@ const onSubmit = async () => {
                       Fecha de nacimiento:{" "}
                       <span className="text-danger">*</span>
                     </label>
-                    <ReactDatePicker
+                    <DatePicker
                       locale="es"
                       showYearDropdown
                       peekNextMonth
@@ -254,9 +299,9 @@ const onSubmit = async () => {
                       scrollableYearDropdown
                       dropdownMode="select"
                       autoComplete="off"
-                      dateFormat="dd/MM/yyyy"
-                      selected={modelo.fecha_input}
-                      onSelect={selectDatePicker}
+                      dateFormat="yyyy-MM-dd"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
                       className="form-control  border-terciary border rounded-pill px-3 "
                       placeholderText="dd/mm/aaaa"
                     />
