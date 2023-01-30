@@ -16,8 +16,8 @@ const INDICATIVO_PAIS_COLOMBIA = 57
 const desbloqueoModel = {
   nombre_de_usuario: "",
   tipo_documento: {
+    value: "",
     label: "",
-    value: ""
   },
   numero_documento: "",
   telefono: "",

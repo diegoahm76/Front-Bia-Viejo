@@ -262,7 +262,7 @@ const ActivarMaterialCuarentenaScreen = () => {
                 className="mt-5 btn  text-capitalize "
                 type="submit"
               >
-                <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                <i className="fa-solid fa-magnifying-glass fs-3"></i>
               </button>
             </div>
           </div>
@@ -287,7 +287,7 @@ const ActivarMaterialCuarentenaScreen = () => {
                 title="Salir"
                 form="configForm"
               >
-                <i class="fa-solid fa-arrow-right-from-bracket fs-3"></i>
+                <i className="fa-solid fa-arrow-right-from-bracket fs-3"></i>
               </button>
             </div>
           </div>)

@@ -123,21 +123,20 @@ function EditarMaterialVegetalScreen() {
                   <span className="text-danger">*</span>
 
                   <Select
-                    {...register("vivero")}
+                    
                     defaultValue={selectedCategory}
-                    onChange={setSelectedCategory}
+              
                     options={options}
                     placeholder="Seleccione vivero"
-                  />
+                  ></Select>
                 </div>
                 <div className="col-12 col-md-3 d-flex align-items-end">
                   <button
                     type="submit"
-                    Value="buscar"
                     className="btn text-capitalize mt-5 border rounded-pill px-3"
                     title=" Buscar"
                   >
-                    <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                    <i className="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
               </div>
@@ -160,8 +159,8 @@ function EditarMaterialVegetalScreen() {
                   <input
                     type="text"
                     className="form-control border border-terciary rounded-pill px-3"
-                    disabled
-                    value={"1200"}
+                    disabled={true}
+                  
                   />
                 </div>
                 <div className="col-12 col-md-3">
@@ -194,7 +193,7 @@ function EditarMaterialVegetalScreen() {
                     type="button"
                     className="btn flex-center text-capitalize border rounded-pill px-3"
                   >
-                    <i class="fa-regular fa-floppy-disk fs-3"></i>
+                    <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
                 </div>
                 <div className="mx-1 d-flex justify-content-center">
@@ -202,7 +201,7 @@ function EditarMaterialVegetalScreen() {
                     type="button"
                     className="btn flex-center text-capitalize border rounded-pill px-3"
                   >
-                    <i class="fa-solid fa-x fs-3"></i>
+                    <i className="fa-solid fa-x fs-3"></i>
                   </button>
                 </div>
               </div>

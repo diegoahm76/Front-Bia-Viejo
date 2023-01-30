@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { userLoginAction } from "../../actions/userActions";
 import LogoCormacarena from "../../assets/LogosBIAPNG/logoBia.svg";
@@ -9,12 +9,15 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
+
 import { loginUser } from "../../store/slices/Login";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+import { isValid } from "date-fns";
+import axios from "axios";
 
 function LoginScreen() {
   const navigate = useNavigate();
-  const captchaRef = useRef(null);
+  const captchaRef = useRef<HTMLInputElement>(null);
   const userInfoEmail = useAppSelector((state) => state.login.userinfo.email);
   const reintentos = useAppSelector((state) => state.login.reintentos);
 
@@ -23,48 +26,49 @@ function LoginScreen() {
 
   const { register, handleSubmit } = useForm();
 
-  const submitHandler = (dataForm) => {
+  const [recaptchaValue, setRecaptchaValue] = useState(captchaRef);
+
+  function handleRecaptchaChange(captchaRef) {
+    setRecaptchaValue(captchaRef);
+    console.log(captchaRef);
+
+    //   // const token = captchaRef;
+    //   // return (token);
+  }
+
+ // const [token, setToken] = useState("");
+  const [isCaptchaValid, setIsCaptchaValid] = useState(false);
+
+  function submitHandler(dataForm) {
+    //  this.setRecaptchaValue({captchaRef});
+console.log(recaptchaValue)
+    console.log(isCaptchaValid);
+    //event.preventDefault();
+
+    if (!isCaptchaValid) {
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        text: "Es necesario validar el Captcha, para poder ingresar",
+        //     //ButtonText: "Aceptar",
+        //     //ButtonColor: "#3085d6",
+        //     //  is_active: true,
+      });
+
+      return;
+    }
+
+    // enviar solo las credenciales de inicio de sesión al servidor
+    // si la validación es exitosa, iniciar sesión
+    // de lo contrario, mostrar un mensaje de error
 
     loginUser(dispatch, dataForm.email, dataForm.password);
-    // const token = captchaRef.current.getValue();
-    // if (token) {
-    //   loginUser(dispatch, dataForm.email, dataForm.password);
-    // } else {
-    //   // Swal.fire({
-    //   //   position: "center",
-    //   //   icon: "info",
-    //   //   title: "Es necesario validar el captcha, para poder ingresar",
-    //   //   confirmButtonText: "Aceptar",
-    //   //   confirmButtonColor: "#3085d6",
-    //   //   is_active: true,
-    //   // });
-    // }
-  };
+    dataForm.captcha = recaptchaValue;
+    console.log(recaptchaValue);
+    console.log(dataForm.captcha);
+  }
 
-  // useEffect(() => {
-  //   //console.log("useEffect error", error)
-  //   if (error?.login_erroneo?.contador) {
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "warning",
-  //       title: `Intento Número ${error?.login_erroneo?.contador} de 3, su cuenta será bloqueada al tercer intento`,
-  //       confirmButtonText: "Aceptar",
-  //       confirmButtonColor: "#3085d6",
-  //       is_active: true,
-  //     });
-  //   } else if (error?.detail) {
-  //     console.log("Entro aca");
-  //     Swal.fire({
-  //       position: "center",
-  //       icon: "warning",
-  //       title: error.detail,
-  //       confirmButtonText: "Aceptar",
-  //       confirmButtonColor: "#3085d6",
-  //       is_active: true,
-  //     });
-  //   } else {
-  //   }
-  // }, [error]);
+ 
 
   const handleClickToDesbloqueo = () => {
     navigate("/desbloqueo-usuario");
@@ -154,14 +158,19 @@ function LoginScreen() {
                   ) : (
                     ""
                   )}
-
-                  {/* <div className="mt-4 d-flex justify-content-center">
+                  <div className="mt-4 d-flex justify-content-center">
                     <ReCaptcha
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
                       hl="es"
+                   
+                     onChange={() => setIsCaptchaValid(true)}
+                     onExpired={() => setIsCaptchaValid(false)}
+                     onError={() => setIsCaptchaValid(false)}
+                   
                     />
-                  </div> */}
+                  </div>{" "}
+                  *
                   <div className="d-flex justify-content-center">
                     <button
                       type="submit"

@@ -136,7 +136,7 @@ const CrearProduccionPropiaScreen = () => {
               Producción Propia
             </h3>
             <div className="row">
-              <Subtitle title="información general" mb="3" />
+              <Subtitle title="información general"  />
               <div className="col-12 col-sm-3">
                 <label className="form-control ms-3">
                   Seleccionar vivero <span className="text-danger">*</span>
@@ -193,7 +193,7 @@ const CrearProduccionPropiaScreen = () => {
                     className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                     title="Buscar"
                   >
-                   <i class="fa-solid fa-magnifying-glass fs-3"></i>
+                   <i className="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
                 </div>
               </div>
@@ -206,7 +206,7 @@ const CrearProduccionPropiaScreen = () => {
               onSubmit={handleSubmit2(onSubmitGuardar)}
             >
               <div className="row">
-                <Subtitle title="información del material vegetal" mb="3" />
+                <Subtitle title="información del material vegetal"  />
                 <div className="col-12 col-sm-3">
                   <label className="form-control ms-3">
                     Lote de siembra No.
@@ -227,7 +227,7 @@ const CrearProduccionPropiaScreen = () => {
                   <div className="row">
                     <Subtitle
                       title="información del producto a ingresar"
-                      mb="3"
+                      
                     />
                     <div className="col-12 col-sm-3 mt-3">
                       <div>
@@ -236,7 +236,7 @@ const CrearProduccionPropiaScreen = () => {
                           className="form-control border border-terciary rounded-pill px-3"
                           type="number"
                           placeholder="cantidad"
-                          name="cantidad"
+                         // name="cantidad"
                           {...register2("cantidad", { required: true })}
                         />
                         {errors2.cantidad && (
@@ -253,7 +253,7 @@ const CrearProduccionPropiaScreen = () => {
                           className="form-control border border-terciary rounded-pill px-3"
                           type="number"
                           placeholder="Tamaño Promedio (cm)"
-                          name="tamano"
+                          //name="tamano"
                           {...register2("tamano", { required: true })}
                         />
                         {errors2.tamano && (
@@ -295,14 +295,14 @@ const CrearProduccionPropiaScreen = () => {
                       type="submit"
                       title="Cancelar"
                     >
-                <i class="fa-solid fa-x fs-3"></i>
+                <i className="fa-solid fa-x fs-3"></i>
                     </button>
                     <button
                       className="btn  text-capitalize"
                       type="submit"
                       title="Guardar"
                     >
-                     <i class="fa-regular fa-floppy-disk fs-3"></i>
+                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                     </button>
                   </div>
                 </div>

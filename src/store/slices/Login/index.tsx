@@ -16,6 +16,9 @@ export interface IUserInfo {
     },
     userSesion: string;
     reintentos: boolean;
+    
+    
+    
 
 }
 const initialState: IUserInfo = {
@@ -32,7 +35,8 @@ const initialState: IUserInfo = {
     userSesion: "",
     permisos: [],
     representante_legal: [],
-    reintentos: false
+    reintentos: false,
+
 
 };
 
@@ -76,6 +80,8 @@ export const loginUser = async (dispatch, email: string, password: string) => {
         if (error.response.status === 403) {
             dispatch(setReintentos())
         }
+        console.log(setReintentos)
+        console.log("soy yo")
         Swal.fire({
             position: "center",
             icon: "warning",
