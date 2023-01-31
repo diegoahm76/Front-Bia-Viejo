@@ -9,11 +9,19 @@ import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUn
 import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
-    position: "center",
-    icon: "error",
+    position: 'center',
+    icon: 'error',
     title: message,
     showConfirmButton: true,
-    confirmButtonText: "Aceptar",
+    confirmButtonText: 'Aceptar',
+}).fire();
+
+const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
+    position: 'center',
+    icon: 'success',
+    title: message,
+    showConfirmButton: true,
+    confirmButtonText: 'Aceptar',
 }).fire();
 
 //Obtener los CCDS terminados
@@ -22,6 +30,21 @@ export const getFinishedCCDSService = () => {
         try {
             const { data } = await clienteAxios.get('gestor/ccd/get-terminados/');
             // dispatch(getMoldOrganigrams(data.data));
+            notificationSuccess(data.detail);
+            return data;
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
+            return error as AxiosError;
+        }
+    };
+};
+//Obtener Cuadro de Clasificación Documental
+export const getClassificationCCDSService = () => {
+    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+        try {
+            const { data } = await clienteAxios.get('gestor/ccd/get-list/?pk=1');
+            // dispatch(getMoldOrganigrams(data.data));
+            notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -30,12 +53,14 @@ export const getFinishedCCDSService = () => {
     };
 };
 
-//Obtener Organigrama
-export const getOrganigramsService = () => {
+//Reanudar Cuadro de Clasificación Documental
+export const toResumeCCDSService = (id: string, navigate: NavigateFunction) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.get("almacen/organigrama/get/");
-            dispatch(getOrganigrams(data.Organigramas));
+            const { data } = await clienteAxios.put(`gestor/ccd/resume/1/`);
+            // dispatch(getOrganigramsService());
+            notificationSuccess(data.detail);
+            // navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -43,14 +68,36 @@ export const getOrganigramsService = () => {
         }
     };
 };
-//Agregar Organigrama
-export const addOrganigramsService = (organigrama: IObjCreateOrganigram, navigate: NavigateFunction) => {
+//Finalizar Cuadro de Clasificación Documental
+export const toFinishedCCDSService = (id: string, navigate: NavigateFunction) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.post("almacen/organigrama/create/", organigrama);
-            dispatch(getOrganigramsService());
+            const { data } = await clienteAxios.put(`gestor/ccd/finish/2/`);
+            // dispatch(getOrganigramsService());
+            notificationSuccess(data.detail);
+            // navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
+            return data;
+        } catch (error: any) {
+            notificationError(error.response.data.detail);
+            return error as AxiosError;
+        }
+    };
+};
+
+
+//Crear Cuadro de Clasificación Documental (CCD)
+export const createCCDSService = (CCD: IObjCreateOrganigram, navigate: NavigateFunction) => {
+    // {
+    //     "id_organigrama": 1,
+    //     "version": "5.0",
+    //     "nombre": "CCD 5"
+    // }
+    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+        try {
+            const { data } = await clienteAxios.post("gestor/ccd/create/", CCD);
+            // dispatch(getOrganigramsService());
             dispatch(currentOrganigram(data.detail));
-            Swal.fire("Correcto", "El organigrama se agrego correctamente", "success");
+            notificationSuccess(data.detail);
             navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
             return data;
         } catch (error: any) {
@@ -60,90 +107,13 @@ export const addOrganigramsService = (organigrama: IObjCreateOrganigram, navigat
         }
     };
 };
-//Editar Organigrama
-export const editOrganigramsService = (organigrama: IObjCreateOrganigram, id: string) => {
+//Update Cuadro de Clasificación Documental
+export const editOrganigramsService = (CCD: IObjCreateOrganigram, id: string) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.patch(`almacen/organigrama/update/${id}/`, organigrama);
-            dispatch(getOrganigramsService());
-            Swal.fire("Correcto", "El organigrama se editó correctamente", "success");
-            return data;
-        } catch (error: any) {
-            notificationError(error.response.data.detail);
-            return error as AxiosError;
-        }
-    };
-};
-//Finalizar Organigrama
-export const toFinalizeOrganigramService = (id: string, navigate: NavigateFunction) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        try {
-            const { data } = await clienteAxios.put(`almacen/organigrama/finalizar/${id}/`);
-            dispatch(getOrganigramsService());
-            Swal.fire({
-                position: "center", icon: "info", title: "Atención", text: data.detail,
-            });
-            navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
-            return data;
-        } catch (error: any) {
-            notificationError(error.response.data.detail);
-            return error as AxiosError;
-        }
-    };
-};
-
-// Niveles
-//Obtener Niveles
-export const getLevelsService = (id: string | number | null) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        try {
-            const { data } = await clienteAxios.get(`almacen/organigrama/niveles/get-by-organigrama/${id}/`);
-            dispatch(getLevels(data.data));
-            return data;
-        } catch (error: any) {
-            notificationError(error.response.data.detail);
-            return error as AxiosError;
-        }
-    };
-};
-
-// Actualizar Niveles
-export const updateLevelsService = (id: string | number | null, newLevels: IObjLevels[]) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        try {
-            const { data } = await clienteAxios.put(`almacen/organigrama/niveles/update/${id}/`, newLevels);
-            dispatch(getLevelsService(id));
-            Swal.fire("Correcto", "Proceso Exitoso", "success");
-            return data;
-        } catch (error: any) {
-            notificationError(error.response.data.detail);
-            return error as AxiosError;
-        }
-    };
-};
-// Unidades
-
-//Obtener Unidades
-export const getUnitysService = (id: string | number | null) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        try {
-            const { data } = await clienteAxios.get(`almacen/organigrama/unidades/get-by-organigrama/${id}/`);
-            dispatch(getUnitys(data.data));
-            return data;
-        } catch (error: any) {
-            notificationError(error.response.data.detail);
-            return error as AxiosError;
-        }
-    };
-};
-
-// Actualizar Unidades
-export const updateUnitysService = (id: string | number | null, newUnitys: FormValuesUnitys[]) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
-        try {
-            const { data } = await clienteAxios.put(`almacen/organigrama/unidades/update/${id}/`, newUnitys);
-            dispatch(getUnitysService(id));
-            Swal.fire("Correcto", "Proceso Exitoso", "success");
+            const { data } = await clienteAxios.patch(`gestor/ccd/update/2/`, CCD);
+            // dispatch(getOrganigramsService());
+            notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
