@@ -262,7 +262,7 @@ const AdministradosDeUsuario = () => {
         roles: rolesFormat,
         redirect_url:
           process.env.NODE_ENV === "production"
-            ? "https://front-bia.netlify.app/#/login"
+            ? "https://main--macareniafrontmain.netlify.app/#/login"
             : "http://localhost:3000/#/login",
       };
 
