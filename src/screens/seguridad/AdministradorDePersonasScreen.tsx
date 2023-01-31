@@ -254,7 +254,8 @@ const AdministradorDePersonasScreen = () => {
       //TODO:
       //Filtra el departamento de la persona (Revisar Julian, despues borra este comentario)
       const departamentoNotificacion = departamentosOptions.filter((departamento) => {
-        return departamento.value === dataPersona.departamento_notificacion;
+        console.log(dataPersona?.cod_municipio_notificacion_nal?.substr(-20, 2), 'departamento')
+        return departamento.value === dataPersona?.cod_municipio_notificacion_nal?.substr(-20, 2);
       });
 
       const municipioLaboral = municipiosOptions.filter((municipio) => {
