@@ -930,6 +930,7 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="tel"
+                        maxLength={10}
                         onCopy={(e) => e.preventDefault()}
                         name='celular'
                         onChange={handleChangePhone}
