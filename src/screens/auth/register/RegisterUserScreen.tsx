@@ -69,7 +69,7 @@ const RegisterUserScreen = () => {
           tipo_usuario: "E", // Debería ser por defecto que se creara en E
           redirect_url:
             process.env.NODE_ENV === "production"
-              ? "https://front-bia.netlify.app/#/login"
+              ? "https://develop--macareniafrontdevelop.netlify.app/#/login"
               : "http://localhost:3000/#/login",
         };
         crearUsuario(user);
