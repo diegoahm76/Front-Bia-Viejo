@@ -70,7 +70,7 @@ const RegisterUserScreen = () => {
           redirect_url:
             process.env.NODE_ENV === "production"
               ? "https://front-bia.netlify.app/#/login"
-              : "http://localhost:3000/#/login",
+              : "http://localhost:3000/#/loginjjj",
         };
         crearUsuario(user);
       }).catch(() => {
