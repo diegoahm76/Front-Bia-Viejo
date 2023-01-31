@@ -182,8 +182,6 @@ const CcdScreen = () => {
                   </div>
                 )}
               </div>
-            </div>
-            <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <div>
                   <label className="ms-2 text-terciary">Nombre del CCD<samp className="text-danger">*</samp></label>
@@ -211,19 +209,11 @@ const CcdScreen = () => {
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4 mt-4">
-                <button
-                  className="btn me-md-2  text-capitalize  px-3 mt-3"
-                  type="button"
-                  title="Buscar"
-                >
-                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                </button>
-              </div>
             </div>
-            <Subtitle title="Registro de series y subseries" mb={3} />
+            
+            <Subtitle title="Registro de series y subseries" mt={3} mb={3} />
             <div className="row">
-              <div className="col-12 col-lg-3  mt-3">
+              <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
                   Series
                   <samp className="text-danger">*</samp>
@@ -254,17 +244,35 @@ const CcdScreen = () => {
                 )}
               </div>
               <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
+                <div className="d-grid gap-2  mx-2">
                   <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width"
                     type="button"
                     onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Crear series
                   </button>
                 </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                    onClick={() => SetcrearseriesIsactive(true)}
+                  >
+                    Clonar
+                  </button>
+                </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                    onClick={() => SetcrearseriesIsactive(true)}
+                  >
+                    Previzualizar
+                  </button>
+                </div>
               </div>
-              <div className="col-12 col-lg-3  mt-3">
+              <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
                   Subseries
                   <samp className="text-danger">*</samp>
@@ -295,13 +303,31 @@ const CcdScreen = () => {
                 )}
               </div>
               <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
+                <div className="d-grid gap-2 mx-2">
                   <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
                     onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Crear subseries
+                  </button>
+                </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                    onClick={() => SetcrearseriesIsactive(true)}
+                  >
+                    Clonar
+                  </button>
+                </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                    onClick={() => SetcrearseriesIsactive(true)}
+                  >
+                    Previzualizar
                   </button>
                 </div>
               </div>
