@@ -353,6 +353,11 @@ const useEdicionOrganigrama = () => {
         dispatch(updateLevelsService(organigramCurrent.id_organigrama, newNiveles));
     };
 
+    //Vuelve a los valores iniciales
+    const cleanUnitys = () => {
+        resetUnidades(initialStateUnitys);
+    };
+
     //Funcion para actualizar un unidades
     const submitUnidades: SubmitHandler<FormValuesUnitys> = ({ codigo, nombre, nivelPadre, tipoUnidad, agrupacionDocumental, unidadRaiz, nivelUnidad }: FormValuesUnitys) => {
         let newUnidades: FormValuesUnitys[] = []
@@ -385,8 +390,8 @@ const useEdicionOrganigrama = () => {
             });
             setTitle_unidades('Agregar Unidades');
         }
-        resetUnidades(initialStateUnitys);
-        dispatch(updateUnitysService(organigramCurrent?.id_organigrama, newUnidades));
+
+        dispatch(updateUnitysService(organigramCurrent?.id_organigrama, newUnidades, cleanUnitys));
     };
 
     const onGridReady = (params) => {
@@ -402,7 +407,7 @@ const useEdicionOrganigrama = () => {
     //Funcion para eliminar una unidad
     const deleteUnidades = (codigoUnidad) => {
         const newUnidades = unityOrganigram.filter(unidad => unidad.codigo !== codigoUnidad);
-        dispatch(updateUnitysService(organigramCurrent.id_organigrama, newUnidades));
+        dispatch(updateUnitysService(organigramCurrent.id_organigrama, newUnidades, cleanUnitys));
     }
 
     const onSubmitEditOrganigrama = async ({ nombre, id_organigrama, version, descripcion }: any) => {
