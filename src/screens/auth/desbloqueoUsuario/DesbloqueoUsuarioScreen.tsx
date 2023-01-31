@@ -46,7 +46,7 @@ const DesbloqueoUsuarioScreen = () => {
 
   const onSubmit = async () => {
     const data = { ...modelo };
-    modelo.redirect_url = process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo" : "http://localhost:3000/#/actualizar-contrasena-bloqueo";
+    modelo.redirect_url = process.env.NODE_ENV === "production" ? "https://develop--macareniafrontdevelop.netlify.app/#/actualizar-contrasena-bloqueo" : "http://localhost:3000/#/actualizar-contrasena-bloqueo";
     data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono}`
     await clienteAxios.post(
       "users/unblock/",
