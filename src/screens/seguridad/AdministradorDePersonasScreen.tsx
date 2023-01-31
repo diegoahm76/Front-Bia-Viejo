@@ -241,7 +241,7 @@ const AdministradorDePersonasScreen = () => {
       });
 
       const paisNotificacion = paisesOptions.filter((pais) => {
-        return pais.value === dataPersona.cod_pais_nacionalidad_empresa;
+        return pais.value === dataPersona.pais_residencia;
       });
 
       const municipioResidencia = municipiosOptions.filter((municipio) => {
@@ -251,12 +251,15 @@ const AdministradorDePersonasScreen = () => {
       const municipioNotificacion = municipiosOptions.filter((municipio) => {
         return municipio.value === dataPersona.cod_municipio_laboral_nal;
       });
+      //TODO:
+      //Filtra el departamento de la persona (Revisar Julian, despues borra este comentario)
+      const departamentoNotificacion = departamentosOptions.filter((departamento) => {
+        return departamento.value === dataPersona.departamento_notificacion;
+      });
 
       const municipioLaboral = municipiosOptions.filter((municipio) => {
         return municipio.value === dataPersona.cod_municipio_notificacion_nal;
       });
-
-      let indicadorResidencia = municipioResidencia.slice(0, 2);
 
       const paisNacimiento = paisesOptions.filter((pais) => {
         return pais.value === dataPersona.pais_nacimiento;
@@ -271,9 +274,6 @@ const AdministradorDePersonasScreen = () => {
       let form = {
         ...dataPersona,
         fecha_nacimiento: dataPersona.fecha_nacimiento,
-        //departamento_residencia: { label: "", value: "" },
-        //departamento_labora: { label: "", value: "" },
-        //departamento_notificacion: { label: "", value: "" },
         pais_notificacion: paisNotificacion[0] || {
           label: "",
           value: "",
@@ -284,6 +284,10 @@ const AdministradorDePersonasScreen = () => {
         municipio: { label: "", value: "" },
         municipio_labora: municipioLaboral[0] || { label: "", value: "" },
         municipio_notificacion: municipioNotificacion || {
+          label: "",
+          value: "",
+        },
+        departamento_notificacion: departamentoNotificacion || {
           label: "",
           value: "",
         },
@@ -358,12 +362,10 @@ const AdministradorDePersonasScreen = () => {
       telefono_empresa_2: formValues.telefono_empresa_2,
       pais_residencia: formValues.pais_residencia?.value,
       municipio_residencia: formValues.municipio_residencia?.value,
-      cod_municipio_notificacion_nal:
-        formValues.municipio_notificacion.value || null,
-      cod_municipio_laboral_nal:
-        formValues.municipio_notificacion.value || null,
-      cod_pais_nacionalidad_empresa:
-        formValues.cod_pais_nacionalidad_empresa || null,
+      departamento_notificacion: formValues.departamento_notificacion?.value, //no modificar
+      cod_municipio_notificacion_nal: formValues.municipio_notificacion.value || null,
+      cod_municipio_laboral_nal: formValues.municipio_notificacion.value || null,
+      cod_pais_nacionalidad_empresa: formValues.cod_pais_nacionalidad_empresa || null,
       direccion_residencia: data.direccion_residencia, //no modificar
       direccion_residencia_ref: data.referenciaAdicional, // no modificar
       direccion_laboral: data.direccionLaboral, //no modificar
@@ -667,7 +669,7 @@ const AdministradorDePersonasScreen = () => {
     setFormValues(form);
   };
 
-  console.log(formValues.primer_nombre);
+  console.log(formValues, 'formValues');
 
   return (
     <div className="row min-vh-100">
@@ -1215,9 +1217,7 @@ const AdministradorDePersonasScreen = () => {
                     <label className="form-label">
                       Municipio notificación:{" "}
                     </label>
-
                     <Select
-                      //isDisabled={}
                       value={formValues.municipio_notificacion}
                       onChange={changeSelectMunicipioNotificacion}
                       isDisabled={formValues.pais_notificacion.value !== "CO"}
