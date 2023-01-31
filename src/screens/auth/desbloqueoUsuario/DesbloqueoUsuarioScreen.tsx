@@ -82,8 +82,8 @@ const onSubmit = async () => {
     modelo.fecha_nacimiento=data.fecha_nacimiento
     modelo.redirect_url =
       process.env.NODE_ENV === "production"
-        ? "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo"
-        : "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo";
+        ? "https://macareniafrontdevelop.netlify.app/#/actualizar-contrasena-bloqueo"
+        : "https://macareniafrontmain.netlify.app/#/actualizar-contrasena-bloqueo";
     data.telefono_celular = (`${indicativo}${data.telefono_celular}`);
     
     modelo.telefono_celular=data.telefono_celular
