@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import ReactDatePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,32 +8,35 @@ import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import Subtitle from "../../../components/Subtitle";
 import clienteAxios from "../../../config/clienteAxios";
 import { formatISO } from "date-fns";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { useDispatch } from "react-redux";
 import { IList } from "../../../Interfaces/auth";
+import moment from "moment";
 
-const INDICATIVO_PAIS_COLOMBIA = 57
+
 const desbloqueoModel = {
   nombre_de_usuario: "",
-  tipo_documento: {
-    value: "",
-    label: "",
-  },
+  tipo_documento: "",
   numero_documento: "",
-  telefono: "",
+ //telefono: "",
   telefono_celular: "",
   email: "",
   fecha_nacimiento: "",
-  fecha_input: "",
-  redirect_url: ""
+ //fecha_input: "",
+  redirect_url: "",
+ 
+};
 
-}
+//const telefono=""
 const DesbloqueoUsuarioScreen = () => {
   const [modelo, setModelo] = useState(desbloqueoModel);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
-  const [formValues, setFormValues] = useState<{ fechaNacimiento: Date | number }>();
+  const [formValues, setFormValues] = useState<{
+    fechaNacimiento: Date | number;
+    
+    
+  }>();
   const dispatch = useDispatch();
-
 
   const {
     register,
@@ -44,31 +47,75 @@ const DesbloqueoUsuarioScreen = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = async () => {
-    const data = { ...modelo };
-    modelo.redirect_url = process.env.NODE_ENV === "production" ? "https://develop--macareniafrontdevelop.netlify.app/#/actualizar-contrasena-bloqueo" : "http://localhost:3000/#/actualizar-contrasena-bloqueo";
-    data.telefono_celular = `${INDICATIVO_PAIS_COLOMBIA}${data.telefono}`
-    await clienteAxios.post(
-      "users/unblock/",
-      data
-    ).then((res) => {
-      Swal.fire({
-        position: "center",
-        icon: "info",
-        title: "Datos correctos, revisa tu correo electronico",
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-      })
-    }).catch((err) => {
-      Swal.fire({
-        position: "center",
-        icon: "warning",
-        title: "Datos invalidos",
-        confirmButtonText: "Aceptar",
-        confirmButtonColor: "#3085d6",
-      });
-    });
+const telefono=""
+const indicativo= "57"
 
+const [selectedDate, setSelectedDate] = useState(null);
+const [dateString, setDateString] = useState("");
+  
+
+const handleDateChange = date => {
+  setSelectedDate(date);
+};
+
+const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
+
+
+// function handleDateChange(date) {
+//   setSelectedDate(date);
+//   const dateString = date.toLocaleDateString("es-ES", {
+//       day: "2-digit",
+//       month: "2-digit",
+//       year: "numeric"
+//   });
+//   setDateString(dateString);
+
+// }
+
+
+const onSubmit = async () => {
+    const data = { ...modelo };
+ 
+
+    data.fecha_nacimiento=dateString
+  
+    modelo.fecha_nacimiento=data.fecha_nacimiento
+    modelo.redirect_url =
+      process.env.NODE_ENV === "production"
+        ? "https://develop--macareniafrontdevelop.netlify.app/#/actualizar-contrasena-bloqueo"
+        : "https://front-bia.netlify.app/#/actualizar-contrasena-bloqueo";
+    data.telefono_celular = (`${indicativo}${data.telefono_celular}`);
+    
+    modelo.telefono_celular=data.telefono_celular
+    desbloqueoModel.telefono_celular=modelo.telefono_celular
+   // modelo.telefono=""
+   desbloqueoModel.email=modelo.email
+   desbloqueoModel.fecha_nacimiento=formattedDate
+   desbloqueoModel.nombre_de_usuario=modelo.nombre_de_usuario
+   desbloqueoModel.numero_documento=modelo.numero_documento
+   desbloqueoModel.redirect_url=modelo.redirect_url
+   desbloqueoModel.tipo_documento=modelo.tipo_documento  
+   console.log(desbloqueoModel)
+    await clienteAxios
+      .post("users/unblock/", desbloqueoModel)
+      .then((res) => { 
+        Swal.fire({
+          position: "center",
+          icon: "info",
+          title: "Datos correctos, revisa tu correo electronico",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#3085d6",
+        });
+      })
+      .catch((err) => {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: "Datos invalidos",
+          confirmButtonText: "Aceptar",
+          confirmButtonColor: "#3085d6",
+        });
+      });
   };
 
   useEffect(() => {
@@ -76,33 +123,34 @@ const DesbloqueoUsuarioScreen = () => {
   }, []);
 
   const getData = async () => {
-    await clienteAxios.get(
-      "choices/tipo-documento/"
-    ).then((res) => {
-      const documentosFormat = textChoiseAdapter(res.data);
+    await clienteAxios.get("choices/tipo-documento/").then((res) => {
+      const documentosFormat = textChoiseAdapter(res.data.value);
       setTipoDocumentoOptions(documentosFormat);
     });
-
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setModelo({ ...modelo, [name]: value });
-  }
+  };
   const handleChangeMulti = (e) => {
-    const data = { ...modelo }
-    data.tipo_documento.label = e.label;
-    data.tipo_documento.value = e.value;
+    const data = { ...modelo };
+   // data.tipo_documento.label = e.label;
+    data.tipo_documento = e.value;
     setModelo(data);
-  }
-  const selectDatePicker = (e) => {
-    const formatData = { ...modelo };
-    const data = formatISO(new Date(e), {
-      representation: "date",
-    });
-    formatData.fecha_nacimiento = data;
-    formatData.fecha_input = e;
-    setModelo(formatData);
-  }
+  };
+  // const selectDatePicker = (e) => {
+  //   const formatData = { ...modelo };
+  //   const data = formatISO(new Date(e), {
+  //     representation: "date",
+  //   });
+  //  // const selectedDateString=selectedDate.toLocaleDateString("es-ES")
+  //   formatData.fecha_nacimiento = data;
+  //   console.log(formatData.fecha_nacimiento);
+  //   formatData.fecha_nacimiento = e;
+  //   console.log(formatData.fecha_nacimiento);
+  //   setModelo(formatData);
+  // };
+  
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -127,8 +175,7 @@ const DesbloqueoUsuarioScreen = () => {
                 <div className="col-12 ">
                   <div>
                     <label className="ms-3 text-terciary">
-                      Nombre de usuario:{" "}
-                      <span className="text-danger">*</span>
+                      Nombre de usuario: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border  border-terciary rounded-pill px-3"
@@ -151,10 +198,19 @@ const DesbloqueoUsuarioScreen = () => {
                     Tipo de documento: <span className="text-danger">*</span>
                   </label>
                   <Select
-                    options={tipoDocumentoOptions}
+                   options={[
+                    { label: "Cédula de ciudadanía", value: "CC" },
+                    { label: "Cédula extranjería", value: "CE" },
+                    { label: "Tarjeta de identidad", value: "TI" },
+                    { label: "Registro civil", value:"RC"},
+                    { label: "NUIP", value: "NU"},
+                    { label: "Pasaporte", value: "PA"},
+                    { label: "Permiso especial de permanencia", value: "PE"},
+                    { label: "NIT", value: "NI"}
+                  ]}
                     placeholder="Seleccionar"
                     name="tipo_documento"
-                    value={modelo.tipo_documento}
+                   // value={modelo.tipo_documento}
                     onChange={handleChangeMulti}
                   />
                   {errors.tipo_documento && (
@@ -190,14 +246,13 @@ const DesbloqueoUsuarioScreen = () => {
                 <div className="col-12">
                   <div>
                     <label className="ms-3 mt-2 text-terciary">
-                      Número de celular:{" "}
-                      <span className="text-danger">*</span>
+                      Número de celular: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border-terciary border rounded-pill px-3"
                       type="number"
-                      name="telefono"
-                      value={modelo.telefono}
+                      name="telefono_celular"
+                      value={modelo.telefono_celular}
                       onChange={handleChange}
                     />
                     {errors.telefono_celular && (
@@ -212,8 +267,7 @@ const DesbloqueoUsuarioScreen = () => {
                 <div className="col-12">
                   <div>
                     <label className="ms-3 mt-2 text-terciary">
-                      Correo electrónico:{" "}
-                      <span className="text-danger">*</span>
+                      Correo electrónico: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border-terciary border rounded-pill px-3"
@@ -237,7 +291,7 @@ const DesbloqueoUsuarioScreen = () => {
                       Fecha de nacimiento:{" "}
                       <span className="text-danger">*</span>
                     </label>
-                    <ReactDatePicker
+                    <DatePicker
                       locale="es"
                       showYearDropdown
                       peekNextMonth
@@ -245,9 +299,9 @@ const DesbloqueoUsuarioScreen = () => {
                       scrollableYearDropdown
                       dropdownMode="select"
                       autoComplete="off"
-                      dateFormat="dd/MM/yyyy"
-                      selected={modelo.fecha_input}
-                      onSelect={selectDatePicker}
+                      dateFormat="yyyy-MM-dd"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
                       className="form-control  border-terciary border rounded-pill px-3 "
                       placeholderText="dd/mm/aaaa"
                     />
