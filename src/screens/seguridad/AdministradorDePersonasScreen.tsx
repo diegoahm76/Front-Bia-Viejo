@@ -1262,22 +1262,22 @@ const AdministradorDePersonasScreen = () => {
                   <div className="col-12 col-md-3 mt-2">
                     <div className="row">
                       <div className="col-12 col-md-4">
-                        <label>Indicativo:</label>
+                        <label>Indicativo</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary "
+                          className="form-control border rounded-pill  border-terciary "
                           type="text"
                           maxLength={10}
                           minLength={10}
                           name="celular"
                           disabled
-                          value={"+57"}
+                          value={"57"}
                           onChange={handleChangeCreate}
                         />
                       </div>
                       <div className="col-6 col-md-8">
-                        <label>Celular:</label>
+                        <label>Celular</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary"
+                          className="mt-1 form-control border rounded-pill  border-terciary"
                           type="text"
                           maxLength={10}
                           minLength={10}
@@ -1294,20 +1294,6 @@ const AdministradorDePersonasScreen = () => {
                           </small>
                         </div>
                       )}
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-3 mt-2">
-                    <div>
-                      <label className="ms-2">Teléfono fijo:</label>
-                      <input
-                        className="form-control border rounded-pill px-3 border-terciary"
-                        type="text"
-                        minLength={10}
-                        maxLength={10}
-                        name="telefono_fijo"
-                        onChange={handleChangeCreate}
-                        value={formValues.telefono_fijo}
-                      />
                     </div>
                   </div>
                   <div className="col-md-8 col-10 mt-3">
