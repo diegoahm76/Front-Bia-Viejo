@@ -42,15 +42,15 @@ const useCCD = () => {
 
     //Estado Inicial de Hojas de Vida de Computadores
     const initialState /* :IcvComputersForm */ = {
-        organigrama: { label: '', value: 0 },
-        unidades_organigrama: { label: '', value: '' },
-        version: '',
         nombreCcd: '',
+        organigrama: { label: '', value: 0 },
+        sries_asignacion: '',
         sries: '',
+        subSerie_asignacion: '',
         subSerie: '',
         unidades_asignacion: '',
-        sries_asignacion: '',
-        subSerie_asignacion: '',
+        unidades_organigrama: { label: '', value: '' },
+        version: '',
     }
     //configuración de tabla por defecto
     const defaultColDef = {

@@ -259,7 +259,6 @@ const CCDScreen = () => {
                     disabled
                     className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
-                  // onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Clonar
                   </button>
@@ -269,7 +268,6 @@ const CCDScreen = () => {
                     disabled
                     className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
-                  // onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Previzualizar
                   </button>
