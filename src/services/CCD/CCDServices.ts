@@ -86,23 +86,16 @@ export const toFinishedCCDSService = (id: string, navigate: NavigateFunction) =>
 
 
 //Crear Cuadro de Clasificación Documental (CCD)
-export const createCCDSService = (CCD: IObjCreateOrganigram, navigate: NavigateFunction) => {
-    // {
-    //     "id_organigrama": 1,
-    //     "version": "5.0",
-    //     "nombre": "CCD 5"
-    // }
+export const createCCDSService = (CCD/* : IObjCreateOrganigram */) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post("gestor/ccd/create/", CCD);
             // dispatch(getOrganigramsService());
             dispatch(currentOrganigram(data.detail));
             notificationSuccess(data.detail);
-            navigate('/dashboard/gestordocumental/organigrama/edicion-organigrama')
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
-            navigate('/dashboard/gestordocumental/organigrama/crearorganigrama')
             return error as AxiosError;
         }
     };
