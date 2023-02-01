@@ -44,9 +44,8 @@ const Aside = ({ showAside }) => {
 
   return (
     <aside
-      className={`collapse sidenav navbar navbar-vertical ${
-        showAside && "navbar-expand-xs"
-      } fixed-start bg-terciary`}
+      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"
+        } fixed-start bg-terciary`}
       id="sidenav-main"
       style={{
         minWidth: "273px",
@@ -622,7 +621,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Programacion de <br/> mantenimiento
+                                  Programacion de <br /> mantenimiento
                                 </span>
                               </Link>
                             </li>
@@ -754,7 +753,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Formulario de revisión <br/> de inventario
+                                  Formulario de revisión <br /> de inventario
                                 </span>
                               </Link>
                             </li>
@@ -963,7 +962,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Reporte historico de <br/> un activo
+                                  Reporte historico de <br /> un activo
                                 </span>
                               </Link>
                             </li>
@@ -1598,10 +1597,10 @@ const Aside = ({ showAside }) => {
                               >
                                 <img
                                   src={Iconocuarentena}
-                                  style={{width:"15px", height:"15px"}}
+                                  style={{ width: "15px", height: "15px" }}
                                   alt="Cuarentena vivero"
                                 />
-                                
+
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Cuarentena de Vivero
                                 </span>
@@ -2130,7 +2129,7 @@ const Aside = ({ showAside }) => {
                             <img src={Vineta} alt="vineta" />
                           </span>
                           <span className="sidenav-normal  ms-2  ps-1">
-                            CCD 
+                            CCD
                           </span>
                         </Link>
                       </li>
@@ -2377,7 +2376,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Analitica de datos
+                                  Comportamiento Variable
                                 </span>
                               </Link>
                             </li>
