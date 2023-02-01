@@ -5,11 +5,11 @@ import IconoEditarBia from "../../../assets/iconosBotones/editar.svg";
 import IconoNuevoBia from "../../../assets/iconosBotones/nuevo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
-// import {
-//   obtenerUsuarioEditarAction,
-//   obtenerUsuariosAction,
-//   obtenerUsusarioEliminarAction,
-// } from "../../../actions/estacionActions";
+import {
+  obtenerUsuarioEditarAction,
+  obtenerUsuariosAction,
+  obtenerUsusarioEliminarAction,
+} from "../../../actions/estacionActions";
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
 import { obtenerTodosUsuarios } from "../../../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
@@ -66,8 +66,8 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
-              // dispatch(obtenerUsuarioEditarAction(params.data));
-              //setIsModalEditarActive(!isModalEditarActive);
+            dispatch(obtenerUsuarioEditarAction(params.data));
+              setIsModalEditarActive(!isModalEditarActive);
             }}
           >
             <img src={IconoEditarBia} alt="editar" title="Editar" />
@@ -76,8 +76,8 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
-              // dispatch(obtenerUsusarioEliminarAction(params.data));
-              //setIsModalEliminarActive(!isModalActive);
+               dispatch(obtenerUsusarioEliminarAction(params.data));
+              setIsModalEliminarActive(!isModalActive);
             }}
           >
             <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
@@ -126,7 +126,7 @@ const UsuariosEstacionesScreen = () => {
           </div>
         </div>
       </div>
-      {/* <NuevoUsuarioModal
+      <NuevoUsuarioModal
         setIsModalActive={setIsModalActive}
         isModalActive={isModalActive}
       />
@@ -137,7 +137,7 @@ const UsuariosEstacionesScreen = () => {
       <EliminarUsuarioModal
         setIsModalActive={setIsModalEliminarActive}
         isModalActive={isModalEliminarActive}
-      /> */}
+      />
     </div>
   );
 };
