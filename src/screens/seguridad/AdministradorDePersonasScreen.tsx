@@ -145,21 +145,23 @@ const AdministradorDePersonasScreen = () => {
     formState: { errors: errorsBuscar },
   } = useForm();
 
-  const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
-    position: 'center',
-    icon: 'error',
-    title: message,
-    showConfirmButton: true,
-    confirmButtonText: 'Aceptar',
-  }).fire();
+  const notificationError = (message = "Algo pasó, intente de nuevo") =>
+    Swal.mixin({
+      position: "center",
+      icon: "error",
+      title: message,
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar",
+    }).fire();
 
-  const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
-    position: 'center',
-    icon: 'success',
-    title: message,
-    showConfirmButton: true,
-    confirmButtonText: 'Aceptar',
-  }).fire();
+  const notificationSuccess = (message = "Proceso Exitoso") =>
+    Swal.mixin({
+      position: "center",
+      icon: "success",
+      title: message,
+      showConfirmButton: true,
+      confirmButtonText: "Aceptar",
+    }).fire();
 
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -241,7 +243,7 @@ const AdministradorDePersonasScreen = () => {
       });
 
       const paisNotificacion = paisesOptions.filter((pais) => {
-        return pais.value === dataPersona.cod_pais_nacionalidad_empresa;
+        return pais.value === dataPersona.pais_residencia;
       });
 
       const municipioResidencia = municipiosOptions.filter((municipio) => {
@@ -249,14 +251,37 @@ const AdministradorDePersonasScreen = () => {
       });
 
       const municipioNotificacion = municipiosOptions.filter((municipio) => {
-        return municipio.value === dataPersona.cod_municipio_laboral_nal;
-      });
-
-      const municipioLaboral = municipiosOptions.filter((municipio) => {
         return municipio.value === dataPersona.cod_municipio_notificacion_nal;
       });
+      //Filtra el departamento de la persona
+      const departamentoNotificacion = departamentosOptions.filter(
+        (departamento) => {
+          return (
+            departamento.value ===
+            dataPersona?.cod_municipio_notificacion_nal?.substr(-20, 2)
+          );
+        }
+      );
+      const departamentoLaboral = departamentosOptions.filter(
+        (departamento) => {
+          return (
+            departamento.value ===
+            dataPersona?.cod_municipio_laboral_nal?.substr(-20, 2)
+          );
+        }
+      );
+      const departamentoResidencia = departamentosOptions.filter(
+        (departamento) => {
+          return (
+            departamento.value ===
+            dataPersona?.municipio_residencia?.substr(-20, 2)
+          );
+        }
+      );
 
-      let indicadorResidencia = municipioResidencia.slice(0, 2);
+      const municipioLaboral = municipiosOptions.filter((municipio) => {
+        return municipio.value === dataPersona.cod_municipio_laboral_nal;
+      });
 
       const paisNacimiento = paisesOptions.filter((pais) => {
         return pais.value === dataPersona.pais_nacimiento;
@@ -271,9 +296,6 @@ const AdministradorDePersonasScreen = () => {
       let form = {
         ...dataPersona,
         fecha_nacimiento: dataPersona.fecha_nacimiento,
-        //departamento_residencia: { label: "", value: "" },
-        //departamento_labora: { label: "", value: "" },
-        //departamento_notificacion: { label: "", value: "" },
         pais_notificacion: paisNotificacion[0] || {
           label: "",
           value: "",
@@ -284,6 +306,18 @@ const AdministradorDePersonasScreen = () => {
         municipio: { label: "", value: "" },
         municipio_labora: municipioLaboral[0] || { label: "", value: "" },
         municipio_notificacion: municipioNotificacion || {
+          label: "",
+          value: "",
+        },
+        departamento_notificacion: departamentoNotificacion || {
+          label: "",
+          value: "",
+        },
+        departamento_labora: departamentoLaboral || {
+          label: "",
+          value: "",
+        },
+        departamento_residencia: departamentoResidencia || {
           label: "",
           value: "",
         },
@@ -299,7 +333,10 @@ const AdministradorDePersonasScreen = () => {
         pais_residencia: paisResidencia[0] || { label: "", value: "" },
         pais_nacimiento: paisNacimiento[0] || { label: "", value: "" },
         cod_municipio_notificacion_nal: municipioNotificacion[0],
-        municipio_residencia: municipioResidencia[0],
+        municipio_residencia: municipioResidencia[0] || {
+          label: "",
+          value: "",
+        },
         cod_pais_nacionalidad_empresa: paisLabora[0] || {
           label: "",
           value: "",
@@ -335,7 +372,6 @@ const AdministradorDePersonasScreen = () => {
 
   const onSubmitPersona = async (data) => {
     // setLoading(true);
-    const indicativo = "57";
     const updatedPersona = {
       tipo_persona: "N",
       id_persona: formValues.id_persona !== 0 ? formValues.id_persona : null,
@@ -358,12 +394,11 @@ const AdministradorDePersonasScreen = () => {
       telefono_empresa_2: formValues.telefono_empresa_2,
       pais_residencia: formValues.pais_residencia?.value,
       municipio_residencia: formValues.municipio_residencia?.value,
+      departamento_notificacion: formValues.departamento_notificacion?.value, //no modificar
       cod_municipio_notificacion_nal:
         formValues.municipio_notificacion.value || null,
-      cod_municipio_laboral_nal:
-        formValues.municipio_notificacion.value || null,
-      cod_pais_nacionalidad_empresa:
-        formValues.cod_pais_nacionalidad_empresa || null,
+      cod_municipio_laboral_nal: formValues.municipio_labora.value || null,
+      cod_pais_nacionalidad_empresa: formValues.cod_pais_nacionalidad_empresa?.value,
       direccion_residencia: data.direccion_residencia, //no modificar
       direccion_residencia_ref: data.referenciaAdicional, // no modificar
       direccion_laboral: data.direccionLaboral, //no modificar
@@ -373,7 +408,7 @@ const AdministradorDePersonasScreen = () => {
       id_unidad_organizacional_actual: null,
       justificacion_cambio: null,
     };
-    console.log(isEdit, "isEdit")
+    console.log(updatedPersona, "updatedPersona");
     if (isEdit) {
       try {
         const { data: dataUpdate } = await clienteAxios.patch(
@@ -667,7 +702,7 @@ const AdministradorDePersonasScreen = () => {
     setFormValues(form);
   };
 
-  console.log(formValues.primer_nombre);
+  console.log(formValues.cod_pais_nacionalidad_empresa, "Laboral");
 
   return (
     <div className="row min-vh-100">
@@ -682,7 +717,7 @@ const AdministradorDePersonasScreen = () => {
                 Administrador de personas
               </h3>
               <Subtitle title={"Buscar persona"} mt={0} mb={0} />
-              <div className="mt-4 row align-items-end ms-1">
+              <div className="mt-4 row ">
                 <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
@@ -693,7 +728,7 @@ const AdministradorDePersonasScreen = () => {
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipoDocumentoBusqueda}
-                  //required={true}
+                    //required={true}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -727,20 +762,20 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-6 mt-3 mt-md-0">
+                <div className="col-12 col-md-6 ">
                   <button
                     type="submit"
-                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                    className="mt-3 btn-image text-capitalize bg-white border boder-none"
                     onClick={onSubmitBuscar}
                   >
                     <i
-                      className="fa-solid fa-magnifying-glass fs-3"
+                      className="mt-3 fa-solid fa-magnifying-glass fs-3"
                       title="Buscar"
                     ></i>
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-uppercase"
+                    className="mt-2 ms-3 btn bg-gradient-primary  text-uppercase"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Búsqueda avanzada
@@ -897,7 +932,7 @@ const AdministradorDePersonasScreen = () => {
                           name="primer_apellido"
                           value={formValues.primer_apellido}
                           onChange={handleChangeCreate}
-                        //required={true}
+                          //required={true}
                         />
                       </div>
                       {errorsPersona.primerApellido && (
@@ -1047,7 +1082,7 @@ const AdministradorDePersonasScreen = () => {
 
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        className="mx-3 btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setDireccionResidenciaIsOpen(true)}
                       >
                         Generar
@@ -1075,16 +1110,7 @@ const AdministradorDePersonasScreen = () => {
                 {/* DATOS LABORALES */}
                 <Subtitle title={"Datos laborales"} mt={4} />
                 <div className="row align-items-end mx-1">
-                  <div className="col-12 col-md-3 mt-3">
-                    <label className="form-label">País donde labora:</label>
-
-                    <Select
-                      value={formValues.cod_pais_nacionalidad_empresa}
-                      onChange={changeSelectPaisLabora}
-                      options={paisesOptions}
-                      placeholder="Seleccionar"
-                    />
-                  </div>
+                  
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1092,9 +1118,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                      isDisabled={
-                        formValues.cod_pais_nacionalidad_empresa.value !== "CO"
-                      }
+                     
                       onChange={changeSelectDepartamentoLabora}
                       value={formValues.departamento_labora}
                       placeholder="Seleccionar"
@@ -1107,9 +1131,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
 
                     <Select
-                      isDisabled={
-                        formValues.cod_pais_nacionalidad_empresa.value !== "CO"
-                      }
+                      
                       value={formValues.municipio_labora}
                       onChange={changeSelectMunicipioLabora}
                       options={municipioDondeLaboraFiltered}
@@ -1168,7 +1190,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        className="mx-3 btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setDireccionLaboralIsOpen(true)}
                       >
                         Generar
@@ -1185,18 +1207,8 @@ const AdministradorDePersonasScreen = () => {
                 </div>
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
-                  <div className="col-12 col-md-3 mt-3">
-                    <label className="form-label text-terciary">
-                      País notificación:
-                    </label>
 
-                    <Select
-                      value={formValues.pais_notificacion}
-                      options={paisesOptions}
-                      onChange={changeSelectPaisNotificacion}
-                      placeholder="Seleccionar"
-                    />
-                  </div>
+                  
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1204,7 +1216,6 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                      isDisabled={formValues.pais_notificacion.value !== "CO"}
                       onChange={changeSelectDepartamentoNotificacion}
                       value={formValues.departamento_notificacion}
                       placeholder="Seleccionar"
@@ -1215,12 +1226,10 @@ const AdministradorDePersonasScreen = () => {
                     <label className="form-label">
                       Municipio notificación:{" "}
                     </label>
-
                     <Select
-                      //isDisabled={}
                       value={formValues.municipio_notificacion}
                       onChange={changeSelectMunicipioNotificacion}
-                      isDisabled={formValues.pais_notificacion.value !== "CO"}
+                      // isDisabled={formValues.pais_notificacion.value !== "CO"}
                       options={municipioNotificacionFiltered}
                       placeholder="Seleccionar"
                     />
@@ -1252,25 +1261,23 @@ const AdministradorDePersonasScreen = () => {
                   </div>
                   <div className="col-12 col-md-3 mt-2">
                     <div className="row">
-                      <div className="col-12 col-md-4" >
-                        <label>Indicativo:</label>
+                      <div className="col-12 col-md-4">
+                        <label>Indicativo</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary "
+                          className="form-control border rounded-pill  border-terciary "
                           type="text"
                           maxLength={10}
                           minLength={10}
                           name="celular"
                           disabled
-                          value={"+57"}
+                          value={"57"}
                           onChange={handleChangeCreate}
                         />
                       </div>
                       <div className="col-6 col-md-8">
-                        <label>
-                          Celular:
-                        </label>
+                        <label>Celular</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary"
+                          className="mt-1 form-control border rounded-pill  border-terciary"
                           type="text"
                           maxLength={10}
                           minLength={10}
@@ -1287,21 +1294,6 @@ const AdministradorDePersonasScreen = () => {
                           </small>
                         </div>
                       )}
-                    </div>
-
-                  </div>
-                  <div className="col-12 col-md-3 mt-2">
-                    <div>
-                      <label className="ms-2">Teléfono fijo:</label>
-                      <input
-                        className="form-control border rounded-pill px-3 border-terciary"
-                        type="text"
-                        minLength={10}
-                        maxLength={10}
-                        name="telefono_fijo"
-                        onChange={handleChangeCreate}
-                        value={formValues.telefono_fijo}
-                      />
                     </div>
                   </div>
                   <div className="col-md-8 col-10 mt-3">
@@ -1322,7 +1314,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        className="mx-3 btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setDireccionNotificacionIsOpen(true)}
                       >
                         Generar

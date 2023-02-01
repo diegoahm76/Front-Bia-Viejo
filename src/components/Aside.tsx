@@ -2377,7 +2377,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Dashboards Estaciones
+                                  Analitica de datos
                                 </span>
                               </Link>
                             </li>

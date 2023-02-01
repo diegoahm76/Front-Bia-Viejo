@@ -138,7 +138,7 @@ export const getUnitysService = (id: string | number | null) => {
 };
 
 // Actualizar Unidades
-export const updateUnitysService = (id: string | number | null, newUnitys: FormValuesUnitys[]) => {
+export const updateUnitysService = (id: string | number | null, newUnitys: FormValuesUnitys[], cleanUnitys: () => void) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.put(`almacen/organigrama/unidades/update/${id}/`, newUnitys);

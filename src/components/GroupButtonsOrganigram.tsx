@@ -40,7 +40,7 @@ function GroupButtonsOrganigramzz() {
                                     if (item.cod_tipo_unidad !== "AP") {
                                         return (
                                             <span className="text-muted">
-                                                {item.nombre}
+                                                {item.nombre}<br></br>
                                             </span>
                                         );
                                     }
@@ -65,7 +65,7 @@ function GroupButtonsOrganigramzz() {
                                     if (item.cod_tipo_unidad === "AP") {
                                         return (
                                             <span className="text-muted">
-                                                {item.nombre}
+                                                {item.nombre}<br></br>
                                             </span>
                                         );
                                     }
