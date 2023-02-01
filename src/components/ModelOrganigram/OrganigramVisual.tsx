@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { ISon } from '../../Interfaces/Organigrama';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
@@ -18,11 +19,11 @@ export default function OrganigramVisual() {
     function StyleColor(type: string) {
         switch (type) {
             case 'LI':
-                return '#4BCF76';
+                return '#36A9E1';
             case 'AS':
-                return '#EB4949';
+                return '#91C02C';
             case 'AP':
-                return '#2E64FE';
+                return '#4CAF50';
             default:
                 return '#6bb22b';
         }
@@ -39,6 +40,9 @@ export default function OrganigramVisual() {
     console.log(moldOrganigram, 'moldOrganigram')
     return (
         <>
+            <Button style={{ color: '#fff' }} disabled variant="primary">Unidad de Linea</Button>{' '}
+            <Button style={{ color: '#fff' }} disabled variant="secondary">Unidad de Asesoria</Button>{' '}
+            <Button style={{ color: '#fff' }} disabled variant="success">Unidad de Apoyo</Button>{' '}
             <Tree
                 lineWidth={'2px'}
                 lineColor={'black'}
