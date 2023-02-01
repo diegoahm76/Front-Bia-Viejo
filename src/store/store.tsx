@@ -14,6 +14,7 @@ import bienReducer from "./slices/catalogoBienes/indexCatalogoBien";
 import marcaReducer from "./slices/marca/indexMarca";
 import cvReducer from "./slices/cv/indexCv";
 import mantenimientoReducer from "./slices/mantenimiento/indexMantenimiento";
+import viveroReducer from "./slices/administradorViveros/indexAdministradorViveros"
 
 // import thunk from "redux-thunk";
 import loadingReducer, {
@@ -24,6 +25,7 @@ import loadingReducer, {
 import instance from "../config/clienteAxiosEstaciones";
 import { useAppDispatch } from "./hooks/hooks";
 import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
+import viveroSlice from './slices/administradorViveros/indexAdministradorViveros';
 
 const store = configureStore({
   reducer: {
@@ -41,7 +43,8 @@ const store = configureStore({
     marca: marcaReducer,
     monitoreoSlice: monitoreoReducer,
     cv: cvReducer,
-    mantenimiento: mantenimientoReducer
+    mantenimiento: mantenimientoReducer,
+    viveroSlice:viveroReducer,
   },
 });
 
