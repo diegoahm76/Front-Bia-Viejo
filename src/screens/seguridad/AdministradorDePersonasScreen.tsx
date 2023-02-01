@@ -717,7 +717,7 @@ const AdministradorDePersonasScreen = () => {
                 Administrador de personas
               </h3>
               <Subtitle title={"Buscar persona"} mt={0} mb={0} />
-              <div className="mt-4 row align-items-end ms-1">
+              <div className="mt-4 row ">
                 <div className="col-12 col-md-3">
                   <label className="form-label">
                     Tipo de documento: <span className="text-danger">*</span>
@@ -762,20 +762,20 @@ const AdministradorDePersonasScreen = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-12 col-md-6 mt-3 mt-md-0">
+                <div className="col-12 col-md-6 ">
                   <button
                     type="submit"
-                    className="mb-0 btn-image text-capitalize bg-white border boder-none"
+                    className="mt-3 btn-image text-capitalize bg-white border boder-none"
                     onClick={onSubmitBuscar}
                   >
                     <i
-                      className="fa-solid fa-magnifying-glass fs-3"
+                      className="mt-3 fa-solid fa-magnifying-glass fs-3"
                       title="Buscar"
                     ></i>
                   </button>
                   <button
                     type="button"
-                    className="ms-3 btn bg-gradient-primary mb-0 text-uppercase"
+                    className="mt-2 ms-3 btn bg-gradient-primary  text-uppercase"
                     onClick={() => setBusquedaAvanzadaIsOpen(true)}
                   >
                     Búsqueda avanzada
@@ -1082,7 +1082,7 @@ const AdministradorDePersonasScreen = () => {
 
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        className="mx-3 btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setDireccionResidenciaIsOpen(true)}
                       >
                         Generar
@@ -1110,7 +1110,7 @@ const AdministradorDePersonasScreen = () => {
                 {/* DATOS LABORALES */}
                 <Subtitle title={"Datos laborales"} mt={4} />
                 <div className="row align-items-end mx-1">
-                  <div className="col-12 col-md-3 mt-3">
+                  {/* <div className="col-12 col-md-3 mt-3">
                     <label className="form-label">País donde labora:</label>
 
                     <Select
@@ -1119,7 +1119,7 @@ const AdministradorDePersonasScreen = () => {
                       options={paisesOptions}
                       placeholder="Seleccionar"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1127,9 +1127,9 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                      isDisabled={
-                        formValues.cod_pais_nacionalidad_empresa.value !== "CO"
-                      }
+                      // isDisabled={
+                      //   formValues.cod_pais_nacionalidad_empresa.value !== "CO"
+                      // }
                       onChange={changeSelectDepartamentoLabora}
                       value={formValues.departamento_labora}
                       placeholder="Seleccionar"
@@ -1142,9 +1142,9 @@ const AdministradorDePersonasScreen = () => {
                     </label>
 
                     <Select
-                      isDisabled={
-                        formValues.cod_pais_nacionalidad_empresa.value !== "CO"
-                      }
+                      // isDisabled={
+                      //   formValues.cod_pais_nacionalidad_empresa.value !== "CO"
+                      // }
                       value={formValues.municipio_labora}
                       onChange={changeSelectMunicipioLabora}
                       options={municipioDondeLaboraFiltered}
@@ -1203,7 +1203,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        className="mx-3 btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setDireccionLaboralIsOpen(true)}
                       >
                         Generar
@@ -1220,7 +1220,7 @@ const AdministradorDePersonasScreen = () => {
                 </div>
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
-                  <div className="col-12 col-md-3 mt-3">
+                  {/* <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
                       País notificación:
                     </label>
@@ -1231,7 +1231,7 @@ const AdministradorDePersonasScreen = () => {
                       onChange={changeSelectPaisNotificacion}
                       placeholder="Seleccionar"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1239,7 +1239,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                      isDisabled={formValues.pais_notificacion.value !== "CO"}
+                      // isDisabled={formValues.pais_notificacion.value !== "CO"}
                       onChange={changeSelectDepartamentoNotificacion}
                       value={formValues.departamento_notificacion}
                       placeholder="Seleccionar"
@@ -1253,7 +1253,7 @@ const AdministradorDePersonasScreen = () => {
                     <Select
                       value={formValues.municipio_notificacion}
                       onChange={changeSelectMunicipioNotificacion}
-                      isDisabled={formValues.pais_notificacion.value !== "CO"}
+                      // isDisabled={formValues.pais_notificacion.value !== "CO"}
                       options={municipioNotificacionFiltered}
                       placeholder="Seleccionar"
                     />
@@ -1352,7 +1352,7 @@ const AdministradorDePersonasScreen = () => {
                       </div>
                       <button
                         type="button"
-                        className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                        className="mx-3 btn bg-gradient-primary text-capitalize mb-0 mt-3"
                         onClick={() => setDireccionNotificacionIsOpen(true)}
                       >
                         Generar
