@@ -5,14 +5,10 @@ import Select from "react-select";
 import Subtitle from "../../components/Subtitle";
 import { AgGridReact } from "ag-grid-react";
 import CrearSeries from "../../components/Dialog/CrearSeries";
+import useCCD from "./hooks/useCCD";
 
 const CcdScreen = () => {
   const [CrearseriesIsactive, SetcrearseriesIsactive] = useState(false);
-
-  let gridApi;
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
 
   const columnAsigancion = [
     {
@@ -86,26 +82,40 @@ const CcdScreen = () => {
       idserie: "3,6",
     },
   ];
-  const defaultColDef = {
-    sortable: true,
-    editable: false,
-    flex: 2,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 400,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-  const {
-    reset,
-    register: registerBuscar,
-    handleSubmit,
-    control: controlBuscar,
-    formState: { errors: errorsBuscar },
-  } = useForm();
 
-  const onSubmit = () => {};
+  //Hooks
+  const {
+    //States
+    listUnitys,
+    listOrganigrams,
+    columnDefsMaintenance,
+    columnDefs2,
+    columnDefsArticles,
+    asignacionPrestamos,
+    articuloEncontrado,
+    otrasAplicaciones,
+    busquedaArticuloModalOpen,
+    otrasPerisfericos,
+    control,
+    initialState,
+    file,
+    defaultColDef,
+    errors,
+    //Edita States
+    setArticuloEncontrado,
+    setOtrasAplicaciones,
+    setOtrasPerisfericos,
+    setBusquedaArticuloModalOpen,
+    setFile,
+    setValue,
+    //Functions
+    // handledSearch,
+    onSubmit,
+    register,
+    handleSubmit,
+    reset,
+    // handleUpload
+  } = useCCD();
 
   return (
     <div className="row min-vh-100">
@@ -116,9 +126,7 @@ const CcdScreen = () => {
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="text-rigth  fw-light mt-4 mb-2">
-              Cuadro de clasificación documental
-            </h3>
+            <Subtitle title="Cuadro de clasificación documental" mt={3} mb={3} />
 
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
@@ -128,22 +136,17 @@ const CcdScreen = () => {
                 </label>
                 <Controller
                   name="organigrama"
-                  control={controlBuscar}
-                  rules={{
-                    required: true,
-                  }}
-                  render={() => (
+                  control={control}
+                  render={({ field }) => (
                     <Select
-                      options={[
-                        { label: "Salen todos", value: "tos" },
-                        { label: "Los Organigramas", value: "los" },
-                        { label: "Finalizados", value: "fn" },
-                      ]}
+                      {...field}
+                      value={field.value}
+                      options={listOrganigrams}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
-                {errorsBuscar.organigrama && (
+                {errors.organigrama && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -158,23 +161,21 @@ const CcdScreen = () => {
                   <samp className="text-danger">*</samp>
                 </label>
                 <Controller
-                  name="unidades"
-                  control={controlBuscar}
+                  name="unidades_organigrama"
+                  control={control}
                   rules={{
                     required: true,
                   }}
-                  render={() => (
+                  render={({ field }) => (
                     <Select
-                      options={[
-                        { label: "Salen todas las", value: "tos" },
-                        { label: "unidades creadas en el ", value: "los" },
-                        { label: "organigrama seleccionado", value: "fn" },
-                      ]}
+                      {...field}
+                      value={field.value}
+                      options={listUnitys}
                       placeholder="Seleccionar"
                     />
                   )}
                 />
-                {errorsBuscar.unidades && (
+                {errors.unidades_organigrama && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -182,8 +183,6 @@ const CcdScreen = () => {
                   </div>
                 )}
               </div>
-            </div>
-            <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <div>
                   <label className="ms-2 text-terciary">Nombre del CCD<samp className="text-danger">*</samp></label>
@@ -191,7 +190,7 @@ const CcdScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre del CCD"
-                    {...registerBuscar("nombreCcd", {
+                    {...register("nombreCcd", {
                       required: true,
                     })}
                   />
@@ -205,32 +204,24 @@ const CcdScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Versión"
-                    {...registerBuscar("version", {
+                    {...register("version", {
                       required: true,
                     })}
                   />
                 </div>
               </div>
-              <div className="col-12 col-sm-4 mt-4">
-                <button
-                  className="btn me-md-2  text-capitalize  px-3 mt-3"
-                  type="button"
-                  title="Buscar"
-                >
-                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                </button>
-              </div>
             </div>
-            <Subtitle title="Registro de series y subseries" mb={3} />
+
+            <Subtitle title="Registro de series y subseries" mt={3} mb={3} />
             <div className="row">
-              <div className="col-12 col-lg-3  mt-3">
+              <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
                   Series
                   <samp className="text-danger">*</samp>
                 </label>
                 <Controller
-                  name="sries "
-                  control={controlBuscar}
+                  name="sries"
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -245,7 +236,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errorsBuscar.organigrama && (
+                {errors.organigrama && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -254,24 +245,42 @@ const CcdScreen = () => {
                 )}
               </div>
               <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
+                <div className="d-grid gap-2  mx-2">
                   <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width"
                     type="button"
                     onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Crear series
                   </button>
                 </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    disabled
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                  >
+                    Clonar
+                  </button>
+                </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    disabled
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                  >
+                    Previzualizar
+                  </button>
+                </div>
               </div>
-              <div className="col-12 col-lg-3  mt-3">
+              <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
                   Subseries
                   <samp className="text-danger">*</samp>
                 </label>
                 <Controller
                   name="subSerie"
-                  control={controlBuscar}
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -286,7 +295,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errorsBuscar.organigrama && (
+                {errors.organigrama && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -295,13 +304,33 @@ const CcdScreen = () => {
                 )}
               </div>
               <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
+                <div className="d-grid gap-2 mx-2">
                   <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
                     onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Crear subseries
+                  </button>
+                </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    disabled
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                  // onClick={() => SetcrearseriesIsactive(true)}
+                  >
+                    Clonar
+                  </button>
+                </div>
+                <div className="d-grid gap-2 mx-2">
+                  <button
+                    disabled
+                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                    type="button"
+                  // onClick={() => SetcrearseriesIsactive(true)}
+                  >
+                    Previzualizar
                   </button>
                 </div>
               </div>
@@ -315,8 +344,8 @@ const CcdScreen = () => {
                   <samp className="text-danger">*</samp>
                 </label>
                 <Controller
-                  name="unidades"
-                  control={controlBuscar}
+                  name="unidades_asignacion"
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -331,7 +360,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errorsBuscar.unidades && (
+                {errors.unidades_asignacion && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -344,8 +373,8 @@ const CcdScreen = () => {
                   Series
                 </label>
                 <Controller
-                  name="sries "
-                  control={controlBuscar}
+                  name="sries_asignacion"
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -360,7 +389,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errorsBuscar.organigrama && (
+                {errors.sries_asignacion && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -373,8 +402,8 @@ const CcdScreen = () => {
                   Subseries
                 </label>
                 <Controller
-                  name="subSerie"
-                  control={controlBuscar}
+                  name="subSerie_asignacion"
+                  control={control}
                   rules={{
                     required: true,
                   }}
@@ -389,7 +418,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errorsBuscar.organigrama && (
+                {errors.subSerie_asignacion && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
