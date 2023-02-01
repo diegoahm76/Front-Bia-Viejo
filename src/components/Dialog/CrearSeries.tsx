@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Subtitle from "../Subtitle";
+import Subtitle from "../../components/Subtitle";
 import { getCvArticleAllService } from "../../services/cv/CvComputers";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { AgGridReact } from "ag-grid-react";
@@ -130,7 +130,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <h3 className="fw-light mt-4 mx-4">Creacion de series</h3>
+            <Subtitle title="Creación de series" mb={3} />
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
