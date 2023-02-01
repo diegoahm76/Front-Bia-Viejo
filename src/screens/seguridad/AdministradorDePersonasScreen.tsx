@@ -1288,20 +1288,20 @@ const AdministradorDePersonasScreen = () => {
                       <div className="col-12 col-md-4">
                         <label>Indicativo:</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary "
+                          className="form-control border rounded-pill  border-terciary "
                           type="text"
                           maxLength={10}
                           minLength={10}
                           name="celular"
                           disabled
-                          value={"+57"}
+                          value={"57"}
                           onChange={handleChangeCreate}
                         />
                       </div>
                       <div className="col-6 col-md-8">
                         <label>Celular:</label>
                         <input
-                          className="form-control border rounded-pill px-3 border-terciary"
+                          className="mt-1 form-control border rounded-pill  border-terciary"
                           type="text"
                           maxLength={10}
                           minLength={10}
