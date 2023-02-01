@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Navigate } from "react-router-dom/dist";
 import CrearOrganigramaScreen from "../CrearOrganigramaScreen";
-import CCDScreen from "../CCDScreen";
+import CCDScreen from "../CcdScreen";
 import { EdicionOrganigramaScreen } from "../EdicionOrganigramaScreen";
 
 const GestionDocumentalRoutes = () => {
