@@ -7,7 +7,7 @@ import { AgGridReact } from "ag-grid-react";
 import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
 
-const CCDScreen = () => {
+const CcdScreen = () => {
   const [CrearseriesIsactive, SetcrearseriesIsactive] = useState(false);
 
   const columnAsigancion = [
@@ -481,4 +481,4 @@ const CCDScreen = () => {
   );
 };
 
-export default CCDScreen;
+export default CcdScreen;
