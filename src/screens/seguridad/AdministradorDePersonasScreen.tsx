@@ -1110,16 +1110,7 @@ const AdministradorDePersonasScreen = () => {
                 {/* DATOS LABORALES */}
                 <Subtitle title={"Datos laborales"} mt={4} />
                 <div className="row align-items-end mx-1">
-                  {/* <div className="col-12 col-md-3 mt-3">
-                    <label className="form-label">País donde labora:</label>
-
-                    <Select
-                      value={formValues.cod_pais_nacionalidad_empresa}
-                      onChange={changeSelectPaisLabora}
-                      options={paisesOptions}
-                      placeholder="Seleccionar"
-                    />
-                  </div> */}
+                  
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1127,9 +1118,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                      // isDisabled={
-                      //   formValues.cod_pais_nacionalidad_empresa.value !== "CO"
-                      // }
+                     
                       onChange={changeSelectDepartamentoLabora}
                       value={formValues.departamento_labora}
                       placeholder="Seleccionar"
@@ -1142,9 +1131,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
 
                     <Select
-                      // isDisabled={
-                      //   formValues.cod_pais_nacionalidad_empresa.value !== "CO"
-                      // }
+                      
                       value={formValues.municipio_labora}
                       onChange={changeSelectMunicipioLabora}
                       options={municipioDondeLaboraFiltered}
@@ -1220,18 +1207,8 @@ const AdministradorDePersonasScreen = () => {
                 </div>
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
-                  {/* <div className="col-12 col-md-3 mt-3">
-                    <label className="form-label text-terciary">
-                      País notificación:
-                    </label>
 
-                    <Select
-                      value={formValues.pais_notificacion}
-                      options={paisesOptions}
-                      onChange={changeSelectPaisNotificacion}
-                      placeholder="Seleccionar"
-                    />
-                  </div> */}
+                  
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1239,7 +1216,6 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                      // isDisabled={formValues.pais_notificacion.value !== "CO"}
                       onChange={changeSelectDepartamentoNotificacion}
                       value={formValues.departamento_notificacion}
                       placeholder="Seleccionar"
