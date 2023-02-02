@@ -86,13 +86,13 @@ export const toFinishedCCDSService = (id: string, navigate: NavigateFunction) =>
 
 
 //Crear Cuadro de Clasificación Documental (CCD)
-export const createCCDSService = (CCD/* : IObjCreateOrganigram */) => {
+export const createCCDSService = (CCD/* : IObjCreateOrganigram */, setSaveCCD) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post("gestor/ccd/create/", CCD);
-            // dispatch(getOrganigramsService());
             dispatch(currentOrganigram(data.detail));
             notificationSuccess(data.detail);
+            setSaveCCD(true);
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
