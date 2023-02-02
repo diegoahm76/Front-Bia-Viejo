@@ -136,6 +136,7 @@ const CcdScreen = () => {
                 </label>
                 <Controller
                   name="organigrama"
+                  rules={{ required: true }}
                   control={controlCreateCCD}
                   render={({ field }) => (
                     <Select
@@ -171,13 +172,6 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errorsCreateCCD.unidades_organigrama && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
               </div>
               <div className="col-12 col-lg-3  mt-3">
                 <div>
@@ -190,6 +184,13 @@ const CcdScreen = () => {
                       required: true,
                     })}
                   />
+                  {errorsCreateCCD.nombreCcd && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -204,6 +205,13 @@ const CcdScreen = () => {
                       required: true,
                     })}
                   />
+                  {errorsCreateCCD.version && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -213,11 +221,9 @@ const CcdScreen = () => {
                     <button
                       className="btn text-capitalize"
                       type="submit"
-                      // onClick={() => clean()}
-                      title="Guardar"
+                      title="Buscar"
                     >
-                      <i className="fa-regular fa-floppy-disk fs-3"></i>
-                      {/* <i className="fa-solid fa-magnifying-glass fs-3"></i> */}
+                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
                     </button>
                   ) : (
                     <button
@@ -227,7 +233,6 @@ const CcdScreen = () => {
                       title="Guardar"
                     >
                       <i className="fa-regular fa-floppy-disk fs-3"></i>
-                      {/* <i className="fa-solid fa-magnifying-glass fs-3"></i> */}
                     </button>
                   )}
                   <button
