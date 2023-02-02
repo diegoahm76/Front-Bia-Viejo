@@ -103,7 +103,7 @@ const AdministrarViveroScreen = ()=> {
     let tipoVivero={...createModel}
     tipoVivero.tipo_vivero={
       value: e.value,
-      label: e.value,
+     label:e.label,
     }
     setValue("tipo_vivero",tipoVivero.tipo_vivero);
     setCreateModel(tipoVivero)
@@ -193,17 +193,8 @@ console.log(createModel);
     }
   };
  
-
   const [setVivero] = useState("");
   const [setSiembra] = useState("");
-
-  
-
-  
-
- 
-
-
 
   let gridApi;
   const columnDefs = [
@@ -266,7 +257,7 @@ console.log(createModel);
                  // onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Escribe el nombre del vivero"
-                  {...register("nombreVivero", { required: true })}
+                  {...register("nombre", { required: true })}
                 />
               </div>
               <div className="col-12 col-md-3 mb-3">
@@ -298,7 +289,7 @@ console.log(createModel);
                 //  onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Ingresa área para el vivero"
-                  {...register("nombreVivero", { required: true })}
+                  {...register("area_mt2", { required: true })}
                 />
                 {errors.nombreVivero && (
                   <div className="col-12">
@@ -373,7 +364,7 @@ console.log(createModel);
                 value={createModel.area_propagacion_mt2}
                 className="form-control border border-terciary rounded-pill px-3"
                 placeholder="Ingresa medida para el área de propagación"
-                {...register("Areapro", { required: true })}
+                {...register("area_propagacion_mt2", { required: true })}
               />
               {errors.nombreVivero && (
                 <div className="col-12">
@@ -477,7 +468,7 @@ console.log(createModel);
                   type="number"
                   value={createModel.id_viverista_actual}
                   placeholder="Numero de identificacion"
-                  {...register("NumeroDoc")}
+                  {...register("id_viverista")}
                 />
               </div>
               <div className="col-12 col-md-3">
@@ -490,7 +481,7 @@ console.log(createModel);
                   placeholder="Nombre de funcionario"
                   
                   disabled={true}
-                  {...register("Nombre")}
+                  {...register("Viverista")}
                 />
               </div>
               <div className="col-12 col-md-3 mt-2" style={{ display: "flex" }}>
