@@ -8,7 +8,7 @@ import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
 
 const CcdScreen = () => {
-  const [CrearseriesIsactive, SetcrearseriesIsactive] = useState(false);
+
 
   const columnAsigancion = [
     {
@@ -88,6 +88,8 @@ const CcdScreen = () => {
     //States
     listUnitys,
     listOrganigrams,
+    title,
+    createIsactive,
     columnDefsMaintenance,
     columnDefs2,
     columnDefsArticles,
@@ -108,13 +110,14 @@ const CcdScreen = () => {
     setBusquedaArticuloModalOpen,
     setFile,
     setValue,
+    setTitle,
+    setCreateIsactive,
     //Functions
     // handledSearch,
     onSubmit,
     register,
     handleSubmit,
     reset,
-    // handleUpload
   } = useCCD();
 
   return (
@@ -158,14 +161,10 @@ const CcdScreen = () => {
                 <label className="text-terciary">
                   {" "}
                   Unidades
-                  <samp className="text-danger">*</samp>
                 </label>
                 <Controller
                   name="unidades_organigrama"
                   control={control}
-                  rules={{
-                    required: true,
-                  }}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -216,15 +215,11 @@ const CcdScreen = () => {
             <div className="row">
               <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
-                  Series
-                  <samp className="text-danger">*</samp>
+                  Ver series
                 </label>
                 <Controller
                   name="sries"
                   control={control}
-                  rules={{
-                    required: true,
-                  }}
                   render={() => (
                     <Select
                       options={[
@@ -249,7 +244,10 @@ const CcdScreen = () => {
                   <button
                     className="btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width"
                     type="button"
-                    onClick={() => SetcrearseriesIsactive(true)}
+                    onClick={() => {
+                      setCreateIsactive(true)
+                      setTitle('Crear series')
+                    }}
                   >
                     Crear series
                   </button>
@@ -275,15 +273,11 @@ const CcdScreen = () => {
               </div>
               <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
-                  Subseries
-                  <samp className="text-danger">*</samp>
+                  Ver subseries
                 </label>
                 <Controller
                   name="subSerie"
                   control={control}
-                  rules={{
-                    required: true,
-                  }}
                   render={() => (
                     <Select
                       options={[
@@ -308,7 +302,10 @@ const CcdScreen = () => {
                   <button
                     className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
-                    onClick={() => SetcrearseriesIsactive(true)}
+                    onClick={() => {
+                       setCreateIsactive(true)
+                       setTitle('Crear subseries')
+                       }}
                   >
                     Crear subseries
                   </button>
@@ -318,7 +315,6 @@ const CcdScreen = () => {
                     disabled
                     className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
-                  // onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Clonar
                   </button>
@@ -328,7 +324,6 @@ const CcdScreen = () => {
                     disabled
                     className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
-                  // onClick={() => SetcrearseriesIsactive(true)}
                   >
                     Previzualizar
                   </button>
@@ -349,13 +344,11 @@ const CcdScreen = () => {
                   rules={{
                     required: true,
                   }}
-                  render={() => (
+                  render={({ field }) => (
                     <Select
-                      options={[
-                        { label: "Salen todas las", value: "tos" },
-                        { label: "unidades creadas en el ", value: "los" },
-                        { label: "organigrama seleccionado", value: "fn" },
-                      ]}
+                      {...field}
+                      value={field.value}
+                      options={listUnitys}
                       placeholder="Seleccionar"
                     />
                   )}
@@ -371,6 +364,7 @@ const CcdScreen = () => {
               <div className="col-12 col-lg-3  mt-3">
                 <label className="text-terciary">
                   Series
+                  <samp className="text-danger">*</samp>
                 </label>
                 <Controller
                   name="sries_asignacion"
@@ -400,6 +394,7 @@ const CcdScreen = () => {
               <div className="col-12 col-lg-3  mt-3">
                 <label className="text-terciary">
                   Subseries
+                  <samp className="text-danger">*</samp>
                 </label>
                 <Controller
                   name="subSerie_asignacion"
@@ -409,6 +404,7 @@ const CcdScreen = () => {
                   }}
                   render={() => (
                     <Select
+                      isMulti
                       options={[
                         { label: "primera subserie", value: "primerasub" },
                         { label: "segunda subserie", value: "segundasub" },
@@ -472,8 +468,9 @@ const CcdScreen = () => {
             </div>
           </form>
           <CrearSeries
-            isModalActive={CrearseriesIsactive}
-            setIsModalActive={SetcrearseriesIsactive}
+            isModalActive={createIsactive}
+            setIsModalActive={setCreateIsactive}
+            title={title}
           />
         </div>
       </div>

@@ -2,16 +2,13 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { ISon } from '../../Interfaces/Organigrama';
-import { useAppDispatch, useAppSelector } from '../../store/hooks/hooks';
+import { useAppSelector } from '../../store/hooks/hooks';
 
 
 export default function OrganigramVisual() {
 
     // Redux State Extraction
     const { moldOrganigram } = useAppSelector((state) => state.organigram);
-
-    // Dispatch instance
-    const dispatch = useAppDispatch();
 
     const stylesTree = { padding: '5px', border: '1px solid black', borderRadius: '8px', display: 'inline-block' };
     const stylesTreeNode = { padding: '5px', border: '1px solid black', borderRadius: '8px', display: 'inline-block' };
@@ -37,7 +34,6 @@ export default function OrganigramVisual() {
             )
         })
     }
-    console.log(moldOrganigram, 'moldOrganigram')
     return (
         <>
             <Button style={{ color: '#fff' }} disabled variant="primary">Unidad de Linea</Button>{' '}

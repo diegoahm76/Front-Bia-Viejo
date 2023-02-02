@@ -26,7 +26,9 @@ const useCCD = () => {
     // Redux State Extraction
     const { organigram, unityOrganigram } = useAppSelector((state) => state.organigram);
 
+    const [title, setTitle] = useState<string>('');
     const [articuloEncontrado, setArticuloEncontrado] = useState<boolean>(false);
+    const [createIsactive, setCreateIsactive] = useState<boolean>(false);
     const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
     const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
     const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
@@ -48,7 +50,7 @@ const useCCD = () => {
         sries: '',
         subSerie_asignacion: '',
         subSerie: '',
-        unidades_asignacion: '',
+        unidades_asignacion: { label: '', value: '' },
         unidades_organigrama: { label: '', value: '' },
         version: '',
     }
@@ -218,6 +220,8 @@ const useCCD = () => {
         //States
         listUnitys,
         listOrganigrams,
+        title,
+        createIsactive,
         columnDefsMaintenance,
         columnDefs2,
         columnDefsArticles,
@@ -238,13 +242,14 @@ const useCCD = () => {
         setBusquedaArticuloModalOpen,
         setFile,
         setValue,
+        setTitle,
+        setCreateIsactive,
         //Functions
         // handledSearch,
         onSubmit,
         register,
         handleSubmit,
         reset,
-        // handleUpload
     };
 }
 

@@ -26,7 +26,7 @@ interface IFormValues {
   nombre: string;
 }
 
-const CrearSeries = ({ isModalActive, setIsModalActive }) => {
+const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
   // Dispatch instance
   const dispatch = useAppDispatch();
 
@@ -130,7 +130,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-            <Subtitle title="Creación de series" mb={3} />
+            <Subtitle title={title} mb={3} />
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
@@ -161,9 +161,9 @@ const CrearSeries = ({ isModalActive, setIsModalActive }) => {
                 <button
                   className="btn me-md-2  text-capitalize  px-3 mt-2"
                   type="submit"
-                  title="Buscar"
+                  title="Guardar"
                 >
-                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                 <i className="fa-regular fa-floppy-disk fs-3"></i>
                 </button>
                 <button
                   className="btn me-md-2 text-capitalize  px-3"
