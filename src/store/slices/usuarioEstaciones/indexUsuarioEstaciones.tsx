@@ -9,6 +9,7 @@ export interface IUsuarioEstaciones {
   t005nombre: string;
   t005numeroCelular: number;
   t005Observacion: string;
+  t005Correo: string;
 }
 
 interface IEstacionesInternal {
@@ -35,6 +36,7 @@ const initialState: IUsuarioEstaciones[] = [
     t005nombre: "",
     t005numeroCelular: 0,
     t005Observacion: "",
+    t005Correo:""
   },
 ];
 
