@@ -29,6 +29,7 @@ const useCCD = () => {
     const [title, setTitle] = useState<string>('');
     const [articuloEncontrado, setArticuloEncontrado] = useState<boolean>(false);
     const [createIsactive, setCreateIsactive] = useState<boolean>(false);
+    const [consultaCcdIsactive, setConsultaCcdIsactive] = useState<boolean>(false);
     const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
     const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
     const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
@@ -222,6 +223,7 @@ const useCCD = () => {
         listOrganigrams,
         title,
         createIsactive,
+        consultaCcdIsactive,
         columnDefsMaintenance,
         columnDefs2,
         columnDefsArticles,
@@ -244,6 +246,7 @@ const useCCD = () => {
         setValue,
         setTitle,
         setCreateIsactive,
+        setConsultaCcdIsactive,
         //Functions
         // handledSearch,
         onSubmit,

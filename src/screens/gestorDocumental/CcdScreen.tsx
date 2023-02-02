@@ -6,6 +6,7 @@ import Subtitle from "../../components/Subtitle";
 import { AgGridReact } from "ag-grid-react";
 import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
+import SearchCcdModal from "../../components/Dialog/SearchCcdModal";
 
 const CcdScreen = () => {
 
@@ -90,6 +91,7 @@ const CcdScreen = () => {
     listOrganigrams,
     title,
     createIsactive,
+    consultaCcdIsactive,
     columnDefsMaintenance,
     columnDefs2,
     columnDefsArticles,
@@ -112,6 +114,7 @@ const CcdScreen = () => {
     setValue,
     setTitle,
     setCreateIsactive,
+    setConsultaCcdIsactive,
     //Functions
     // handledSearch,
     onSubmit,
@@ -217,6 +220,10 @@ const CcdScreen = () => {
                     type="button"
                     // onClick={() => clean()}
                     title="Guardar"
+                    onClick={() => {
+                      setConsultaCcdIsactive(true)
+                      setTitle('Consultar CCD')
+                    }}
                   >
                     {/* <i className="fa-regular fa-floppy-disk fs-3"></i> */}
                     <i className="fa-solid fa-magnifying-glass fs-3" title=""></i>
@@ -225,9 +232,8 @@ const CcdScreen = () => {
                     className="btn  text-capitalize"
                     type="button"
                     // onClick={() => clean()}
-                    title="Limpiar"
-                  >
-                    <i className="fa-solid fa-eraser fs-3"></i>
+                    title="Guardar"
+                  ><i className="fa-regular fa-floppy-disk fs-3" title=""></i>
                   </button>
                 </div>
               </div>
@@ -492,6 +498,11 @@ const CcdScreen = () => {
           <CrearSeries
             isModalActive={createIsactive}
             setIsModalActive={setCreateIsactive}
+            title={title}
+          />
+          <SearchCcdModal
+            isModalActive={consultaCcdIsactive}
+            setIsModalActive={setConsultaCcdIsactive}
             title={title}
           />
         </div>
