@@ -94,20 +94,15 @@ const CcdScreen = () => {
     columnDefs2,
     columnDefsArticles,
     asignacionPrestamos,
-    articuloEncontrado,
-    otrasAplicaciones,
-    busquedaArticuloModalOpen,
-    otrasPerisfericos,
     control,
+    controlCreateCCD,
     initialState,
     file,
     defaultColDef,
     errors,
+    errorsCreateCCD,
+    saveCCD,
     //Edita States
-    setArticuloEncontrado,
-    setOtrasAplicaciones,
-    setOtrasPerisfericos,
-    setBusquedaArticuloModalOpen,
     setFile,
     setValue,
     setTitle,
@@ -115,8 +110,11 @@ const CcdScreen = () => {
     //Functions
     // handledSearch,
     onSubmit,
+    onSubmitCreateCCD,
     register,
+    registerCreateCCD,
     handleSubmit,
+    handleSubmitCreateCCD,
     reset,
   } = useCCD();
 
@@ -126,11 +124,10 @@ const CcdScreen = () => {
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative ">
           <form
             className="row"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmitCreateCCD(onSubmitCreateCCD)}
             id="configForm"
           >
             <Subtitle title="Cuadro de clasificación documental" mt={3} mb={3} />
-
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <label className="text-terciary">
@@ -139,7 +136,7 @@ const CcdScreen = () => {
                 </label>
                 <Controller
                   name="organigrama"
-                  control={control}
+                  control={controlCreateCCD}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -149,7 +146,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errors.organigrama && (
+                {errorsCreateCCD.organigrama && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -164,7 +161,7 @@ const CcdScreen = () => {
                 </label>
                 <Controller
                   name="unidades_organigrama"
-                  control={control}
+                  control={controlCreateCCD}
                   render={({ field }) => (
                     <Select
                       {...field}
@@ -174,7 +171,7 @@ const CcdScreen = () => {
                     />
                   )}
                 />
-                {errors.unidades_organigrama && (
+                {errorsCreateCCD.unidades_organigrama && (
                   <div className="col-12">
                     <small className="text-center text-danger">
                       Este campo es obligatorio
@@ -189,7 +186,7 @@ const CcdScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre del CCD"
-                    {...register("nombreCcd", {
+                    {...registerCreateCCD("nombreCcd", {
                       required: true,
                     })}
                   />
@@ -203,7 +200,7 @@ const CcdScreen = () => {
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Versión"
-                    {...register("version", {
+                    {...registerCreateCCD("version", {
                       required: true,
                     })}
                   />
@@ -212,15 +209,27 @@ const CcdScreen = () => {
 
               <div className="row d-flex justify-content-end">
                 <div className="col-12 col-lg-2 d-flex justify-content-end mt-3">
-                  <button
-                    className="btn   text-capitalize"
-                    type="button"
-                    // onClick={() => clean()}
-                    title="Guardar"
-                  >
-                    {/* <i className="fa-regular fa-floppy-disk fs-3"></i> */}
-                    <i className="fa-solid fa-magnifying-glass fs-3" title=""></i>
-                  </button>
+                  {saveCCD ? (
+                    <button
+                      className="btn text-capitalize"
+                      type="submit"
+                      // onClick={() => clean()}
+                      title="Guardar"
+                    >
+                      <i className="fa-regular fa-floppy-disk fs-3"></i>
+                      {/* <i className="fa-solid fa-magnifying-glass fs-3"></i> */}
+                    </button>
+                  ) : (
+                    <button
+                      className="btn text-capitalize"
+                      type="submit"
+                      // onClick={() => clean()}
+                      title="Guardar"
+                    >
+                      <i className="fa-regular fa-floppy-disk fs-3"></i>
+                      {/* <i className="fa-solid fa-magnifying-glass fs-3"></i> */}
+                    </button>
+                  )}
                   <button
                     className="btn  text-capitalize"
                     type="button"
@@ -232,263 +241,271 @@ const CcdScreen = () => {
                 </div>
               </div>
             </div>
-
-            <Subtitle title="Registro de series y subseries" mt={1} mb={3} />
-            <div className="row">
-              <div className="col-12 col-lg-3  mt-4">
-                <label className="text-terciary">
-                  Ver series
-                </label>
-                <Controller
-                  name="sries"
-                  control={control}
-                  render={() => (
-                    <Select
-                      options={[
-                        { label: "primera serie", value: "primera" },
-                        { label: "segunda serie", value: "segunda" },
-                        { label: "tercera serie", value: "tercera" },
-                      ]}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.organigrama && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2  mx-2">
-                  <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width"
-                    type="button"
-                    onClick={() => {
-                      setCreateIsactive(true)
-                      setTitle('Crear series')
-                    }}
-                  >
-                    Crear series
-                  </button>
-                </div>
-                <div className="d-grid gap-2 mx-2">
-                  <button
-                    disabled
-                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
-                    type="button"
-                  >
-                    Clonar
-                  </button>
-                </div>
-                <div className="d-grid gap-2 mx-2">
-                  <button
-                    disabled
-                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
-                    type="button"
-                  >
-                    Previzualizar
-                  </button>
-                </div>
-              </div>
-              <div className="col-12 col-lg-3  mt-4">
-                <label className="text-terciary">
-                  Ver subseries
-                </label>
-                <Controller
-                  name="subSerie"
-                  control={control}
-                  render={() => (
-                    <Select
-                      options={[
-                        { label: "primera subserie", value: "primerasub" },
-                        { label: "segunda subserie", value: "segundasub" },
-                        { label: "tercera subserie", value: "tercerasub" },
-                      ]}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.organigrama && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mx-2">
-                  <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
-                    type="button"
-                    onClick={() => {
-                      setCreateIsactive(true)
-                      setTitle('Crear subseries')
-                    }}
-                  >
-                    Crear subseries
-                  </button>
-                </div>
-                <div className="d-grid gap-2 mx-2">
-                  <button
-                    disabled
-                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
-                    type="button"
-                  >
-                    Clonar
-                  </button>
-                </div>
-                <div className="d-grid gap-2 mx-2">
-                  <button
-                    disabled
-                    className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
-                    type="button"
-                  >
-                    Previzualizar
-                  </button>
-                </div>
-              </div>
-            </div>
-            <Subtitle title="Asignaciones" mb={3} />
-            <div className="row">
-              <div className="col-12 col-lg-3  mt-3">
-                <label className="text-terciary">
-                  {" "}
-                  Unidades
-                  <samp className="text-danger">*</samp>
-                </label>
-                <Controller
-                  name="unidades_asignacion"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      value={field.value}
-                      options={listUnitys}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.unidades_asignacion && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-lg-3  mt-3">
-                <label className="text-terciary">
-                  Series
-                  <samp className="text-danger">*</samp>
-                </label>
-                <Controller
-                  name="sries_asignacion"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={() => (
-                    <Select
-                      options={[
-                        { label: "primera serie", value: "primera" },
-                        { label: "segunda serie", value: "segunda" },
-                        { label: "tercera serie", value: "tercera" },
-                      ]}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.sries_asignacion && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-lg-3  mt-3">
-                <label className="text-terciary">
-                  Subseries
-                  <samp className="text-danger">*</samp>
-                </label>
-                <Controller
-                  name="subSerie_asignacion"
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={() => (
-                    <Select
-                      isMulti
-                      options={[
-                        { label: "primera subserie", value: "primerasub" },
-                        { label: "segunda subserie", value: "segundasub" },
-                        { label: "tercera subserie", value: "tercerasub" },
-                      ]}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
-                {errors.subSerie_asignacion && (
-                  <div className="col-12">
-                    <small className="text-center text-danger">
-                      Este campo es obligatorio
-                    </small>
-                  </div>
-                )}
-              </div>
-              <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
-                  <button
-                    className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
-                    type="button"
-                  >
-                    guardar relación
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div id="myGrid" className="ag-theme-alpine mt-4">
-                <div className="ag-theme-alpine" style={{ height: "400px" }}>
-                  <AgGridReact
-                    columnDefs={columnAsigancion}
-                    rowData={rowData}
-                    defaultColDef={defaultColDef}
-                  ></AgGridReact>
-                </div>
-              </div>
-            </div>
-            <div className="row d-flex justify-content-end">
-              <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
-                  <button
-                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                    type="button"
-                  >
-                    Terminar
-                  </button>
-                </div>
-              </div>
-              <div className="col-12 col-lg-3 ">
-                <div className="d-grid gap-2 mt-4 mx-2">
-                  <button
-                    className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                    type="button"
-                  >
-                    Reanudar
-                  </button>
-                </div>
-              </div>
-            </div>
           </form>
+          {saveCCD && (
+            <form
+              className="row"
+              onSubmit={handleSubmit(onSubmitCreateCCD)}
+              id="configForm"
+            >
+              <Subtitle title="Registro de series y subseries" mt={1} mb={3} />
+              <div className="row">
+                <div className="col-12 col-lg-3  mt-4">
+                  <label className="text-terciary">
+                    Ver series
+                  </label>
+                  <Controller
+                    name="sries"
+                    control={control}
+                    render={() => (
+                      <Select
+                        options={[
+                          { label: "primera serie", value: "primera" },
+                          { label: "segunda serie", value: "segunda" },
+                          { label: "tercera serie", value: "tercera" },
+                        ]}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.sries && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-lg-3 ">
+                  <div className="d-grid gap-2  mx-2">
+                    <button
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width"
+                      type="button"
+                      onClick={() => {
+                        setCreateIsactive(true)
+                        setTitle('Crear series')
+                      }}
+                    >
+                      Crear series
+                    </button>
+                  </div>
+                  <div className="d-grid gap-2 mx-2">
+                    <button
+                      disabled
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                      type="button"
+                    >
+                      Clonar
+                    </button>
+                  </div>
+                  <div className="d-grid gap-2 mx-2">
+                    <button
+                      disabled
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                      type="button"
+                    >
+                      Previzualizar
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-3  mt-4">
+                  <label className="text-terciary">
+                    Ver subseries
+                  </label>
+                  <Controller
+                    name="subSerie"
+                    control={control}
+                    render={() => (
+                      <Select
+                        options={[
+                          { label: "primera subserie", value: "primerasub" },
+                          { label: "segunda subserie", value: "segundasub" },
+                          { label: "tercera subserie", value: "tercerasub" },
+                        ]}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.subSerie && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-lg-3 ">
+                  <div className="d-grid gap-2 mx-2">
+                    <button
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                      type="button"
+                      onClick={() => {
+                        setCreateIsactive(true)
+                        setTitle('Crear subseries')
+                      }}
+                    >
+                      Crear subseries
+                    </button>
+                  </div>
+                  <div className="d-grid gap-2 mx-2">
+                    <button
+                      disabled
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                      type="button"
+                    >
+                      Clonar
+                    </button>
+                  </div>
+                  <div className="d-grid gap-2 mx-2">
+                    <button
+                      disabled
+                      className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
+                      type="button"
+                    >
+                      Previzualizar
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <Subtitle title="Asignaciones" mb={3} />
+              <div className="row">
+                <div className="col-12 col-lg-3  mt-3">
+                  <label className="text-terciary">
+                    {" "}
+                    Unidades
+                    <samp className="text-danger">*</samp>
+                  </label>
+                  <Controller
+                    name="unidades_asignacion"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        value={field.value}
+                        options={listUnitys}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.unidades_asignacion && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-lg-3  mt-3">
+                  <label className="text-terciary">
+                    Series
+                    <samp className="text-danger">*</samp>
+                  </label>
+                  <Controller
+                    name="sries_asignacion"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={() => (
+                      <Select
+                        options={[
+                          { label: "primera serie", value: "primera" },
+                          { label: "segunda serie", value: "segunda" },
+                          { label: "tercera serie", value: "tercera" },
+                        ]}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.sries_asignacion && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-lg-3  mt-3">
+                  <label className="text-terciary">
+                    Subseries
+                    <samp className="text-danger">*</samp>
+                  </label>
+                  <Controller
+                    name="subSerie_asignacion"
+                    control={control}
+                    rules={{
+                      required: true,
+                    }}
+                    render={() => (
+                      <Select
+                        isMulti
+                        options={[
+                          { label: "primera subserie", value: "primerasub" },
+                          { label: "segunda subserie", value: "segundasub" },
+                          { label: "tercera subserie", value: "tercerasub" },
+                        ]}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
+                  {errors.subSerie_asignacion && (
+                    <div className="col-12">
+                      <small className="text-center text-danger">
+                        Este campo es obligatorio
+                      </small>
+                    </div>
+                  )}
+                </div>
+                <div className="col-12 col-lg-3 ">
+                  <div className="d-grid gap-2 mt-4 mx-2">
+                    <button
+                      className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                      type="button"
+                    >
+                      guardar relación
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div id="myGrid" className="ag-theme-alpine mt-4">
+                  <div className="ag-theme-alpine" style={{ height: "400px" }}>
+                    <AgGridReact
+                      columnDefs={columnAsigancion}
+                      rowData={rowData}
+                      defaultColDef={defaultColDef}
+                    ></AgGridReact>
+                  </div>
+                </div>
+              </div>
+              <div className="row d-flex justify-content-end">
+                <div className="col-12 col-lg-3 ">
+                  <div className="d-grid gap-2 mt-4 mx-2">
+                    <button
+                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                      type="button"
+                    >
+                      Terminar
+                    </button>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-3 ">
+                  <div className="d-grid gap-2 mt-4 mx-2">
+                    <button
+                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                      type="button"
+                    >
+                      Reanudar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+          )}
           <CrearSeries
             isModalActive={createIsactive}
             setIsModalActive={setCreateIsactive}

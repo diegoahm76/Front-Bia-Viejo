@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal, { SweetAlertIcon } from "sweetalert2";
 //components
-// import clienteAxios from "../../../../../config/clienteAxios";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 //Actions
 // import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
@@ -27,11 +26,8 @@ const useCCD = () => {
     const { organigram, unityOrganigram } = useAppSelector((state) => state.organigram);
 
     const [title, setTitle] = useState<string>('');
-    const [articuloEncontrado, setArticuloEncontrado] = useState<boolean>(false);
     const [createIsactive, setCreateIsactive] = useState<boolean>(false);
-    const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
-    const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
-    const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
+    const [saveCCD, setSaveCCD] = useState<boolean>(false);
     const [listUnitys, setListUnitys] = useState<IListUnity[]>([{
         label: "",
         value: '',
@@ -42,17 +38,20 @@ const useCCD = () => {
     }]);
     const [file, setFile] = useState(null);
 
-    //Estado Inicial de Hojas de Vida de Computadores
+    //Estado Inicial de Formulario de Crear CCD
     const initialState /* :IcvComputersForm */ = {
         nombreCcd: '',
         organigrama: { label: '', value: 0 },
+        unidades_organigrama: { label: '', value: '' },
+        version: '',
+    }
+    //Estado Inicial de Formulario de Crear Asignación
+    const initialStateAsig /* :IcvComputersForm */ = {
         sries_asignacion: '',
         sries: '',
         subSerie_asignacion: '',
         subSerie: '',
         unidades_asignacion: { label: '', value: '' },
-        unidades_organigrama: { label: '', value: '' },
-        version: '',
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -67,7 +66,7 @@ const useCCD = () => {
         suppressMovable: true,
     };
 
-    //useForm Hojas de Vida de Computadores
+    //useForm Asignar CCD
     const {
         register,
         handleSubmit,
@@ -77,8 +76,20 @@ const useCCD = () => {
         setValue,
         formState: { errors: errors },
 
+    } = useForm/* <IcvComputersForm> */({ defaultValues: initialStateAsig });
+    const dataAsing = watch();
+
+    //useForm Crear CCD
+    const {
+        register: registerCreateCCD,
+        handleSubmit: handleSubmitCreateCCD,
+        control: controlCreateCCD,
+        reset: resetCreateCCD,
+        watch: watchCreateCCD,
+        formState: { errors: errorsCreateCCD },
+
     } = useForm/* <IcvComputersForm> */({ defaultValues: initialState });
-    const dataCCD = watch();
+    const dataCreateCCD = watchCreateCCD();
 
     // UseEffect para obtener organigramas
     useEffect(() => {
@@ -87,10 +98,8 @@ const useCCD = () => {
 
     //useEffect para obtener el MoldOrganigram (jerarquia de niveles & unidades)
     useEffect(() => {
-        if (dataCCD.organigrama.value !== 0) dispatch(getUnitysService(dataCCD.organigrama.value));
-    }, [dataCCD.organigrama.value])
-    console.log(listUnitys, 'listUnitys')
-    console.log(dataCCD, 'dataCCD')
+        if (dataCreateCCD.organigrama.value !== 0) dispatch(getUnitysService(dataCreateCCD.organigrama.value));
+    }, [dataCreateCCD.organigrama.value])
 
     useEffect(() => {
         setListUnitys(unityOrganigram.map(
@@ -104,25 +113,33 @@ const useCCD = () => {
         ));
     }, [organigram]);
 
-
-
-
     //submit Hojas de Vida de Computadores
     const onSubmit /* :SubmitHandler<IcvComputersForm> */ = () => {
-        createCv();
+        createAsing();
+    };
+    //submit Hojas de Vida de Computadores
+    const onSubmitCreateCCD /* :SubmitHandler<IcvComputersForm> */ = () => {
+        createCCD();
     };
 
-    //Funcion para crear hoja de vida de computadores
-    const createCv = () => {
+    //Funcion para crear el CCD
+    const createCCD = () => {
+        let newCCD = {
+            id_organigrama: dataCreateCCD.organigrama.value,
+            version: dataCreateCCD.version,
+            nombre: dataCreateCCD.nombreCcd
+        }
+        dispatch(createCCDSService(newCCD, setSaveCCD))
+    };
+    //Funcion para crear el CCD
+    const createAsing = () => {
         let newCCD = {
             id_organigrama: 1,
             version: "5.0",
             nombre: "CCD 5"
         }
-        dispatch(createCCDSService(newCCD))
+        // dispatch(createCCDSService(newCCD))
     };
-
-
 
     //Columnas de la tabla de Mantenimientos
     const columnDefsMaintenance = [
@@ -161,7 +178,7 @@ const useCCD = () => {
                         style={{ border: "none", background: "none" }}
                         onClick={() => {
                             // dispatch(getCvComputersService(data.doc_identificador_nro));
-                            setBusquedaArticuloModalOpen(false);
+                            // setBusquedaArticuloModalOpen(false);
                         }}
                         title="Seleccionar"
                     >
@@ -226,20 +243,15 @@ const useCCD = () => {
         columnDefs2,
         columnDefsArticles,
         asignacionPrestamos,
-        articuloEncontrado,
-        otrasAplicaciones,
-        busquedaArticuloModalOpen,
-        otrasPerisfericos,
         control,
+        controlCreateCCD,
         initialState,
         file,
         defaultColDef,
         errors,
+        errorsCreateCCD,
+        saveCCD,
         //Edita States
-        setArticuloEncontrado,
-        setOtrasAplicaciones,
-        setOtrasPerisfericos,
-        setBusquedaArticuloModalOpen,
         setFile,
         setValue,
         setTitle,
@@ -247,8 +259,11 @@ const useCCD = () => {
         //Functions
         // handledSearch,
         onSubmit,
+        onSubmitCreateCCD,
         register,
+        registerCreateCCD,
         handleSubmit,
+        handleSubmitCreateCCD,
         reset,
     };
 }
