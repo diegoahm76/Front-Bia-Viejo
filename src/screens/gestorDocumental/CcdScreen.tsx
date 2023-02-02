@@ -209,9 +209,31 @@ const CcdScreen = () => {
                   />
                 </div>
               </div>
+
+              <div className="row d-flex justify-content-end">
+                <div className="col-12 col-lg-2 d-flex justify-content-end mt-3">
+                  <button
+                    className="btn   text-capitalize"
+                    type="button"
+                    // onClick={() => clean()}
+                    title="Guardar"
+                  >
+                    {/* <i className="fa-regular fa-floppy-disk fs-3"></i> */}
+                    <i className="fa-solid fa-magnifying-glass fs-3" title=""></i>
+                  </button>
+                  <button
+                    className="btn  text-capitalize"
+                    type="button"
+                    // onClick={() => clean()}
+                    title="Limpiar"
+                  >
+                    <i className="fa-solid fa-eraser fs-3"></i>
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <Subtitle title="Registro de series y subseries" mt={3} mb={3} />
+            <Subtitle title="Registro de series y subseries" mt={1} mb={3} />
             <div className="row">
               <div className="col-12 col-lg-3  mt-4">
                 <label className="text-terciary">
@@ -303,9 +325,9 @@ const CcdScreen = () => {
                     className="btn btn-primary text-capitalize border rounded-pill px-3  btn-min-width"
                     type="button"
                     onClick={() => {
-                       setCreateIsactive(true)
-                       setTitle('Crear subseries')
-                       }}
+                      setCreateIsactive(true)
+                      setTitle('Crear subseries')
+                    }}
                   >
                     Crear subseries
                   </button>
