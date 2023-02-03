@@ -16,6 +16,7 @@ import clienteAxios from "../../../config/clienteAxios";
 import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
 import { initialOptions } from '../../seguridad/AdministradorDePersonasScreen';
 import { Navigate,useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
 
 
@@ -44,6 +45,7 @@ const infoViveroModel ={
   fecha_inicio_cuarentena: "",
   id_viverista_actual: 0,
   id_persona_crea: 0,
+  ruta_archivo_creacion: ''
 
 }
 
@@ -103,7 +105,7 @@ const AdministrarViveroScreen = ()=> {
     let tipoVivero={...createModel}
     tipoVivero.tipo_vivero={
       value: e.value,
-     label:e.label,
+      label:e.label,
     }
     setValue("tipo_vivero",tipoVivero.tipo_vivero);
     setCreateModel(tipoVivero)
@@ -131,6 +133,30 @@ const AdministrarViveroScreen = ()=> {
     setCreateModel(municipio)
   }
 
+  interface FormData {
+    [key: string]: string | Blob
+  }
+
+  const fileUpload = async(file: Blob) => {
+    const formData = new FormData();
+    formData.append('ruta_archivo_creacion', file);
+
+    await clienteAxios.post('conservacion/viveros/create/',formData)
+      .then(() =>
+        console.log('Se creo el archivo :)')
+      )
+      .catch((err) => 
+        console.error('No se creo :(')
+      )
+  }
+
+  const [file, setFile] = useState<Blob | null>(null);
+
+  const 
+  onFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFile(event.target.files![0])
+  }
+
   const submitVivero = () => {
     const idPersona = busquedaModel.idResponsable;
     const viveroCreate: IViveroCreate = {
@@ -149,13 +175,18 @@ const AdministrarViveroScreen = ()=> {
       cod_origen_recursos_vivero:createModel.origen_recursos_vivero.value,
       fecha_inicio_cuarentena: createModel.fecha_inicio_cuarentena,
       id_viverista_actual: createModel.id_viverista_actual,
+      ruta_archivo_creacion: createModel.ruta_archivo_creacion
+
     };
     console.log(viveroCreate);
     crearVivero(dispatch, viveroCreate);
+    if (file) {
+      fileUpload(file);
+    }
   };
 console.log(createModel);
 
- 
+
   const AdministradorVivero = () => {
     navigate("/dashboard/conservcacion/gestorvivero/administrarvivero");
   };
@@ -187,57 +218,30 @@ console.log(createModel);
       setOrigenRecurso(origenRecursosFormat);
       setTipoVivero(tipoViveroFormat);
       setTipoDocumentoOptions(documentosFormat);
-      setMunicipiosOptions(municipiosFormat);
+      const meta:IGeneric[] = [];
+      municipiosFormat.map(({label,value}) => {
+        
+        const num = Number(value);
+        
+        if (num >= 50000 && num <= 51000) {
+          meta.push({label, value} as IGeneric);
+        }
+
+        return setMunicipiosOptions(meta);
+      });
     } catch (err) {
       console.log(err);
     }
   };
- 
-  const [setVivero] = useState("");
-  const [setSiembra] = useState("");
 
-  let gridApi;
-  const columnDefs = [
-    { headerName: "Latitud", field: "latitud" },
-    { headerName: "Longitud", field: "longitud" },
-    {
-      headerName: "Acción",
-      field: "accion",
-      cellRendererFramework: (params) => (
-        <div className="button-row justify-align-content-center col-12 col-sm-4 col-lg-4">
-          <button
-            className="btn-min-width border rounded-pill px-3"
-            type="button"
-            title="Send"
-          >
-            <i className="fa-regular fa-trash-can fs-3"></i>
-          </button>
-        </div>
-      ),
-    },
-  ];
-  const rowData = [
-    { latitud: "4°05'10.0''N", longitud: "73°33'49.1''W ", accion: "" },
-  ];
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
+
+  const handleOpenModalAvanzadaModal = () => {
+      setModalPersonal(true);
   };
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
- 
-   const handleOpenModalAvanzadaModal = () => {
-     setModalPersonal(true);
-   };
 
   const [modalPersonal, setModalPersonal] = useState(false);
+
+
 
   return (
     <div className="row min-vh-100">
@@ -254,10 +258,10 @@ console.log(createModel);
                 <input
                   type="text"
                   value={createModel.nombre}
-                 // onChange={handleChange}
+                  { ...register('nombre', { required: true })}
+                  onChange={ handleChange }
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Escribe el nombre del vivero"
-                  {...register("nombre", { required: true })}
                 />
               </div>
               <div className="col-12 col-md-3 mb-3">
@@ -280,16 +284,35 @@ console.log(createModel);
 
               <div className="col-12 col-md-3 mb-3">
                 <label className="text-terciary">
+                  Dirección:<span className="text-danger">*</span>
+                </label>
+
+                <input
+                  type="text"
+                  value={createModel.direccion}
+                  { ...register('direccion', { required: true })}
+                  onChange={ handleChange }
+                  className="form-control border border-terciary rounded-pill px-3"
+                  placeholder="Escribe la dirección del vivero"
+                />
+
+                {errors.municipioOpcion && (
+                  <p className="text-danger">Este campo es obligatorio</p>
+                )}
+              </div>
+
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
                   Área del vivero (metros cuadrados):{" "}
                   <span className="text-danger">*</span>
                 </label>
                 <input
                   type="number"
                   value={createModel.area_mt2}
-                //  onChange={handleChange}
+                  {...register("area_mt2", { required: true })}
+                  onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Ingresa área para el vivero"
-                  {...register("area_mt2", { required: true })}
                 />
                 {errors.nombreVivero && (
                   <div className="col-12">
@@ -361,10 +384,11 @@ console.log(createModel);
               </label>
               <input
                 type="number"
+                {...register("area_propagacion_mt2", { required: true })}
+                onChange={ handleChange }
                 value={createModel.area_propagacion_mt2}
                 className="form-control border border-terciary rounded-pill px-3"
                 placeholder="Ingresa medida para el área de propagación"
-                {...register("area_propagacion_mt2", { required: true })}
               />
               {errors.nombreVivero && (
                 <div className="col-12">
@@ -465,10 +489,11 @@ console.log(createModel);
                 </label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
+                  {...register("id_viverista")}
+                  onChange={ handleChange }
                   type="number"
                   value={createModel.id_viverista_actual}
                   placeholder="Numero de identificacion"
-                  {...register("id_viverista")}
                 />
               </div>
               <div className="col-12 col-md-3">
@@ -479,7 +504,6 @@ console.log(createModel);
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre de funcionario"
-                  
                   disabled={true}
                   {...register("Viverista")}
                 />
@@ -523,10 +547,10 @@ console.log(createModel);
                       className="form-control border rounded-pill px-3 border border-terciary col-12 col-md-3"
                       dateFormat="dd/MM/yyyy"
                       placeholderText="dd/mm/aaaa"
-                       selected={createModel.fecha_inicio_viverista_actual}
-                       onSelect={(e) =>
+                      selected={createModel.fecha_inicio_viverista_actual}
+                      onSelect={(e) =>
                       setCreateModel({ ...createModel, fecha_inicio_viverista_actual: e })
-                       }
+                      }
                     />
                   )}
                 />
@@ -542,8 +566,8 @@ console.log(createModel);
 
             <div className="row d-flex align-items-center mx-2 mt-2" style={{justifyContent:"space-between"}}>
               <div className="col-12 col-md-3 mb-3">
-               <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">Desativar vivero</button>
-               <div className="row ms-3">
+                <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">Desativar vivero</button>
+                <div className="row ms-3">
             <div className="card col-5 col-md-auto" style={{backgroundColor:"#f7d7d8", flexBasis:"content", height:"100px"}}>
             <div className="mt-3 ms-3">
               <label style={{color:"#84454a"}}>  <i className="fa-solid fa-triangle-exclamation me-3" style={{color:"#c02b1b"}}></i>Este vivero se encuentra desactivado</label> 
@@ -567,6 +591,8 @@ console.log(createModel);
                 <input
                   className="form-control"
                   type="file"
+                  { ...register('ruta_archivo_creacion', { required: true })}
+                  onChange={ onFileInputChange }
                   id="formFileMultiple"
                   multiple
                 />
