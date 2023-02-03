@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React from 'react';
+import React from "react";
 import Modal from "react-modal";
 import iconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import iconoAgregar from "../assets/iconosBotones/agregar.svg";
@@ -154,7 +154,7 @@ const NuevaEstacionModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
-              title="Agregar"              
+              title="Agregar"
             >
               <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
