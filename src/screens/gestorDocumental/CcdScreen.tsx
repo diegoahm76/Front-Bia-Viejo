@@ -111,7 +111,6 @@ const CcdScreen = () => {
     setCreateIsactive,
     setConsultaCcdIsactive,
     //Functions
-    // handledSearch,
     onSubmit,
     onSubmitCreateCCD,
     register,
@@ -119,6 +118,7 @@ const CcdScreen = () => {
     handleSubmit,
     handleSubmitCreateCCD,
     reset,
+    cleanCCD,
   } = useCCD();
 
   return (
@@ -223,40 +223,28 @@ const CcdScreen = () => {
                   <button
                     className="btn   text-capitalize"
                     type="button"
-                    // onClick={() => clean()}
-                    title="Guardar"
+                    title="Buscar"
                     onClick={() => {
                       setConsultaCcdIsactive(true)
                       setTitle('Consultar CCD')
                     }}
                   >
-                    {/* <i className="fa-regular fa-floppy-disk fs-3"></i> */}
-                    <i className="fa-solid fa-magnifying-glass fs-3" title=""></i>
+                    <i className="fa-solid fa-magnifying-glass fs-3"></i>
                   </button>
-                  {saveCCD ? (
-                    <button
-                      className="btn text-capitalize"
-                      type="submit"
-                      title="Buscar"
-                    >
-                      <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                    </button>
-                  ) : (
-                    <button
-                      className="btn text-capitalize"
-                      type="submit"
-                      // onClick={() => clean()}
-                      title="Guardar"
-                    >
-                      <i className="fa-regular fa-floppy-disk fs-3"></i>
-                    </button>
-                  )}
+                  <button
+                    className="btn text-capitalize"
+                    type="submit"
+                    title="Guardar"
+                  >
+                    <i className="fa-regular fa-floppy-disk fs-3"></i>
+                  </button>
                   <button
                     className="btn  text-capitalize"
                     type="button"
-                    // onClick={() => clean()}
-                    title="Guardar"
-                  ><i className="fa-regular fa-floppy-disk fs-3" title=""></i>
+                    onClick={() => cleanCCD()}
+                    title="Limpiar"
+                  >
+                    <i className="fa-solid fa-eraser fs-3"></i>
                   </button>
                 </div>
               </div>

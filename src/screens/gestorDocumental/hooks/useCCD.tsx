@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import clienteAxios from "../../../config/clienteAxios";
 import { createCCDSService } from '../../../services/CCD/CCDServices';
 import { getOrganigramsService, getUnitysService } from "../../../services/organigram/OrganigramServices";
-import { IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
+import { ICCDForm, IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
 
 
 const useCCD = () => {
@@ -24,13 +24,11 @@ const useCCD = () => {
 
     // Redux State Extraction
     const { organigram, unityOrganigram } = useAppSelector((state) => state.organigram);
+    const { CCDCurrent } = useAppSelector((state) => state.CCD);
 
     const [title, setTitle] = useState<string>('');
     const [createIsactive, setCreateIsactive] = useState<boolean>(false);
     const [consultaCcdIsactive, setConsultaCcdIsactive] = useState<boolean>(false);
-    const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
-    const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
-    const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
     const [saveCCD, setSaveCCD] = useState<boolean>(false);
     const [listUnitys, setListUnitys] = useState<IListUnity[]>([{
         label: "",
@@ -43,11 +41,13 @@ const useCCD = () => {
     const [file, setFile] = useState(null);
 
     //Estado Inicial de Formulario de Crear CCD
-    const initialState /* :IcvComputersForm */ = {
+    const initialState: ICCDForm = {
+        id_ccd: 0,
         nombreCcd: '',
         organigrama: { label: '', value: 0 },
         unidades_organigrama: { label: '', value: '' },
         version: '',
+        fecha_terminado: '',
     }
     //Estado Inicial de Formulario de Crear Asignación
     const initialStateAsig /* :IcvComputersForm */ = {
@@ -92,8 +92,26 @@ const useCCD = () => {
         watch: watchCreateCCD,
         formState: { errors: errorsCreateCCD },
 
-    } = useForm/* <IcvComputersForm> */({ defaultValues: initialState });
+    } = useForm<ICCDForm>({ defaultValues: initialState });
     const dataCreateCCD = watchCreateCCD();
+
+    // UseEffect para obtener organigramas
+    useEffect(() => {
+        if (CCDCurrent !== null) {
+            const resultName = organigram.filter(item => item.id_organigrama === CCDCurrent.id_organigrama_id);
+            let obj: ICCDForm = {
+                id_ccd: CCDCurrent.id_ccd,
+                nombreCcd: CCDCurrent.nombre,
+                organigrama: { label: resultName[0].nombre, value: CCDCurrent.id_organigrama_id },
+                unidades_organigrama: { label: '', value: '' },
+                version: CCDCurrent.version,
+                fecha_terminado: CCDCurrent.fecha_terminado,
+            }
+            resetCreateCCD(obj);
+            setSaveCCD(true);
+        }
+    }, [CCDCurrent]);
+    console.log(dataCreateCCD, 'dataCreateCCD')
 
     // UseEffect para obtener organigramas
     useEffect(() => {
@@ -144,6 +162,13 @@ const useCCD = () => {
         }
         // dispatch(createCCDSService(newCCD))
     };
+
+
+    //Funcion para limpiar el formulario de Crear CCD
+    const cleanCCD = () => {
+        resetCreateCCD(initialState);
+        setSaveCCD(false);
+    }
 
     //Columnas de la tabla de Mantenimientos
     const columnDefsMaintenance = [
@@ -263,7 +288,6 @@ const useCCD = () => {
         setCreateIsactive,
         setConsultaCcdIsactive,
         //Functions
-        // handledSearch,
         onSubmit,
         onSubmitCreateCCD,
         register,
@@ -271,6 +295,7 @@ const useCCD = () => {
         handleSubmit,
         handleSubmitCreateCCD,
         reset,
+        cleanCCD,
     };
 }
 

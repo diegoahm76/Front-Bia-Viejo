@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { SubmitHandler, useForm } from "react-hook-form";
 import Subtitle from "../../components/Subtitle";
-import { getCvArticleAllService } from "../../services/cv/CvComputers";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { AgGridReact } from "ag-grid-react";
-import { getCvArticles } from "../../store/slices/cv/indexCv";
+import { getClassificationCCDSService } from "../../services/CCD/CCDServices";
+import { getCCDCurrent } from "../../store/slices/CCD/indexCCD";
 
 const customStyles = {
   content: {
@@ -21,40 +20,34 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-interface IFormValues {
-  codigo: string;
-  nombre: string;
-}
-
 const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
+
+  const { CCDS } = useAppSelector((state) => state.CCD);
 
   // Dispatch instance
   const dispatch = useAppDispatch();
 
-  const initialState = {
-    codigo: "",
-    nombre: "",
-  };
+  const [worldSearch, setWorldSearch] = useState<string>('');
+  const [filterCCDS, setFilterCCDS] = useState<any>([]);
 
-  const { register, handleSubmit, reset } = useForm<IFormValues>({
-    defaultValues: initialState,
-  });
-
-  //ueeEffect para limpiar el store
   useEffect(() => {
-    clean();
+    const filter = CCDS.filter((item) => {
+      return item.nombre.toLowerCase().includes(worldSearch.toLowerCase()) || item.version.toLowerCase().includes(worldSearch.toLowerCase());
+    });
+    console.log(worldSearch !== "")
+    if (worldSearch !== "") {
+      setFilterCCDS(filter);
+    } else {
+      setFilterCCDS(CCDS);
+    }
+  }, [worldSearch, CCDS]);
+
+  //useEffect para cargar los datos de la tabla
+  useEffect(() => {
+    dispatch(getClassificationCCDSService());
   }, []);
 
-  //Función para limpiar el store y limbia el formulario
-  const clean = () => {
-    dispatch(getCvArticles([]));
-    reset(initialState);
-  };
 
-  //Función para enviar los datos del formulario
-  const onSubmit: SubmitHandler<IFormValues> = (data: IFormValues) => {
-    clean();
-  };
   const columCCDS = [
     {
       headerName: "Nombre",
@@ -68,41 +61,30 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
       minWidth: 150,
       maxWidth: 200,
     },
-
+    {
+      headerName: "Estado",
+      field: "accion",
+      cellRendererFramework: (params) => (
+        <div>
+          <span>
+            {params.data.fecha_terminado ? "Terminado" : "En Proceso"}
+          </span>
+        </div>
+      ),
+    },
     {
       headerName: "Acciones",
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn text-capitalize " type="button" title="Editar">
+          <button className="btn text-capitalize " type="button" title="Seleccionar"
+            onClick={() => { dispatch(getCCDCurrent(params.data)); setIsModalActive(false); }}
+          >
             <i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>
-          
         </div>
       ),
     },
-  ];
-  const rowData = [
-    {
-      nombre: "CCD 1",
-      version: "0.1",
-    },
-    {
-        nombre: "CCD 2",
-        version: "0.2",
-      },
-      {
-        nombre: "CCD 2",
-        version: "0.2",
-      },
-      {
-        nombre: "CCD 2",
-        version: "0.2",
-      },
-      {
-        nombre: "CCD 3",
-        version: "0.3",
-      },
   ];
   //configuración de tabla por defecto
   const defaultColDef = {
@@ -129,41 +111,23 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <Subtitle title={title}/>
+          <Subtitle title={title} />
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="row">
-              <div className="col-12 col-sm-4 mt-2">
+              <div className="col-12 col-sm-6 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Nombre</label>
+                  <label className="ms-3 text-terciary">Buscador de cuadro de clasificación documental</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="Nombre"
+                    placeholder="Buscar..."
+                    value={worldSearch}
+                    onChange={(e) => setWorldSearch(e.target.value)}
                   />
                 </div>
-              </div>
-              <div className="col-12 col-sm-4 mt-2">
-                <div>
-                  <label className="ms-3 text-terciary">Versión</label>
-                  <input
-                    className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
-                    placeholder="Código"
-                  />
-                </div>
-              </div>
-              <div className="col-12 col-sm-4 mt-4">
-                <button
-                  className="btn   text-capitalize  px-3 mt-3"
-                  type="submit"
-                  title="Buscar"
-                ><i className="fa-solid fa-magnifying-glass fs-3" ></i>
-                </button>
-                
               </div>
             </div>
             <div className="row d-flex align-items-center mt-2 mx-2">
@@ -174,7 +138,7 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
                 >
                   <AgGridReact
                     columnDefs={columCCDS}
-                    rowData={rowData}
+                    rowData={filterCCDS}
                     defaultColDef={defaultColDef}
                   />
                 </div>

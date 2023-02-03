@@ -7,6 +7,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
 import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
+import { getCCDS } from '../../store/slices/CCD/indexCCD';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -42,9 +43,9 @@ export const getFinishedCCDSService = () => {
 export const getClassificationCCDSService = () => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.get('gestor/ccd/get-list/?pk=1');
-            // dispatch(getMoldOrganigrams(data.data));
-            notificationSuccess(data.detail);
+            const { data } = await clienteAxios.get('gestor/ccd/get-list');
+            dispatch(getCCDS(data['cuadros de Clasificación Documental']));
+            // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
