@@ -2,10 +2,10 @@ import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
-import { editarUsuarioAction } from "../actions/estacionActions";
-import { getIndexBySelectOptions } from "../helpers/inputsFormat";
+import { crearNuevoUsuarioAction } from "../actions/estacionActions";
+import React from "react";
 
 const customStyles = {
   content: {
@@ -23,19 +23,25 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
+const defaultValues = {
+  identificacion:"",
+  nombreUsuario: "",
+  apellido:"",
+  correo:"",
+  estacion: "",
+  numeroDeTelefono: "",
+  observacion: "",
+};
+
+const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const dispatch = useDispatch();
   const [estacionesOptions, setEstacionesOptions] = useState([]);
-  const [formValues, setFormValues] = useState({
-    index_objectid: "",
-  });
-  const usuarioEditar = useSelector((state) => state.estaciones);
+
   const {
     register,
     handleSubmit,
     control,
     reset,
-    watch,
     formState: { errors },
   } = useForm();
 
@@ -53,38 +59,21 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     getEstaciones();
   }, []);
 
-  const handleResetDataEdit = () => {
-    setFormValues({
-      ...formValues,
-      index_objectid: getIndexBySelectOptions(
-        usuarioEditar?.objectid,
-        estacionesOptions
-      ),
-    });
-    reset(usuarioEditar);
-  };
-
-  useEffect(() => {
-    handleResetDataEdit();
-  }, [usuarioEditar]);
-
   const onSumbitEstacion = async (data) => {
-    const editarUsuario = {
-      objectid: estacionesOptions[formValues.index_objectid].value,
-      t005identificacion: data.t005identificacion,
-      t005nombre: data.t005nombre,
-      t005apellido: data.t005apellido,
-      t005correo: data.t005correo,
-      t005numeroCelular: data.t005numero,
-      idUsuario: usuarioEditar.idUsuario,
-      t005Observacion: data.t005Observacion,
+    const nuevoUsuario = {
+      objectid: data.estacion.value,
+      t005identificacion: data.identificacion,
+      t005nombre: data.nombreUsuario,
+      t005apellido: data.apellido,
+      t005correo: data.correo,
+      t005numeroCelular: data.numeroDeTelefono,
+      t005Observacion: data.observacion,
     };
 
-    //console.log("editar", editarUsuario)
+    crearNuevoUsuarioAction(nuevoUsuario)
 
-    //dispatch(editarUsuarioAction(editarUsuario));
-    editarUsuarioAction(editarUsuario);
     setIsModalActive(!isModalActive);
+    reset(defaultValues);
   };
 
   return (
@@ -96,21 +85,21 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
+      
       <div className="container p-3">
         <h4>Nuevo usuario</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
-          <div className="col-12">
+        <div className="col-12">
             <label>
-              Número de identificación: <span className="text-danger">*</span>
+              Número  Identificación: <span className="text-danger">*</span>
             </label>
             <input
               type="number"
-              placeholder="Número de identificación"
               className="form-control border rounded-pill px-3"
-              {...register("t005identificacion", { required: true })}
+              {...register("identificacion", { required: true })}
             />
-            {errors.t005identificacion && (
+            {errors.identificacion && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -120,13 +109,13 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
           </div>
           <div className="col-12 mb-3">
             <label>
-              Nombre : <span className="text-danger">*</span>
+              Nombre: <span className="text-danger">*</span>
             </label>
             <input
               type="text"
               placeholder="Nombre"
               className="form-control border rounded-pill px-3"
-              {...register("t005nombre", { required: true })}
+              {...register("nombreUsuario", { required: true })}
             />
             {errors.nombreUsuario && (
               <div className="col-12">
@@ -139,27 +128,12 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12 mt-3 mb-3">
             <label>Apellido:</label>
             <input
-              type="text"
+            type="text"
               className="form-control border rounded-pill px-3"
               placeholder="Apellido"
-              {...register("t005apellido", { required: true })}
+              {...register("apellido", { required: true })}
             />
-            {errors.t005apellido && (
-              <div className="col-12">
-                <small className="text-center text-danger">
-                  Este campo es obligatorio
-                </small>
-              </div>
-            )}
-            <div className="col-12 mt-3 mb-3">
-            <label>Correo electrónico:</label>
-            <input
-              type="text"
-              className="form-control border rounded-pill px-3"
-              placeholder="Correo electrónico"
-              {...register("t005t005correo", { required: true })}
-            />
-            {errors.t005correo && (
+            {errors.apellido && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -167,13 +141,28 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               </div>
             )}
           </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Correo Electronico:</label>
+            <input
+            type="text"
+              className="form-control border rounded-pill px-3"
+              placeholder="Correo electrónico"
+              {...register("correo", { required: true })}
+            />
+            {errors.correo && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
           </div>
           <div className="col-12 mb-3">
             <label className="form-label">
               Estación: <span className="text-danger">*</span>
             </label>
             <Controller
-              name="objectid"
+              name="estacion"
               control={control}
               rules={{
                 required: true,
@@ -181,42 +170,29 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  value={estacionesOptions[formValues.index_objectid]}
-                  onChange={(e) => {
-                    reset({ ...watch(), objectid: e.value });
-                    setFormValues({
-                      ...formValues,
-                      index_objectid: getIndexBySelectOptions(
-                        e.value,
-                        estacionesOptions
-                      ),
-                    });
-                  }}
                   options={estacionesOptions}
                   placeholder="Seleccionar"
                 />
               )}
             />
-            {errors.objectid && (
-              <div className="col-12 mb-3">
+            {errors.estacion && (
+              <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
                 </small>
               </div>
             )}
           </div>
-
           <div className="col-12">
             <label>
-              Numero de teléfono: <span className="text-danger">*</span>
+              Número Celular: <span className="text-danger">*</span>
             </label>
             <input
               type="number"
-              placeholder="Número de teléfono"
               className="form-control border rounded-pill px-3"
-              {...register("t005numeroCelular", { required: true })}
+              {...register("numeroDeTelefono", { required: true })}
             />
-            {errors.t005numeroCelular && (
+            {errors.numeroDeTelefono && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -229,9 +205,9 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             <textarea
               className="form-control border rounded-pill px-3"
               placeholder="Observación"
-              {...register("t005Observacion", { required: true })}
+              {...register("observacion", { required: true })}
             />
-            {errors.t005Observacion && (
+            {errors.observacion && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -244,7 +220,10 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             <button
               className="btn bg-gradient-light text-capitalize mt-4 mb-0"
               type="button"
-              onClick={() => setIsModalActive(!isModalActive)}
+              onClick={() => {
+                setIsModalActive(!isModalActive);
+                reset(defaultValues);
+              }}
             >
               Cerrar
             </button>
@@ -261,4 +240,4 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
     </Modal>
   );
 };
-export default EditarUsuarioModal;
+export default NuevoUsuarioModal;
