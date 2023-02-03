@@ -2,11 +2,9 @@ import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
-import {
-  editarUsuarioAction,
-} from "../actions/estacionActions";
+import { editarUsuarioAction } from "../actions/estacionActions";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
 
 const customStyles = {
@@ -31,7 +29,7 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const [formValues, setFormValues] = useState({
     index_objectid: "",
   });
-  const { usuarioEditar } = useSelector((state) => state.estaciones);
+  const usuarioEditar = useSelector((state) => state.estaciones);
   const {
     register,
     handleSubmit,
@@ -82,8 +80,8 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
     //console.log("editar", editarUsuario)
 
-    dispatch(editarUsuarioAction(editarUsuario));
-
+    //dispatch(editarUsuarioAction(editarUsuario));
+    editarUsuarioAction(editarUsuario);
     setIsModalActive(!isModalActive);
   };
 

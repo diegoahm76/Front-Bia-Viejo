@@ -24,6 +24,13 @@ const UsuariosEstacionesScreen = () => {
   const [isModalEditarActive, setIsModalEditarActive] = useState(false);
   const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
 
+  const dispatch = useAppDispatch();
+
+  const usuarios = useAppSelector((state) => state.usuarioEstaciones);
+  /* useEffect(() => {
+    obtenerTodosUsuarios(dispatch);
+  }, []); */
+
   const defaultColDef = {
     sortable: true,
     flex: 1,
@@ -44,11 +51,6 @@ const UsuariosEstacionesScreen = () => {
   const [selectEstacion, selecEstacion_Screen] = useState({
     opcEstaciones: "",
   });
-
-  const dispatch = useAppDispatch();
-
-  const usuarios = useAppSelector((state) => state.usuarioEstaciones);
-
   const onSubmit = (data) => {
     selecEstacion_Screen({
       ...selectEstacion,
@@ -69,8 +71,14 @@ const UsuariosEstacionesScreen = () => {
       field: "t001Estaciones.t001nombre",
       minWidth: 140,
     },
-    { headerName: "Identificacion", field: "objectid", minWidth: 140 },
+    {
+      headerName: "Identificacion",
+      field: "t005identificacion",
+      minWidth: 140,
+    },
     { headerName: "Nombre", field: "t005nombre", minWidth: 140 },
+    { headerName: "Apellido", field: "t005apellido", minWidth: 140 },
+    { headerName: "Correo", field: "t005correo", minWidth: 140 },
     { headerName: "Celular", field: "t005numeroCelular", minWidth: 140 },
     {
       headerName: "Acciones",
@@ -82,8 +90,8 @@ const UsuariosEstacionesScreen = () => {
             className="btn btn-sm btn-tablas"
             type="button"
             onClick={() => {
-              // dispatch(obtenerUsuarioEditarAction(params.data));
-              //setIsModalEditarActive(!isModalEditarActive);
+              dispatch(obtenerUsuarioEditarAction(params.data));
+              setIsModalEditarActive(!isModalEditarActive);
             }}
           >
             <img src={IconoEditarBia} alt="editar" title="Editar" />
@@ -121,8 +129,19 @@ const UsuariosEstacionesScreen = () => {
               mt={3}
             />
             <div className="row">
+              <div>
+                <div className="col-md-31 ">
+                  <button
+                    className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
+                    onClick={() => setIsModalActive(!isModalActive)}
+                  >
+                    <img src={IconoNuevoBia} alt="" title="Nuevo" />
+                  </button>
+                </div>
+              </div>
               <div className="col-12 col-md-3 ">
                 <label className=" form-control ms-0"></label>
+
                 <Controller
                   name="opcDashboard"
                   control={control}
@@ -145,18 +164,30 @@ const UsuariosEstacionesScreen = () => {
 
             {selectEstacion.opcEstaciones === "GUAY" ? (
               <div className="row min-vh-100">
-                <div className="multisteps-form__content">
-                  <div>
-                    <div
-                      className="ag-theme-alpine mt-auto mb-3 px-4"
-                      style={{ height: "470px" }}
-                    >
-                      <AgGridReact
-                        columnDefs={columnDefs}
-                        rowData={usuarios as any}
-                        defaultColDef={defaultColDef}
-                      ></AgGridReact>
+                <div className="col-lg-12 col-md-12 col-12 mx-auto">
+                  <div
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                  >
+                    <Subtitle title="Informacion de general" mt={3} />
+                    <br></br>
+                    <div className="row">
+                      <div className="multisteps-form__content">
+                        <div>
+                          <div
+                            className="ag-theme-alpine mt-auto mb-3 px-4"
+                            style={{ height: "470px" }}
+                          >
+                            <AgGridReact
+                              columnDefs={columnDefs}
+                              rowData={usuarios as any}
+                              defaultColDef={defaultColDef}
+                            ></AgGridReact>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                    <div></div>
                   </div>
                 </div>
               </div>
@@ -188,6 +219,14 @@ const UsuariosEstacionesScreen = () => {
           </form>
         </div>
       </div>
+      <NuevoUsuarioModal
+        setIsModalActive={setIsModalActive}
+        isModalActive={isModalActive}
+      />
+      <EditarUsuarioModal
+        setIsModalActive={setIsModalEditarActive}
+        isModalActive={isModalEditarActive}
+      />
     </div>
   );
 };
