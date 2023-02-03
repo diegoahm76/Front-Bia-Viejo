@@ -1,12 +1,11 @@
 import Swal from 'sweetalert2'
 import clienteAxios from "../../config/clienteAxios";
-import { NavigateFunction } from 'react-router-dom';
 // Types
 import { AxiosError, AxiosResponse } from "axios";
 // Reducers
-import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
+import { getSeriesCCD } from '../../store/slices/series/indexSeries';
 // Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
+import { ISeriesObject } from '../../Interfaces/CCD';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -25,11 +24,11 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
 }).fire();
 
 //Consulta series documentales
-export const getSubSeriesService = () => {
+export const getSeriesService = () => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get('gestor/ccd/series/get/2/');
-            // dispatch(getMoldOrganigrams(data.data));
+            dispatch(getSeriesCCD(data.data));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -41,21 +40,12 @@ export const getSubSeriesService = () => {
 
 
 //Crear, actualizar y/o eliminar series
-export const createSubSeriesService = (id: string, navigate: NavigateFunction) => {
-    // [
-    //     {
-    //         "id_subserie_doc":null,
-    //         "nombre": "Subserie 105",
-    //         "codigo": 756,
-    //         "id_ccd": 2
-    //     }
-    // ]
+export const createSeriesService = (newSeries: ISeriesObject) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
-            const { data } = await clienteAxios.put(`gestor/ccd/series/update/2/`);
-            // dispatch(getOrganigramsService());
+            const { data } = await clienteAxios.put(`gestor/ccd/series/update/2/`, newSeries);
+            dispatch(getSeriesService());
             notificationSuccess(data.detail);
-            // navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);

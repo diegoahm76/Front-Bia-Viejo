@@ -4,7 +4,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Swal, { SweetAlertIcon } from "sweetalert2";
 //components
-// import clienteAxios from "../../../../../config/clienteAxios";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 //Actions
 // import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
@@ -12,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import clienteAxios from "../../../config/clienteAxios";
 import { createCCDSService } from '../../../services/CCD/CCDServices';
 import { getOrganigramsService, getUnitysService } from "../../../services/organigram/OrganigramServices";
-import { IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
+import { ICCDForm, IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
 
 
 const useCCD = () => {
@@ -25,11 +24,12 @@ const useCCD = () => {
 
     // Redux State Extraction
     const { organigram, unityOrganigram } = useAppSelector((state) => state.organigram);
+    const { CCDCurrent } = useAppSelector((state) => state.CCD);
 
-    const [articuloEncontrado, setArticuloEncontrado] = useState<boolean>(false);
-    const [otrasAplicaciones, setOtrasAplicaciones] = useState<boolean>(false);
-    const [otrasPerisfericos, setOtrasPerisfericos] = useState<boolean>(false);
-    const [busquedaArticuloModalOpen, setBusquedaArticuloModalOpen] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>('');
+    const [createIsactive, setCreateIsactive] = useState<boolean>(false);
+    const [consultaCcdIsactive, setConsultaCcdIsactive] = useState<boolean>(false);
+    const [saveCCD, setSaveCCD] = useState<boolean>(false);
     const [listUnitys, setListUnitys] = useState<IListUnity[]>([{
         label: "",
         value: '',
@@ -40,17 +40,22 @@ const useCCD = () => {
     }]);
     const [file, setFile] = useState(null);
 
-    //Estado Inicial de Hojas de Vida de Computadores
-    const initialState /* :IcvComputersForm */ = {
+    //Estado Inicial de Formulario de Crear CCD
+    const initialState: ICCDForm = {
+        id_ccd: 0,
         nombreCcd: '',
         organigrama: { label: '', value: 0 },
+        unidades_organigrama: { label: '', value: '' },
+        version: '',
+        fecha_terminado: '',
+    }
+    //Estado Inicial de Formulario de Crear Asignación
+    const initialStateAsig /* :IcvComputersForm */ = {
         sries_asignacion: '',
         sries: '',
         subSerie_asignacion: '',
         subSerie: '',
-        unidades_asignacion: '',
-        unidades_organigrama: { label: '', value: '' },
-        version: '',
+        unidades_asignacion: { label: '', value: '' },
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -65,7 +70,7 @@ const useCCD = () => {
         suppressMovable: true,
     };
 
-    //useForm Hojas de Vida de Computadores
+    //useForm Asignar CCD
     const {
         register,
         handleSubmit,
@@ -75,8 +80,38 @@ const useCCD = () => {
         setValue,
         formState: { errors: errors },
 
-    } = useForm/* <IcvComputersForm> */({ defaultValues: initialState });
-    const dataCCD = watch();
+    } = useForm/* <IcvComputersForm> */({ defaultValues: initialStateAsig });
+    const dataAsing = watch();
+
+    //useForm Crear CCD
+    const {
+        register: registerCreateCCD,
+        handleSubmit: handleSubmitCreateCCD,
+        control: controlCreateCCD,
+        reset: resetCreateCCD,
+        watch: watchCreateCCD,
+        formState: { errors: errorsCreateCCD },
+
+    } = useForm<ICCDForm>({ defaultValues: initialState });
+    const dataCreateCCD = watchCreateCCD();
+
+    // UseEffect para obtener organigramas
+    useEffect(() => {
+        if (CCDCurrent !== null) {
+            const resultName = organigram.filter(item => item.id_organigrama === CCDCurrent.id_organigrama_id);
+            let obj: ICCDForm = {
+                id_ccd: CCDCurrent.id_ccd,
+                nombreCcd: CCDCurrent.nombre,
+                organigrama: { label: resultName[0].nombre, value: CCDCurrent.id_organigrama_id },
+                unidades_organigrama: { label: '', value: '' },
+                version: CCDCurrent.version,
+                fecha_terminado: CCDCurrent.fecha_terminado,
+            }
+            resetCreateCCD(obj);
+            setSaveCCD(true);
+        }
+    }, [CCDCurrent]);
+    console.log(dataCreateCCD, 'dataCreateCCD')
 
     // UseEffect para obtener organigramas
     useEffect(() => {
@@ -85,10 +120,8 @@ const useCCD = () => {
 
     //useEffect para obtener el MoldOrganigram (jerarquia de niveles & unidades)
     useEffect(() => {
-        if (dataCCD.organigrama.value !== 0) dispatch(getUnitysService(dataCCD.organigrama.value));
-    }, [dataCCD.organigrama.value])
-    console.log(listUnitys, 'listUnitys')
-    console.log(dataCCD, 'dataCCD')
+        if (dataCreateCCD.organigrama.value !== 0) dispatch(getUnitysService(dataCreateCCD.organigrama.value));
+    }, [dataCreateCCD.organigrama.value])
 
     useEffect(() => {
         setListUnitys(unityOrganigram.map(
@@ -102,25 +135,40 @@ const useCCD = () => {
         ));
     }, [organigram]);
 
-
-
-
     //submit Hojas de Vida de Computadores
     const onSubmit /* :SubmitHandler<IcvComputersForm> */ = () => {
-        createCv();
+        createAsing();
+    };
+    //submit Hojas de Vida de Computadores
+    const onSubmitCreateCCD /* :SubmitHandler<IcvComputersForm> */ = () => {
+        createCCD();
     };
 
-    //Funcion para crear hoja de vida de computadores
-    const createCv = () => {
+    //Funcion para crear el CCD
+    const createCCD = () => {
+        let newCCD = {
+            id_organigrama: dataCreateCCD.organigrama.value,
+            version: dataCreateCCD.version,
+            nombre: dataCreateCCD.nombreCcd
+        }
+        dispatch(createCCDSService(newCCD, setSaveCCD))
+    };
+    //Funcion para crear el CCD
+    const createAsing = () => {
         let newCCD = {
             id_organigrama: 1,
             version: "5.0",
             nombre: "CCD 5"
         }
-        dispatch(createCCDSService(newCCD))
+        // dispatch(createCCDSService(newCCD))
     };
 
 
+    //Funcion para limpiar el formulario de Crear CCD
+    const cleanCCD = () => {
+        resetCreateCCD(initialState);
+        setSaveCCD(false);
+    }
 
     //Columnas de la tabla de Mantenimientos
     const columnDefsMaintenance = [
@@ -159,7 +207,7 @@ const useCCD = () => {
                         style={{ border: "none", background: "none" }}
                         onClick={() => {
                             // dispatch(getCvComputersService(data.doc_identificador_nro));
-                            setBusquedaArticuloModalOpen(false);
+                            // setBusquedaArticuloModalOpen(false);
                         }}
                         title="Seleccionar"
                     >
@@ -218,33 +266,36 @@ const useCCD = () => {
         //States
         listUnitys,
         listOrganigrams,
+        title,
+        createIsactive,
+        consultaCcdIsactive,
         columnDefsMaintenance,
         columnDefs2,
         columnDefsArticles,
         asignacionPrestamos,
-        articuloEncontrado,
-        otrasAplicaciones,
-        busquedaArticuloModalOpen,
-        otrasPerisfericos,
         control,
+        controlCreateCCD,
         initialState,
         file,
         defaultColDef,
         errors,
+        errorsCreateCCD,
+        saveCCD,
         //Edita States
-        setArticuloEncontrado,
-        setOtrasAplicaciones,
-        setOtrasPerisfericos,
-        setBusquedaArticuloModalOpen,
         setFile,
         setValue,
+        setTitle,
+        setCreateIsactive,
+        setConsultaCcdIsactive,
         //Functions
-        // handledSearch,
         onSubmit,
+        onSubmitCreateCCD,
         register,
+        registerCreateCCD,
         handleSubmit,
+        handleSubmitCreateCCD,
         reset,
-        // handleUpload
+        cleanCCD,
     };
 }
 
