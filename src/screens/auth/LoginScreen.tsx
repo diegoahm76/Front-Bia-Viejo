@@ -21,7 +21,7 @@ function LoginScreen() {
 
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
-  function submitHandler(dataForm) {
+  function submitHandler(dataForm: any) {
     if (!isCaptchaValid) {
       Swal.fire({
         position: 'center',

@@ -1,11 +1,11 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom/dist";
-import { useAppSelector } from "../store/hooks/hooks";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom/dist';
+import { useAppSelector } from '../store/hooks/hooks';
 
 const ProtectedRoutes = ({ redirectTo, negate }) => {
   const userInfo = useAppSelector((state) => state.login.userinfo);
 
-  let validation = userInfo.tokens.access !== "";
+  let validation = userInfo.tokens.access !== '';
 
   if (negate) {
     validation = !validation;
@@ -18,7 +18,7 @@ const ProtectedRoutes = ({ redirectTo, negate }) => {
 };
 
 ProtectedRoutes.defaultProps = {
-  negate: false,
+  negate: false
 };
 
 export default ProtectedRoutes;
