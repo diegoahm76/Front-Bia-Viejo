@@ -3,7 +3,6 @@ import Modal from "react-modal";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { useForm, Controller } from "react-hook-form";
-import Subtitle from "./Subtitle";
 import Select from "react-select";
 import { useEffect } from "react";
 import clienteAxios from "../config/clienteAxios";
@@ -11,6 +10,7 @@ import botonCancelar from "../assets/iconosBotones/cancelar.svg"
 import botonGuardar from "../assets/iconosBotones/guardar.svg"
 import useEscapeKey from "../hooks/useEscapeKey";
 import { IGeneric } from "../Interfaces/Generic";
+import Subtitle from "../components/Subtitle"
 
 
 const customStyles = {
@@ -260,14 +260,13 @@ const DirecionResidenciaModal = ({
             onSubmit={handleSubmit(onSubmit)}
 
           >
-            <h3 className="mt-3 mb-4 mb-2 ms-3 fw-light text-terciary">
-              Dirección de residencia
-            </h3>
+            <Subtitle title={"Dirección de residencia"} mt={2} mb={0}></Subtitle>
+            
 
             <div className="row ">
               <div className="col-12 col-md-6">
                 <label className="text-terciary form-control ms-0">
-                  Seleccione: <span className="text-danger">*</span>
+                  Ubicación: <span className="text-danger">*</span>
                 </label>
                 <Controller
                   name="direccion"
@@ -278,7 +277,7 @@ const DirecionResidenciaModal = ({
                       {...field}
                       onChange={handleChangeTypeLocation}
                       options={valores1}
-                      placeholder="Seleccionar"
+                      placeholder="Seleccione"
                     />
                   )}
                 />

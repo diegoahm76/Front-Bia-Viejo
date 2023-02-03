@@ -639,6 +639,7 @@ const RegisterPersonaScreen = () => {
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="number"
                         name='numero_documento'
+                        onBlur={()=>{console.log("sali de input")}}
                         onChange={handleChange}
                       />
                     </div>
@@ -985,9 +986,9 @@ const RegisterPersonaScreen = () => {
                   </div>
                   {!isUser && (
                     <>
-                      <div className="mt-3 col-md-10 col-12">
+                      <div className="mt-3 col-md-12 col-12">
                         <div className="mt-3 d-flex align-items-end">
-                          <div className="col-12">
+                          <div className="col-10 mx-2">
                             <label className="text-terciary">
                               Dirección de notificación:{" "}
                               <span className="text-danger">*</span>
