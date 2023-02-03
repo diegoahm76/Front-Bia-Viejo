@@ -218,19 +218,11 @@ const RegisterPersonaScreen = () => {
         console.log(err);
         setLoading(false);
         Swal.fire({
-          title: "Este documento y correo ya estan relacionados",
           text: err.response?.data.detail,
           icon: "warning",
-          showCancelButton: true,
           confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/registeruser");
-          }
-        });
+          confirmButtonText: "Aceptar",
+        })
         // if (err.response?.data?.email && err.response?.data?.numero_documento) {
         //   Swal.fire({
         //     title: "Este documento y correo ya estan relacionados",
