@@ -38,7 +38,7 @@ function Dashboards_Estaciones() {
   ];
 
   const [queryData, setQueryData] = useState([])
-  // const [data, setData] = useState({})
+  //const [data, setData] = useState({})
   const [data, setData] = useState({
     properties: {
       OBJECTID: 2,
@@ -91,7 +91,7 @@ function Dashboards_Estaciones() {
             onSubmit={handleSubmit(onSubmit)}
             id="configForm"
           >
-            <h3 className="mt-2 mb-0">Comportamiento variables estaciones</h3>
+            <h3 className="mt-2 mb-0">Comportamiento de las variables de las estaciones</h3>
             <Subtitle
               title="Por favor seleccione la estación que desea visualizar"
               mt={3}
