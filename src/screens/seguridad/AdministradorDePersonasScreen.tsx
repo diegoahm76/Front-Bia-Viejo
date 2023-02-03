@@ -454,7 +454,7 @@ const AdministradorDePersonasScreen = () => {
     console.log(err);
     if (err.response?.data?.email && err.response?.data?.numero_documento) {
       Swal.fire({
-        title: "Este documento y correo ya estan relacionados",
+        // title: "Este documento y correo ya estan relacionados",
         text: "¿Desea registrar esta persona como usuario?",
         icon: "warning",
         showCancelButton: true,
