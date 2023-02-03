@@ -28,6 +28,7 @@ import loadingReducer, {
 import instance from "../config/clienteAxiosEstaciones";
 import { useAppDispatch } from "./hooks/hooks";
 import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
+import viveroSlice from './slices/administradorViveros/indexAdministradorViveros';
 
 const store = configureStore({
   reducer: {
