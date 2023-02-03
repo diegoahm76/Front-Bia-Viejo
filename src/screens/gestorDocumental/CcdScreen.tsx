@@ -472,7 +472,7 @@ const CcdScreen = () => {
                       columnDefs={columnAsigancion}
                       rowData={rowData}
                       defaultColDef={defaultColDef}
-                    ></AgGridReact>
+                    />
                   </div>
                 </div>
               </div>
