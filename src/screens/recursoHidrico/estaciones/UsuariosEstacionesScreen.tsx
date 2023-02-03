@@ -7,6 +7,7 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 import { Controller, useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 import {
   obtenerUsuarioEditarAction,
   obtenerUsuariosAction,
@@ -99,10 +100,9 @@ const UsuariosEstacionesScreen = () => {
           <button
             className="btn btn-sm btn-tablas"
             type="button"
-            onClick={() => {
-              // dispatch(obtenerUsusarioEliminarAction(params.data));
-              //setIsModalEliminarActive(!isModalActive);
-            }}
+            onClick={() => 
+              confirmarEliminarUsuario(params.data)
+            }
           >
             <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
           </button>
@@ -110,6 +110,22 @@ const UsuariosEstacionesScreen = () => {
       ),
     },
   ];
+  const confirmarEliminarUsuario = (id) => {
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Una estacion que se elimina no se puede recuperar",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, elminar!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        EliminarUsuarioModal(id);
+      }
+    });
+  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-12 col-12 mx-auto">
@@ -130,7 +146,7 @@ const UsuariosEstacionesScreen = () => {
             />
             <div className="row">
               <div>
-                <div className="col-md-31 ">
+                <div className="col-12-md-31 ">
                   <button
                     className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                     onClick={() => setIsModalActive(!isModalActive)}

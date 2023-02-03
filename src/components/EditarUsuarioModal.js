@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { editarUsuarioAction } from "../actions/estacionActions";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -154,7 +155,7 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             <div className="col-12 mt-3 mb-3">
             <label>Correo electrónico:</label>
             <input
-              type="text"
+              type="email"
               className="form-control border rounded-pill px-3"
               placeholder="Correo electrónico"
               {...register("t005t005correo", { required: true })}
@@ -242,18 +243,18 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              Cerrar
+              <i className="fa-solid fa-x fs-3"></i>
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Guardar
+              <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
           </div>
         </form>

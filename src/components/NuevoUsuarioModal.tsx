@@ -144,7 +144,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12 mt-3 mb-3">
             <label>Correo Electronico:</label>
             <input
-            type="text"
+            type="email"
               className="form-control border rounded-pill px-3"
               placeholder="Correo electrónico"
               {...register("correo", { required: true })}
@@ -218,21 +218,21 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => {
                 setIsModalActive(!isModalActive);
                 reset(defaultValues);
               }}
             >
-              Cerrar
+              <i className="fa-solid fa-x fs-3"></i>
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Guardar
+              <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
           </div>
         </form>
