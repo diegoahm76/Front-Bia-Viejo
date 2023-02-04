@@ -9,9 +9,10 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 // import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 //Interfaces
 import clienteAxios from "../../../config/clienteAxios";
-import { createCCDSService } from '../../../services/CCD/CCDServices';
+import { createCCDSService, updateCCDSService } from '../../../services/CCD/CCDServices';
 import { getOrganigramsService, getUnitysService } from "../../../services/organigram/OrganigramServices";
 import { ICCDForm, IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
+import { getCCDCurrent } from "../../../store/slices/CCD/indexCCD";
 
 
 const useCCD = () => {
@@ -136,12 +137,16 @@ const useCCD = () => {
     }, [organigram]);
 
     //submit Hojas de Vida de Computadores
-    const onSubmit /* :SubmitHandler<IcvComputersForm> */ = () => {
+    const onSubmit = () => {
         createAsing();
     };
     //submit Hojas de Vida de Computadores
-    const onSubmitCreateCCD /* :SubmitHandler<IcvComputersForm> */ = () => {
-        createCCD();
+    const onSubmitCreateCCD = () => {
+        if (CCDCurrent !== null) {
+            updateCCD();
+        } else {
+            createCCD();
+        }
     };
 
     //Funcion para crear el CCD
@@ -152,6 +157,15 @@ const useCCD = () => {
             nombre: dataCreateCCD.nombreCcd
         }
         dispatch(createCCDSService(newCCD, setSaveCCD))
+    };
+    //Funcion para actualizar el CCD
+    const updateCCD = () => {
+        let newCCD = {
+            id_organigrama: dataCreateCCD.organigrama.value,
+            version: dataCreateCCD.version,
+            nombre: dataCreateCCD.nombreCcd
+        }
+        dispatch(updateCCDSService(newCCD))
     };
     //Funcion para crear el CCD
     const createAsing = () => {
@@ -168,6 +182,7 @@ const useCCD = () => {
     const cleanCCD = () => {
         resetCreateCCD(initialState);
         setSaveCCD(false);
+        dispatch(getCCDCurrent(null));
     }
 
     //Columnas de la tabla de Mantenimientos

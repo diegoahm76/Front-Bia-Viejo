@@ -4,10 +4,9 @@ import { NavigateFunction } from 'react-router-dom';
 // Types
 import { AxiosError, AxiosResponse } from "axios";
 // Reducers
-import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
 import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
-import { getCCDS } from '../../store/slices/CCD/indexCCD';
+import { getCCDCurrent, getCCDS } from '../../store/slices/CCD/indexCCD';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -45,7 +44,6 @@ export const getClassificationCCDSService = () => {
         try {
             const { data } = await clienteAxios.get('gestor/ccd/get-list');
             dispatch(getCCDS(data['cuadros de Clasificación Documental']));
-            // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -61,7 +59,6 @@ export const toResumeCCDSService = (id: string, navigate: NavigateFunction) => {
             const { data } = await clienteAxios.put(`gestor/ccd/resume/1/`);
             // dispatch(getOrganigramsService());
             notificationSuccess(data.detail);
-            // navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -76,7 +73,6 @@ export const toFinishedCCDSService = (id: string, navigate: NavigateFunction) =>
             const { data } = await clienteAxios.put(`gestor/ccd/finish/2/`);
             // dispatch(getOrganigramsService());
             notificationSuccess(data.detail);
-            // navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -87,11 +83,11 @@ export const toFinishedCCDSService = (id: string, navigate: NavigateFunction) =>
 
 
 //Crear Cuadro de Clasificación Documental (CCD)
-export const createCCDSService = (CCD/* : IObjCreateOrganigram */, setSaveCCD) => {
+export const createCCDSService = (CCD, setSaveCCD) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post("gestor/ccd/create/", CCD);
-            dispatch(currentOrganigram(data.detail));
+            dispatch(getCCDCurrent(data.detail));
             notificationSuccess(data.detail);
             setSaveCCD(true);
             return data;
@@ -102,11 +98,13 @@ export const createCCDSService = (CCD/* : IObjCreateOrganigram */, setSaveCCD) =
     };
 };
 //Update Cuadro de Clasificación Documental
-export const editOrganigramsService = (CCD: IObjCreateOrganigram, id: string) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+export const updateCCDSService = (CCD) => {
+    return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
+        const { CCDCurrent } = getState().CCD;
         try {
-            const { data } = await clienteAxios.patch(`gestor/ccd/update/2/`, CCD);
-            // dispatch(getOrganigramsService());
+            const { data } = await clienteAxios.patch(`gestor/ccd/update/${CCDCurrent.id_ccd}/`, CCD);
+            console.log({ ...CCDCurrent, nombre: CCD.nombre, version: CCD.version }, 'holi');
+            dispatch(getCCDCurrent({ ...CCDCurrent, nombre: CCD.nombre, version: CCD.version }));
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {

@@ -7,9 +7,11 @@ import { AgGridReact } from "ag-grid-react";
 import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
 import SearchCcdModal from "../../components/Dialog/SearchCcdModal";
+import { useAppSelector } from "../../store/hooks/hooks";
 
 const CcdScreen = () => {
 
+  const { CCDCurrent } = useAppSelector((state) => state.CCD);
 
   const columnAsigancion = [
     {
@@ -234,7 +236,7 @@ const CcdScreen = () => {
                   <button
                     className="btn text-capitalize"
                     type="submit"
-                    title="Guardar"
+                    title={CCDCurrent ? "Actualizar" : "Guardar"}
                   >
                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
@@ -514,16 +516,20 @@ const CcdScreen = () => {
             </form>
 
           )}
-          <CrearSeries
-            isModalActive={createIsactive}
-            setIsModalActive={setCreateIsactive}
-            title={title}
-          />
-          <SearchCcdModal
-            isModalActive={consultaCcdIsactive}
-            setIsModalActive={setConsultaCcdIsactive}
-            title={title}
-          />
+          {createIsactive && (
+            <CrearSeries
+              isModalActive={createIsactive}
+              setIsModalActive={setCreateIsactive}
+              title={title}
+            />
+          )}
+          {consultaCcdIsactive && (
+            <SearchCcdModal
+              isModalActive={consultaCcdIsactive}
+              setIsModalActive={setConsultaCcdIsactive}
+              title={title}
+            />
+          )}
         </div>
       </div>
     </div>

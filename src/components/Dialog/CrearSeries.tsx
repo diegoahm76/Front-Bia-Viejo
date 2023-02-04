@@ -6,6 +6,8 @@ import { getCvArticleAllService } from "../../services/cv/CvComputers";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { AgGridReact } from "ag-grid-react";
 import { getCvArticles } from "../../store/slices/cv/indexCv";
+import { createSeriesService, getSeriesService } from "../../services/series/SeriesServices";
+import { getSubSeriesService } from "../../services/subseries/SubSeriesServices";
 
 const customStyles = {
   content: {
@@ -28,6 +30,10 @@ interface IFormValues {
 
 const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
 
+  // Redux State Extraction
+  const { seriesCCD } = useAppSelector((state) => state.series);
+  const { subSeriesCCD } = useAppSelector((state) => state.subSeries);
+
   // Dispatch instance
   const dispatch = useAppDispatch();
 
@@ -40,20 +46,41 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
     defaultValues: initialState,
   });
 
-  //ueeEffect para limpiar el store
+  //useEffect para cargar los datos de la tabla
   useEffect(() => {
-    clean();
+    switch (title) {
+      case "Crear series":
+        dispatch(getSeriesService());
+        break;
+      case "Crear subseries":
+        dispatch(getSubSeriesService());
+        break;
+      default:
+        break;
+    }
   }, []);
 
-  //Función para limpiar el store y limbia el formulario
+  //Función para limpiar el formulario
   const clean = () => {
-    dispatch(getCvArticles([]));
     reset(initialState);
+  };
+  // Crear series o subseries
+  const create = () => {
+    // reset(initialState);
+    let newItem = [
+      {
+        "id_subserie_doc": null,
+        "nombre": "Subserie 105",
+        "codigo": 756,
+        "id_ccd": 2
+      }
+    ]
+    dispatch(createSeriesService(newItem));
   };
 
   //Función para enviar los datos del formulario
   const onSubmit: SubmitHandler<IFormValues> = (data: IFormValues) => {
-    clean();
+    create();
   };
   const columseries = [
     {
@@ -88,24 +115,6 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
       ),
     },
   ];
-  const rowData = [
-    {
-      codigo: "1",
-      nombre: "serie numero 1",
-    },
-    {
-      codigo: "2",
-      nombre: "serie numero 2",
-    },
-    {
-      codigo: "3",
-      nombre: "serie numero 3",
-    },
-    {
-      codigo: "4",
-      nombre: "serie numero 4",
-    },
-  ];
   //configuración de tabla por defecto
   const defaultColDef = {
     sortable: true,
@@ -125,7 +134,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
       onRequestClose={() => setIsModalActive(false)}
       style={customStyles}
       className="modal"
-      id="modal-article-id"
+      id="modal-serie-subserie-id"
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
@@ -145,6 +154,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
+                    {...register("nombre")}
                   />
                 </div>
               </div>
@@ -155,6 +165,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Código"
+                    {...register("codigo")}
                   />
                 </div>
               </div>
@@ -184,7 +195,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                 >
                   <AgGridReact
                     columnDefs={columseries}
-                    rowData={rowData}
+                    rowData={title === "Crear series" ? seriesCCD : subSeriesCCD}
                     defaultColDef={defaultColDef}
                   />
                 </div>
