@@ -100,9 +100,7 @@ const UsuariosEstacionesScreen = () => {
           <button
             className="btn btn-sm btn-tablas"
             type="button"
-            onClick={() => 
-              confirmarEliminarUsuario(params.data)
-            }
+            onClick={() => confirmarEliminarUsuario(params.data)}
           >
             <img src={IconoEliminarBia} alt="eliminar" title="Eliminar" />
           </button>
@@ -145,16 +143,6 @@ const UsuariosEstacionesScreen = () => {
               mt={3}
             />
             <div className="row">
-              <div>
-                <div className="col-12-md-31 ">
-                  <button
-                    className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
-                    onClick={() => setIsModalActive(!isModalActive)}
-                  >
-                    <img src={IconoNuevoBia} alt="" title="Nuevo" />
-                  </button>
-                </div>
-              </div>
               <div className="col-12 col-md-3 ">
                 <label className=" form-control ms-0"></label>
 
@@ -185,10 +173,23 @@ const UsuariosEstacionesScreen = () => {
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
                   >
-                    <Subtitle title="Informacion de general" mt={3} />
+                    <Subtitle title="Informacion de general Estación Guayuriba" mt={3} />
+                    
+                    <div>
+                      <div className="col-12-md-3 ">
+                      
+                        <button
+                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
+                          onClick={() => setIsModalActive(!isModalActive)}
+                        >
+                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
+                        </button>
+                      </div>
+                    </div>
                     <br></br>
                     <div className="row">
                       <div className="multisteps-form__content">
+                      
                         <div>
                           <div
                             className="ag-theme-alpine mt-auto mb-3 px-4"
@@ -212,22 +213,138 @@ const UsuariosEstacionesScreen = () => {
             )}
 
             {selectEstacion.opcEstaciones === "OC" ? (
-              <div>
-                <h1>Hola OC</h1>
+              <div className="row min-vh-100">
+                <div className="col-lg-12 col-md-12 col-12 mx-auto">
+                  <div
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                  >
+                    <Subtitle title="Informacion de general Estación Ocoa" mt={3} />
+                    
+                    <div>
+                      <div className="col-12-md-3 ">
+                      
+                        <button
+                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
+                          onClick={() => setIsModalActive(!isModalActive)}
+                        >
+                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
+                        </button>
+                      </div>
+                    </div>
+                    <br></br>
+                    <div className="row">
+                      <div className="multisteps-form__content">
+                      
+                        <div>
+                          <div
+                            className="ag-theme-alpine mt-auto mb-3 px-4"
+                            style={{ height: "470px" }}
+                          >
+                            <AgGridReact
+                              columnDefs={columnDefs}
+                              rowData={usuarios as any}
+                              defaultColDef={defaultColDef}
+                            ></AgGridReact>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
               </div>
             ) : (
               ""
             )}
             {selectEstacion.opcEstaciones === "PTOGA" ? (
-              <div>
-                <h1>Hola PTOGA</h1>
+              
+              <div className="row min-vh-100">
+                <div className="col-lg-12 col-md-12 col-12 mx-auto">
+                  <div
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                  >
+                    <Subtitle title="Informacion de general Estación Puerto Gaitan" mt={3} />
+                    
+                    <div>
+                      <div className="col-12-md-3 ">
+                      
+                        <button
+                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
+                          onClick={() => setIsModalActive(!isModalActive)}
+                        >
+                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
+                        </button>
+                      </div>
+                    </div>
+                    <br></br>
+                    <div className="row">
+                      <div className="multisteps-form__content">
+                      
+                        <div>
+                          <div
+                            className="ag-theme-alpine mt-auto mb-3 px-4"
+                            style={{ height: "470px" }}
+                          >
+                            <AgGridReact
+                              columnDefs={columnDefs}
+                              rowData={usuarios as any}
+                              defaultColDef={defaultColDef}
+                            ></AgGridReact>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
               </div>
             ) : (
               ""
             )}
             {selectEstacion.opcEstaciones === "GUAM" ? (
-              <div>
-                <h1>Hola GUAM</h1>
+              
+              <div className="row min-vh-100">
+                <div className="col-lg-12 col-md-12 col-12 mx-auto">
+                  <div
+                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+                    data-animation="FadeIn"
+                  >
+                    <Subtitle title="Informacion de general Estación Guamal" mt={3} />
+                    
+                    <div>
+                      <div className="col-12-md-3 ">
+                      
+                        <button
+                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
+                          onClick={() => setIsModalActive(!isModalActive)}
+                        >
+                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
+                        </button>
+                      </div>
+                    </div>
+                    <br></br>
+                    <div className="row">
+                      <div className="multisteps-form__content">
+                      
+                        <div>
+                          <div
+                            className="ag-theme-alpine mt-auto mb-3 px-4"
+                            style={{ height: "470px" }}
+                          >
+                            <AgGridReact
+                              columnDefs={columnDefs}
+                              rowData={usuarios as any}
+                              defaultColDef={defaultColDef}
+                            ></AgGridReact>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div></div>
+                  </div>
+                </div>
               </div>
             ) : (
               ""
