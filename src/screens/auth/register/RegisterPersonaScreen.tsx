@@ -648,6 +648,7 @@ const RegisterPersonaScreen = () => {
                       <div className="col-md-6 col-12 ">
                         <div className="mt-3">
                           <label className="ms-2">Digito verificación:</label>
+                          <span className="text-danger">*</span>
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="number"
