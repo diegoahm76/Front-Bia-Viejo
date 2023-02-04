@@ -268,8 +268,8 @@ function Dashboards_Estaciones() {
                       Velocidad viento
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
-                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}°</h6>
-                      <div className="icon-circle text-dark mx-4">
+                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}m/s</h6>
+                      <div className="icon-circle text-dark">
                         <i className="fa-solid fa-wind fs-2"></i>
                       </div>
                     </div>
@@ -331,60 +331,30 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4 "></div>
                   <h3 className="mt-2 mb-0">Humedad</h3>
-                  <iframe title="Humedad_estaciones Guayuriba - Monitoreo"
-                    width="800px"
-                    height="450px"
-                    src="https://app.powerbi.com/view?r=eyJrIjoiNDIwM2NhOGItOTk1Mi00MTQ0LTg5MjctM2JjOWM3YTFkNWYyIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9">
-                  </iframe>
+                  <iframe title="HumedadGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=d9754532-916a-4d33-912c-53244890901a&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión del aire</h3>
-                    <iframe title="Presion de aire_estaciones Guayuriba - Monitoreo"
-                      width="800px"
-                      height="450px"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiZTRkYTNmM2QtM2E3ZC00N2YzLWI1NTYtOWQ5YmMzNzJjYjM1IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9">
-
-                    </iframe>
+                    <iframe title="PresionGuayuriba" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=e9e78a42-a0cd-4fc6-8a15-f6164c9a5193&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de luminosidad</h3>
-                    <iframe title="Nivel de Luminosidad_estaciones Guayuriba - Monitoreo"
-                      width="800"
-                      height="450"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiZTBlMTgwYmEtM2UwMy00NTlmLWJiNTUtN2ZjNTc3YzgwZGRlIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9" >
-                    </iframe>
+                    <iframe title="LuminosidadGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=8c0e022c-1c18-41db-8eba-c1a1274af411&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del agua</h3>
-                    <iframe title="Velocidad del agua_estaciones Guayuriba - Monitoreo"
-                      width="800"
-                      height="450"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiMjk4ODdhNTItN2UwNy00NWM0LTk0NzAtZDliNTdkYmZiYTA5IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9">
-                    </iframe>
+                    <iframe title="VelocidadAguaGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=59a31b7f-18aa-43a7-a525-aff23bc25785&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Temperatura</h3>
-                    <iframe title="Temperatura_estaciones Guayuriba - Monitoreo"
-                      width="800px"
-                      height="450px"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiMGY3NDZkZTgtYmFmZS00YmU4LWE1ZmQtMmExOWVhNTY0OGJlIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9">
-                    </iframe>
+                    <iframe title="TemperaturaGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=27567876-22aa-4814-b8c6-74056bc1d851&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe
-                      title="Precipitación_estaciones Guayuriba - Monitoreo"
-                      width="800px"
-                      height="450px"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiODA1MzVmMjctNTRiYi00NTYxLThjZGYtMTE0ZThlNDhkMGQ1IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9"
-                    ></iframe>
+                    <iframe title="PrecipitacionGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=e6935e38-1fae-4c30-bb0c-433408198d0d&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del viento</h3>
-                    <iframe title="Velocidad del viento_estaciones Guayuriba - Monitoreo"
-                      width="800px"
-                      height="450px"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiNTM4OWNiMTAtYWUwNC00OGJlLTgxY2EtNDFkZmVkMzFhYzEzIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9">
-                    </iframe>
+                    <iframe title="VelocidadVientoGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=f6bd0828-6155-4e78-a991-6c3ec6ec9b63&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                 </div>
               </div>
@@ -449,8 +419,8 @@ function Dashboards_Estaciones() {
                       Velocidad agua
                     </div>
                     <div className="d-flex justify-content-between align-items-left mt-0">
-                      <h6 className="text-dark text-center mx-5">{data.properties.Velocidad_Agua.slice(0, 4)}m/s</h6>
-                      <div className="icon-circle text-dark">
+                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Agua.slice(0, 4)}m/s</h6>
+                      <div className="icon-circle text-dark mx-1">
                         <i className="fa-solid fa-water fs-2"></i>
                       </div>
                     </div>
@@ -541,8 +511,8 @@ function Dashboards_Estaciones() {
                       Velocidad viento
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
-                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}°</h6>
-                      <div className="icon-circle text-dark mx-4">
+                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}m/s</h6>
+                      <div className="icon-circle text-dark ">
                         <i className="fa-solid fa-wind fs-2"></i>
                       </div>
                     </div>
@@ -604,37 +574,26 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4 "></div>
                   <h3 className="mt-2 mb-0">Humedad</h3>
-                  <iframe>
-
-                  </iframe>
+                  <iframe title="HumedadOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=686b937c-735a-40a6-9add-3ba9a59b2cf3&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión del aire</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="PresionOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=3281090b-0edd-4e4c-8c39-d8031bf05c98&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de luminosidad</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="LuminosidadOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=68934898-99aa-4cfb-92f8-5685bbbd9291&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del agua</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="VelocidadAguaOcoa - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=46e7d1f7-4d9c-459e-a5af-d6f1071833a6&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Temperatura</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="TemperaturaOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=1e86f684-8c39-4e4b-a53a-6048f9b152f8&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe
-                      title="Precipitación_estaciones Guayuriba - Monitoreo" width="800px" height="450px" src="https://app.powerbi.com/view?r=eyJrIjoiODA1MzVmMjctNTRiYi00NTYxLThjZGYtMTE0ZThlNDhkMGQ1IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9"></iframe>
+                    <iframe title="PrecipitacionOcoa - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=b3fa8932-475d-4c1a-b25c-34b8aa369255&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                 </div>
               </div>
@@ -699,8 +658,8 @@ function Dashboards_Estaciones() {
                       Velocidad agua
                     </div>
                     <div className="d-flex justify-content-between align-items-left mt-0">
-                      <h6 className="text-dark text-center mx-5">{data.properties.Velocidad_Agua.slice(0, 4)}m/s</h6>
-                      <div className="icon-circle text-dark">
+                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Agua.slice(0, 4)}m/s</h6>
+                      <div className="icon-circle text-dark mx-1">
                         <i className="fa-solid fa-water fs-2"></i>
                       </div>
                     </div>
@@ -791,8 +750,8 @@ function Dashboards_Estaciones() {
                       Velocidad viento
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
-                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}°</h6>
-                      <div className="icon-circle text-dark mx-4">
+                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}m/s</h6>
+                      <div className="icon-circle text-dark">
                         <i className="fa-solid fa-wind fs-2"></i>
                       </div>
                     </div>
@@ -854,38 +813,26 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4 "></div>
                   <h3 className="mt-2 mb-0">Humedad</h3>
-                  <iframe>
-
-                  </iframe>
+                  <iframe title="Humedad_estaciones Puerto Gaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=f2641695-fd2d-474d-9544-45eaaa3665a5&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión del aire</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="Presion de aire_estaciones Puerto Gaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=513ef46b-2631-4951-b30a-7fa3fe7c615b&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de luminosidad</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="Nivel de Luminosidad_estaciones Puerto Gaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=8122fafa-b30b-49ee-aded-5041c1556a51&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del agua</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="Velocidad del agua_estaciones Puerto Gaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=45f43ecc-9e8f-469c-906c-75e0480966fb&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Temperatura</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="Temperatura_estaciones Puerto Gaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=555ee719-0b36-4aab-aeb6-2946c145218b&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe
-                      title="Precipitación_estaciones Guayuriba - Monitoreo" width="800px" height="450px" src="https://app.powerbi.com/view?r=eyJrIjoiODA1MzVmMjctNTRiYi00NTYxLThjZGYtMTE0ZThlNDhkMGQ1IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9"
-                    ></iframe>
+                    <iframe title="Precipitación_estaciones Puerto Gaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=d23fef64-58f9-4d9b-a9e5-c9f80c58a919&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                 </div>
               </div>
@@ -1041,8 +988,8 @@ function Dashboards_Estaciones() {
                       Velocidad viento
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
-                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}°</h6>
-                      <div className="icon-circle text-dark mx-4">
+                      <h6 className="text-dark text-center mx-4">{data.properties.Velocidad_Viento.slice(0, 4)}m/s</h6>
+                      <div className="icon-circle text-dark">
                         <i className="fa-solid fa-wind fs-2"></i>
                       </div>
                     </div>
@@ -1104,38 +1051,26 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4 "></div>
                   <h3 className="mt-2 mb-0">Humedad</h3>
-                  <iframe>
-
-                  </iframe>
+                  <iframe title="HumedadGuamal - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=dc8befec-9c3a-45de-a6de-d3a622c34c28&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión del aire</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="PresionGuamal - Página 1" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=0d34d0f7-bb08-423a-9e06-0051f6f45f7a&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de luminosidad</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="LuminosidadGuamal - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=7e49e83f-6a39-42dd-8d65-0d735a8ae1cc&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del agua</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="VelocidadAguaGuamal" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=31128f3a-17f1-43f8-9159-8976b64cacbf&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Temperatura</h3>
-                    <iframe
-
-                    ></iframe>
+                    <iframe title="TemperaturaGuamal" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=85e332c6-f0a3-4adb-ac38-748b57812dde&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe
-                      title="Precipitación_estaciones Guayuriba - Monitoreo" width="800px" height="450px" src="https://app.powerbi.com/view?r=eyJrIjoiODA1MzVmMjctNTRiYi00NTYxLThjZGYtMTE0ZThlNDhkMGQ1IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9"
-                    ></iframe>
+                    <iframe title="PrecipitacionGuamal - Página 1" width="1140" height="541.25" src="https://app.powerbi.com/reportEmbed?reportId=47d97fee-7adc-439f-9b27-650224d8d3f1&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                 </div>
               </div>
