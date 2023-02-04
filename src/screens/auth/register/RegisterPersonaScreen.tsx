@@ -218,19 +218,11 @@ const RegisterPersonaScreen = () => {
         console.log(err);
         setLoading(false);
         Swal.fire({
-          title: "Este documento y correo ya estan relacionados",
           text: err.response?.data.detail,
           icon: "warning",
-          showCancelButton: true,
           confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/registeruser");
-          }
-        });
+          confirmButtonText: "Aceptar",
+        })
         // if (err.response?.data?.email && err.response?.data?.numero_documento) {
         //   Swal.fire({
         //     title: "Este documento y correo ya estan relacionados",
@@ -639,6 +631,7 @@ const RegisterPersonaScreen = () => {
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="number"
                         name='numero_documento'
+                        onBlur={()=>{console.log("sali de input")}}
                         onChange={handleChange}
                       />
                     </div>
@@ -985,9 +978,9 @@ const RegisterPersonaScreen = () => {
                   </div>
                   {!isUser && (
                     <>
-                      <div className="mt-3 col-md-10 col-12">
+                      <div className="mt-3 col-md-12 col-12">
                         <div className="mt-3 d-flex align-items-end">
-                          <div className="col-12">
+                          <div className="col-10 mx-2">
                             <label className="text-terciary">
                               Dirección de notificación:{" "}
                               <span className="text-danger">*</span>

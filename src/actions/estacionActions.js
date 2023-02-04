@@ -203,6 +203,21 @@ export const obtenerUsuariosAction = () => {
     }
   };
 };
+export const obtenerUsuariosActionGuayuriba = () => {
+  const EstacionGuay = "Guayuriba"
+  return async (dispatch) => {
+    dispatch(descargarUsuarios(true));
+
+    try {
+      const { data: dataGetUsuarios } = await clienteEstaciones.get("usuarios"+
+      EstacionGuay);
+      dispatch(descargarUsuariosExito(dataGetUsuarios));
+    } catch (error) {
+      console.log(error);
+      dispatch(descargarUsuariosError(true));
+    }
+  };
+};
 
 const descargarUsuarios = (estado) => ({
   type: COMENZAR_DESCARGA_USUARIOS,

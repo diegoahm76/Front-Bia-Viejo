@@ -9,28 +9,6 @@ import {
 } from "../../../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 
-// const defaultValuesResetConfiguration = {
-//   t003frecuencia: "",
-//   t003temperaturaAmbienteMax: "",
-//   t003temperaturaAmbienteMin: "",
-//   t003humedadAmbienteMax: "",
-//   t003humedadAmbienteMin: "",
-//   t003presionBarometricaMax: "",
-//   t003presionBarometricaMin: "",
-//   t003velocidadVientoMax: "",
-//   t003velocidadVientoMin: "",
-//   t003direccionVientoMax: "",
-//   t003direccionVientoMin: "",
-//   t003precipitacionMax: "",
-//   t003precipitacionMin: "",
-//   t003luminocidadMax: "",
-//   t003luminocidadMin: "",
-//   t003nivelAguaMax: "",
-//   t003nivelAguaMin: "",
-//   t003velocidadAguaMax: "",
-//   t003velocidadAguaMin: "",
-// };
-
 const ConfiguracionesScreen = () => {
  
   const [isModalActive, setIsModalActive] = useState(false);
