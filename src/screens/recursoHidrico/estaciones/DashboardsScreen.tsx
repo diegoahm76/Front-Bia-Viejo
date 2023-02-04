@@ -504,12 +504,7 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe
-                      title="Precipitación_estaciones Guayuriba - Monitoreo"
-                      width="800px"
-                      height="450px"
-                      src="https://app.powerbi.com/view?r=eyJrIjoiODA1MzVmMjctNTRiYi00NTYxLThjZGYtMTE0ZThlNDhkMGQ1IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9"
-                    ></iframe>
+                    <iframe title="PrecipitacionGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=e6935e38-1fae-4c30-bb0c-433408198d0d&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
                   </div>
                 </div>
               </div>
