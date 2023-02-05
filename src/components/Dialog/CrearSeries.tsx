@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
-import { SubmitHandler, useForm } from "react-hook-form";
 import Subtitle from "../../components/Subtitle";
-import { getCvArticleAllService } from "../../services/cv/CvComputers";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { AgGridReact } from "ag-grid-react";
-import { getCvArticles } from "../../store/slices/cv/indexCv";
 import { createSeriesService, getSeriesService } from "../../services/series/SeriesServices";
-import { getSubSeriesService } from "../../services/subseries/SubSeriesServices";
+import { createSubSeriesService, getSubSeriesService } from "../../services/subseries/SubSeriesServices";
+import { getSerieCCDCurrent } from "../../store/slices/series/indexSeries";
+import { getSubSeriesCCDCurrent } from "../../store/slices/subSeries/indexSubSeries";
 
 const customStyles = {
   content: {
@@ -24,15 +24,18 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 interface IFormValues {
-  codigo: string;
+  codigo: number | string;
   nombre: string;
+  id_subserie_doc: number | null;
+  id_serie_doc: number | null;
 }
 
 const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
 
   // Redux State Extraction
-  const { seriesCCD } = useAppSelector((state) => state.series);
-  const { subSeriesCCD } = useAppSelector((state) => state.subSeries);
+  const { seriesCCD, serieCCDCurrent } = useAppSelector((state) => state.series);
+  const { subSeriesCCD, subSeriesCCDCurrent } = useAppSelector((state) => state.subSeries);
+  const { CCDCurrent } = useAppSelector((state) => state.CCD);
 
   // Dispatch instance
   const dispatch = useAppDispatch();
@@ -40,49 +43,141 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
   const initialState = {
     codigo: "",
     nombre: "",
+    id_subserie_doc: null,
+    id_serie_doc: null,
   };
 
-  const { register, handleSubmit, reset } = useForm<IFormValues>({
+  const { register, handleSubmit, reset, watch } = useForm<IFormValues>({
     defaultValues: initialState,
   });
+  const data = watch();
+
+  const [titleButton, setTitleButton] = useState('Agregar');
 
   //useEffect para cargar los datos de la tabla
+  // useEffect(() => {
+  //   switch (title) {
+  //     case "Crear series":
+  //       dispatch(getSeriesService());
+  //       break;
+  //     case "Crear subseries":
+  //       dispatch(getSubSeriesService());
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }, []);
+  //useEffect para cargar los datos de la serie seleccionada
   useEffect(() => {
-    switch (title) {
-      case "Crear series":
-        dispatch(getSeriesService());
-        break;
-      case "Crear subseries":
-        dispatch(getSubSeriesService());
-        break;
-      default:
-        break;
+    if (serieCCDCurrent) {
+      reset({
+        codigo: serieCCDCurrent.codigo,
+        nombre: serieCCDCurrent.nombre,
+        id_subserie_doc: null,
+        id_serie_doc: serieCCDCurrent.id_serie_doc,
+      });
+      setTitleButton('Actualizar');
+    } else {
+      reset(initialState);
+      setTitleButton('Agregar');
+    }
+  }, [serieCCDCurrent]);
+
+  // useEffect para cargar los datos de la subSerie seleccionada
+  useEffect(() => {
+    if (subSeriesCCDCurrent) {
+      reset({
+        codigo: subSeriesCCDCurrent.codigo,
+        nombre: subSeriesCCDCurrent.nombre,
+        id_subserie_doc: subSeriesCCDCurrent.id_subserie_doc,
+        id_serie_doc: null,
+      });
+      setTitleButton('Actualizar');
+    } else {
+      reset(initialState);
+      setTitleButton('Agregar');
+    }
+    return () => {
+      dispatch(getSerieCCDCurrent(null));
+    }
+  }, [subSeriesCCDCurrent]);
+
+  //useEffect para limpiar el store de la serie & la subserie seleccionada
+  useEffect(() => {
+    return () => {
+      dispatch(getSerieCCDCurrent(null));
+      dispatch(getSubSeriesCCDCurrent(null));
     }
   }, []);
 
   //Función para limpiar el formulario
   const clean = () => {
     reset(initialState);
-  };
-  // Crear series o subseries
-  const create = () => {
-    // reset(initialState);
-    let newItem = [
-      {
-        "id_subserie_doc": null,
-        "nombre": "Subserie 105",
-        "codigo": 756,
-        "id_ccd": 2
-      }
-    ]
-    dispatch(createSeriesService(newItem));
+    setTitleButton('Agregar');
   };
 
-  //Función para enviar los datos del formulario
-  const onSubmit: SubmitHandler<IFormValues> = (data: IFormValues) => {
-    create();
+  // Crear series
+  const createSeries = () => {
+    let newItem: any[] = []
+    if (titleButton === 'Agregar') {
+      newItem = [...seriesCCD, {
+        id_serie_doc: data.id_serie_doc,
+        nombre: data.nombre,
+        codigo: data.codigo,
+        id_ccd: CCDCurrent!.id_ccd
+      }]
+    } else {
+      newItem = seriesCCD.map(
+        item => { return item.id_serie_doc === data.id_serie_doc ? { ...item, nombre: data.nombre, codigo: Number(data.codigo) } : item }
+      );
+    }
+    dispatch(createSeriesService(newItem, clean));
   };
-  const columseries = [
+
+  //Funcion para eliminar series
+  const deleteSeries = (id_serie_doc) => {
+    const newSeries = seriesCCD.filter(serie => serie.id_serie_doc !== id_serie_doc);
+    dispatch(createSeriesService(newSeries, clean));
+  }
+
+  // Crear subseries
+  const createSubSeries = () => {
+    let newItem: any[] = []
+    if (titleButton === 'Agregar') {
+      newItem = [...subSeriesCCD, {
+        id_subserie_doc: data.id_subserie_doc,
+        nombre: data.nombre,
+        codigo: data.codigo,
+        id_ccd: CCDCurrent!.id_ccd
+      }]
+    } else {
+      newItem = subSeriesCCD.map(
+        item => { return item.id_subserie_doc === data.id_subserie_doc ? { ...item, nombre: data.nombre, codigo: data.codigo } : item }
+      );
+    }
+    dispatch(createSubSeriesService(newItem, clean));
+  };
+
+  //Funcion para eliminar subseries
+  const deleteSubSeries = (id_subserie_doc) => {
+    const newSubSeries = subSeriesCCD.filter(subSeries => subSeries.id_subserie_doc !== id_subserie_doc);
+    dispatch(createSubSeriesService(newSubSeries, clean));
+  }
+
+  //Función para enviar los datos del formulario
+  const onSubmit: SubmitHandler<IFormValues> = () => {
+    switch (title) {
+      case "Crear series":
+        createSeries();
+        break;
+      case "Crear subseries":
+        createSubSeries();
+        break;
+      default:
+        break;
+    }
+  };
+  const colums = [
     {
       headerName: "Codigo",
       field: "codigo",
@@ -101,13 +196,15 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn text-capitalize " type="button" title="Editar">
+          <button className="btn text-capitalize" type="button" title="Editar"
+            onClick={() => { title === "Crear series" ? dispatch(getSerieCCDCurrent(params.data)) : dispatch(getSubSeriesCCDCurrent(params.data)) }}>
             <i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>
           <button
             className="btn text-capitalize "
             type="button"
             title="Eliminar"
+            onClick={() => { title === "Crear series" ? deleteSeries(params.data.id_serie_doc) : deleteSubSeries(params.data.id_subserie_doc) }}
           >
             <i className="fa-regular fa-trash-can fs-4"></i>
           </button>
@@ -154,7 +251,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
-                    {...register("nombre")}
+                    {...register("nombre", { required: true })}
                   />
                 </div>
               </div>
@@ -165,7 +262,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Código"
-                    {...register("codigo")}
+                    {...register("codigo", { required: true })}
                   />
                 </div>
               </div>
@@ -173,7 +270,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                 <button
                   className="btn me-md-2  text-capitalize  px-3 mt-2"
                   type="submit"
-                  title="Guardar"
+                  title={titleButton}
                 >
                   <i className="fa-regular fa-floppy-disk fs-3"></i>
                 </button>
@@ -194,7 +291,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                   style={{ height: "275px" }}
                 >
                   <AgGridReact
-                    columnDefs={columseries}
+                    columnDefs={colums}
                     rowData={title === "Crear series" ? seriesCCD : subSeriesCCD}
                     defaultColDef={defaultColDef}
                   />

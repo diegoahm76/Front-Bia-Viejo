@@ -7,6 +7,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
 // Interfaces
 import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
+import { getAssignmentsCCD } from '../../store/slices/assignments/indexAssignments';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
     position: 'center',
@@ -26,14 +27,15 @@ const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
 
 //Obtiene ccd tabla intermedia
 export const getAssignmentsService = () => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+    return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
+        const { CCDCurrent } = getState().CCD;
         try {
-            const { data } = await clienteAxios.get('gestor/ccd/asignar/get/1/');
-            // dispatch(getMoldOrganigrams(data.data));
-            notificationSuccess(data.detail);
+            const { data } = await clienteAxios.get(`gestor/ccd/asignar/get/${CCDCurrent.id_ccd}/`);
+            dispatch(getAssignmentsCCD(data.data));
+            // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
-            notificationError(error.response.data.detail);
+            // notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -42,33 +44,6 @@ export const getAssignmentsService = () => {
 
 //Asignar series y subseries a unidades documentales
 export const createAssignmentsService = (id: string, navigate: NavigateFunction) => {
-    // [
-    //     {
-    //         "id_unidad_organizacional": 1,
-    //         "id_serie_doc": 1,
-    //         "subseries": [1]
-    //     },
-    //     {
-    //         "id_unidad_organizacional": 2,
-    //         "id_serie_doc": 1,
-    //         "subseries": [2]
-    //     },
-    //     {
-    //         "id_unidad_organizacional": 3,
-    //         "id_serie_doc": 2,
-    //         "subseries": [1]
-    //     },
-    //     {
-    //         "id_unidad_organizacional": 4,
-    //         "id_serie_doc": 2,
-    //         "subseries": [2]
-    //     },
-    //     {
-    //         "id_unidad_organizacional": 5,
-    //         "id_serie_doc": 2,
-    //         "subseries": [1, 2]
-    //     }
-    // ]
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.put(`gestor/ccd/asignar/create/1/`);

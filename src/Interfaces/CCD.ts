@@ -6,7 +6,7 @@ export interface ICCD {
 
 export interface ICCDObject {
     id_ccd: number;
-    id_organigrama_id: number;
+    id_organigrama: number;
     version: string;
     nombre: string;
     fecha_terminado: null | Date;
@@ -28,6 +28,9 @@ export interface IListOrganigrama {
     label: string;
     value: number;
 }
+export interface IListMultiselect {
+    list: IListOrganigrama[] | [];
+}
 export interface IListUnity {
     label: string;
     value: string;
@@ -35,10 +38,30 @@ export interface IListUnity {
 
 export interface ISeries {
     seriesCCD: ISeriesObject[];
+    serieCCDCurrent: ISeriesObject | null;
 }
 export interface ISeriesObject {
+    id_serie_doc: number | null;
+    nombre: string;
+    codigo: number;
+    id_ccd: number;
+}
+export interface ISubSeries {
+    subSeriesCCD: ISubSeriesObject[];
+    subSeriesCCDCurrent: ISubSeriesObject | null;
+}
+export interface ISubSeriesObject {
     id_subserie_doc: number | null;
     nombre: string;
     codigo: number;
     id_ccd: number;
+}
+export interface IAssignments {
+    assignmentsCCD: IAssignmentsObject[];
+    assignmentsCCDCurrent: IAssignmentsObject | null;
+}
+export interface IAssignmentsObject {
+    id_unidad_organizacional: number;
+    id_serie_doc: number;
+    subseries: number[];
 }

@@ -43,7 +43,7 @@ export const getClassificationCCDSService = () => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get('gestor/ccd/get-list');
-            dispatch(getCCDS(data['cuadros de Clasificación Documental']));
+            dispatch(getCCDS(data.data));
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);

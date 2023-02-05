@@ -12,114 +12,35 @@ import { useAppSelector } from "../../store/hooks/hooks";
 const CcdScreen = () => {
 
   const { CCDCurrent } = useAppSelector((state) => state.CCD);
-
-  const columnAsigancion = [
-    {
-      headerName: "Sección",
-      field: "sección",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-
-    {
-      headerName: "Subseccón",
-      field: "Subseccón",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-
-    {
-      headerName: "serie",
-      field: "serie",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "subserie",
-      field: "subserie",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "Acciones",
-      field: "accion",
-      cellRendererFramework: (params) => (
-        <div>
-          <button className="btn text-capitalize " type="button" title="Editar">
-            <i className="fa-regular fa-pen-to-square fs-4"></i>
-          </button>
-          <button
-            className="btn text-capitalize "
-            type="button"
-            title="Eliminar"
-          >
-            <i className="fa-regular fa-trash-can fs-4"></i>
-          </button>
-        </div>
-      ),
-    },
-  ];
-  const rowData = [
-    {
-      sección: "Direccion general",
-      Subseccón: "Gestion ambiental",
-      subserie: "1",
-      serie: "1,3,7,9",
-    },
-    {
-      sección: "Direccion general",
-      Subseccón: "",
-      subserie: "2",
-      serie: "5,8,3,9",
-    },
-    {
-      sección: "Direccion general",
-      Subseccón: "Oficina juridica",
-      subserie: "4",
-      serie: "1,10,9,25",
-    },
-    {
-      sección: "Direccion general",
-      Subseccón: "Oficina juridica",
-      idsubserie: "5",
-      idserie: "3,6",
-    },
-  ];
+  const { assignmentsCCD } = useAppSelector((state) => state.assignments);
 
   //Hooks
   const {
     //States
     listUnitys,
     listOrganigrams,
+    listSries,
+    listSubSries,
     title,
     createIsactive,
     consultaCcdIsactive,
-    columnDefsMaintenance,
-    columnDefs2,
-    columnDefsArticles,
-    asignacionPrestamos,
+    columnAsigancion,
     control,
     controlCreateCCD,
-    initialState,
-    file,
     defaultColDef,
     errors,
     errorsCreateCCD,
     saveCCD,
     //Edita States
-    setFile,
-    setValue,
     setTitle,
     setCreateIsactive,
     setConsultaCcdIsactive,
     //Functions
-    onSubmit,
     onSubmitCreateCCD,
-    register,
     registerCreateCCD,
     handleSubmit,
     handleSubmitCreateCCD,
-    reset,
+    onSubmit,
     cleanCCD,
   } = useCCD();
 
@@ -255,7 +176,7 @@ const CcdScreen = () => {
           {saveCCD && (
             <form
               className="row"
-              onSubmit={handleSubmit(onSubmitCreateCCD)}
+              onSubmit={handleSubmit(onSubmit)}
               id="configForm"
             >
               <Subtitle title="Registro de series y subseries" mt={1} mb={3} />
@@ -269,11 +190,7 @@ const CcdScreen = () => {
                     control={control}
                     render={() => (
                       <Select
-                        options={[
-                          { label: "primera serie", value: "primera" },
-                          { label: "segunda serie", value: "segunda" },
-                          { label: "tercera serie", value: "tercera" },
-                        ]}
+                        options={listSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -327,11 +244,7 @@ const CcdScreen = () => {
                     control={control}
                     render={() => (
                       <Select
-                        options={[
-                          { label: "primera subserie", value: "primerasub" },
-                          { label: "segunda subserie", value: "segundasub" },
-                          { label: "tercera subserie", value: "tercerasub" },
-                        ]}
+                        options={listSubSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -419,13 +332,11 @@ const CcdScreen = () => {
                     rules={{
                       required: true,
                     }}
-                    render={() => (
+                    render={({ field }) => (
                       <Select
-                        options={[
-                          { label: "primera serie", value: "primera" },
-                          { label: "segunda serie", value: "segunda" },
-                          { label: "tercera serie", value: "tercera" },
-                        ]}
+                        {...field}
+                        value={field.value}
+                        options={listSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -449,14 +360,12 @@ const CcdScreen = () => {
                     rules={{
                       required: true,
                     }}
-                    render={() => (
+                    render={({ field }) => (
                       <Select
+                        {...field}
+                        value={field.value}
                         isMulti
-                        options={[
-                          { label: "primera subserie", value: "primerasub" },
-                          { label: "segunda subserie", value: "segundasub" },
-                          { label: "tercera subserie", value: "tercerasub" },
-                        ]}
+                        options={listSubSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -485,7 +394,7 @@ const CcdScreen = () => {
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnAsigancion}
-                      rowData={rowData}
+                      rowData={assignmentsCCD}
                       defaultColDef={defaultColDef}
                     ></AgGridReact>
                   </div>
@@ -516,13 +425,13 @@ const CcdScreen = () => {
             </form>
 
           )}
-          {createIsactive && (
-            <CrearSeries
-              isModalActive={createIsactive}
-              setIsModalActive={setCreateIsactive}
-              title={title}
-            />
-          )}
+          {/* {createIsactive && ( */}
+          <CrearSeries
+            isModalActive={createIsactive}
+            setIsModalActive={setCreateIsactive}
+            title={title}
+          />
+          {/* )} */}
           {consultaCcdIsactive && (
             <SearchCcdModal
               isModalActive={consultaCcdIsactive}

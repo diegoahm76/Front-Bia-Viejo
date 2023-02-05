@@ -1,18 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ISubSeries, ISubSeriesObject } from "../../../Interfaces/CCD";
 
-const initialState: any = {
+const initialState: ISubSeries = {
     subSeriesCCD: [],
+    subSeriesCCDCurrent: null,
 };
 
 const subSeriesSlice = createSlice({
     name: "subSeries",
     initialState,
     reducers: {
-        getSubSeriesCCD: (state: any, action: PayloadAction<any>) => {
+        getSubSeriesCCD: (state: ISubSeries, action: PayloadAction<ISubSeriesObject[]>) => {
             state.subSeriesCCD = action.payload;
+        },
+        getSubSeriesCCDCurrent: (state: ISubSeries, action: PayloadAction<ISubSeriesObject | null>) => {
+            state.subSeriesCCDCurrent = action.payload;
         },
     }
 })
 
-export const { getSubSeriesCCD } = subSeriesSlice.actions;
+export const { getSubSeriesCCD, getSubSeriesCCDCurrent } = subSeriesSlice.actions;
 export default subSeriesSlice.reducer;

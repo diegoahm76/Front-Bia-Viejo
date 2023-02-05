@@ -1,18 +1,18 @@
 
 import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import Swal, { SweetAlertIcon } from "sweetalert2";
+import { useForm } from "react-hook-form";
 //components
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 //Actions
 // import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 //Interfaces
-import clienteAxios from "../../../config/clienteAxios";
 import { createCCDSService, updateCCDSService } from '../../../services/CCD/CCDServices';
 import { getOrganigramsService, getUnitysService } from "../../../services/organigram/OrganigramServices";
 import { ICCDForm, IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
 import { getCCDCurrent } from "../../../store/slices/CCD/indexCCD";
+import { getSubSeriesService } from "../../../services/subseries/SubSeriesServices";
+import { getSeriesService } from "../../../services/series/SeriesServices";
+import { getAssignmentsService } from "../../../services/assignments/AssignmentsServices";
 
 
 const useCCD = () => {
@@ -20,12 +20,12 @@ const useCCD = () => {
     // Dispatch instance
     const dispatch = useAppDispatch();
 
-    //Navigation
-    const navigate = useNavigate();
-
     // Redux State Extraction
     const { organigram, unityOrganigram } = useAppSelector((state) => state.organigram);
     const { CCDCurrent } = useAppSelector((state) => state.CCD);
+    const { seriesCCD } = useAppSelector((state) => state.series);
+    const { subSeriesCCD } = useAppSelector((state) => state.subSeries);
+    const { assignmentsCCD, assignmentsCCDCurrent } = useAppSelector((state) => state.assignments);
 
     const [title, setTitle] = useState<string>('');
     const [createIsactive, setCreateIsactive] = useState<boolean>(false);
@@ -36,6 +36,14 @@ const useCCD = () => {
         value: '',
     }]);
     const [listOrganigrams, setListOrganigrams] = useState<IListOrganigrama[]>([{
+        label: "",
+        value: 0,
+    }]);
+    const [listSries, setListSries] = useState<IListOrganigrama[]>([{
+        label: "",
+        value: 0,
+    }]);
+    const [listSubSries, setListSubSries] = useState<any[]>([{
         label: "",
         value: 0,
     }]);
@@ -51,10 +59,10 @@ const useCCD = () => {
         fecha_terminado: '',
     }
     //Estado Inicial de Formulario de Crear Asignación
-    const initialStateAsig /* :IcvComputersForm */ = {
-        sries_asignacion: '',
+    const initialStateAsig = {
+        sries_asignacion: { label: '', value: 0 },
         sries: '',
-        subSerie_asignacion: '',
+        subSerie_asignacion: [],
         subSerie: '',
         unidades_asignacion: { label: '', value: '' },
     }
@@ -73,16 +81,14 @@ const useCCD = () => {
 
     //useForm Asignar CCD
     const {
-        register,
         handleSubmit,
         control,
-        reset,
         watch,
-        setValue,
         formState: { errors: errors },
 
-    } = useForm/* <IcvComputersForm> */({ defaultValues: initialStateAsig });
+    } = useForm({ defaultValues: initialStateAsig });
     const dataAsing = watch();
+    console.log(dataAsing, 'dataAsing')
 
     //useForm Crear CCD
     const {
@@ -99,11 +105,11 @@ const useCCD = () => {
     // UseEffect para obtener organigramas
     useEffect(() => {
         if (CCDCurrent !== null) {
-            const resultName = organigram.filter(item => item.id_organigrama === CCDCurrent.id_organigrama_id);
+            const resultName = organigram.filter(item => item.id_organigrama === CCDCurrent.id_organigrama);
             let obj: ICCDForm = {
                 id_ccd: CCDCurrent.id_ccd,
                 nombreCcd: CCDCurrent.nombre,
-                organigrama: { label: resultName[0].nombre, value: CCDCurrent.id_organigrama_id },
+                organigrama: { label: resultName[0].nombre, value: CCDCurrent.id_organigrama },
                 unidades_organigrama: { label: '', value: '' },
                 version: CCDCurrent.version,
                 fecha_terminado: CCDCurrent.fecha_terminado,
@@ -112,12 +118,23 @@ const useCCD = () => {
             setSaveCCD(true);
         }
     }, [CCDCurrent]);
-    console.log(dataCreateCCD, 'dataCreateCCD')
 
     // UseEffect para obtener organigramas
     useEffect(() => {
         dispatch(getOrganigramsService())
-    }, []);
+    }, [CCDCurrent]);
+    // UseEffect para obtener series
+    useEffect(() => {
+        dispatch(getSeriesService())
+    }, [CCDCurrent]);
+    // UseEffect para obtener subSeries
+    useEffect(() => {
+        dispatch(getSubSeriesService())
+    }, [CCDCurrent]);
+    // UseEffect para obtener asignaciones
+    useEffect(() => {
+        dispatch(getAssignmentsService())
+    }, [CCDCurrent]);
 
     //useEffect para obtener el MoldOrganigram (jerarquia de niveles & unidades)
     useEffect(() => {
@@ -136,11 +153,23 @@ const useCCD = () => {
         ));
     }, [organigram]);
 
-    //submit Hojas de Vida de Computadores
+    useEffect(() => {
+        setListSries(seriesCCD.map(
+            item => ({ label: item.nombre!, value: item.id_serie_doc! })
+        ));
+    }, [seriesCCD]);
+
+    useEffect(() => {
+        setListSubSries(subSeriesCCD.map(
+            item => ({ label: item.nombre!, value: item.id_subserie_doc! })
+        ));
+    }, [subSeriesCCD]);
+
+    //submit Asignar CCD
     const onSubmit = () => {
         createAsing();
     };
-    //submit Hojas de Vida de Computadores
+    //submit Crear CCD
     const onSubmitCreateCCD = () => {
         if (CCDCurrent !== null) {
             updateCCD();
@@ -169,12 +198,20 @@ const useCCD = () => {
     };
     //Funcion para crear el CCD
     const createAsing = () => {
-        let newCCD = {
-            id_organigrama: 1,
-            version: "5.0",
-            nombre: "CCD 5"
-        }
-        // dispatch(createCCDSService(newCCD))
+        // let newItem: any[] = []
+        // if (titleButton === 'Agregar') {
+        //   newItem = [...seriesCCD, {
+        //     id_serie_doc: data.id_serie_doc,
+        //     nombre: data.nombre,
+        //     codigo: data.codigo,
+        //     id_ccd: CCDCurrent!.id_ccd
+        //   }]
+        // } else {
+        //   newItem = seriesCCD.map(
+        //     item => { return item.id_serie_doc === data.id_serie_doc ? { ...item, nombre: data.nombre, codigo: Number(data.codigo) } : item }
+        //   );
+        // }
+        // dispatch(createSeriesService(newItem, clean));
     };
 
 
@@ -185,95 +222,48 @@ const useCCD = () => {
         dispatch(getCCDCurrent(null));
     }
 
-    //Columnas de la tabla de Mantenimientos
-    const columnDefsMaintenance = [
-        { headerName: "Estado", field: "estado", minWidth: 150 },
-        { headerName: "Fecha", field: "fecha", minWidth: 150 },
-        { headerName: "Responsable", field: "responsable", minWidth: 150 },
-        { headerName: "Tipo", field: "tipo", minWidth: 150 },
-        { headerName: "Descripción", field: "tipo_descripcion", minWidth: 150 },
-    ];
-    //Columnas de la tabla de Asignaciones
-    const columnDefs2 = [
-        { headerName: "Número", field: "NU", minWidth: 150 },
-        { headerName: "Responsable", field: "RE", minWidth: 150 },
-        { headerName: "Grupo", field: "GR", minWidth: 150 },
-        { headerName: "Fecha inicial", field: "FEIN", minWidth: 150 },
-        { headerName: "Fecha final", field: "FEFI", minWidth: 150 },
-        { headerName: "Tipo", field: "TI", minWidth: 150 },
-    ];
-
-    //Columnas de la tabla de articulos
-    const columnDefsArticles = [
-        { headerName: "Nombre", field: "nombre", minWidth: 180 },
-        { headerName: "Serial", field: "doc_identificador_nro", minWidth: 150 },
-        { headerName: "Tipo Activo", field: "cod_tipo_activo", minWidth: 120 },
-        { headerName: "Estado", field: "estado", minWidth: 120 },
-        { headerName: "Codigo", field: "codigo_bien", minWidth: 150 },
+    const columnAsigancion = [
         {
-            headerName: "Acción",
-            field: "editar",
-            minWidth: 100,
-            maxWidth: 100,
-            cellRendererFramework: ({ data }) => (
-                <div className="d-flex gap-1">
+            headerName: "Sección",
+            field: "sección",
+            minWidth: 150,
+            maxWidth: 200,
+        },
+        {
+            headerName: "Subseccón",
+            field: "Subseccón",
+            minWidth: 150,
+            maxWidth: 200,
+        },
+        {
+            headerName: "serie",
+            field: "serie",
+            minWidth: 150,
+            maxWidth: 200,
+        },
+        {
+            headerName: "subserie",
+            field: "subserie",
+            minWidth: 150,
+            maxWidth: 200,
+        },
+        {
+            headerName: "Acciones",
+            field: "accion",
+            cellRendererFramework: (params) => (
+                <div>
+                    <button className="btn text-capitalize " type="button" title="Editar">
+                        <i className="fa-regular fa-pen-to-square fs-4"></i>
+                    </button>
                     <button
+                        className="btn text-capitalize "
                         type="button"
-                        style={{ border: "none", background: "none" }}
-                        onClick={() => {
-                            // dispatch(getCvComputersService(data.doc_identificador_nro));
-                            // setBusquedaArticuloModalOpen(false);
-                        }}
-                        title="Seleccionar"
+                        title="Eliminar"
                     >
-                        <i className="fa-solid fa-circle-check fs-3"></i>
+                        <i className="fa-regular fa-trash-can fs-4"></i>
                     </button>
                 </div>
             ),
-        },
-    ];
-
-    //Datos de la tabla de asignaciones
-    const asignacionPrestamos = [
-        {
-            NU: "01",
-            RE: "Gina Hernandez",
-            GR: "Administración",
-            FEIN: "19/05/2020",
-            FEFI: "13/08/2020",
-            TI: "Asignacion",
-        },
-        {
-            NU: "02",
-            RE: "Gina Hernandez",
-            GR: "Administración",
-            FEIN: "19/05/2020",
-            FEFI: "13/08/2020",
-            TI: "Asignacion",
-        },
-        {
-            NU: "03",
-            RE: "Gina Hernandez",
-            GR: "Administración",
-            FEIN: "19/05/2020",
-            FEFI: "13/08/2020",
-            TI: "Asignacion",
-        },
-        {
-            NU: "04",
-            RE: "Gina Hernandez",
-            GR: "Administración",
-            FEIN: "19/05/2020",
-            FEFI: "13/08/2020",
-            TI: "Asignacion",
-        },
-        {
-            NU: "05",
-            RE: "Gina Hernandez",
-            GR: "Administración",
-            FEIN: "19/05/2020",
-            FEFI: "13/08/2020",
-            TI: "Asignacion",
         },
     ];
 
@@ -281,35 +271,28 @@ const useCCD = () => {
         //States
         listUnitys,
         listOrganigrams,
+        listSries,
+        listSubSries,
         title,
         createIsactive,
         consultaCcdIsactive,
-        columnDefsMaintenance,
-        columnDefs2,
-        columnDefsArticles,
-        asignacionPrestamos,
+        columnAsigancion,
         control,
         controlCreateCCD,
-        initialState,
-        file,
         defaultColDef,
         errors,
         errorsCreateCCD,
         saveCCD,
         //Edita States
-        setFile,
-        setValue,
         setTitle,
         setCreateIsactive,
         setConsultaCcdIsactive,
         //Functions
-        onSubmit,
         onSubmitCreateCCD,
-        register,
+        onSubmit,
         registerCreateCCD,
         handleSubmit,
         handleSubmitCreateCCD,
-        reset,
         cleanCCD,
     };
 }
