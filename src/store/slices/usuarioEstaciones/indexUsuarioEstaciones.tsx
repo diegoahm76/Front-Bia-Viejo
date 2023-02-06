@@ -37,7 +37,7 @@ const initialState: IUsuarioEstaciones[] = [
     },
     t005identificacion: 1076670521,
     t005nombre: "Alejandro",
-    t005apellido:"Sastoque",
+    t005apellido: "Sastoque",
     t005correo: "sastoque42@gmail.com",
     t005numeroCelular: 3107505784,
     t005Observacion: "",
@@ -49,7 +49,7 @@ const usuarioEstaciones = createSlice({
   initialState,
   reducers: {
     obtenerUsuarioEstaciones: (state, action) => {
-      state.push(action.payload);
+      return [...state, ...action.payload];
     },
   },
 });
@@ -61,7 +61,7 @@ export const obtenerTodosUsuarios = async (dispatch) => {
   await clienteEstaciones
     .get("Usuarios")
     .then((usuarioEstaciones) => {
-      dispatch(obtenerUsuarioEstaciones(usuarioEstaciones));
+      dispatch(obtenerUsuarioEstaciones(usuarioEstaciones.data));
     })
     .catch(() => {
       Swal.fire({
@@ -72,4 +72,28 @@ export const obtenerTodosUsuarios = async (dispatch) => {
         confirmButtonText: "Aceptar",
       });
     });
+};
+
+export const obtenerUsuariosNombre = async (dispatch, nombre) => {
+  await clienteEstaciones
+    .get(`Usuarios?t005nombre=${nombre}`)
+    .then((usuarioEstaciones) => {
+      dispatch(obtenerUsuarioEstaciones(usuarioEstaciones.data));
+    })
+    .catch(() => {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Algo pasó, intente de nuevo",
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
+    });
+};
+export const obtenerEstacionesNombre = (nombre) => (dispatch, getState) => {
+  const { usuarioEstaciones } = getState().usuarioEstaciones;
+  const estacionesFiltradas = usuarioEstaciones.filter((usuario) =>
+    usuario.t001Estaciones.t001nombre.toLowerCase().includes(nombre.toLowerCase())
+  );
+  dispatch(obtenerUsuarioEstaciones(estacionesFiltradas));
 };

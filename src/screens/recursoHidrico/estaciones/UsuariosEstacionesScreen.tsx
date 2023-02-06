@@ -14,7 +14,10 @@ import {
   obtenerUsusarioEliminarAction,
 } from "../../../actions/estacionActions";
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
-import { obtenerTodosUsuarios } from "../../../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
+import {
+  obtenerTodosUsuarios,
+  obtenerEstacionesNombre,
+} from "../../../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
 import Subtitle from "../../../components/Subtitle";
@@ -24,13 +27,22 @@ const UsuariosEstacionesScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActive] = useState(false);
   const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
+  const [selectedEstacion, setSelectedEstacion] = useState<string | undefined>(
+    undefined
+  );
 
   const dispatch = useAppDispatch();
 
   const usuarios = useAppSelector((state) => state.usuarioEstaciones);
-  /* useEffect(() => {
+  useEffect(() => {
     obtenerTodosUsuarios(dispatch);
-  }, []); */
+  }, []);
+  const Guayuiria= "Occa"
+  const usuariosFiltro = useAppSelector((state) => state.usuarioEstaciones);
+  useEffect(() => {
+    obtenerEstacionesNombre(Guayuiria);
+  }, []);
+  
 
   const defaultColDef = {
     sortable: true,
@@ -59,12 +71,17 @@ const UsuariosEstacionesScreen = () => {
     });
     console.log(selectEstacion.opcEstaciones);
   };
+  const handleChange = (value) => {
+    dispatch(obtenerEstacionesNombre(value));
+
+  };
   const opcEstaciones = [
-    { label: "Estación Guayuriba", value: "GUAY" },
-    { label: "Estación Ocoa", value: "OC" },
-    { label: "Estación Puerto Gaitan", value: "PTOGA" },
-    { label: "Estación Guamal", value: "GUAM" },
+    { label: "Estación Guayuriba", value: "Guayuriba" },
+    { label: "Estación Ocoa", value: "Ocoa" },
+    { label: "Estación Puerto Gaitan", value: "Puerto Gaitan" },
+    { label: "Estación Guamal", value: "Guamal" },
   ];
+
 
   const columnDefs = [
     {
@@ -111,7 +128,7 @@ const UsuariosEstacionesScreen = () => {
   const confirmarEliminarUsuario = (id) => {
     Swal.fire({
       title: "Estas seguro?",
-      text: "Una estacion que se elimina no se puede recuperar",
+      text: "Un usuario que se elimina no se puede recuperar",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -166,18 +183,20 @@ const UsuariosEstacionesScreen = () => {
               </div>
             </div>
 
-            {selectEstacion.opcEstaciones === "GUAY" ? (
+            {selectEstacion.opcEstaciones === "Guayuriba" ? (
               <div className="row min-vh-100">
                 <div className="col-lg-12 col-md-12 col-12 mx-auto">
                   <div
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
                   >
-                    <Subtitle title="Informacion de general Estación Guayuriba" mt={3} />
-                    
+                    <Subtitle
+                      title="Informacion de general Estación Guayuriba"
+                      mt={3}
+                    />
+
                     <div>
                       <div className="col-12-md-3 ">
-                      
                         <button
                           className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                           onClick={() => setIsModalActive(!isModalActive)}
@@ -189,7 +208,6 @@ const UsuariosEstacionesScreen = () => {
                     <br></br>
                     <div className="row">
                       <div className="multisteps-form__content">
-                      
                         <div>
                           <div
                             className="ag-theme-alpine mt-auto mb-3 px-4"
@@ -197,7 +215,7 @@ const UsuariosEstacionesScreen = () => {
                           >
                             <AgGridReact
                               columnDefs={columnDefs}
-                              rowData={usuarios as any}
+                              rowData={usuariosFiltro as any}
                               defaultColDef={defaultColDef}
                             ></AgGridReact>
                           </div>
@@ -212,18 +230,20 @@ const UsuariosEstacionesScreen = () => {
               ""
             )}
 
-            {selectEstacion.opcEstaciones === "OC" ? (
+            {selectEstacion.opcEstaciones === "Ocoa" ? (
               <div className="row min-vh-100">
                 <div className="col-lg-12 col-md-12 col-12 mx-auto">
                   <div
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
                   >
-                    <Subtitle title="Informacion de general Estación Ocoa" mt={3} />
-                    
+                    <Subtitle
+                      title="Informacion de general Estación Ocoa"
+                      mt={3}
+                    />
+
                     <div>
                       <div className="col-12-md-3 ">
-                      
                         <button
                           className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                           onClick={() => setIsModalActive(!isModalActive)}
@@ -235,7 +255,6 @@ const UsuariosEstacionesScreen = () => {
                     <br></br>
                     <div className="row">
                       <div className="multisteps-form__content">
-                      
                         <div>
                           <div
                             className="ag-theme-alpine mt-auto mb-3 px-4"
@@ -257,19 +276,20 @@ const UsuariosEstacionesScreen = () => {
             ) : (
               ""
             )}
-            {selectEstacion.opcEstaciones === "PTOGA" ? (
-              
+            {selectEstacion.opcEstaciones === "Puerto Gaitan" ? (
               <div className="row min-vh-100">
                 <div className="col-lg-12 col-md-12 col-12 mx-auto">
                   <div
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
                   >
-                    <Subtitle title="Informacion de general Estación Puerto Gaitan" mt={3} />
-                    
+                    <Subtitle
+                      title="Informacion de general Estación Puerto Gaitan"
+                      mt={3}
+                    />
+
                     <div>
                       <div className="col-12-md-3 ">
-                      
                         <button
                           className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                           onClick={() => setIsModalActive(!isModalActive)}
@@ -281,7 +301,6 @@ const UsuariosEstacionesScreen = () => {
                     <br></br>
                     <div className="row">
                       <div className="multisteps-form__content">
-                      
                         <div>
                           <div
                             className="ag-theme-alpine mt-auto mb-3 px-4"
@@ -303,19 +322,20 @@ const UsuariosEstacionesScreen = () => {
             ) : (
               ""
             )}
-            {selectEstacion.opcEstaciones === "GUAM" ? (
-              
+            {selectEstacion.opcEstaciones === "Guamal" ? (
               <div className="row min-vh-100">
                 <div className="col-lg-12 col-md-12 col-12 mx-auto">
                   <div
                     className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
                     data-animation="FadeIn"
                   >
-                    <Subtitle title="Informacion de general Estación Guamal" mt={3} />
-                    
+                    <Subtitle
+                      title="Informacion de general Estación Guamal"
+                      mt={3}
+                    />
+
                     <div>
                       <div className="col-12-md-3 ">
-                      
                         <button
                           className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
                           onClick={() => setIsModalActive(!isModalActive)}
@@ -327,7 +347,6 @@ const UsuariosEstacionesScreen = () => {
                     <br></br>
                     <div className="row">
                       <div className="multisteps-form__content">
-                      
                         <div>
                           <div
                             className="ag-theme-alpine mt-auto mb-3 px-4"
