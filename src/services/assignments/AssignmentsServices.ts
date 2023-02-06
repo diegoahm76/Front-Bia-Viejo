@@ -31,7 +31,7 @@ export const getAssignmentsService = () => {
         const { CCDCurrent } = getState().CCD;
         try {
             const { data } = await clienteAxios.get(`gestor/ccd/asignar/get/${CCDCurrent.id_ccd}/`);
-            dispatch(getAssignmentsCCD(data.data));
+            dispatch(getAssignmentsCCD(data.detail));
             // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -43,13 +43,14 @@ export const getAssignmentsService = () => {
 
 
 //Asignar series y subseries a unidades documentales
-export const createAssignmentsService = (id: string, navigate: NavigateFunction) => {
-    return async (dispatch): Promise<AxiosResponse | AxiosError> => {
+export const createAssignmentsService = (newItem, clean) => {
+    return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
+        const { CCDCurrent } = getState().CCD;
         try {
-            const { data } = await clienteAxios.put(`gestor/ccd/asignar/create/1/`);
-            // dispatch(getOrganigramsService());
+            const { data } = await clienteAxios.put(`gestor/ccd/asignar/create/${CCDCurrent.id_ccd}/`, newItem);
+            dispatch(getAssignmentsService());
             notificationSuccess(data.detail);
-            // navigate('/dashboard/gestordocumental/organigrama/crearorganigrama');
+            clean();
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);

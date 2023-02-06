@@ -38,7 +38,8 @@ export const createSeriesService = (newSeries: ISeriesObject[], clean: () => voi
                 position: "center",
                 icon: "success",
                 title: data.detail,
-                showConfirmButton: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
                 timer: 2000,
             });
             return data;
@@ -48,7 +49,8 @@ export const createSeriesService = (newSeries: ISeriesObject[], clean: () => voi
                 position: "center",
                 icon: "error",
                 title: error.response.data.detail,
-                showConfirmButton: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
                 timer: 2000,
             });
             return error as AxiosError;

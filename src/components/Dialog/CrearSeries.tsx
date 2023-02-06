@@ -54,19 +54,11 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
 
   const [titleButton, setTitleButton] = useState('Agregar');
 
-  //useEffect para cargar los datos de la tabla
+  // //useEffect para limpiar el formulario
   // useEffect(() => {
-  //   switch (title) {
-  //     case "Crear series":
-  //       dispatch(getSeriesService());
-  //       break;
-  //     case "Crear subseries":
-  //       dispatch(getSubSeriesService());
-  //       break;
-  //     default:
-  //       break;
-  //   }
+  //   clean();
   // }, []);
+
   //useEffect para cargar los datos de la serie seleccionada
   useEffect(() => {
     if (serieCCDCurrent) {
@@ -107,8 +99,9 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
     return () => {
       dispatch(getSerieCCDCurrent(null));
       dispatch(getSubSeriesCCDCurrent(null));
+      clean();
     }
-  }, []);
+  }, [isModalActive]);
 
   //Función para limpiar el formulario
   const clean = () => {
@@ -135,7 +128,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
   };
 
   //Funcion para eliminar series
-  const deleteSeries = (id_serie_doc) => {
+  const deleteSeries = (id_serie_doc: number) => {
     const newSeries = seriesCCD.filter(serie => serie.id_serie_doc !== id_serie_doc);
     dispatch(createSeriesService(newSeries, clean));
   }

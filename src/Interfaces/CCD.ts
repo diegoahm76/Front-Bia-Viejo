@@ -22,7 +22,14 @@ export interface ICCDForm {
     nombreCcd: string;
     fecha_terminado: null | Date | string;
     organigrama: IListOrganigrama;
-    unidades_organigrama: IListUnity;
+    unidades_organigrama: IListOrganigrama;
+}
+export interface ICCDAsingForm {
+    sries_asignacion: IListOrganigrama;
+    sries: string;
+    subSerie_asignacion: IListOrganigrama[] | [];
+    subSerie: string;
+    unidades_asignacion: IListOrganigrama;
 }
 export interface IListOrganigrama {
     label: string;
@@ -31,11 +38,6 @@ export interface IListOrganigrama {
 export interface IListMultiselect {
     list: IListOrganigrama[] | [];
 }
-export interface IListUnity {
-    label: string;
-    value: string;
-}
-
 export interface ISeries {
     seriesCCD: ISeriesObject[];
     serieCCDCurrent: ISeriesObject | null;

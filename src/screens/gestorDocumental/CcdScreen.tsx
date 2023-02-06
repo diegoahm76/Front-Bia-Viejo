@@ -7,9 +7,13 @@ import { AgGridReact } from "ag-grid-react";
 import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
 import SearchCcdModal from "../../components/Dialog/SearchCcdModal";
-import { useAppSelector } from "../../store/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+import { toFinishedCCDSService } from "../../services/CCD/CCDServices";
 
 const CcdScreen = () => {
+
+  // Dispatch instance
+  const dispatch = useAppDispatch();
 
   const { CCDCurrent } = useAppSelector((state) => state.CCD);
   const { assignmentsCCD } = useAppSelector((state) => state.assignments);
@@ -22,6 +26,7 @@ const CcdScreen = () => {
     listSries,
     listSubSries,
     title,
+    titleButtonAsing,
     createIsactive,
     consultaCcdIsactive,
     columnAsigancion,
@@ -33,14 +38,15 @@ const CcdScreen = () => {
     saveCCD,
     //Edita States
     setTitle,
+    setTitleButtonAsing,
     setCreateIsactive,
     setConsultaCcdIsactive,
     //Functions
     onSubmitCreateCCD,
+    onSubmit,
     registerCreateCCD,
     handleSubmit,
     handleSubmitCreateCCD,
-    onSubmit,
     cleanCCD,
   } = useCCD();
 
@@ -382,9 +388,9 @@ const CcdScreen = () => {
                   <div className="d-grid gap-2 mt-4 mx-2">
                     <button
                       className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
-                      type="button"
+                      type="submit"
                     >
-                      guardar relación
+                      {titleButtonAsing}
                     </button>
                   </div>
                 </div>
@@ -401,37 +407,40 @@ const CcdScreen = () => {
                 </div>
               </div>
               <div className="row d-flex justify-content-end">
-                <div className="col-12 col-lg-3 ">
-                  <div className="d-grid gap-2 mt-4 mx-2">
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                      type="button"
-                    >
-                      Terminar
-                    </button>
+                {CCDCurrent?.fecha_terminado ? (
+                  <div className="col-12 col-lg-3 ">
+                    <div className="d-grid gap-2 mt-4 mx-2">
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                        type="button"
+                        onClick={() => { dispatch(toFinishedCCDSService()); }}
+                      >
+                        Reanudar
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="col-12 col-lg-3 ">
-                  <div className="d-grid gap-2 mt-4 mx-2">
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                      type="button"
-                    >
-                      Reanudar
-                    </button>
+                ) : (
+                  <div className="col-12 col-lg-3 ">
+                    <div className="d-grid gap-2 mt-4 mx-2">
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                        type="button"
+                        onClick={() => { dispatch(toFinishedCCDSService()); }}
+                      >
+                        Terminar
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </form>
 
           )}
-          {/* {createIsactive && ( */}
           <CrearSeries
             isModalActive={createIsactive}
             setIsModalActive={setCreateIsactive}
             title={title}
           />
-          {/* )} */}
           {consultaCcdIsactive && (
             <SearchCcdModal
               isModalActive={consultaCcdIsactive}

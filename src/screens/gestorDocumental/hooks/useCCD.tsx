@@ -4,15 +4,15 @@ import { useForm } from "react-hook-form";
 //components
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 //Actions
-// import { createCvComputersService, getCvComputersService, getCvMaintenanceService } from "../../../../../services/cv/CvComputers";
 //Interfaces
 import { createCCDSService, updateCCDSService } from '../../../services/CCD/CCDServices';
 import { getOrganigramsService, getUnitysService } from "../../../services/organigram/OrganigramServices";
-import { ICCDForm, IListOrganigrama, IListUnity } from "../../../Interfaces/CCD";
+import { ICCDAsingForm, ICCDForm, IListOrganigrama } from "../../../Interfaces/CCD";
 import { getCCDCurrent } from "../../../store/slices/CCD/indexCCD";
 import { getSubSeriesService } from "../../../services/subseries/SubSeriesServices";
 import { getSeriesService } from "../../../services/series/SeriesServices";
-import { getAssignmentsService } from "../../../services/assignments/AssignmentsServices";
+import { createAssignmentsService, getAssignmentsService } from "../../../services/assignments/AssignmentsServices";
+import { getAssignmentsCCDCurrent } from "../../../store/slices/assignments/indexAssignments";
 
 
 const useCCD = () => {
@@ -28,12 +28,13 @@ const useCCD = () => {
     const { assignmentsCCD, assignmentsCCDCurrent } = useAppSelector((state) => state.assignments);
 
     const [title, setTitle] = useState<string>('');
+    const [titleButtonAsing, setTitleButtonAsing] = useState<string>('Guardar relación');
     const [createIsactive, setCreateIsactive] = useState<boolean>(false);
     const [consultaCcdIsactive, setConsultaCcdIsactive] = useState<boolean>(false);
     const [saveCCD, setSaveCCD] = useState<boolean>(false);
-    const [listUnitys, setListUnitys] = useState<IListUnity[]>([{
+    const [listUnitys, setListUnitys] = useState<IListOrganigrama[]>([{
         label: "",
-        value: '',
+        value: 0,
     }]);
     const [listOrganigrams, setListOrganigrams] = useState<IListOrganigrama[]>([{
         label: "",
@@ -54,17 +55,17 @@ const useCCD = () => {
         id_ccd: 0,
         nombreCcd: '',
         organigrama: { label: '', value: 0 },
-        unidades_organigrama: { label: '', value: '' },
+        unidades_organigrama: { label: '', value: 0 },
         version: '',
         fecha_terminado: '',
     }
     //Estado Inicial de Formulario de Crear Asignación
-    const initialStateAsig = {
+    const initialStateAsig: ICCDAsingForm = {
         sries_asignacion: { label: '', value: 0 },
         sries: '',
         subSerie_asignacion: [],
         subSerie: '',
-        unidades_asignacion: { label: '', value: '' },
+        unidades_asignacion: { label: '', value: 0 },
     }
     //configuración de tabla por defecto
     const defaultColDef = {
@@ -84,11 +85,12 @@ const useCCD = () => {
         handleSubmit,
         control,
         watch,
+        reset,
         formState: { errors: errors },
 
     } = useForm({ defaultValues: initialStateAsig });
     const dataAsing = watch();
-    console.log(dataAsing, 'dataAsing')
+    // console.log(dataAsing, 'dataAsing')
 
     //useForm Crear CCD
     const {
@@ -110,7 +112,7 @@ const useCCD = () => {
                 id_ccd: CCDCurrent.id_ccd,
                 nombreCcd: CCDCurrent.nombre,
                 organigrama: { label: resultName[0].nombre, value: CCDCurrent.id_organigrama },
-                unidades_organigrama: { label: '', value: '' },
+                unidades_organigrama: { label: '', value: 0 },
                 version: CCDCurrent.version,
                 fecha_terminado: CCDCurrent.fecha_terminado,
             }
@@ -143,7 +145,7 @@ const useCCD = () => {
 
     useEffect(() => {
         setListUnitys(unityOrganigram.map(
-            item => ({ label: item.nombre!, value: item.codigo! })
+            item => ({ label: item.nombre!, value: item.id_unidad_organizacional! })
         ));
     }, [unityOrganigram]);
 
@@ -198,20 +200,21 @@ const useCCD = () => {
     };
     //Funcion para crear el CCD
     const createAsing = () => {
-        // let newItem: any[] = []
-        // if (titleButton === 'Agregar') {
-        //   newItem = [...seriesCCD, {
-        //     id_serie_doc: data.id_serie_doc,
-        //     nombre: data.nombre,
-        //     codigo: data.codigo,
-        //     id_ccd: CCDCurrent!.id_ccd
-        //   }]
-        // } else {
-        //   newItem = seriesCCD.map(
-        //     item => { return item.id_serie_doc === data.id_serie_doc ? { ...item, nombre: data.nombre, codigo: Number(data.codigo) } : item }
-        //   );
-        // }
-        // dispatch(createSeriesService(newItem, clean));
+        let newItem: any[] = [];
+        if (titleButtonAsing === 'Guardar relación') {
+            newItem = [...assignmentsCCD, {
+                id_unidad_organizacional: dataAsing.unidades_asignacion.value,
+                id_serie_doc: dataAsing.sries_asignacion.value,
+                subseries: dataAsing.subSerie_asignacion.map(item => item.value),
+            }]
+        } else {
+            // newItem = assignmentsCCD.map(
+            //     item => { return item.id_serie_doc === data.id_serie_doc ? { ...item, nombre: data.nombre, codigo: Number(data.codigo) } : item }
+            // );
+        }
+        console.log(newItem, 'newItem....')
+        console.log(titleButtonAsing, 'titleButtonAsing....')
+        dispatch(createAssignmentsService(newItem, cleanAsing));
     };
 
 
@@ -220,6 +223,18 @@ const useCCD = () => {
         resetCreateCCD(initialState);
         setSaveCCD(false);
         dispatch(getCCDCurrent(null));
+    }
+    //Funcion para limpiar el formulario de asignar CCD
+    const cleanAsing = () => {
+        reset(initialStateAsig);
+        setTitleButtonAsing('Guardar relación');
+        dispatch(getAssignmentsCCDCurrent(null));
+    }
+
+    //Funcion para eliminar Asignaciones
+    const deleteAsing = (id_subserie_doc) => {
+        // const newItems = assignmentsCCD.filter(item => item.id_subserie_doc !== id_subserie_doc);
+        // dispatch(createAssignmentsService(newItems, cleanAsing));
     }
 
     const columnAsigancion = [
@@ -252,13 +267,15 @@ const useCCD = () => {
             field: "accion",
             cellRendererFramework: (params) => (
                 <div>
-                    <button className="btn text-capitalize " type="button" title="Editar">
+                    <button className="btn text-capitalize " type="button" title="Editar"
+                        onClick={() => { dispatch(getAssignmentsCCDCurrent(params.data)) }}>
                         <i className="fa-regular fa-pen-to-square fs-4"></i>
                     </button>
                     <button
                         className="btn text-capitalize "
                         type="button"
                         title="Eliminar"
+                    // onClick={() => { deleteSeries(params.data.id_serie_doc)}}a
                     >
                         <i className="fa-regular fa-trash-can fs-4"></i>
                     </button>
@@ -274,6 +291,7 @@ const useCCD = () => {
         listSries,
         listSubSries,
         title,
+        titleButtonAsing,
         createIsactive,
         consultaCcdIsactive,
         columnAsigancion,
@@ -285,6 +303,7 @@ const useCCD = () => {
         saveCCD,
         //Edita States
         setTitle,
+        setTitleButtonAsing,
         setCreateIsactive,
         setConsultaCcdIsactive,
         //Functions

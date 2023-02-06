@@ -1,30 +1,12 @@
 import Swal from 'sweetalert2'
 import clienteAxios from "../../config/clienteAxios";
-import { NavigateFunction } from 'react-router-dom';
 // Types
 import { AxiosError, AxiosResponse } from "axios";
 // Reducers
-import { currentOrganigram, getLevels, getMoldOrganigrams, getOrganigrams, getUnitys } from "../../store/slices/organigrama/indexOrganigram";
+
 // Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 import { ISubSeriesObject } from '../../Interfaces/CCD';
 import { getSubSeriesCCD } from '../../store/slices/subSeries/indexSubSeries';
-
-// const notificationError = (message = 'Algo pasó, intente de nuevo') => Swal.mixin({
-//     position: 'center',
-//     icon: 'error',
-//     title: message,
-//     showConfirmButton: true,
-//     confirmButtonText: 'Aceptar',
-// }).fire();
-
-// const notificationSuccess = (message = 'Proceso Exitoso') => Swal.mixin({
-//     position: 'center',
-//     icon: 'success',
-//     title: message,
-//     showConfirmButton: true,
-//     confirmButtonText: 'Aceptar',
-// }).fire();
 
 //Consulta subseries documentales
 export const getSubSeriesService = () => {
@@ -33,10 +15,8 @@ export const getSubSeriesService = () => {
         try {
             const { data } = await clienteAxios.get(`gestor/ccd/subseries/get-by-id/${CCDCurrent.id_ccd}/`);
             dispatch(getSubSeriesCCD(data.data));
-            // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
-            // notificationError(error.response.data.detail);
             return error as AxiosError;
         }
     };
@@ -57,7 +37,8 @@ export const createSubSeriesService = (newSubSeries: ISubSeriesObject[], clean: 
                 position: "center",
                 icon: "success",
                 title: data.detail,
-                showConfirmButton: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
                 timer: 2000,
             });
             return data;
@@ -67,7 +48,8 @@ export const createSubSeriesService = (newSubSeries: ISubSeriesObject[], clean: 
                 position: "center",
                 icon: "error",
                 title: error.response.data.detail,
-                showConfirmButton: false,
+                showConfirmButton: true,
+                confirmButtonText: 'Aceptar',
                 timer: 2000,
             });
             return error as AxiosError;
