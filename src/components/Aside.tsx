@@ -2315,6 +2315,19 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="estaciones">
                           <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/geolocalizacion"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Geolocalización
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "

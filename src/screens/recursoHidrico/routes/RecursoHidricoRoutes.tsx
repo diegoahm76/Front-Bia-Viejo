@@ -12,6 +12,7 @@ import MonitoreoScreen from "../estaciones/MonitoreoScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
 import DashboardsScreen from "../estaciones/DashboardsScreen";
 import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
+import Geolocalizacion from "../estaciones/Geolocalizacion/geolocalizacion";
 
 const RecursoHidricoRoutes = () => {
   return (
@@ -22,6 +23,8 @@ const RecursoHidricoRoutes = () => {
 
       <Route path="estaciones">
         <Route path="reportes" element={<ReportesScreen />} />
+
+        <Route path="geolocalizacion" element={<Geolocalizacion />} />
 
         <Route
           path="administrador-de-estaciones"
