@@ -99,12 +99,21 @@ const AdministrarViveroScreen = ()=> {
 
   };
 
+  const [typeOp, setTypeOp] = React.useState('ingreso');
+
+  const captureType = (e) => {
+      setTypeOp(e.target.value);
+  }
+
+
   const changeSelectTipoVivero=(e)=>{
     let tipoVivero={...createModel}
     tipoVivero.tipo_vivero={
       value: e.value,
      label:e.label,
+    
     }
+    setTypeOp(e.target.value);
     setValue("tipo_vivero",tipoVivero.tipo_vivero);
     setCreateModel(tipoVivero)
   }
@@ -150,6 +159,7 @@ const AdministrarViveroScreen = ()=> {
       fecha_inicio_cuarentena: createModel.fecha_inicio_cuarentena,
       id_viverista_actual: createModel.id_viverista_actual,
     };
+    
     console.log(viveroCreate);
     crearVivero(dispatch, viveroCreate);
   };
@@ -163,6 +173,8 @@ console.log(createModel);
   useEffect(() => {
     getSelectsOptions();
   }, []);
+
+
   
   const getSelectsOptions = async () => {
     try {
@@ -182,8 +194,8 @@ console.log(createModel);
 
       const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
       const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
-      const tipoViveroFormat = textChoiseAdapter(tipoViveroNoFormat);
-      const origenRecursosFormat = textChoiseAdapter(origenRecursoNoFormat);
+      const tipoViveroFormat = textChoiseAdapter(tipoViveroNoFormat.value);
+      const origenRecursosFormat = textChoiseAdapter(origenRecursoNoFormat.value);
       setOrigenRecurso(origenRecursosFormat);
       setTipoVivero(tipoViveroFormat);
       setTipoDocumentoOptions(documentosFormat);
@@ -192,6 +204,8 @@ console.log(createModel);
       console.log(err);
     }
   };
+
+  
  
   const [setVivero] = useState("");
   const [setSiembra] = useState("");
@@ -254,10 +268,12 @@ console.log(createModel);
                 <input
                   type="text"
                   value={createModel.nombre}
-                 // onChange={handleChange}
+                  {...register("nombre", { required: true })}
+
+                  onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Escribe el nombre del vivero"
-                  {...register("nombre", { required: true })}
+                  
                 />
               </div>
               <div className="col-12 col-md-3 mb-3">
@@ -286,10 +302,11 @@ console.log(createModel);
                 <input
                   type="number"
                   value={createModel.area_mt2}
-                //  onChange={handleChange}
+                 {...register("area_mt2", { required: true })}
+                  onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
                   placeholder="Ingresa área para el vivero"
-                  {...register("area_mt2", { required: true })}
+                  
                 />
                 {errors.nombreVivero && (
                   <div className="col-12">
