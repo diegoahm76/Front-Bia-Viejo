@@ -244,7 +244,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
                                 <label className="text-terciary">Porcentaje</label>
                                 <input
                                     className="form-control border rounded-pill px-3 border border-terciary"
-                                    type="text"
+                                    type="number"
                                     name="porcentaje"
                                     placeholder="Porcentaje"
                                     value={stateInput.porcentaje}

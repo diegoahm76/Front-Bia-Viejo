@@ -110,7 +110,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     } else {
       await Axios({
         method: "PUT",
-        url: `https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/update/${unidadMedidaEdit.id_unidad_medida}/`,
+        url: `${unidadMedidaEdit.id_unidad_medida}/`,
         data: {
           ...unidadMedidaEdit,
           id_magnitud: unidadMedidaEdit.magnitud.value,
@@ -170,7 +170,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     try {
       setBotonAdministrador(true);
       const response = await Axios({
-        url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
+        url: "https://backend-bia-beta-production.up.railway.app/api/almacen/unidades-medida/get-list/",
       });
       setUnidades(response.data);
       console.log("obtener lista");
@@ -199,7 +199,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
             type="button"
             onClick={() => editarUnidad(params.data)}
           >
-            <img src={IconoEditar} alt="editar" />
+            <i className="fa-regular fa-pen-to-square fs-2" title="Editar"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth"
@@ -208,7 +208,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
               confirmarEliminarUnidadMedida(params.data.id_unidad_medida)
             }
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <i className="fa-regular fa-trash-can fs-2" title="Eliminar"></i>
           </button>
         </div>
       ),

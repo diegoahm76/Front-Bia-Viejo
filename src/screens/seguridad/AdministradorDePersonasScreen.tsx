@@ -747,6 +747,7 @@ const AdministradorDePersonasScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
+                      
                       name="numeroDocumento"
                       value={busquedaModel.cedula}
                       onChange={handleChange}
@@ -801,6 +802,7 @@ const AdministradorDePersonasScreen = () => {
                         onChange={changeSelectTipoDocumento}
                         options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
+                        isDisabled
                       />
 
                       {errorsPersona.tipoDocumento2 && (
