@@ -14,7 +14,20 @@ export interface  IVivero{
     fecha_inicio_cuarentena:string,
     id_viverista_actual:number,
     id_persona_crea:number,
-    ruta_archivo_creacion:string
+    ruta_archivo_creacion:string,
+    fecha_creacion:string,
+    en_funcionamiento:boolean,
+    fecha_ultima_apertura:string,
+    justificacion_apertura:string,
+    fecha_cierre_actual:string,
+    justificacion_cierre:string,
+    justificacion_cuarentena:string,
+    activo:boolean,
+    item_ya_usado:boolean,
+    id_persona_abre:number,
+    id_persona_cierra:number,
+    id_persona_cuarentea:number,
+    vivero_en_cuarentena:boolean,
 }
 
 export interface IViveroCreate extends Omit<IVivero, 'id_viverista_actual'>{

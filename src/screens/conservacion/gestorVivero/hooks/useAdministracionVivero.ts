@@ -10,6 +10,8 @@ import { textChoiseAdapter } from '../../../../adapters/textChoices.adapter';
 import { SweetAlertIcon } from "sweetalert2";
 import Swal from 'sweetalert2';
 import { createThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
+import { formatISO } from 'date-fns';
+import { formatMs } from "@material-ui/core";
 
 export const useAdministracionVivero = () => {
 
@@ -43,6 +45,19 @@ export const useAdministracionVivero = () => {
         id_viverista_actual: 0,
         id_persona_crea: 0,
         ruta_archivo_creacion: "",
+        fecha_creacion:"",
+        en_funcionamiento:false,
+        fecha_ultima_apertura:"",
+        justificacion_apertura:"",
+        fecha_cierre_actual:"",
+        justificacion_cierre:"",
+        justificacion_cuarentena:"",
+        activo:false,
+        item_ya_usado:false,
+        id_persona_abre:0,
+        id_persona_cierra:0,
+        id_persona_cuarentea:0,
+        vivero_en_cuarentena:false,
     };
 
     const initialOptions: IGeneric[] = [
@@ -182,6 +197,15 @@ export const useAdministracionVivero = () => {
     }, []);
 
 
+    const [cuarentena, setCuarentena] = useState<boolean>(false)
+
+    useEffect(() => {
+      if( dataViveroAdministracion.vivero_en_cuarentena) setCuarentena(false)
+    }, [dataViveroAdministracion.vivero_en_cuarentena])
+    
+
+
+
     const handleOpenModalAvanzadaModal = () => {
         setModalPersonal(true);
     };
@@ -201,6 +225,19 @@ export const useAdministracionVivero = () => {
         formData.append('cod_tipo_vivero', dataViveroAdministracion.tipo_vivero.value);
         formData.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value);
         formData.append('ruta_archivo_creacion', file === null ? '' : file);
+        formData.append('vivero_en_cuarentena',dataViveroAdministracion.vivero_en_cuarentena);
+        formData.append('fecha_creacion',dataViveroAdministracion.fecha_creacion);
+        formData.append('en_funcionamiento',dataViveroAdministracion.en_funcionamiento);
+        formData.append('fecha_ultima_apertura',dataViveroAdministracion.fecha_ultima_apertura);
+        formData.append('justificacion_apertura',dataViveroAdministracion.justificacion_apertura);
+        formData.append('fecha_cierre_actual',dataViveroAdministracion.fecha_cierre_actual);
+        formData.append('justificacion_cierre',dataViveroAdministracion.justificacion_cierre);
+        formData.append('justificacion_cuarentena',dataViveroAdministracion.justificacion_cuarentena);
+        formData.append('activo',dataViveroAdministracion.activo);
+        formData.append('item_ya_usado',dataViveroAdministracion.item_ya_usado);
+        formData.append('id_persona_abre',dataViveroAdministracion.id_persona_abre);
+        formData.append('id_persona_cierra',dataViveroAdministracion.id_persona_cierra);
+        formData.append('id_persona_cuarentena',dataViveroAdministracion.id_persona_cuarentena);
         dispatch(createThunkAdministracionVivero(formData));
         console.log(dataViveroAdministracion);
         console.log(dataViveroAdministracion.cod_tipo_vivero);

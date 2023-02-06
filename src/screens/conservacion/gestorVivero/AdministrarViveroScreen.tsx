@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import ReactDatePicker from "react-datepicker";
 
 import IconoBuscar from "../../../assets/iconosBotones/buscar.svg";
 import Subtitle from "../../../components/Subtitle";
-import { useAdministracionVivero } from './hooks/useAdministracionVivero';
+import { useAdministracionVivero } from "./hooks/useAdministracionVivero";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-
-
+import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
+import { Navigate } from "react-router-dom/dist";
 
 const AdministrarViveroScreen = () => {
-
-
   const {
     handleSubmit,
     handleUpload,
@@ -30,10 +28,13 @@ const AdministrarViveroScreen = () => {
     setCreateModel,
     errors,
     handleOpenModalAvanzadaModal,
-    control
+    control,
   } = useAdministracionVivero();
 
-
+  const [modalPersonal, setModalPersonal] = useState(false);
+  const [cuarentena, setCuarentena] = useState<boolean>(false);
+  const [isActivo, setIsActivo] = useState<boolean>(true);
+  const [apertura, setApertura] = useState<boolean>(false)
 
   return (
     <div className="row min-vh-100">
@@ -50,8 +51,8 @@ const AdministrarViveroScreen = () => {
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
-                  { ...register('nombre', { required: true })}
-                  onChange={ handleChange }
+                  {...register("nombre", { required: true })}
+                  onChange={handleChange}
                   placeholder="Escribe el nombre del vivero"
                 />
               </div>
@@ -61,11 +62,11 @@ const AdministrarViveroScreen = () => {
                 </label>
 
                 <Select
-                  { ...register('cod_municipio', { required: true })}
+                  {...register("cod_municipio", { required: true })}
                   options={municipiosOptions}
                   placeholder="Selecciona municipio"
                   name="municipio"
-                  onChange={ changeSelectMuni }
+                  onChange={changeSelectMuni}
                 />
 
                 {errors.municipioOpcion && (
@@ -81,8 +82,8 @@ const AdministrarViveroScreen = () => {
                 <input
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
-                  { ...register('direccion', { required: true })}
-                  onChange={ handleChange }
+                  {...register("direccion", { required: true })}
+                  onChange={handleChange}
                   placeholder="Escribe la dirección del vivero"
                 />
 
@@ -100,7 +101,7 @@ const AdministrarViveroScreen = () => {
                   className="form-control border border-terciary rounded-pill px-3"
                   type="number"
                   {...register("area_mt2", { required: true })}
-                  onChange={ handleChange }
+                  onChange={handleChange}
                   placeholder="Ingresa área para el vivero"
                 />
                 {errors.nombreVivero && (
@@ -119,7 +120,7 @@ const AdministrarViveroScreen = () => {
                 <Select
                   options={tipoVivero}
                   {...register("tipo_vivero", { required: true })}
-                  onChange={ changeSelectTipoVivero }
+                  onChange={changeSelectTipoVivero}
                   placeholder="Tipo de vivero"
                   required={true}
                 />
@@ -128,42 +129,102 @@ const AdministrarViveroScreen = () => {
                   <p className="text-danger">Este campo es obligatorio</p>
                 )}
               </div>
-            </div>
-            <div className="row ms-3">
-            <div className="card col-5 col-md-auto" style={{backgroundColor:"#f7d7d8", flexBasis:"content",height:"100px"}}>
-            <div className="mt-3 ms-3">
-              <label style={{color:"#84454a"}}>  <i className="fa-solid fa-triangle-exclamation me-3" style={{color:"#c02b1b"}}></i>Este vivero se encuentra cerrado desde</label> 
-            </div>
-            <div style={{display:"flex"}}>
-              <div >
-              <button  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width">Ver mas Información</button>
-              {/* </div>
-              <div className="col-4"> */}
-              <button  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width">Realizar apertura</button>
+              <div
+                className="col-12 col-md-3 mb-3"
+                style={{ display: "contents" }}
+              >
+                <button
+                  className="btn border rounded-pill mt-2 px-3 ms-2"
+                  title="Consultar"
+                >
+                  <i className="fa-brands fa-readme fs-3"></i>
+                </button>
               </div>
-            </div>
-            </div>
-            </div>
-            <div className="row ms-3">
-            <div className="card col-5 col-md-auto" style={{backgroundColor:"#f7d7d8", flexBasis:"content", height:"100px"}}>
-            <div className="mt-3 ms-3">
-              <label style={{color:"#84454a"}}>  <i className="fa-solid fa-triangle-exclamation me-3" style={{color:"#c02b1b"}}></i>Este vivero se encuentra en cuarentena desde</label> 
-            </div>
-            <div style={{display:"flex"}}>
-              <div >
-              <button  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width">Ver mas Información</button>
-              {/* </div>
-              <div className="col-4"> */}
-              <button  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width">Finalizar cuarentena</button>
-              </div>
-            </div>
-            </div>
             </div>
 
+            <div className="row ms-3">
+              {apertura ? (
+                <div
+                  className="card col-5 col-md-auto"
+                  style={{
+                    backgroundColor: "#f7d7d8",
+                    flexBasis: "content",
+                    height: "100px",
+                  }}
+                >
+                  <div className="mt-3 ms-3">
+                    <label style={{ color: "#84454a" }}>
+                      {" "}
+                      <i
+                        className="fa-solid fa-triangle-exclamation me-3"
+                        style={{ color: "#c02b1b" }}
+                      ></i>
+                      Este vivero se encuentra cerrado desde
+                    </label>
+                  </div>
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width"
+                      >
+                        Ver mas Información
+                      </button>
+                      {/* </div>
+              <div className="col-4"> */}
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width"
+                      >
+                        Realizar apertura
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : null }
+            </div>
+            {cuarentena ? (
+              <div className="row ms-3">
+                <div
+                  className="card col-5 col-md-auto"
+                  style={{
+                    backgroundColor: "#f7d7d8",
+                    flexBasis: "content",
+                    height: "100px",
+                  }}
+                >
+                  <div className="mt-3 ms-3">
+                    <label style={{ color: "#84454a" }}>
+                      {" "}
+                      <i
+                        className="fa-solid fa-triangle-exclamation me-3"
+                        style={{ color: "#c02b1b" }}
+                      ></i>
+                      Este vivero se encuentra en cuarentena desde
+                    </label>
+                  </div>
+
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width"
+                      >
+                        Ver mas Información
+                      </button>
+                      {/* </div>
+              <div className="col-4"> */}
+                      <button
+                        type="button"
+                        className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width"
+                      >
+                        Finalizar cuarentena
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <Subtitle title="Detalles de vivero" mt={3} mb={2} />
 
             <div className="col-12 col-md-3 mb-3">
@@ -175,7 +236,7 @@ const AdministrarViveroScreen = () => {
                 className="form-control border border-terciary rounded-pill px-3"
                 type="number"
                 {...register("area_propagacion_mt2", { required: true })}
-                onChange={ handleChange }
+                onChange={handleChange}
                 placeholder="Ingresa medida para el área de propagación"
               />
               {errors.nombreVivero && (
@@ -189,43 +250,42 @@ const AdministrarViveroScreen = () => {
             <div className="row d-flex align-items-center mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
-                  Área de producción: <span className="text-danger">*</span>
+                  Área de producción:
                 </label>
-              
-              <input
-                className="border border-terciary form-check-input mx-2"
-                type="checkbox"
-                id="flexCheckDefault"
-                {...register("tiene_area_produccion", { required: true })}
-              />
-            </div>
+
+                <input
+                  className="border border-terciary form-check-input mx-2"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  {...register("tiene_area_produccion")}
+                />
+              </div>
             </div>
             <div className="row d-flex align-items-center mt-2 mx-2">
-            <div className="col-12 col-md-3 mb-3 form-check">
+              <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
                   Área de preparacion de sustrato:{" "}
-                  <span className="text-danger">*</span>
                 </label>
                 <input
                   className="border border-terciary form-check-input mx-2"
                   type="checkbox"
                   id="flexCheckDefault"
-                  {...register("tiene_area_pep_sustrato", { required: true })}
-              />
+                  {...register("tiene_area_pep_sustrato")}
+                />
               </div>
             </div>
 
             <div className="row d-flex align-items-center mt-2 mx-2">
-            <div className="col-12 col-md-3 mb-3 form-check">
+              <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
-                  Área de embolsado: <span className="text-danger">*</span>
+                  Área de embolsado:
                 </label>
-              <input
-                className="border border-terciary form-check-input mx-2"
-                type="checkbox"
-                id="flexCheckDefault"
-                {...register("tiene_area_embolsado", { required: true })}
-              />
+                <input
+                  className="border border-terciary form-check-input mx-2"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  {...register("tiene_area_embolsado")}
+                />
               </div>
             </div>
 
@@ -238,7 +298,7 @@ const AdministrarViveroScreen = () => {
 
                 <Select
                   options={origenRecurso}
-                  onChange={ changeSelectOrigenRecurso }
+                  onChange={changeSelectOrigenRecurso}
                   placeholder="Seleccione"
                   required={true}
                 />
@@ -275,7 +335,7 @@ const AdministrarViveroScreen = () => {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   {...register("id_viverista")}
-                  onChange={ handleChange }
+                  onChange={handleChange}
                   type="number"
                   placeholder="Numero de identificacion"
                 />
@@ -333,7 +393,10 @@ const AdministrarViveroScreen = () => {
                       placeholderText="dd/mm/aaaa"
                       selected={createModel.fecha_inicio_viverista_actual}
                       onSelect={(e) =>
-                      setCreateModel({ ...createModel, fecha_inicio_viverista_actual: e })
+                        setCreateModel({
+                          ...createModel,
+                          fecha_inicio_viverista_actual: e,
+                        })
                       }
                     />
                   )}
@@ -341,101 +404,121 @@ const AdministrarViveroScreen = () => {
               </div>
             </div>
 
-            <div className="row" style={{justifyContent:"center"}}>
-              <div className="col-3" style={{textAlign:"center"}}>
-            <button  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-4 btn-min-width" >Realizar apertura</button>
-            </div>
+            <div className="row" style={{ justifyContent: "center" }}>
+
+              <div className="col-3" style={{ textAlign: "center" }}>
+                <button
+                  type="button"
+                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-4 btn-min-width"
+                >
+                  Realizar apertura
+                </button>
+              </div>
             </div>
 
-            <div className="row d-flex align-items-center mx-2 mt-2" style={{justifyContent:"space-between"}}>
+
+            <div
+              className="row d-flex align-items-center mx-2 mt-2"
+              style={{ justifyContent: "space-between" }}
+            >
+           
               <div className="col-12 col-md-3 mb-3">
-                <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">Desativar vivero</button>
+                {isActivo ? (
+                <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">
+                  Desativar vivero
+                </button>):(
                 <div className="row ms-3">
-            <div className="card col-5 col-md-auto" style={{backgroundColor:"#f7d7d8", flexBasis:"content", height:"100px"}}>
-            <div className="mt-3 ms-3">
-              <label style={{color:"#84454a"}}>  <i className="fa-solid fa-triangle-exclamation me-3" style={{color:"#c02b1b"}}></i>Este vivero se encuentra desactivado</label> 
-            </div>
-            <div style={{display:"flex"}}>
-              <div >
-              {/* </div>
-              <div className="col-4"> */}
-              <button  type="button"
-                  className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width">Reactivar</button>
-              </div>
-            </div>
-            </div>
-            </div>
-              
+                  <div
+                    className="card col-5 col-md-auto"
+                    style={{
+                      backgroundColor: "#f7d7d8",
+                      flexBasis: "content",
+                      height: "100px",
+                    }}
+                  >
+                    <div className="mt-3 ms-3">
+                      <label style={{ color: "#84454a" }}>
+                        {" "}
+                        <i
+                          className="fa-solid fa-triangle-exclamation me-3"
+                          style={{ color: "#c02b1b" }}
+                        ></i>
+                        Este vivero se encuentra desactivado
+                      </label>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      <div>
+                        {/* </div>
+                         <div className="col-4"> */}
+                        <button
+                          type="button"
+                          className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-1 btn-min-width"
+                        >
+                          Reactivar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>)}
               </div>
               <div className="col-12 col-md-3 mb-3 mt-5">
-              <label className="text-terciary">
+                <label className="text-terciary">
                   Anexar Documentación <span className="text-danger">*</span>
                 </label>
                 <input
                   className="form-control"
                   type="file"
-                  { ...register('ruta_archivo_creacion', { required: true })}
-                  onChange={ (e) => handleUpload(e) }
+                  {...register("ruta_archivo_creacion", { required: true })}
+                  onChange={(e) => handleUpload(e)}
                   id="formFileMultiple"
                 />
               </div>
             </div>
             <div className="row mt-5">
-              <div style={{textAlign:"end"}}>
-              <button
-                className="btn border rounded-pill mt-2 px-3 ms-2"
-                type="submit"
-                title="Guardar"
-              >
-                <i className="fa-regular fa-floppy-disk fs-3"></i>
-              </button>
-              <button
-                className="btn border rounded-pill mt-2 px-3 ms-2"
-              
-                title="Limpiar"
-              >
-              <i className="fa-solid fa-eraser fs-3"></i>
-              </button>
-              <button
-                className="btn border rounded-pill mt-2 px-3 ms-2"
-                
-                title="Cancelar"
-              >
-              <i className="fa-solid fa-x fs-3"></i>
-              </button>
-              <button
-                className="btn border rounded-pill mt-2 px-3 ms-2"
-                
-                title="Consultar"
-              >
-              <i className="fa-brands fa-readme fs-3"></i>
-              </button>
-              <button
-                className="btn border rounded-pill mt-2 px-3 ms-2"
-                
-                title="Imprimir"
-              >
-              <i className="fa-solid fa-print fs-3"></i>
-              </button>
-              <button
-                className="btn border rounded-pill mt-2 px-3 ms-2"
-                
-                title="Borrar"
-              >
-              <i className="fa-regular fa-trash-can fs-3"></i>
-              </button>
+              <div style={{ textAlign: "end" }}>
+                <button
+                  className="btn border rounded-pill mt-2 px-3 ms-2"
+                  type="submit"
+                  title="Guardar"
+                >
+                  <i className="fa-regular fa-floppy-disk fs-3"></i>
+                </button>
+                <button
+                  className="btn border rounded-pill mt-2 px-3 ms-2"
+                  title="Limpiar"
+                >
+                  <i className="fa-solid fa-eraser fs-3"></i>
+                </button>
+                <button
+                  className="btn border rounded-pill mt-2 px-3 ms-2"
+                  title="Cancelar"
+                >
+                  <i className="fa-solid fa-x fs-3"></i>
+                </button>
+
+                <button
+                  className="btn border rounded-pill mt-2 px-3 ms-2"
+                  title="Imprimir"
+                >
+                  <i className="fa-solid fa-print fs-3"></i>
+                </button>
+                <button
+                  className="btn border rounded-pill mt-2 px-3 ms-2"
+                  title="Borrar"
+                >
+                  <i className="fa-regular fa-trash-can fs-3"></i>
+                </button>
               </div>
             </div>
           </form>
         </div>
-        {/* <BusquedaAvanzadaModal
+        <BusquedaAvanzadaModal
           isModalActive={modalPersonal}
           setIsModalActive={setModalPersonal}
-        /> */}
+        />
       </div>
     </div>
   );
-}
+};
 
 export default AdministrarViveroScreen;
