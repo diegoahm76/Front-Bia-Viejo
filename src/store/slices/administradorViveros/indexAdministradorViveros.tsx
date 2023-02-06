@@ -25,6 +25,7 @@ const initialState: IViveroGeneric = {
     fecha_inicio_cuarentena: "",
     id_viverista_actual: 0,
     id_persona_crea: 0,
+    ruta_archivo_creacion: ''
   },
   vivero: [],
 };
@@ -33,7 +34,9 @@ const viveroSlice = createSlice({
   name: "AdministradorViveros",
   initialState,
   reducers: {
-    crearViveroAction: (state, action) => {},
+    crearViveroAction: (state, action) => {
+      state.vivero.push(action.payload);
+    },
     obtenerViveroAction: (state, action) => {
       state.vivero = action.payload;
     },
@@ -48,23 +51,6 @@ const viveroSlice = createSlice({
     },
   },
 });
-
-export const crearVivero =async (dispatch, vivero: IViveroCreate)=>{
-    await clienteAxios
-    .post("conservacion/viveros/create/",vivero)
-    .then(() =>{
-        Swal.fire("El vivero se creo correctamente","success");
-    })
-    .catch(()=>{
-        Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Algo pasó, intente de nuevo",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-        });
-    });
-};
 
 export const obtenerVivero =async (dispatch,id_vivero) => {
     await clienteAxios.get(`conservacion/viveros/get-by-id/${id_vivero}/`).then(()=>{
@@ -116,5 +102,6 @@ export const{
     eliminarViveroAction,
     editarViveroAction,
     seleccionarViveroAction,
-}=viveroSlice.actions;
+} = viveroSlice.actions;
+
 export default viveroSlice.reducer;

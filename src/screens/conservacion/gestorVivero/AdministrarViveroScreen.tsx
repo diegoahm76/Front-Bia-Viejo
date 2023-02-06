@@ -1,263 +1,45 @@
+import React from "react";
+import { Controller } from "react-hook-form";
 import Select from "react-select";
-import { AgGridReact } from "ag-grid-react";
-import { useForm, Controller } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import ReactDatePicker from "react-datepicker";
+
+import IconoBuscar from "../../../assets/iconosBotones/buscar.svg";
+import Subtitle from "../../../components/Subtitle";
+import { useAdministracionVivero } from './hooks/useAdministracionVivero';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import Subtitle from "../../../components/Subtitle";
-import IconoBuscar from "../../../assets/iconosBotones/buscar.svg";
-//import BusquedaAvanzadaModal from '../../../components/BusquedaAvanzadaModal';
-import ReactDatePicker from "react-datepicker";
-import { crearVivero } from "../../../store/slices/administradorViveros/indexAdministradorViveros";
-import { IGeneric } from '../../../Interfaces/Generic';
-import { useAppDispatch } from "../../../store/hooks/hooks";
-import { IViveroCreate } from '../../../Interfaces/AdministradorViveros';
-import clienteAxios from "../../../config/clienteAxios";
-import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
-import { initialOptions } from '../../seguridad/AdministradorDePersonasScreen';
-import { Navigate,useNavigate } from "react-router-dom";
 
 
 
-
-
- const busquedaAvanzadaModel={
-   tipoDocumento: { value: "", label: "" },
-   cedula: "",
-   nombreCompleto: "",
-   idResponsable: 0,
- };
-
-const infoViveroModel ={
-  id_vivero:0,
-  nombre: "",
-  municipio: { value: "", label: "" },
-  direccion: "",
-  area_mt2: 0,
-  area_propagacion_mt2: 0,
-  tiene_area_produccion: false,
-  tiene_areas_pep_sustrato: false,
-  tiene_area_embolsado: false,
-  tipo_vivero:{value:"",label:""},
-  fecha_inicio_viverista_actual: "",
-  origen_recursos_vivero: {value:"",label:""},
-  fecha_inicio_cuarentena: "",
-  id_viverista_actual: 0,
-  id_persona_crea: 0,
-
-}
-
-
-const AdministrarViveroScreen = ()=> {
-
-  const initialOptions:IGeneric[]=[
-    {
-      label:"",
-      value:"",
-    },
-  ];
-
-  const [createModel, setCreateModel] = useState(infoViveroModel);
-  const [municipiosOptions, setMunicipiosOptions] = useState(initialOptions);
-  const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState(initialOptions);
-  const [tipoVivero, setTipoVivero] = useState(initialOptions)
-  const [origenRecurso, setOrigenRecurso] = useState(initialOptions)
-  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
+const AdministrarViveroScreen = () => {
 
 
   const {
-    reset: resetBuscar,
-    register: registerBuscar,
-    handleSubmit: handleSubmitBuscar,
-    control: controlBuscar,
-    setValue,
-    formState: { errors: errorsBuscar },
-  } = useForm();
-
-  const {
-    reset: resetVivero,
-    register: registerVivero,
-    handleSubmit: handleSubmitVivero,
-    control: controlVivero,
-    formState: { errors: errorsVivero },
-  } = useForm();
-
-  const {
-    register,
-    control,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    handleUpload,
+    onSubmit,
+    handleChange,
+    municipiosOptions,
+    changeSelectMuni,
+    changeSelectOrigenRecurso,
+    changeSelectTipoVivero,
+    tipoVivero,
+    origenRecurso,
+    register,
+    createModel,
+    setCreateModel,
+    errors,
+    handleOpenModalAvanzadaModal,
+    control
+  } = useAdministracionVivero();
 
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setCreateModel({ ...createModel, [name]: value });
-
-  };
-
-  const [typeOp, setTypeOp] = React.useState('ingreso');
-
-  const captureType = (e) => {
-      setTypeOp(e.target.value);
-  }
-
-
-  const changeSelectTipoVivero=(e)=>{
-    let tipoVivero={...createModel}
-    tipoVivero.tipo_vivero={
-      value: e.value,
-     label:e.label,
-    
-    }
-    setTypeOp(e.target.value);
-    setValue("tipo_vivero",tipoVivero.tipo_vivero);
-    setCreateModel(tipoVivero)
-  }
-
-  const changeSelectOrigenRecurso=(e)=>{
-    let origenRecurso={...createModel}
-    origenRecurso.origen_recursos_vivero={
-      value: e.value,
-      label: e.value,
-    }
-    setValue("origen_recursos_vivero",origenRecurso.origen_recursos_vivero);
-    setCreateModel(origenRecurso)
-  }
-
-
-
-  const changeSelectMuni = (e) => {
-    let municipio = { ...createModel }
-    municipio.municipio = {
-      value: e.value,
-      label: e.label
-    }
-    setValue("cod_municipio", municipio.municipio);
-    setCreateModel(municipio)
-  }
-
-  const submitVivero = () => {
-    const idPersona = busquedaModel.idResponsable;
-    const viveroCreate: IViveroCreate = {
-      id_vivero:createModel.id_vivero,
-      nombre: createModel.nombre,
-      cod_municipio: createModel.municipio.value,
-      id_persona_crea: idPersona,
-      direccion: createModel.direccion,
-      area_mt2: createModel.area_mt2,
-      area_propagacion_mt2: createModel.area_propagacion_mt2,
-      tiene_area_produccion: createModel.tiene_area_produccion,
-      tiene_areas_pep_sustrato: createModel.tiene_areas_pep_sustrato,
-      tiene_area_embolsado: createModel.tiene_area_embolsado,
-      cod_tipo_vivero:createModel.tipo_vivero.value,
-      fecha_inicio_viverista_actual: createModel.fecha_inicio_viverista_actual,
-      cod_origen_recursos_vivero:createModel.origen_recursos_vivero.value,
-      fecha_inicio_cuarentena: createModel.fecha_inicio_cuarentena,
-      id_viverista_actual: createModel.id_viverista_actual,
-    };
-    
-    console.log(viveroCreate);
-    crearVivero(dispatch, viveroCreate);
-  };
-console.log(createModel);
-
- 
-  const AdministradorVivero = () => {
-    navigate("/dashboard/conservcacion/gestorvivero/administrarvivero");
-  };
-  
-  useEffect(() => {
-    getSelectsOptions();
-  }, []);
-
-
-  
-  const getSelectsOptions = async () => {
-    try {
-      const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
-        "choices/tipo-documento/"
-      );
-  
-      const { data: municipiosNoFormat } = await clienteAxios.get(
-        "choices/municipios/"
-      );
-      const {data: tipoViveroNoFormat}=await clienteAxios.get(
-        "conservacion/choices/tipo-vivero/"
-      );
-      const {data: origenRecursoNoFormat}=await clienteAxios.get(
-        "conservacion/choices/origen-recursos-vivero/"
-      );
-
-      const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
-      const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
-      const tipoViveroFormat = textChoiseAdapter(tipoViveroNoFormat.value);
-      const origenRecursosFormat = textChoiseAdapter(origenRecursoNoFormat.value);
-      setOrigenRecurso(origenRecursosFormat);
-      setTipoVivero(tipoViveroFormat);
-      setTipoDocumentoOptions(documentosFormat);
-      setMunicipiosOptions(municipiosFormat);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  
- 
-  const [setVivero] = useState("");
-  const [setSiembra] = useState("");
-
-  let gridApi;
-  const columnDefs = [
-    { headerName: "Latitud", field: "latitud" },
-    { headerName: "Longitud", field: "longitud" },
-    {
-      headerName: "Acción",
-      field: "accion",
-      cellRendererFramework: (params) => (
-        <div className="button-row justify-align-content-center col-12 col-sm-4 col-lg-4">
-          <button
-            className="btn-min-width border rounded-pill px-3"
-            type="button"
-            title="Send"
-          >
-            <i className="fa-regular fa-trash-can fs-3"></i>
-          </button>
-        </div>
-      ),
-    },
-  ];
-  const rowData = [
-    { latitud: "4°05'10.0''N", longitud: "73°33'49.1''W ", accion: "" },
-  ];
-  const defaultColDef = {
-    sortable: true,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true,
-  };
-  const onGridReady = (params) => {
-    gridApi = params.api;
-  };
- 
-   const handleOpenModalAvanzadaModal = () => {
-     setModalPersonal(true);
-   };
-
-  const [modalPersonal, setModalPersonal] = useState(false);
 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 mx-auto">
         <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
-          <form className="row" onSubmit={handleSubmit(submitVivero)}>
+          <form className="row" onSubmit={handleSubmit(onSubmit)}>
             <h3 className="mt-3 mb-0 mb-2 ms-3 fw-light text-terciary">
               Administración de viveros
             </h3>
@@ -266,14 +48,11 @@ console.log(createModel);
               <div className="col-12 col-md-3 mb-3">
                 <label className="text-terciary">Nombre:</label>
                 <input
-                  type="text"
-                  value={createModel.nombre}
-                  {...register("nombre", { required: true })}
-
-                  onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
+                  type="text"
+                  { ...register('nombre', { required: true })}
+                  onChange={ handleChange }
                   placeholder="Escribe el nombre del vivero"
-                  
                 />
               </div>
               <div className="col-12 col-md-3 mb-3">
@@ -282,11 +61,29 @@ console.log(createModel);
                 </label>
 
                 <Select
+                  { ...register('cod_municipio', { required: true })}
                   options={municipiosOptions}
                   placeholder="Selecciona municipio"
-                  value={createModel.municipio}
-                  onChange={changeSelectMuni}
-                  required={true}
+                  name="municipio"
+                  onChange={ changeSelectMuni }
+                />
+
+                {errors.municipioOpcion && (
+                  <p className="text-danger">Este campo es obligatorio</p>
+                )}
+              </div>
+
+              <div className="col-12 col-md-3 mb-3">
+                <label className="text-terciary">
+                  Dirección:<span className="text-danger">*</span>
+                </label>
+
+                <input
+                  className="form-control border border-terciary rounded-pill px-3"
+                  type="text"
+                  { ...register('direccion', { required: true })}
+                  onChange={ handleChange }
+                  placeholder="Escribe la dirección del vivero"
                 />
 
                 {errors.municipioOpcion && (
@@ -300,13 +97,11 @@ console.log(createModel);
                   <span className="text-danger">*</span>
                 </label>
                 <input
-                  type="number"
-                  value={createModel.area_mt2}
-                 {...register("area_mt2", { required: true })}
-                  onChange={handleChange}
                   className="form-control border border-terciary rounded-pill px-3"
+                  type="number"
+                  {...register("area_mt2", { required: true })}
+                  onChange={ handleChange }
                   placeholder="Ingresa área para el vivero"
-                  
                 />
                 {errors.nombreVivero && (
                   <div className="col-12">
@@ -323,8 +118,8 @@ console.log(createModel);
 
                 <Select
                   options={tipoVivero}
-                  value={createModel.tipo_vivero}
-                  onChange={changeSelectTipoVivero}
+                  {...register("tipo_vivero", { required: true })}
+                  onChange={ changeSelectTipoVivero }
                   placeholder="Tipo de vivero"
                   required={true}
                 />
@@ -377,11 +172,11 @@ console.log(createModel);
                 <span className="text-danger">*</span>
               </label>
               <input
-                type="number"
-                value={createModel.area_propagacion_mt2}
                 className="form-control border border-terciary rounded-pill px-3"
-                placeholder="Ingresa medida para el área de propagación"
+                type="number"
                 {...register("area_propagacion_mt2", { required: true })}
+                onChange={ handleChange }
+                placeholder="Ingresa medida para el área de propagación"
               />
               {errors.nombreVivero && (
                 <div className="col-12">
@@ -401,7 +196,7 @@ console.log(createModel);
                 className="border border-terciary form-check-input mx-2"
                 type="checkbox"
                 id="flexCheckDefault"
-                {...registerVivero("tiene_area_produccion")}
+                {...register("tiene_area_produccion", { required: true })}
               />
             </div>
             </div>
@@ -412,13 +207,12 @@ console.log(createModel);
                   <span className="text-danger">*</span>
                 </label>
                 <input
-                className="border border-terciary form-check-input mx-2"
-                type="checkbox"
-                id="flexCheckDefault"
-                {...registerVivero("tiene_area_pep_sustrato")}
+                  className="border border-terciary form-check-input mx-2"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  {...register("tiene_area_pep_sustrato", { required: true })}
               />
               </div>
-              
             </div>
 
             <div className="row d-flex align-items-center mt-2 mx-2">
@@ -430,10 +224,9 @@ console.log(createModel);
                 className="border border-terciary form-check-input mx-2"
                 type="checkbox"
                 id="flexCheckDefault"
-                {...registerVivero("tiene_area_embolsado")}
+                {...register("tiene_area_embolsado", { required: true })}
               />
-               </div>
-             
+              </div>
             </div>
 
             <div className="row d-flex align-items-center mt-2 mx-2">
@@ -445,8 +238,7 @@ console.log(createModel);
 
                 <Select
                   options={origenRecurso}
-                  value={createModel.origen_recursos_vivero}
-                  onChange={changeSelectOrigenRecurso}
+                  onChange={ changeSelectOrigenRecurso }
                   placeholder="Seleccione"
                   required={true}
                 />
@@ -482,10 +274,10 @@ console.log(createModel);
                 </label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
-                  type="number"
-                  value={createModel.id_viverista_actual}
-                  placeholder="Numero de identificacion"
                   {...register("id_viverista")}
+                  onChange={ handleChange }
+                  type="number"
+                  placeholder="Numero de identificacion"
                 />
               </div>
               <div className="col-12 col-md-3">
@@ -496,7 +288,6 @@ console.log(createModel);
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
                   placeholder="Nombre de funcionario"
-                  
                   disabled={true}
                   {...register("Viverista")}
                 />
@@ -540,10 +331,10 @@ console.log(createModel);
                       className="form-control border rounded-pill px-3 border border-terciary col-12 col-md-3"
                       dateFormat="dd/MM/yyyy"
                       placeholderText="dd/mm/aaaa"
-                       selected={createModel.fecha_inicio_viverista_actual}
-                       onSelect={(e) =>
+                      selected={createModel.fecha_inicio_viverista_actual}
+                      onSelect={(e) =>
                       setCreateModel({ ...createModel, fecha_inicio_viverista_actual: e })
-                       }
+                      }
                     />
                   )}
                 />
@@ -559,8 +350,8 @@ console.log(createModel);
 
             <div className="row d-flex align-items-center mx-2 mt-2" style={{justifyContent:"space-between"}}>
               <div className="col-12 col-md-3 mb-3">
-               <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">Desativar vivero</button>
-               <div className="row ms-3">
+                <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">Desativar vivero</button>
+                <div className="row ms-3">
             <div className="card col-5 col-md-auto" style={{backgroundColor:"#f7d7d8", flexBasis:"content", height:"100px"}}>
             <div className="mt-3 ms-3">
               <label style={{color:"#84454a"}}>  <i className="fa-solid fa-triangle-exclamation me-3" style={{color:"#c02b1b"}}></i>Este vivero se encuentra desactivado</label> 
@@ -584,8 +375,9 @@ console.log(createModel);
                 <input
                   className="form-control"
                   type="file"
+                  { ...register('ruta_archivo_creacion', { required: true })}
+                  onChange={ (e) => handleUpload(e) }
                   id="formFileMultiple"
-                  multiple
                 />
               </div>
             </div>
@@ -624,14 +416,14 @@ console.log(createModel);
                 
                 title="Imprimir"
               >
-             <i className="fa-solid fa-print fs-3"></i>
+              <i className="fa-solid fa-print fs-3"></i>
               </button>
               <button
                 className="btn border rounded-pill mt-2 px-3 ms-2"
                 
                 title="Borrar"
               >
-             <i className="fa-regular fa-trash-can fs-3"></i>
+              <i className="fa-regular fa-trash-can fs-3"></i>
               </button>
               </div>
             </div>
