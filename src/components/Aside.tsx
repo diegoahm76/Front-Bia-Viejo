@@ -2315,6 +2315,19 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="estaciones">
                           <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/geolocalizacion"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Geolocalización
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -2367,6 +2380,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -2377,6 +2391,20 @@ const Aside = ({ showAside }) => {
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Comportamiento Variable
+                                </span>
+                              </Link>
+                            </li>
+
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/AnaliticaDatos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Analitica de Datos
                                 </span>
                               </Link>
                             </li>
@@ -2393,32 +2421,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            {/* <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/alertas"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Alertas
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/alarmas-configuraciones"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Alarmas Configuraciones
-                                </span>
-                              </Link>
-                            </li> */}
+                            
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "

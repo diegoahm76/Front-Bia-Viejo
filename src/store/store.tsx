@@ -51,6 +51,7 @@ const store = configureStore({
     series: seriesReducer,
     subSeries: subSeriesReducer,
     usuarioEstaciones: usuarioEstacionesReducer,
+    viveroSlice: viveroSlice
   },
 });
 
