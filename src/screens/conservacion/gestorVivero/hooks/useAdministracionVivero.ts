@@ -9,9 +9,10 @@ import { IViveroCreate } from '../../../../Interfaces/AdministradorViveros';
 import { textChoiseAdapter } from '../../../../adapters/textChoices.adapter';
 import { SweetAlertIcon } from "sweetalert2";
 import Swal from 'sweetalert2';
-import { createThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
+import { createThunkAdministracionVivero, getThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
 import { formatISO } from 'date-fns';
 import { formatMs } from "@material-ui/core";
+import BusquedaAvanzadaModal from '../../../../components/BusquedaAvanzadaModal';
 
 export const useAdministracionVivero = () => {
 
@@ -132,29 +133,6 @@ export const useAdministracionVivero = () => {
         setCreateModel(municipio);
     };
 
-    // const submitVivero = () => {
-    //     const idPersona = busquedaModel.idResponsable;
-    //     const viveroCreate: IViveroCreate = {
-            // id_vivero:createModel.id_vivero,
-    //         nombre: createModel.nombre,
-    //         cod_municipio: createModel.municipio.value,
-    //         id_persona_crea: idPersona,
-    //         direccion: createModel.direccion,
-    //         area_mt2: createModel.area_mt2,
-    //         area_propagacion_mt2: createModel.area_propagacion_mt2,
-    //         tiene_area_produccion: createModel.tiene_area_produccion,
-    //         tiene_areas_pep_sustrato: createModel.tiene_areas_pep_sustrato,
-    //         tiene_area_embolsado: createModel.tiene_area_embolsado,
-    //         cod_tipo_vivero: createModel.tipo_vivero.value,
-    //         fecha_inicio_viverista_actual: createModel.fecha_inicio_viverista_actual,
-    //         cod_origen_recursos_vivero: createModel.origen_recursos_vivero.value,
-    //         fecha_inicio_cuarentena: createModel.fecha_inicio_cuarentena,
-    //         ruta_archivo_creacion: createModel.ruta_archivo_creacion,
-    //     };
-
-    //     return crearVivero(dispatch, viveroCreate);
-
-    // };
 
     const onSubmit = () => {
         createStartViveroForm();
@@ -197,11 +175,12 @@ export const useAdministracionVivero = () => {
     }, []);
 
 
-    const [cuarentena, setCuarentena] = useState<boolean>(false)
+    const [cuarentena, setCuarentena] = useState<boolean>(false);
+    const [modal, setModal] = useState<boolean>(false);
 
     useEffect(() => {
-      if( dataViveroAdministracion.vivero_en_cuarentena) setCuarentena(false)
-    }, [dataViveroAdministracion.vivero_en_cuarentena])
+        if( dataViveroAdministracion.vivero_en_cuarentena) setCuarentena(false)
+    },      [dataViveroAdministracion.vivero_en_cuarentena])
     
 
 
@@ -209,6 +188,12 @@ export const useAdministracionVivero = () => {
     const handleOpenModalAvanzadaModal = () => {
         setModalPersonal(true);
     };
+
+    const onSubmitGet = () => {
+        dispatch(getThunkAdministracionVivero());
+        setModal(true);
+    }
+    
 
     const [modalPersonal, setModalPersonal] = useState(false);
 
@@ -270,6 +255,9 @@ export const useAdministracionVivero = () => {
         setCreateModel,
         busquedaAvanzadaModel,
         setModalPersonal,
-        handleOpenModalAvanzadaModal
+        handleOpenModalAvanzadaModal,
+        onSubmitGet,
+        modal,
+        setModal
     };
 };

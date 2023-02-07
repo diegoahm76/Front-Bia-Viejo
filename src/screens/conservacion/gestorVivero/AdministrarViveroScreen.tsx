@@ -10,6 +10,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import { Navigate } from "react-router-dom/dist";
+import { ConsultasMunicipioModal } from '../../../components/ConsultasMunicipioModal';
 
 const AdministrarViveroScreen = () => {
   const {
@@ -29,12 +30,16 @@ const AdministrarViveroScreen = () => {
     errors,
     handleOpenModalAvanzadaModal,
     control,
+    onSubmitGet,
+    modal,
+    setModal
   } = useAdministracionVivero();
 
   const [modalPersonal, setModalPersonal] = useState(false);
   const [cuarentena, setCuarentena] = useState<boolean>(false);
   const [isActivo, setIsActivo] = useState<boolean>(true);
-  const [apertura, setApertura] = useState<boolean>(false)
+  const [apertura, setApertura] = useState<boolean>(false);
+
 
   return (
     <div className="row min-vh-100">
@@ -136,9 +141,15 @@ const AdministrarViveroScreen = () => {
                 <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"
                   title="Consultar"
+                  onClick={ onSubmitGet }
                 >
                   <i className="fa-brands fa-readme fs-3"></i>
                 </button>
+                <ConsultasMunicipioModal
+                  isModalActive={ modal }
+                  setIsModalActive={ setModal }
+                  setModel={setApertura}
+                />
               </div>
             </div>
 
@@ -421,7 +432,7 @@ const AdministrarViveroScreen = () => {
               className="row d-flex align-items-center mx-2 mt-2"
               style={{ justifyContent: "space-between" }}
             >
-           
+
               <div className="col-12 col-md-3 mb-3">
                 {isActivo ? (
                 <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">
@@ -512,10 +523,11 @@ const AdministrarViveroScreen = () => {
             </div>
           </form>
         </div>
-        <BusquedaAvanzadaModal
+        {/* <ConsultasMunicipioModal
           isModalActive={modalPersonal}
           setIsModalActive={setModalPersonal}
-        />
+          setModel={setCreateModel}
+        /> */}
       </div>
     </div>
   );
