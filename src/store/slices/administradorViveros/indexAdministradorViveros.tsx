@@ -25,7 +25,20 @@ const initialState: IViveroGeneric = {
     fecha_inicio_cuarentena: "",
     id_viverista_actual: 0,
     id_persona_crea: 0,
-    ruta_archivo_creacion: ''
+    ruta_archivo_creacion: '',
+    fecha_creacion:"",
+    en_funcionamiento:false,
+    fecha_ultima_apertura:"",
+    justificacion_apertura:"",
+    fecha_cierre_actual:"",
+    justificacion_cierre:"",
+    justificacion_cuarentena:"",
+    activo:false,
+    item_ya_usado:false,
+    id_persona_abre:0,
+    id_persona_cierra:0,
+    id_persona_cuarentea:0,
+    vivero_en_cuarentena:false,
   },
   vivero: [],
 };
@@ -34,19 +47,8 @@ const viveroSlice = createSlice({
   name: "AdministradorViveros",
   initialState,
   reducers: {
-    crearViveroAction: ({ viveroEditar }, action) => {
-      viveroEditar.nombre = action.payload
-      viveroEditar.cod_municipio = action.payload
-      viveroEditar.direccion = action.payload
-      viveroEditar.area_mt2 = action.payload
-      viveroEditar.area_propagacion_mt2 = action.payload
-      viveroEditar.tiene_area_produccion = action.payload
-      viveroEditar.tiene_areas_pep_sustrato = action.payload
-      viveroEditar.tiene_area_embolsado = action.payload
-      viveroEditar.cod_tipo_vivero = action.payload
-      viveroEditar.cod_origen_recursos_vivero = action.payload
-      viveroEditar.id_viverista_actual = action.payload
-      viveroEditar.ruta_archivo_creacion = action.payload
+    crearViveroAction: (state, action) => {
+      state.vivero.push(action.payload);
     },
     obtenerViveroAction: (state, action) => {
       state.vivero = action.payload;
@@ -63,26 +65,7 @@ const viveroSlice = createSlice({
   },
 });
 
-export const crearVivero =async (dispatch, vivero: IViveroCreate)=>{
-
-    await clienteAxios
-    .post("conservacion/viveros/create/",vivero)
-    .then(() =>{
-        dispatch(crearViveroAction(vivero))
-        Swal.fire("El vivero se creo correctamente","success");
-    })
-    .catch(()=>{
-        Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Algo pasó, intente de nuevo",
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
-        });
-    });
-};
-
-export const obtenerVivero =async (dispatch,id_vivero) => {
+export const obtenerVivero = async(dispatch,id_vivero) => {
     await clienteAxios.get(`conservacion/viveros/get-by-id/${id_vivero}/`).then(()=>{
         dispatch(obtenerViveroAction(id_vivero));
     });
@@ -132,5 +115,6 @@ export const{
     eliminarViveroAction,
     editarViveroAction,
     seleccionarViveroAction,
-}=viveroSlice.actions;
+} = viveroSlice.actions;
+
 export default viveroSlice.reducer;
