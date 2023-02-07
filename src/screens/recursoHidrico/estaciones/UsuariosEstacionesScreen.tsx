@@ -37,10 +37,12 @@ const UsuariosEstacionesScreen = () => {
   useEffect(() => {
     obtenerTodosUsuarios(dispatch);
   }, []);
+  
   const Guayuiria= "Occa"
-  const usuariosFiltro = useAppSelector((state) => state.usuarioEstaciones);
+  const usuariosFiltro = useAppSelector((state)=> state.usuarioEstaciones);
+
   useEffect(() => {
-    obtenerEstacionesNombre(Guayuiria);
+    obtenerEstacionesNombre(dispatch);
   }, []);
   
 
