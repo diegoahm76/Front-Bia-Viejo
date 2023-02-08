@@ -235,9 +235,9 @@ const ProgamacionDeMantenimiento = () => {
   } = useForm();
 
   const options = [
-    { label: "Árticulo", value: "AR" },
+    { label: "Computo", value: "Com" },
     { label: "Vehiculo", value: "Veh" },
-    { label: "Otro", value: "OT" },
+    { label: "Otro", value: "OAc" },
   ];
 
   const opcionMantenimiento = [
