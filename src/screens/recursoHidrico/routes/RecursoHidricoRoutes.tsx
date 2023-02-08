@@ -12,6 +12,7 @@ import MonitoreoScreen from "../estaciones/MonitoreoScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
 import DashboardsScreen from "../estaciones/DashboardsScreen";
 import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
+import AnaliticaDeDatosScreen from "../estaciones/AnaliticaDeDatosScreen";
 
 const RecursoHidricoRoutes = () => {
   return (
@@ -38,10 +39,10 @@ const RecursoHidricoRoutes = () => {
         <Route path="configuraciones" element={<ConfiguracionesScreen />} />
 
         <Route path="alarmas-estaciones" element={<AlarmasScreen />} />
+        <Route path="analitica-datos" element={<AnaliticaDeDatosScreen />}></Route>
 
         <Route path="monitoreo" element={<MonitoreoScreen />} />
         <Route path="DashboardEstaciones" element={<DashboardsScreen />} />
-
         <Route
           path="alarmas-configuraciones"
           element={<AlarmasConfiguracionesScreen />}
