@@ -1045,7 +1045,14 @@ const RegisterPersonaScreen = () => {
                         type="email"
                         // autoComplete="off"
                         // onPaste={(e) => e.preventDefault()}
-                        {...register("cEmail", { required: true })}
+                        {...register("cEmail", {
+                          required: true,
+                          validate: (value) => value === watch("eMail"),
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Ingrese un correo electrónico válido"
+                          }
+                        })}
                       // onChange={handleChange}
                       />
                     </div>
@@ -1109,7 +1116,7 @@ const RegisterPersonaScreen = () => {
                     {errorsForm.cCelular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
-                          Este campo es obligatorio
+                          El campo está vacío  o no coinciden los números ingresados
                         </small>
                       </div>
                     )}
