@@ -30,6 +30,8 @@ export interface IDefaultValues {
     acepta_tratamiento_datos: boolean;
     direccionNotificacion: string;
     municipioNotificacion: any;
+    paisNotificacion: any;
+    departamentoNotificacion: any;
 }
 export interface IAuth {
     confirmacionEmail: boolean;

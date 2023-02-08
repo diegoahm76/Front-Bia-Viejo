@@ -26,7 +26,8 @@ import { AxiosError } from "axios";
 import { setDatesFormat, setDatesFormatRevere } from "../../../utils";
 
 const defaultValues = {
-  // fechaNacimiento: "",
+  paisNotificacion: { label: "", value: "" },
+  departamentoNotificacion: { label: "", value: "" },
   fechaNacimiento: null,
   tipo_persona: { label: "Natural", value: "N" },
   tipo_documento: "",
@@ -110,13 +111,13 @@ const RegisterPersonaScreen = () => {
         const { data: municipiosNoFormat } = await clienteAxios.get(
           "choices/municipios/"
         );
-
+        console.log(municipiosNoFormat, "municipiosNoFormat")
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const tipoPersonaFormat = textChoiseAdapter(tipoPersonaNoFormat);
-
+        console.log(municipiosFormat, "municipiosFormat")
         setTipoDocumentoOptions(documentosFormat);
         setDepartamentosOptions(departamentosFormat);
         setPaisesOptions(paisesFormat);
@@ -135,6 +136,7 @@ const RegisterPersonaScreen = () => {
     watch,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors: errorsForm },
   } = useForm<IDefaultValues>({ defaultValues });
 
@@ -351,10 +353,30 @@ const RegisterPersonaScreen = () => {
         return error as AxiosError;
       }
 
+      const personaJuridica = {
+        tipo_persona: dataPersona.tipo_persona.value,
+        tipo_documento: dataPersona.tipoDocumento.value,
+        numero_documento: dataPersona.numero_documento,
+        digito_verificacion: dataPersona.dv,
+        nombre_comercial: dataPersona.nombreComercial,
+        razon_social: dataPersona.razonSocial,
+        email: dataPersona.eMail,
+        email_empresarial: dataPersona.eMail,
+        direccion_notificaciones: "",
+        cod_municipio_notificacion_nal: null,
+        cod_pais_nacionalidad_empresa: "",
+        telefono_celular_empresa: "573144198170",
+        telefono_empresa_2: "string",
+        telefono_empresa: "573144198170",
+        acepta_notificacion_sms: true,
+        acepta_notificacion_email: true,
+        acepta_tratamiento_datos: true,
+        representante_legal: 1
+      }
       try {
         const { data: dataRegisterEmpresa } = await clienteAxios.post(
           "personas/persona-juridica/create/",
-          persona
+          personaJuridica
         );
         Swal.fire({
           title: "Registrado como persona juridica",
@@ -618,6 +640,8 @@ const RegisterPersonaScreen = () => {
 
 
   console.log(dataPersona, 'dataPersona')
+  console.log(municipioNotificacionFiltered, 'municipioNotificacionFiltered')
+  // console.log(dataPersona, 'dataPersona')
   // console.log(setDatesFormatRevere(dataPersona.fechaNacimiento.toLocaleString()), 'toLocaleString')
   return (
     <div
@@ -653,7 +677,6 @@ const RegisterPersonaScreen = () => {
                     <label className="form-label">
                       Tipo de persona: <span className="text-danger">*</span>
                     </label>
-
                     <Controller
                       name="tipo_persona"
                       rules={{ required: true }}
@@ -667,15 +690,6 @@ const RegisterPersonaScreen = () => {
                         />
                       )}
                     />
-
-                    {/* <Select
-                      // value={createPersonaModel.tipo_persona}
-                      options={tipoPersonaOptions}
-                      // defaultValue={formValues.tipo_persona}
-                      placeholder="Seleccionar"
-                      {...register("tipo_persona", { required: true })}
-                      onChange={handleChangeTypePerson}
-                    /> */}
                     {errorsForm.tipo_persona && (
                       <div className="col-12">
                         <small className="text-center text-danger">
@@ -773,7 +787,7 @@ const RegisterPersonaScreen = () => {
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="number"
                             {...register("dv", { required: true })}
-                            onChange={handleMaxOneDigit}
+                          // onChange={handleMaxOneDigit}
                           />
                         </div>
                         {errorsForm.dv && (
@@ -1142,11 +1156,8 @@ const RegisterPersonaScreen = () => {
                             </label>
                             <input
                               className="form-control rounded-pill px-3 border border-terciary"
-                              readOnly
                               disabled
-                              type="text"
-                              value={completeAddress}
-                              required={false}
+                              {...register("direccionNotificacion", { required: false })}
                             />
                           </div>
                           <button
@@ -1168,66 +1179,52 @@ const RegisterPersonaScreen = () => {
                           </small>
                         </div>
                       )}
-                      {/* <div className="col-12 col-md-6 mt-3">
-                        <label className="form-label">
-                          Pais: <span className="text-danger">*</span>
+                      <div className="col-12 col-md-6 mt-3">
+                        <label className="form-label text-terciary">
+                          País notificación:
                         </label>
                         <Controller
-                          name="pais"
+                          name="paisNotificacion"
+                          rules={{ required: true }}
                           control={control}
-                          rules={{
-                            required: true,
-                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
+                              value={field.value}
                               options={paisesOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
-                      </div> */}
-                      <div className="col-12 col-md-6 mt-3">
-                        <label className="form-label text-terciary">
-                          País notificación:
-                        </label>
-                        <Select
+                        {/* <Select
                           value={paisesOptions[formValues.paisNotificacion]}
                           options={paisesOptions}
                           onChange={handleChangePaisNotificacion}
                           placeholder="Seleccionar"
-                        />
+                        /> */}
                       </div>
-                      {/* <div className="col-12 col-md-6 mt-3">
-                        <label className="form-label">
-                          Departamento: <span className="text-danger">*</span>
+                      {/* {dataPersona.paisNotificacion.value === getIndexColombia() ? ( */}
+                      <div className="col-12 col-md-6 mt-3">
+                        <label className="form-label text-terciary">
+                          Departamento notificación:{" "}
                         </label>
                         <Controller
-                          name="departamento"
+                          name="departamentoNotificacion"
+                          rules={{ required: true }}
                           control={control}
-                          rules={{
-                            required: true,
-                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
+                              value={field.value}
+                              isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                               options={departamentosOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
-                      </div> */}
-                      {formValues.paisNotificacion === getIndexColombia() ? (
-                        <div className="col-12 col-md-6 mt-3">
-                          <label className="form-label text-terciary">
-                            Departamento notificación:{" "}
-                          </label>
-                          <Select
+                        {/* <Select
                             options={departamentosOptions}
-                            isDisabled={
-                              paisesOptions[formValues.paisNotificacion]
-                                ?.value !== "CO"
-                            }
+                            isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                             onChange={(e) => {
                               setDatosNotificacion({
                                 ...datosNotificacion,
@@ -1236,56 +1233,41 @@ const RegisterPersonaScreen = () => {
                             }}
                             value={datosNotificacion.departamento}
                             placeholder="Seleccionar"
-                          />
-                        </div>
-                      ) : (
+                          /> */}
+                      </div>
+                      {/* ) : (
                         <div className="col-12 col-md-6 mt-3">
                           <label className="form-label text-terciary">
                             Departamento notificación:{" "}
                           </label>
                           <Select
-                            isDisabled
+                            isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                             placeholder="Seleccionar"
                             value={"Seleccionar"}
                           />
                         </div>
-                      )}
-                      {/* <div className="col-12 col-md-6 mt-3">
+                      )} */}
+                      {/* {dataPersona.paisNotificacion.value === getIndexColombia() ? ( */}
+                      <div className="col-12 col-md-6 mt-3">
                         <label className="form-label">
-                          Municipio: <span className="text-danger">*</span>
+                          Municipio notificación:{" "}
                         </label>
                         <Controller
-                          name="municipio"
+                          name="municipioNotificacion"
+                          rules={{ required: true }}
                           control={control}
-                          rules={{
-                            required: true,
-                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
+                              value={field.value}
+                              isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                               options={municipiosOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
-                      </div>
-                      {errorsForm.municipio && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )} */}
-                      {formValues.paisNotificacion === getIndexColombia() ? (
-                        <div className="col-12 col-md-6 mt-3">
-                          <label className="form-label">
-                            Municipio notificación:{" "}
-                          </label>
-                          <Select
-                            isDisabled={
-                              paisesOptions[formValues.paisNotificacion]
-                                ?.value !== "CO"
-                            }
+                        {/* <Select
+                            isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                             value={
                               municipiosOptions[
                               formValues.municipioNotificacion
@@ -1302,9 +1284,9 @@ const RegisterPersonaScreen = () => {
                             }
                             options={municipioNotificacionFiltered}
                             placeholder="Seleccionar"
-                          />
-                        </div>
-                      ) : (
+                          /> */}
+                      </div>
+                      {/* ) : (
                         <div className="col-12 col-md-6 mt-3">
                           <label className="form-label">
                             Municipio notificación:{" "}
@@ -1315,7 +1297,7 @@ const RegisterPersonaScreen = () => {
                             value={"Seleccionar"}
                           />
                         </div>
-                      )}
+                      )} */}
                     </>
                   )}
                   <label className="text-bold mt-3">
@@ -1382,8 +1364,8 @@ const RegisterPersonaScreen = () => {
               <DirecionResidenciaModal
                 isModalActive={isOpenGenerator}
                 setIsModalActive={setIsOpenGenerator}
-                completeAddress={completeAddress}
-                setCompleteAddress={setCompleteAddress}
+                completeAddress={dataPersona.direccionNotificacion}
+                setCompleteAddress={setValue}
                 reset={reset}
                 keyReset="direccionNotificacion"
                 watch={watch}
