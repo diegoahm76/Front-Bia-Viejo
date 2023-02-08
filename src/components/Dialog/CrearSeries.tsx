@@ -47,7 +47,7 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
     id_serie_doc: null,
   };
 
-  const { register, handleSubmit, reset, watch } = useForm<IFormValues>({
+  const { register, handleSubmit, reset, watch, formState: { errors }, } = useForm<IFormValues>({
     defaultValues: initialState,
   });
   const data = watch();
@@ -246,6 +246,9 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                     placeholder="Nombre"
                     {...register("nombre", { required: true })}
                   />
+                  {errors.nombre && (
+                    <p className="text-danger">Este campo es obligatorio</p>
+                  )}
                 </div>
               </div>
               <div className="col-12 col-sm-4 mt-2">
@@ -253,10 +256,13 @@ const CrearSeries = ({ isModalActive, setIsModalActive, title }) => {
                   <label className="ms-3 text-terciary">Código</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
-                    type="text"
+                    type="number"
                     placeholder="Código"
                     {...register("codigo", { required: true })}
                   />
+                  {errors.codigo && (
+                    <p className="text-danger">Este campo es obligatorio</p>
+                  )}
                 </div>
               </div>
               <div className="col-12 col-sm-4 mt-4">

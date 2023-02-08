@@ -198,6 +198,7 @@ const useCCD = () => {
         }
         dispatch(updateCCDSService(newCCD))
     };
+    console.log(dataAsing, 'dataAsing')
     //Funcion para crear el CCD
     const createAsing = () => {
         let newItem: any[] = [];
@@ -240,25 +241,25 @@ const useCCD = () => {
     const columnAsigancion = [
         {
             headerName: "Sección",
-            field: "sección",
+            field: "seccion",
             minWidth: 150,
             maxWidth: 200,
         },
         {
             headerName: "Subseccón",
-            field: "Subseccón",
+            field: "subseccion",
             minWidth: 150,
             maxWidth: 200,
         },
         {
             headerName: "serie",
-            field: "serie",
+            field: "nombre_serie",
             minWidth: 150,
             maxWidth: 200,
         },
         {
             headerName: "subserie",
-            field: "subserie",
+            field: "subseries_nombres",
             minWidth: 150,
             maxWidth: 200,
         },
@@ -275,7 +276,7 @@ const useCCD = () => {
                         className="btn text-capitalize "
                         type="button"
                         title="Eliminar"
-                    // onClick={() => { deleteSeries(params.data.id_serie_doc)}}a
+                    // onClick={() => { deleteSeries(params.data.id_serie_doc)}}
                     >
                         <i className="fa-regular fa-trash-can fs-4"></i>
                     </button>

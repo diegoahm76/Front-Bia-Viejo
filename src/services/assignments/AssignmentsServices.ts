@@ -31,7 +31,7 @@ export const getAssignmentsService = () => {
         const { CCDCurrent } = getState().CCD;
         try {
             const { data } = await clienteAxios.get(`gestor/ccd/asignar/get/${CCDCurrent.id_ccd}/`);
-            dispatch(getAssignmentsCCD(data.detail));
+            dispatch(getAssignmentsCCD(data.data));
             // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -45,6 +45,7 @@ export const getAssignmentsService = () => {
 //Asignar series y subseries a unidades documentales
 export const createAssignmentsService = (newItem, clean) => {
     return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
+        console.log(newItem, 'newItem')
         const { CCDCurrent } = getState().CCD;
         try {
             const { data } = await clienteAxios.put(`gestor/ccd/asignar/create/${CCDCurrent.id_ccd}/`, newItem);
