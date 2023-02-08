@@ -1157,7 +1157,7 @@ const RegisterPersonaScreen = () => {
                             <input
                               className="form-control rounded-pill px-3 border border-terciary"
                               disabled
-                              {...register("direccionNotificacion", { required: false })}
+                              {...register("direccionNotificacion", { required: true })}
                             />
                           </div>
                           <button
