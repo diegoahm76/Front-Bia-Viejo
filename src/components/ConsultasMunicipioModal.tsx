@@ -55,11 +55,15 @@ export const ConsultasMunicipioModal = ({
     // setFormValues,
     // reset,
     // tipoDocumentoOptions,
+    setDisabled
+    
 }) => {
 const [usuarioSearched, setUsuarioSearched] = useState([]);
 const [loading, setLoading] = useState(false);
 const [codMunicipio, setCodMunicipio] = useState<number>(0);
 const [nombre, setNombre] = useState<string>('');
+
+
 const {
     handleSubmit,
     register,
@@ -101,7 +105,12 @@ const seleccionarAction = (dataSearch) => {
         municipio: { value: '', label: '' },
         direccion: '',
         area_mt2: 0,
-        area_propagacion_mt2: 0
+        tipo_vivero: { value: '', label: '' },
+        area_propagacion_mt2: 0,
+        area_produccion: false,
+        area_preparacion_sustrato: false,
+        area_embolsado: false,
+        origen_recursos_vivero: { value: '', label: '' }
     }
     // busquedaAvanzadaModel.tipoDocumento.label = dataSearch.persona.tipo_documento.nombre;
     busquedaAvanzadaModel.nombre = dataSearch.nombre;
@@ -109,10 +118,17 @@ const seleccionarAction = (dataSearch) => {
     busquedaAvanzadaModel.municipio.label = dataSearch.cod_municipio;
     busquedaAvanzadaModel.direccion = dataSearch.direccion;
     busquedaAvanzadaModel.area_mt2 = dataSearch.area_mt2;
+    busquedaAvanzadaModel.tipo_vivero.value = dataSearch.cod_tipo_vivero;
+    busquedaAvanzadaModel.tipo_vivero.label = dataSearch.cod_tipo_vivero;
     busquedaAvanzadaModel.area_propagacion_mt2 = dataSearch.area_propagacion_mt2;
+    busquedaAvanzadaModel.area_produccion = dataSearch.tiene_area_produccion;
+    busquedaAvanzadaModel.area_preparacion_sustrato = dataSearch.tiene_areas_pep_sustrato;
+    busquedaAvanzadaModel.area_embolsado = dataSearch.tiene_area_embolsado;
+    busquedaAvanzadaModel.origen_recursos_vivero.value = dataSearch.cod_origen_recursos_vivero;
+    busquedaAvanzadaModel.origen_recursos_vivero.label = dataSearch.cod_origen_recursos_vivero;
+
     setModel(busquedaAvanzadaModel);
     setIsModalActive(false);
-    console.log(busquedaAvanzadaModel);
 };
 
 const columnDefs = [
@@ -138,7 +154,7 @@ const columnDefs = [
     },
     {
         headerName: "area_propagacion_mt2",
-        field: "area_mt2",
+        field: "area_propagacion_mt2",
         minWidth: 180,
     },
     {
@@ -147,12 +163,15 @@ const columnDefs = [
     cellRendererFramework: (params) => (
         <div className="d-flex justify-content-center align-items-center gap-2">
             <button
-            className="btn btn-sm btn-tablas btn-primary"
-            type="button"
-            title="Send"
-            onClick={() => seleccionarAction(params.data)}
+                className="btn btn-sm btn-tablas btn-primary"
+                type="button"
+                title="Send"
+                onClick={() => {
+                    seleccionarAction(params.data);
+                    setDisabled(true);
+                }}
             >
-            Editar
+                Editar
             </button>
         </div>
     ),
@@ -192,8 +211,8 @@ const handleCloseModal = () => {
                         Nombre:
                     </label>
                     <input
-                        className="form-control border border-terciary rounded-pill px-3"
                         type="text"
+                        className="form-control border border-terciary rounded-pill px-3"
                         onChange={(e) => { setNombre(e.target.value) }}
                     />
                     </div>
