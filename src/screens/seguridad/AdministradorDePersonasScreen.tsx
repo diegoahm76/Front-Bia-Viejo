@@ -1,18 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
-import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
-import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
@@ -33,7 +30,6 @@ const modelCreate = {
   tipo_documento: { label: "", value: "" },
   numero_documento: "",
   fecha_nacimiento: "",
-  // fecha_nacimiento: new Date(),
   estado_civil: { label: "", value: "" },
   sexo: { label: "", value: "" },
   cod_pais_nacionalidad_empresa: { label: "Colombia", value: "CO" },
@@ -91,7 +87,6 @@ const AdministradorDePersonasScreen = () => {
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
 
   const [yesOrNot, setYesOrNot] = useState(false);
-  const [primeraVez, setPrimeraVez] = useState(true);
 
   const [sexoOptions, setSexoOptions] = useState<ISelectOptions[]>([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState<
@@ -113,19 +108,7 @@ const AdministradorDePersonasScreen = () => {
     useState<ISelectOptions[]>([]);
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
     useState<ISelectOptions[]>([]);
-  const [formValuesSearch, setFormValuesSearch] = useState({
-    index_tipo_documento: "",
-  });
-  const [lugarResidencia, setLugarResidencia] = useState({
-    departamento: {
-      label: "",
-      value: "",
-    },
-  });
-  const [datosLaborales, setDatosLaborales] = useState<ISelectOptions[]>([]);
-  const [datosNotificacion, setDatosNotificacion] = useState<ISelectOptions[]>(
-    []
-  );
+
   const [formValues, setFormValues] = useState(modelCreate);
   console.log(formValues, "este es ");
 
@@ -144,15 +127,6 @@ const AdministradorDePersonasScreen = () => {
     handleSubmit: handleSubmitBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
-
-  const notificationError = (message = "Algo pasó, intente de nuevo") =>
-    Swal.mixin({
-      position: "center",
-      icon: "error",
-      title: message,
-      showConfirmButton: true,
-      confirmButtonText: "Aceptar",
-    }).fire();
 
   const notificationSuccess = (message = "Proceso Exitoso") =>
     Swal.mixin({
@@ -728,7 +702,7 @@ const AdministradorDePersonasScreen = () => {
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipoDocumentoBusqueda}
-                    //required={true}
+                  //required={true}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -747,7 +721,7 @@ const AdministradorDePersonasScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
-                      
+
                       name="numeroDocumento"
                       value={busquedaModel.cedula}
                       onChange={handleChange}
@@ -934,7 +908,7 @@ const AdministradorDePersonasScreen = () => {
                           name="primer_apellido"
                           value={formValues.primer_apellido}
                           onChange={handleChangeCreate}
-                          //required={true}
+                        //required={true}
                         />
                       </div>
                       {errorsPersona.primerApellido && (
@@ -1112,7 +1086,7 @@ const AdministradorDePersonasScreen = () => {
                 {/* DATOS LABORALES */}
                 <Subtitle title={"Datos laborales"} mt={4} />
                 <div className="row align-items-end mx-1">
-                  
+
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1120,7 +1094,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                     
+
                       onChange={changeSelectDepartamentoLabora}
                       value={formValues.departamento_labora}
                       placeholder="Seleccionar"
@@ -1133,7 +1107,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
 
                     <Select
-                      
+
                       value={formValues.municipio_labora}
                       onChange={changeSelectMunicipioLabora}
                       options={municipioDondeLaboraFiltered}
@@ -1210,7 +1184,7 @@ const AdministradorDePersonasScreen = () => {
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
 
-                  
+
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">

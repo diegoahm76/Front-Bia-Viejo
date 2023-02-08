@@ -23,9 +23,12 @@ import {
   IPerson,
 } from "../../../Interfaces/auth";
 import { AxiosError } from "axios";
+import { setDatesFormat, setDatesFormatRevere } from "../../../utils";
 
 const defaultValues = {
-  tipo_persona: "",
+  // fechaNacimiento: "",
+  fechaNacimiento: null,
+  tipo_persona: { label: "Natural", value: "N" },
   tipo_documento: "",
   numero_documento: "",
   razon_social: "",
@@ -77,7 +80,7 @@ const RegisterPersonaScreen = () => {
   const [departamentosOptions, setDepartamentosOptions] = useState<IList[]>([]);
   const [municipiosOptions, setMunicipiosOptions] = useState<IList[]>([]);
   const [tipoDocumentoFiltrado, setTipoDocumentoFiltrado] = useState<any>([]);
-  const [tipoPersonaOptions, setTipoPersonaOptions] = useState<IList[]>([]);
+  const [tipoPersonaOptions, setTipoPersonaOptions] = useState<any[]>([]);
   const [formValues, setFormValues] = useState<IFormValues>({
     fechaNacimiento: "",
     tipo_persona: { label: "Natural", value: "N" },
@@ -135,33 +138,37 @@ const RegisterPersonaScreen = () => {
     formState: { errors: errorsForm },
   } = useForm<IDefaultValues>({ defaultValues });
 
+  const dataPersona = watch();
+
+  let elm = document.getElementById("myInput");
+  if (elm && typeof elm.focus === "function") {
+    elm.focus();
+  }
+
   const submitForm: SubmitHandler<IDefaultValues> = async (
     data: IDefaultValues
   ) => {
     //* Validación duplicidad de emails y celular
-    if (
-      createPersonaModel.email !== createPersonaModel.cEmail ||
-      createPersonaModel.celular !== createPersonaModel.cCelular
-    ) {
-      const dataResponse = {
-        ...defaultErrors,
-      };
+    // if ( createPersonaModel.email !== createPersonaModel.cEmail || createPersonaModel.celular !== createPersonaModel.cCelular) {
+    //   const dataResponse = {
+    //     ...defaultErrors,
+    //   };
 
-      if (createPersonaModel.email !== createPersonaModel.cEmail) {
-        dataResponse.confirmacionEmail = true;
-      }
+    //   if (createPersonaModel.email !== createPersonaModel.cEmail) {
+    //     dataResponse.confirmacionEmail = true;
+    //   }
 
-      if (createPersonaModel.celular !== createPersonaModel.cCelular) {
-        dataResponse.confirmacionCelular = true;
-      }
+    //   // if (createPersonaModel.celular !== createPersonaModel.cCelular) {
+    //   //   dataResponse.confirmacionCelular = true;
+    //   // }
 
-      setErrors({ ...errors, ...dataResponse });
-      setTimeout(() => {
-        setErrors({ ...errors, ...defaultErrors });
-      }, 2000);
+    //   setErrors({ ...errors, ...dataResponse });
+    //   setTimeout(() => {
+    //     setErrors({ ...errors, ...defaultErrors });
+    //   }, 2000);
 
-      return;
-    }
+    //   return;
+    // }
 
     const persona: IPerson = {
       tipo_persona: "",
@@ -183,36 +190,47 @@ const RegisterPersonaScreen = () => {
       representante_legal: "",
       cod_municipio_notificacion_nal: "",
     };
-    const idPersonaRepresentante: string = idRepresentante;
+    let fechaNacimiento = setDatesFormatRevere(dataPersona.fechaNacimiento ? dataPersona.fechaNacimiento.toLocaleString() : '')
 
-    //* Ingresado los datos al objeto persona dependiento de si es Natural o Juridica
-    if (createPersonaModel.tipo_persona === "N") {
-      // REVISAR +57
-      // formatData.telefono_celular = formatData.telefono_celular;
-      // REVISAR
-    } else {
-      // REVISAR
-      // persona.tipo_persona = formValues.tipo_persona.value;
-      // persona.tipo_documento = data.tipoDocumento.value;
-      // persona.numero_documento = data.numero_documento;
-      // persona.digito_verificacion = formValues.digito_verificacion || null;
-      // persona.razon_social = data.razonSocial;
-      // persona.nombre_comercial = data.nombreComercial || null;
-      // persona.representante_legal = idPersonaRepresentante;
-      // persona.email = data.eMail;
-      // persona.telefono_celular_empresa = "57" + data.celular;
-      // persona.direccion_notificaciones = data.direccionNotificacion;
-      // // persona.departamento_residencia = data.departamento?.value;
-      // persona.cod_municipio_notificacion_nal = municipiosOptions[formValues.municipioNotificacion]?.value || null;
-      // persona.ubicacion_georeferenciada = "mi casita";
-    }
+    const personaNatural: any = {
+      tipo_persona: dataPersona.tipo_persona.value,
+      tipo_documento: dataPersona.tipoDocumento.value,
+      numero_documento: dataPersona.numero_documento,
+      digito_verificacion: "",
+      nombre_comercial: "",
+      primer_nombre: dataPersona.primerNombre,
+      segundo_nombre: dataPersona.segundo_nombre,
+      primer_apellido: dataPersona.primerApellido,
+      segundo_apellido: dataPersona.segundo_apellido,
+      fecha_nacimiento: fechaNacimiento,
+      email: dataPersona.eMail,
+      telefono_celular: dataPersona.celular,
+      telefono_empresa_2: null,
+      sexo: "",
+      estado_civil: "",
+      pais_nacimiento: "",
+      email_empresarial: null,
+      ubicacion_georeferenciada: "string",
+      telefono_fijo_residencial: null,
+      pais_residencia: "",
+      municipio_residencia: "",
+      direccion_residencia: "",
+      direccion_laboral: "",
+      direccion_residencia_ref: "",
+      direccion_notificaciones: "",
+      cod_municipio_laboral_nal: "",
+      cod_municipio_notificacion_nal: "",
+      acepta_notificacion_sms: true,
+      acepta_notificacion_email: true,
+      acepta_tratamiento_datos: true
+    };
 
     setLoading(true);
-    if (createPersonaModel.tipo_persona === "N") {
+    if (dataPersona.tipo_persona.value === "N") {
       try {
         const { data: dataRegisterPersona } = await clienteAxios.post(
           "personas/persona-natural/create/",
-          createPersonaModel
+          personaNatural
         );
         Swal.fire({
           title: "Registrado como persona natural",
@@ -458,6 +476,16 @@ const RegisterPersonaScreen = () => {
     }
   }, [isUser, tipoDocumentoOptions]);
 
+  useEffect(() => {
+    if (dataPersona.tipo_persona.value === "J") {
+      setIsUser(false);
+      setYesOrNo(true);
+    } else {
+      setIsUser(true);
+      setYesOrNo(false);
+    }
+  }, [dataPersona.tipo_persona.value]);
+
   const handleMaxOneDigit = (e) => {
     if (e.target.value.length > 1) {
       e.target.value = e.target.value[0];
@@ -560,6 +588,37 @@ const RegisterPersonaScreen = () => {
     formatData.celular = e.target.value;
     setCreatePersonaModel(formatData);
   };
+
+  const validatePhoneNumbers = (celular, cCelular) => {
+    if (celular !== cCelular) {
+      return {
+        type: 'manual',
+        message: 'Los numeros de telefono no coinciden'
+      }
+    }
+    return true
+  }
+  const validateDate = (date: Date) => {
+    if (date === new Date()) {
+      return {
+        type: 'manual',
+        message: 'la fecha de nacimiento no puede ser mayor a la fecha actual'
+      }
+    }
+    return true
+  }
+  const today = new Date();
+
+  const validation = {
+    fechaNacimiento: {
+      required: true,
+      validate: value => value < today
+    }
+  };
+
+
+  console.log(dataPersona, 'dataPersona')
+  // console.log(setDatesFormatRevere(dataPersona.fechaNacimiento.toLocaleString()), 'toLocaleString')
   return (
     <div
       className="page-header align-items-start min-vh-100"
@@ -595,34 +654,62 @@ const RegisterPersonaScreen = () => {
                       Tipo de persona: <span className="text-danger">*</span>
                     </label>
 
-                    <Select
+                    <Controller
+                      name="tipo_persona"
+                      rules={{ required: true }}
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={field.value}
+                          options={tipoPersonaOptions}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+
+                    {/* <Select
                       // value={createPersonaModel.tipo_persona}
                       options={tipoPersonaOptions}
                       // defaultValue={formValues.tipo_persona}
                       placeholder="Seleccionar"
                       {...register("tipo_persona", { required: true })}
                       onChange={handleChangeTypePerson}
-                    />
+                    /> */}
                     {errorsForm.tipo_persona && (
-                    <div className="col-12">
-                      <small className="text-center text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    </div>
-                  )}
+                      <div className="col-12">
+                        <small className="text-center text-danger">
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
                   </div>
-                  
+
                   <div className="col-12 col-md-6 mt-3">
                     <label className="form-label">
                       Tipo de documento: <span className="text-danger">*</span>
                     </label>
 
-                    <Select
+                    <Controller
+                      name="tipoDocumento"
+                      rules={{ required: true }}
+                      control={control}
+                      render={({ field }) => (
+                        <Select
+                          {...field}
+                          value={field.value}
+                          options={tipoDocumentoFiltrado}
+                          placeholder="Seleccionar"
+                        />
+                      )}
+                    />
+
+                    {/* <Select
                       options={tipoDocumentoFiltrado}
                       placeholder="Seleccionar"
                       {...register("tipoDocumento", { required: true })}
                       onChange={handleChange}
-                    />
+                    /> */}
 
                     {errorsForm.tipoDocumento && (
                       <div className="col-12">
@@ -665,7 +752,7 @@ const RegisterPersonaScreen = () => {
                         onBlur={() => {
                           console.log("sali de input");
                         }}
-                        onChange={handleChange}
+                      // onChange={handleChange}
                       />
                     </div>
                     {errorsForm.numero_documento && (
@@ -754,7 +841,7 @@ const RegisterPersonaScreen = () => {
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
                             {...register("primerNombre", { required: true })}
-                            onChange={handleChange}
+                          // onChange={handleChange}
                           />
                         </div>
                         {errorsForm.primerNombre && (
@@ -771,8 +858,8 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            name="segundo_nombre"
-                            onChange={handleChange}
+                            {...register("segundo_nombre", { required: false })}
+                          // onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -786,7 +873,7 @@ const RegisterPersonaScreen = () => {
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
                             {...register("primerApellido", { required: true })}
-                            onChange={handleChange}
+                          // onChange={handleChange}
                           />
                         </div>
                         {errorsForm.primerApellido && (
@@ -803,9 +890,8 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            name="segundo_apellido"
-                            onChange={handleChange}
-                            required={false}
+                            {...register("segundo_apellido", { required: false })}
+                          // onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -817,7 +903,51 @@ const RegisterPersonaScreen = () => {
                         Fecha de nacimiento:{" "}
                         <span className="text-danger">*</span>
                       </label>
-                      <DatePicker
+                      <Controller
+                        name="fechaNacimiento"
+                        control={control}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            id="fechaNacimiento"
+                            required
+                            locale="es"
+                            showYearDropdown
+                            peekNextMonth
+                            showMonthDropdown
+                            dropdownMode="select"
+                            scrollableYearDropdown
+                            autoComplete="off"
+                            selected={dataPersona.fechaNacimiento}
+                            className="form-control border border-terciary rounded-pill px-3"
+                            maxDate={today}
+                            dateFormat="yyyy-MM-dd"
+                          />
+                        )}
+                      />
+                      {/* <Controller
+                        name="fechaNacimiento"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                          <DatePicker
+                            {...field}
+                            id="fechaNacimiento"
+                            locale="es"
+                            showYearDropdown
+                            peekNextMonth
+                            showMonthDropdown
+                            dropdownMode="select"
+                            scrollableYearDropdown
+                            autoComplete="off"
+                            selected={dataPersona.fechaNacimiento}
+                            className="form-control border border-terciary rounded-pill px-3"
+                            maxDate={new Date()}
+                            dateFormat="yyyy-MM-dd"
+                          />
+                        )}
+                      /> */}
+                      {/* <DatePicker
                         locale="es"
                         showYearDropdown
                         peekNextMonth
@@ -831,14 +961,11 @@ const RegisterPersonaScreen = () => {
                         className="border border-terciary form-control border rounded-pill px-3"
                         placeholderText="dd/mm/aaaa"
                         {...register("fechaNacimiento", { required: true })}
-                      />
-
-                      {errorsForm.fechaNacimiento && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
+                      /> */}
+                      {errorsForm.fechaNacimiento && errorsForm.fechaNacimiento.type === "validate" && (
+                        <small className="form-text text-danger">
+                          La fecha no puede ser igual a hoy.
+                        </small>
                       )}
                     </div>
                   )}
@@ -902,10 +1029,9 @@ const RegisterPersonaScreen = () => {
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
                         type="email"
-                        // autoComplete="off"
                         onCopy={(e) => e.preventDefault()}
                         {...register("eMail", { required: true })}
-                        onChange={handleChange}
+                        // onChange={handleChange}
                         required={false}
                       />
                     </div>
@@ -929,8 +1055,15 @@ const RegisterPersonaScreen = () => {
                         type="email"
                         // autoComplete="off"
                         // onPaste={(e) => e.preventDefault()}
-                        {...register("cEmail", { required: true })}
-                        onChange={handleChange}
+                        {...register("cEmail", {
+                          required: true,
+                          validate: (value) => value === watch("eMail"),
+                          pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Ingrese un correo electrónico válido"
+                          }
+                        })}
+                      // onChange={handleChange}
                       />
                     </div>
                     {errorsForm.cEmail && (
@@ -948,11 +1081,11 @@ const RegisterPersonaScreen = () => {
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
-                        type="tel"
-                        maxLength={10}
+                        // type="tel"
+                        // maxLength={10}
                         onCopy={(e) => e.preventDefault()}
                         {...register("celular", { required: true })}
-                        onChange={handleChangePhone}
+                      // onChange={handleChangePhone}
                       />
                     </div>
                     {errorsForm.celular && (
@@ -979,16 +1112,21 @@ const RegisterPersonaScreen = () => {
                       </label>
                       <input
                         className="border border-terciary form-control border rounded-pill px-3"
-                        type="tel"
                         // onPaste={(e) => e.preventDefault()}
-                        {...register("cCelular", { required: true })}
-                        onChange={handleChange}
+                        {...register("cCelular", {
+                          required: true,
+                          minLength: 10,
+                          maxLength: 10,
+                          pattern: /^[0-9]+$/,
+                          validate: (value) => value === dataPersona.celular,
+                        })}
+                      // onChange={handleChange}
                       />
                     </div>
                     {errorsForm.cCelular && (
                       <div className="col-12">
                         <small className="text-center text-danger">
-                          Este campo es obligatorio
+                          El campo está vacío  o no coinciden los números ingresados
                         </small>
                       </div>
                     )}
@@ -1150,7 +1288,7 @@ const RegisterPersonaScreen = () => {
                             }
                             value={
                               municipiosOptions[
-                                formValues.municipioNotificacion
+                              formValues.municipioNotificacion
                               ]
                             }
                             onChange={(e: SingleValue<any>) =>
