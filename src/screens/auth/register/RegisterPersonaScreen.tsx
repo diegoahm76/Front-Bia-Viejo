@@ -476,6 +476,16 @@ const RegisterPersonaScreen = () => {
     }
   }, [isUser, tipoDocumentoOptions]);
 
+  useEffect(() => {
+    if (dataPersona.tipo_persona.value === "J") {
+      setIsUser(false);
+      setYesOrNo(true);
+    } else {
+      setIsUser(true);
+      setYesOrNo(false);
+    }
+  }, [dataPersona.tipo_persona.value]);
+
   const handleMaxOneDigit = (e) => {
     if (e.target.value.length > 1) {
       e.target.value = e.target.value[0];
