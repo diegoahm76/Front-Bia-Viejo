@@ -26,6 +26,8 @@ import { AxiosError } from "axios";
 import { setDatesFormat, setDatesFormatRevere } from "../../../utils";
 
 const defaultValues = {
+  tipoDocumentoLegal: { label: "", value: "" },
+  numero_documento_legal: "",
   paisNotificacion: { label: "", value: "" },
   departamentoNotificacion: { label: "", value: "" },
   fechaNacimiento: null,
@@ -703,7 +705,6 @@ const RegisterPersonaScreen = () => {
                     <label className="form-label">
                       Tipo de documento: <span className="text-danger">*</span>
                     </label>
-
                     <Controller
                       name="tipoDocumento"
                       rules={{ required: true }}
@@ -717,14 +718,6 @@ const RegisterPersonaScreen = () => {
                         />
                       )}
                     />
-
-                    {/* <Select
-                      options={tipoDocumentoFiltrado}
-                      placeholder="Seleccionar"
-                      {...register("tipoDocumento", { required: true })}
-                      onChange={handleChange}
-                    /> */}
-
                     {errorsForm.tipoDocumento && (
                       <div className="col-12">
                         <small className="text-center text-danger">
@@ -785,9 +778,9 @@ const RegisterPersonaScreen = () => {
                           <span className="text-danger">*</span>
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
+                            maxLength={1}
                             type="number"
-                            {...register("dv", { required: true })}
-                          // onChange={handleMaxOneDigit}
+                            {...register("dv", { required: true, maxLength: 1, pattern: /^[0-9]+$/, min: 1, max: 1 })}
                           />
                         </div>
                         {errorsForm.dv && (
@@ -994,7 +987,27 @@ const RegisterPersonaScreen = () => {
                           Tipo de documento:{" "}
                           <span className="text-danger">*</span>
                         </label>
-                        <Select
+                        <Controller
+                          name="tipoDocumentoLegal"
+                          rules={{ required: true }}
+                          control={control}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              value={field.value}
+                              options={tipoDocumentoOptions}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                        {errorsForm.tipoDocumentoLegal && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                        {/* <Select
                           options={tipoDocumentoOptions}
                           placeholder="Seleccionar"
                         />
@@ -1005,7 +1018,7 @@ const RegisterPersonaScreen = () => {
                               Este campo es obligatorio
                             </small>
                           </div>
-                        )}
+                        )} */}
                       </div>
                       <div className="col-md-6 col-12 mt-3">
                         <div>
@@ -1016,10 +1029,10 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="text"
-                            required={false}
+                            {...register("numero_documento_legal", { required: true })}
                           />
                         </div>
-                        {errorsForm.numero_documento && (
+                        {errorsForm.numero_documento_legal && (
                           <div className="col-12">
                             <small className="text-center text-danger">
                               Este campo es obligatorio

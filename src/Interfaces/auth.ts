@@ -3,6 +3,8 @@ export interface IAuth {
     confirmacionCelular: boolean;
 }
 export interface IDefaultValues {
+    tipoDocumentoLegal: any;
+    numero_documento_legal: number | string;
     tipo_persona: any;
     tipoDocumento: any;
     numero_documento: string;
