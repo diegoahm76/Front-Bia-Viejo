@@ -152,48 +152,7 @@ const RegisterPersonaScreen = () => {
   const submitForm: SubmitHandler<IDefaultValues> = async (
     data: IDefaultValues
   ) => {
-    //* Validación duplicidad de emails y celular
-    // if ( createPersonaModel.email !== createPersonaModel.cEmail || createPersonaModel.celular !== createPersonaModel.cCelular) {
-    //   const dataResponse = {
-    //     ...defaultErrors,
-    //   };
 
-    //   if (createPersonaModel.email !== createPersonaModel.cEmail) {
-    //     dataResponse.confirmacionEmail = true;
-    //   }
-
-    //   // if (createPersonaModel.celular !== createPersonaModel.cCelular) {
-    //   //   dataResponse.confirmacionCelular = true;
-    //   // }
-
-    //   setErrors({ ...errors, ...dataResponse });
-    //   setTimeout(() => {
-    //     setErrors({ ...errors, ...defaultErrors });
-    //   }, 2000);
-
-    //   return;
-    // }
-
-    const persona: IPerson = {
-      tipo_persona: "",
-      tipo_documento: "",
-      numero_documento: "",
-      digito_verificacion: "",
-      nombre_comercial: "",
-      primer_nombre: "",
-      segundo_nombre: "",
-      primer_apellido: "",
-      segundo_apellido: "",
-      fecha_nacimiento: "",
-      email: "",
-      telefono_celular: "",
-      ubicacion_georeferenciada: "",
-      razon_social: "",
-      telefono_celular_empresa: "",
-      direccion_notificaciones: "",
-      representante_legal: "",
-      cod_municipio_notificacion_nal: "",
-    };
     let fechaNacimiento = setDatesFormatRevere(dataPersona.fechaNacimiento ? dataPersona.fechaNacimiento.toLocaleString() : '')
 
     const personaNatural: any = {
@@ -327,7 +286,7 @@ const RegisterPersonaScreen = () => {
     } else {
       try {
         const { data: dataRepresentante } = await clienteAxios.get(
-          `personas/get-personas-naturales-by-document/${data.tipoDocumento.value}/${data.numero_documento}/`
+          `personas/get-personas-naturales-by-document/${data.tipoDocumentoLegal.value}/${data.numero_documento_legal}/`
         );
         setIdRepresentante(dataRepresentante?.data?.id_persona);
       } catch (error) {
@@ -357,24 +316,27 @@ const RegisterPersonaScreen = () => {
 
       const personaJuridica = {
         tipo_persona: dataPersona.tipo_persona.value,
-        tipo_documento: dataPersona.tipoDocumento.value,
+        // tipo_documento: dataPersona.tipoDocumento.value,
+        tipo_documento: 'NT',
         numero_documento: dataPersona.numero_documento,
         digito_verificacion: dataPersona.dv,
         nombre_comercial: dataPersona.nombreComercial,
         razon_social: dataPersona.razonSocial,
         email: dataPersona.eMail,
         email_empresarial: dataPersona.eMail,
-        direccion_notificaciones: "",
-        cod_municipio_notificacion_nal: null,
-        cod_pais_nacionalidad_empresa: "",
-        telefono_celular_empresa: "573144198170",
-        telefono_empresa_2: "string",
-        telefono_empresa: "573144198170",
+        direccion_notificaciones: dataPersona.direccionNotificacion,
+        cod_municipio_notificacion_nal: dataPersona.municipioNotificacion.value,
+        cod_pais_nacionalidad_empresa: dataPersona.paisNotificacion.value,
+        telefono_celular_empresa: dataPersona.celular,
+        // representante_legal: Number(dataPersona.numero_documento_legal),
+        representante_legal: 1,
+        telefono_empresa_2: '',
+        telefono_empresa: '',
         acepta_notificacion_sms: true,
         acepta_notificacion_email: true,
         acepta_tratamiento_datos: true,
-        representante_legal: 1
       }
+      console.log(personaJuridica, "persona juridica")
       try {
         const { data: dataRegisterEmpresa } = await clienteAxios.post(
           "personas/persona-juridica/create/",
@@ -397,74 +359,26 @@ const RegisterPersonaScreen = () => {
           }
         });
       } catch (err: any) {
-        if (err.response?.data?.email && err.response?.data?.numero_documento) {
-          Swal.fire({
-            title: "Este documento y correo ya estan relacionados",
-            text: "¿Desea registrarse como usuario?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/registeruser");
-            }
-          });
-        } else if (err.response?.data?.non_field_errors) {
-          Swal.fire({
-            title: "Este documento ya esta relacionado",
-            text: "¿Desea registrarse como usuario?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/registeruser");
-            }
-          });
-        } else if (err.response?.data?.numero_documento) {
-          Swal.fire({
-            title: "Este documento ya existe",
-            text: "¿Desea registrarse como usuario?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              navigate("/registeruser");
-            }
-          });
-        } else if (err.response?.data?.email) {
-          Swal.fire({
-            title: "Este correo electronico ya existe",
-            text: "Verifica tus datos",
-            icon: "info",
-            confirmButtonColor: "#3BA9E0",
-            cancelButtonColor: "#6c757d",
-            confirmButtonText: "Aceptar",
-          });
-        } else {
-          console.log(err);
-        }
+        Swal.fire({
+          title: err.response.data.detail,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3BA9E0",
+          cancelButtonColor: "#6c757d",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+        })
         return err as AxiosError;
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
   };
-
   const resetValues = () => {
     reset(defaultValues);
     setCompleteAddress("");
   };
-
+  console.log(dataPersona.numero_documento_legal, 'dataPersona.numero_documento_legal')
   const handleChangeTypePerson = (e) => {
     const data = { ...createPersonaModel };
     data.tipo_persona = e.value;
@@ -780,13 +694,13 @@ const RegisterPersonaScreen = () => {
                             className="border border-terciary form-control border rounded-pill px-3"
                             maxLength={1}
                             type="number"
-                            {...register("dv", { required: true, maxLength: 1, pattern: /^[0-9]+$/, min: 1, max: 1 })}
+                            {...register("dv", { required: true, maxLength: { value: 1, message: "El campo debe tener como máximo 1 caracteres" } })}
                           />
                         </div>
                         {errorsForm.dv && (
                           <div className="col-12">
                             <small className="text-center text-danger">
-                              Este campo admite solo un carácter
+                              {errorsForm.dv.message}
                             </small>
                           </div>
                         )}
