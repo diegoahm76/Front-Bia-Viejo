@@ -65,5 +65,10 @@ export interface IAssignments {
 export interface IAssignmentsObject {
     id_unidad_organizacional: number;
     id_serie_doc: number;
-    subseries: number[];
+    subseries: any[];
+    id_serie_subserie_doc?: number;
+    seccion?: string;
+    codigo_serie?: number;
+    nombre_serie?: string;
+    id?: number;
 }

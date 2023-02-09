@@ -81,10 +81,10 @@ export const toFinishedCCDSService = () => {
             return data;
         } catch (error: any) {
             console.log(error.response.data)
-            if (error.response.data.delete === false) {
+            if (error.response.data.delete === true) {
                 Swal.fire({
                     title: '¿Está seguro de finalizar el CCD?',
-                    text: "Estas son las faltanes: " + error.response.data.data.map((item: any) => item).join(', ') + " las podemos eliminar del sistema",
+                    text: error.response.data.detail + ", Estas son las faltanes: " + error.response.data.data.map((item: any) => item).join(', ') + ". Las podemos eliminar del sistema",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

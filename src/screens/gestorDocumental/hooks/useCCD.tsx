@@ -121,6 +121,27 @@ const useCCD = () => {
         }
     }, [CCDCurrent]);
 
+    useEffect(() => {
+        if (assignmentsCCDCurrent !== null) {
+            let obj = {
+                sries_asignacion: { label: assignmentsCCDCurrent.nombre_serie, value: assignmentsCCDCurrent.codigo_serie },
+                sries: '',
+                subSerie_asignacion: assignmentsCCDCurrent.subseries.map(
+                    item => {
+                        return {
+                            label: item.label,
+                            value: item.value,
+                        }
+                    }
+                ),
+                subSerie: '',
+                unidades_asignacion: { label: assignmentsCCDCurrent.seccion, value: assignmentsCCDCurrent.id_unidad_organizacional },
+            }
+            reset(obj);
+            setTitleButtonAsing('Editar relación');
+        }
+    }, [assignmentsCCDCurrent]);
+
     // UseEffect para obtener organigramas
     useEffect(() => {
         dispatch(getOrganigramsService())
@@ -202,19 +223,34 @@ const useCCD = () => {
     //Funcion para crear el CCD
     const createAsing = () => {
         let newItem: any[] = [];
+        const oldItems = assignmentsCCD.map(
+            item => {
+                return {
+                    id_unidad_organizacional: item.id_unidad_organizacional,
+                    id_serie_doc: item.id_serie_doc,
+                    subseries: item.subseries.map(item => item.id_serie_subserie_doc),
+                }
+            }
+        );
         if (titleButtonAsing === 'Guardar relación') {
-            newItem = [...assignmentsCCD, {
+            newItem = [...oldItems, {
                 id_unidad_organizacional: dataAsing.unidades_asignacion.value,
                 id_serie_doc: dataAsing.sries_asignacion.value,
                 subseries: dataAsing.subSerie_asignacion.map(item => item.value),
             }]
         } else {
-            // newItem = assignmentsCCD.map(
-            //     item => { return item.id_serie_doc === data.id_serie_doc ? { ...item, nombre: data.nombre, codigo: Number(data.codigo) } : item }
-            // );
+            newItem = assignmentsCCD.map(
+                item => {
+                    return item.id === assignmentsCCDCurrent!.id ?
+                        {
+                            id_unidad_organizacional: assignmentsCCDCurrent!.id_unidad_organizacional,
+                            id_serie_doc: assignmentsCCDCurrent!.codigo_serie,
+                            subseries: assignmentsCCDCurrent!.subseries.map(item => item.value),
+                        }
+                        : item
+                }
+            );
         }
-        console.log(newItem, 'newItem....')
-        console.log(titleButtonAsing, 'titleButtonAsing....')
         dispatch(createAssignmentsService(newItem, cleanAsing));
     };
 
@@ -224,6 +260,7 @@ const useCCD = () => {
         resetCreateCCD(initialState);
         setSaveCCD(false);
         dispatch(getCCDCurrent(null));
+        cleanAsing();
     }
     //Funcion para limpiar el formulario de asignar CCD
     const cleanAsing = () => {
@@ -233,9 +270,18 @@ const useCCD = () => {
     }
 
     //Funcion para eliminar Asignaciones
-    const deleteAsing = (id_subserie_doc) => {
-        // const newItems = assignmentsCCD.filter(item => item.id_subserie_doc !== id_subserie_doc);
-        // dispatch(createAssignmentsService(newItems, cleanAsing));
+    const deleteAsing = (id) => {
+        const newItems = assignmentsCCD.filter(item => item.id !== id);
+        const itemFinal = newItems.map(
+            item => {
+                return {
+                    id_unidad_organizacional: item!.id_unidad_organizacional,
+                    id_serie_doc: item!.codigo_serie,
+                    subseries: item!.subseries.map(item => item.value),
+                }
+            }
+        );
+        dispatch(createAssignmentsService(itemFinal, cleanAsing));
     }
 
     const columnAsigancion = [
@@ -246,7 +292,7 @@ const useCCD = () => {
             maxWidth: 200,
         },
         {
-            headerName: "Subseccón",
+            headerName: "Subsección",
             field: "subseccion",
             minWidth: 150,
             maxWidth: 200,
@@ -276,7 +322,7 @@ const useCCD = () => {
                         className="btn text-capitalize "
                         type="button"
                         title="Eliminar"
-                    // onClick={() => { deleteSeries(params.data.id_serie_doc)}}
+                        onClick={() => { deleteAsing(params.data.id) }}
                     >
                         <i className="fa-regular fa-trash-can fs-4"></i>
                     </button>

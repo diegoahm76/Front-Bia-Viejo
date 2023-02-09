@@ -31,7 +31,8 @@ export const getAssignmentsService = () => {
         const { CCDCurrent } = getState().CCD;
         try {
             const { data } = await clienteAxios.get(`gestor/ccd/asignar/get/${CCDCurrent.id_ccd}/`);
-            dispatch(getAssignmentsCCD(data.data));
+            const newData = data.data.map((item, index) => { return { ...item, id: index + 1 } })
+            dispatch(getAssignmentsCCD(newData));
             // notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -55,6 +56,8 @@ export const createAssignmentsService = (newItem, clean) => {
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
+            dispatch(getAssignmentsService());
+            clean();
             return error as AxiosError;
         }
     };
