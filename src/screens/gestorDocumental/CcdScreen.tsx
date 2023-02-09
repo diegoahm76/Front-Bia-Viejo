@@ -38,10 +38,10 @@ const CcdScreen = () => {
     saveCCD,
     //Edita States
     setTitle,
-    setTitleButtonAsing,
     setCreateIsactive,
     setConsultaCcdIsactive,
     //Functions
+    getRowClass,
     onSubmitCreateCCD,
     onSubmit,
     registerCreateCCD,
@@ -402,6 +402,7 @@ const CcdScreen = () => {
                       columnDefs={columnAsigancion}
                       rowData={assignmentsCCD}
                       defaultColDef={defaultColDef}
+                      getRowClass={getRowClass} // para cambiar el color de la fila
                     ></AgGridReact>
                   </div>
                 </div>

@@ -308,6 +308,9 @@ const useCCD = () => {
             field: "subseries_nombres",
             minWidth: 150,
             maxWidth: 200,
+            cellStyle: {
+                'white-space': 'pre-wrap'
+            }
         },
         {
             headerName: "Acciones",
@@ -330,6 +333,13 @@ const useCCD = () => {
             ),
         },
     ];
+
+    const getRowClass = (params) => {
+        if (params.data.price >= 50000) {
+            return 'high-price';
+        }
+        return '';
+    };
 
     return {
         //States
@@ -354,6 +364,7 @@ const useCCD = () => {
         setCreateIsactive,
         setConsultaCcdIsactive,
         //Functions
+        getRowClass,
         onSubmitCreateCCD,
         onSubmit,
         registerCreateCCD,
