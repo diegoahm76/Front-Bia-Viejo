@@ -786,7 +786,8 @@ const RegisterPersonaScreen = () => {
                           <input
                             className="border border-terciary form-control border rounded-pill px-3"
                             type="number"
-                            {...register("dv", { required: true })}
+                            {...register("dv", { required: true, maxLength: 1})}
+                           
                           // onChange={handleMaxOneDigit}
                           />
                         </div>
