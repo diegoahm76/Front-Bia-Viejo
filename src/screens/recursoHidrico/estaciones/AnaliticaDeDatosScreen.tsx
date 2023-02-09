@@ -2,6 +2,7 @@ import { url } from "inspector";
 import React, { useEffect, useState } from "react";
 import { Image } from "react-bootstrap";
 import Select from "react-select"
+import LogoCormacarena from "../../../assets/LogosBIAPNG/logoCorma.svg";
 
 
 const opcAnalitica = [
@@ -18,83 +19,55 @@ function AnaliticaDeDatos() {
             <div className="col-lg-12 col-md-12 col-12 mx-auto">
                 <div className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative">
                     <h3>Analitica de Datos por estaciones</h3>
-                    <div className="row col-12 mt-5 mx-3 ">
-                        <div
-                            className="card col-2 text-dark"
-                            style={{ width: "200px", height: "150px", backgroundImage: "bg-pircing.jpg" }}
-                        >
-                            <div className="card-header text-info text-center bg-light">
-                                Guayuriba
-                            </div>
-                            <div className="d-flex justify-content-between align-items-left mx-6">
-                            </div>
-                            <div className="text-center">
-                                <a href="https://app.powerbi.com/groups/39fa027a-d078-47da-8057-cb797c593fad/list?cmpid=pbi-glob-head-snn-signin" className="text-dark">
-                                    Seleccionar <i className="fas fa-arrow-circle-right" title='Ver más' />
+                    <div className="row col-12 mt-5 mx-3">
+                        <div className="card col-6" style={{ width: "450px", height: "200px" }}>
+                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <a className="d-block blur-shadow-image">
                                 </a>
+                                <div className="colored-shadow" ></div>
+                            </div>
+                            <div className="card-body text-center">
+                                <h2 className="font-weight-normal mt-3">
+                                    <a href="/dashboard/almacen/configuracion/administrador-bodegas">Estación Guamal</a>
+                                </h2>
                             </div>
                         </div>
-                        <div
-                            className="card col-2 mx-4 text-white"
-                            style={{
-                                width: "200px",
-                                height: "150px",
-                                backgroundColor: "#042f4a",
-                            }}
-                        >
-                            <div
-                                className="card-header text-center "
-                                style={{ backgroundColor: "#042f4a" }}
-                            >
-                                Guamal
+                        <div className="card col-6 bg-" style={{ width: "450px", height: "200px", }}>
+                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <a className="d-block blur-shadow-image">
+                                </a>
+                                <div className="colored-shadow" ></div>
                             </div>
+                            <div className="card-body text-center">
+                                <h2 className="font-weight-normal mt-3">
+                                    <a href="javascript:;">Estación Guayuriba</a>
+                                </h2>
+                                <div><button>Ver mas...</button></div>
+                            </div>
+                        </div>
 
-                            <div className="d-flex justify-content-between align-items-left mt-0">
-                                <h6 className="text-white text-center mx-5"></h6>
-                            </div>
-                            <div className="text-center">
-                                <a href="" className="text-white">
-                                    Seleccionar <i className="fas fa-arrow-circle-right" title='Ver más' />
+                        <div className="card col-6 mt-3" style={{ width: "450px", height: "200px" }}>
+                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <a className="d-block blur-shadow-image">
                                 </a>
+                                <div className="colored-shadow" ></div>
+                            </div>
+                            <div className="card-body text-center">
+                                <h2 className="font-weight-normal mt-3">
+                                    <a href="">Estación Ocoa</a>
+                                </h2>
                             </div>
                         </div>
-                        <div
-                            className="card col-2 text-dark"
-                            style={{ width: "200px", height: "150px", backgroundImage: "bg-pircing.jpg" }}
-                        >
-                            <div className="card-header text-info text-center bg-light">
-                                Puerto Gaitan
-                            </div>
-                            <div className="d-flex justify-content-between align-items-left mx-6">
-                            </div>
-                            <div className="text-center">
-                                <a href="" className="text-dark">
-                                    Seleccionar <i className="fas fa-arrow-circle-right" title='Ver más' />
+                        <div className="card col-6 mt-3" style={{ width: "450px", height: "200px", backgroundImage: "https://www.klipartz.com/es/sticker-png-tarwg" }}>
+                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <a className="d-block blur-shadow-image">
                                 </a>
+                                <div className="colored-shadow" ></div>
                             </div>
-                        </div>
-                        <div
-                            className="card col-2 mx-4 text-white"
-                            style={{
-                                width: "200px",
-                                height: "150px",
-                                backgroundColor: "#042f4a",
-                            }}
-                        >
-                            <div
-                                className="card-header text-center "
-                                style={{ backgroundColor: "#042f4a" }}
-                            >
-                                Ocoa
-                            </div>
-
-                            <div className="d-flex justify-content-between align-items-left mt-0">
-                                <h6 className="text-white text-center mx-5"></h6>
-                            </div>
-                            <div className="text-center">
-                                <a href="" className="text-white">
-                                    Seleccionar <i className="fas fa-arrow-circle-right" title='Ver más' />
-                                </a>
+                            <div className="card-body item-center">
+                                <h2 className="font-weight-normal mt-3">
+                                    <a href="">Estación Pto Gaitan</a>
+                                </h2>
                             </div>
                         </div>
                     </div>
