@@ -11,7 +11,8 @@ import { Color } from "../../../../public/static/js/plugins/threejs";
 import { isAsyncThunkAction } from "@reduxjs/toolkit";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import {
-  obtenerConguracionEstaciones, seleccionarConfiguracion,
+  obtenerConguracionEstaciones,
+  seleccionarConfiguracion,
 } from "../../../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 
 function Dashboards_Estaciones() {
@@ -36,7 +37,7 @@ function Dashboards_Estaciones() {
     { label: "Estación Guamal", value: 1 },
     { label: "Estación Guayuriba", value: 2 },
     { label: "Estación Ocoa", value: 3 },
-    { label: "Estación Puerto Gaitan", value: 4 }    
+    { label: "Estación Puerto Gaitan", value: 4 },
   ];
 
   const configuraciones = useAppSelector(
@@ -59,7 +60,7 @@ function Dashboards_Estaciones() {
       Velocidad_Agua: "",
       Estado: "",
       fecha: "",
-      frecuencia: ""
+      frecuencia: "",
     },
   });
 
@@ -125,8 +126,8 @@ function Dashboards_Estaciones() {
               </div>
             </div>
             {selectDashboards.opcDashboards === 1 ? (
-              <div>                             
-                <div className="row col12 mt-5 mx-2">                  
+              <div>
+                <div className="row col12 mt-5 mx-2">
                   <div
                     className="card col-4 text-dark bg-light"
                     style={{ width: "250px", height: "150px" }}
@@ -136,16 +137,20 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.fecha} 
+                        {data.properties.fecha}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-regular fa-calendar-days fs-2"></i>
                       </div>
-                    </div>                    
+                    </div>
                   </div>
                   <div
                     className="card col-4 mx-4 text-white"
-                    style={{ width: "250px", height: "150px", backgroundColor: "#042f4a"}}
+                    style={{
+                      width: "250px",
+                      height: "150px",
+                      backgroundColor: "#042f4a",
+                    }}
                   >
                     <div
                       className="card-header text-center "
@@ -161,8 +166,8 @@ function Dashboards_Estaciones() {
                       <div className="icon-circle text-white">
                         <i className="fa-solid fa-chart-line fs-2 mx-4"></i>
                       </div>
-                    </div>                    
-                  </div>     
+                    </div>
+                  </div>
 
                   <div
                     className="card col-4 text-dark bg-light"
@@ -173,16 +178,16 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.frecuencia} 
+                        {data.properties.frecuencia}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-solid fa-business-time fs-2"></i>
                       </div>
-                    </div>                    
-                  </div>             
+                    </div>
+                  </div>
                 </div>
 
-                <div className="row col12 mt-5 mx-2">                  
+                <div className="row col12 mt-5 mx-2">
                   <div
                     className="card col-4 text-dark bg-light"
                     style={{ width: "250px", height: "150px" }}
@@ -504,19 +509,39 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe title="PrecipitacionGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=e6935e38-1fae-4c30-bb0c-433408198d0d&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="PrecipitacionGuayuriba - Página 1"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=e6935e38-1fae-4c30-bb0c-433408198d0d&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del viento</h3>
-                    <iframe title="VelocidadVientoGuayuriba - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=f6bd0828-6155-4e78-a991-6c3ec6ec9b63&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="VelocidadVientoGuayuriba - Página 1"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=f6bd0828-6155-4e78-a991-6c3ec6ec9b63&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel del agua</h3>
-                    <iframe title="NivelAguaGuayuriba" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=eb8e111c-aec0-4cb4-bfce-5e4cc06888db&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="NivelAguaGuayuriba"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=eb8e111c-aec0-4cb4-bfce-5e4cc06888db&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Dirección Viento</h3>
-                    <iframe title="DireccionVientoGuayuriba" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=6973847b-d0cf-4331-822f-b03a2eda08cf&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="DireccionVientoGuayuriba"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=6973847b-d0cf-4331-822f-b03a2eda08cf&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                 </div>
               </div>
@@ -526,8 +551,7 @@ function Dashboards_Estaciones() {
 
             {selectDashboards.opcDashboards === 2 ? (
               <div>
-
-                <div className="row col12 mt-5 mx-2">                  
+                <div className="row col12 mt-5 mx-2">
                   <div
                     className="card col-4 text-dark bg-light"
                     style={{ width: "250px", height: "150px" }}
@@ -537,16 +561,20 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.fecha} 
+                        {data.properties.fecha}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-regular fa-calendar-days fs-2"></i>
                       </div>
-                    </div>                    
+                    </div>
                   </div>
                   <div
                     className="card col-4 mx-4 text-white"
-                    style={{ width: "250px", height: "150px", backgroundColor: "#042f4a"}}
+                    style={{
+                      width: "250px",
+                      height: "150px",
+                      backgroundColor: "#042f4a",
+                    }}
                   >
                     <div
                       className="card-header text-center "
@@ -562,8 +590,8 @@ function Dashboards_Estaciones() {
                       <div className="icon-circle text-white">
                         <i className="fa-solid fa-chart-line fs-2 mx-4"></i>
                       </div>
-                    </div>                    
-                  </div>     
+                    </div>
+                  </div>
 
                   <div
                     className="card col-4 text-dark bg-light"
@@ -574,14 +602,14 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.frecuencia} 
+                        {data.properties.frecuencia}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-solid fa-business-time fs-2"></i>
                       </div>
-                    </div>                    
-                  </div>             
-                </div>                
+                    </div>
+                  </div>
+                </div>
 
                 <div className="row col12 mt-5 mx-2">
                   <div
@@ -938,15 +966,30 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel del agua</h3>
-                    <iframe title="NivelAguaOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=4c4e757a-a2ea-49c1-936c-d443244a961a&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f" ></iframe>
+                    <iframe
+                      title="NivelAguaOcoa"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=4c4e757a-a2ea-49c1-936c-d443244a961a&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Dirección Viento</h3>
-                    <iframe title="DireccionVientoOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=bf4f3937-09e3-49b3-87d7-3c99210a6ed5&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="DireccionVientoGuayuriba"
+                      width="800px"
+                      height="486px"
+                      src="https://app.powerbi.com/view?r=eyJrIjoiZGIyOGM4Y2UtNjU2My00OTAzLTlmZDgtMGYzODc1MDZhM2VjIiwidCI6ImZjMDA1NDdhLTI0YmItNGU0Zi05ZDYxLTczZmNhNWViOWRmMyIsImMiOjR9"                    
+                      ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión aire</h3>
-                    <iframe title="PresionOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=3281090b-0edd-4e4c-8c39-d8031bf05c98&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="PresionOcoa"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=3281090b-0edd-4e4c-8c39-d8031bf05c98&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                 </div>
               </div>
@@ -956,8 +999,7 @@ function Dashboards_Estaciones() {
 
             {selectDashboards.opcDashboards === 3 ? (
               <div>
-
-                <div className="row col12 mt-5 mx-2">                  
+                <div className="row col12 mt-5 mx-2">
                   <div
                     className="card col-4 text-dark bg-light"
                     style={{ width: "250px", height: "150px" }}
@@ -967,16 +1009,20 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.fecha} 
+                        {data.properties.fecha}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-regular fa-calendar-days fs-2"></i>
                       </div>
-                    </div>                    
+                    </div>
                   </div>
                   <div
                     className="card col-4 mx-4 text-white"
-                    style={{ width: "250px", height: "150px", backgroundColor: "#042f4a"}}
+                    style={{
+                      width: "250px",
+                      height: "150px",
+                      backgroundColor: "#042f4a",
+                    }}
                   >
                     <div
                       className="card-header text-center "
@@ -992,8 +1038,8 @@ function Dashboards_Estaciones() {
                       <div className="icon-circle text-white">
                         <i className="fa-solid fa-chart-line fs-2 mx-4"></i>
                       </div>
-                    </div>                    
-                  </div>     
+                    </div>
+                  </div>
 
                   <div
                     className="card col-4 text-dark bg-light"
@@ -1004,14 +1050,14 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.frecuencia} 
+                        {data.properties.frecuencia}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-solid fa-business-time fs-2"></i>
                       </div>
-                    </div>                    
-                  </div>             
-                </div>                
+                    </div>
+                  </div>
+                </div>
 
                 <div className="row col12 mt-5 mx-2">
                   <div
@@ -1316,37 +1362,83 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4 "></div>
                   <h3 className="mt-2 mb-0">Humedad</h3>
-                  <iframe title="HumedadPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=dc9a907a-01b6-4f29-8005-b44d7803c55c&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                  <iframe
+                    title="HumedadPuertoGaitan"
+                    width="900px"
+                    height="500px"
+                    src="https://app.powerbi.com/reportEmbed?reportId=dc9a907a-01b6-4f29-8005-b44d7803c55c&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                  ></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión del aire</h3>
-                    <iframe title="PresionPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=07abf225-77e7-424c-bd27-7ce1ee6c0a77&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="PresionPuertoGaitan"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=07abf225-77e7-424c-bd27-7ce1ee6c0a77&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de luminosidad</h3>
-                    <iframe title="LuminosidadPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=3c6e5579-fe33-4e06-8897-864af1c63032&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f" ></iframe>
+                    <iframe
+                      title="LuminosidadPuertoGaitan"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=3c6e5579-fe33-4e06-8897-864af1c63032&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del agua</h3>
-                    <iframe title="VelocidadAguaPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=b3d338a8-4cb7-4814-9524-98a994783c68&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="Velocidad del agua_estaciones Puerto Gaitan"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=45f43ecc-9e8f-469c-906c-75e0480966fb&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Temperatura</h3>
-                    <iframe title="TemperaturaPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=40f66d02-ca8a-4194-a662-26be56e8925f&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="TemperaturaPuertoGaitan"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=40f66d02-ca8a-4194-a662-26be56e8925f&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                  </div><iframe title="PrecipitacionPuertoGaitan - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=2bc6f023-b79e-47ef-920d-5c349ee93e4b&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                  </div>
+                  <iframe
+                    title="PrecipitacionPuertoGaitan - Página 1"
+                    width="900px"
+                    height="500px"
+                    src="https://app.powerbi.com/reportEmbed?reportId=2bc6f023-b79e-47ef-920d-5c349ee93e4b&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                  ></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del viento</h3>
-                    <iframe title="VelocidadVientoPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=6427d13d-b81f-4875-b298-2bba67f60be6&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="VelocidadVientoPuertoGaitan"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=6427d13d-b81f-4875-b298-2bba67f60be6&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel del agua</h3>
-                    <iframe title="NivelAguaPuertoGaitan - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=1aaf3e42-3014-4e11-91a0-19247e8c072f&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="NivelAguaPuertoGaitan - Página 1"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=1aaf3e42-3014-4e11-91a0-19247e8c072f&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Dirección del viento</h3>
-                    <iframe title="DireccionVientoPuertoGaitan" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=d6b4d732-f8d4-4bab-a42d-974589c7b171&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="DireccionVientoPuertoGaitan"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=d6b4d732-f8d4-4bab-a42d-974589c7b171&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                 </div>
               </div>
@@ -1356,8 +1448,7 @@ function Dashboards_Estaciones() {
 
             {selectDashboards.opcDashboards === 4 ? (
               <div>
-                
-                <div className="row col12 mt-5 mx-2">                  
+                <div className="row col12 mt-5 mx-2">
                   <div
                     className="card col-4 text-dark bg-light"
                     style={{ width: "250px", height: "150px" }}
@@ -1367,16 +1458,20 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.fecha} 
+                        {data.properties.fecha}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-regular fa-calendar-days fs-2"></i>
                       </div>
-                    </div>                    
+                    </div>
                   </div>
                   <div
                     className="card col-4 mx-4 text-white"
-                    style={{ width: "250px", height: "150px", backgroundColor: "#042f4a"}}
+                    style={{
+                      width: "250px",
+                      height: "150px",
+                      backgroundColor: "#042f4a",
+                    }}
                   >
                     <div
                       className="card-header text-center "
@@ -1392,8 +1487,8 @@ function Dashboards_Estaciones() {
                       <div className="icon-circle text-white">
                         <i className="fa-solid fa-chart-line fs-2 mx-4"></i>
                       </div>
-                    </div>                    
-                  </div>     
+                    </div>
+                  </div>
 
                   <div
                     className="card col-4 text-dark bg-light"
@@ -1404,14 +1499,14 @@ function Dashboards_Estaciones() {
                     </div>
                     <div className="d-flex justify-content-between align-items-left mx-5">
                       <h6 className="text-dark text-center">
-                        {data.properties.frecuencia} 
+                        {data.properties.frecuencia}
                       </h6>
                       <div className="icon-circle text-dark mx-1">
                         <i className="fa-solid fa-business-time fs-2"></i>
                       </div>
-                    </div>                    
-                  </div>             
-                </div>                
+                    </div>
+                  </div>
+                </div>
 
                 <div className="row col12 mt-5 mx-2">
                   <div
@@ -1719,7 +1814,12 @@ function Dashboards_Estaciones() {
                   <iframe></iframe>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Presión del aire</h3>
-                    <iframe title="PresionGuamal - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=0d34d0f7-bb08-423a-9e06-0051f6f45f7a&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="PresionGuamal - Página 1"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=0d34d0f7-bb08-423a-9e06-0051f6f45f7a&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de luminosidad</h3>
@@ -1731,23 +1831,48 @@ function Dashboards_Estaciones() {
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Temperatura</h3>
-                    <iframe title="TemperaturaGuamal" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=85e332c6-f0a3-4adb-ac38-748b57812dde&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="TemperaturaGuamal"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=85e332c6-f0a3-4adb-ac38-748b57812dde&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Precipitación</h3>
-                    <iframe title="PrecipitacionGuamal - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=47d97fee-7adc-439f-9b27-650224d8d3f1&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="PrecipitacionGuamal - Página 1"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=47d97fee-7adc-439f-9b27-650224d8d3f1&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Velocidad del viento</h3>
-                    <iframe title="VelocidadVientoOcoa" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=075ee9eb-da9a-4b62-ba1f-9f4d9c6e9490&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="VelocidadVientoOcoa"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=075ee9eb-da9a-4b62-ba1f-9f4d9c6e9490&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Dirección de viento</h3>
-                    <iframe title="DireccionVientoGuamal" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=a0b275b9-787f-42b9-9b30-9214b0ef7bf4&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="DireccionVientoGuamal"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=a0b275b9-787f-42b9-9b30-9214b0ef7bf4&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                   <div className="col-12 mx-4">
                     <h3 className="mt-2 mb-0">Nivel de agua</h3>
-                    <iframe title="NivelAguaGuamal - Página 1" width="900px" height="500px" src="https://app.powerbi.com/reportEmbed?reportId=8349fa85-ac15-45ad-918e-d179b7158512&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"></iframe>
+                    <iframe
+                      title="NivelAguaGuamal - Página 1"
+                      width="900px"
+                      height="500px"
+                      src="https://app.powerbi.com/reportEmbed?reportId=8349fa85-ac15-45ad-918e-d179b7158512&autoAuth=true&ctid=8d36836e-6b75-4de6-bab9-5f4b1775427f"
+                    ></iframe>
                   </div>
                 </div>
               </div>
