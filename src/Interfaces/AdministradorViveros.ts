@@ -64,3 +64,12 @@ export interface IViveroGeneric {
     viveroEditar: IVivero;
     vivero: IVivero[];
 }
+
+export interface IViveroApertura{
+    id_vivero:number
+    justificacion_apertura:string,
+    justificacion_cierre:string,
+    fecha_apertura:string,
+    fecha_cierre_actual:string,
+    en_funcionamiento:boolean,
+}
