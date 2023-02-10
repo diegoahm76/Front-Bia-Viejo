@@ -9,7 +9,7 @@ import { IViveroCreate } from '../../../../Interfaces/AdministradorViveros';
 import { textChoiseAdapter } from '../../../../adapters/textChoices.adapter';
 import { SweetAlertIcon } from "sweetalert2";
 import Swal from 'sweetalert2';
-import { createThunkAdministracionVivero, getThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
+import { createThunkAdministracionVivero, getThunkAdministracionVivero, editThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
 import { formatISO } from 'date-fns';
 import { formatMs } from "@material-ui/core";
 import BusquedaAvanzadaModal from '../../../../components/BusquedaAvanzadaModal';
@@ -136,8 +136,14 @@ export const useAdministracionVivero = () => {
 
     const onSubmit = () => {
         createStartViveroForm();
+        setCreateModel(infoViveroModel)
         console.log('Entre');
     }
+
+    // useEffect(() => {
+        // onSubmit();
+    // }, [])
+
 
     const AdministradorVivero = () => {
         navigate("/dashboard/conservcacion/gestorvivero/administrarvivero");
@@ -190,10 +196,10 @@ export const useAdministracionVivero = () => {
     };
 
     const onSubmitGet = () => {
-        dispatch(getThunkAdministracionVivero());
+        // dispatch(getThunkAdministracionVivero());
         setModal(true);
+        setCreateModel(infoViveroModel)
     }
-    
 
     const [modalPersonal, setModalPersonal] = useState(false);
 
@@ -223,9 +229,23 @@ export const useAdministracionVivero = () => {
         formData.append('id_persona_abre',dataViveroAdministracion.id_persona_abre);
         formData.append('id_persona_cierra',dataViveroAdministracion.id_persona_cierra);
         formData.append('id_persona_cuarentena',dataViveroAdministracion.id_persona_cuarentena);
+        formData.append('fecha_inicio_viverista_actual',dataViveroAdministracion.fecha_inicio_viverista_actual);
         dispatch(createThunkAdministracionVivero(formData));
         console.log(dataViveroAdministracion);
-        console.log(dataViveroAdministracion.cod_tipo_vivero);
+        // console.log(dataViveroAdministracion.cod_tipo_vivero);
+    }
+
+    const handleEditVivero = (id) => {
+        const formdata = new FormData();
+        formdata.append('area_mt2', dataViveroAdministracion.area_mt2 );
+        formdata.append('area_propagacion_mt2', dataViveroAdministracion.area_propagacion_mt2 );
+        formdata.append('tiene_area_produccion', dataViveroAdministracion.tiene_area_produccion );
+        formdata.append('tiene_areas_pep_sustrato', dataViveroAdministracion.tiene_area_pep_sustrato );
+        formdata.append('tiene_area_embolsado', dataViveroAdministracion.tiene_area_embolsado );
+        formdata.append('cod_tipo_vivero', dataViveroAdministracion.tipo_vivero.value );
+        formdata.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value );
+        console.log(formdata);
+        dispatch(editThunkAdministracionVivero(id, formdata))
     }
 
     //Cargue de archivos de imagen
@@ -234,6 +254,7 @@ export const useAdministracionVivero = () => {
     };
 
     return {
+        handleEditVivero,
         handleSubmit,
         handleUpload,
         onSubmit,
@@ -258,6 +279,9 @@ export const useAdministracionVivero = () => {
         handleOpenModalAvanzadaModal,
         onSubmitGet,
         modal,
-        setModal
+        setModal,
+        modalPersonal,
+        setBusquedaModel,
+        busquedaModel
     };
 };

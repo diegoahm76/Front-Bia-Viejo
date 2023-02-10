@@ -55,13 +55,14 @@ export const ConsultasMunicipioModal = ({
     // setFormValues,
     // reset,
     // tipoDocumentoOptions,
-    setDisabled
+    setDisabled,
     
 }) => {
 const [usuarioSearched, setUsuarioSearched] = useState([]);
 const [loading, setLoading] = useState(false);
 const [codMunicipio, setCodMunicipio] = useState<number>(0);
 const [nombre, setNombre] = useState<string>('');
+// const [idVivero, setIdVivero] = useState({});
 
 
 const {
@@ -76,23 +77,23 @@ const dispatch = useAppDispatch();
 const onSubmit = async () => {
     const elementModalId = document.getElementById("modal-usuarios-busqueda")!;
     if (nombre !== '') {
-    await clienteAxios.get(
-        `conservacion/viveros/get-by-nombre-municipio/apertura-cierre/?nombre=${nombre}`
-    ).then((response) => {
-        setUsuarioSearched(response.data.data);
-    }).catch((err) => {
-            Swal.fire({
-            target: elementModalId,
-            position: "center",
-            icon: "warning",
-            title: err.response.data.detail,
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
+        await clienteAxios.get(
+            `conservacion/viveros/get-by-nombre-municipio/apertura-cierre/?nombre=${nombre}`
+        ).then((response) => {
+            setUsuarioSearched(response.data.data);
+        }).catch((err) => {
+                Swal.fire({
+                    target: elementModalId,
+                    position: "center",
+                    icon: "warning",
+                    title: err.response.data.detail,
+                    showConfirmButton: true,
+                    confirmButtonText: "Aceptar",
+            });
         });
-    });
     } else {
         await clienteAxios.get(
-            `conservacion/viveros/get-by-nombre-municipio/`
+            `conservacion/viveros/get-by-nombre-municipio/apertura-cierre/`
         ).then((response) => {
             setUsuarioSearched(response.data.data);
         });
@@ -101,6 +102,7 @@ const onSubmit = async () => {
 
 const seleccionarAction = (dataSearch) => {
     const busquedaAvanzadaModel = {
+        id_vivero: 0,
         nombre: '',
         municipio: { value: '', label: '' },
         direccion: '',
@@ -113,6 +115,7 @@ const seleccionarAction = (dataSearch) => {
         origen_recursos_vivero: { value: '', label: '' }
     }
     // busquedaAvanzadaModel.tipoDocumento.label = dataSearch.persona.tipo_documento.nombre;
+    busquedaAvanzadaModel.id_vivero = dataSearch.id_vivero;
     busquedaAvanzadaModel.nombre = dataSearch.nombre;
     busquedaAvanzadaModel.municipio.value = dataSearch.cod_municipio;
     busquedaAvanzadaModel.municipio.label = dataSearch.cod_municipio;
@@ -148,12 +151,12 @@ const columnDefs = [
         minWidth: 140,
     },
     {
-        headerName: "Area Mt2",
+        headerName: "Área",
         field: "area_mt2",
         minWidth: 180,
     },
     {
-        headerName: "area_propagacion_mt2",
+        headerName: "Área Propagación",
         field: "area_propagacion_mt2",
         minWidth: 180,
     },
@@ -161,23 +164,62 @@ const columnDefs = [
     headerName: "Acción",
     field: "accion",
     cellRendererFramework: (params) => (
-        <div className="d-flex justify-content-center align-items-center gap-2">
-            <button
-                className="btn btn-sm btn-tablas btn-primary"
+        <div className="d-flex gap-1">
+            <button 
+                className="btn btn-sm btn-tablas"
                 type="button"
-                title="Send"
+                title="editar"
                 onClick={() => {
                     seleccionarAction(params.data);
+                    // console.log(params.data.id_vivero);
+                    // setIdVivero(params.data);
                     setDisabled(true);
                 }}
             >
-                Editar
+                <i className="fa-solid fa-pen-to-square fs-5"></i>
+            </button>
+            <button
+                className="btn btn-sm btn-tablas"
+                type="button"
+                title="eliminar"
+                onClick={() => confirmarEliminarVivero(params.data.id_vivero)}
+            >
+                <i className="fa-solid fa-trash fs-5"></i>
             </button>
         </div>
     ),
-    minWidth: 150,
+        minWidth: 130
     },
 ];
+
+const confirmarEliminarVivero = async(id) => {
+    const elementModalId = document.getElementById("modal-usuarios-busqueda")!;
+    await clienteAxios.delete(
+        `conservacion/viveros/delete/${id}/`
+    ).then((response) => {
+        console.log(response.data);
+        Swal.fire({
+            title: '¿Estas seguro de eliminar el vivero?',
+            icon: 'warning',
+            target: elementModalId,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No',
+        })
+    }).catch((err) => {
+        console.log(err.response.data.detail);
+        Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "warning",
+            title: err.response.data.detail,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+        })
+    })
+}
 
 const handleCloseModal = () => {
     setIsModalActive(false);

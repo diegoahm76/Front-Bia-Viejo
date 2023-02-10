@@ -8,7 +8,7 @@ import Subtitle from "../../../components/Subtitle";
 import { useAdministracionVivero } from "./hooks/useAdministracionVivero";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
+import BusquedaAvanzadaModal from '../../../components/BusquedaAvanzadaModal';
 import { Navigate } from "react-router-dom/dist";
 import { ConsultasMunicipioModal } from '../../../components/ConsultasMunicipioModal';
 
@@ -32,7 +32,12 @@ const AdministrarViveroScreen = () => {
     control,
     onSubmitGet,
     modal,
-    setModal
+    setModal,
+    setModalPersonal,
+    modalPersonal,
+    setBusquedaModel,
+    busquedaModel,
+    handleEditVivero
   } = useAdministracionVivero();
 
 
@@ -44,11 +49,11 @@ const AdministrarViveroScreen = () => {
     area_propagacion_mt2: 0
   }
 
-  const [modalPersonal, setModalPersonal] = useState(false);
   const [cuarentena, setCuarentena] = useState<boolean>(false);
   const [isActivo, setIsActivo] = useState<boolean>(true);
   const [apertura, setApertura] = useState<boolean>(false);
   const [disabled, setDisabled] = useState<boolean>(false);
+  const [viveristaModal, setViveristaModal] = useState<boolean>(false);
 
 
 
@@ -126,7 +131,6 @@ const AdministrarViveroScreen = () => {
                   onChange={handleChange}
                   placeholder="Ingresa área para el vivero"
                   value={ createModel.area_mt2 }
-                  disabled={disabled}
                 />
                 {errors.nombreVivero && (
                   <div className="col-12">
@@ -148,7 +152,6 @@ const AdministrarViveroScreen = () => {
                   placeholder="Tipo de vivero"
                   required={true}
                   value={createModel.tipo_vivero}
-                  isDisabled={disabled}
                 />
 
                 {errors.municipioOpcion && (
@@ -356,6 +359,8 @@ const AdministrarViveroScreen = () => {
                 </label>
                 <Select
                   name="options"
+                  isDisabled
+                  value={busquedaModel.tipoDocumento}
                   // control={control2}
                   // rules={{ required: true }}
                   // render={({ field }) => (
@@ -376,6 +381,8 @@ const AdministrarViveroScreen = () => {
                   onChange={handleChange}
                   type="number"
                   placeholder="Numero de identificacion"
+                  value={ busquedaModel.cedula }
+                  disabled={ true }
                 />
               </div>
               <div className="col-12 col-md-3">
@@ -388,16 +395,17 @@ const AdministrarViveroScreen = () => {
                   placeholder="Nombre de funcionario"
                   disabled={true}
                   {...register("Viverista")}
+                  value={busquedaModel.nombreCompleto}
                 />
               </div>
               <div className="col-12 col-md-3 mt-2" style={{ display: "flex" }}>
-                <button
+                {/* <button
                   type="button"
                   className="btn  text-capitalize btn-outline-ligth ms-2 mt-4"
                   title="Buscar profesional Cormacarena"
                 >
                   <img src={IconoBuscar} alt="buscar" />
-                </button>
+                </button> */}
                 {/* </div>
               <div className="col-6 col-sm-3 mt-2"> */}
                 <button
@@ -408,6 +416,11 @@ const AdministrarViveroScreen = () => {
                 >
                   Busqueda avanzada
                 </button>
+                <BusquedaAvanzadaModal
+                  isModalActive={modalPersonal}
+                  setIsModalActive={setModalPersonal}
+                  setModel={setBusquedaModel}
+                />
               </div>
             </div>
 
@@ -537,6 +550,10 @@ const AdministrarViveroScreen = () => {
                 <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"
                   title="Imprimir"
+                  onClick={() => {
+                    handleEditVivero(createModel.id_vivero)
+                    // console.log(createModel)
+                  }}
                 >
                   <i className="fa-solid fa-print fs-3"></i>
                 </button>
