@@ -210,7 +210,6 @@ const TrdScreen = () => {
       soporte: "hibrido",
       formato: ".pdf, papel",
     },
-    
   ];
   const columnAsigancion2 = [
     {
@@ -391,7 +390,7 @@ const TrdScreen = () => {
               </div>
             </div>
 
-            <Subtitle title="Formato por medio" mb={3}/>
+            <Subtitle title="Formato por medio" mb={3} />
 
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
@@ -560,17 +559,88 @@ const TrdScreen = () => {
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <div>
-                  <label className="ms-2 text-terciary">Subseccion</label>
+                  <label className="ms-2 text-terciary">Seccion</label>
                   <input
-                    name="subseccion "
-                    className="form-control border border-terciary border rounded-pill px-3"
+                                        className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
-                    placeholder="Nombre"
+                    value="Direccion general"
+                    disabled
                   />
                 </div>
               </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Subseccion</label>
+                  <input
+                    
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    value="Gestion ambiental"
+                    disabled
+                  />
+                </div>
               </div>
-
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Serie</label>
+                  <input
+                    
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    value="1"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Subserie</label>
+                  <input
+                    
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    value="3"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+            <div className="col-12 col-lg-3  mt-3">
+                <label className="text-terciary">Disposicin final</label>
+                <Controller
+                  name="medio_formato"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: "Fisico", value: "fsc" },
+                        { label: "Electronico", value: "elc" },
+                      ]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <label className="text-terciary">Soporte</label>
+                <Controller
+                  name="medio_formato"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: "Fisico", value: "fsc" },
+                        { label: "Electronico", value: "elc" },
+                      ]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+            </div>
           </form>
         </div>
       </div>

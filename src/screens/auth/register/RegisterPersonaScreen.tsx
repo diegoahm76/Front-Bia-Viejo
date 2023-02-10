@@ -289,6 +289,7 @@ const RegisterPersonaScreen = () => {
           `personas/get-personas-naturales-by-document/${data.tipoDocumentoLegal.value}/${data.numero_documento_legal}/`
         );
         setIdRepresentante(dataRepresentante?.data?.id_persona);
+        console.log(dataRepresentante,"datarepresentante legal")
       } catch (error) {
         console.log(error);
         Swal.fire({
@@ -329,7 +330,7 @@ const RegisterPersonaScreen = () => {
         cod_pais_nacionalidad_empresa: dataPersona.paisNotificacion.value,
         telefono_celular_empresa: dataPersona.celular,
         // representante_legal: Number(dataPersona.),
-        representante_legal: 1,
+        representante_legal: 2,
         telefono_empresa_2: '',
         telefono_empresa: '',
         acepta_notificacion_sms: true,
@@ -1011,7 +1012,7 @@ const RegisterPersonaScreen = () => {
                     {errorsForm.cEmail && (
                       <div className="col-12">
                         <small className="text-danger">
-                          Este campo es obligatorio
+                          Este campo es obligatorio e igual al E-mail
                         </small>
                       </div>
                     )}
