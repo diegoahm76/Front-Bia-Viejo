@@ -229,7 +229,7 @@ const useCCD = () => {
                 return {
                     id_unidad_organizacional: item.id_unidad_organizacional,
                     id_serie_doc: item.id_serie_doc,
-                    subseries: item.subseries.map(item => item.id_serie_subserie_doc),
+                    subseries: item.subseries.map(item => item.value),
                 }
             }
         );
@@ -251,7 +251,7 @@ const useCCD = () => {
                         : {
                             id_unidad_organizacional: item.id_unidad_organizacional,
                             id_serie_doc: item.id_serie_doc,
-                            subseries: item.subseries.map(item => item.id_serie_subserie_doc),
+                            subseries: item.subseries.map(item => item.value),
                         }
                 }
             );
@@ -365,7 +365,6 @@ const useCCD = () => {
         saveCCD,
         //Edita States
         setTitle,
-        setTitleButtonAsing,
         setCreateIsactive,
         setConsultaCcdIsactive,
         //Functions

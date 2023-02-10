@@ -1,12 +1,12 @@
 import Swal from 'sweetalert2'
 import clienteAxios from "../../config/clienteAxios";
-import { NavigateFunction } from 'react-router-dom';
 // Types
 import { AxiosError, AxiosResponse } from "axios";
 // Reducers
 // Interfaces
-import { FormValuesUnitys, IObjCreateOrganigram, IObjLevels } from '../../Interfaces/Organigrama';
 import { getCCDCurrent, getCCDS } from '../../store/slices/CCD/indexCCD';
+import { getSeriesService } from '../series/SeriesServices';
+import { getSubSeriesService } from '../subseries/SubSeriesServices';
 
 const notificationError = (message = 'Algo pasó, intente de nuevo', text = '') => Swal.mixin({
     position: 'center',
@@ -55,12 +55,13 @@ export const getClassificationCCDSService = () => {
 };
 
 //Reanudar Cuadro de Clasificación Documental
-export const toResumeCCDSService = (id: string, navigate: NavigateFunction) => {
+export const toResumeCCDSService = (setFlagBtnFinish) => {
     return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
         const { CCDCurrent } = getState().CCD;
         try {
             const { data } = await clienteAxios.put(`gestor/ccd/resume/${CCDCurrent.id_ccd}/`);
             dispatch(getClassificationCCDSService());
+            setFlagBtnFinish(false);
             notificationSuccess(data.detail);
             return data;
         } catch (error: any) {
@@ -70,14 +71,14 @@ export const toResumeCCDSService = (id: string, navigate: NavigateFunction) => {
     };
 };
 //Finalizar Cuadro de Clasificación Documental
-export const toFinishedCCDSService = () => {
+export const toFinishedCCDSService = (setFlagBtnFinish) => {
     return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
         const { CCDCurrent } = getState().CCD;
         try {
             const { data } = await clienteAxios.put(`gestor/ccd/finish/${CCDCurrent.id_ccd}/?confirm=false`);
             dispatch(getClassificationCCDSService());
-            // notificationSuccess(data.detail, 'Los siguientes códigos no se encontraron en el sistema: ' + data.data.map((item: any) => item).join(', '));
             notificationSuccess(data.detail);
+            setFlagBtnFinish(true);
             return data;
         } catch (error: any) {
             console.log(error.response.data)
@@ -95,6 +96,10 @@ export const toFinishedCCDSService = () => {
                         clienteAxios.put(`gestor/ccd/finish/${CCDCurrent.id_ccd}/?confirm=true`)
                             .then((response) => {
                                 notificationSuccess(response.data.detail);
+                                dispatch(getClassificationCCDSService());
+                                dispatch(getSeriesService())
+                                dispatch(getSubSeriesService())
+                                setFlagBtnFinish(true);
                             })
                             .catch((error) => {
                                 notificationError(error.response.data.detail);

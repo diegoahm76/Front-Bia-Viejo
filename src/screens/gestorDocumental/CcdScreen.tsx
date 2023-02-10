@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import Select from "react-select";
@@ -8,7 +8,7 @@ import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
 import SearchCcdModal from "../../components/Dialog/SearchCcdModal";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
-import { toFinishedCCDSService } from "../../services/CCD/CCDServices";
+import { toFinishedCCDSService, toResumeCCDSService } from "../../services/CCD/CCDServices";
 
 const CcdScreen = () => {
 
@@ -17,6 +17,16 @@ const CcdScreen = () => {
 
   const { CCDCurrent } = useAppSelector((state) => state.CCD);
   const { assignmentsCCD } = useAppSelector((state) => state.assignments);
+
+  const [flagBtnFinish, setFlagBtnFinish] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (CCDCurrent?.fecha_terminado) {
+      setFlagBtnFinish(true);
+    } else {
+      setFlagBtnFinish(false);
+    }
+  }, [CCDCurrent]);
 
   //Hooks
   const {
@@ -50,6 +60,7 @@ const CcdScreen = () => {
     cleanCCD,
   } = useCCD();
 
+  console.log(flagBtnFinish)
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -408,13 +419,13 @@ const CcdScreen = () => {
                 </div>
               </div>
               <div className="row d-flex justify-content-end">
-                {CCDCurrent?.fecha_terminado ? (
+                {flagBtnFinish ? (
                   <div className="col-12 col-lg-3 ">
                     <div className="d-grid gap-2 mt-4 mx-2">
                       <button
                         className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                         type="button"
-                        onClick={() => { dispatch(toFinishedCCDSService()); }}
+                        onClick={() => { dispatch(toResumeCCDSService(setFlagBtnFinish)); }}
                       >
                         Reanudar
                       </button>
@@ -426,7 +437,7 @@ const CcdScreen = () => {
                       <button
                         className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
                         type="button"
-                        onClick={() => { dispatch(toFinishedCCDSService()); }}
+                        onClick={() => { dispatch(toFinishedCCDSService(setFlagBtnFinish)); }}
                       >
                         Terminar
                       </button>
