@@ -152,7 +152,7 @@ const RegisterPersonaScreen = () => {
   const submitForm: SubmitHandler<IDefaultValues> = async (
     data: IDefaultValues
   ) => {
-
+    let idRepresentante = "";
     let fechaNacimiento = setDatesFormatRevere(dataPersona.fechaNacimiento ? dataPersona.fechaNacimiento.toLocaleString() : '')
 
     const personaNatural: any = {
@@ -288,8 +288,8 @@ const RegisterPersonaScreen = () => {
         const { data: dataRepresentante } = await clienteAxios.get(
           `personas/get-personas-naturales-by-document/${data.tipoDocumentoLegal.value}/${data.numero_documento_legal}/`
         );
-        setIdRepresentante(dataRepresentante?.data?.id_persona);
-        console.log(dataRepresentante,"datarepresentante legal")
+        idRepresentante = dataRepresentante?.data?.id_persona;
+        console.log(idRepresentante, "datarepresentante legal")
       } catch (error) {
         console.log(error);
         Swal.fire({
@@ -318,7 +318,7 @@ const RegisterPersonaScreen = () => {
       const personaJuridica = {
         tipo_persona: dataPersona.tipo_persona.value,
         tipo_documento: dataPersona.tipoDocumento.value,
-        
+
         numero_documento: dataPersona.numero_documento,
         digito_verificacion: dataPersona.dv,
         nombre_comercial: dataPersona.nombreComercial,
@@ -330,7 +330,7 @@ const RegisterPersonaScreen = () => {
         cod_pais_nacionalidad_empresa: dataPersona.paisNotificacion.value,
         telefono_celular_empresa: dataPersona.celular,
         // representante_legal: Number(dataPersona.),
-        representante_legal: 2,
+        representante_legal: idRepresentante,
         telefono_empresa_2: '',
         telefono_empresa: '',
         acepta_notificacion_sms: true,
@@ -414,7 +414,7 @@ const RegisterPersonaScreen = () => {
       setTipoDocumentoFiltrado(dataFiltered);
     }
   }, [isUser, tipoDocumentoOptions]);
-  
+
 
   useEffect(() => {
     if (dataPersona.tipo_persona.value === "J") {
