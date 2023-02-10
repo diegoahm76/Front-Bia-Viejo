@@ -65,7 +65,7 @@ const viveroSlice = createSlice({
   },
 });
 
-export const obtenerVivero =async (dispatch,id_vivero) => {
+export const obtenerVivero = async(dispatch,id_vivero) => {
     await clienteAxios.get(`conservacion/viveros/get-by-id/${id_vivero}/`).then(()=>{
         dispatch(obtenerViveroAction(id_vivero));
     });

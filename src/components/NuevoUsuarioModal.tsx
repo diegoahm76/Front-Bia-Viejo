@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { crearNuevoUsuarioAction } from "../actions/estacionActions";
+import React from "react";
 
 const customStyles = {
   content: {
@@ -23,7 +24,10 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const defaultValues = {
+  identificacion:"",
   nombreUsuario: "",
+  apellido:"",
+  correo:"",
   estacion: "",
   numeroDeTelefono: "",
   observacion: "",
@@ -58,12 +62,15 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const onSumbitEstacion = async (data) => {
     const nuevoUsuario = {
       objectid: data.estacion.value,
+      t005identificacion: data.identificacion,
       t005nombre: data.nombreUsuario,
+      t005apellido: data.apellido,
+      t005correo: data.correo,
       t005numeroCelular: data.numeroDeTelefono,
       t005Observacion: data.observacion,
     };
 
-    dispatch(crearNuevoUsuarioAction(nuevoUsuario));
+    crearNuevoUsuarioAction(nuevoUsuario)
 
     setIsModalActive(!isModalActive);
     reset(defaultValues);
@@ -78,20 +85,71 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
+      
       <div className="container p-3">
         <h4>Nuevo usuario</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
+        <div className="col-12">
+            <label>
+              Número  Identificación: <span className="text-danger">*</span>
+            </label>
+            <input
+              type="number"
+              className="form-control border rounded-pill px-3"
+              {...register("identificacion", { required: true })}
+            />
+            {errors.identificacion && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
           <div className="col-12 mb-3">
             <label>
-              Parte Interesada: <span className="text-danger">*</span>
+              Nombre: <span className="text-danger">*</span>
             </label>
             <input
               type="text"
+              placeholder="Nombre"
               className="form-control border rounded-pill px-3"
               {...register("nombreUsuario", { required: true })}
             />
             {errors.nombreUsuario && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Apellido:</label>
+            <input
+            type="text"
+              className="form-control border rounded-pill px-3"
+              placeholder="Apellido"
+              {...register("apellido", { required: true })}
+            />
+            {errors.apellido && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Correo Electronico:</label>
+            <input
+            type="email"
+              className="form-control border rounded-pill px-3"
+              placeholder="Correo electrónico"
+              {...register("correo", { required: true })}
+            />
+            {errors.correo && (
               <div className="col-12">
                 <small className="text-center text-danger">
                   Este campo es obligatorio
@@ -160,21 +218,21 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => {
                 setIsModalActive(!isModalActive);
                 reset(defaultValues);
               }}
             >
-              Cerrar
+              <i className="fa-solid fa-x fs-3"></i>
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Guardar
+              <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
           </div>
         </form>

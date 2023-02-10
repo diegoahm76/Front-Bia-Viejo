@@ -2,12 +2,11 @@ import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "react-select";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
-import {
-  editarUsuarioAction,
-} from "../actions/estacionActions";
+import { editarUsuarioAction } from "../actions/estacionActions";
 import { getIndexBySelectOptions } from "../helpers/inputsFormat";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 
 const customStyles = {
   content: {
@@ -31,7 +30,7 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   const [formValues, setFormValues] = useState({
     index_objectid: "",
   });
-  const { usuarioEditar } = useSelector((state) => state.estaciones);
+  const usuarioEditar = useSelector((state) => state.estaciones);
   const {
     register,
     handleSubmit,
@@ -72,9 +71,11 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
   const onSumbitEstacion = async (data) => {
     const editarUsuario = {
-      t005Identificacion: data.t005Identificacion,
       objectid: estacionesOptions[formValues.index_objectid].value,
+      t005identificacion: data.t005identificacion,
       t005nombre: data.t005nombre,
+      t005apellido: data.t005apellido,
+      t005correo: data.t005correo,
       t005numeroCelular: data.t005numero,
       idUsuario: usuarioEditar.idUsuario,
       t005Observacion: data.t005Observacion,
@@ -82,8 +83,8 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
     //console.log("editar", editarUsuario)
 
-    dispatch(editarUsuarioAction(editarUsuario));
-
+    //dispatch(editarUsuarioAction(editarUsuario));
+    editarUsuarioAction(editarUsuario);
     setIsModalActive(!isModalActive);
   };
 
@@ -100,12 +101,31 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
         <h4>Nuevo usuario</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
+          <div className="col-12">
+            <label>
+              Número de identificación: <span className="text-danger">*</span>
+            </label>
+            <input
+              type="number"
+              placeholder="Número de identificación"
+              className="form-control border rounded-pill px-3"
+              {...register("t005identificacion", { required: true })}
+            />
+            {errors.t005identificacion && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
           <div className="col-12 mb-3">
             <label>
-              Nombre de usuario: <span className="text-danger">*</span>
+              Nombre : <span className="text-danger">*</span>
             </label>
             <input
               type="text"
+              placeholder="Nombre"
               className="form-control border rounded-pill px-3"
               {...register("t005nombre", { required: true })}
             />
@@ -116,6 +136,38 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
                 </small>
               </div>
             )}
+          </div>
+          <div className="col-12 mt-3 mb-3">
+            <label>Apellido:</label>
+            <input
+              type="text"
+              className="form-control border rounded-pill px-3"
+              placeholder="Apellido"
+              {...register("t005apellido", { required: true })}
+            />
+            {errors.t005apellido && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+            <div className="col-12 mt-3 mb-3">
+            <label>Correo electrónico:</label>
+            <input
+              type="email"
+              className="form-control border rounded-pill px-3"
+              placeholder="Correo electrónico"
+              {...register("t005t005correo", { required: true })}
+            />
+            {errors.t005correo && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
           </div>
           <div className="col-12 mb-3">
             <label className="form-label">
@@ -157,10 +209,11 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
           <div className="col-12">
             <label>
-              Numero de telefono: <span className="text-danger">*</span>
+              Numero de teléfono: <span className="text-danger">*</span>
             </label>
             <input
               type="number"
+              placeholder="Número de teléfono"
               className="form-control border rounded-pill px-3"
               {...register("t005numeroCelular", { required: true })}
             />
@@ -190,18 +243,18 @@ const EditarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
 
           <div className="d-flex gap-3 justify-content-end">
             <button
-              className="btn bg-gradient-light text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="button"
               onClick={() => setIsModalActive(!isModalActive)}
             >
-              Cerrar
+              <i className="fa-solid fa-x fs-3"></i>
             </button>
             <button
-              className="btn bg-gradient-primary text-capitalize mt-4 mb-0"
+              className="mb-0 btn-image text-capitalize bg-white border boder-none mt-4"
               type="submit"
               //onClick={() => setIsModalActive(!isModalActive)}
             >
-              Guardar
+              <i className="fa-solid fa-circle-check fs-3"></i>
             </button>
           </div>
         </form>
