@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import axios from "axios";
 
 export interface IUsuarioEstaciones {
   idUsuario: number;
@@ -21,6 +22,10 @@ interface IEstacionesInternal {
   t001coord2: number;
   t001fechaMod: string;
   t001userMod: string;
+}
+export interface IEstacionGeneric {
+  usuarios: IUsuarioEstaciones;
+  estaciones: IEstacionesInternal[];
 }
 
 const initialState: IUsuarioEstaciones[] = [
@@ -73,27 +78,10 @@ export const obtenerTodosUsuarios = async (dispatch) => {
       });
     });
 };
-
-export const obtenerUsuariosNombre = async (dispatch, nombre) => {
+export const obtenerNombreEstacion = async (dispatch, estacion) => {
   await clienteEstaciones
-    .get(`Usuarios?t005nombre=${nombre}`)
-    .then((usuarioEstaciones) => {
-      dispatch(obtenerUsuarioEstaciones(usuarioEstaciones.data));
+    .get(`Estaciones/${estacion}`)
+    .then((estacion) => {
+      dispatch(obtenerUsuarioEstaciones(estacion.data));
     })
-    .catch(() => {
-      Swal.fire({
-        position: "center",
-        icon: "error",
-        title: "Algo pasó, intente de nuevo",
-        showConfirmButton: true,
-        confirmButtonText: "Aceptar",
-      });
-    });
-};
-export const obtenerEstacionesNombre = (nombre) => (dispatch, getState) => {
-  const { usuarioEstaciones } = getState().usuarioEstaciones;
-  const estacionesFiltradas = usuarioEstaciones.filter((usuario) =>
-    usuario.t001Estaciones.t001nombre.toLowerCase().includes(nombre.toLowerCase())
-  );
-  dispatch(obtenerUsuarioEstaciones(estacionesFiltradas));
 };

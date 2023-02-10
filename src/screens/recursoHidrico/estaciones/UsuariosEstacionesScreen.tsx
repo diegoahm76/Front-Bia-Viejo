@@ -17,7 +17,7 @@ import {
 import NuevoUsuarioModal from "../../../components/NuevoUsuarioModal";
 import {
   obtenerTodosUsuarios,
-  obtenerEstacionesNombre,
+  obtenerNombreEstacion,
 } from "../../../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
 import EliminarUsuarioModal from "../../../components/EliminarUsuarioModal";
 import EditarUsuarioModal from "../../../components/EditarUsuarioModal";
@@ -33,21 +33,17 @@ const UsuariosEstacionesScreen = () => {
   );
 
   const dispatch = useAppDispatch();
-
   const usuarios = useAppSelector((state) => state.usuarioEstaciones);
   useEffect(() => {
     obtenerTodosUsuarios(dispatch);
   }, []);
-  
-  const Guayuiria= "Occa"
-  const usuariosFiltro = useAppSelector((state)=> state.usuarioEstaciones);
 
-  useEffect(() => {
-    obtenerEstacionesNombre(dispatch);
-  }, []);
-
-  
-  
+  /* var estacionOcca= "Occa";
+  const estacion = useAppSelector((state)=> state.usuarioEstaciones)
+  useEffect(()=>{
+    obtenerNombreEstacion(dispatch,estacionOcca)
+    console.log(estacion)
+  }, []); */
 
   const defaultColDef = {
     sortable: true,
@@ -76,10 +72,7 @@ const UsuariosEstacionesScreen = () => {
     });
     console.log(selectEstacion.opcEstaciones);
   };
-  const handleChange = (value) => {
-    dispatch(obtenerEstacionesNombre(value));
 
-  };
   const opcEstaciones = [
     { label: "Estación Guayuriba", value: "Guayuriba" },
     { label: "Estación Ocoa", value: "Ocoa" },
@@ -220,7 +213,7 @@ const UsuariosEstacionesScreen = () => {
                           >
                             <AgGridReact
                               columnDefs={columnDefs}
-                              rowData={usuariosFiltro as any}
+                              rowData={usuarios as any}
                               defaultColDef={defaultColDef}
                             ></AgGridReact>
                           </div>
@@ -267,7 +260,7 @@ const UsuariosEstacionesScreen = () => {
                           >
                             <AgGridReact
                               columnDefs={columnDefs}
-                              rowData={usuarios as any}
+                              rowData={usuarios}
                               defaultColDef={defaultColDef}
                             ></AgGridReact>
                           </div>
