@@ -2133,6 +2133,19 @@ const Aside = ({ showAside }) => {
                           </span>
                         </Link>
                       </li>
+                      <li className="nav-item">
+                        <Link
+                          className="nav-link text-white "
+                          to="gestordocumental/organigrama/trd"
+                        >
+                          <span className="sidenav-mini-icon">
+                            <img src={Vineta} alt="vineta" />
+                          </span>
+                          <span className="sidenav-normal  ms-2  ps-1">
+                            TRD
+                          </span>
+                        </Link>
+                      </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "
