@@ -34,6 +34,8 @@ import { CuarentenaScreen } from "../gestorVivero/CuarentenaScreen";
 import AdministrarViveroScreen from "../gestorVivero/AdministrarViveroScreen";
 import AperturayCierreViveroScreen from "../gestorVivero/AperturaycCierreViveroScreen";
 import { DespachosEntrantesScreen } from "../distribucion/DespachosEntrantesScreen";
+import { DespachosEntrantesViveroScreen } from "../distribucion/DespachosEntrantesViveroScreen";
+
 
 
 const ConservacionRoutes = () => {
@@ -152,6 +154,11 @@ const ConservacionRoutes = () => {
         <Route
           path="solicitudesdematerial"
           element={<SolicitudesDeMaterialSreen />}
+        />
+
+        <Route
+          path="despachos-para-vivero"
+          element={<DespachosEntrantesViveroScreen />}
         />
 
         <Route

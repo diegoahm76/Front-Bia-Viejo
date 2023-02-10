@@ -6,7 +6,10 @@ export interface IUsuarioEstaciones {
   idUsuario: number;
   objectid: number;
   t001Estaciones: IEstacionesInternal;
+  t005identificacion: number;
   t005nombre: string;
+  t005apellido: string;
+  t005correo: string;
   t005numeroCelular: number;
   t005Observacion: string;
 }
@@ -26,14 +29,17 @@ const initialState: IUsuarioEstaciones[] = [
     objectid: 1,
     t001Estaciones: {
       objectid: 0,
-      t001nombre: "",
+      t001nombre: "GUayuriba",
       t001coord1: 0,
       t001coord2: 0,
       t001fechaMod: "",
       t001userMod: "",
     },
-    t005nombre: "",
-    t005numeroCelular: 0,
+    t005identificacion: 1076670521,
+    t005nombre: "Alejandro",
+    t005apellido:"Sastoque",
+    t005correo: "sastoque42@gmail.com",
+    t005numeroCelular: 3107505784,
     t005Observacion: "",
   },
 ];
