@@ -124,7 +124,7 @@ const useCCD = () => {
     useEffect(() => {
         if (assignmentsCCDCurrent !== null) {
             let obj = {
-                sries_asignacion: { label: assignmentsCCDCurrent.nombre_serie, value: assignmentsCCDCurrent.codigo_serie },
+                sries_asignacion: { label: assignmentsCCDCurrent.nombre_serie, value: assignmentsCCDCurrent.id_serie_doc },
                 sries: '',
                 subSerie_asignacion: assignmentsCCDCurrent.subseries.map(
                     item => {
@@ -220,7 +220,8 @@ const useCCD = () => {
         dispatch(updateCCDSService(newCCD))
     };
     console.log(dataAsing, 'dataAsing')
-    //Funcion para crear el CCD
+
+    //Funcion para crear la asignacion
     const createAsing = () => {
         let newItem: any[] = [];
         const oldItems = assignmentsCCD.map(
@@ -243,11 +244,15 @@ const useCCD = () => {
                 item => {
                     return item.id === assignmentsCCDCurrent!.id ?
                         {
-                            id_unidad_organizacional: assignmentsCCDCurrent!.id_unidad_organizacional,
-                            id_serie_doc: assignmentsCCDCurrent!.codigo_serie,
-                            subseries: assignmentsCCDCurrent!.subseries.map(item => item.value),
+                            id_unidad_organizacional: dataAsing.unidades_asignacion.value,
+                            id_serie_doc: dataAsing.sries_asignacion.value,
+                            subseries: dataAsing.subSerie_asignacion.map(item => item.value),
                         }
-                        : item
+                        : {
+                            id_unidad_organizacional: item.id_unidad_organizacional,
+                            id_serie_doc: item.id_serie_doc,
+                            subseries: item.subseries.map(item => item.id_serie_subserie_doc),
+                        }
                 }
             );
         }
