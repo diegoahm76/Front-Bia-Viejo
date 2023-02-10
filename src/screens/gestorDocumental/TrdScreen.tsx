@@ -19,53 +19,53 @@ const TrdScreen = () => {
       headerName: "Sección",
       field: "sección",
       minWidth: 150,
-      maxWidth: 200,
+      maxWidth: 300,
     },
 
     {
-      headerName: "Subseccón",
+      headerName: "Subsección",
       field: "Subseccón",
       minWidth: 150,
-      maxWidth: 200,
+      maxWidth: 300,
     },
 
     {
       headerName: "serie",
       field: "serie",
       minWidth: 150,
-      maxWidth: 200,
+      maxWidth: 300,
     },
     {
       headerName: "subserie",
       field: "subserie",
       minWidth: 150,
-      maxWidth: 200,
+      maxWidth: 300,
     },
   ];
   const rowData = [
     {
       sección: "Direccion general",
       Subseccón: "Gestion ambiental",
-      subserie: "1",
-      serie: "1,3,7,9",
+      serie: "1",
+      subserie: "1,3,7,9",
     },
     {
       sección: "Direccion general",
       Subseccón: "",
-      subserie: "2",
-      serie: "5,8,3,9",
+      serie: "2",
+      subserie: "5,8,3,9",
     },
     {
       sección: "Direccion general",
       Subseccón: "Oficina juridica",
-      subserie: "4",
-      serie: "1,10,9,25",
+      serie: "4",
+      subserie: "1,10,9,25",
     },
     {
       sección: "Direccion general",
       Subseccón: "Oficina juridica",
-      idsubserie: "5",
-      idserie: "3,6",
+      idserie: "5",
+      idsubserie: "3,6",
     },
   ];
   const columnformato2 = [
@@ -73,22 +73,30 @@ const TrdScreen = () => {
       headerName: "Nombre",
       field: "nombre",
       minWidth: 150,
-      maxWidth: 200,
+      maxWidth: 300,
     },
     {
       headerName: "Formato",
       field: "formato",
       minWidth: 150,
-      maxWidth: 200,
+      maxWidth: 300,
     },
     {
-      headerName: "Acciones",
-      field: "accion",
+      headerName: "Editar",
+      field: "editar",
       cellRendererFramework: (params) => (
         <div>
           <button className="btn text-capitalize " type="button" title="Editar">
             <i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>
+        </div>
+      ),
+    },
+    {
+      headerName: "Eliminar",
+      field: "eliminar",
+      cellRendererFramework: (params) => (
+        <div>
           <button
             className="btn text-capitalize "
             type="button"
@@ -116,6 +124,138 @@ const TrdScreen = () => {
     {
       nombre: ".xlsx.",
       formato: "Electronico",
+    },
+  ];
+  const columntipologia = [
+    {
+      headerName: "Codigo",
+      field: "codigo",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+    {
+      headerName: "Nombre",
+      field: "nombre",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+    {
+      headerName: "Soporte",
+      field: "soporte",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+    {
+      headerName: "Formato",
+      field: "formato",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+    {
+      headerName: "Editar",
+      field: "editar",
+      cellRendererFramework: (params) => (
+        <div>
+          <button className="btn text-capitalize " type="button" title="Editar">
+            <i className="fa-regular fa-pen-to-square fs-4"></i>
+          </button>
+        </div>
+      ),
+    },
+    {
+      headerName: "Eliminar",
+      field: "eliminar",
+      cellRendererFramework: (params) => (
+        <div>
+          <button
+            className="btn text-capitalize "
+            type="button"
+            title="Eliminar"
+          >
+            <i className="fa-regular fa-trash-can fs-4"></i>
+          </button>
+        </div>
+      ),
+    },
+    {
+      headerName: "Estado",
+      field: "estado",
+      cellRendererFramework: (params) => (
+        <div>
+          <input
+            className="border border-terciary form-check-input mt-2"
+            type="checkbox"
+            value=""
+          />
+        </div>
+      ),
+    },
+  ];
+  const rowData3 = [
+    {
+      codigo: "1",
+      nombre: "Acta",
+      soporte: "fisico",
+      formato: "papel",
+    },
+    {
+      codigo: "2",
+      nombre: "Resolución",
+      soporte: "Electronico",
+      formato: ".doc",
+    },
+    {
+      codigo: "3",
+      nombre: "oficio respuesta",
+      soporte: "hibrido",
+      formato: ".pdf, papel",
+    },
+    
+  ];
+  const columnAsigancion2 = [
+    {
+      headerName: "Sección",
+      field: "sección",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+
+    {
+      headerName: "Subsección",
+      field: "Subseccón",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+
+    {
+      headerName: "serie",
+      field: "serie",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+    {
+      headerName: "subserie",
+      field: "subserie",
+      minWidth: 150,
+      maxWidth: 300,
+    },
+    {
+      headerName: "Acción",
+      field: "accion",
+      cellRendererFramework: (params) => (
+        <div className="d-flex justify-content-center align-items-center gap-2">
+          <div>
+            <button
+              className="btn btn-sm btn-tablas btn-outline-primary"
+              type="button"
+              title="S"
+            >
+              Seleccionar
+            </button>
+          </div>
+        </div>
+      ),
+      minWidth: 150,
     },
   ];
 
@@ -216,7 +356,7 @@ const TrdScreen = () => {
             </div>
             <div>
               <div id="myGrid" className="ag-theme-alpine mt-4">
-                <div className="ag-theme-alpine" style={{ height: "150px" }}>
+                <div className="ag-theme-alpine" style={{ height: "200px" }}>
                   <AgGridReact
                     columnDefs={columnAsigancion}
                     rowData={rowData}
@@ -251,16 +391,14 @@ const TrdScreen = () => {
               </div>
             </div>
 
-            <Subtitle title="Formato por medio" mb={3} />
+            <Subtitle title="Formato por medio" mb={3}/>
 
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <div>
-                  <label className="ms-2 text-terciary">
-                    Nombre
-                  </label>
+                  <label className="ms-2 text-terciary">Nombre</label>
                   <input
-                    name="nombretrd"
+                    name="Nombre_formato"
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre "
@@ -268,11 +406,9 @@ const TrdScreen = () => {
                 </div>
               </div>
               <div className="col-12 col-lg-3  mt-3">
-                <label className="text-terciary">
-                  Formato
-                </label>
+                <label className="text-terciary">Soporte</label>
                 <Controller
-                  name="nombreccd"
+                  name="medio_formato"
                   control={control}
                   render={({ field }) => (
                     <Select
@@ -308,7 +444,7 @@ const TrdScreen = () => {
             </div>
             <div>
               <div id="myGrid" className="ag-theme-alpine mt-4">
-                <div className="ag-theme-alpine" style={{ height: "150px" }}>
+                <div className="ag-theme-alpine" style={{ height: "200px" }}>
                   <AgGridReact
                     columnDefs={columnformato2}
                     rowData={rowData2}
@@ -318,16 +454,14 @@ const TrdScreen = () => {
               </div>
             </div>
 
-            <Subtitle title="Tipologías" mt={3} mb={3} />
+            <Subtitle title="Tipologías" mt={4} mb={3} />
 
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <div>
-                  <label className="ms-2 text-terciary">
-                    Nombre
-                  </label>
+                  <label className="ms-2 text-terciary">Nombre</label>
                   <input
-                    name="nombretrd"
+                    name="nombreTipologias"
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Nombre"
@@ -336,19 +470,107 @@ const TrdScreen = () => {
               </div>
               <div className="col-12 col-lg-3  mt-3">
                 <div>
-                  <label className="ms-2 text-terciary">
-                    Codigo
-                  </label>
+                  <label className="ms-2 text-terciary">Codigo</label>
                   <input
-                    name="nombretrd"
+                    name="codigoTipologias"
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
                     placeholder="Codigo"
                   />
                 </div>
               </div>
-              
+              <div className="col-12 col-lg-3  mt-3">
+                <label className="text-terciary">Soporte</label>
+                <Controller
+                  name="medio_formato"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: "Fisico", value: "fsc" },
+                        { label: "Electronico", value: "elc" },
+                        { label: "Hibrido", value: "hib" },
+                      ]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <label className="text-terciary">Formato</label>
+                <Controller
+                  name="formato"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: ".doc", value: "doc" },
+                        { label: "Papel", value: "pap" },
+                        { label: ".xlsx", value: "xls" },
+                      ]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
             </div>
+            <div className="row d-flex justify-content-end">
+              <div className="col-12 col-lg-2 d-flex justify-content-end mt-3">
+                <button
+                  className="btn text-capitalize"
+                  type="submit"
+                  title="Guardar"
+                >
+                  <i className="fa-regular fa-floppy-disk fs-3"></i>
+                </button>
+                <button
+                  className="btn  text-capitalize"
+                  type="button"
+                  title="Limpiar"
+                >
+                  <i className="fa-solid fa-eraser fs-3"></i>
+                </button>
+              </div>
+            </div>
+            <div>
+              <div id="myGrid" className="ag-theme-alpine ">
+                <div className="ag-theme-alpine" style={{ height: "200px" }}>
+                  <AgGridReact
+                    columnDefs={columntipologia}
+                    rowData={rowData3}
+                    defaultColDef={defaultColDef}
+                  ></AgGridReact>
+                </div>
+              </div>
+            </div>
+            <Subtitle title="Asignaciones" mt={4} mb={3} />
+            <div>
+              <div id="myGrid" className="ag-theme-alpine ">
+                <div className="ag-theme-alpine" style={{ height: "200px" }}>
+                  <AgGridReact
+                    columnDefs={columnAsigancion2}
+                    rowData={rowData}
+                    defaultColDef={defaultColDef}
+                  ></AgGridReact>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Subseccion</label>
+                  <input
+                    name="subseccion "
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    placeholder="Nombre"
+                  />
+                </div>
+              </div>
+              </div>
+
           </form>
         </div>
       </div>

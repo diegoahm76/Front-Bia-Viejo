@@ -316,8 +316,8 @@ const RegisterPersonaScreen = () => {
 
       const personaJuridica = {
         tipo_persona: dataPersona.tipo_persona.value,
-        // tipo_documento: dataPersona.tipoDocumento.value,
-        tipo_documento: 'NT',
+        tipo_documento: dataPersona.tipoDocumento.value,
+        
         numero_documento: dataPersona.numero_documento,
         digito_verificacion: dataPersona.dv,
         nombre_comercial: dataPersona.nombreComercial,
@@ -328,7 +328,7 @@ const RegisterPersonaScreen = () => {
         cod_municipio_notificacion_nal: dataPersona.municipioNotificacion.value,
         cod_pais_nacionalidad_empresa: dataPersona.paisNotificacion.value,
         telefono_celular_empresa: dataPersona.celular,
-        // representante_legal: Number(dataPersona.numero_documento_legal),
+        // representante_legal: Number(dataPersona.),
         representante_legal: 1,
         telefono_empresa_2: '',
         telefono_empresa: '',
@@ -403,16 +403,17 @@ const RegisterPersonaScreen = () => {
   useEffect(() => {
     if (isUser) {
       const dataFiltered = tipoDocumentoOptions.filter(
-        (documento) => documento.value !== "NU"
+        (documento) => documento.value !== "NT"
       );
       setTipoDocumentoFiltrado(dataFiltered);
     } else {
       const dataFiltered = tipoDocumentoOptions.filter(
-        (documento) => documento.value === "NU"
+        (documento) => documento.value === "NT"
       );
       setTipoDocumentoFiltrado(dataFiltered);
     }
   }, [isUser, tipoDocumentoOptions]);
+  
 
   useEffect(() => {
     if (dataPersona.tipo_persona.value === "J") {
