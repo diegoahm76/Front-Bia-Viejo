@@ -176,7 +176,7 @@ const columnDefs = [
                     setDisabled(true);
                 }}
             >
-                <i className="fa-solid fa-pen-to-square fs-5"></i>
+                <i className="fa-solid fa-user-pen fs-5"></i>
             </button>
             <button
                 className="btn btn-sm btn-tablas"

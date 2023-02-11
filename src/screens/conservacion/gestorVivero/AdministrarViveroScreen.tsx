@@ -11,6 +11,8 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import BusquedaAvanzadaModal from '../../../components/BusquedaAvanzadaModal';
 import { Navigate } from "react-router-dom/dist";
 import { ConsultasMunicipioModal } from '../../../components/ConsultasMunicipioModal';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
 const AdministrarViveroScreen = () => {
   const {
@@ -37,7 +39,9 @@ const AdministrarViveroScreen = () => {
     modalPersonal,
     setBusquedaModel,
     busquedaModel,
-    handleEditVivero
+    handleEditVivero,
+    selectedDate,
+    handleChangeDate
   } = useAdministracionVivero();
 
 
@@ -358,9 +362,10 @@ const AdministrarViveroScreen = () => {
                   Tipo de Documento: <span className="text-danger">*</span>{" "}
                 </label>
                 <Select
-                  name="options"
                   isDisabled
                   value={busquedaModel.tipoDocumento}
+                  {...register('tipoDocumento')}
+                  onChange={handleChange}
                   // control={control2}
                   // rules={{ required: true }}
                   // render={({ field }) => (
@@ -377,7 +382,7 @@ const AdministrarViveroScreen = () => {
                 </label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
-                  {...register("id_viverista")}
+                  {...register("cedula")}
                   onChange={handleChange}
                   type="number"
                   placeholder="Numero de identificacion"
@@ -394,7 +399,8 @@ const AdministrarViveroScreen = () => {
                   type="text"
                   placeholder="Nombre de funcionario"
                   disabled={true}
-                  {...register("Viverista")}
+                  {...register("nombreCompleto")}
+                  onChange={handleChange}
                   value={busquedaModel.nombreCompleto}
                 />
               </div>
@@ -436,19 +442,21 @@ const AdministrarViveroScreen = () => {
                   name="fechaNacimiento"
                   control={control}
                   render={({ field }) => (
-                    <ReactDatePicker
+                    <DatePicker
                       {...field}
                       locale="es"
                       className="form-control border rounded-pill px-3 border border-terciary col-12 col-md-3"
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="dd/mm/aaaa"
-                      selected={createModel.fecha_inicio_viverista_actual}
-                      onSelect={(e) =>
-                        setCreateModel({
-                          ...createModel,
-                          fecha_inicio_viverista_actual: e,
-                        })
-                      }
+                      dateFormat="yyyy-MM-dd"
+                      placeholderText="aaaa-mm-dd"
+                      selected={selectedDate}
+                      onChange={handleChangeDate}
+                      // onSelect={(e) =>{
+                      //   console.log(e);
+                      //   setCreateModel({
+                      //     ...createModel,
+                      //     fecha_inicio_viverista_actual: e,
+                      //   })}
+                      // }
                     />
                   )}
                 />
@@ -555,7 +563,7 @@ const AdministrarViveroScreen = () => {
                     // console.log(createModel)
                   }}
                 >
-                  <i className="fa-solid fa-print fs-3"></i>
+                  <i className="fa-solid fa-pen-to-square fs-3"></i>
                 </button>
                 <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"

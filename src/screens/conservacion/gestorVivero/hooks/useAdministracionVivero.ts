@@ -13,6 +13,8 @@ import { createThunkAdministracionVivero, getThunkAdministracionVivero, editThun
 import { formatISO } from 'date-fns';
 import { formatMs } from "@material-ui/core";
 import BusquedaAvanzadaModal from '../../../../components/BusquedaAvanzadaModal';
+import moment from "moment";
+import { IdResponsable } from '../../../../Interfaces/Bodegas';
 
 export const useAdministracionVivero = () => {
 
@@ -135,7 +137,9 @@ export const useAdministracionVivero = () => {
 
 
     const onSubmit = () => {
-        createStartViveroForm();
+        const idPersona = busquedaModel.idResponsable;
+        // console.log(idPersona);
+        createStartViveroForm(idPersona);
         setCreateModel(infoViveroModel)
         console.log('Entre');
     }
@@ -201,9 +205,17 @@ export const useAdministracionVivero = () => {
         setCreateModel(infoViveroModel)
     }
 
+
+    const [selectedDate, setSelectedDate] = useState(null);
+    const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
+
+    const handleChangeDate = (date) => {
+        setSelectedDate(date);
+    };
+
     const [modalPersonal, setModalPersonal] = useState(false);
 
-    const createStartViveroForm = () => {
+    const createStartViveroForm = (ejem) => {
         const formData = new FormData();
         formData.append('nombre', dataViveroAdministracion.nombre);
         formData.append('cod_municipio', dataViveroAdministracion.cod_municipio.value);
@@ -226,10 +238,11 @@ export const useAdministracionVivero = () => {
         formData.append('justificacion_cuarentena',dataViveroAdministracion.justificacion_cuarentena);
         formData.append('activo',dataViveroAdministracion.activo);
         formData.append('item_ya_usado',dataViveroAdministracion.item_ya_usado);
+        formData.append('id_viverista_actual', ejem );
         formData.append('id_persona_abre',dataViveroAdministracion.id_persona_abre);
         formData.append('id_persona_cierra',dataViveroAdministracion.id_persona_cierra);
         formData.append('id_persona_cuarentena',dataViveroAdministracion.id_persona_cuarentena);
-        formData.append('fecha_inicio_viverista_actual',dataViveroAdministracion.fecha_inicio_viverista_actual);
+        formData.append('fecha_inicio_viverista_actual',formattedDate);
         dispatch(createThunkAdministracionVivero(formData));
         console.log(dataViveroAdministracion);
         // console.log(dataViveroAdministracion.cod_tipo_vivero);
@@ -282,6 +295,8 @@ export const useAdministracionVivero = () => {
         setModal,
         modalPersonal,
         setBusquedaModel,
-        busquedaModel
+        busquedaModel,
+        selectedDate,
+        handleChangeDate
     };
 };
