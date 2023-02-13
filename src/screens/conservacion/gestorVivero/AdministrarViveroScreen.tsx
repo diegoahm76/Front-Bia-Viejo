@@ -41,7 +41,11 @@ const AdministrarViveroScreen = () => {
     busquedaModel,
     handleEditVivero,
     selectedDate,
-    handleChangeDate
+    handleChangeDate,
+    changeRadioArea,
+    changeDoc,
+    changeSelectTipoDoc
+    // isRadioSelect
   } = useAdministracionVivero();
 
 
@@ -289,22 +293,130 @@ const AdministrarViveroScreen = () => {
                 </div>
               )}
             </div>
-            <div className="row d-flex align-items-center mt-2 mx-2">
-              <div className="col-12 col-md-3 mb-3 form-check">
+            {/* <div className="row d-flex align-items-center mt-2 mx-2"> */}
+              {/* <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
                   Área de producción:
-                </label>
+                </label> */}
 
-                <input
+                <div className="container text-center">
+                  <div className="row">
+                    <div className="col-md-auto">
+                      Área de Producción:
+                    </div>
+                    <div className="col col-lg-3">
+
+                      <div className="form-check">
+                        <input 
+                          className="form-check-input"
+                          type="radio"
+                          {...register("tiene_area_produccion")}
+                          onChange={changeRadioArea}
+                          value={'si'}
+                          // checked={isRadioSelect('si')}
+                        />
+                        <label className="form-check-label">Si</label>
+                      </div>
+
+                    </div>
+
+                    <div className="col col-lg-1">
+
+                      <div className="form-check">
+                          <input 
+                            className="form-check-input"
+                            type="radio"
+                            {...register("tiene_area_produccion")}
+                            onChange={changeRadioArea}
+                            value={'no'}
+                            // checked={isRadioSelect('no')}
+                          />
+                          <label className="form-check-label">No</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-auto">
+                      Área de preparación de sustrato:
+                    </div>
+                    <div className="col col-lg-1">
+
+                      <div className="form-check">
+                        <input 
+                          className="form-check-input"
+                          type="radio"
+                          {...register("tiene_area_pep_sustrato")}
+                          onChange={changeRadioArea}
+                          value={'si'}
+                        />
+                        <label className="form-check-label">Si</label>
+                      </div>
+
+                    </div>
+
+                    <div className="col col-lg-3">
+
+                      <div className="form-check">
+                          <input 
+                            className="form-check-input"
+                            type="radio"
+                            {...register("tiene_area_pep_sustrato")}
+                            onChange={changeRadioArea}
+                            value={'no'}
+                          />
+                          <label className="form-check-label">No</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-auto">
+                      Área de embolsado:
+                    </div>
+                    <div className="col col-lg-3">
+
+                      <div className="form-check">
+                        <input 
+                          className="form-check-input"
+                          type="radio"
+                          {...register("tiene_area_embolsado")}
+                          onChange={changeRadioArea}
+                          value={'si'}
+                        />
+                        <label className="form-check-label">Si</label>
+                      </div>
+
+                    </div>
+
+                    <div className="col col-lg-1">
+
+                      <div className="form-check">
+                          <input 
+                            className="form-check-input"
+                            type="radio"
+                            {...register("tiene_area_embolsado")}
+                            onChange={changeRadioArea}
+                            value={'no'}
+                          />
+                          <label className="form-check-label">No</label>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                {/* <input
                   className="border border-terciary form-check-input mx-2"
                   type="checkbox"
                   id="flexCheckDefault"
                   {...register("tiene_area_produccion")}
                   // value={ createModel.tiene_area_produccion }
-                />
-              </div>
-            </div>
-            <div className="row d-flex align-items-center mt-2 mx-2">
+                /> */}
+              {/* </div> */}
+            {/* </div> */}
+            {/* <div className="row d-flex align-items-center mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
                   Área de preparacion de sustrato:{" "}
@@ -332,7 +444,7 @@ const AdministrarViveroScreen = () => {
                   // value={ createModel.tiene_area_embolsado }
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="row d-flex align-items-center mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3">
@@ -366,7 +478,7 @@ const AdministrarViveroScreen = () => {
                   isDisabled
                   value={busquedaModel.tipoDocumento}
                   {...register('tipoDocumento')}
-                  onChange={handleChange}
+                  onChange={changeSelectTipoDoc}
                   // control={control2}
                   // rules={{ required: true }}
                   // render={({ field }) => (
@@ -384,7 +496,7 @@ const AdministrarViveroScreen = () => {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   {...register("cedula")}
-                  onChange={handleChange}
+                  onChange={changeDoc}
                   type="number"
                   placeholder="Numero de identificacion"
                   value={ busquedaModel.cedula }
@@ -401,7 +513,7 @@ const AdministrarViveroScreen = () => {
                   placeholder="Nombre de funcionario"
                   disabled={true}
                   {...register("nombreCompleto")}
-                  onChange={handleChange}
+                  onChange={changeDoc}
                   value={busquedaModel.nombreCompleto}
                 />
               </div>
@@ -560,7 +672,7 @@ const AdministrarViveroScreen = () => {
                   className="btn border rounded-pill mt-2 px-3 ms-2"
                   title="Imprimir"
                   onClick={() => {
-                    handleEditVivero(createModel.id_vivero)
+                    handleEditVivero(createModel.id_vivero, busquedaModel.idResponsable)
                     // console.log(createModel)
                   }}
                 >
