@@ -25,6 +25,7 @@ import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({ value: "" });
+
   const [EstadoArticulos, setEstadoArticulos] = useState([]);
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -102,9 +103,11 @@ export const EntradaDeArticuloScreen = () => {
     setError: setError4,
     handleSubmit: handleSubmit4,
     control: control4,
+    watch: watch4,
     formState: { errors: errors4 },
   } = useForm();
-
+  const data4 = watch4();
+  console.log(data4, "data4");
   const [rowDataConsumo] = useState([
     {
       ID: "0001",
@@ -297,6 +300,36 @@ export const EntradaDeArticuloScreen = () => {
     setPage(1);
   };
 
+  useEffect(() => {
+    getStates();
+    getUnitys();
+  }, []);
+
+  const [unitys, setUnitys] = useState([]);
+
+  const getUnitys = async () => {
+    try {
+      const { data } = await clienteAxios.get(
+        "almacen/unidades-medida/get-list/"
+      );
+      setUnitys(data.map((item) => ({ value: item.id_unidad_medida, label: item.nombre })));
+    } catch (error: any) {
+      // notificationError(error.response.data.detail);
+    }
+  };
+  const getStates = async () => {
+    try {
+      const { data } = await clienteAxios.get(
+        "almacen/"
+      );
+      // setUnitys(data.map((item) => ({ value: item.id_unidad_medida, label: item.nombre })));
+    } catch (error: any) {
+      // notificationError(error.response.data.detail);
+    }
+  };
+
+  console.log(unitys, "unitys");
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -322,8 +355,8 @@ export const EntradaDeArticuloScreen = () => {
                       className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="Consecutivo"
-                      // required
-                      // {...register("Consecutivo")}
+                    // required
+                    // {...register("Consecutivo")}
                     />
 
                     {/* {errors.Consecutivo && (
@@ -595,18 +628,18 @@ export const EntradaDeArticuloScreen = () => {
 
                 <div>
                   <div className=" row ms-2 mt-3">
-                  <div className="col-6 col-sm-3">
+                    <div className="col-6 col-sm-3">
                       <label className="ms-2 me-2 text-terciary ">
                         Unidad de medida: <span className="text-danger">*</span>{" "}
                       </label>
                       <Controller
-                        name="options"
+                        name="unity_info"
                         control={control4}
                         rules={{ required: page === 2 }}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={EstadoArticulos}
+                            options={unitys}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -782,7 +815,7 @@ export const EntradaDeArticuloScreen = () => {
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={EstadoArticulos}
+                            options={unitys}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -1011,9 +1044,8 @@ export const EntradaDeArticuloScreen = () => {
                   <div className="col-md-6 mt-4">
                     <button
                       type="button"
-                      className={`btn text-capitalize btn-outline-ligth px-3 ${
-                        page === 1 && "d-none"
-                      }`}
+                      className={`btn text-capitalize btn-outline-ligth px-3 ${page === 1 && "d-none"
+                        }`}
                       style={{ minWidth: "100px" }}
                       onClick={handleOpenModal}
                       title="Ver resumen de entrada"
@@ -1044,9 +1076,8 @@ export const EntradaDeArticuloScreen = () => {
                 </button>
 
                 <button
-                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${
-                    page === 1 && "d-none"
-                  }`}
+                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${page === 1 && "d-none"
+                    }`}
                   type="button"
                   title="Regresar a la pagina anterior"
                   onClick={handlePreviousPage}
