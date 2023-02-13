@@ -389,7 +389,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="configuracionAlmacen">
                           <ul className="nav nav-sm flex-column">
-                          <li className="nav-item">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/configuracion/creacionbodega"
@@ -482,7 +482,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -533,7 +533,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="gestionDeInventario">
                           <ul className="nav nav-sm flex-column">
-                          <li className="nav-item">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-otros-activos"
@@ -2204,7 +2204,7 @@ const Aside = ({ showAside }) => {
                     className="nav-link text-white "
                     aria-controls="basicExamples"
                     role="button"
-                    aria-expanded="false"
+                    aria-expanded="true"
                   >
                     {/* <i className="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">
                   upcoming
@@ -2289,6 +2289,39 @@ const Aside = ({ showAside }) => {
                           </span>
                         </a>
                       </li>
+                      <li className="nav-item">
+                        <a
+                          data-bs-toggle="collapse"
+                          href="#compo"
+                          className="nav-link text-white "
+                          aria-controls=""
+                          role="button"
+                          aria-expanded="false"
+                        >
+                          <img
+                            src="/static/media/market-research-svgrepo-com.4a09ad7dc0ce046b1e7f9668fed3b21e.svg"
+                            alt="Tramites y servicios"
+                          />
+                          <span className="nav-link-text ms-2 ps-1">
+                            Analitica De Datos
+                          </span>
+                        </a>
+                        <ul className="nav ">
+                        </ul>
+                        <div className="collapse " id="compo">
+                          <li className="nav-item">
+                            <Link
+                              className="nav-link text-white "
+                              to="TramitesYServicios/AnaliticaDeDatosTYS/PqrsdAnalitica"
+                            >
+                              <span className="sidenav-mini-icon"> P </span>
+                              <span className="sidenav-normal  ms-2  ps-1">
+                                PQRSD
+                              </span>
+                            </Link>
+                          </li>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -2329,7 +2362,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="estaciones">
                           <ul className="nav nav-sm flex-column">
-                          <li className="nav-item">
+                            <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/geolocalizacion"
@@ -2434,7 +2467,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
