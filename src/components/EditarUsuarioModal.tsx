@@ -53,7 +53,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   //pendiente revisar usuarios
   // const nombre_de_usuario = useAppSelector((state) => state.user.user);
   const usuarioEditar = useAppSelector(
-    (state) => state.usuarioEstaciones
+    (state) => state.usuarioEstaciones.UsuarioEditar
   );
   const estaciones = useAppSelector(
     (state) => state.administradorEstacionesSlice.estacionEditar
@@ -81,20 +81,20 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
     data.t001userMod = estaciones.t001userMod;
     setDataEdit(data);
   }
-  // useEffect(() => {
-  //   createModelEditUsuario();
-  // }, [usuarioEditar]);
+  useEffect(() => {
+    createModelEditUsuario();
+  }, [usuarioEditar]);
 
-  // const createModelEditUsuario = () => {
-  //   const data = { ...dataEditar };
-  //   data.objectid = usuarioEditar.objectid;
-  //   data.t005nombre = usuarioEditar.t005nombre;
-  //   data.t001coord2 = usuarioEditar.t001coord2;
-  //   data.t001fechaMod = usuarioEditar.t001fechaMod;
-  //   data.t001nombre = usuarioEditar.t001nombre;
-  //   data.t001userMod = usuarioEditar.t001userMod;
-  //   setDataEditar(data);
-  // }
+  const createModelEditUsuario = () => {
+    const data = { ...dataEditar };
+    data.objectid = usuarioEditar.objectid;
+    data.t005nombre = usuarioEditar.t005nombre;
+    data.t005apellido = usuarioEditar.t005apellido;
+    data.t005correo = usuarioEditar.t005correo;
+    data.t005numeroCelular = usuarioEditar.t005numeroCelular;
+    data.t005Observacion = usuarioEditar.t005Observacion;
+    setDataEditar(data);
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -117,7 +117,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
       closeTimeoutMS={300}
     >
       <div className="container p-3">
-        <h4>Editar estación meteorologica</h4>
+        <h4>Editar Usuario</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
           <div className="col-12">
@@ -145,14 +145,36 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12">
             <div className="mt-3">
               <label>
-                Nombre Usuario: <span className="text-danger">*</span>
+                Nombre: <span className="text-danger">*</span>
               </label>
               <input
                 className="form-control border rounded-pill px-3"
                 type="string"
-                name="t001nombre"
-                disabled={true}
-                value={dataEdit.t001userMod}
+                name="t005nombre"
+                disabled={false}
+                value={usuarioEditar.t005nombre}
+                onChange={handleChange}
+              />
+            </div>
+            {errors.objectId && (
+              <div className="col-12">
+                <small className="text-center text-danger">
+                  Este campo es obligatorio
+                </small>
+              </div>
+            )}
+          </div>
+          <div className="col-12">
+            <div className="mt-3">
+              <label>
+                Apellido: <span className="text-danger">*</span>
+              </label>
+              <input
+                className="form-control border rounded-pill px-3"
+                type="string"
+                name="t005apellido"
+                disabled={false}
+                value={usuarioEditar.t005apellido}
                 onChange={handleChange}
               />
             </div>

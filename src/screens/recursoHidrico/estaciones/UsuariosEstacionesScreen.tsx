@@ -163,74 +163,81 @@ const UsuariosEstacionesScreen = () => {
     <div className="row min-vh-100">
       <div className=" col-12 mx-auto">
         <div className="multisteps-form__content">
-        <div
-          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-          data-animation="FadeIn"
-        >
-          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Partes Interesadas</h3>
-          <Subtitle title={"Informacion general"} mt={0} mb={3} />
-          <form className="row" onSubmit={handleSubmitFiltrar(onSubmitFiltrar)}>
-            <div className="col-12 col-sm-3">
-              <label className="form-label">
-                Estación: <span className="text-danger">*</span>
-              </label>
-              <Controller
-                name="estacion"
-                control={controlFiltrar}
-                rules={{
-                  required: true,
-                }}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={estacionesOptions}
-                    placeholder="Seleccionar"
-                  />
-                )}
-              />
-            </div>
-            <div className="col-12 col-md-3 mt-1">
-              <div className="d-grid gap-2 d-flex">
-                <button
-                  type="submit"
-                  className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
-                  disabled={loading}
-                >
-                  
-                {loading ? (
-                  <>
-                    <span
-                      className="spinner-border spinner-border-sm me-1"
-                      role="status"
-                      aria-hidden="true"
-                    ></span>
-                    Cargando...
-                  </>
-                ) : (
-                  ""
-                )}
-                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
-                </button>
+          <div
+            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
+            data-animation="FadeIn"
+          >
+            <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Partes Interesadas</h3>
+            <Subtitle title={"Por favor seleccione la estación que desea visualizar"} mt={0} mb={3} />
+            <form className="row" onSubmit={handleSubmitFiltrar(onSubmitFiltrar)}>
+              <div className="col-12 col-sm-3">
+                <label className="form-label">
+                  Estación: <span className="text-danger">*</span>
+                </label>
+                <Controller
+                  name="estacion"
+                  control={controlFiltrar}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={estacionesOptions}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
               </div>
-            </div>
-          </form>
-          {dataReportes && (
-            <div className="multisteps-form__content">
-              <div>
-                <div
-                  className="ag-theme-alpine mt-auto mb-8 px-4"
-                  style={{ height: "470px" }}
-                >
-                  <AgGridReact
-                    columnDefs={columnDefs}
-                    rowData={dataReportes}
-                    defaultColDef={defaultColDef}
-                  ></AgGridReact>
+              <div className="col-12 col-md-3 mt-1">
+                <div className="d-grid gap-2 d-flex">
+                  <button
+                    type="submit"
+                    className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                    disabled={loading}
+                  >
+
+                    {loading ? (
+                      <>
+                        <span
+                          className="spinner-border spinner-border-sm me-1"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Cargando...
+                      </>
+                    ) : (
+                      ""
+                    )}
+                    <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                  </button>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
+            </form>
+            {dataReportes && (
+              <div className="multisteps-form__content">
+                <div>
+                  <div
+                    className="ag-theme-alpine mt-auto mb-8 px-4"
+                    style={{ height: "470px" }}
+                  >
+                    <Subtitle title={"Información General"} mt={0} mb={3} />
+                    <button
+                      className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
+                      onClick={() => setIsModalActive(!isModalActive)}
+                    >
+                      <i className="fa-regular fa-plus fs-3"></i>
+                    </button>
+                    <AgGridReact
+                      columnDefs={columnDefs}
+                      rowData={dataReportes}
+                      defaultColDef={defaultColDef}
+                    ></AgGridReact>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <NuevoUsuarioModal

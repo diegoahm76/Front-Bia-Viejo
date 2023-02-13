@@ -74,7 +74,7 @@ const usuarioEstaciones = createSlice({
     obtenerUsuarioEstaciones: (state, action) => {
       state.Usuarios = action.payload;
     },
-    crearEstacionAction: (state, action) => {
+    crearUsuarioAccion: (state, action) => {
       state.Usuarios.push(action.payload);
     },
 
@@ -96,7 +96,7 @@ const usuarioEstaciones = createSlice({
 
 export const {
   obtenerUsuarioEstaciones,
-  crearEstacionAction,
+  crearUsuarioAccion,
   setUsuarioEditar,
   eliminarEstacionAction,
   editarEstacionAction
@@ -145,5 +145,21 @@ export const eliminarEstacion = async (dispatch, id) => {
       confirmButtonText: "Aceptar",
     });
   });
-
 };
+export const crearUsuario = async (dispatch, usuario: IUsuarioEstaciones) => {
+  await clienteEstaciones
+    .post("Usuarios", usuario)
+    .then(() => {
+      dispatch(crearUsuarioAccion(usuario));
+      Swal.fire("Correcto", "El usuario se agrego correctamente", "success");
+    })
+    .catch((error) => {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Hubo un error",
+        text: "Hubo un error, intenta de nuevo",
+      });
+    });
+};
+
