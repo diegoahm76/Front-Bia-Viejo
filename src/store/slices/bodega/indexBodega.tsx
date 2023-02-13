@@ -75,7 +75,7 @@ export const obtenerBodega = async (dispatch) => {
 };
 
 export const eliminarBodega = async (dispatch, id_bodega) => {
-  await clienteAxios.delete(`almacen/bodega/delete/${id_bodega}`).then(() => {
+  await clienteAxios.delete(`almacen/bodega/delete/${id_bodega}/`).then(() => {
     dispatch(eliminarBodegaAction(id_bodega));
     Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
   });
@@ -84,7 +84,7 @@ export const eliminarBodega = async (dispatch, id_bodega) => {
 export const editarBodega = async (dispatch, id_bodega, bodega) => {
   
   await clienteAxios
-    .put(`almacen/bodega/update/${id_bodega}`, bodega)
+    .put(`almacen/bodega/update/${id_bodega}/`, bodega)
     .then((response: any) => {
       if (response.data.success) {
         Swal.fire("Correcto", "La bodega se edito correctamente", "success");

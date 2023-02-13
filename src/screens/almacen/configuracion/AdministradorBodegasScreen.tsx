@@ -77,7 +77,7 @@ const AdministradorBodegasScreen = () => {
             type="button"
             onClick={() => EditarBodega(params.data)}
             title={"Editar"}
-          ><i className="fa-regular fa-pen-to-square fs-3"></i>
+          ><i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas "
@@ -85,7 +85,7 @@ const AdministradorBodegasScreen = () => {
             title='Eliminar'
             onClick={() => confirmarEliminarBodega(params.data.id_bodega)}
           >
-            <i className="fa-regular fa-trash-can fs-3"></i>
+            <i className="fa-regular fa-trash-can fs-4"></i>
           </button>
         </div>
       ),

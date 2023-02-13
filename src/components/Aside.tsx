@@ -389,6 +389,19 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="configuracionAlmacen">
                           <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/configuracion/creacionbodega"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Creación de Bodegas
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -469,19 +482,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="almacen/configuracion/creacionbodega"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Creación de Bodegas
-                                </span>
-                              </Link>
-                            </li>
+                            
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -532,46 +533,7 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="gestionDeInventario">
                           <ul className="nav nav-sm flex-column">
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="almacen/gestion-de-inventario/busqueda-activos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Busqueda de activos a <br /> subdelegados
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white"
-                                to="almacen/gestion-de-inventario/reasignacion-elementos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Reasignacion elementos <br /> subasignados
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="almacen/gestion-de-inventario/subasignar-elementos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Subasignar elementos
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
+                          <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-otros-activos"
@@ -622,6 +584,45 @@ const Aside = ({ showAside }) => {
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Programacion de <br /> mantenimiento
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/gestion-de-inventario/busqueda-activos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Busqueda de activos a <br /> subdelegados
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white"
+                                to="almacen/gestion-de-inventario/reasignacion-elementos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Reasignacion elementos <br /> subasignados
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/gestion-de-inventario/subasignar-elementos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Subasignar elementos
                                 </span>
                               </Link>
                             </li>
