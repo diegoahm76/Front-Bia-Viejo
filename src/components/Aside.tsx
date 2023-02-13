@@ -2133,6 +2133,19 @@ const Aside = ({ showAside }) => {
                           </span>
                         </Link>
                       </li>
+                      <li className="nav-item">
+                        <Link
+                          className="nav-link text-white "
+                          to="gestordocumental/organigrama/trd"
+                        >
+                          <span className="sidenav-mini-icon">
+                            <img src={Vineta} alt="vineta" />
+                          </span>
+                          <span className="sidenav-normal  ms-2  ps-1">
+                            TRD
+                          </span>
+                        </Link>
+                      </li>
                       <li className="nav-item ">
                         <a
                           className="nav-link text-white "
@@ -2399,6 +2412,19 @@ const Aside = ({ showAside }) => {
                               <Link
                                 className="nav-link text-white "
                                 to="recurso-hidrico/estaciones/AnaliticaDatos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Analitica de Datos
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/analitica-datos"
                               >
                                 <span className="sidenav-mini-icon">
                                   <img src={Vineta} alt="vineta" />
