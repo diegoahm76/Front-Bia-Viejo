@@ -36,12 +36,12 @@ function LoginScreen() {
     //   // return (token);
   }
 
- // const [token, setToken] = useState("");
+  // const [token, setToken] = useState("");
   const [isCaptchaValid, setIsCaptchaValid] = useState(false);
 
   function submitHandler(dataForm) {
     //  this.setRecaptchaValue({captchaRef});
-console.log(recaptchaValue)
+    console.log(recaptchaValue);
     console.log(isCaptchaValid);
     //event.preventDefault();
 
@@ -67,8 +67,6 @@ console.log(recaptchaValue)
     console.log(recaptchaValue);
     console.log(dataForm.captcha);
   }
-
- 
 
   const handleClickToDesbloqueo = () => {
     navigate("/desbloqueo-usuario");
@@ -163,11 +161,9 @@ console.log(recaptchaValue)
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
                       hl="es"
-                   
-                     onChange={() => setIsCaptchaValid(true)}
-                     onExpired={() => setIsCaptchaValid(false)}
-                     onError={() => setIsCaptchaValid(false)}
-                   
+                      onChange={() => setIsCaptchaValid(true)}
+                      onExpired={() => setIsCaptchaValid(false)}
+                      onError={() => setIsCaptchaValid(false)}
                     />
                   </div>{" "}
                   *
