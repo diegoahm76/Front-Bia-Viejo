@@ -297,6 +297,37 @@ export const EntradaDeArticuloScreen = () => {
     setPage(1);
   };
 
+  const [unitys, setUnitys] = useState([]);
+
+  useEffect(() => {
+    getUnitys();
+  }, [unitys]);
+
+  const getUnitys = async () => {
+    try {
+      const { data } = await clienteAxios.get(
+        "almacen/unidades-medida/get-list/"
+      );
+      setUnitys(data);
+      // Swal.fire("Correcto", "Proceso Exitoso", "success");
+    } catch (error: any) {
+      // notificationError(error.response.data.detail);
+    }
+  };
+
+  // const fetchData = async () => {
+  //   try {
+  //     setBotonAdministrador(true);
+  //     const response = await Axios({
+  //       url: "https://backend-bia-beta-production.up.railway.app/api/almacen/unidades-medida/get-list/",
+  //     });
+  //     setUnidades(response.data);
+  //     console.log("obtener lista");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -595,7 +626,7 @@ export const EntradaDeArticuloScreen = () => {
 
                 <div>
                   <div className=" row ms-2 mt-3">
-                  <div className="col-6 col-sm-3">
+                    <div className="col-6 col-sm-3">
                       <label className="ms-2 me-2 text-terciary ">
                         Unidad de medida: <span className="text-danger">*</span>{" "}
                       </label>
