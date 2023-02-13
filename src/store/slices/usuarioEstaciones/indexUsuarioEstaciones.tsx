@@ -23,11 +23,6 @@ interface IEstacionesInternal {
   t001fechaMod: string;
   t001userMod: string;
 }
-export interface IEstacionGeneric {
-  usuarios: IUsuarioEstaciones;
-  estaciones: IEstacionesInternal[];
-}
-
 const initialState: IUsuarioEstaciones[] = [
   {
     idUsuario: 1,

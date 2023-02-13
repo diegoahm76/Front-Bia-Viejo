@@ -27,6 +27,9 @@ import ExportExcelFile from "../../../components/ExportExcelFile";
 const UsuariosEstacionesScreen = () => {
   const [isModalActive, setIsModalActive] = useState(false);
   const [isModalEditarActive, setIsModalEditarActive] = useState(false);
+  const [estacionesOptions, setEstacionesOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [dataReportes, setDataReportes] = useState(null);
   const [isModalEliminarActive, setIsModalEliminarActive] = useState(false);
   const [selectedEstacion, setSelectedEstacion] = useState<string | undefined>(
     undefined
@@ -38,13 +41,6 @@ const UsuariosEstacionesScreen = () => {
     obtenerTodosUsuarios(dispatch);
   }, []);
 
-  /* var estacionOcca= "Occa";
-  const estacion = useAppSelector((state)=> state.usuarioEstaciones)
-  useEffect(()=>{
-    obtenerNombreEstacion(dispatch,estacionOcca)
-    console.log(estacion)
-  }, []); */
-
   const defaultColDef = {
     sortable: true,
     flex: 1,
@@ -55,36 +51,10 @@ const UsuariosEstacionesScreen = () => {
     autoHeaderHeight: false,
     suppressMovable: true,
   };
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm();
-
-  const [selectEstacion, selecEstacion_Screen] = useState({
-    opcEstaciones: "",
-  });
-  const onSubmit = (data) => {
-    selecEstacion_Screen({
-      ...selectEstacion,
-      opcEstaciones: data.opcEstaciones?.value || "",
-    });
-    console.log(selectEstacion.opcEstaciones);
-  };
-
-  const opcEstaciones = [
-    { label: "Estación Guayuriba", value: "Guayuriba" },
-    { label: "Estación Ocoa", value: "Ocoa" },
-    { label: "Estación Puerto Gaitan", value: "Puerto Gaitan" },
-    { label: "Estación Guamal", value: "Guamal" },
-  ];
-
-
   const columnDefs = [
     {
       headerName: "Estacion",
-      field: "t001Estaciones.t001nombre",
+      field: "t001Estaciones",
       minWidth: 140,
     },
     {
@@ -123,6 +93,56 @@ const UsuariosEstacionesScreen = () => {
       ),
     },
   ];
+//Seleccionar estaciones extrayendolas de la base de datos
+const {
+  // register: registerFiltrar,
+  handleSubmit: handleSubmitFiltrar,
+  control: controlFiltrar,
+  // reset: resetFiltrar,
+  formState: { errors: errorsFiltrar },
+} = useForm();
+
+useEffect(() => {
+  const getDataInitial = async () => {
+    try {
+      setLoading(true);
+      const { data } = await clienteEstaciones.get("Estaciones");
+      const estacionesMaped = data.map((estacion) => ({
+        label: estacion.t001nombre,
+        value: estacion.objectid,
+      }));
+      setEstacionesOptions(estacionesMaped);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+  getDataInitial();
+}, []);
+
+
+const onSubmitFiltrar = async (data) => {
+  try {
+    setLoading(true);
+    const { data: reportesData } = await clienteEstaciones.get(
+      `Usuarios/OBJECTID/${data.estacion?.value}`
+    );
+    const reportesDataMaped = reportesData.map((reporteData) => ({
+      //t001Estaciones: reporteData.t001Estaciones.t001nombre,
+      t005identificacion: reporteData.t005identificacion,
+      t005nombre: reporteData.t005nombre,
+      t005apellido: reporteData.t005apellido,
+      t005correo: reporteData.t005correo,
+      t005numeroCelular: reporteData.t005numeroCelular,
+    }));
+    setDataReportes(reportesDataMaped);
+    setLoading(false);
+  } catch (err) {
+    console.log(err);
+    setLoading(false);
+  }
+};
   const confirmarEliminarUsuario = (id) => {
     Swal.fire({
       title: "Estas seguro?",
@@ -141,232 +161,70 @@ const UsuariosEstacionesScreen = () => {
   };
   return (
     <div className="row min-vh-100">
-      <div className="col-lg-12 col-md-12 col-12 mx-auto">
+<div className="col-lg-12 col-md-12 col-12 mx-auto">
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
         >
-          <form
-            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
-            data-animation="FadeIn"
-            onSubmit={handleSubmit(onSubmit)}
-            id="configForm"
-          >
-            <h3 className="mt-2 mb-0">Partes Interesadas</h3>
-            <Subtitle
-              title="Por favor seleccione la estación que desea visualizar"
-              mt={3}
-            />
-            <div className="row">
-              <div className="col-12 col-md-3 ">
-                <label className=" form-control ms-0"></label>
-
-                <Controller
-                  name="opcDashboard"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      onChange={(e) =>
-                        selecEstacion_Screen({
-                          ...selectEstacion,
-                          opcEstaciones: e.value,
-                        })
-                      }
-                      options={opcEstaciones}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
+          <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Partes Interesadas</h3>
+          <Subtitle title={"Informacion general"} mt={0} mb={3} />
+          <form className="row" onSubmit={handleSubmitFiltrar(onSubmitFiltrar)}>
+            <div className="col-12 col-md-4">
+              <label className="form-label">
+                Estación: <span className="text-danger">*</span>
+              </label>
+              <Controller
+                name="estacion"
+                control={controlFiltrar}
+                rules={{
+                  required: true,
+                }}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={estacionesOptions}
+                    placeholder="Seleccionar"
+                  />
+                )}
+              />
+            </div>
+            <div>
+              <button
+                type="submit"
+                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-1"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Cargando...
+                  </>
+                ) : (
+                  "Mostrar datos estacion"
+                )}
+              </button>
+            </div>
+          </form>
+          {dataReportes && (
+            <div className="multisteps-form__content">
+              <div>
+                <div
+                  className="ag-theme-alpine mt-auto mb-8 px-4"
+                  style={{ height: "470px" }}
+                >
+                  <AgGridReact
+                    columnDefs={columnDefs}
+                    rowData={dataReportes}
+                    defaultColDef={defaultColDef}
+                  ></AgGridReact>
+                </div>
               </div>
             </div>
-
-            {selectEstacion.opcEstaciones === "Guayuriba" ? (
-              <div className="row min-vh-100">
-                <div className="col-lg-12 col-md-12 col-12 mx-auto">
-                  <div
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                  >
-                    <Subtitle
-                      title="Informacion de general Estación Guayuriba"
-                      mt={3}
-                    />
-
-                    <div>
-                      <div className="col-12-md-3 ">
-                        <button
-                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
-                          onClick={() => setIsModalActive(!isModalActive)}
-                        >
-                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
-                        </button>
-                      </div>
-                    </div>
-                    <br></br>
-                    <div className="row">
-                      <div className="multisteps-form__content">
-                        <div>
-                          <div
-                            className="ag-theme-alpine mt-auto mb-3 px-4"
-                            style={{ height: "470px" }}
-                          >
-                            <AgGridReact
-                              columnDefs={columnDefs}
-                              rowData={usuarios as any}
-                              defaultColDef={defaultColDef}
-                            ></AgGridReact>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-
-            {selectEstacion.opcEstaciones === "Ocoa" ? (
-              <div className="row min-vh-100">
-                <div className="col-lg-12 col-md-12 col-12 mx-auto">
-                  <div
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                  >
-                    <Subtitle
-                      title="Informacion de general Estación Ocoa"
-                      mt={3}
-                    />
-
-                    <div>
-                      <div className="col-12-md-3 ">
-                        <button
-                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
-                          onClick={() => setIsModalActive(!isModalActive)}
-                        >
-                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
-                        </button>
-                      </div>
-                    </div>
-                    <br></br>
-                    <div className="row">
-                      <div className="multisteps-form__content">
-                        <div>
-                          <div
-                            className="ag-theme-alpine mt-auto mb-3 px-4"
-                            style={{ height: "470px" }}
-                          >
-                            <AgGridReact
-                              columnDefs={columnDefs}
-                              rowData={usuarios}
-                              defaultColDef={defaultColDef}
-                            ></AgGridReact>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            {selectEstacion.opcEstaciones === "Puerto Gaitan" ? (
-              <div className="row min-vh-100">
-                <div className="col-lg-12 col-md-12 col-12 mx-auto">
-                  <div
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                  >
-                    <Subtitle
-                      title="Informacion de general Estación Puerto Gaitan"
-                      mt={3}
-                    />
-
-                    <div>
-                      <div className="col-12-md-3 ">
-                        <button
-                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
-                          onClick={() => setIsModalActive(!isModalActive)}
-                        >
-                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
-                        </button>
-                      </div>
-                    </div>
-                    <br></br>
-                    <div className="row">
-                      <div className="multisteps-form__content">
-                        <div>
-                          <div
-                            className="ag-theme-alpine mt-auto mb-3 px-4"
-                            style={{ height: "470px" }}
-                          >
-                            <AgGridReact
-                              columnDefs={columnDefs}
-                              rowData={usuarios as any}
-                              defaultColDef={defaultColDef}
-                            ></AgGridReact>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            {selectEstacion.opcEstaciones === "Guamal" ? (
-              <div className="row min-vh-100">
-                <div className="col-lg-12 col-md-12 col-12 mx-auto">
-                  <div
-                    className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-                    data-animation="FadeIn"
-                  >
-                    <Subtitle
-                      title="Informacion de general Estación Guamal"
-                      mt={3}
-                    />
-
-                    <div>
-                      <div className="col-12-md-3 ">
-                        <button
-                          className="btn btn-image text-capitalize bg-white border boder-none d-block ms-auto mt-3"
-                          onClick={() => setIsModalActive(!isModalActive)}
-                        >
-                          <img src={IconoNuevoBia} alt="" title="Nuevo" />
-                        </button>
-                      </div>
-                    </div>
-                    <br></br>
-                    <div className="row">
-                      <div className="multisteps-form__content">
-                        <div>
-                          <div
-                            className="ag-theme-alpine mt-auto mb-3 px-4"
-                            style={{ height: "470px" }}
-                          >
-                            <AgGridReact
-                              columnDefs={columnDefs}
-                              rowData={usuarios as any}
-                              defaultColDef={defaultColDef}
-                            ></AgGridReact>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div></div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </form>
+          )}
         </div>
       </div>
       <NuevoUsuarioModal
