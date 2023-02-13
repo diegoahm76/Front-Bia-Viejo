@@ -190,11 +190,6 @@ const HojaDeVidaOtrosActivosScreen = () => {
                           />
                         )}
                       />
-                    {/* <input
-                      className="border border-terciary form-control border rounded-pill px-3"
-                      type="text"
-                      {...register("estado", { required: false })}
-                    /> */}
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">

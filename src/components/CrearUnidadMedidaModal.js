@@ -2,8 +2,6 @@ import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
-import IconoEditar from "../assets/iconosBotones/editar.svg";
-import IconoEliminar from "../assets/iconosBotones/eliminar.svg";
 import IconoGuardar from "../assets/iconosBotones/guardar.svg";
 import IconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,7 +54,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       ),
     });
 
-    // UseEditUnidadMedida(unidadMedidaEdit);
+    UseEditUnidadMedida(unidadMedidaEdit);
     setEdit(true);
   };
 
@@ -110,7 +108,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     } else {
       await Axios({
         method: "PUT",
-        url: `https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/update/${unidadMedidaEdit.id_unidad_medida}/`,
+        url: `${unidadMedidaEdit.id_unidad_medida}/`,
         data: {
           ...unidadMedidaEdit,
           id_magnitud: unidadMedidaEdit.magnitud.value,
@@ -170,7 +168,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     try {
       setBotonAdministrador(true);
       const response = await Axios({
-        url: "https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/get-list/",
+        url: "https://backend-bia-beta-production.up.railway.app/api/almacen/unidades-medida/get-list/",
       });
       setUnidades(response.data);
       console.log("obtener lista");
@@ -199,7 +197,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
             type="button"
             onClick={() => editarUnidad(params.data)}
           >
-            <img src={IconoEditar} alt="editar" />
+            <i className="fa-regular fa-pen-to-square fs-4" title="Editar"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth"
@@ -208,7 +206,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
               confirmarEliminarUnidadMedida(params.data.id_unidad_medida)
             }
           >
-            <img src={IconoEliminar} alt="eliminar" />
+            <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
           </button>
         </div>
       ),

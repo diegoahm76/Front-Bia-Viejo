@@ -10,9 +10,10 @@ import AlertasScreen from "../estaciones/AlertasScreen";
 import ConfiguracionesScreen from "../estaciones/ConfiguracionesScreen";
 import MonitoreoScreen from "../estaciones/MonitoreoScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
-import DashboardsScreen from "../estaciones/DashboardsScreen";
+import DashboardsScreen from "../estaciones/DashboardScreen";
 import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
-
+import Geolocalizacion from "../estaciones/Geolocalizacion/geolocalizacion";
+import AnaliticaDeDatosScreen from "../estaciones/AnaliticaDeDatosScreen";
 const RecursoHidricoRoutes = () => {
   return (
     <Routes>
@@ -22,6 +23,8 @@ const RecursoHidricoRoutes = () => {
 
       <Route path="estaciones">
         <Route path="reportes" element={<ReportesScreen />} />
+
+        <Route path="geolocalizacion" element={<Geolocalizacion />} />
 
         <Route
           path="administrador-de-estaciones"
@@ -38,9 +41,11 @@ const RecursoHidricoRoutes = () => {
         <Route path="configuraciones" element={<ConfiguracionesScreen />} />
 
         <Route path="alarmas-estaciones" element={<AlarmasScreen />} />
+        <Route path="analitica-datos" element={<AnaliticaDeDatosScreen />}></Route>
 
         <Route path="monitoreo" element={<MonitoreoScreen />} />
         <Route path="DashboardEstaciones" element={<DashboardsScreen />} />
+        <Route path="DashboardEstaciones/:estacionId" element={<DashboardsScreen />} />
 
         <Route
           path="alarmas-configuraciones"

@@ -44,9 +44,8 @@ const Aside = ({ showAside }) => {
 
   return (
     <aside
-      className={`collapse sidenav navbar navbar-vertical ${
-        showAside && "navbar-expand-xs"
-      } fixed-start bg-terciary`}
+      className={`collapse sidenav navbar navbar-vertical ${showAside && "navbar-expand-xs"
+        } fixed-start bg-terciary`}
       id="sidenav-main"
       style={{
         minWidth: "273px",
@@ -393,6 +392,19 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
+                                to="almacen/configuracion/creacionbodega"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Creación de Bodegas
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
                                 to="almacen/configuracion/alertasmantenimientoactivo"
                               >
                                 <span className="sidenav-mini-icon">
@@ -470,19 +482,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="almacen/configuracion/creacionbodega"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Creación de Bodegas
-                                </span>
-                              </Link>
-                            </li>
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -536,45 +536,6 @@ const Aside = ({ showAside }) => {
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
-                                to="almacen/gestion-de-inventario/busqueda-activos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Busqueda de activos a <br /> subdelegados
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white"
-                                to="almacen/gestion-de-inventario/reasignacion-elementos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Reasignacion elementos <br /> subasignados
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="almacen/gestion-de-inventario/subasignar-elementos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Subasignar elementos
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
                                 to="almacen/gestion-de-inventario/cv-otros-activos"
                               >
                                 <span className="sidenav-mini-icon">
@@ -622,7 +583,46 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Programacion de <br/> mantenimiento
+                                  Programacion de <br /> mantenimiento
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/gestion-de-inventario/busqueda-activos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Busqueda de activos a <br /> subdelegados
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white"
+                                to="almacen/gestion-de-inventario/reasignacion-elementos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Reasignacion elementos <br /> subasignados
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/gestion-de-inventario/subasignar-elementos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Subasignar elementos
                                 </span>
                               </Link>
                             </li>
@@ -754,7 +754,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Formulario de revisión <br/> de inventario
+                                  Formulario de revisión <br /> de inventario
                                 </span>
                               </Link>
                             </li>
@@ -963,7 +963,7 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Reporte historico de <br/> un activo
+                                  Reporte historico de <br /> un activo
                                 </span>
                               </Link>
                             </li>
@@ -1598,10 +1598,10 @@ const Aside = ({ showAside }) => {
                               >
                                 <img
                                   src={Iconocuarentena}
-                                  style={{width:"15px", height:"15px"}}
+                                  style={{ width: "15px", height: "15px" }}
                                   alt="Cuarentena vivero"
                                 />
-                                
+
                                 <span className="sidenav-normal  ms-2  ps-1">
                                   Cuarentena de Vivero
                                 </span>
@@ -2130,7 +2130,20 @@ const Aside = ({ showAside }) => {
                             <img src={Vineta} alt="vineta" />
                           </span>
                           <span className="sidenav-normal  ms-2  ps-1">
-                            CCD 
+                            CCD
+                          </span>
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link
+                          className="nav-link text-white "
+                          to="gestordocumental/organigrama/trd"
+                        >
+                          <span className="sidenav-mini-icon">
+                            <img src={Vineta} alt="vineta" />
+                          </span>
+                          <span className="sidenav-normal  ms-2  ps-1">
+                            TRD
                           </span>
                         </Link>
                       </li>
@@ -2191,7 +2204,7 @@ const Aside = ({ showAside }) => {
                     className="nav-link text-white "
                     aria-controls="basicExamples"
                     role="button"
-                    aria-expanded="false"
+                    aria-expanded="true"
                   >
                     {/* <i className="material-icons-round {% if page.brand == 'RTL' %}ms-2{% else %} me-2{% endif %}">
                   upcoming
@@ -2276,6 +2289,39 @@ const Aside = ({ showAside }) => {
                           </span>
                         </a>
                       </li>
+                      <li className="nav-item">
+                        <a
+                          data-bs-toggle="collapse"
+                          href="#compo"
+                          className="nav-link text-white "
+                          aria-controls=""
+                          role="button"
+                          aria-expanded="false"
+                        >
+                          <img
+                            src="/static/media/market-research-svgrepo-com.4a09ad7dc0ce046b1e7f9668fed3b21e.svg"
+                            alt="Tramites y servicios"
+                          />
+                          <span className="nav-link-text ms-2 ps-1">
+                            Analitica De Datos
+                          </span>
+                        </a>
+                        <ul className="nav ">
+                        </ul>
+                        <div className="collapse " id="compo">
+                          <li className="nav-item">
+                            <Link
+                              className="nav-link text-white "
+                              to="TramitesYServicios/AnaliticaDeDatosTYS/PqrsdAnalitica"
+                            >
+                              <span className="sidenav-mini-icon"> P </span>
+                              <span className="sidenav-normal  ms-2  ps-1">
+                                PQRSD
+                              </span>
+                            </Link>
+                          </li>
+                        </div>
+                      </li>
                     </ul>
                   </div>
                 </li>
@@ -2316,6 +2362,19 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="estaciones">
                           <ul className="nav nav-sm flex-column">
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/geolocalizacion"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Geolocalización
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -2368,6 +2427,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -2377,7 +2437,20 @@ const Aside = ({ showAside }) => {
                                   <img src={Vineta} alt="vineta" />
                                 </span>
                                 <span className="sidenav-normal  ms-2  ps-1">
-                                  Dashboards Estaciones
+                                  Comportamiento Variable
+                                </span>
+                              </Link>
+                            </li>
+                            <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="recurso-hidrico/estaciones/analitica-datos"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Analitica de Datos
                                 </span>
                               </Link>
                             </li>
@@ -2394,32 +2467,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            {/* <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/alertas"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Alertas
-                                </span>
-                              </Link>
-                            </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/alarmas-configuraciones"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Alarmas Configuraciones
-                                </span>
-                              </Link>
-                            </li> */}
+
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "

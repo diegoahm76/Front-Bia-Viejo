@@ -68,7 +68,6 @@ const descargarEstacionesError = (estado) => ({
   payload: estado,
 });
 
-
 export const crearNuevaEstacionAction = (estacion) => {
   return async (dispatch) => {
     dispatch(agregarEstacion());
@@ -203,6 +202,22 @@ export const obtenerUsuariosAction = () => {
     }
   };
 };
+export const obtenerUsuariosActionGuayuriba = () => {
+  const EstacionGuay = "Guayuriba";
+  return async (dispatch) => {
+    dispatch(descargarUsuarios(true));
+
+    try {
+      const { data: dataGetUsuarios } = await clienteEstaciones.get(
+        "usuarios" + EstacionGuay
+      );
+      dispatch(descargarUsuariosExito(dataGetUsuarios));
+    } catch (error) {
+      console.log(error);
+      dispatch(descargarUsuariosError(true));
+    }
+  };
+};
 
 const descargarUsuarios = (estado) => ({
   type: COMENZAR_DESCARGA_USUARIOS,
@@ -225,7 +240,7 @@ export const crearNuevoUsuarioAction = (usuario) => {
 
     try {
       await clienteEstaciones.post("Usuarios", usuario);
-      dispatch(obtenerUsuariosAction())
+      dispatch(obtenerUsuariosAction());
       dispatch(agregarUsuarioExito(usuario));
 
       Swal.fire("Correcto", "El usuario se agrego correctamente", "success");
@@ -237,7 +252,7 @@ export const crearNuevoUsuarioAction = (usuario) => {
       Swal.fire({
         icon: "error",
         title: "Hubo un error",
-        text: error.response.data,
+        text: "Hubo un error, intenta de nuevo",
       });
     }
   };
@@ -268,7 +283,6 @@ const obtenerUsuarioEliminar = (usuario) => ({
   payload: usuario,
 });
 
-
 export const eliminarUsuarioAction = (id) => {
   return async (dispatch) => {
     dispatch(comenzarELiminarUsuario());
@@ -276,11 +290,7 @@ export const eliminarUsuarioAction = (id) => {
     try {
       await clienteEstaciones.delete(`Usuarios/${id}`);
       dispatch(usuarioEliminadoExito());
-      Swal.fire(
-        "Correcto",
-        "El usuario se elimino correctamente",
-        "success"
-      );
+      Swal.fire("Correcto", "El usuario se elimino correctamente", "success");
     } catch (error) {
       console.log(error);
       dispatch(usuarioEliminarError(true));
@@ -289,8 +299,8 @@ export const eliminarUsuarioAction = (id) => {
 };
 
 const comenzarELiminarUsuario = () => ({
-  type: COMENZAR_ELIMINAR_USUARIO
-})
+  type: COMENZAR_ELIMINAR_USUARIO,
+});
 
 const usuarioEliminadoExito = () => ({
   type: USUARIO_ELIMINADO_EXITO,
@@ -318,13 +328,9 @@ export const editarUsuarioAction = (usuario) => {
 
     try {
       await clienteEstaciones.put("Usuarios", usuario);
-      dispatch(obtenerUsuariosAction())
+      dispatch(obtenerUsuariosAction());
       dispatch(editarUsuarioExito(usuario));
-      Swal.fire(
-        "Correcto",
-        "El usuario se actualizo correctamente",
-        "success"
-      );
+      Swal.fire("Correcto", "El usuario se actualizo correctamente", "success");
     } catch (error) {
       console.log(error);
       dispatch(usuarioEditadaError(true));

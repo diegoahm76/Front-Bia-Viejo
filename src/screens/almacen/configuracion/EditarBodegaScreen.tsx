@@ -267,6 +267,7 @@ const EditarBodegaScreen = () => {
                     placeholder="Seleccionar"
                     value={busquedaModel.tipoDocumento}
                     onChange={changeSelect}
+                    isDisabled
                   />
                 )}
               />
@@ -287,6 +288,7 @@ const EditarBodegaScreen = () => {
                   placeholder="Número de documento"
                   defaultValue={busquedaModel.cedula}
                   required
+                  disabled
                 />
               </div>
               {errorsBuscar.numeroDocumento && (
@@ -316,6 +318,7 @@ const EditarBodegaScreen = () => {
                 <button
                   className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                   type="button"
+                  disabled
                   onClick={() => setBusquedaAvanzadaIsOpen(true)}
                 >
                   Busqueda avanzada

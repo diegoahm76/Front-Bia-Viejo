@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import Modal from "react-modal";
 import { useDispatch, useSelector } from "react-redux";
+
 import { useEffect } from "react";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
 import {
   eliminarUsuarioAction,
 } from "../actions/estacionActions";
@@ -23,8 +26,8 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const EliminarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
-  const dispatch = useDispatch();
-  const { usuarioEliminar } = useSelector((state) => state.estaciones);
+  const dispatch = useAppDispatch();
+  const { usuarioEliminar } = useAppSelector((state) => state.estaciones);
 
   const { register, reset } = useForm();
 
@@ -33,6 +36,7 @@ const EliminarUsuarioModal = ({ isModalActive, setIsModalActive }) => {
   }, [usuarioEliminar]);
 
   const eliminarUsuario = () => {
+    
     dispatch(eliminarUsuarioAction(usuarioEliminar.idUsuario));
     setIsModalActive(!isModalActive);
   };
