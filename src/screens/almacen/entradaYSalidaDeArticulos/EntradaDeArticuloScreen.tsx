@@ -313,7 +313,7 @@ export const EntradaDeArticuloScreen = () => {
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
                 <Subtitle title={"Datos generales"} />
-                <div className="row ms-1 mt-4">
+                <div className="row ms-1 mt-2">
                   <div className="col-6 col-sm-3 mt-3">
                     <label className="text-terciary">
                       Consecutivo: <span className="text-danger">*</span>
@@ -322,13 +322,13 @@ export const EntradaDeArticuloScreen = () => {
                       className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
                       placeholder="Consecutivo"
-                      required
-                      {...register("Consecutivo")}
+                      // required
+                      // {...register("Consecutivo")}
                     />
 
-                    {errors.Consecutivo && (
+                    {/* {errors.Consecutivo && (
                       <p className="text-danger">Este campo es obligatorio</p>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="col-6 col-sm-3 mt-3">
@@ -365,7 +365,7 @@ export const EntradaDeArticuloScreen = () => {
                     <Controller
                       name="options"
                       control={control}
-                      rules={{ required: true }}
+                      rules={{ required: false }}
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -374,11 +374,11 @@ export const EntradaDeArticuloScreen = () => {
                         />
                       )}
                     />
-                    {errors.options && (
+                    {/* {errors.options && (
                       <p className=" form-control ms-0 text-danger">
                         Este campo es obligatorio
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="col-6 col-sm-3 mt-3">
@@ -452,27 +452,30 @@ export const EntradaDeArticuloScreen = () => {
                       {...register("NumeroDoc")}
                     />
                   </div>
-                  <div className="col-6 col-sm-2 mt-2">
+                  <div className="col-6 col-sm-2 mt-1">
                     <button
                       type="button"
                       className="btn  text-capitalize btn-outline-ligth px-3 mt-4"
                       title="Buscar profesional cormacarena"
                     >
-                      <img src={IconoBuscar} alt="buscar" />
+                      <i
+                        className="fa-solid fa-magnifying-glass fs-3"
+                        title="Buscar"
+                      ></i>
                     </button>
                   </div>
-                  <div className="col-6 col-sm-3 mt-2">
+                  <div className="col-6 col-sm-3 mt-1">
                     <button
                       type="button"
                       className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
                       onClick={handleOpenModalAvanzadaModal}
                     >
-                      busqueda avanzada
+                      Busqueda avanzada
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="row ms-1 mt-3">
+              <div className="row ms-1 ">
                 <div className="col">
                   <label className="ms-2 text-terciary">
                     Concepto: <span className="text-danger">*</span>{" "}
@@ -538,8 +541,8 @@ export const EntradaDeArticuloScreen = () => {
                   <Subtitle title={"Identificacion de articulos"} />
                 </div>
               </div>
-              <div className="row ms-1 align-items-end">
-                <div className="col-6 col-sm-3">
+              <div className="row ">
+                <div className="col-12 col-sm-3">
                   <label className="ms-2 text-terciary">
                     Codigo: <span className="text-danger">*</span>{" "}
                   </label>
@@ -551,7 +554,7 @@ export const EntradaDeArticuloScreen = () => {
                     {...register("Cod")}
                   />
                 </div>
-                <div className="col-6 col-sm-3">
+                <div className="col-12 col-sm-3">
                   <label className="ms-2 text-terciary">
                     Nombre de articulo:
                   </label>
@@ -563,21 +566,21 @@ export const EntradaDeArticuloScreen = () => {
                     disabled={true}
                   />
                 </div>
-                <div
-                  className="col-6 col-sm-3 mt-4 d-inline-block"
-                  title="Buscar"
-                >
+                <div className="col-12 col-sm-2 mt-4" title="Buscar">
                   <button
                     type="button"
-                    className="btn text-capitalize btn-outline-ligth px-3 mb-0"
+                    className="btn text-capitalize btn-outline-ligth "
                   >
-                    <img src={IconoBuscar} alt="buscar" />
+                    <i
+                      className="fa-solid fa-magnifying-glass fs-3"
+                      title="Buscar"
+                    ></i>
                   </button>
                 </div>
-                <div className="col-6 col-sm-3">
+                <div className="col-12 col-sm-4 mt-4">
                   <button
                     type="button"
-                    className="btn btn-primary text-capitalize ms-1 border rounded-pill px-3 mb-0"
+                    className="btn btn-primary text-capitalize mt-2"
                     onClick={handleOpenModalArticulos}
                   >
                     Busqueda de articulo
@@ -591,22 +594,28 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
 
                 <div>
-                  <div className=" row ms-2">
-                    <div className="col-6 col-sm-3">
-                      <div>
-                        <label className="text-terciary">
-                          Unidad de Medida{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <br />
-                        <input
-                          className="form-control border rounded-pill px-3 border border-terciary"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Unidad de medida"
-                          {...register("UniMe")}
-                        />
-                      </div>
+                  <div className=" row ms-2 mt-3">
+                  <div className="col-6 col-sm-3">
+                      <label className="ms-2 me-2 text-terciary ">
+                        Unidad de medida: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <Controller
+                        name="options"
+                        control={control4}
+                        rules={{ required: page === 2 }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={EstadoArticulos}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                      {errors.options && (
+                        <p className=" form-control ms-0 text-danger">
+                          Este campo es obligatorio
+                        </p>
+                      )}
                     </div>
                     <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
                       <button
@@ -642,16 +651,26 @@ export const EntradaDeArticuloScreen = () => {
                       />
                     </div>
                     <div className="col-6 col-sm-3">
-                      <label className="ms-2 text-terciary">
-                        Porcentaje IVA <span className="text-danger">*</span>{" "}
+                      <label className="ms-2 me-2 text-terciary ">
+                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
                       </label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Porcentaje IVA"
-                        {...register("PorceIVA")}
+                      <Controller
+                        name="options"
+                        control={control4}
+                        rules={{ required: page === 2 }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={EstadoArticulos}
+                            placeholder="Seleccionar"
+                          />
+                        )}
                       />
+                      {errors.options && (
+                        <p className=" form-control ms-0 text-danger">
+                          Este campo es obligatorio
+                        </p>
+                      )}
                     </div>
                     <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
                       <button
@@ -753,19 +772,26 @@ export const EntradaDeArticuloScreen = () => {
                   <div className="row ms-2 mt-5">
                     <Subtitle title={"Entrada de activo"} mb={4} />
                     <div className="col-6 col-sm-3">
-                      <div>
-                        <label className="ms-2 text-terciary">
-                          Unidad de Medida:{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3 border border-terciary"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Unidad de medida"
-                          {...register("UniMed")}
-                        />
-                      </div>
+                      <label className="ms-2 me-2 text-terciary ">
+                        Unidad de medida: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <Controller
+                        name="options"
+                        control={control4}
+                        rules={{ required: page === 2 }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={EstadoArticulos}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                      {errors.options && (
+                        <p className=" form-control ms-0 text-danger">
+                          Este campo es obligatorio
+                        </p>
+                      )}
                     </div>
                     <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
                       <button
@@ -777,18 +803,26 @@ export const EntradaDeArticuloScreen = () => {
                       </button>
                     </div>
                     <div className="col-6 col-sm-3">
-                      <div>
-                        <label className="ms-2 me-2 text-terciary ">
-                          Marca: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          className="form-control border rounded-pill px-3 border border-terciary"
-                          type="text"
-                          required={page === 2}
-                          placeholder="Marca"
-                          {...register("Marca")}
-                        />
-                      </div>
+                      <label className="ms-2 me-2 text-terciary ">
+                        Marca: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <Controller
+                        name="options"
+                        control={control4}
+                        rules={{ required: page === 2 }}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            options={EstadoArticulos}
+                            placeholder="Seleccionar"
+                          />
+                        )}
+                      />
+                      {errors.options && (
+                        <p className=" form-control ms-0 text-danger">
+                          Este campo es obligatorio
+                        </p>
+                      )}
                     </div>
 
                     <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
@@ -964,26 +998,27 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-4">
-                  <button
-                    type="button"
-                    className="col-3 col-md-4 ms-4 mt-4 btn  text-capitalize btn-outline-ligth px-3"
-                    title="Agregar"
-                  >
-                    <img src={IconoAgregar} alt="agregar" />
-                  </button>
-                </div>
                 <div className="row">
-                  <div className="d-flex justify-content-end gap-4 mt-4">
+                  <div className="col-12 col-md-4">
                     <button
                       type="button"
-                      className={`btn text-capitalize btn-outline-ligth px-3 ${page === 1 && "d-none"
-                        }`}
+                      className="col-3 col-md-4 btn  text-capitalize btn-outline-ligth "
+                      title="Agregar"
+                    >
+                      <i className="fa-regular fa-plus fs-3"></i>
+                    </button>
+                  </div>
+                  <div className="col-md-6 mt-4">
+                    <button
+                      type="button"
+                      className={`btn text-capitalize btn-outline-ligth px-3 ${
+                        page === 1 && "d-none"
+                      }`}
                       style={{ minWidth: "100px" }}
                       onClick={handleOpenModal}
                       title="Ver resumen de entrada"
                     >
-                      <img src={IconoVer} alt="ver" />
+                      <i className="fa-solid fa-eye fs-3"></i>
                     </button>
                   </div>
                 </div>
@@ -997,7 +1032,7 @@ export const EntradaDeArticuloScreen = () => {
                   className="btn  text-capitalize btn-outline-ligth px-3"
                   title="Cancelar"
                 >
-                  <img src={IconoCancelar} alt="cancelar" />
+                  <i className="fa-solid fa-x fs-3" title=""></i>
                 </button>
                 <button
                   type="button"
@@ -1005,17 +1040,18 @@ export const EntradaDeArticuloScreen = () => {
                   aria-label="Cancelar"
                   title="Limpiar"
                 >
-                  <img src={IconoLimpiar} alt="limpiar" />
+                  <i className="fa-solid fa-eraser fs-3" title=""></i>
                 </button>
 
                 <button
-                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${page === 1 && "d-none"
-                    }`}
+                  className={`btn btn-outline-ligthtext-capitalize  px-3 ${
+                    page === 1 && "d-none"
+                  }`}
                   type="button"
                   title="Regresar a la pagina anterior"
                   onClick={handlePreviousPage}
                 >
-                  <img src={IconoAtras} alt="atras" />
+                  <i className="fa-solid fa-angles-left fs-3" title="atras"></i>
                 </button>
                 <button
                   className="btn  text-capitalize btn-outline-ligth px-3"
@@ -1023,13 +1059,15 @@ export const EntradaDeArticuloScreen = () => {
                   form="configForm"
                 >
                   {page === 1 ? (
-                    <img
-                      src={IconoSiguiente}
+                    <i
+                      className="fa-solid fa-angles-right fs-3"
                       title="Siguiente"
-                      alt="siguiente"
-                    />
+                    ></i>
                   ) : (
-                    "Continuar"
+                    <i
+                      className="fa-solid fa-angles-right fs-3"
+                      title="Siguiente"
+                    ></i>
                   )}{" "}
                 </button>
               </div>
@@ -1230,8 +1268,8 @@ export const EntradaDeArticuloScreen = () => {
       />
       <CrearPorcentajeIvaModal
         isModalActive={crearPorcentajeOpen}
-        setIsModalActive={setCrearPorcentajeOpen}>
-      </CrearPorcentajeIvaModal>
+        setIsModalActive={setCrearPorcentajeOpen}
+      ></CrearPorcentajeIvaModal>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
+import axios from "axios";
 
 export interface IUsuarioEstaciones {
   idUsuario: number;
@@ -22,7 +23,6 @@ interface IEstacionesInternal {
   t001fechaMod: string;
   t001userMod: string;
 }
-
 const initialState: IUsuarioEstaciones[] = [
   {
     idUsuario: 1,
@@ -37,7 +37,7 @@ const initialState: IUsuarioEstaciones[] = [
     },
     t005identificacion: 1076670521,
     t005nombre: "Alejandro",
-    t005apellido:"Sastoque",
+    t005apellido: "Sastoque",
     t005correo: "sastoque42@gmail.com",
     t005numeroCelular: 3107505784,
     t005Observacion: "",
@@ -49,7 +49,7 @@ const usuarioEstaciones = createSlice({
   initialState,
   reducers: {
     obtenerUsuarioEstaciones: (state, action) => {
-      state.push(action.payload);
+      return [...state, ...action.payload];
     },
   },
 });
@@ -61,7 +61,7 @@ export const obtenerTodosUsuarios = async (dispatch) => {
   await clienteEstaciones
     .get("Usuarios")
     .then((usuarioEstaciones) => {
-      dispatch(obtenerUsuarioEstaciones(usuarioEstaciones));
+      dispatch(obtenerUsuarioEstaciones(usuarioEstaciones.data));
     })
     .catch(() => {
       Swal.fire({
@@ -72,4 +72,11 @@ export const obtenerTodosUsuarios = async (dispatch) => {
         confirmButtonText: "Aceptar",
       });
     });
+};
+export const obtenerNombreEstacion = async (dispatch, estacion) => {
+  await clienteEstaciones
+    .get(`Estaciones/${estacion}`)
+    .then((estacion) => {
+      dispatch(obtenerUsuarioEstaciones(estacion.data));
+    })
 };

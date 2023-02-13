@@ -1,18 +1,16 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
 import clienteAxios from "../../config/clienteAxios";
-import { formatISO } from "date-fns";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Subtitle from "../../components/Subtitle";
 import BusquedaAvanzadaModal from "../../components/BusquedaAvanzadaModal";
 import DirecionResidenciaModal from "../../components/DirecionResidenciaModal";
 
-import botonBuscar from "../../assets/iconosBotones/buscar.svg";
 import botonCancelar from "../../assets/iconosBotones/cancelar.svg";
 import botonActualizar from "../../assets/iconosBotones/actualizar.svg";
 import botonAgregar from "../../assets/iconosBotones/agregar.svg";
@@ -33,7 +31,7 @@ const modelCreate = {
   tipo_documento: { label: "", value: "" },
   numero_documento: "",
   fecha_nacimiento: "",
-  // fecha_nacimiento: new Date(),
+  fecha_nacimientoInput: '',
   estado_civil: { label: "", value: "" },
   sexo: { label: "", value: "" },
   cod_pais_nacionalidad_empresa: { label: "Colombia", value: "CO" },
@@ -87,11 +85,11 @@ const AdministradorDePersonasScreen = () => {
   const [direccionNotificacionText, setDireccionNotificacionText] =
     useState("");
   const [direccionLaboralIsOpen, setDireccionLaboralIsOpen] = useState(false);
+  const [viewDate, setViewDate] = useState(false);
   const [direccionLaboralText, setDireccionLaboralText] = useState("");
   const [busquedaAvanzadaIsOpen, setBusquedaAvanzadaIsOpen] = useState(false);
 
   const [yesOrNot, setYesOrNot] = useState(false);
-  const [primeraVez, setPrimeraVez] = useState(true);
 
   const [sexoOptions, setSexoOptions] = useState<ISelectOptions[]>([]);
   const [estadoCivilOptions, setEstadoCivilOptions] = useState<
@@ -113,19 +111,7 @@ const AdministradorDePersonasScreen = () => {
     useState<ISelectOptions[]>([]);
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
     useState<ISelectOptions[]>([]);
-  const [formValuesSearch, setFormValuesSearch] = useState({
-    index_tipo_documento: "",
-  });
-  const [lugarResidencia, setLugarResidencia] = useState({
-    departamento: {
-      label: "",
-      value: "",
-    },
-  });
-  const [datosLaborales, setDatosLaborales] = useState<ISelectOptions[]>([]);
-  const [datosNotificacion, setDatosNotificacion] = useState<ISelectOptions[]>(
-    []
-  );
+
   const [formValues, setFormValues] = useState(modelCreate);
   console.log(formValues, "este es ");
 
@@ -138,21 +124,12 @@ const AdministradorDePersonasScreen = () => {
     setValue,
     formState: { errors: errorsPersona },
   } = useForm();
-
+  const dataPersona = watchPersona();
   const {
     reset: resetBuscar,
     handleSubmit: handleSubmitBuscar,
     formState: { errors: errorsBuscar },
   } = useForm();
-
-  const notificationError = (message = "Algo pasó, intente de nuevo") =>
-    Swal.mixin({
-      position: "center",
-      icon: "error",
-      title: message,
-      showConfirmButton: true,
-      confirmButtonText: "Aceptar",
-    }).fire();
 
   const notificationSuccess = (message = "Proceso Exitoso") =>
     Swal.mixin({
@@ -344,8 +321,8 @@ const AdministradorDePersonasScreen = () => {
       };
 
       setFormValues(form);
+      setViewDate(false);
     } catch (err: any) {
-      console.log(err, "entre al error");
       if (err.response.data.detail) {
         Swal.fire({
           title:
@@ -361,13 +338,18 @@ const AdministradorDePersonasScreen = () => {
           if (result.isConfirmed) {
             setIsVisible(true);
             setIsEdit(false);
+            setViewDate(true);
+            setFormValues(modelCreate)
+            resetPersona();
           } else {
             setIsVisible(false);
           }
         });
       }
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
+
   };
 
   const onSubmitPersona = async (data) => {
@@ -512,7 +494,7 @@ const AdministradorDePersonasScreen = () => {
       });
     }
   };
-
+  console.log(viewDate, "viewDate");
   const handleCancelAction = () => {
     setIsVisible(false);
   };
@@ -728,7 +710,7 @@ const AdministradorDePersonasScreen = () => {
                     options={tipoDocumentoOptions}
                     placeholder="Seleccionar"
                     onChange={changeSelectTipoDocumentoBusqueda}
-                    //required={true}
+                  //required={true}
                   />
                   {errorsBuscar.tipoDocumento && (
                     <div className="col-12">
@@ -747,6 +729,7 @@ const AdministradorDePersonasScreen = () => {
                     <input
                       className="form-control border rounded-pill px-3 border-terciary"
                       type="text"
+
                       name="numeroDocumento"
                       value={busquedaModel.cedula}
                       onChange={handleChange}
@@ -801,6 +784,7 @@ const AdministradorDePersonasScreen = () => {
                         onChange={changeSelectTipoDocumento}
                         options={tipoDocumentoOptions}
                         placeholder="Seleccionar"
+                        isDisabled
                       />
 
                       {errorsPersona.tipoDocumento2 && (
@@ -932,7 +916,7 @@ const AdministradorDePersonasScreen = () => {
                           name="primer_apellido"
                           value={formValues.primer_apellido}
                           onChange={handleChangeCreate}
-                          //required={true}
+                        //required={true}
                         />
                       </div>
                       {errorsPersona.primerApellido && (
@@ -976,42 +960,66 @@ const AdministradorDePersonasScreen = () => {
                         placeholder="Seleccionar"
                       />
                     </div>
-                    <div className="col-12 col-md-3 mt-1">
-                      <label htmlFor="exampleFormControlInput1">
-                        Fecha de nacimiento{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                      {/* <DatePicker
-                        locale="es"
-                        showYearDropdown
-                        peekNextMonth
-                        showMonthDropdown
-                        scrollableYearDropdown
-                        dropdownMode="select"
-                        autoComplete="off"
-                        selected={formValues.fecha_nacimiento}
-                        value={formValues.fecha_nacimiento}
-                        onSelect={handleFechaNacimiento}
-                        className="form-control border rounded-pill px-3 border-terciary"
-                        placeholderText="dd/mm/aaaa"
-                      /> */}
-                      <input
-                        className="form-control border rounded-pill px-3 border-terciary"
-                        type="text"
-                        disabled={true}
-                        name="segundo_apellido"
-                        onChange={handleChangeCreate}
-                        value={formValues.fecha_nacimiento}
-                      />
+                    {viewDate && (
+                      <div className="col-12 col-md-3 mt-1">
+                        <label htmlFor="exampleFormControlInput1">
+                          Fecha de nacimiento{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="fecha_nacimientoInput"
+                          control={controlPersona}
+                          render={({ field }) => (
+                            <DatePicker
+                              {...field}
+                              locale="es"
+                              showYearDropdown
+                              peekNextMonth
+                              showMonthDropdown
+                              dropdownMode="select"
+                              scrollableYearDropdown
+                              autoComplete="off"
+                              selected={dataPersona.fecha_nacimientoInput}
+                              className="form-control border border-terciary rounded-pill px-3"
+                              maxDate={new Date()}
+                              dateFormat="dd-MM-yyyy"
+                            />
+                          )}
+                        />
+                        {errorsPersona.fecha_nacimientoInput && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {!viewDate && (
+                      <div className="col-12 col-md-3 mt-1">
+                        <label htmlFor="exampleFormControlInput1">
+                          Fecha de nacimiento{" "}
+                          <span className="text-danger">*</span>
+                        </label>
 
-                      {errorsPersona.fechaNacimiento && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
-                            Este campo es obligatorio
-                          </small>
-                        </div>
-                      )}
-                    </div>
+                        <input
+                          className="form-control border rounded-pill px-3 border-terciary"
+                          type="text"
+                          disabled={true}
+                          name="segundo_apellido"
+                          onChange={handleChangeCreate}
+                          value={formValues.fecha_nacimiento}
+                        />
+                        {errorsPersona.fechaNacimiento && (
+                          <div className="col-12">
+                            <small className="text-center text-danger">
+                              Este campo es obligatorio
+                            </small>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="col-12 col-md-3 mt-2">
                       <label className="form-label">País de nacimiento:</label>
 
@@ -1110,7 +1118,7 @@ const AdministradorDePersonasScreen = () => {
                 {/* DATOS LABORALES */}
                 <Subtitle title={"Datos laborales"} mt={4} />
                 <div className="row align-items-end mx-1">
-                  
+
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
@@ -1118,7 +1126,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
                     <Select
                       options={departamentosOptions}
-                     
+
                       onChange={changeSelectDepartamentoLabora}
                       value={formValues.departamento_labora}
                       placeholder="Seleccionar"
@@ -1131,7 +1139,7 @@ const AdministradorDePersonasScreen = () => {
                     </label>
 
                     <Select
-                      
+
                       value={formValues.municipio_labora}
                       onChange={changeSelectMunicipioLabora}
                       options={municipioDondeLaboraFiltered}
@@ -1208,7 +1216,7 @@ const AdministradorDePersonasScreen = () => {
                 <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
                 <div className="mt-2 row mx-1 align-items-end">
 
-                  
+
 
                   <div className="col-12 col-md-3 mt-3">
                     <label className="form-label text-terciary">
