@@ -7,7 +7,7 @@ export interface IOrganigram {
 }
 
 export interface IObjOrganigram {
-    id_organigrama: number | string | null;
+    id_organigrama: number | null;
     nombre: string;
     fecha_terminado: string | Date | null;
     descripcion: string;

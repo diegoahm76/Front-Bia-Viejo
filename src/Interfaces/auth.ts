@@ -3,16 +3,19 @@ export interface IAuth {
     confirmacionCelular: boolean;
 }
 export interface IDefaultValues {
-    tipo_persona: string;
+    tipoDocumentoLegal: any;
+    numero_documento_legal: number | string;
+    tipo_persona: any;
     tipoDocumento: any;
     numero_documento: string;
     razonSocial: string;
     dv: string;
     primerNombre: string;
-    segundoNombre: string;
+    segundo_nombre: string;
     primerApellido: string;
+    segundo_apellido: string | null;
     segundoApellido: string;
-    fechaNacimiento: any;
+    fechaNacimiento: Date | string | null;
     ubicacion_georeferenciada: string;
     pais_residencia: string;
     municipio: string;
@@ -29,6 +32,8 @@ export interface IDefaultValues {
     acepta_tratamiento_datos: boolean;
     direccionNotificacion: string;
     municipioNotificacion: any;
+    paisNotificacion: any;
+    departamentoNotificacion: any;
 }
 export interface IAuth {
     confirmacionEmail: boolean;

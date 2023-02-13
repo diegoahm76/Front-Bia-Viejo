@@ -1,19 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import modalReducer from "./slices/modal/indexModal";
-import loginReducer from "./slices/Login";
-import alarmasReducer from "./slices/alarmas/indexAlarma";
-import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 import alarmasConfigReducer from "./slices/alarmasConfig/indexAlarmasConfig";
-import bodegaReducer from "./slices/bodega/indexBodega";
-import organigramReducer from "./slices/organigrama/indexOrganigram";
-import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
-import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
-import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
+import alarmasReducer from "./slices/alarmas/indexAlarma";
+import assignmentsReducer from "./slices/assignments/indexAssignments";
 import bienReducer from "./slices/catalogoBienes/indexCatalogoBien";
-import marcaReducer from "./slices/marca/indexMarca";
+import bodegaReducer from "./slices/bodega/indexBodega";
+import CCDReducer from "./slices/CCD/indexCCD";
+import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 import cvReducer from "./slices/cv/indexCv";
+import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
+import loginReducer from "./slices/Login";
 import mantenimientoReducer from "./slices/mantenimiento/indexMantenimiento";
+import marcaReducer from "./slices/marca/indexMarca";
+import modalReducer from "./slices/modal/indexModal";
+import monitoreoReducer from './slices/Monitoreo/indexMonitoreo'
+import organigramReducer from "./slices/organigrama/indexOrganigram";
+import seriesReducer from "./slices/series/indexSeries";
+import subSeriesReducer from "./slices/subSeries/indexSubSeries";
+import usuarioEstacionesReducer from "./slices/usuarioEstaciones/indexUsuarioEstaciones";
 
 // import thunk from "redux-thunk";
 import loadingReducer, {
@@ -24,24 +28,30 @@ import loadingReducer, {
 import instance from "../config/clienteAxiosEstaciones";
 import { useAppDispatch } from "./hooks/hooks";
 import { configuracionesReducer } from "../reducers/configuracionesEstacionesReducer";
+import viveroSlice from './slices/administradorViveros/indexAdministradorViveros';
 
 const store = configureStore({
   reducer: {
-    login: loginReducer,
-    modalSelector: modalReducer,
+    administradorEstacionesSlice: estacionesReducer,
     alarma: alarmasReducer,
     alarmasConfig: alarmasConfigReducer,
-    loading: loadingReducer,
-    usuarioEstaciones: usuarioEstacionesReducer,
-    administradorEstacionesSlice: estacionesReducer,
-    configuracion: configuracionReducer,
-    bodegaSlice: bodegaReducer,
-    organigram: organigramReducer,
+    assignments: assignmentsReducer,
     bien: bienReducer,
-    marca: marcaReducer,
-    monitoreoSlice: monitoreoReducer,
+    bodegaSlice: bodegaReducer,
+    CCD: CCDReducer,
+    configuracion: configuracionReducer,
     cv: cvReducer,
-    mantenimiento: mantenimientoReducer
+    loading: loadingReducer,
+    login: loginReducer,
+    mantenimiento: mantenimientoReducer,
+    marca: marcaReducer,
+    modalSelector: modalReducer,
+    monitoreoSlice: monitoreoReducer,
+    organigram: organigramReducer,
+    series: seriesReducer,
+    subSeries: subSeriesReducer,
+    usuarioEstaciones: usuarioEstacionesReducer,
+    viveroSlice: viveroSlice
   },
 });
 
