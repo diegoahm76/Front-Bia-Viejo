@@ -1,10 +1,13 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
-import Subtitle from "../../components/Subtitle";
+import { Controller, useForm } from "react-hook-form";
+import { useState } from "react";
 import Select from "react-select";
+import Subtitle from "../../components/Subtitle";
 import { AgGridReact } from "ag-grid-react";
-
+import SearchTrdModal from "../../components/Dialog/SearchTrdModal";
 const TrdScreen = () => {
+  const [consultaTrdIsactive, setConsultaTrdIsactive] =
+    useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -210,7 +213,6 @@ const TrdScreen = () => {
       soporte: "hibrido",
       formato: ".pdf, papel",
     },
-    
   ];
   const columnAsigancion2 = [
     {
@@ -371,6 +373,9 @@ const TrdScreen = () => {
                   className="btn   text-capitalize"
                   type="button"
                   title="Buscar"
+                  onClick={() => {
+                    setConsultaTrdIsactive(true);
+                  }}
                 >
                   <i className="fa-solid fa-magnifying-glass fs-3"></i>
                 </button>
@@ -391,7 +396,7 @@ const TrdScreen = () => {
               </div>
             </div>
 
-            <Subtitle title="Formato por medio" mb={3}/>
+            <Subtitle title="Formato por medio" mb={3} />
 
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
@@ -560,17 +565,121 @@ const TrdScreen = () => {
             <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <div>
-                  <label className="ms-2 text-terciary">Subseccion</label>
+                  <label className="ms-2 text-terciary">Seccion</label>
                   <input
-                    name="subseccion "
                     className="form-control border border-terciary border rounded-pill px-3"
                     type="text"
-                    placeholder="Nombre"
+                    value="Direccion general"
+                    disabled
                   />
                 </div>
               </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Subseccion</label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    value="Gestion ambiental"
+                    disabled
+                  />
+                </div>
               </div>
-
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Serie</label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    value="1"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">Subserie</label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                    value="3"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-lg-3  mt-3">
+                <label className="text-terciary">Disposicin final</label>
+                <Controller
+                  name="medio_formato"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[{ label: "Conservación total", value: "ctt" }]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <label className="text-terciary">Requiere digitalización</label>
+                <Controller
+                  name="medio_formato"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: "Si", value: "si" },
+                        { label: "No", value: "no" },
+                      ]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">
+                    Tiempo retención archivo gestion{" "}
+                  </label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div className="col-12 col-lg-3  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">
+                    Tiempo retención archivo centrol
+                  </label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-lg-12  mt-3">
+                <div>
+                  <label className="ms-2 text-terciary">
+                    Procedimiento
+                  </label>
+                  <input
+                    className="form-control border border-terciary border rounded-pill px-3"
+                    type="textarea"
+                  />
+                </div>
+              </div>
+            </div>
+            <SearchTrdModal
+              isModalActive={consultaTrdIsactive}
+              setIsModalActive={setConsultaTrdIsactive}
+            />
           </form>
         </div>
       </div>

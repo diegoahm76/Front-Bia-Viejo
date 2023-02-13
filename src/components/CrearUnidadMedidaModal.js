@@ -2,8 +2,6 @@ import { AgGridReact } from "ag-grid-react";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import Modal from "react-modal";
-import IconoEditar from "../assets/iconosBotones/editar.svg";
-import IconoEliminar from "../assets/iconosBotones/eliminar.svg";
 import IconoGuardar from "../assets/iconosBotones/guardar.svg";
 import IconoCancelar from "../assets/iconosBotones/cancelar.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,7 +54,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       ),
     });
 
-    // UseEditUnidadMedida(unidadMedidaEdit);
+    UseEditUnidadMedida(unidadMedidaEdit);
     setEdit(true);
   };
 
@@ -199,7 +197,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
             type="button"
             onClick={() => editarUnidad(params.data)}
           >
-            <i className="fa-regular fa-pen-to-square fs-2" title="Editar"></i>
+            <i className="fa-regular fa-pen-to-square fs-4" title="Editar"></i>
           </button>
           <button
             className="btn btn-sm btn-tablas btn-outline-ligth"
@@ -208,7 +206,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
               confirmarEliminarUnidadMedida(params.data.id_unidad_medida)
             }
           >
-            <i className="fa-regular fa-trash-can fs-2" title="Eliminar"></i>
+            <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
           </button>
         </div>
       ),
