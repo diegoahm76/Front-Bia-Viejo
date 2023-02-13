@@ -142,6 +142,22 @@ export const DespachosEntrantesScreen = () => {
                 </div>
               </div>
             </div>
+            <div className="row mt-5" >
+            <div className="col"style={{display: "flex",
+                  justifyContent: "center",
+                }}>
+                      <label className="text-terciary">
+                        Etapa a la que ingresa:<span className="text-danger">*</span>
+                      </label>
+
+                      <Select
+                        // options={municipiosOptions}
+                        placeholder="Selecciona etapa del material vegetal"
+                        // onChange={changeSelectMuni}
+                        required={true}
+                      />
+                    </div>
+            </div>
             <div style={{display: "flex",
                   justifyContent: "center",
                 }}>

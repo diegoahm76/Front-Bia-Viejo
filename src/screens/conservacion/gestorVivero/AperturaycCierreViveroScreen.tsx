@@ -7,6 +7,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import Subtitle from "../../../components/Subtitle"
 import IconoBuscar from "../../../assets/iconosBotones/buscar.svg";
+import { seleccionarVivero } from '../../../store/slices/administradorViveros/indexAdministradorViveros';
 
 
 
@@ -170,8 +171,7 @@ function AperturayCierreViveroScreen() {
 
                 <Select
                   options={[
-                    { label: "Villavicencio", value: "VS" },
-                    { label: " Macarena", value: "MV" },
+                   seleccionarVivero
                   ]}
                   placeholder="Tipo de vivero"
                   required={true}
