@@ -55,11 +55,16 @@ export const ConsultasMunicipioModal = ({
     // setFormValues,
     // reset,
     // tipoDocumentoOptions,
+    setDisabled,
+    
 }) => {
 const [usuarioSearched, setUsuarioSearched] = useState([]);
 const [loading, setLoading] = useState(false);
 const [codMunicipio, setCodMunicipio] = useState<number>(0);
 const [nombre, setNombre] = useState<string>('');
+// const [idVivero, setIdVivero] = useState({});
+
+
 const {
     handleSubmit,
     register,
@@ -72,23 +77,23 @@ const dispatch = useAppDispatch();
 const onSubmit = async () => {
     const elementModalId = document.getElementById("modal-usuarios-busqueda")!;
     if (nombre !== '') {
-    await clienteAxios.get(
-        `conservacion/viveros/get-by-nombre-municipio/apertura-cierre/?nombre=${nombre}`
-    ).then((response) => {
-        setUsuarioSearched(response.data.data);
-    }).catch((err) => {
-            Swal.fire({
-            target: elementModalId,
-            position: "center",
-            icon: "warning",
-            title: err.response.data.detail,
-            showConfirmButton: true,
-            confirmButtonText: "Aceptar",
+        await clienteAxios.get(
+            `conservacion/viveros/get-by-nombre-municipio/apertura-cierre/?nombre=${nombre}`
+        ).then((response) => {
+            setUsuarioSearched(response.data.data);
+        }).catch((err) => {
+                Swal.fire({
+                    target: elementModalId,
+                    position: "center",
+                    icon: "warning",
+                    title: err.response.data.detail,
+                    showConfirmButton: true,
+                    confirmButtonText: "Aceptar",
+            });
         });
-    });
     } else {
         await clienteAxios.get(
-            `conservacion/viveros/get-by-nombre-municipio/`
+            `conservacion/viveros/get-by-nombre-municipio/apertura-cierre/`
         ).then((response) => {
             setUsuarioSearched(response.data.data);
         });
@@ -97,22 +102,36 @@ const onSubmit = async () => {
 
 const seleccionarAction = (dataSearch) => {
     const busquedaAvanzadaModel = {
+        id_vivero: 0,
         nombre: '',
         municipio: { value: '', label: '' },
         direccion: '',
         area_mt2: 0,
-        area_propagacion_mt2: 0
+        tipo_vivero: { value: '', label: '' },
+        area_propagacion_mt2: 0,
+        area_produccion: false,
+        area_preparacion_sustrato: false,
+        area_embolsado: false,
+        origen_recursos_vivero: { value: '', label: '' }
     }
     // busquedaAvanzadaModel.tipoDocumento.label = dataSearch.persona.tipo_documento.nombre;
+    busquedaAvanzadaModel.id_vivero = dataSearch.id_vivero;
     busquedaAvanzadaModel.nombre = dataSearch.nombre;
     busquedaAvanzadaModel.municipio.value = dataSearch.cod_municipio;
     busquedaAvanzadaModel.municipio.label = dataSearch.cod_municipio;
     busquedaAvanzadaModel.direccion = dataSearch.direccion;
     busquedaAvanzadaModel.area_mt2 = dataSearch.area_mt2;
+    busquedaAvanzadaModel.tipo_vivero.value = dataSearch.cod_tipo_vivero;
+    busquedaAvanzadaModel.tipo_vivero.label = dataSearch.cod_tipo_vivero;
     busquedaAvanzadaModel.area_propagacion_mt2 = dataSearch.area_propagacion_mt2;
+    busquedaAvanzadaModel.area_produccion = dataSearch.tiene_area_produccion;
+    busquedaAvanzadaModel.area_preparacion_sustrato = dataSearch.tiene_areas_pep_sustrato;
+    busquedaAvanzadaModel.area_embolsado = dataSearch.tiene_area_embolsado;
+    busquedaAvanzadaModel.origen_recursos_vivero.value = dataSearch.cod_origen_recursos_vivero;
+    busquedaAvanzadaModel.origen_recursos_vivero.label = dataSearch.cod_origen_recursos_vivero;
+
     setModel(busquedaAvanzadaModel);
     setIsModalActive(false);
-    console.log(busquedaAvanzadaModel);
 };
 
 const columnDefs = [
@@ -132,33 +151,75 @@ const columnDefs = [
         minWidth: 140,
     },
     {
-        headerName: "Area Mt2",
+        headerName: "Área",
         field: "area_mt2",
         minWidth: 180,
     },
     {
-        headerName: "area_propagacion_mt2",
-        field: "area_mt2",
+        headerName: "Área Propagación",
+        field: "area_propagacion_mt2",
         minWidth: 180,
     },
     {
     headerName: "Acción",
     field: "accion",
     cellRendererFramework: (params) => (
-        <div className="d-flex justify-content-center align-items-center gap-2">
-            <button
-            className="btn btn-sm btn-tablas btn-primary"
-            type="button"
-            title="Send"
-            onClick={() => seleccionarAction(params.data)}
+        <div className="d-flex gap-1">
+            <button 
+                className="btn btn-sm btn-tablas"
+                type="button"
+                title="editar"
+                onClick={() => {
+                    seleccionarAction(params.data);
+                    // console.log(params.data.id_vivero);
+                    // setIdVivero(params.data);
+                    setDisabled(true);
+                }}
             >
-            Editar
+                <i className="fa-solid fa-user-pen fs-5"></i>
+            </button>
+            <button
+                className="btn btn-sm btn-tablas"
+                type="button"
+                title="eliminar"
+                onClick={() => confirmarEliminarVivero(params.data.id_vivero)}
+            >
+                <i className="fa-solid fa-trash fs-5"></i>
             </button>
         </div>
     ),
-    minWidth: 150,
+        minWidth: 130
     },
 ];
+
+const confirmarEliminarVivero = async(id) => {
+    const elementModalId = document.getElementById("modal-usuarios-busqueda")!;
+    await clienteAxios.delete(
+        `conservacion/viveros/delete/${id}/`
+    ).then((response) => {
+        console.log(response.data);
+        Swal.fire({
+            title: '¿Estas seguro de eliminar el vivero?',
+            icon: 'warning',
+            target: elementModalId,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No',
+        })
+    }).catch((err) => {
+        console.log(err.response.data.detail);
+        Swal.fire({
+            target: elementModalId,
+            position: "center",
+            icon: "warning",
+            title: err.response.data.detail,
+            showConfirmButton: true,
+            confirmButtonText: "Aceptar",
+        })
+    })
+}
 
 const handleCloseModal = () => {
     setIsModalActive(false);
@@ -192,8 +253,8 @@ const handleCloseModal = () => {
                         Nombre:
                     </label>
                     <input
-                        className="form-control border border-terciary rounded-pill px-3"
                         type="text"
+                        className="form-control border border-terciary rounded-pill px-3"
                         onChange={(e) => { setNombre(e.target.value) }}
                     />
                     </div>

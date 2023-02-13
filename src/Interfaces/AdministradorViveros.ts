@@ -73,3 +73,4 @@ export interface IViveroApertura{
     fecha_cierre_actual:string,
     en_funcionamiento:boolean,
 }
+
