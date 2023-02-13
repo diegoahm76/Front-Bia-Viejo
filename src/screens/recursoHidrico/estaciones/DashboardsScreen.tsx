@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../../store/hooks/hooks";
-import { useFetcher, useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate, useParams } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import Subtitle from "../../../components/Subtitle";
@@ -15,6 +15,7 @@ import {
 } from "../../../store/slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 
 function Dashboards_Estaciones() {
+  const urlObject = useParams();   
   const {
     register,
     handleSubmit,
@@ -78,9 +79,19 @@ function Dashboards_Estaciones() {
   }, []);
 
   useEffect(() => {
-    if (queryData.length > 0 && selectDashboards.opcDashboards !== 0)
-      setData(queryData[selectDashboards.opcDashboards - 1]);
+    if ((queryData.length > 0 && selectDashboards.opcDashboards !== 0))
+      setData(queryData[selectDashboards.opcDashboards - 1]); 
   }, [selectDashboards.opcDashboards]);
+
+  useEffect (() => {
+    if(urlObject.estacionId != null && urlObject.estacionId != undefined && queryData.length > 0){
+      let estacionId = 0;
+      estacionId = parseInt(urlObject.estacionId);
+      onSubmit({opcDashboards:{value: estacionId}});
+      setData(queryData[estacionId - 1]); 
+    }
+  },[queryData.length]);
+  
 
   return (
     <div className="row min-vh-100">
