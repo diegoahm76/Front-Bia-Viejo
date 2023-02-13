@@ -2408,20 +2408,6 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="recurso-hidrico/estaciones/AnaliticaDatos"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Analitica de Datos
-                                </span>
-                              </Link>
-                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
