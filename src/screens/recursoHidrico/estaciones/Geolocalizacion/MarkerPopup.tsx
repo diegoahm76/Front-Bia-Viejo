@@ -1,21 +1,31 @@
 import React from "react";
 import { Popup } from "react-leaflet";
+import { useNavigate } from "react-router";
 
 const MarkerPopup = (props) => {
-console.log("props.data: ", props.data)
+  const navigate = useNavigate();
+  const RedirectLink = (data) => {
+    debugger
+    navigate('/dashboard/recurso-hidrico/estaciones/DashboardEstaciones/'+ data.OBJECTID)
+  }
   return (
     <Popup>
-      <div>Dirección viento: {props.data.Dirección_Viento}</div>
-      <div>Estado: {props.data.Estado}</div>
-      <div>Humedad: {props.data.Humedad}</div>
-      <div>Luminosidad: {props.data.Luminosidad}</div>
-      <div>Nivel agua: {props.data.Nivel_Agua}</div>
-      <div>Precipitación: {props.data.Precipitación}</div>
-      <div>Presión: {props.data.Presión}</div>
-      <div>Temperatura: {props.data.Temperatura}</div>
-      <div>Velocidad agua: {props.data.Velocidad_Agua}</div>
-      <div>Velocidad viento: {props.data.Velocidad_Viento}</div>
-      <div>Fecha: {props.data.fecha}</div>
+      <div className="row">
+        <div><strong>Dirección viento: </strong>{props.data.Dirección_Viento}</div>
+        <div><strong>Estado: </strong>{props.data.Estado}</div>
+        <div><strong>Humedad: </strong>{props.data.Humedad}</div>
+        <div><strong>Luminosidad: </strong>{props.data.Luminosidad}</div>
+        <div><strong>Nivel agua: </strong>{props.data.Nivel_Agua}</div>
+        <div><strong>Precipitación: </strong>{props.data.Precipitación}</div>
+        <div><strong>Presión: </strong>{props.data.Presión}</div>
+        <div><strong>Temperatura: </strong>{props.data.Temperatura}</div>
+        <div><strong>Velocidad agua: </strong>{props.data.Velocidad_Agua}</div>
+        <div><strong>Velocidad viento: </strong>{props.data.Velocidad_Viento}</div>
+        <div><strong>Fecha: </strong>{props.data.fecha}</div>
+      </div>
+      <div className="row">
+      <button className="btn btn-primary" type="button" title="Más información" onClick={() => RedirectLink(props.data)}> Más información </button>
+      </div>
     </Popup>
   );
 };
