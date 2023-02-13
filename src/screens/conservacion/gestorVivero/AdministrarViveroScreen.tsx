@@ -11,6 +11,8 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import BusquedaAvanzadaModal from '../../../components/BusquedaAvanzadaModal';
 import { Navigate } from "react-router-dom/dist";
 import { ConsultasMunicipioModal } from '../../../components/ConsultasMunicipioModal';
+import moment from "moment";
+
 
 const AdministrarViveroScreen = () => {
   const {
@@ -55,7 +57,13 @@ const AdministrarViveroScreen = () => {
   const [disabled, setDisabled] = useState<boolean>(false);
   const [viveristaModal, setViveristaModal] = useState<boolean>(false);
 
+  const [selectedDate, setSelectedDate] = useState(null);
+  const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DDThh:mm[:ss[.uuuuuu]][+HH:MM|-HH:MM|Z]') : '';
 
+  const handleDateChange = date => {
+    setSelectedDate(date);
+  };
+  
 
   return (
     <div className="row min-vh-100">
@@ -377,7 +385,7 @@ const AdministrarViveroScreen = () => {
                 </label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
-                  {...register("id_viverista")}
+                  {...register("id_viverista_actual")}
                   onChange={handleChange}
                   type="number"
                   placeholder="Numero de identificacion"
@@ -433,16 +441,17 @@ const AdministrarViveroScreen = () => {
               </div>
               <div className="col-12 col-md-3 mb-3">
                 <Controller
-                  name="fechaNacimiento"
+                  name="fecha_inicio_viverista_actual"
                   control={control}
                   render={({ field }) => (
                     <ReactDatePicker
                       {...field}
                       locale="es"
                       className="form-control border rounded-pill px-3 border border-terciary col-12 col-md-3"
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="dd/mm/aaaa"
-                      selected={createModel.fecha_inicio_viverista_actual}
+                      dateFormat="yyyy-MM-dd"
+                      placeholderText="aaaa-mm-dd"
+                      onChange={handleDateChange}
+                      selected={selectedDate}
                       onSelect={(e) =>
                         setCreateModel({
                           ...createModel,

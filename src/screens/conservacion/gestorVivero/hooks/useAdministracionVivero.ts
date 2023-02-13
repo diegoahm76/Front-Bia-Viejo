@@ -13,6 +13,7 @@ import { createThunkAdministracionVivero, getThunkAdministracionVivero, editThun
 import { formatISO } from 'date-fns';
 import { formatMs } from "@material-ui/core";
 import BusquedaAvanzadaModal from '../../../../components/BusquedaAvanzadaModal';
+import moment from "moment";
 
 export const useAdministracionVivero = () => {
 
@@ -201,10 +202,23 @@ export const useAdministracionVivero = () => {
         setCreateModel(infoViveroModel)
     }
 
-    const [modalPersonal, setModalPersonal] = useState(false);
 
+    
+    const [selectedDate, setSelectedDate] = useState(null);
+    const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
+  
+    const handleDateChange = date => {
+      setSelectedDate(date);
+    };
+    //const fecha= dataViveroAdministracion.fecha_inicio_viverista_actual;
+console.log(formattedDate);
+
+    const [modalPersonal, setModalPersonal] = useState(false);
+dataViveroAdministracion.fecha_inicio_viverista_actual=formattedDate;
     const createStartViveroForm = () => {
+    //    let idPersona=parseInt(busquedaAvanzadaModel?.idResponsable)
         const formData = new FormData();
+
         formData.append('nombre', dataViveroAdministracion.nombre);
         formData.append('cod_municipio', dataViveroAdministracion.cod_municipio.value);
         formData.append('direccion', dataViveroAdministracion.direccion);
@@ -226,6 +240,7 @@ export const useAdministracionVivero = () => {
         formData.append('justificacion_cuarentena',dataViveroAdministracion.justificacion_cuarentena);
         formData.append('activo',dataViveroAdministracion.activo);
         formData.append('item_ya_usado',dataViveroAdministracion.item_ya_usado);
+        formData.append('id_viverista_actual',dataViveroAdministracion.id_viverista_actual)
         formData.append('id_persona_abre',dataViveroAdministracion.id_persona_abre);
         formData.append('id_persona_cierra',dataViveroAdministracion.id_persona_cierra);
         formData.append('id_persona_cuarentena',dataViveroAdministracion.id_persona_cuarentena);
@@ -243,7 +258,7 @@ export const useAdministracionVivero = () => {
         formdata.append('tiene_areas_pep_sustrato', dataViveroAdministracion.tiene_area_pep_sustrato );
         formdata.append('tiene_area_embolsado', dataViveroAdministracion.tiene_area_embolsado );
         formdata.append('cod_tipo_vivero', dataViveroAdministracion.tipo_vivero.value );
-        formdata.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value );
+        formdata.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value=formattedDate );
         console.log(formdata);
         dispatch(editThunkAdministracionVivero(id, formdata))
     }
@@ -252,6 +267,10 @@ export const useAdministracionVivero = () => {
     const handleUpload = ({ target }) => {
         if (target.files.length > 0) setFile(target.files[0])
     };
+
+
+
+
 
     return {
         handleEditVivero,
@@ -282,6 +301,7 @@ export const useAdministracionVivero = () => {
         setModal,
         modalPersonal,
         setBusquedaModel,
-        busquedaModel
+        busquedaModel,
+        handleDateChange
     };
 };
