@@ -297,24 +297,6 @@ export const EntradaDeArticuloScreen = () => {
     setPage(1);
   };
 
-  const [unitys, setUnitys] = useState([]);
-
-  useEffect(() => {
-    getUnitys();
-  }, [unitys]);
-
-  const getUnitys = async () => {
-    try {
-      const { data } = await clienteAxios.get(
-        "almacen/unidades-medida/get-list/"
-      );
-      setUnitys(data);
-      // Swal.fire("Correcto", "Proceso Exitoso", "success");
-    } catch (error: any) {
-      // notificationError(error.response.data.detail);
-    }
-  };
-
   // const fetchData = async () => {
   //   try {
   //     setBotonAdministrador(true);
