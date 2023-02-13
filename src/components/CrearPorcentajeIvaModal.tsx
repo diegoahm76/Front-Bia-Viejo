@@ -154,7 +154,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
     };
     const eliminarPorcentaje = async (id) => {
         await clienteAxios.delete(
-            `almacen/porcentajes/delete/${id}`
+            `almacen/porcentajes/delete/${id}/`
         ).then(() => {
             fetchData();
             Swal.fire({
