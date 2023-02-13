@@ -4,21 +4,25 @@ import 'leaflet/dist/leaflet.css';
 import clienteEstaciones from "../../../../config/clienteAxiosEstaciones";
 import Markers from "./Markers";
 
-const ubicacion = [4.258179477894017, -73.60700306515551];
+const ubicacion: [number, number] = [4.258179477894017, -73.60700306515551];
 
-function Geolocalizacion() {
-    const [info, setInfo] = useState(null);    
-    useEffect (() => {
+interface IGeoJson {
+    type: string;
+    features: any[];
+}
+
+    const Geolocalizacion = () => {
+    const [info, setInfo] = useState < IGeoJson | null > (null);
+    useEffect(() => {
         obtenerGeojson();
-    },[]);
+    }, []);
 
     const obtenerGeojson = async () => {
-        let {data} = await clienteEstaciones.get("GeoJson");
-        delete data.crs;
+        let { data } = await clienteEstaciones.get<IGeoJson>("GeoJson");
         setInfo(data);
     }
     if (!info) return <div className="Loading"></div>;
- 
+
     return (
         <div className="Geolocalizacion">
             <MapContainer center={ubicacion} zoom={8} scrollWheelZoom={true}>
