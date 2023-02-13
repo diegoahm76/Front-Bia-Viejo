@@ -14,7 +14,6 @@ import DashboardsScreen from "../estaciones/DashboardsScreen";
 import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
 import Geolocalizacion from "../estaciones/Geolocalizacion/geolocalizacion";
 import AnaliticaDeDatosScreen from "../estaciones/AnaliticaDeDatosScreen";
-
 const RecursoHidricoRoutes = () => {
   return (
     <Routes>
