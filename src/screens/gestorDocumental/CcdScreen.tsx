@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import Select from "react-select";
@@ -7,120 +7,60 @@ import { AgGridReact } from "ag-grid-react";
 import CrearSeries from "../../components/Dialog/CrearSeries";
 import useCCD from "./hooks/useCCD";
 import SearchCcdModal from "../../components/Dialog/SearchCcdModal";
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+import { toFinishedCCDSService, toResumeCCDSService } from "../../services/CCD/CCDServices";
 
 const CcdScreen = () => {
 
+  // Dispatch instance
+  const dispatch = useAppDispatch();
 
-  const columnAsigancion = [
-    {
-      headerName: "Sección",
-      field: "sección",
-      minWidth: 150,
-      maxWidth: 200,
-    },
+  const { CCDCurrent } = useAppSelector((state) => state.CCD);
+  const { assignmentsCCD } = useAppSelector((state) => state.assignments);
 
-    {
-      headerName: "Subseccón",
-      field: "Subseccón",
-      minWidth: 150,
-      maxWidth: 200,
-    },
+  const [flagBtnFinish, setFlagBtnFinish] = useState<boolean>(true);
 
-    {
-      headerName: "serie",
-      field: "serie",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "subserie",
-      field: "subserie",
-      minWidth: 150,
-      maxWidth: 200,
-    },
-    {
-      headerName: "Acciones",
-      field: "accion",
-      cellRendererFramework: (params) => (
-        <div>
-          <button className="btn text-capitalize " type="button" title="Editar">
-            <i className="fa-regular fa-pen-to-square fs-4"></i>
-          </button>
-          <button
-            className="btn text-capitalize "
-            type="button"
-            title="Eliminar"
-          >
-            <i className="fa-regular fa-trash-can fs-4"></i>
-          </button>
-        </div>
-      ),
-    },
-  ];
-  const rowData = [
-    {
-      sección: "Direccion general",
-      Subseccón: "Gestion ambiental",
-      subserie: "1",
-      serie: "1,3,7,9",
-    },
-    {
-      sección: "Direccion general",
-      Subseccón: "",
-      subserie: "2",
-      serie: "5,8,3,9",
-    },
-    {
-      sección: "Direccion general",
-      Subseccón: "Oficina juridica",
-      subserie: "4",
-      serie: "1,10,9,25",
-    },
-    {
-      sección: "Direccion general",
-      Subseccón: "Oficina juridica",
-      idsubserie: "5",
-      idserie: "3,6",
-    },
-  ];
+  useEffect(() => {
+    if (CCDCurrent?.fecha_terminado) {
+      setFlagBtnFinish(true);
+    } else {
+      setFlagBtnFinish(false);
+    }
+  }, [CCDCurrent]);
 
   //Hooks
   const {
     //States
     listUnitys,
     listOrganigrams,
+    listSries,
+    listSubSries,
     title,
+    titleButtonAsing,
     createIsactive,
     consultaCcdIsactive,
-    columnDefsMaintenance,
-    columnDefs2,
-    columnDefsArticles,
-    asignacionPrestamos,
+    columnAsigancion,
     control,
     controlCreateCCD,
-    initialState,
-    file,
     defaultColDef,
     errors,
     errorsCreateCCD,
     saveCCD,
     //Edita States
-    setFile,
-    setValue,
     setTitle,
     setCreateIsactive,
     setConsultaCcdIsactive,
     //Functions
-    onSubmit,
+    getRowClass,
     onSubmitCreateCCD,
-    register,
+    onSubmit,
     registerCreateCCD,
     handleSubmit,
     handleSubmitCreateCCD,
-    reset,
     cleanCCD,
   } = useCCD();
 
+  console.log(flagBtnFinish)
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -234,7 +174,7 @@ const CcdScreen = () => {
                   <button
                     className="btn text-capitalize"
                     type="submit"
-                    title="Guardar"
+                    title={CCDCurrent ? "Actualizar" : "Guardar"}
                   >
                     <i className="fa-regular fa-floppy-disk fs-3"></i>
                   </button>
@@ -253,7 +193,7 @@ const CcdScreen = () => {
           {saveCCD && (
             <form
               className="row"
-              onSubmit={handleSubmit(onSubmitCreateCCD)}
+              onSubmit={handleSubmit(onSubmit)}
               id="configForm"
             >
               <Subtitle title="Registro de series y subseries" mt={1} mb={3} />
@@ -267,11 +207,7 @@ const CcdScreen = () => {
                     control={control}
                     render={() => (
                       <Select
-                        options={[
-                          { label: "primera serie", value: "primera" },
-                          { label: "segunda serie", value: "segunda" },
-                          { label: "tercera serie", value: "tercera" },
-                        ]}
+                        options={listSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -325,11 +261,7 @@ const CcdScreen = () => {
                     control={control}
                     render={() => (
                       <Select
-                        options={[
-                          { label: "primera subserie", value: "primerasub" },
-                          { label: "segunda subserie", value: "segundasub" },
-                          { label: "tercera subserie", value: "tercerasub" },
-                        ]}
+                        options={listSubSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -417,13 +349,11 @@ const CcdScreen = () => {
                     rules={{
                       required: true,
                     }}
-                    render={() => (
+                    render={({ field }) => (
                       <Select
-                        options={[
-                          { label: "primera serie", value: "primera" },
-                          { label: "segunda serie", value: "segunda" },
-                          { label: "tercera serie", value: "tercera" },
-                        ]}
+                        {...field}
+                        value={field.value}
+                        options={listSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -447,14 +377,12 @@ const CcdScreen = () => {
                     rules={{
                       required: true,
                     }}
-                    render={() => (
+                    render={({ field }) => (
                       <Select
+                        {...field}
+                        value={field.value}
                         isMulti
-                        options={[
-                          { label: "primera subserie", value: "primerasub" },
-                          { label: "segunda subserie", value: "segundasub" },
-                          { label: "tercera subserie", value: "tercerasub" },
-                        ]}
+                        options={listSubSries}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -471,9 +399,9 @@ const CcdScreen = () => {
                   <div className="d-grid gap-2 mt-4 mx-2">
                     <button
                       className="btn btn-primary text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
-                      type="button"
+                      type="submit"
                     >
-                      guardar relación
+                      {titleButtonAsing}
                     </button>
                   </div>
                 </div>
@@ -483,33 +411,39 @@ const CcdScreen = () => {
                   <div className="ag-theme-alpine" style={{ height: "400px" }}>
                     <AgGridReact
                       columnDefs={columnAsigancion}
-                      rowData={rowData}
+                      rowData={assignmentsCCD}
                       defaultColDef={defaultColDef}
+                      getRowClass={getRowClass} // para cambiar el color de la fila
                     ></AgGridReact>
                   </div>
                 </div>
               </div>
               <div className="row d-flex justify-content-end">
-                <div className="col-12 col-lg-3 ">
-                  <div className="d-grid gap-2 mt-4 mx-2">
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                      type="button"
-                    >
-                      Terminar
-                    </button>
+                {flagBtnFinish ? (
+                  <div className="col-12 col-lg-3 ">
+                    <div className="d-grid gap-2 mt-4 mx-2">
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                        type="button"
+                        onClick={() => { dispatch(toResumeCCDSService(setFlagBtnFinish)); }}
+                      >
+                        Reanudar
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div className="col-12 col-lg-3 ">
-                  <div className="d-grid gap-2 mt-4 mx-2">
-                    <button
-                      className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
-                      type="button"
-                    >
-                      Reanudar
-                    </button>
+                ) : (
+                  <div className="col-12 col-lg-3 ">
+                    <div className="d-grid gap-2 mt-4 mx-2">
+                      <button
+                        className="mt-1 form-control border rounded-pill px-3  btn bg-gradient-primary mb-0 text-capitalize"
+                        type="button"
+                        onClick={() => { dispatch(toFinishedCCDSService(setFlagBtnFinish)); }}
+                      >
+                        Terminar
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </form>
 
@@ -519,11 +453,13 @@ const CcdScreen = () => {
             setIsModalActive={setCreateIsactive}
             title={title}
           />
-          <SearchCcdModal
-            isModalActive={consultaCcdIsactive}
-            setIsModalActive={setConsultaCcdIsactive}
-            title={title}
-          />
+          {consultaCcdIsactive && (
+            <SearchCcdModal
+              isModalActive={consultaCcdIsactive}
+              setIsModalActive={setConsultaCcdIsactive}
+              title={title}
+            />
+          )}
         </div>
       </div>
     </div>

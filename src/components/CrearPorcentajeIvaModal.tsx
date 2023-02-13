@@ -154,7 +154,7 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
     };
     const eliminarPorcentaje = async (id) => {
         await clienteAxios.delete(
-            `almacen/porcentajes/delete/${id}`
+            `almacen/porcentajes/delete/${id}/`
         ).then(() => {
             fetchData();
             Swal.fire({
@@ -194,14 +194,14 @@ function CrearPorcentajeIvaModal({ isModalActive, setIsModalActive }: parameters
                         type="button"
                         onClick={() => editarPorcentaje(params.data)}
                     >
-                        <img src={IconoEditar} alt="editar" />
+                       <i className="fa-regular fa-pen-to-square fs-4" title="Editar"></i>
                     </button>
                     <button
                         className="btn btn-sm btn-tablas btn-outline-ligth"
                         type="button"
                         onClick={() => confirmarEliminarPorcentaje(params.data.id_porcentaje_iva)}
                     >
-                        <img src={IconoEliminar} alt="eliminar" />
+                        <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
                     </button>
                 </div>
             ),

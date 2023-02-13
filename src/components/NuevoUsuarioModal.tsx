@@ -24,10 +24,10 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 const defaultValues = {
-  identificacion:"",
+  identificacion: "",
   nombreUsuario: "",
-  apellido:"",
-  correo:"",
+  apellido: "",
+  correo: "",
   estacion: "",
   numeroDeTelefono: "",
   observacion: "",
@@ -70,7 +70,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       t005Observacion: data.observacion,
     };
 
-    crearNuevoUsuarioAction(nuevoUsuario)
+    crearNuevoUsuarioAction(nuevoUsuario);
 
     setIsModalActive(!isModalActive);
     reset(defaultValues);
@@ -85,14 +85,13 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
       overlayClassName="modal-fondo"
       closeTimeoutMS={300}
     >
-      
       <div className="container p-3">
         <h4>Nuevo usuario</h4>
         <hr className="rounded-pill hr-modal" />
         <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
-        <div className="col-12">
+          <div className="col-12">
             <label>
-              Número  Identificación: <span className="text-danger">*</span>
+              Número Identificación: <span className="text-danger">*</span>
             </label>
             <input
               type="number"
@@ -128,7 +127,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12 mt-3 mb-3">
             <label>Apellido:</label>
             <input
-            type="text"
+              type="text"
               className="form-control border rounded-pill px-3"
               placeholder="Apellido"
               {...register("apellido", { required: true })}
@@ -144,7 +143,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12 mt-3 mb-3">
             <label>Correo Electronico:</label>
             <input
-            type="email"
+              type="email"
               className="form-control border rounded-pill px-3"
               placeholder="Correo electrónico"
               {...register("correo", { required: true })}

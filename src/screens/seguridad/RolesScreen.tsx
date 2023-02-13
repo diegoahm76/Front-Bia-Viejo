@@ -488,7 +488,7 @@ const RolesScreen = () => {
                     className="mb-0 btn-image text-capitalize bg-white border boder-none"
                     onClick={handleCloseModal}
                   >
-                    <i className="fa-solid fa-x fs-3" title=""></i>
+                    <i className="fa-solid fa-x fs-3" title="Cancelar"></i>
                   </button>
                   <button
                     type="submit"

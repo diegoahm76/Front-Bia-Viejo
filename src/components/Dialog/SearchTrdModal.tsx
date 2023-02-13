@@ -20,35 +20,10 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
-
-  const { CCDS } = useAppSelector((state) => state.CCD);
-
-  // Dispatch instance
-  const dispatch = useAppDispatch();
-
-  const [worldSearch, setWorldSearch] = useState<string>('');
-  const [filterCCDS, setFilterCCDS] = useState<any>([]);
-
-  useEffect(() => {
-    const filter = CCDS.filter((item) => {
-      return item.nombre.toLowerCase().includes(worldSearch.toLowerCase()) || item.version.toLowerCase().includes(worldSearch.toLowerCase());
-    });
-    console.log(worldSearch !== "")
-    if (worldSearch !== "") {
-      setFilterCCDS(filter);
-    } else {
-      setFilterCCDS(CCDS);
-    }
-  }, [worldSearch, CCDS]);
-
-  //useEffect para cargar los datos de la tabla
-  useEffect(() => {
-    dispatch(getClassificationCCDSService());
-  }, []);
+const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
 
 
-  const columCCDS = [
+  const columTRD = [
     {
       headerName: "Nombre",
       field: "nombre",
@@ -78,7 +53,7 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
       cellRendererFramework: (params) => (
         <div>
           <button className="btn text-capitalize " type="button" title="Seleccionar"
-            onClick={() => { dispatch(getCCDCurrent(params.data)); setIsModalActive(false); console.log(params) }}
+            
           >
             <i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>
@@ -86,6 +61,22 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
       ),
     },
   ];
+
+  const rowTRD = [
+    {
+      nombre :"TRD 1",
+      version :"1"
+    },
+    {
+        nombre :"TRD 1",
+        version :"2"
+      },
+      {
+        nombre :"TRD 1",
+        version :"3"
+      },
+]
+
   //configuración de tabla por defecto
   const defaultColDef = {
     sortable: true,
@@ -111,7 +102,7 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-          <Subtitle title={title} />
+        <Subtitle title={"Consultar TRD"} />
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
@@ -124,8 +115,6 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Buscar..."
-                    value={worldSearch}
-                    onChange={(e) => setWorldSearch(e.target.value)}
                   />
                 </div>
               </div>
@@ -137,8 +126,8 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
                   style={{ height: "275px" }}
                 >
                   <AgGridReact
-                    columnDefs={columCCDS}
-                    rowData={filterCCDS}
+                    columnDefs={columTRD}
+                    rowData={rowTRD}
                     defaultColDef={defaultColDef}
                   />
                 </div>
@@ -161,4 +150,4 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
   );
 };
 
-export default SearchCcdModal;
+export default SearchTrdModal;

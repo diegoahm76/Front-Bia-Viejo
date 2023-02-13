@@ -8,7 +8,7 @@ function UseEditUnidadMedida(props) {
   const edit = async () => {
     return  await Axios({
       method: "PUT",
-      url: `https://web-production-e5dc.up.railway.app/api/almacen/unidades-medida/update/${props.id_unidad_medida}`,
+      url: `https://backend-bia-beta-production.up.railway.app/api/almacen/unidades-medida/update/${props.id_unidad_medida}/`,
       data: { props },
     }).then(response => {
        console.log(response.data)

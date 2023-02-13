@@ -1,36 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { ISubSeries, ISubSeriesObject } from "../../../Interfaces/CCD";
 
-import { Icv, IcvArtivlesComputers, IcvComputers, IcvMaintenance, IcvOtherAssets, IcvVehicles } from "../../../Interfaces/CV";
-
-const initialState: Icv = {
-    cvArticles: [],
-    cvComputers: null,
-    cvMaintenance: [],
-    cvOtherAssets: null,
-    cvVehicles: null,
+const initialState: ISubSeries = {
+    subSeriesCCD: [],
+    subSeriesCCDCurrent: null,
 };
 
 const subSeriesSlice = createSlice({
     name: "subSeries",
     initialState,
     reducers: {
-        getCvOtherAssets: (state: Icv, action: PayloadAction<IcvOtherAssets | null>) => {
-            state.cvOtherAssets = action.payload;
+        getSubSeriesCCD: (state: ISubSeries, action: PayloadAction<ISubSeriesObject[]>) => {
+            state.subSeriesCCD = action.payload;
         },
-        getCvVehicles: (state: Icv, action: PayloadAction<IcvVehicles | null>) => {
-            state.cvVehicles = action.payload;
-        },
-        getCvComputers: (state: Icv, action: PayloadAction<IcvComputers | null>) => {
-            state.cvComputers = action.payload;
-        },
-        getCvMaintenance: (state: Icv, action: PayloadAction<IcvMaintenance[]>) => {
-            state.cvMaintenance = action.payload;
-        },
-        getCvArticles: (state: Icv, action: PayloadAction<IcvArtivlesComputers[]>) => {
-            state.cvArticles = action.payload;
+        getSubSeriesCCDCurrent: (state: ISubSeries, action: PayloadAction<ISubSeriesObject | null>) => {
+            state.subSeriesCCDCurrent = action.payload;
         },
     }
 })
 
-export const { getCvOtherAssets, getCvVehicles, getCvComputers, getCvMaintenance, getCvArticles } = subSeriesSlice.actions;
+export const { getSubSeriesCCD, getSubSeriesCCDCurrent } = subSeriesSlice.actions;
 export default subSeriesSlice.reducer;

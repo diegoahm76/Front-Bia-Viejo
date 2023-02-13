@@ -169,7 +169,8 @@ const DirecionResidenciaModal = ({
         }
       })
       .join("");
-    setCompleteAddress(completeAddressWithoutWhiteSpaces);
+    // setCompleteAddress(completeAddressWithoutWhiteSpaces);
+    // setCompleteAddress("direccionNotificacion", completeAddressWithoutWhiteSpaces);
     const dataReset = {
       ...watch(),
       [keyReset]: completeAddressWithoutWhiteSpaces,
@@ -203,7 +204,7 @@ const DirecionResidenciaModal = ({
     getDataDirecciones();
   }, []);
 
- 
+
   useEffect(() => {
     let fullAddress = "";
     if (selecDireccion.value === "urb") {
@@ -218,7 +219,8 @@ const DirecionResidenciaModal = ({
           fullAddress = fullAddress + " " + dataFieldTrim;
         }
       });
-      setCompleteAddress(fullAddress);
+      // setCompleteAddress(fullAddress);
+      setCompleteAddress("direccionNotificacion", fullAddress);
     } else if (selecDireccion.value === "rur") {
       orderRural.forEach((field) => {
         console.log(field)
@@ -228,9 +230,10 @@ const DirecionResidenciaModal = ({
           fullAddress = fullAddress + " " + dataFieldTrim;
         }
       });
-      setCompleteAddress(fullAddress);
+      setCompleteAddress("direccionNotificacion", fullAddress);
+      // setCompleteAddress(fullAddress);
     } else {
-      setCompleteAddress("");
+      // setCompleteAddress("direccionNotificacion", '');
     }
   }, [formValues]);
 
@@ -261,7 +264,6 @@ const DirecionResidenciaModal = ({
 
           >
             <Subtitle title={"Dirección de residencia"} mt={2} mb={0}></Subtitle>
-            
 
             <div className="row ">
               <div className="col-12 col-md-6">
