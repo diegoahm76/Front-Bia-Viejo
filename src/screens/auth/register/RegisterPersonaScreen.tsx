@@ -51,8 +51,8 @@ const defaultValues = {
   cEmail: "",
   cod_pais_nacionalidad_empresa: "",
   telefono_celular: "",
-  cCelular: "",
-  celular: "",
+  cCelular:"",
+  celular:"",
   nombre_comercial: "",
   acepta_notificacion_sms: true,
   acepta_notificacion_email: true,
@@ -167,7 +167,7 @@ const RegisterPersonaScreen = () => {
       segundo_apellido: dataPersona.segundo_apellido,
       fecha_nacimiento: fechaNacimiento,
       email: dataPersona.eMail,
-      telefono_celular: dataPersona.celular,
+      telefono_celular: "57"+dataPersona.celular,
       telefono_empresa_2: null,
       sexo: "",
       estado_civil: "",
@@ -1028,7 +1028,7 @@ const RegisterPersonaScreen = () => {
                         // maxLength={10}
                         onCopy={(e) => e.preventDefault()}
                         {...register("celular", { required: true })}
-                      // onChange={handleChangePhone}
+                        //onChange={handleChangePhone}
                       />
                     </div>
                     {errorsForm.celular && (
@@ -1063,7 +1063,7 @@ const RegisterPersonaScreen = () => {
                           pattern: /^[0-9]+$/,
                           validate: (value) => value === dataPersona.celular,
                         })}
-                      // onChange={handleChange}
+                       //onChange={handleChange}
                       />
                     </div>
                     {errorsForm.cCelular && (
