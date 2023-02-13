@@ -10,7 +10,7 @@ import AlertasScreen from "../estaciones/AlertasScreen";
 import ConfiguracionesScreen from "../estaciones/ConfiguracionesScreen";
 import MonitoreoScreen from "../estaciones/MonitoreoScreen";
 import ReportesScreen from "../estaciones/ReportesScreen";
-import DashboardsScreen from "../estaciones/DashboardsScreen";
+import DashboardsScreen from "../estaciones/DashboardScreen";
 import UsuariosEstacionesScreen from "../estaciones/UsuariosEstacionesScreen";
 import Geolocalizacion from "../estaciones/Geolocalizacion/geolocalizacion";
 import AnaliticaDeDatosScreen from "../estaciones/AnaliticaDeDatosScreen";
