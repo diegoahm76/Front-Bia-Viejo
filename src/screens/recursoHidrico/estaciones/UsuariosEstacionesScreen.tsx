@@ -93,56 +93,56 @@ const UsuariosEstacionesScreen = () => {
       ),
     },
   ];
-//Seleccionar estaciones extrayendolas de la base de datos
-const {
-  // register: registerFiltrar,
-  handleSubmit: handleSubmitFiltrar,
-  control: controlFiltrar,
-  // reset: resetFiltrar,
-  formState: { errors: errorsFiltrar },
-} = useForm();
+  //Seleccionar estaciones extrayendolas de la base de datos
+  const {
+    // register: registerFiltrar,
+    handleSubmit: handleSubmitFiltrar,
+    control: controlFiltrar,
+    // reset: resetFiltrar,
+    formState: { errors: errorsFiltrar },
+  } = useForm();
 
-useEffect(() => {
-  const getDataInitial = async () => {
+  useEffect(() => {
+    const getDataInitial = async () => {
+      try {
+        setLoading(true);
+        const { data } = await clienteEstaciones.get("Estaciones");
+        const estacionesMaped = data.map((estacion) => ({
+          label: estacion.t001nombre,
+          value: estacion.objectid,
+        }));
+        setEstacionesOptions(estacionesMaped);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    };
+    getDataInitial();
+  }, []);
+
+
+  const onSubmitFiltrar = async (data) => {
     try {
       setLoading(true);
-      const { data } = await clienteEstaciones.get("Estaciones");
-      const estacionesMaped = data.map((estacion) => ({
-        label: estacion.t001nombre,
-        value: estacion.objectid,
+      const { data: reportesData } = await clienteEstaciones.get(
+        `Usuarios/OBJECTID/${data.estacion?.value}`
+      );
+      const reportesDataMaped = reportesData.map((reporteData) => ({
+        //t001Estaciones: reporteData.t001Estaciones.t001nombre,
+        t005identificacion: reporteData.t005identificacion,
+        t005nombre: reporteData.t005nombre,
+        t005apellido: reporteData.t005apellido,
+        t005correo: reporteData.t005correo,
+        t005numeroCelular: reporteData.t005numeroCelular,
       }));
-      setEstacionesOptions(estacionesMaped);
+      setDataReportes(reportesDataMaped);
       setLoading(false);
     } catch (err) {
       console.log(err);
       setLoading(false);
     }
   };
-  getDataInitial();
-}, []);
-
-
-const onSubmitFiltrar = async (data) => {
-  try {
-    setLoading(true);
-    const { data: reportesData } = await clienteEstaciones.get(
-      `Usuarios/OBJECTID/${data.estacion?.value}`
-    );
-    const reportesDataMaped = reportesData.map((reporteData) => ({
-      //t001Estaciones: reporteData.t001Estaciones.t001nombre,
-      t005identificacion: reporteData.t005identificacion,
-      t005nombre: reporteData.t005nombre,
-      t005apellido: reporteData.t005apellido,
-      t005correo: reporteData.t005correo,
-      t005numeroCelular: reporteData.t005numeroCelular,
-    }));
-    setDataReportes(reportesDataMaped);
-    setLoading(false);
-  } catch (err) {
-    console.log(err);
-    setLoading(false);
-  }
-};
   const confirmarEliminarUsuario = (id) => {
     Swal.fire({
       title: "Estas seguro?",
@@ -161,7 +161,8 @@ const onSubmitFiltrar = async (data) => {
   };
   return (
     <div className="row min-vh-100">
-<div className="col-lg-12 col-md-12 col-12 mx-auto">
+      <div className=" col-12 mx-auto">
+        <div className="multisteps-form__content">
         <div
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -169,7 +170,7 @@ const onSubmitFiltrar = async (data) => {
           <h3 className="mt-3 ms-3 mb-3 fw-light text-terciary">Partes Interesadas</h3>
           <Subtitle title={"Informacion general"} mt={0} mb={3} />
           <form className="row" onSubmit={handleSubmitFiltrar(onSubmitFiltrar)}>
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-sm-3">
               <label className="form-label">
                 Estación: <span className="text-danger">*</span>
               </label>
@@ -188,12 +189,14 @@ const onSubmitFiltrar = async (data) => {
                 )}
               />
             </div>
-            <div>
-              <button
-                type="submit"
-                className="btn bg-gradient-primary text-capitalize d-block ms-auto mt-3 me-4"
-                disabled={loading}
-              >
+            <div className="col-12 col-md-3 mt-1">
+              <div className="d-grid gap-2 d-flex">
+                <button
+                  type="submit"
+                  className="btn text-capitalize border rounded-pill px-3 mt-4 btn-min-width"
+                  disabled={loading}
+                >
+                  
                 {loading ? (
                   <>
                     <span
@@ -204,9 +207,11 @@ const onSubmitFiltrar = async (data) => {
                     Cargando...
                   </>
                 ) : (
-                  "Mostrar datos estacion"
+                  ""
                 )}
-              </button>
+                  <i className="fa-solid fa-magnifying-glass fs-3"></i>
+                </button>
+              </div>
             </div>
           </form>
           {dataReportes && (
@@ -225,6 +230,7 @@ const onSubmitFiltrar = async (data) => {
               </div>
             </div>
           )}
+        </div>
         </div>
       </div>
       <NuevoUsuarioModal
