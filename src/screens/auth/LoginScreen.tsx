@@ -191,7 +191,7 @@ console.log(recaptchaValue)
                 </div>
                 <div className="d-flex justify-content-center mb-2">
                   <Link className="text-white" to="/recuperar-contrasena">
-                    <p>Olvidó su contraseña</p>
+                    <p>Olvidó su contraseña ?</p>
                   </Link>
                 </div>
               </div>

@@ -25,8 +25,13 @@ import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({ value: "" });
-
+  const [unitys, setUnitys] = useState([]);
+  const [state, setState] = useState([]);
+  const [brand, setBrand] = useState([]);
+  const [porcentage, setPorcentage] = useState([]);
+  const [store, setStore] = useState([]);
   const [EstadoArticulos, setEstadoArticulos] = useState([]);
+  
   useEffect(() => {
     const getSelectsOptions = async () => {
       try {
@@ -301,11 +306,12 @@ export const EntradaDeArticuloScreen = () => {
   };
 
   useEffect(() => {
-    getStates();
+    getState();
     getUnitys();
+    getBrand();
+    getPercentage();
+    getStore();
   }, []);
-
-  const [unitys, setUnitys] = useState([]);
 
   const getUnitys = async () => {
     try {
@@ -314,21 +320,44 @@ export const EntradaDeArticuloScreen = () => {
       );
       setUnitys(data.map((item) => ({ value: item.id_unidad_medida, label: item.nombre })));
     } catch (error: any) {
-      // notificationError(error.response.data.detail);
     }
   };
-  const getStates = async () => {
+  const getState = async () => {
     try {
       const { data } = await clienteAxios.get(
-        "almacen/"
+        "almacen/estados-articulo/get-list/"
       );
-      // setUnitys(data.map((item) => ({ value: item.id_unidad_medida, label: item.nombre })));
+       setState(data.map((item) => ({ value: item.id_marca, label: item.nombre })));
     } catch (error: any) {
-      // notificationError(error.response.data.detail);
     }
   };
-
-  console.log(unitys, "unitys");
+  const getBrand = async () => {
+    try {
+      const { data } = await clienteAxios.get(
+        "almacen/marcas/get-list/"
+      );
+       setBrand(data.map((item) => ({ value: item.id_marca, label: item.nombre })));
+    } catch (error: any) {
+    }
+  };
+  const getPercentage = async () => {
+    try {
+      const { data } = await clienteAxios.get(
+        "almacen/porcentajes/get-list/"
+      );
+       setPorcentage(data.map((item) => ({ value: item.id_porcentaje_iva, label: item.porcentaje })));
+    } catch (error: any) {
+    }
+  };
+  const getStore = async () => {
+    try {
+      const { data } = await clienteAxios.get(
+        "almacen/bodega/get-list/"
+      );
+       setStore(data.map((item) => ({ value: item.id_bodega, label: item.nombre })));
+    } catch (error: any) {
+    }
+  };
 
   return (
     <div className="row min-vh-100">
@@ -525,13 +554,13 @@ export const EntradaDeArticuloScreen = () => {
                 <div className="col">
                   <label className="text-terciary">Bodega</label>
                   <Controller
-                    name="options"
+                    name="bodegas"
                     control={control3}
                     rules={{ required: true }}
                     render={({ field }) => (
                       <Select
                         {...field}
-                        options={opcBod}
+                        options={store}
                         placeholder="Seleccionar"
                       />
                     )}
@@ -694,7 +723,7 @@ export const EntradaDeArticuloScreen = () => {
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={EstadoArticulos}
+                            options={porcentage}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -746,13 +775,13 @@ export const EntradaDeArticuloScreen = () => {
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
-                        name="options"
+                        name="EstadosArticulo"
                         control={control4}
                         rules={{ required: page === 2 }}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={EstadoArticulos}
+                            options={state}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -840,13 +869,13 @@ export const EntradaDeArticuloScreen = () => {
                         Marca: <span className="text-danger">*</span>{" "}
                       </label>
                       <Controller
-                        name="options"
+                        name="marcas"
                         control={control4}
                         rules={{ required: page === 2 }}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={EstadoArticulos}
+                            options={brand}
                             placeholder="Seleccionar"
                           />
                         )}
@@ -958,22 +987,22 @@ export const EntradaDeArticuloScreen = () => {
 
                     <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
-                        Estado del articulo: :{" "}
+                        Estado del articulo{" "}
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
-                        name="options"
+                        name="EstadosArticulo2"
                         control={control4}
-                        rules={{ required: true }}
+                        rules={{ required: page === 2 }}
                         render={({ field }) => (
                           <Select
                             {...field}
-                            options={EstadoArticulos}
+                            options={state}
                             placeholder="Seleccionar"
                           />
                         )}
                       />
-                      {errors.options && (
+                      {errors.EstadosArticulo2 && (
                         <p className=" form-control ms-0 text-danger">
                           Este campo es obligatorio
                         </p>
