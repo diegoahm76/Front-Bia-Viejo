@@ -209,7 +209,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12">
             <div className="mt-3">
               <label>
-                Coordenada 1: <span className="text-danger">*</span>
+                Correo Electrónico: <span className="text-danger">*</span>
               </label>
               <input
                 className="form-control border rounded-pill px-3"
@@ -230,7 +230,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
           <div className="col-12">
             <div className="mt-3">
               <label>
-                Coordenada 2: <span className="text-danger">*</span>
+                Celular: <span className="text-danger">*</span>
               </label>
               <input
                 className="form-control border rounded-pill px-3"
