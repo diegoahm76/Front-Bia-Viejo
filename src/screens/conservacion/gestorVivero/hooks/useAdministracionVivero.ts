@@ -277,12 +277,7 @@ export const useAdministracionVivero = () => {
     }
 
     const createStartViveroForm = (ejem) => {
-<<<<<<< HEAD
-        const formData = new FormData();
-
-=======
         const formData:any = new FormData();
->>>>>>> 16b3c11ae04ee61a3767905b7c3726ea5fd2b4d7
         formData.append('nombre', dataViveroAdministracion.nombre);
         formData.append('cod_municipio', dataViveroAdministracion.cod_municipio.value);
         formData.append('direccion', dataViveroAdministracion.direccion);
@@ -324,15 +319,11 @@ export const useAdministracionVivero = () => {
         formdata.append('tiene_areas_pep_sustrato', dataViveroAdministracion.tiene_area_pep_sustrato );
         formdata.append('tiene_area_embolsado', dataViveroAdministracion.tiene_area_embolsado );
         formdata.append('cod_tipo_vivero', dataViveroAdministracion.tipo_vivero.value );
-<<<<<<< HEAD
-        formdata.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value=formattedDate );
-=======
         formdata.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value );
         if (ejem) {
             formdata.append('id_viverista_actual', ejem );
         }
         formdata.append('fecha_inicio_viverista_actual',formattedDate);
->>>>>>> 16b3c11ae04ee61a3767905b7c3726ea5fd2b4d7
         console.log(formdata);
         dispatch(editThunkAdministracionVivero(id, formdata))
     }

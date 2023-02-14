@@ -35,7 +35,8 @@ export const DespachosEntrantesViveroScreen = () => {
             </div>
 
             <div className="row"> 
-            <div className="row ms-3">
+            <div className="row ms-3"style={{  display:"flex",
+                      justifyContent: "center",}}>
                   <div
                     className="card col-5 col-md-auto"
                     style={{
