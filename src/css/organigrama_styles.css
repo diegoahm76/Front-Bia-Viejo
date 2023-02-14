@@ -1,0 +1,67 @@
+.orgchart.myChart {
+  background-image: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.15) 10%,
+      rgba(255, 255, 255, 0) 10%),
+    linear-gradient(rgba(255, 255, 255, 0.15) 10%, rgba(255, 255, 255, 0) 10%) !important;
+}
+
+.orgchart.myChart>ul>li>ul li::before {
+  border-top-color: #215a88;
+}
+
+.orgchart.myChart>ul>li>ul li .oc-node::before,
+.orgchart.myChart ul li .oc-node:not(:only-child)::after {
+  background-color: #215a88;
+}
+
+.orgchart.myChart .oc-node .position {
+  box-sizing: border-box;
+  background-color: #215a88;
+  color: #fff;
+  width: 130px;
+  min-height: 65px;
+  padding: 2px;
+}
+
+.orgchart.myChart .oc-node .fullname {
+  box-sizing: border-box;
+  color: #215a88;
+  background-color: #fff;
+  width: 130px;
+  height: 65px;
+  padding: 2px;
+  border: 1px solid #215a88;
+}
+
+.orgchart.myChart .container {
+  color: #fff;
+  width: 130px;
+  min-height: 65px;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+.orgchart.myChart .oc-node .nivel-1 {
+  border-color: #993366;
+  background-color: #993366;
+}
+
+.orgchart.myChart .oc-node .nivel-2 {
+  border-color: #009933;
+  background-color: #009933;
+}
+
+.orgchart.myChart .oc-node .nivel-3 {
+  border-color: #74ba03c8;
+  background-color: #74ba03c8;
+}
+
+.orgchart.myChart .oc-node .nivel-4 {
+  border-color: #d27205c8;
+  background-color: #d27205c8;
+}
+
+.orgchart.myChart .oc-node .nivel-5 {
+  border-color: #d24905c8;
+  background-color: #d24905c8;
+}
