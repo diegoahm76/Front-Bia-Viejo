@@ -113,9 +113,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12 mb-3">
-            <label>
-              Nombre: <span className="text-danger">*</span>
-            </label>
+            <label>Nombre: </label>
             <input
               type="text"
               placeholder="Nombre"

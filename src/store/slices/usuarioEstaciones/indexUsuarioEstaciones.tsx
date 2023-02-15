@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import clienteEstaciones from "../../../config/clienteAxiosEstaciones";
 import axios from "axios";
+import { formatISO } from "date-fns";
 
 export interface IUsuarioEstaciones {
   idUsuario: number;
@@ -13,6 +14,7 @@ export interface IUsuarioEstaciones {
   t005correo: string;
   t005numeroCelular: number;
   t005Observacion: string;
+  t005fechaMod: string; 
 }
 export interface IEstacionGeneric {
   UsuarioEditar: IUsuarioEstaciones;
@@ -44,6 +46,7 @@ const initialState: IEstacionGeneric = {
     t005correo: "",
     t005numeroCelular: 0,
     t005Observacion: "",
+  t005fechaMod: "", 
   },
   Usuarios: [
     {
@@ -63,6 +66,7 @@ const initialState: IEstacionGeneric = {
       t005correo: "",
       t005numeroCelular: 0,
       t005Observacion: "",
+      t005fechaMod:"",
     },
   ],
 };
@@ -81,10 +85,10 @@ const usuarioEstaciones = createSlice({
     setUsuarioEditar: (state, action) => {
       state.UsuarioEditar = action.payload
     },
-    eliminarEstacionAction: (state, action) => {
+    eliminarUsuarioAction: (state, action) => {
       state.Usuarios = state.Usuarios.filter((estacion) => estacion.objectid !== action.payload)
     },
-    editarEstacionAction: (state, action) => {
+    editarUsuarioAction: (state, action) => {
       state.Usuarios.forEach((estacion, index) => {
         if (estacion.objectid === action.payload.objectid) {
           state.Usuarios[index] = action.payload;
@@ -98,8 +102,8 @@ export const {
   obtenerUsuarioEstaciones,
   crearUsuarioAccion,
   setUsuarioEditar,
-  eliminarEstacionAction,
-  editarEstacionAction
+  eliminarUsuarioAction,
+  editarUsuarioAction
 } = usuarioEstaciones.actions;
 export default usuarioEstaciones.reducer;
 
@@ -127,12 +131,12 @@ export const obtenerNombreEstacion = async (dispatch, estacion) => {
     })
 };
 export const eliminarEstacion = async (dispatch, id) => {
-  await clienteEstaciones.delete(`U/${id}`).then((res) => {
-    dispatch(eliminarEstacionAction(id));
+  await clienteEstaciones.delete(`Usuarios/${id}`).then((res) => {
+    dispatch(eliminarUsuarioAction(id));
     Swal.fire({
       position: "center",
       icon: "success",
-      title: "Usuario eliminada correctamente",
+      title: "Usuario eliminado correctamente",
       showConfirmButton: false,
       timer: 2000,
     });
@@ -163,3 +167,18 @@ export const crearUsuario = async (dispatch, usuario: IUsuarioEstaciones) => {
     });
 };
 
+// setea la estacion a editar
+export const setEstacionEditarModelo = async (dispatch, usuario) => {
+  dispatch(setUsuarioEditar(usuario));
+};
+
+// Edita la el usuario
+export const EditarUsuario = async (dispatch, usuario) => {
+  await clienteEstaciones.put("Usuarios", usuario).then(() => {
+    usuario.t001fechaMod = formatISO(new Date(usuario.t001fechaMod), {
+      representation: "date",
+    });
+    dispatch(editarUsuarioAction(usuario));
+    Swal.fire("Correcto", "El usuario se actualizó", "success");
+  });
+};

@@ -9,6 +9,10 @@ import {
   editarEstacion,
   setEstacionEditar,
 } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
+import {
+  setUsuarioEditar,
+  EditarUsuario
+} from "../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
 // import { editarEstacion } from "../store/slices/administradorEstaciones/indexAdministradorEstaciones";
 
 const customStyles = {
@@ -26,32 +30,31 @@ const customStyles = {
 };
 
 Modal.setAppElement("#root");
-
-const editModelEstacion = {
-  objectid: 0,
-  t001nombre: "",
-  t001coord1: 0,
-  t001coord2: 0,
-  t001fechaMod: "",
-  t001userMod: "",
-};
 const editModelusu = {
   idUsuario: 0,
   objectid: 0,
-  t001Estaciones: "",
+  t001Estaciones: {
+    objectid: 0,
+    t001nombre: "",
+    t001coord1: 0,
+    t001coord2: 0,
+    t001fechaMod: "",
+    t001userMod: "",
+  },
   t005identificacion: 0,
   t005nombre: "",
   t005apellido: "",
   t005correo: "",
   t005numeroCelular: 0,
   t005Observacion: "",
+  t005fechaMod:"",
 };
 const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
-  const [dataEdit, setDataEdit] = useState(editModelEstacion);
+  //const [dataEdit, setDataEdit] = useState(editModelEstacion);
   const [dataEditar, setDataEditar] = useState(editModelusu);
   const dispatch = useAppDispatch();
   //pendiente revisar usuarios
-  // const nombre_de_usuario = useAppSelector((state) => state.user.user);
+  // const nombre_de_usuario = useAppSelector((state) => state.usuarioEstaciones.Usuarios);
   const usuarioEditar = useAppSelector(
     (state) => state.usuarioEstaciones.UsuarioEditar
   );
@@ -68,43 +71,29 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
   } = useForm();
 
   useEffect(() => {
-    createModelEdit();
-  }, [estaciones]);
-
-  const createModelEdit = () => {
-    const data = { ...dataEdit };
-    data.objectid = estaciones.objectid;
-    data.t001coord1 = estaciones.t001coord1;
-    data.t001coord2 = estaciones.t001coord2;
-    data.t001fechaMod = estaciones.t001fechaMod;
-    data.t001nombre = estaciones.t001nombre;
-    data.t001userMod = estaciones.t001userMod;
-    setDataEdit(data);
-  }
-  useEffect(() => {
     createModelEditUsuario();
   }, [usuarioEditar]);
 
   const createModelEditUsuario = () => {
     const data = { ...dataEditar };
-    data.objectid = usuarioEditar.objectid;
+    data.t001Estaciones.t001nombre = usuarioEditar.t001Estaciones.t001nombre;
+    data.t005identificacion = usuarioEditar.t005identificacion;
     data.t005nombre = usuarioEditar.t005nombre;
+    data.t005fechaMod = usuarioEditar.t005fechaMod;
     data.t005apellido = usuarioEditar.t005apellido;
     data.t005correo = usuarioEditar.t005correo;
     data.t005numeroCelular = usuarioEditar.t005numeroCelular;
     data.t005Observacion = usuarioEditar.t005Observacion;
     setDataEditar(data);
-  }
-
-  const handleChange = (e) => {
+  };
+  const handleChangee = (e) => {
     const { name, value } = e.target;
-    setDataEdit({ ...dataEdit, [name]: value });
+    setDataEditar({ ...dataEditar, [name]: value });
   }
-
-  const onSumbitEstacion = () => {
-    const dataChange = { ...dataEdit };
-    dataChange.t001fechaMod = new Date().toISOString();
-    editarEstacion(dispatch, dataChange);
+  const onSumbitUsuario = () => {
+    const dataChange = { ...dataEditar };
+    dataChange.t005fechaMod = new Date().toISOString();
+    EditarUsuario(dispatch, dataChange);
     setIsModalActive(!isModalActive);
   };
 
@@ -119,19 +108,19 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
       <div className="container p-3">
         <h4>Editar Usuario</h4>
         <hr className="rounded-pill hr-modal" />
-        <form className="row" onSubmit={handleSubmit(onSumbitEstacion)}>
+        <form className="row" onSubmit={handleSubmit(onSumbitUsuario)}>
           <div className="col-12">
             <div className="mt-3">
               <label>
-                OBJECTID: <span className="text-danger">*</span>
+                Identificaion: <span className="text-danger">*</span>
               </label>
               <input
                 className="form-control border rounded-pill px-3"
                 type="number"
-                name="objectid"
+                name="t005identificacion"
                 disabled={true}
-                value={dataEdit.objectid}
-                onChange={handleChange}
+                value={usuarioEditar.t005identificacion}
+                onChange={handleChangee}
               />
             </div>
             {errors.objectId && (
@@ -153,7 +142,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
                 name="t005nombre"
                 disabled={false}
                 value={usuarioEditar.t005nombre}
-                onChange={handleChange}
+                onChange={handleChangee}
               />
             </div>
             {errors.objectId && (
@@ -175,7 +164,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
                 name="t005apellido"
                 disabled={false}
                 value={usuarioEditar.t005apellido}
-                onChange={handleChange}
+                onChange={handleChangee}
               />
             </div>
             {errors.objectId && (
@@ -193,7 +182,7 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               </label>
               <input
                 className="form-control border rounded-pill px-3"
-                value={dataEdit.t001nombre}
+                value={dataEditar.t001Estaciones.t001nombre }
                 disabled={true}
                 type="text"
               />
@@ -214,9 +203,9 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                name="t001coord1"
-                value={dataEdit.t001coord1}
-                onChange={handleChange}
+                name="t005correo"
+                value={dataEditar.t005correo}
+                onChange={handleChangee}
               />
             </div>
             {errors.coordenada1 && (
@@ -235,9 +224,9 @@ const EditarEstacionModal = ({ isModalActive, setIsModalActive }) => {
               <input
                 className="form-control border rounded-pill px-3"
                 type="text"
-                name="t001coord2"
-                value={dataEdit.t001coord2}
-                onChange={handleChange}
+                name="t005numeroCelular"
+                value={dataEditar.t005numeroCelular}
+                onChange={handleChangee}
               />
             </div>
             {errors.coordenada2 && (
