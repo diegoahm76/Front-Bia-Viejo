@@ -187,6 +187,10 @@ export const useAdministracionVivero = () => {
         navigate("/dashboard/conservcacion/gestorvivero/administrarvivero");
     };
 
+    const AperturaCierre = () => {
+        navigate("/dashboard/conservacion/gestorvivero/aperturaycierre");
+    };
+
     useEffect(() => {
         const getSelectsOptions = async () => {
             try {
@@ -225,7 +229,7 @@ export const useAdministracionVivero = () => {
     useEffect(() => {
         if( dataViveroAdministracion.vivero_en_cuarentena) setCuarentena(false)
     },      [dataViveroAdministracion.vivero_en_cuarentena])
-    
+
 
 
 
@@ -371,7 +375,8 @@ export const useAdministracionVivero = () => {
         handleChangeDate,
         changeRadioArea,
         changeSelectTipoDoc,
-        changeDoc
+        changeDoc,
+        AperturaCierre
         // isRadioSelect
     };
 };
