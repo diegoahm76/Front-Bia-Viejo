@@ -11,7 +11,7 @@ import clienteAxios from "../../config/clienteAxios";
 import Subtitle from "../../components/Subtitle";
 import { adapterModulesChoices, adapterSubsistemasChoices } from "../../adapters/auditorias.adapters";
 import { textChoiseAdapter } from "../../adapters/textChoices.adapter";
-import { setDatesFormat } from "../../utils";
+import { setDatesFormat, setDatesFormatRevere } from "../../utils";
 
 const columDefs = [
   {
@@ -134,8 +134,8 @@ const AuditoriaScreen = () => {
 
   const onSubmit: SubmitHandler<IFormValues> = async (data: IFormValues) => {
 
-    let newDateIni = setDatesFormat(data.rango_inicial_fecha.toLocaleString())
-    let newDateFin = setDatesFormat(data.rango_final_fecha.toLocaleString())
+    let newDateIni = setDatesFormatRevere(data.rango_inicial_fecha.toLocaleString())
+    let newDateFin = setDatesFormatRevere(data.rango_final_fecha.toLocaleString())
 
     queryAuditorias(data, newDateIni, newDateFin);
   };
@@ -208,7 +208,7 @@ const AuditoriaScreen = () => {
                         selected={dataScreen.rango_inicial_fecha}
                         className="form-control border border-terciary rounded-pill px-3"
                         maxDate={new Date()}
-                        dateFormat="dd-MM-yyyy"
+                        dateFormat="yyyy-MM-dd"
                       />
                     )}
                   />
@@ -255,7 +255,7 @@ const AuditoriaScreen = () => {
                         selected={dataScreen.rango_final_fecha}
                         className="form-control border border-terciary rounded-pill px-3"
                         maxDate={new Date()}
-                        dateFormat="dd-MM-yyyy"
+                        dateFormat="yyyy-MM-dd"
                       />
                     )}
                   />
@@ -402,7 +402,7 @@ const AuditoriaScreen = () => {
                 </button>
               </div>
             </div>
-            
+
             {/* <div>
               <button
                 type="submit"

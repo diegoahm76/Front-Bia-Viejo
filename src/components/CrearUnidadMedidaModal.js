@@ -15,8 +15,6 @@ import clienteAxios from "../config/clienteAxios";
 import { textChoiseAdapter } from "../adapters/textChoices.adapter";
 import Axios from "axios";
 import Swal from "sweetalert2";
-import { UseEditUnidadMedida } from "../hooks/editUnidadMedida";
-import { set } from "date-fns";
 const customStyles = {
   content: {
     top: "50%",
@@ -45,6 +43,16 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
   const [edit, setEdit] = useState(false);
 
   const editarUnidad = (data) => {
+    console.log(data, "data");
+    let dataEdit = {
+      nombre: data.nombre,
+      abreviatura: data.abreviatura,
+      id_unidad_medida: data.id_unidad_medida,
+      id_magnitud: magnitudesOptions.find(
+        (item) => item.value === data.id_magnitud
+      ),
+    };
+    reset(dataEdit);
     setUnidadMedidaEdit({
       nombre: data.nombre,
       abreviatura: data.abreviatura,
@@ -54,7 +62,6 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       ),
     });
 
-    UseEditUnidadMedida(unidadMedidaEdit);
     setEdit(true);
   };
 
@@ -92,12 +99,18 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
     setError,
     setValue,
     handleSubmit,
+    watch,
+    reset,
     control,
     formState: { errors },
   } = useForm();
 
+  const dataPrincipal = watch()
+  console.log(dataPrincipal, 'dataPrincipal')
+
   const dispatch = useDispatch();
   const onSubmit = async (data) => {
+    console.log(data, 'dataedi')
     if (!edit) {
       const unidadMedidaCreate = {
         ...data,
@@ -106,12 +119,13 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
       console.log("viene de accion", unidadMedidaCreate);
       dispatch(crearNuevaUnidadMedidaAction({ unidadMedidaCreate, fetchData }));
     } else {
-      await Axios({
+      await clienteAxios({
         method: "PUT",
-        url: `${unidadMedidaEdit.id_unidad_medida}/`,
+        url: `almacen/unidades-medida/update/${dataPrincipal.id_unidad_medida}/`,
         data: {
-          ...unidadMedidaEdit,
-          id_magnitud: unidadMedidaEdit.magnitud.value,
+          nombre: dataPrincipal.nombre,
+          abreviatura: dataPrincipal.abreviatura,
+          id_magnitud: dataPrincipal.id_magnitud.value,
         },
       })
         .then((response) => {
@@ -120,6 +134,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
             target: document.getElementById("modal-unidad-medida"),
             position: "center",
             icon: "success",
+            // title: response.data.detail,
             title: "Unidad de Medida Editada correctamente",
             showConfirmButton: false,
             timer: 2000,
@@ -278,7 +293,7 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
-                  value={unidadMedidaEdit.nombre}
+                  // value={unidadMedidaEdit.nombre}
                   placeholder="Nombre"
                   {...register("nombre")}
                 />
@@ -288,14 +303,14 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
-                  value={unidadMedidaEdit.abreviatura}
+                  // value={unidadMedidaEdit.abreviatura}
                   placeholder="abreviatura"
                   {...register("abreviatura")}
                 />
               </div>
               <div className="col-12 col-md-6">
                 <label className=" text-terciary">Magnitud</label>
-                <Controller
+                {/* <Controller
                   name="id_magnitud"
                   control={control}
                   rules={{
@@ -307,7 +322,20 @@ function CrearUnidadMedidaModal({ isModalActive, setIsModalActive }) {
                       options={magnitudesOptions}
                       value={unidadMedidaEdit.magnitud}
                       placeholder="Seleccionar"
-                      onChange={changeSelect}
+                    // onChange={changeSelect}
+                    />
+                  )}
+                /> */}
+                <Controller
+                  name="id_magnitud"
+                  rules={{ required: true }}
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      value={field.value}
+                      options={magnitudesOptions}
+                      placeholder="Seleccionar"
                     />
                   )}
                 />
