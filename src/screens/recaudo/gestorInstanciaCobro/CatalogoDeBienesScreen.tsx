@@ -55,7 +55,7 @@ const CatalogoDeBienesScreen = () => {
       })
       .catch(() => {});
   };
-  console.log(arrayTotal,"estos son todos los datos");
+  console.log(arrayTotal, "estos son todos los datos");
 
   // useEffect(() => {
   //   armarArbol(bien);
@@ -170,10 +170,17 @@ const CatalogoDeBienesScreen = () => {
     );
   };
 
+  const actionTemplate2 = () => {
+    return (
+      <div>
+        <i className="fa-regular fa-folder"></i>
+      </div>
+    );
+  };
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
-
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -208,9 +215,16 @@ const CatalogoDeBienesScreen = () => {
           <div className="card">
             <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
               <Column
+              
+             
+              expander
+                body={<i className="fa-regular fa-folder fs-4"></i>}
+                style={{ width: "200px" }}
+                
+                
+              ></Column>
+              <Column header="Nombre"
                 field="nombre"
-                header="Nombre"
-                expander
                 style={{ width: "800px" }}
                 filter
                 filterPlaceholder="Filter por nombre"
@@ -225,7 +239,7 @@ const CatalogoDeBienesScreen = () => {
               <Column
                 header="Acciones"
                 body={actionTemplate}
-                style={{ textAlign: "center", width: "850px" }}
+                style={{ textAlign: "center", width: "400px" }}
               />
               {/* <Column field="agregar" header="Agregar"></Column>
                     <Column field="editar" header="Editar"></Column>
@@ -233,9 +247,7 @@ const CatalogoDeBienesScreen = () => {
             </TreeTable>
             ;
           </div>
-
         </form>
-
       </div>
     </div>
   );
