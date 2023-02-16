@@ -1,8 +1,14 @@
 import { SubTitle } from "chart.js";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Subtitle from "../../../components/Subtitle";
 
 export const DespachosEntrantesViveroScreen = () => {
+
+  const navigate = useNavigate();
+  const IrDespachar = () => {
+    navigate("/dashboard/conservacion/distribucion/despacho-entrante");
+  };
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 mx-auto">
@@ -29,13 +35,16 @@ export const DespachosEntrantesViveroScreen = () => {
             </div>
 
             <div className="row"> 
-            <div className="row ms-3">
+            <div className="row ms-3"style={{  display:"flex",
+                      justifyContent: "center",}}>
                   <div
                     className="card col-5 col-md-auto"
                     style={{
                       backgroundColor: "#fff3cd",
                       flexBasis: "content",
                       height: "60px",
+                      display:"flex",
+                      justifyContent: "center",
                     }}
                   >
                     <div className="mt-3 ms-3">
@@ -51,14 +60,15 @@ export const DespachosEntrantesViveroScreen = () => {
                     
                   </div>
                 </div>
-                <div className="row ms-3">
+                <div className="row ms-3" style={{  display:"flex",
+                      justifyContent: "center",}}>
                   <div
                     className="card col-5 col-md-auto"
                     style={{
                       backgroundColor: "#d1e7dd",
                       flexBasis: "content",
                       height: "60px",
-                      justifyContent:"center"
+                    blockSize:"auto"
                     }}
                   >
                     <div className="mt-3 ms-3">
@@ -99,19 +109,20 @@ export const DespachosEntrantesViveroScreen = () => {
             </div>
             <div className="row">
             <div style={{ textAlign: "end" }}>
-                <button
-                  className="btn border rounded-pill mt-2 px-3 ms-2"
-                  type="submit"
-                  title="Realizar"
-                >
-                  <i className="fa-regular fa-floppy-disk fs-3"></i>
-                </button>
-                <button
+            <button
+             className="btn border rounded-pill mt-2 px-3 ms-2"
+             title="Realizar distribución"
+             onClick={()=>IrDespachar()}
+           >
+              <i className="fa-solid fa-circle-check fs-3"></i>
+              </button>
+              <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"
                   title="Consultar"
                 >
-                  <i className="fa-solid fa-eraser fs-3"></i>
+                  <i className="fa-brands fa-readme fs-3"></i>
                 </button>
+            
                 <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"
                   title="Salir"

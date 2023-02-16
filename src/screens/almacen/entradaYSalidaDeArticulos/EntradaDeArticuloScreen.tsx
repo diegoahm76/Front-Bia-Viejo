@@ -358,6 +358,18 @@ export const EntradaDeArticuloScreen = () => {
     } catch (error: any) {
     }
   };
+  // const fetchData = async () => {
+  //   try {
+  //     setBotonAdministrador(true);
+  //     const response = await Axios({
+  //       url: "https://backend-bia-beta-production.up.railway.app/api/almacen/unidades-medida/get-list/",
+  //     });
+  //     setUnidades(response.data);
+  //     console.log("obtener lista");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className="row min-vh-100">

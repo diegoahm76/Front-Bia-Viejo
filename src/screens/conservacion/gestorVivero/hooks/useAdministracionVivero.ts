@@ -9,10 +9,12 @@ import { IViveroCreate } from '../../../../Interfaces/AdministradorViveros';
 import { textChoiseAdapter } from '../../../../adapters/textChoices.adapter';
 import { SweetAlertIcon } from "sweetalert2";
 import Swal from 'sweetalert2';
-import { createThunkAdministracionVivero, getThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
+import { createThunkAdministracionVivero, getThunkAdministracionVivero, editThunkAdministracionVivero } from '../../../../services/administradorVivero/thunkAdministracionVivero';
 import { formatISO } from 'date-fns';
 import { formatMs } from "@material-ui/core";
 import BusquedaAvanzadaModal from '../../../../components/BusquedaAvanzadaModal';
+import moment from "moment";
+import { IdResponsable } from '../../../../Interfaces/Bodegas';
 
 export const useAdministracionVivero = () => {
 
@@ -75,6 +77,7 @@ export const useAdministracionVivero = () => {
     const [origenRecurso, setOrigenRecurso] = useState(initialOptions);
     const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
     const [file, setFile] = useState(null);
+    const [selectedRadio, setSelectedRadio] = useState('');
 
 
     const {
@@ -102,6 +105,22 @@ export const useAdministracionVivero = () => {
         const { name, value } = e.target;
         setCreateModel({ ...createModel, [name]: value });
     };
+
+    const changeSelectTipoDoc = (e) => {
+        let doc = {...busquedaModel};
+        doc.tipoDocumento = {
+            value: e.value,
+            label : e.label
+        }
+
+        setValue('tipoDocumento', doc.tipoDocumento);
+        setBusquedaModel(doc);
+    }
+
+    const changeDoc = (e) => {
+        const { name, value } = e.target;
+        setBusquedaModel({ ...busquedaModel, [name]:value })
+    }
 
     const changeSelectTipoVivero = (e) => {
         let tipoVivero = { ...createModel };
@@ -133,14 +152,43 @@ export const useAdministracionVivero = () => {
         setCreateModel(municipio);
     };
 
+    // const isRadioSelect = (value: string) => createModel.tiene_area_produccion === value;
+
+    const changeRadioArea = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let valor:any = e.currentTarget.value;
+        const radio = { ...createModel };
+        if (valor === 'si') {
+            radio.tiene_area_produccion = true;
+        }
+        else if(valor === 'no') {
+            radio.tiene_area_produccion = false;
+        }
+        console.log(valor);
+        setCreateModel(radio);
+    }
 
     const onSubmit = () => {
-        createStartViveroForm();
+        const idPersona:any = busquedaModel.idResponsable;
+        // console.log(idPersona);
+        areaProduccionBool();
+        areaPepSustrato();
+        areaEmbolsado();
+        createStartViveroForm(idPersona);
+        setCreateModel(infoViveroModel)
         console.log('Entre');
     }
 
+    // useEffect(() => {
+        // onSubmit();
+    // }, [])
+
+
     const AdministradorVivero = () => {
         navigate("/dashboard/conservcacion/gestorvivero/administrarvivero");
+    };
+
+    const AperturaCierre = () => {
+        navigate("/dashboard/conservacion/gestorvivero/aperturaycierre");
     };
 
     useEffect(() => {
@@ -181,7 +229,7 @@ export const useAdministracionVivero = () => {
     useEffect(() => {
         if( dataViveroAdministracion.vivero_en_cuarentena) setCuarentena(false)
     },      [dataViveroAdministracion.vivero_en_cuarentena])
-    
+
 
 
 
@@ -190,15 +238,50 @@ export const useAdministracionVivero = () => {
     };
 
     const onSubmitGet = () => {
-        dispatch(getThunkAdministracionVivero());
+        // dispatch(getThunkAdministracionVivero());
         setModal(true);
+        setCreateModel(infoViveroModel)
     }
-    
+
+
+    const [selectedDate, setSelectedDate] = useState(null);
+    const formattedDate = selectedDate ? moment(selectedDate).format('YYYY-MM-DD') : '';
+
+    const handleChangeDate = (date) => {
+        setSelectedDate(date);
+    };
 
     const [modalPersonal, setModalPersonal] = useState(false);
 
-    const createStartViveroForm = () => {
-        const formData = new FormData();
+    let areaProduccionBool = () => {
+        if (dataViveroAdministracion.tiene_area_produccion === 'si') {
+            return dataViveroAdministracion.tiene_area_produccion = true;
+        }
+        else if(dataViveroAdministracion.tiene_area_produccion === 'no') {
+            return dataViveroAdministracion.tiene_area_produccion = false;
+        }
+    }
+
+    let areaPepSustrato = () => {
+        if (dataViveroAdministracion.tiene_area_pep_sustrato === 'si') {
+            return dataViveroAdministracion.tiene_area_pep_sustrato = true;
+        }
+        else if(dataViveroAdministracion.tiene_area_pep_sustrato === 'no') {
+            return dataViveroAdministracion.tiene_area_pep_sustrato = false;
+        }
+    }
+
+    let areaEmbolsado = () => {
+        if (dataViveroAdministracion.tiene_area_embolsado === 'si') {
+            return dataViveroAdministracion.tiene_area_embolsado = true;
+        }
+        else if(dataViveroAdministracion.tiene_area_embolsado === 'no') {
+            return dataViveroAdministracion.tiene_area_embolsado = false;
+        }
+    }
+
+    const createStartViveroForm = (ejem) => {
+        const formData:any = new FormData();
         formData.append('nombre', dataViveroAdministracion.nombre);
         formData.append('cod_municipio', dataViveroAdministracion.cod_municipio.value);
         formData.append('direccion', dataViveroAdministracion.direccion);
@@ -220,12 +303,33 @@ export const useAdministracionVivero = () => {
         formData.append('justificacion_cuarentena',dataViveroAdministracion.justificacion_cuarentena);
         formData.append('activo',dataViveroAdministracion.activo);
         formData.append('item_ya_usado',dataViveroAdministracion.item_ya_usado);
+        if (ejem) {
+            formData.append('id_viverista_actual', ejem );
+        }
         formData.append('id_persona_abre',dataViveroAdministracion.id_persona_abre);
         formData.append('id_persona_cierra',dataViveroAdministracion.id_persona_cierra);
         formData.append('id_persona_cuarentena',dataViveroAdministracion.id_persona_cuarentena);
+        formData.append('fecha_inicio_viverista_actual',formattedDate);
         dispatch(createThunkAdministracionVivero(formData));
         console.log(dataViveroAdministracion);
-        console.log(dataViveroAdministracion.cod_tipo_vivero);
+        // console.log(dataViveroAdministracion.cod_tipo_vivero);
+    }
+
+    const handleEditVivero = (id, ejem) => {
+        const formdata = new FormData();
+        formdata.append('area_mt2', dataViveroAdministracion.area_mt2 );
+        formdata.append('area_propagacion_mt2', dataViveroAdministracion.area_propagacion_mt2 );
+        formdata.append('tiene_area_produccion', dataViveroAdministracion.tiene_area_produccion );
+        formdata.append('tiene_areas_pep_sustrato', dataViveroAdministracion.tiene_area_pep_sustrato );
+        formdata.append('tiene_area_embolsado', dataViveroAdministracion.tiene_area_embolsado );
+        formdata.append('cod_tipo_vivero', dataViveroAdministracion.tipo_vivero.value );
+        formdata.append('cod_origen_recursos_vivero', dataViveroAdministracion.origen_recursos_vivero.value );
+        if (ejem) {
+            formdata.append('id_viverista_actual', ejem );
+        }
+        formdata.append('fecha_inicio_viverista_actual',formattedDate);
+        console.log(formdata);
+        dispatch(editThunkAdministracionVivero(id, formdata))
     }
 
     //Cargue de archivos de imagen
@@ -233,7 +337,12 @@ export const useAdministracionVivero = () => {
         if (target.files.length > 0) setFile(target.files[0])
     };
 
+
+
+
+
     return {
+        handleEditVivero,
         handleSubmit,
         handleUpload,
         onSubmit,
@@ -258,6 +367,16 @@ export const useAdministracionVivero = () => {
         handleOpenModalAvanzadaModal,
         onSubmitGet,
         modal,
-        setModal
+        setModal,
+        modalPersonal,
+        setBusquedaModel,
+        busquedaModel,
+        selectedDate,
+        handleChangeDate,
+        changeRadioArea,
+        changeSelectTipoDoc,
+        changeDoc,
+        AperturaCierre
+        // isRadioSelect
     };
 };

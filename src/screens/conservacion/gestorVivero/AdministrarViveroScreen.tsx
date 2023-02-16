@@ -8,9 +8,11 @@ import Subtitle from "../../../components/Subtitle";
 import { useAdministracionVivero } from "./hooks/useAdministracionVivero";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
+import BusquedaAvanzadaModal from '../../../components/BusquedaAvanzadaModal';
 import { Navigate } from "react-router-dom/dist";
 import { ConsultasMunicipioModal } from '../../../components/ConsultasMunicipioModal';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
 
 const AdministrarViveroScreen = () => {
   const {
@@ -32,14 +34,38 @@ const AdministrarViveroScreen = () => {
     control,
     onSubmitGet,
     modal,
-    setModal
+    setModal,
+    setModalPersonal,
+    modalPersonal,
+    setBusquedaModel,
+    busquedaModel,
+    handleEditVivero,
+    selectedDate,
+    handleChangeDate,
+    changeRadioArea,
+    changeDoc,
+    changeSelectTipoDoc,
+    AperturaCierre
+    // isRadioSelect
   } = useAdministracionVivero();
 
-  const [modalPersonal, setModalPersonal] = useState(false);
+
+  const editarViveros = {
+    nombre: '',
+    municipio: { value: '', label: '' },
+    direccion : '',
+    area_mt2: 0,
+    area_propagacion_mt2: 0
+  }
+
   const [cuarentena, setCuarentena] = useState<boolean>(false);
   const [isActivo, setIsActivo] = useState<boolean>(true);
   const [apertura, setApertura] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(false);
+  const [viveristaModal, setViveristaModal] = useState<boolean>(false);
 
+
+ 
 
   return (
     <div className="row min-vh-100">
@@ -57,8 +83,10 @@ const AdministrarViveroScreen = () => {
                   className="form-control border border-terciary rounded-pill px-3"
                   type="text"
                   {...register("nombre", { required: true })}
-                  onChange={handleChange}
+                  value={createModel.nombre}
                   placeholder="Escribe el nombre del vivero"
+                  onChange={ handleChange }
+                  disabled={ disabled }
                 />
               </div>
               <div className="col-12 col-md-3 mb-3">
@@ -72,6 +100,8 @@ const AdministrarViveroScreen = () => {
                   placeholder="Selecciona municipio"
                   name="municipio"
                   onChange={changeSelectMuni}
+                  value={ createModel.municipio }
+                  isDisabled={disabled}
                 />
 
                 {errors.municipioOpcion && (
@@ -90,6 +120,8 @@ const AdministrarViveroScreen = () => {
                   {...register("direccion", { required: true })}
                   onChange={handleChange}
                   placeholder="Escribe la dirección del vivero"
+                  value={ createModel.direccion }
+                  disabled={disabled}
                 />
 
                 {errors.municipioOpcion && (
@@ -108,6 +140,7 @@ const AdministrarViveroScreen = () => {
                   {...register("area_mt2", { required: true })}
                   onChange={handleChange}
                   placeholder="Ingresa área para el vivero"
+                  value={ createModel.area_mt2 }
                 />
                 {errors.nombreVivero && (
                   <div className="col-12">
@@ -128,6 +161,7 @@ const AdministrarViveroScreen = () => {
                   onChange={changeSelectTipoVivero}
                   placeholder="Tipo de vivero"
                   required={true}
+                  value={createModel.tipo_vivero}
                 />
 
                 {errors.municipioOpcion && (
@@ -148,7 +182,8 @@ const AdministrarViveroScreen = () => {
                 <ConsultasMunicipioModal
                   isModalActive={ modal }
                   setIsModalActive={ setModal }
-                  setModel={setApertura}
+                  setModel={setCreateModel}
+                  setDisabled={ setDisabled }
                 />
               </div>
             </div>
@@ -249,6 +284,7 @@ const AdministrarViveroScreen = () => {
                 {...register("area_propagacion_mt2", { required: true })}
                 onChange={handleChange}
                 placeholder="Ingresa medida para el área de propagación"
+                value={ createModel.area_propagacion_mt2 }
               />
               {errors.nombreVivero && (
                 <div className="col-12">
@@ -258,21 +294,130 @@ const AdministrarViveroScreen = () => {
                 </div>
               )}
             </div>
-            <div className="row d-flex align-items-center mt-2 mx-2">
-              <div className="col-12 col-md-3 mb-3 form-check">
+            {/* <div className="row d-flex align-items-center mt-2 mx-2"> */}
+              {/* <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
                   Área de producción:
-                </label>
+                </label> */}
 
-                <input
+                <div className="container text-center">
+                  <div className="row">
+                    <div className="col-md-auto">
+                      Área de Producción:
+                    </div>
+                    <div className="col col-lg-3">
+
+                      <div className="form-check">
+                        <input 
+                          className="form-check-input"
+                          type="radio"
+                          {...register("tiene_area_produccion")}
+                          onChange={changeRadioArea}
+                          value={'si'}
+                          // checked={isRadioSelect('si')}
+                        />
+                        <label className="form-check-label">Si</label>
+                      </div>
+
+                    </div>
+
+                    <div className="col col-lg-1">
+
+                      <div className="form-check">
+                          <input 
+                            className="form-check-input"
+                            type="radio"
+                            {...register("tiene_area_produccion")}
+                            onChange={changeRadioArea}
+                            value={'no'}
+                            // checked={isRadioSelect('no')}
+                          />
+                          <label className="form-check-label">No</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-auto">
+                      Área de preparación de sustrato:
+                    </div>
+                    <div className="col col-lg-1">
+
+                      <div className="form-check">
+                        <input 
+                          className="form-check-input"
+                          type="radio"
+                          {...register("tiene_area_pep_sustrato")}
+                          onChange={changeRadioArea}
+                          value={'si'}
+                        />
+                        <label className="form-check-label">Si</label>
+                      </div>
+
+                    </div>
+
+                    <div className="col col-lg-3">
+
+                      <div className="form-check">
+                          <input 
+                            className="form-check-input"
+                            type="radio"
+                            {...register("tiene_area_pep_sustrato")}
+                            onChange={changeRadioArea}
+                            value={'no'}
+                          />
+                          <label className="form-check-label">No</label>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-auto">
+                      Área de embolsado:
+                    </div>
+                    <div className="col col-lg-3">
+
+                      <div className="form-check">
+                        <input 
+                          className="form-check-input"
+                          type="radio"
+                          {...register("tiene_area_embolsado")}
+                          onChange={changeRadioArea}
+                          value={'si'}
+                        />
+                        <label className="form-check-label">Si</label>
+                      </div>
+
+                    </div>
+
+                    <div className="col col-lg-1">
+
+                      <div className="form-check">
+                          <input 
+                            className="form-check-input"
+                            type="radio"
+                            {...register("tiene_area_embolsado")}
+                            onChange={changeRadioArea}
+                            value={'no'}
+                          />
+                          <label className="form-check-label">No</label>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                {/* <input
                   className="border border-terciary form-check-input mx-2"
                   type="checkbox"
                   id="flexCheckDefault"
                   {...register("tiene_area_produccion")}
-                />
-              </div>
-            </div>
-            <div className="row d-flex align-items-center mt-2 mx-2">
+                  // value={ createModel.tiene_area_produccion }
+                /> */}
+              {/* </div> */}
+            {/* </div> */}
+            {/* <div className="row d-flex align-items-center mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3 form-check">
                 <label className="text-terciary" htmlFor="flexCheckDefault">
                   Área de preparacion de sustrato:{" "}
@@ -282,6 +427,7 @@ const AdministrarViveroScreen = () => {
                   type="checkbox"
                   id="flexCheckDefault"
                   {...register("tiene_area_pep_sustrato")}
+                  // value={ createModel.tiene_areas_pep_sustrato }
                 />
               </div>
             </div>
@@ -296,9 +442,10 @@ const AdministrarViveroScreen = () => {
                   type="checkbox"
                   id="flexCheckDefault"
                   {...register("tiene_area_embolsado")}
+                  // value={ createModel.tiene_area_embolsado }
                 />
               </div>
-            </div>
+            </div> */}
 
             <div className="row d-flex align-items-center mt-2 mx-2">
               <div className="col-12 col-md-3 mb-3">
@@ -312,6 +459,7 @@ const AdministrarViveroScreen = () => {
                   onChange={changeSelectOrigenRecurso}
                   placeholder="Seleccione"
                   required={true}
+                  value={ createModel.origen_recursos_vivero }
                 />
 
                 {errors.viveroCreado && (
@@ -328,7 +476,10 @@ const AdministrarViveroScreen = () => {
                   Tipo de Documento: <span className="text-danger">*</span>{" "}
                 </label>
                 <Select
-                  name="options"
+                  isDisabled
+                  value={busquedaModel.tipoDocumento}
+                  {...register('tipoDocumento')}
+                  onChange={changeSelectTipoDoc}
                   // control={control2}
                   // rules={{ required: true }}
                   // render={({ field }) => (
@@ -345,10 +496,12 @@ const AdministrarViveroScreen = () => {
                 </label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
-                  {...register("id_viverista")}
-                  onChange={handleChange}
+                  {...register("cedula")}
+                  onChange={changeDoc}
                   type="number"
                   placeholder="Numero de identificacion"
+                  value={ busquedaModel.cedula }
+                  disabled={ true }
                 />
               </div>
               <div className="col-12 col-md-3">
@@ -360,17 +513,19 @@ const AdministrarViveroScreen = () => {
                   type="text"
                   placeholder="Nombre de funcionario"
                   disabled={true}
-                  {...register("Viverista")}
+                  {...register("nombreCompleto")}
+                  onChange={changeDoc}
+                  value={busquedaModel.nombreCompleto}
                 />
               </div>
               <div className="col-12 col-md-3 mt-2" style={{ display: "flex" }}>
-                <button
+                {/* <button
                   type="button"
                   className="btn  text-capitalize btn-outline-ligth ms-2 mt-4"
                   title="Buscar profesional Cormacarena"
                 >
                   <img src={IconoBuscar} alt="buscar" />
-                </button>
+                </button> */}
                 {/* </div>
               <div className="col-6 col-sm-3 mt-2"> */}
                 <button
@@ -381,6 +536,11 @@ const AdministrarViveroScreen = () => {
                 >
                   Busqueda avanzada
                 </button>
+                <BusquedaAvanzadaModal
+                  isModalActive={modalPersonal}
+                  setIsModalActive={setModalPersonal}
+                  setModel={setBusquedaModel}
+                />
               </div>
             </div>
 
@@ -393,22 +553,24 @@ const AdministrarViveroScreen = () => {
               </div>
               <div className="col-12 col-md-3 mb-3">
                 <Controller
-                  name="fechaNacimiento"
+                  name="fecha_inicio_viverista_actual"
                   control={control}
                   render={({ field }) => (
-                    <ReactDatePicker
+                    <DatePicker
                       {...field}
                       locale="es"
                       className="form-control border rounded-pill px-3 border border-terciary col-12 col-md-3"
-                      dateFormat="dd/MM/yyyy"
-                      placeholderText="dd/mm/aaaa"
-                      selected={createModel.fecha_inicio_viverista_actual}
-                      onSelect={(e) =>
-                        setCreateModel({
-                          ...createModel,
-                          fecha_inicio_viverista_actual: e,
-                        })
-                      }
+                      dateFormat="yyyy-MM-dd"
+                      placeholderText="aaaa-mm-dd"
+                      selected={selectedDate}
+                      onChange={handleChangeDate}
+                      // onSelect={(e) =>{
+                      //   console.log(e);
+                      //   setCreateModel({
+                      //     ...createModel,
+                      //     fecha_inicio_viverista_actual: e,
+                      //   })}
+                      // }
                     />
                   )}
                 />
@@ -421,6 +583,7 @@ const AdministrarViveroScreen = () => {
                 <button
                   type="button"
                   className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-4 btn-min-width"
+                  onClick={AperturaCierre}
                 >
                   Realizar apertura
                 </button>
@@ -436,7 +599,7 @@ const AdministrarViveroScreen = () => {
               <div className="col-12 col-md-3 mb-3">
                 {isActivo ? (
                 <button className="btn btn-danger text-capitalize border rounded-pill ms-3 mt-4 btn-min-width">
-                  Desativar vivero
+                  Desactivar vivero
                 </button>):(
                 <div className="row ms-3">
                   <div
@@ -510,8 +673,12 @@ const AdministrarViveroScreen = () => {
                 <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"
                   title="Imprimir"
+                  onClick={() => {
+                    handleEditVivero(createModel.id_vivero, busquedaModel.idResponsable)
+                    // console.log(createModel)
+                  }}
                 >
-                  <i className="fa-solid fa-print fs-3"></i>
+                  <i className="fa-solid fa-pen-to-square fs-3"></i>
                 </button>
                 <button
                   className="btn border rounded-pill mt-2 px-3 ms-2"

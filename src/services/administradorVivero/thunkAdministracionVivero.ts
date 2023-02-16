@@ -26,11 +26,25 @@ export const createThunkAdministracionVivero = (formdata: any) => {
         try {
             const { data } = await clienteAxios.post('conservacion/viveros/create/', formdata);
             notificationSuccess(data.detail);
-            dispatch(crearViveroAction(data));
+            // dispatch(crearViveroAction(data));
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
             return error as AxiosError;
+        }
+    }
+}
+
+export const editThunkAdministracionVivero = (id, formdata) => {
+    return async(dispatch) => {
+        const { data } = await clienteAxios.put(`https://backend-bia-beta-production.up.railway.app/api/conservacion/viveros/update/${id}/`, formdata);
+        try {
+            notificationSuccess(data.detail);
+            console.log(data);
+            return data
+        } catch (error:any) {
+            notificationError(error.response.data.detail);
+            return error as AxiosError
         }
     }
 }
