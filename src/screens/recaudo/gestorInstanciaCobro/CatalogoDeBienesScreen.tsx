@@ -147,8 +147,6 @@ const CatalogoDeBienesScreen = () => {
     } else {
       seleccionarBienCreate(dispatch, nodo.data.bien)
     }
-
-
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
@@ -167,6 +165,7 @@ const CatalogoDeBienesScreen = () => {
 
   const navigate = useNavigate();
   const CrearArticulo = () => {
+    console.log("crear", initialStateBien)
     seleccionarBienCreate(dispatch, initialStateBien.bienSeleccionado);
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
