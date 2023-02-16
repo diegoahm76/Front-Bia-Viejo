@@ -50,6 +50,7 @@ const bienForm = createSlice({
     },
     crearBienAction: (state, action) => {
       state.bien.push(action.payload);
+      console.log(action.payload);
     },
     editarBienAction: (state, action) => {
       state.bien.map((bienA, index) => {
@@ -77,7 +78,15 @@ const bienForm = createSlice({
     obtenerBienAction: (state, action) => {
       state.bienSeleccionado = action.payload;
     },
-    eliminarBienAction: (state, action) => { },
+    eliminarBienAction: (state, action) => {
+      // console.log(action.payload);
+      // state.bien = state.bien.filter(ejem => ejem.id_bien !== action.payload)
+      state.bien.filter((bienA, index) => {
+        if (bienA.id_bien === action.payload.id_bien) {
+          state.bien[index] = action.payload;
+        }
+      });
+    },
   },
 });
 
@@ -152,12 +161,16 @@ export const obtenerBien = async (dispatch, nodo) => {
 };
 
 export const eliminarBien = async (dispatch, nodo) => {
+
   await clienteBack
-    .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_bien}`)
+    .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_nodo}`)
     .then(() => {
+      // console.log(nodo);
+      dispatch(eliminarBienAction(nodo))
       Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
     })
     .catch(() => {
+      console.log(nodo);
       Swal.fire({
         position: "center",
         icon: "error",

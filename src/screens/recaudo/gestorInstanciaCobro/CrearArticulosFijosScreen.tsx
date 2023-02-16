@@ -779,6 +779,7 @@ export const CreacionArticulosFijosScreen = () => {
                       value={bienEdit.codigo_bien}
                       {...register("codigo")}
                       disabled
+                      // onChange={handleChange}
                     />
                     {errors.codigo && (
                       <small className="text-danger">
