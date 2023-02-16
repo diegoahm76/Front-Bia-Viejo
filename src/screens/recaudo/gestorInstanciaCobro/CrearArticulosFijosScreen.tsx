@@ -83,6 +83,7 @@ export const CreacionArticulosFijosScreen = () => {
   const [checkboxSoli, setCheckboxSoli] = useState(false);
   const [checkboxHoja, setCheckboxHoja] = useState(false);
   const [checkboxVivero, setcheckboxVivero] = useState(false);
+  const [flag, setFlag] = useState(false);
   const [maxLength, setMaxLength] = useState(1);
 
   //estados definicion inicial
@@ -406,26 +407,26 @@ export const CreacionArticulosFijosScreen = () => {
   };
 
   useEffect(() => {
-    if (bienEdit.codigo_bien.split('').length === 6) {
-      return console.log('entro hijo 12'), setMaxLength(12);
-    }
-    if (bienEdit.codigo_bien.split('').length === 3) {
-      return console.log('entro hijo 7'), setMaxLength(7);
-    }
-    if (bienEdit.codigo_bien.split('').length === 2) {
-      return console.log('entro hijo 4'), setMaxLength(4);
+    console.log(bienEdit.codigo_bien.split(''), ".split()");
+    console.log(bienEdit.codigo_bien.split('')[0], "[0]");
+    console.log(bienEdit.codigo_bien.split('').length, "bienEdit.codigo_bien.split()[0]");
+    if (bienEdit.codigo_bien.split('').length === 0) {
+      return console.log('entro hijo 1'), setMaxLength(1);
     }
     if (bienEdit.codigo_bien.split('')[0] !== '' && bienEdit.codigo_bien.split('').length === 1) {
       return console.log('entro hijo 2'), setMaxLength(2);
     }
-    if (bienEdit.codigo_bien.split('').length === 0) {
-      return console.log('entro hijo 1'), setMaxLength(1);
+    if (bienEdit.codigo_bien.split('').length === 2) {
+      return console.log('entro hijo 4'), setMaxLength(4);
     }
-  }, [bienSeleccionado]);
+    if (bienEdit.codigo_bien.split('').length === 4) {
+      return console.log('entro hijo 7'), setMaxLength(7);
+    }
+    if (bienEdit.codigo_bien.split('').length === 7) {
+      return console.log('entro hijo 12'), setMaxLength(12);
+    }
+  }, [flag]);
 
-  console.log(bienEdit.codigo_bien.split(''), ".split()");
-  console.log(bienEdit.codigo_bien.split('')[0], "[0]");
-  console.log(bienEdit.codigo_bien.split('').length, "bienEdit.codigo_bien.split()[0]");
 
   return (
     <div className="row min-vh-100">
@@ -477,6 +478,7 @@ export const CreacionArticulosFijosScreen = () => {
                     <input
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
+                      onMouseOver={() => setFlag(true)}
                       maxLength={maxLength}
                       placeholder="Código"
                       disabled={dataEdit.edit!}
