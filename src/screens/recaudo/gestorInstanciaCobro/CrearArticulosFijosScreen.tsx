@@ -52,16 +52,20 @@ export const CreacionArticulosFijosScreen = () => {
   const {
     register,
     handleSubmit,
+    watch,
     control,
     formState: { errors },
   } = useForm();
 
-
+  const data = watch();
+  console.log(data, "data");
   const navigate = useNavigate();
   //state
   const bienSeleccionado: IBienes = useAppSelector(
     (state) => state.bien.bienSeleccionado
   );
+
+  console.log(bienSeleccionado, "bienSeleccionado");
   const dataEdit = useAppSelector((state) => state.bien.dataEdit);
 
   //choice
@@ -79,10 +83,11 @@ export const CreacionArticulosFijosScreen = () => {
   const [checkboxSoli, setCheckboxSoli] = useState(false);
   const [checkboxHoja, setCheckboxHoja] = useState(false);
   const [checkboxVivero, setcheckboxVivero] = useState(false);
+  const [flag, setFlag] = useState(false);
+  const [maxLength, setMaxLength] = useState(1);
 
   //estados definicion inicial
   const [isEdit, setIsdit] = useState(dataEdit.edit);
-  const [tipoBien, setTipoBien] = useState(initialOptions);
 
   const [bienEdit, setBienEdit] = useState(editState);
   //estado edit --bienSeleccionado
@@ -111,68 +116,69 @@ export const CreacionArticulosFijosScreen = () => {
 
   const cargarDatosIniciales = () => {
     let catalogoBien;
-    if (isEdit) {
+    // if (isEdit) {
 
-      const bienEdit = tipoBienOptions.filter((perce) => {
-        return perce.value.toString() === bienSeleccionado.cod_tipo_bien?.toString();
-      });
-      const activoEdit = tipoActivoOptions.filter((perce) => {
-        return perce.value.toString() === bienSeleccionado.cod_tipo_activo?.toString();
-      });
-      const porcentajeEdit = porcentajeOptions.filter((perce) => {
-        return perce.value.toString() === bienSeleccionado.id_porcentaje_iva?.toString();
-      });
-      const marcaEdit = marcaOptions.filter((marca) => {
-        return marca.value.toString() === bienSeleccionado.id_marca?.toString();
-      });
-      const valoraEdit = metodoValoracionOptions.filter((val) => {
-        return val.value.toString() === bienSeleccionado.cod_metodo_valoracion?.toString();
-      });
+    const bienEdit = tipoBienOptions.filter((perce) => {
+      return perce.value.toString() === bienSeleccionado.cod_tipo_bien?.toString();
+    });
+    const activoEdit = tipoActivoOptions.filter((perce) => {
+      return perce.value.toString() === bienSeleccionado.cod_tipo_activo?.toString();
+    });
+    const porcentajeEdit = porcentajeOptions.filter((perce) => {
+      return perce.value.toString() === bienSeleccionado.id_porcentaje_iva?.toString();
+    });
+    const marcaEdit = marcaOptions.filter((marca) => {
+      return marca.value.toString() === bienSeleccionado.id_marca?.toString();
+    });
+    const valoraEdit = metodoValoracionOptions.filter((val) => {
+      return val.value.toString() === bienSeleccionado.cod_metodo_valoracion?.toString();
+    });
 
-      const unidadVidaEdit = unidadMedidaOptions.filter((unidad) => {
-        return unidad.value.toString() === bienSeleccionado.id_unidad_medida_vida_util?.toString();
-      });
-      const depresiacionEdit = depresiacionOptions.filter((unidad) => {
-        return unidad.value.toString() === bienSeleccionado.cod_tipo_depreciacion?.toString();
-      });
+    const unidadVidaEdit = unidadMedidaOptions.filter((unidad) => {
+      return unidad.value.toString() === bienSeleccionado.id_unidad_medida_vida_util?.toString();
+    });
+    const depresiacionEdit = depresiacionOptions.filter((unidad) => {
+      return unidad.value.toString() === bienSeleccionado.cod_tipo_depreciacion?.toString();
+    });
 
 
 
-      catalogoBien = {
-        ...bienSeleccionado,
-        cod_tipo_bien: { value: bienEdit[0]?.value, label: bienEdit[0]?.label },
-        cod_tipo_activo: { value: activoEdit[0]?.value, label: activoEdit[0]?.label },
+    catalogoBien = {
+      ...bienSeleccionado,
+      cod_tipo_bien: { value: bienEdit[0]?.value, label: bienEdit[0]?.label },
+      cod_tipo_activo: { value: activoEdit[0]?.value, label: activoEdit[0]?.label },
 
-        cod_metodo_valoracion: {
-          value: valoraEdit[0]?.value,
-          label: valoraEdit[0]?.label,
-        },
-        cod_tipo_depreciacion: {
-          value: depresiacionEdit[0]?.value,
-          label: depresiacionEdit[0]?.label,
-        },
-        id_marca: { value: marcaEdit[0]?.value, label: marcaEdit[0]?.label },
-        id_unidad_medida: {
-          value: unidadVidaEdit[0]?.value,
-          label: unidadVidaEdit[0]?.label,
-        },
-        id_porcentaje_iva: {
-          value: porcentajeEdit[0]?.value,
-          label: porcentajeEdit[0]?.label,
-        },
-        id_unidad_medida_vida_util: {
-          value: unidadVidaEdit[0]?.value,
-          label: unidadVidaEdit[0]?.label,
-        },
-      };
-    } else {
-      catalogoBien = {
-        ...bienEdit,
-        id_bien: bienSeleccionado.id_bien,
-        id_bien_padre: bienSeleccionado.id_bien_padre,
-        nivel_jerarquico: bienSeleccionado.nivel_jerarquico,
-      };
-    }
+      cod_metodo_valoracion: {
+        value: valoraEdit[0]?.value,
+        label: valoraEdit[0]?.label,
+      },
+      cod_tipo_depreciacion: {
+        value: depresiacionEdit[0]?.value,
+        label: depresiacionEdit[0]?.label,
+      },
+      id_marca: { value: marcaEdit[0]?.value, label: marcaEdit[0]?.label },
+      id_unidad_medida: {
+        value: unidadVidaEdit[0]?.value,
+        label: unidadVidaEdit[0]?.label,
+      },
+      id_porcentaje_iva: {
+        value: porcentajeEdit[0]?.value,
+        label: porcentajeEdit[0]?.label,
+      },
+      id_unidad_medida_vida_util: {
+        value: unidadVidaEdit[0]?.value,
+        label: unidadVidaEdit[0]?.label,
+      },
+    };
+    // } else {
+    // catalogoBien = {
+    //   ...bienEdit,
+    //   id_bien: bienSeleccionado.id_bien,
+    //   id_bien_padre: bienSeleccionado.id_bien_padre,
+    //   nivel_jerarquico: bienSeleccionado.nivel_jerarquico,
+    // };
+
+    // }
     setBienEdit(catalogoBien);
   };
 
@@ -399,6 +405,29 @@ export const CreacionArticulosFijosScreen = () => {
   const volver = () => {
     navigate("/dashboard/Recaudo/gestor-notificacion/catalogo-bienes-Screen");
   };
+
+  useEffect(() => {
+    console.log(bienEdit.codigo_bien.split(''), ".split()");
+    console.log(bienEdit.codigo_bien.split('')[0], "[0]");
+    console.log(bienEdit.codigo_bien.split('').length, "bienEdit.codigo_bien.split()[0]");
+    if (bienEdit.codigo_bien.split('').length === 0) {
+      return console.log('entro hijo 1'), setMaxLength(1);
+    }
+    if (bienEdit.codigo_bien.split('')[0] !== '' && bienEdit.codigo_bien.split('').length === 1) {
+      return console.log('entro hijo 2'), setMaxLength(2);
+    }
+    if (bienEdit.codigo_bien.split('').length === 2) {
+      return console.log('entro hijo 4'), setMaxLength(4);
+    }
+    if (bienEdit.codigo_bien.split('').length === 4) {
+      return console.log('entro hijo 7'), setMaxLength(7);
+    }
+    if (bienEdit.codigo_bien.split('').length === 7) {
+      return console.log('entro hijo 12'), setMaxLength(12);
+    }
+  }, [flag]);
+
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -449,6 +478,8 @@ export const CreacionArticulosFijosScreen = () => {
                     <input
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
+                      onMouseOver={() => setFlag(true)}
+                      maxLength={maxLength}
                       placeholder="Código"
                       disabled={dataEdit.edit!}
                       value={bienEdit.codigo_bien}
@@ -508,7 +539,7 @@ export const CreacionArticulosFijosScreen = () => {
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Carpeta Padre"
-                      value={bienEdit.id_bien_padre}
+                      value={bienEdit.nombre}
                       disabled={true}
                     />
                     {errors.padre && (
@@ -748,6 +779,7 @@ export const CreacionArticulosFijosScreen = () => {
                       value={bienEdit.codigo_bien}
                       {...register("codigo")}
                       disabled
+                      // onChange={handleChange}
                     />
                     {errors.codigo && (
                       <small className="text-danger">
@@ -804,7 +836,7 @@ export const CreacionArticulosFijosScreen = () => {
                       type="text"
                       placeholder="Carpeta Padre"
                       {...register("padre")}
-                      value={bienEdit.id_bien_padre}
+                      value={bienEdit.nombre}
                       required
                       disabled
                     />

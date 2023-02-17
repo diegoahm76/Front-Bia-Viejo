@@ -44,7 +44,8 @@ const AdministrarViveroScreen = () => {
     handleChangeDate,
     changeRadioArea,
     changeDoc,
-    changeSelectTipoDoc
+    changeSelectTipoDoc,
+    AperturaCierre
     // isRadioSelect
   } = useAdministracionVivero();
 
@@ -582,6 +583,7 @@ const AdministrarViveroScreen = () => {
                 <button
                   type="button"
                   className="btn btn-primary text-capitalize border rounded-pill ms-3 mt-4 btn-min-width"
+                  onClick={AperturaCierre}
                 >
                   Realizar apertura
                 </button>

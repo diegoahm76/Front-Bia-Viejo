@@ -43,7 +43,6 @@ const CatalogoDeBienesScreen = () => {
   const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
   const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
 
-
   useEffect(() => {
     getBienes();
   }, []);
@@ -54,9 +53,9 @@ const CatalogoDeBienesScreen = () => {
       .then((bienes) => {
         setArrayTotal(bienes.data.data);
       })
-      .catch(() => {
-      });
-  }
+      .catch(() => {});
+  };
+  console.log(arrayTotal,"estos son todos los datos");
 
   // useEffect(() => {
   //   armarArbol(bien);
@@ -108,9 +107,9 @@ const CatalogoDeBienesScreen = () => {
       <div>
         <Button
           type="button"
-          icon="fa-regular fa-plus fs-3"
-          className="p-button-success"
-          style={{ marginRight: ".5em" }}
+          icon="fa-regular fa-plus fs-4"
+          className="p-button-success p-button-outlined"
+          style={{ marginRight: ".5em", color: "black", border: "none" }}
           onClick={() => {
             enviarDatos(node, false); //crear
           }}
@@ -118,9 +117,9 @@ const CatalogoDeBienesScreen = () => {
         ></Button>
         <Button
           type="button"
-          icon="fa-regular fa-pen-to-square fs-3"
-          className="p-button-warning"
-          style={{ marginRight: ".5em" }}
+          icon="fa-regular fa-pen-to-square fs-4"
+          className="p-button-white p-button-outlined"
+          style={{ marginRight: ".5em", color: "black", border: "none" }}
           onClick={() => {
             enviarDatos(node, true); //true
           }}
@@ -128,9 +127,9 @@ const CatalogoDeBienesScreen = () => {
         ></Button>
         <Button
           type="button"
-          icon="fa-regular fa-trash-can fs-3"
-          className="p-button-danger"
-          style={{ marginRight: ".5em" }}
+          icon="fa-regular fa-trash-can fs-4"
+          className="p-button-danger p-button-outlined"
+          style={{ marginRight: ".5em", color: "black", border: "none" }}
           disabled={!node.data.eliminar}
           onClick={() => {
             eliminarNodo(node); //true
@@ -140,22 +139,19 @@ const CatalogoDeBienesScreen = () => {
     );
   };
 
-
   function enviarDatos(nodo, accion) {
     if (accion) {
-      seleccionarBienEdit(dispatch, nodo.data.bien)
+      seleccionarBienEdit(dispatch, nodo.data.bien);
     } else {
-      seleccionarBienCreate(dispatch, nodo.data.bien)
+      seleccionarBienCreate(dispatch, nodo.data.bien);
     }
-
-
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   }
 
   function eliminarNodo(nodo) {
-    eliminarBien(dispatch, nodo.data.bien);
+    eliminarBien(dispatch, nodo);
     obtenerTodosBienes(dispatch);
   }
 
@@ -167,16 +163,17 @@ const CatalogoDeBienesScreen = () => {
 
   const navigate = useNavigate();
   const CrearArticulo = () => {
+    console.log("crear", initialStateBien);
     seleccionarBienCreate(dispatch, initialStateBien.bienSeleccionado);
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   };
 
-
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
+
         <form
           className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
           data-animation="FadeIn"
@@ -187,48 +184,58 @@ const CatalogoDeBienesScreen = () => {
               {" "}
               Catálogo de bienes
             </h3>
-            <div className="d-flex justify-content">
-              <div className="d-grid d-flex">
-                <button
-                  className="btn-icon-green btn px-3 mt-4"
-                  type="button"
-                  title="Agregar"
-                  onClick={() => CrearArticulo()}
-                >
-                  <i className="fa-regular fa-plus fs-3"></i>
-                </button>
-              </div>
+          </div>
+
+          <div className="row">
+            <Subtitle title={"Craciaciòn de Articulos"} />
+
+            <div className="col-12 col-md-3  mt-4">
+              <h5 className="mt-2">Crear nodo padre :</h5>
             </div>
-            <div className="card">
-              <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
-                <Column
-                  field="nombre"
-                  header="Nombre"
-                  expander
-                  style={{ width: "550px" }}
-                  filter
-                  filterPlaceholder="Filter por nombre"
-                ></Column>
-                <Column
-                  field="codigo"
-                  header="Código"
-                  style={{ width: "450px" }}
-                  filter
-                  filterPlaceholder="Filter por código"
-                ></Column>
-                <Column
-                  header="Acciones"
-                  body={actionTemplate}
-                  style={{ textAlign: "center", width: "850px" }}
-                />
-                {/* <Column field="agregar" header="Agregar"></Column>
-                    <Column field="editar" header="Editar"></Column>
-                    <Column field="eliminar" header="Eliminar"></Column> */}
-              </TreeTable>
-              ;
+
+            <div className="col-12 col-md-3 ">
+              <button
+                className="btn-icon-green btn px-3 mt-4"
+                type="button"
+                title="Agregar"
+                onClick={() => CrearArticulo()}
+              >
+                <i className="fa-regular fa-plus fs-3"></i>
+              </button>
             </div>
           </div>
+
+          <div className="card">
+            <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
+              <Column
+                field="nombre"
+                header="Nombre"
+                expander
+                style={{ width: "800px" }}
+                filter
+                filterPlaceholder="Filter por nombre"
+              ></Column>
+              <Column
+                field="codigo"
+                header="Código"
+                style={{ width: "300px" }}
+                filter
+                filterPlaceholder="Filter por código"
+              ></Column>
+              <Column
+                header="Acciones"
+                body={actionTemplate}
+                style={{ textAlign: "center", width: "850px" }}
+              />
+              {/* <Column field="agregar" header="Agregar"></Column>
+                    <Column field="editar" header="Editar"></Column>
+                    <Column field="eliminar" header="Eliminar"></Column> */}
+            </TreeTable>
+            ;
+          </div>
+
         </form>
+
       </div>
     </div>
   );

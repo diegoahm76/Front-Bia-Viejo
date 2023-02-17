@@ -84,6 +84,7 @@ export const EntradaDeArticuloScreen = () => {
     setError,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -305,18 +306,6 @@ export const EntradaDeArticuloScreen = () => {
     setPage(1);
   };
 
-  // const fetchData = async () => {
-  //   try {
-  //     setBotonAdministrador(true);
-  //     const response = await Axios({
-  //       url: "https://backend-bia-beta-production.up.railway.app/api/almacen/unidades-medida/get-list/",
-  //     });
-  //     setUnidades(response.data);
-  //     console.log("obtener lista");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   useEffect(() => {
     getState();
     getUnitys();
@@ -339,7 +328,7 @@ export const EntradaDeArticuloScreen = () => {
       const { data } = await clienteAxios.get(
         "almacen/estados-articulo/get-list/"
       );
-       setState(data.map((item) => ({ value: item.id_marca, label: item.nombre })));
+        setState(data.map((item) => ({ value: item.id_marca, label: item.nombre })));
     } catch (error: any) {
     }
   };
@@ -348,7 +337,7 @@ export const EntradaDeArticuloScreen = () => {
       const { data } = await clienteAxios.get(
         "almacen/marcas/get-list/"
       );
-       setBrand(data.map((item) => ({ value: item.id_marca, label: item.nombre })));
+        setBrand(data.map((item) => ({ value: item.id_marca, label: item.nombre })));
     } catch (error: any) {
     }
   };
@@ -357,7 +346,7 @@ export const EntradaDeArticuloScreen = () => {
       const { data } = await clienteAxios.get(
         "almacen/porcentajes/get-list/"
       );
-       setPorcentage(data.map((item) => ({ value: item.id_porcentaje_iva, label: item.porcentaje })));
+        setPorcentage(data.map((item) => ({ value: item.id_porcentaje_iva, label: item.porcentaje })));
     } catch (error: any) {
     }
   };
@@ -366,10 +355,45 @@ export const EntradaDeArticuloScreen = () => {
       const { data } = await clienteAxios.get(
         "almacen/bodega/get-list/"
       );
-       setStore(data.map((item) => ({ value: item.id_bodega, label: item.nombre })));
+        setStore(data.map((item) => ({ value: item.id_bodega, label: item.nombre })));
     } catch (error: any) {
     }
   };
+
+  const busquedaAvanzadaModel = {
+    tipoDocumento: { value: "", label: "" },
+    cedula: "",
+    nombreCompleto: "",
+    idResponsable: 0,
+  }
+
+  const busquedaArticuloModel = {
+    codigo_bien: "",
+    cod_tipo_activo: "",
+    marca:  "",
+    nombre: "",
+    doc_identificador_nro: "",
+    accion: ""
+  }
+
+  const [busquedaArticulo, setBusquedaArticulo] = useState(busquedaArticuloModel);
+  const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
+
+  const changeSelectTipoDoc = (e) => {
+    let doc = {...busquedaModel};
+    doc.tipoDocumento = {
+      value: e.value,
+      label: e.label
+    }
+
+    setValue('tipoDocumento', doc.tipoDocumento);
+    setBusquedaModel(doc);
+  }
+
+  const changeDoc = (e) => {
+    const { name, value } = e.target;
+    setBusquedaModel({ ...busquedaModel, [name]:value })
+  }
 
   return (
     <div className="row min-vh-100">
@@ -501,9 +525,13 @@ export const EntradaDeArticuloScreen = () => {
                       rules={{ required: true }}
                       render={({ field }) => (
                         <Select
-                          {...field}
+                          isDisabled
+                          value={busquedaModel.tipoDocumento}
+                          // {...field}
                           options={opcDoc}
                           placeholder="Seleccionar"
+                          {...register('tipoDocumento')}
+                          onChange={changeSelectTipoDoc}
                         />
                       )}
                     />
@@ -521,9 +549,12 @@ export const EntradaDeArticuloScreen = () => {
                     </label>
                     <input
                       className="form-control border rounded-pill px-3 border border-terciary"
-                      type="text"
+                      {...register('cedula')}
+                      onChange={changeDoc}
+                      type="number"
                       placeholder="Numero de identificacion"
-                      {...register("NumeroDoc")}
+                      value={busquedaModel.cedula}
+                      disabled
                     />
                   </div>
                   <div className="col-6 col-sm-2 mt-1">
@@ -625,7 +656,8 @@ export const EntradaDeArticuloScreen = () => {
                     type="text"
                     required={page === 2}
                     placeholder="Codigo"
-                    {...register("Cod")}
+                    {...register("codigo_bien")}
+                    value={busquedaArticulo.codigo_bien}
                   />
                 </div>
                 <div className="col-12 col-sm-3">
@@ -638,6 +670,7 @@ export const EntradaDeArticuloScreen = () => {
                     required={page === 2}
                     placeholder="Nombre Articulo"
                     disabled={true}
+                    value={busquedaArticulo.nombre}
                   />
                 </div>
                 <div className="col-12 col-sm-2 mt-4" title="Buscar">
@@ -1241,8 +1274,11 @@ export const EntradaDeArticuloScreen = () => {
           <BusquedaAvanzadaModal
             isModalActive={modalPersonal}
             setIsModalActive={setModalPersonal}
+            setModel={setBusquedaModel}
           />
           <BusquedaArticuloModal
+            articuloModel={busquedaArticulo}
+            setModel={setBusquedaArticulo}
             isModalActive={modalArticulos}
             setIsModalActive={setModalArticulos}
           />
