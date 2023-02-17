@@ -151,7 +151,7 @@ const CatalogoDeBienesScreen = () => {
   }
 
   function eliminarNodo(nodo) {
-    eliminarBien(dispatch, nodo.data);
+    eliminarBien(dispatch, nodo);
     obtenerTodosBienes(dispatch);
   }
 
