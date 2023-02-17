@@ -426,6 +426,7 @@ export const CreacionArticulosFijosScreen = () => {
       return console.log('entro hijo 12'), setMaxLength(12);
     }
   }, [flag]);
+  console.log(bienEdit, "este es el bienEdir")
 
 
   return (
@@ -501,7 +502,6 @@ export const CreacionArticulosFijosScreen = () => {
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
-                        value={bienEdit.nombre}
                         {...register("nombre")}
                         onChange={handleChange}
                       />

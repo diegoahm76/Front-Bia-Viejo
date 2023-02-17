@@ -16,6 +16,7 @@ import { Column } from "primereact/column";
 import { TreeTable } from "primereact/treetable";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import AddIcon from "@mui/icons-material/Add";
 
 import {
   obtenerTodosBienes,
@@ -31,6 +32,7 @@ import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import clienteAxios from "../../../config/clienteAxios";
 import clienteBack from "../../../config/clienteBack";
+import ButtonMaterial from "@mui/material/Button";
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -109,6 +111,7 @@ const CatalogoDeBienesScreen = () => {
           type="button"
           icon="fa-regular fa-plus fs-4"
           className="p-button-success p-button-outlined"
+          title="Agregar"
           style={{ marginRight: ".5em", color: "black", border: "none" }}
           onClick={() => {
             enviarDatos(node, false); //crear
@@ -119,6 +122,7 @@ const CatalogoDeBienesScreen = () => {
           type="button"
           icon="fa-regular fa-pen-to-square fs-4"
           className="p-button-white p-button-outlined"
+          title="Editar"
           style={{ marginRight: ".5em", color: "black", border: "none" }}
           onClick={() => {
             enviarDatos(node, true); //true
@@ -129,6 +133,7 @@ const CatalogoDeBienesScreen = () => {
           type="button"
           icon="fa-regular fa-trash-can fs-4"
           className="p-button-danger p-button-outlined"
+          title="Eliminar"
           style={{ marginRight: ".5em", color: "black", border: "none" }}
           disabled={!node.data.eliminar}
           onClick={() => {
@@ -196,34 +201,29 @@ const CatalogoDeBienesScreen = () => {
           <div className="row">
             <Subtitle title={"Craciaciòn de Articulos"} />
 
-            <div className="col-12 col-md-3  mt-4">
-              <h5 className="mt-2">Crear nodo padre :</h5>
-            </div>
-
-            <div className="col-12 col-md-3 ">
-              <button
-                className="btn-icon-green btn px-3 mt-4"
+            <div className="col-12 col-md-6  mt-4">
+              
+              <ButtonMaterial variant="outlined" startIcon={<AddIcon  style={{ fontSize: '30px' }}/>} 
+              className=" mb-4"
                 type="button"
                 title="Agregar"
-                onClick={() => CrearArticulo()}
-              >
-                <i className="fa-regular fa-plus fs-3"></i>
-              </button>
+                color="inherit"
+                style={{ fontSize: '20px', textTransform : "none" }}
+                onClick={() => CrearArticulo()}>
+                Crear carpeta padre
+              </ButtonMaterial>
             </div>
           </div>
 
           <div className="card">
             <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
               <Column
-              
-             
-              expander
+                expander
                 body={<i className="fa-regular fa-folder fs-4"></i>}
                 style={{ width: "200px" }}
-                
-                
               ></Column>
-              <Column header="Nombre"
+              <Column
+                header="Nombre"
                 field="nombre"
                 style={{ width: "800px" }}
                 filter

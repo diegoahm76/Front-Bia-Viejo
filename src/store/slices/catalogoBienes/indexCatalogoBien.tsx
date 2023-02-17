@@ -167,7 +167,7 @@ export const eliminarBien = async (dispatch, nodo) => {
     .then(() => {
       // console.log(nodo);
       dispatch(eliminarBienAction(nodo))
-      Swal.fire("Correcto", "La bodega se elimino correctamente", "success");
+      Swal.fire("Correcto", "La carpeta se elimino correctamente", "success");
     })
     .catch(() => {
       console.log(nodo);
