@@ -118,11 +118,7 @@ export const CreacionArticulosFijosScreen = () => {
     marcaOptions,
   ]);
 
- 
-
-
-  console.log(bienEdit.id_unidad_medida.value,"bienEdit.id_unidad_medida")
-
+  console.log(bienEdit.id_unidad_medida.value, "bienEdit.id_unidad_medida");
 
   const cargarDatosIniciales = () => {
     let catalogoBien;
@@ -341,7 +337,6 @@ export const CreacionArticulosFijosScreen = () => {
   // };
 
   const onSubmit = () => {
-    
     if (isEdit) {
       editarBien(dispatch, crearModeloData());
       obtenerTodosBienes(dispatch);
@@ -555,7 +550,6 @@ export const CreacionArticulosFijosScreen = () => {
                           placeholder="Seleccionar"
                           value={bienEdit.cod_tipo_activo}
                           onChange={changeSelectTipoActivo}
-                          required
                         />
                       )}
                     />
@@ -588,10 +582,9 @@ export const CreacionArticulosFijosScreen = () => {
                           value={bienEdit.id_unidad_medida}
                           onChange={changeSelectTipoUnidadMedida}
                           required
-                          
                         />
-                       )}
-                    /> 
+                      )}
+                    />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
@@ -727,7 +720,7 @@ export const CreacionArticulosFijosScreen = () => {
                     </div>
                     <div className="col-12 col-lg-6 text-center mt-3">
                       <button
-                        className="btn btn-sm btn-tablas "
+                        className="btn btn-sm btn-tablas mt-2"
                         type="button"
                         title="Solicitudes"
                         onClick={() => setCheckboxHoja(!checkboxHoja)}
@@ -805,11 +798,6 @@ export const CreacionArticulosFijosScreen = () => {
                       onChange={handleChange}
                       required
                     />
-                    {errors.codigo && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">
@@ -824,6 +812,7 @@ export const CreacionArticulosFijosScreen = () => {
                         {...register("nombre", { required: "true" })}
                         value={bienEdit.nombre}
                         onChange={handleChange}
+                        required
                       />
                     </div>
                     {errors.nombre && (
@@ -963,34 +952,41 @@ export const CreacionArticulosFijosScreen = () => {
                   </div>
                 </div>
                 <div className="row">
+                <div className="col-12 col-lg-3  mt-3 d-flex">
+                  <div className="col-12 col-lg-6  mt-4 ">
+                    <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                      Visible en solicitudes :
+                    </label>
+                  </div>
+                  <div className="col-12 col-lg-6 text-center mt-3">
+                    <button
+                      className="btn btn-sm btn-tablas mt-2"
+                      type="button"
+                      title="Solicitudes"
+                      onClick={() => setCheckboxSoli(!checkboxSoli)}
+                    >
+                      {checkboxSoli == false ? (
+                        <i
+                          className="fa-solid fa-toggle-off fs-3"
+                          style={{ color: "black" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa-solid fa-toggle-on fs-3"
+                          style={{ color: "#8cd81e" }}
+                        ></i>
+                      )}
+                    </button>
+                  </div>
+                  </div>
                   <div className="col-12 col-lg-3  mt-3 d-flex">
-                    <div className="col-12 col-lg-6">
-                      <label className="form-floating input-group input-group-dynamic ms-2">
-                        Solicitudes
-                      </label>
-                      <button
-                        className="btn btn-sm btn-tablas "
-                        type="button"
-                        title="Solicitudes"
-                        onClick={() => setCheckboxSoli(!checkboxSoli)}
-                      >
-                        {checkboxSoli === false ? (
-                          <i
-                            className="fa-solid fa-toggle-off fs-3"
-                            style={{ color: "black" }}
-                          ></i>
-                        ) : (
-                          <i
-                            className="fa-solid fa-toggle-on fs-3"
-                            style={{ color: "#8cd81e" }}
-                          ></i>
-                        )}
-                      </button>
-                    </div>
-                    <div className="col-12 col-lg-6">
-                      <label className="form-floating input-group input-group-dynamic ms-2">
-                        Vivero
-                      </label>
+                    
+                    <div className="col-12 col-lg-6  mt-4 ">
+                    <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                      Solicitable por vivero:
+                    </label>
+                  </div>
+                  <div className="col-12 col-lg-6 text-center mt-3">
                       <button
                         className="btn btn-sm btn-tablas"
                         type="button"
@@ -1011,7 +1007,7 @@ export const CreacionArticulosFijosScreen = () => {
                       </button>
                     </div>
                   </div>
-                  {checkboxHoja == true ? (
+                  {checkboxVivero == true ? (
                     <div className="col-12 col-lg-3  mt-3">
                       <div>
                         <label className="ms-2 text-terciary">

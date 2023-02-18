@@ -382,7 +382,7 @@ export const EntradaDeArticuloScreen = () => {
         >
           <MarcaDeAgua1>
             <h3 className="mt-3 ms-3 mb-0 text-start fw-light mb-4">
-              Entrada de Articulos
+              Entrada de Artículos
             </h3>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
@@ -433,7 +433,7 @@ export const EntradaDeArticuloScreen = () => {
 
                   <div className="col-6 col-sm-3 mt-1">
                     <label className="form-control ms-0">
-                      Origen del articulo:{" "}
+                      Origen del artículo:{" "}
                       <span className="text-danger">*</span>
                     </label>
                     <Controller
@@ -459,7 +459,7 @@ export const EntradaDeArticuloScreen = () => {
                     {selectedEntrada.value === "Comp" ? (
                       <div>
                         <label className="text-terciary ">
-                          Numero de factura de compra:{" "}
+                          Número de factura de compra:{" "}
                           <span className="text-danger">*</span>
                         </label>
 
@@ -473,7 +473,7 @@ export const EntradaDeArticuloScreen = () => {
                     ) : (
                       <div>
                         <label>
-                          Numero de Expediente:{" "}
+                          Número de Expediente:{" "}
                           <span className="text-danger">*</span>
                         </label>
                         <input
@@ -489,7 +489,7 @@ export const EntradaDeArticuloScreen = () => {
               </div>
 
               <div className="row mt-3">
-                <Subtitle title={"Informacion de terceros"} />
+                <Subtitle title={"Información de terceros"} />
                 <div className="row ms-1 mt-2">
                   <div className="col-6 col-sm-3">
                     <label className="text-terciary">
@@ -516,13 +516,13 @@ export const EntradaDeArticuloScreen = () => {
                   </div>
                   <div className="col-6 col-sm-3">
                     <label className="ms-2 text-terciary">
-                      Numero de identificacion:{" "}
+                      Numero de identificación:{" "}
                       <span className="text-danger">*</span>{" "}
                     </label>
                     <input
                       className="form-control border rounded-pill px-3 border border-terciary"
                       type="text"
-                      placeholder="Numero de identificacion"
+                      placeholder="Numero de identificación"
                       {...register("NumeroDoc")}
                     />
                   </div>
@@ -604,33 +604,27 @@ export const EntradaDeArticuloScreen = () => {
             </div>
 
             <div className={"row"} hidden={page === 1}>
-              <div>
-                <label className=" form-control ms-0 fw-border text-start ms-2">
-                  Detalles
-                </label>
-              </div>
-
               <div className="row">
                 <div className="col">
-                  <Subtitle title={"Identificacion de articulos"} />
+                  <Subtitle title={"Identificación de artículos"} />
                 </div>
               </div>
-              <div className="row ">
+              <div className="row mt-3 ">
                 <div className="col-12 col-sm-3">
                   <label className="ms-2 text-terciary">
-                    Codigo: <span className="text-danger">*</span>{" "}
+                    Código: <span className="text-danger">*</span>{" "}
                   </label>
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
                     type="text"
                     required={page === 2}
-                    placeholder="Codigo"
+                    placeholder="Código"
                     {...register("Cod")}
                   />
                 </div>
                 <div className="col-12 col-sm-3">
                   <label className="ms-2 text-terciary">
-                    Nombre de articulo:
+                    Nombre de artículo:
                   </label>
                   <input
                     className="form-control border rounded-pill px-3 border border-terciary"
@@ -664,7 +658,7 @@ export const EntradaDeArticuloScreen = () => {
 
               <div className="row mt-4">
                 <div>
-                  <Subtitle title={"Informacion de articulo"} />
+                  <Subtitle title={"Entrada de consumo "} />
                 </div>
 
                 <div>
@@ -783,7 +777,7 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
-                        Estado del articulo{" "}
+                        Estado del artículo{" "}
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
@@ -806,14 +800,14 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="text-terciary">
-                        Nombre Cientifico <span className="text-danger">*</span>
+                        Nombre Científico <span className="text-danger">*</span>
                       </label>
                       <br />
                       <input
                         className="form-control border rounded-pill px-3 mt-2 border border-terciary"
                         type="text"
                         required={page === 2}
-                        placeholder="Nombre Cientifico"
+                        placeholder="Nombre Científico"
                         {...register("NombreCient")}
                       />
                     </div>
@@ -938,13 +932,13 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
-                        Vida util: <span className="text-danger">*</span>{" "}
+                        Vida útil: <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
                         type="text"
                         required={page === 2}
-                        placeholder="Vida util"
+                        placeholder="Vida útil"
                         {...register("VidaU")}
                       />
                     </div>
@@ -999,7 +993,7 @@ export const EntradaDeArticuloScreen = () => {
 
                     <div className="col-6 col-sm-3">
                       <label className="form-control ms-0">
-                        Estado del articulo{" "}
+                        Estado del artículo{" "}
                         <span className="text-danger">*</span>
                       </label>
                       <Controller
@@ -1034,19 +1028,19 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className="col-6 col-sm-3 mt-2">
                       <label className="ms-2 text-terciary">
-                        Garantia: <span className="text-danger">*</span>{" "}
+                        Garantía: <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 mt-1 border border-terciary"
                         type="text"
                         required={page === 2}
-                        placeholder="Garantia"
+                        placeholder="Garantía"
                         {...register("Garantia")}
                       />
                     </div>
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 text-terciary">
-                        Dias de uso: <span className="text-danger">*</span>{" "}
+                        Días de uso: <span className="text-danger">*</span>{" "}
                       </label>
                       <input
                         className="form-control border rounded-pill px-3 border border-terciary"
@@ -1072,29 +1066,7 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-12 col-md-4">
-                    <button
-                      type="button"
-                      className="col-3 col-md-4 btn  text-capitalize btn-outline-ligth "
-                      title="Agregar"
-                    >
-                      <i className="fa-regular fa-plus fs-3"></i>
-                    </button>
-                  </div>
-                  <div className="col-md-6 mt-4">
-                    <button
-                      type="button"
-                      className={`btn text-capitalize btn-outline-ligth px-3 ${page === 1 && "d-none"
-                        }`}
-                      style={{ minWidth: "100px" }}
-                      onClick={handleOpenModal}
-                      title="Ver resumen de entrada"
-                    >
-                      <i className="fa-solid fa-eye fs-3"></i>
-                    </button>
-                  </div>
-                </div>
+                
               </div>
             </div>
 
