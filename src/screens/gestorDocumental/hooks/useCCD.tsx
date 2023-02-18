@@ -126,7 +126,7 @@ const useCCD = () => {
             let obj = {
                 sries_asignacion: { label: assignmentsCCDCurrent.nombre_serie, value: assignmentsCCDCurrent.id_serie_doc },
                 sries: '',
-                subSerie_asignacion: assignmentsCCDCurrent.subseries.map(
+                subSerie_asignacion: assignmentsCCDCurrent.subseries!.map(
                     item => {
                         return {
                             label: item.label,
@@ -229,7 +229,7 @@ const useCCD = () => {
                 return {
                     id_unidad_organizacional: item.id_unidad_organizacional,
                     id_serie_doc: item.id_serie_doc,
-                    subseries: item.subseries.map(item => item.value),
+                    subseries: item.subseries!.map(item => item.value),
                 }
             }
         );
@@ -251,7 +251,7 @@ const useCCD = () => {
                         : {
                             id_unidad_organizacional: item.id_unidad_organizacional,
                             id_serie_doc: item.id_serie_doc,
-                            subseries: item.subseries.map(item => item.value),
+                            subseries: item.subseries!.map(item => item.value),
                         }
                 }
             );
@@ -282,7 +282,7 @@ const useCCD = () => {
                 return {
                     id_unidad_organizacional: item!.id_unidad_organizacional,
                     id_serie_doc: item!.codigo_serie,
-                    subseries: item!.subseries.map(item => item.value),
+                    subseries: item!.subseries!.map(item => item.value),
                 }
             }
         );
@@ -312,7 +312,6 @@ const useCCD = () => {
             headerName: "subserie",
             field: "subseries_nombres",
             minWidth: 150,
-            maxWidth: 200,
             cellStyle: {
                 'white-space': 'pre-wrap'
             }

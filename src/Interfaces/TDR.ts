@@ -1,7 +1,7 @@
 
 export interface ITDR {
-    CCDS: ITDRObject[];
-    CCDCurrent: ITDRObject | null;
+    TDRS: ITDRObject[];
+    TDRSCurrent: ITDRObject | null;
 }
 
 export interface ITDRObject {
@@ -17,26 +17,23 @@ export interface ITDRObject {
     actual: boolean;
 }
 export interface ITDRForm {
-    id_ccd: number;
+    ccds: IlistCCD | null;
+    nombre: string;
     version: string;
-    nombreCcd: string;
-    fecha_terminado: null | Date | string;
-    organigrama: IListOrganigrama;
-    unidades_organigrama: IListOrganigrama;
 }
 export interface ITDRAsingForm {
-    sries_asignacion: IListOrganigrama;
+    sries_asignacion: IlistCCD;
     sries: string;
-    subSerie_asignacion: IListOrganigrama[] | [];
+    subSerie_asignacion: IlistCCD[] | [];
     subSerie: string;
-    unidades_asignacion: IListOrganigrama;
+    unidades_asignacion: IlistCCD;
 }
-export interface IListOrganigrama {
+export interface IlistCCD {
     label: string;
     value: number;
 }
 export interface IListMultiselect {
-    list: IListOrganigrama[] | [];
+    list: IlistCCD[] | [];
 }
 export interface ISeries {
     seriesCCD: ISeriesObject[];

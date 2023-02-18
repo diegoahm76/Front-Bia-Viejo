@@ -45,7 +45,7 @@ export const getTRDService = () => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.get('gestor/trd/get-list/');
-            dispatch(getTDRS(data.data));
+            dispatch(getTDRS(data));
             return data;
         } catch (error: any) {
             notificationError(error.response.data.detail);
@@ -116,7 +116,7 @@ export const toFinishedTDRSService = (setFlagBtnFinish) => {
 
 
 //Crear Tabla Retención Documental (TRD)
-export const createCCDSService = (TRD, setSaveCCD) => {
+export const createTDRSService = (TRD, setSaveCCD) => {
     return async (dispatch): Promise<AxiosResponse | AxiosError> => {
         try {
             const { data } = await clienteAxios.post("gestor/trd/create/", TRD);
@@ -130,19 +130,23 @@ export const createCCDSService = (TRD, setSaveCCD) => {
         }
     };
 };
-//Actualizar Tabla Retención Documental (TRD
-export const updateCCDSService = (TRD) => {
-    return async (dispatch, getState): Promise<AxiosResponse | AxiosError> => {
-        const { TDRCurrent } = getState().TRD;
-        try {
-            const { data } = await clienteAxios.patch(`gestor/trd/update/${TDRCurrent.id_ccd}/`, TRD);
-            // console.log({ ...TDRCurrent, nombre: TRD.nombre, version: TRD.version }, 'holi');
-            dispatch(getTDRCurrent({ ...TDRCurrent, nombre: TRD.nombre, version: TRD.version }));
-            notificationSuccess(data.detail);
-            return data;
-        } catch (error: any) {
-            notificationError(error.response.data.detail);
-            return error as AxiosError;
-        }
+//Actualizar Tabla Retención Documental (TRD)
+export const updateTDRSService = (TRD) => {
+    console.log(TRD, 'TRD');
+    return async (dispatch, getState) => {
+        const {TDRSCurrent} = getState().TDR;
+        console.log(TDRSCurrent, 'DRCurrent.id_trd');
+        // try {
+        //     const { data } = await clienteAxios.patch(`gestor/trd/update/${TDRSCurrent.id_trd}/`, TRD);
+        //     console.log({ ...TDRSCurrent }, 'holi');
+        //     // dispatch(getTDRCurrent({ ...TDRSCurrent, nombre: TRD.nombre, version: TRD.version }));
+        //     // notificationSuccess(data.detail);
+        //     console.log(data, 'data');
+        //     return data;
+        // } catch (error: any) {
+        //     console.log(error, 'error');
+        //     // notificationError(error.response.data.detail);
+        //     return error as AxiosError;
+        // }
     };
 };
