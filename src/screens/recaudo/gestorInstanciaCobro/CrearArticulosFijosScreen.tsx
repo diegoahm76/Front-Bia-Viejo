@@ -560,7 +560,7 @@ export const CreacionArticulosFijosScreen = () => {
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Carpeta Padre"
-                      value={bienEdit.nombre}
+                      value={bienEdit.nombre_padre}
                       disabled={true}
                     />
                   </div>
@@ -847,7 +847,7 @@ export const CreacionArticulosFijosScreen = () => {
                       type="text"
                       placeholder="Carpeta Padre"
                       {...register("padre")}
-                      value={bienEdit.nombre}
+                      value={bienEdit.nombre_padre}
                       required
                       disabled
                     />
