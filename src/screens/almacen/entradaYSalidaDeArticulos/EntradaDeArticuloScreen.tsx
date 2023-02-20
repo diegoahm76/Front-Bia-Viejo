@@ -561,18 +561,12 @@ export const EntradaDeArticuloScreen = () => {
                     </label>
                     <input
                       className="form-control border rounded-pill px-3 border border-terciary"
-<<<<<<< HEAD
-                      type="text"
-                      placeholder="Numero de identificación"
-                      {...register("NumeroDoc")}
-=======
                       {...register('cedula')}
                       onChange={changeDoc}
                       type="number"
                       placeholder="Numero de identificacion"
                       value={busquedaModel.cedula}
                       disabled
->>>>>>> ElianAmado
                     />
                   </div>
                   <div className="col-6 col-sm-2 mt-1">
