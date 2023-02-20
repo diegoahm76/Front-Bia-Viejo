@@ -110,43 +110,66 @@ export const CreacionArticulosFijosScreen = () => {
   useEffect(() => {
     cargarDatosIniciales();
   }, [
-    porcentajeOptions, tipoBienOptions, unidadMedidaOptions, metodoValoracionOptions,
-    depresiacionOptions, marcaOptions
+    porcentajeOptions,
+    tipoBienOptions,
+    unidadMedidaOptions,
+    metodoValoracionOptions,
+    depresiacionOptions,
+    marcaOptions,
   ]);
+
+  console.log(bienEdit.id_unidad_medida.value, "bienEdit.id_unidad_medida");
 
   const cargarDatosIniciales = () => {
     let catalogoBien;
     // if (isEdit) {
 
     const bienEdit = tipoBienOptions.filter((perce) => {
-      return perce.value.toString() === bienSeleccionado.cod_tipo_bien?.toString();
+      return (
+        perce.value.toString() === bienSeleccionado.cod_tipo_bien?.toString()
+      );
     });
     const activoEdit = tipoActivoOptions.filter((perce) => {
-      return perce.value.toString() === bienSeleccionado.cod_tipo_activo?.toString();
+      return (
+        perce.value.toString() === bienSeleccionado.cod_tipo_activo?.toString()
+      );
     });
     const porcentajeEdit = porcentajeOptions.filter((perce) => {
-      return perce.value.toString() === bienSeleccionado.id_porcentaje_iva?.toString();
+      return (
+        perce.value.toString() ===
+        bienSeleccionado.id_porcentaje_iva?.toString()
+      );
     });
     const marcaEdit = marcaOptions.filter((marca) => {
       return marca.value.toString() === bienSeleccionado.id_marca?.toString();
     });
     const valoraEdit = metodoValoracionOptions.filter((val) => {
-      return val.value.toString() === bienSeleccionado.cod_metodo_valoracion?.toString();
+      return (
+        val.value.toString() ===
+        bienSeleccionado.cod_metodo_valoracion?.toString()
+      );
     });
 
     const unidadVidaEdit = unidadMedidaOptions.filter((unidad) => {
-      return unidad.value.toString() === bienSeleccionado.id_unidad_medida_vida_util?.toString();
+      return (
+        unidad.value.toString() ===
+        bienSeleccionado.id_unidad_medida_vida_util?.toString()
+      );
     });
     const depresiacionEdit = depresiacionOptions.filter((unidad) => {
-      return unidad.value.toString() === bienSeleccionado.cod_tipo_depreciacion?.toString();
+      return (
+        unidad.value.toString() ===
+        bienSeleccionado.cod_tipo_depreciacion?.toString()
+      );
     });
-
-
 
     catalogoBien = {
       ...bienSeleccionado,
       cod_tipo_bien: { value: bienEdit[0]?.value, label: bienEdit[0]?.label },
-      cod_tipo_activo: { value: activoEdit[0]?.value, label: activoEdit[0]?.label },
+      cod_tipo_activo: {
+        value: activoEdit[0]?.value,
+        label: activoEdit[0]?.label,
+      },
 
       cod_metodo_valoracion: {
         value: valoraEdit[0]?.value,
@@ -317,11 +340,15 @@ export const CreacionArticulosFijosScreen = () => {
     if (isEdit) {
       editarBien(dispatch, crearModeloData());
       obtenerTodosBienes(dispatch);
-      navigate("/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes");
+      navigate(
+        "/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes"
+      );
     } else {
       crearBien(dispatch, crearModeloData());
       obtenerTodosBienes(dispatch);
-      navigate("/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes");
+      navigate(
+        "/dashboard/almacen/entrada-y-salida-de-articulos/catalogo-bienes"
+      );
     }
   };
 
@@ -407,27 +434,32 @@ export const CreacionArticulosFijosScreen = () => {
   };
 
   useEffect(() => {
-    console.log(bienEdit.codigo_bien.split(''), ".split()");
-    console.log(bienEdit.codigo_bien.split('')[0], "[0]");
-    console.log(bienEdit.codigo_bien.split('').length, "bienEdit.codigo_bien.split()[0]");
-    if (bienEdit.codigo_bien.split('').length === 0) {
-      return console.log('entro hijo 1'), setMaxLength(1);
+    console.log(bienEdit.codigo_bien.split(""), ".split()");
+    console.log(bienEdit.codigo_bien.split("")[0], "[0]");
+    console.log(
+      bienEdit.codigo_bien.split("").length,
+      "bienEdit.codigo_bien.split()[0]"
+    );
+    if (bienEdit.codigo_bien.split("").length === 0) {
+      return console.log("entro hijo 1"), setMaxLength(1);
     }
-    if (bienEdit.codigo_bien.split('')[0] !== '' && bienEdit.codigo_bien.split('').length === 1) {
-      return console.log('entro hijo 2'), setMaxLength(2);
+    if (
+      bienEdit.codigo_bien.split("")[0] !== "" &&
+      bienEdit.codigo_bien.split("").length === 1
+    ) {
+      return console.log("entro hijo 2"), setMaxLength(2);
     }
-    if (bienEdit.codigo_bien.split('').length === 2) {
-      return console.log('entro hijo 4'), setMaxLength(4);
+    if (bienEdit.codigo_bien.split("").length === 2) {
+      return console.log("entro hijo 4"), setMaxLength(4);
     }
-    if (bienEdit.codigo_bien.split('').length === 4) {
-      return console.log('entro hijo 7'), setMaxLength(7);
+    if (bienEdit.codigo_bien.split("").length === 4) {
+      return console.log("entro hijo 7"), setMaxLength(7);
     }
-    if (bienEdit.codigo_bien.split('').length === 7) {
-      return console.log('entro hijo 12'), setMaxLength(12);
+    if (bienEdit.codigo_bien.split("").length === 7) {
+      return console.log("entro hijo 12"), setMaxLength(12);
     }
   }, [flag]);
-  console.log(bienEdit, "este es el bienEdir")
-
+  console.log(bienEdit, "este es el bienEdir");
 
   return (
     <div className="row min-vh-100">
@@ -454,12 +486,10 @@ export const CreacionArticulosFijosScreen = () => {
                     placeholder="Seleccionar"
                     value={bienEdit.cod_tipo_bien}
                     onChange={changeSelectTipoBien}
+                    required
                   />
                 )}
               />
-              {errors.tipoBien && (
-                <small className="text-danger">Este campo es obligatorio</small>
-              )}
             </div>
             <div className="col-12 col-md-3 mt-2"></div>
           </div>
@@ -486,12 +516,8 @@ export const CreacionArticulosFijosScreen = () => {
                       value={bienEdit.codigo_bien}
                       {...register("codigo_bien")}
                       onChange={handleChange}
+                      required
                     />
-                    {errors.codigo && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
@@ -502,15 +528,12 @@ export const CreacionArticulosFijosScreen = () => {
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
+                        value={bienEdit.nombre}
                         {...register("nombre")}
                         onChange={handleChange}
+                        required
                       />
                     </div>
-                    {errors.nombre && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">
@@ -532,21 +555,14 @@ export const CreacionArticulosFijosScreen = () => {
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
-                    <label className="ms-2 text-terciary">
-                      Carpeta padre<span className="text-danger">*</span>
-                    </label>
+                    <label className="ms-2 text-terciary">Carpeta padre</label>
                     <input
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Carpeta Padre"
-                      value={bienEdit.nombre}
+                      value={bienEdit.nombre_padre}
                       disabled={true}
                     />
-                    {errors.padre && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
                 </div>
 
@@ -565,14 +581,10 @@ export const CreacionArticulosFijosScreen = () => {
                           placeholder="Seleccionar"
                           value={bienEdit.id_unidad_medida}
                           onChange={changeSelectTipoUnidadMedida}
+                          required
                         />
                       )}
                     />
-                    {errors.unidadmedida && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
@@ -588,14 +600,10 @@ export const CreacionArticulosFijosScreen = () => {
                           placeholder="Seleccionar"
                           value={bienEdit.id_porcentaje_iva}
                           onChange={changeSelectTipoPorcentaje}
+                          required
                         />
                       )}
                     />
-                    {errors.porcentaje && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
@@ -678,12 +686,14 @@ export const CreacionArticulosFijosScreen = () => {
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3 d-flex">
-                    <div className="col-12 col-lg-6">
-                      <label className="form-floating input-group input-group-dynamic ms-2">
-                        Solicitudes
+                    <div className="col-12 col-lg-6 text-center mt-4 ">
+                      <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                        Visible en solicitudes :
                       </label>
+                    </div>
+                    <div className="col-12 col-lg-6 text-center mt-3">
                       <button
-                        className="btn btn-sm btn-tablas "
+                        className="btn btn-sm btn-tablas mt-2"
                         type="button"
                         title="Solicitudes"
                         onClick={() => setCheckboxSoli(!checkboxSoli)}
@@ -701,12 +711,16 @@ export const CreacionArticulosFijosScreen = () => {
                         )}
                       </button>
                     </div>
-                    <div className="col-12 col-lg-6">
-                      <label className="form-floating input-group input-group-dynamic ms-2">
-                        Hoja de vida
+                  </div>
+                  <div className="col-12 col-lg-3  mt-3 d-flex">
+                    <div className="col-12 col-lg-6 text-center mt-4 ">
+                      <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                        Maneja hoja de vida :
                       </label>
+                    </div>
+                    <div className="col-12 col-lg-6 text-center mt-3">
                       <button
-                        className="btn btn-sm btn-tablas "
+                        className="btn btn-sm btn-tablas mt-2"
                         type="button"
                         title="Solicitudes"
                         onClick={() => setCheckboxHoja(!checkboxHoja)}
@@ -775,17 +789,15 @@ export const CreacionArticulosFijosScreen = () => {
                     <input
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
+                      onMouseOver={() => setFlag(true)}
+                      maxLength={maxLength}
                       placeholder="Código"
+                      disabled={dataEdit.edit!}
                       value={bienEdit.codigo_bien}
-                      {...register("codigo")}
-                      disabled
-                      // onChange={handleChange}
+                      {...register("codigo_bien")}
+                      onChange={handleChange}
+                      required
                     />
-                    {errors.codigo && (
-                      <small className="text-danger">
-                        Este campo es obligatorio
-                      </small>
-                    )}
                   </div>
 
                   <div className="col-12 col-lg-3  mt-3">
@@ -797,9 +809,10 @@ export const CreacionArticulosFijosScreen = () => {
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
-                        {...register("nombre")}
+                        {...register("nombre", { required: "true" })}
                         value={bienEdit.nombre}
                         onChange={handleChange}
+                        required
                       />
                     </div>
                     {errors.nombre && (
@@ -828,15 +841,13 @@ export const CreacionArticulosFijosScreen = () => {
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
-                    <label className="ms-2 text-terciary">
-                      Carpeta padre<span className="text-danger">*</span>
-                    </label>
+                    <label className="ms-2 text-terciary">Carpeta padre</label>
                     <input
                       className="form-control border border-terciary border rounded-pill px-3"
                       type="text"
                       placeholder="Carpeta Padre"
                       {...register("padre")}
-                      value={bienEdit.nombre}
+                      value={bienEdit.nombre_padre}
                       required
                       disabled
                     />
@@ -863,6 +874,7 @@ export const CreacionArticulosFijosScreen = () => {
                           placeholder="Seleccionar"
                           value={bienEdit.id_unidad_medida}
                           onChange={changeSelectTipoUnidadMedida}
+                          required
                         />
                       )}
                     />
@@ -940,34 +952,41 @@ export const CreacionArticulosFijosScreen = () => {
                   </div>
                 </div>
                 <div className="row">
+                <div className="col-12 col-lg-3  mt-3 d-flex">
+                  <div className="col-12 col-lg-6  mt-4 ">
+                    <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                      Visible en solicitudes :
+                    </label>
+                  </div>
+                  <div className="col-12 col-lg-6 text-center mt-3">
+                    <button
+                      className="btn btn-sm btn-tablas mt-2"
+                      type="button"
+                      title="Solicitudes"
+                      onClick={() => setCheckboxSoli(!checkboxSoli)}
+                    >
+                      {checkboxSoli == false ? (
+                        <i
+                          className="fa-solid fa-toggle-off fs-3"
+                          style={{ color: "black" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa-solid fa-toggle-on fs-3"
+                          style={{ color: "#8cd81e" }}
+                        ></i>
+                      )}
+                    </button>
+                  </div>
+                  </div>
                   <div className="col-12 col-lg-3  mt-3 d-flex">
-                    <div className="col-12 col-lg-6">
-                      <label className="form-floating input-group input-group-dynamic ms-2">
-                        Solicitudes
-                      </label>
-                      <button
-                        className="btn btn-sm btn-tablas "
-                        type="button"
-                        title="Solicitudes"
-                        onClick={() => setCheckboxSoli(!checkboxSoli)}
-                      >
-                        {checkboxSoli === false ? (
-                          <i
-                            className="fa-solid fa-toggle-off fs-3"
-                            style={{ color: "black" }}
-                          ></i>
-                        ) : (
-                          <i
-                            className="fa-solid fa-toggle-on fs-3"
-                            style={{ color: "#8cd81e" }}
-                          ></i>
-                        )}
-                      </button>
-                    </div>
-                    <div className="col-12 col-lg-6">
-                      <label className="form-floating input-group input-group-dynamic ms-2">
-                        Vivero
-                      </label>
+                    
+                    <div className="col-12 col-lg-6  mt-4 ">
+                    <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                      Solicitable por vivero:
+                    </label>
+                  </div>
+                  <div className="col-12 col-lg-6 text-center mt-3">
                       <button
                         className="btn btn-sm btn-tablas"
                         type="button"
@@ -988,7 +1007,7 @@ export const CreacionArticulosFijosScreen = () => {
                       </button>
                     </div>
                   </div>
-                  {checkboxHoja == true ? (
+                  {checkboxVivero == true ? (
                     <div className="col-12 col-lg-3  mt-3">
                       <div>
                         <label className="ms-2 text-terciary">

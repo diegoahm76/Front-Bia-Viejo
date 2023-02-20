@@ -159,9 +159,9 @@ export const eliminarBien = async (dispatch, nodo) => {
   await clienteBack
     .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.data.id_nodo}`)
     .then(() => {
-      // console.log(nodo);
-      dispatch(eliminarBienAction(nodo))
-      Swal.fire("Correcto", "La carpeta se elimino correctamente", "success");
+      dispatch(eliminarBienAction(nodo.data.id_nodo))
+      console.log(nodo);
+      Swal.fire("Correcto", "La Carpeta se elimino correctamente", "success");
     })
     .catch(() => {
       console.log(nodo);
