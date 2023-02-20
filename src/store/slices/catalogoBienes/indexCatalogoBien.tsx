@@ -79,13 +79,7 @@ const bienForm = createSlice({
       state.bienSeleccionado = action.payload;
     },
     eliminarBienAction: (state, action) => {
-      // console.log(action.payload);
-      // state.bien = state.bien.filter(ejem => ejem.id_bien !== action.payload)
-      state.bien.filter((bienA, index) => {
-        if (bienA.id_bien === action.payload.id_bien) {
-          state.bien[index] = action.payload;
-        }
-      });
+      state.bien = state.bien.filter(b => b.id_bien !== action.payload)
     },
   },
 });
@@ -163,11 +157,11 @@ export const obtenerBien = async (dispatch, nodo) => {
 export const eliminarBien = async (dispatch, nodo) => {
 
   await clienteBack
-    .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.id_nodo}`)
+    .delete(`almacen/bienes/catalogo-bienes/delete/${nodo.data.id_nodo}`)
     .then(() => {
-      // console.log(nodo);
-      dispatch(eliminarBienAction(nodo))
-      Swal.fire("Correcto", "La carpeta se elimino correctamente", "success");
+      dispatch(eliminarBienAction(nodo.data.id_nodo))
+      console.log(nodo);
+      Swal.fire("Correcto", "La Carpeta se elimino correctamente", "success");
     })
     .catch(() => {
       console.log(nodo);

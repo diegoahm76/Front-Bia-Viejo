@@ -46,12 +46,12 @@ export const {
 export default mantenimientoSlice.reducer;
 
 export const obtenerArticulos = async (dispatch, tipo, nombre?, documento?) => {
-  const name = nombre === undefined ? "" : nombre;
-  const codigo = nombre === undefined ? "" : documento;
   const elementModalId = document.getElementById("modalArticulosId")!;
+  const name = nombre === undefined ? "" : nombre;
+  // const codigo = nombre === undefined ? "" : documento;
   await clienteAxios
     .get(
-      `/almacen/bienes/catalogo-bienes/get-by-nombre-nroidentificador/?cod_tipo_activo=${tipo}&nombre=${name}&doc_identificador_nro=${codigo}`
+      `/almacen/bienes/catalogo-bienes/get-by-nombre-nroidentificador/?cod_tipo_activo=${tipo}&nombre=${name}`
     )
     .then((res) => {
       dispatch(getArticulos(res.data.Elementos));

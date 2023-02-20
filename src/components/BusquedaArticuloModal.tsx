@@ -25,12 +25,13 @@ interface parameters {
 const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, articuloModel }: parameters) => {
   const dispatch = useAppDispatch();
   const articulos = useAppSelector((state) => state.mantenimiento);
-  const [filtersSearch, setFiltersSearch] = useState({ codigo: "", nombre: "" });
+  // const [filtersSearch, setFiltersSearch] = useState({ codigo: "", nombre: "" });
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -47,12 +48,12 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
 
 
   const getArticulos = () => {
-    obtenerArticulos(dispatch, articuloModel.tipo.value, filtersSearch.nombre, filtersSearch.codigo)
+    obtenerArticulos(dispatch, articuloModel.cod_tipo_activo, articuloModel.nombre, articuloModel.doc_identificador_nro)
   }
 
   const seleccionarArticulo = (datos) => {
     const modelo = { ...articuloModel }
-    modelo.codigo = datos.codigo_bien;
+    modelo.codigo_bien = datos.codigo_bien;
     modelo.nombre = datos.nombre;
     modelo.marca = datos.marca;
     modelo.serial = datos.doc_identificador_nro;
@@ -71,10 +72,16 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
     setIsModalActive(false);
   };
 
-  const handleChange = (e) => {
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setModel({ ...articuloModel, [name]: value })
+  // }
+
+  const changeBusquedaArticulo = (e) => {
     const { name, value } = e.target;
-    setFiltersSearch({ ...filtersSearch, [name]: value })
+    setModel({...articuloModel, [name]:value});
   }
+
   const onSubmit = (data) => { };
   const columnDefs = [
     {
@@ -141,14 +148,14 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
               <Subtitle title="Información del articulo" mb={3} />
               <div className="col-12 col-sm-4 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Codigo</label>
+                  <label className="ms-3 text-terciary">Tipo Activo</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="Código"
-                    name="codigo"
-                    value={filtersSearch.codigo}
-                    onChange={handleChange}
+                    placeholder="Tipo activo"
+                    {...register('cod_tipo_activo')}
+                    value={articuloModel.cod_tipo_activo}
+                    onChange={changeBusquedaArticulo}
                   />
                 </div>
               </div>
@@ -159,9 +166,9 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre"
-                    name="nombre"
-                    value={filtersSearch.nombre}
-                    onChange={handleChange}
+                    value={articuloModel.nombre}
+                    {...register('nombre')}
+                    onChange={changeBusquedaArticulo}
                   />
                 </div>
               </div>
