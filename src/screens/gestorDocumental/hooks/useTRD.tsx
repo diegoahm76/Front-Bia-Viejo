@@ -5,14 +5,13 @@ import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks/hooks";
 //Actions
 //Interfaces
-import { createCCDSService, updateCCDSService } from '../../../services/CCD/CCDServices';
-import { getOrganigramsService, getUnitysService } from "../../../services/organigram/OrganigramServices";
+import { createCCDSService, getClassificationCCDSService, updateCCDSService } from '../../../services/CCD/CCDServices';
 import { ICCDAsingForm, ICCDForm, IListOrganigrama } from "../../../Interfaces/CCD";
 import { getCCDCurrent } from "../../../store/slices/CCD/indexCCD";
-import { getSubSeriesService } from "../../../services/subseries/SubSeriesServices";
-import { getSeriesService } from "../../../services/series/SeriesServices";
 import { createAssignmentsService, getAssignmentsService } from "../../../services/assignments/AssignmentsServices";
-import { getAssignmentsCCDCurrent } from "../../../store/slices/assignments/indexAssignments";
+import { getAssignmentsCCD, getAssignmentsCCDCurrent } from "../../../store/slices/assignments/indexAssignments";
+import { ITDRForm } from "../../../Interfaces/TDR";
+import { createTDRSService, getTRDService, updateTDRSService } from "../../../services/TDR/TDRServices";
 
 
 const useTRD = () => {
@@ -22,17 +21,16 @@ const useTRD = () => {
 
     // Redux State Extraction
     const { organigram, unityOrganigram } = useAppSelector((state) => state.organigram);
-    const { CCDCurrent } = useAppSelector((state) => state.CCD);
+    const { CCDS } = useAppSelector((state) => state.CCD);
+    const { TDRS, TDRSCurrent } = useAppSelector((state) => state.TDR);
     const { seriesCCD } = useAppSelector((state) => state.series);
     const { subSeriesCCD } = useAppSelector((state) => state.subSeries);
     const { assignmentsCCD, assignmentsCCDCurrent } = useAppSelector((state) => state.assignments);
 
     const [title, setTitle] = useState<string>('');
     const [titleButtonAsing, setTitleButtonAsing] = useState<string>('Guardar relación');
-    const [createIsactive, setCreateIsactive] = useState<boolean>(false);
-    const [consultaCcdIsactive, setConsultaCcdIsactive] = useState<boolean>(false);
-    const [saveCCD, setSaveCCD] = useState<boolean>(false);
-    const [listUnitys, setListUnitys] = useState<IListOrganigrama[]>([{
+    const [saveTDR, setSaveTDR] = useState<boolean>(false);
+    const [listCCDS, setListCCDS] = useState<IListOrganigrama[]>([{
         label: "",
         value: 0,
     }]);
@@ -50,14 +48,11 @@ const useTRD = () => {
     }]);
     const [file, setFile] = useState(null);
 
-    //Estado Inicial de Formulario de Crear CCD
-    const initialState: ICCDForm = {
-        id_ccd: 0,
-        nombreCcd: '',
-        organigrama: { label: '', value: 0 },
-        unidades_organigrama: { label: '', value: 0 },
-        version: '',
-        fecha_terminado: '',
+    //Estado Inicial de Formulario de Crear TDR
+    const initialState: ITDRForm = {
+        ccds: null,
+        nombre: "",
+        version: ""
     }
     //Estado Inicial de Formulario de Crear Asignación
     const initialStateAsig: ICCDAsingForm = {
@@ -93,39 +88,44 @@ const useTRD = () => {
 
     //useForm Crear CCD
     const {
-        register: registerCreateCCD,
-        handleSubmit: handleSubmitCreateCCD,
-        control: controlCreateCCD,
-        reset: resetCreateCCD,
-        watch: watchCreateCCD,
-        formState: { errors: errorsCreateCCD },
+        register: registerCreateTDR,
+        handleSubmit: handleSubmitCreateTDR,
+        control: controlCreateTDR,
+        reset: resetCreateTDR,
+        watch: watchCreateTDR,
+        formState: { errors: errorsCreateTDR },
+    } = useForm<ITDRForm>({ defaultValues: initialState });
 
-    } = useForm<ICCDForm>({ defaultValues: initialState });
-    const dataCreateCCD = watchCreateCCD();
+    const dataCreateTDR = watchCreateTDR();
+
+    console.log(errorsCreateTDR, 'errorsCreateTDR')
+
+    useEffect(() => {
+        dispatch(getClassificationCCDSService());
+        dispatch(getTRDService());
+        dispatch(getAssignmentsCCD([]));
+    }, []);
 
     // UseEffect para obtener organigramas
     useEffect(() => {
-        if (CCDCurrent !== null) {
-            const resultName = organigram.filter(item => item.id_organigrama === CCDCurrent.id_organigrama);
-            let obj: ICCDForm = {
-                id_ccd: CCDCurrent.id_ccd,
-                nombreCcd: CCDCurrent.nombre,
-                organigrama: { label: resultName[0].nombre, value: CCDCurrent.id_organigrama },
-                unidades_organigrama: { label: '', value: 0 },
-                version: CCDCurrent.version,
-                fecha_terminado: CCDCurrent.fecha_terminado,
+        if (TDRSCurrent !== null) {
+            const resultName = CCDS.filter(item => item.id_ccd === TDRSCurrent.id_ccd);
+            let obj: ITDRForm = {
+                ccds: { label: resultName[0].nombre, value: resultName[0].id_ccd },
+                nombre: TDRSCurrent.nombre,
+                version: TDRSCurrent.version,
             }
-            resetCreateCCD(obj);
-            setSaveCCD(true);
+            resetCreateTDR(obj);
+            setSaveTDR(true);
         }
-    }, [CCDCurrent]);
+    }, [TDRSCurrent]);
 
     useEffect(() => {
         if (assignmentsCCDCurrent !== null) {
             let obj = {
                 sries_asignacion: { label: assignmentsCCDCurrent.nombre_serie, value: assignmentsCCDCurrent.id_serie_doc },
                 sries: '',
-                subSerie_asignacion: assignmentsCCDCurrent.subseries.map(
+                subSerie_asignacion: assignmentsCCDCurrent.subseries!.map(
                     item => {
                         return {
                             label: item.label,
@@ -141,33 +141,33 @@ const useTRD = () => {
         }
     }, [assignmentsCCDCurrent]);
 
-    // UseEffect para obtener organigramas
-    useEffect(() => {
-        dispatch(getOrganigramsService())
-    }, [CCDCurrent]);
-    // UseEffect para obtener series
-    useEffect(() => {
-        dispatch(getSeriesService())
-    }, [CCDCurrent]);
-    // UseEffect para obtener subSeries
-    useEffect(() => {
-        dispatch(getSubSeriesService())
-    }, [CCDCurrent]);
-    // UseEffect para obtener asignaciones
-    useEffect(() => {
-        dispatch(getAssignmentsService())
-    }, [CCDCurrent]);
+    // // UseEffect para obtener organigramas
+    // useEffect(() => {
+    //     dispatch(getOrganigramsService())
+    // }, [CCDCurrent]);
+    // // UseEffect para obtener series
+    // useEffect(() => {
+    //     dispatch(getSeriesService())
+    // }, [CCDCurrent]);
+    // // UseEffect para obtener subSeries
+    // useEffect(() => {
+    //     dispatch(getSubSeriesService())
+    // }, [CCDCurrent]);
+    // // UseEffect para obtener asignaciones
+    // useEffect(() => {
+    //     dispatch(getAssignmentsService())
+    // }, [CCDCurrent]);
 
     //useEffect para obtener el MoldOrganigram (jerarquia de niveles & unidades)
-    useEffect(() => {
-        if (dataCreateCCD.organigrama.value !== 0) dispatch(getUnitysService(dataCreateCCD.organigrama.value));
-    }, [dataCreateCCD.organigrama.value])
+    // useEffect(() => {
+    //     if (dataCreateCCD.organigrama.value !== 0) dispatch(getUnitysService(dataCreateCCD.organigrama.value));
+    // }, [dataCreateCCD.organigrama.value])
 
     useEffect(() => {
-        setListUnitys(unityOrganigram.map(
-            item => ({ label: item.nombre!, value: item.id_unidad_organizacional! })
+        setListCCDS(CCDS.map(
+            item => ({ label: item.nombre!, value: item.id_ccd! })
         ));
-    }, [unityOrganigram]);
+    }, [CCDS]);
 
     useEffect(() => {
         setListOrganigrams(organigram.map(
@@ -187,38 +187,47 @@ const useTRD = () => {
         ));
     }, [subSeriesCCD]);
 
+    // UseEffect para Actualizar la tabla de asignaciones
+    useEffect(() => {
+        if (dataCreateTDR.ccds) getCurretCCD(dataCreateTDR.ccds.value);
+    }, [dataCreateTDR.ccds]);
+
+    const getCurretCCD = (id: number) => {
+        const result = CCDS.filter(item => item.id_ccd === id);
+        dispatch(getCCDCurrent(result[0]));
+        dispatch(getAssignmentsService())
+    }
+
     //submit Asignar CCD
     const onSubmit = () => {
         createAsing();
     };
-    //submit Crear CCD
-    const onSubmitCreateCCD = () => {
-        if (CCDCurrent !== null) {
-            updateCCD();
+    //submit Crear TDR
+    const onSubmitCreateTDR = () => {
+        if (TDRSCurrent !== null) {
+            updateTDR();
         } else {
-            createCCD();
+            createTDR();
         }
     };
 
     //Funcion para crear el CCD
-    const createCCD = () => {
-        let newCCD = {
-            id_organigrama: dataCreateCCD.organigrama.value,
-            version: dataCreateCCD.version,
-            nombre: dataCreateCCD.nombreCcd
+    const createTDR = () => {
+        let newTDR = {
+            id_ccd: dataCreateTDR.ccds!.value,
+            version: dataCreateTDR.version,
+            nombre: dataCreateTDR.nombre
         }
-        dispatch(createCCDSService(newCCD, setSaveCCD))
+        dispatch(createTDRSService(newTDR, setSaveTDR))
     };
     //Funcion para actualizar el CCD
-    const updateCCD = () => {
-        let newCCD = {
-            id_organigrama: dataCreateCCD.organigrama.value,
-            version: dataCreateCCD.version,
-            nombre: dataCreateCCD.nombreCcd
+    const updateTDR = () => {
+        let newTDR = {
+            version: dataCreateTDR.version,
+            nombre: dataCreateTDR.nombre
         }
-        dispatch(updateCCDSService(newCCD))
+        dispatch(updateTDRSService(newTDR))
     };
-    console.log(dataAsing, 'dataAsing')
 
     //Funcion para crear la asignacion
     const createAsing = () => {
@@ -228,7 +237,7 @@ const useTRD = () => {
                 return {
                     id_unidad_organizacional: item.id_unidad_organizacional,
                     id_serie_doc: item.id_serie_doc,
-                    subseries: item.subseries.map(item => item.value),
+                    subseries: item.subseries!.map(item => item.value),
                 }
             }
         );
@@ -250,7 +259,7 @@ const useTRD = () => {
                         : {
                             id_unidad_organizacional: item.id_unidad_organizacional,
                             id_serie_doc: item.id_serie_doc,
-                            subseries: item.subseries.map(item => item.value),
+                            subseries: item.subseries!.map(item => item.value),
                         }
                 }
             );
@@ -260,11 +269,12 @@ const useTRD = () => {
 
 
     //Funcion para limpiar el formulario de Crear CCD
-    const cleanCCD = () => {
-        resetCreateCCD(initialState);
-        setSaveCCD(false);
+    const cleanTDR = () => {
+        resetCreateTDR(initialState);
+        setSaveTDR(false);
         dispatch(getCCDCurrent(null));
         cleanAsing();
+        dispatch(getAssignmentsCCD([]));
     }
     //Funcion para limpiar el formulario de asignar CCD
     const cleanAsing = () => {
@@ -281,12 +291,19 @@ const useTRD = () => {
                 return {
                     id_unidad_organizacional: item!.id_unidad_organizacional,
                     id_serie_doc: item!.codigo_serie,
-                    subseries: item!.subseries.map(item => item.value),
+                    subseries: item!.subseries!.map(item => item.value),
                 }
             }
         );
         dispatch(createAssignmentsService(itemFinal, cleanAsing));
     }
+
+    const getRowClass = (params) => {
+        if (params.data.price >= 50000) {
+            return 'high-price';
+        }
+        return '';
+    };
 
     const columnAsigancion = [
         {
@@ -311,69 +328,31 @@ const useTRD = () => {
             headerName: "subserie",
             field: "subseries_nombres",
             minWidth: 150,
-            maxWidth: 200,
             cellStyle: {
                 'white-space': 'pre-wrap'
             }
         },
-        {
-            headerName: "Acciones",
-            field: "accion",
-            cellRendererFramework: (params) => (
-                <div>
-                    <button className="btn text-capitalize " type="button" title="Editar"
-                        onClick={() => { dispatch(getAssignmentsCCDCurrent(params.data)) }}>
-                        <i className="fa-regular fa-pen-to-square fs-4"></i>
-                    </button>
-                    <button
-                        className="btn text-capitalize "
-                        type="button"
-                        title="Eliminar"
-                        onClick={() => { deleteAsing(params.data.id) }}
-                    >
-                        <i className="fa-regular fa-trash-can fs-4"></i>
-                    </button>
-                </div>
-            ),
-        },
     ];
 
-    const getRowClass = (params) => {
-        if (params.data.price >= 50000) {
-            return 'high-price';
-        }
-        return '';
-    };
+    console.log(TDRS, 'TDRS')
 
     return {
         //States
-        listUnitys,
-        listOrganigrams,
-        listSries,
-        listSubSries,
+        listCCDS,
         title,
-        titleButtonAsing,
-        createIsactive,
-        consultaCcdIsactive,
-        columnAsigancion,
-        control,
-        controlCreateCCD,
+        controlCreateTDR,
         defaultColDef,
-        errors,
-        errorsCreateCCD,
-        saveCCD,
+        errorsCreateTDR,
+        saveTDR,
+        columnAsigancion,
         //Edita States
         setTitle,
-        setCreateIsactive,
-        setConsultaCcdIsactive,
         //Functions
+        onSubmitCreateTDR,
+        registerCreateTDR,
+        handleSubmitCreateTDR,
+        cleanTDR,
         getRowClass,
-        onSubmitCreateCCD,
-        onSubmit,
-        registerCreateCCD,
-        handleSubmit,
-        handleSubmitCreateCCD,
-        cleanCCD,
     };
 }
 

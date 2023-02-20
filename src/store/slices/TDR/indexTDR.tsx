@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITDR, ITDRObject } from "../../../Interfaces/TDR";
 
 const initialState: ITDR = {
-    CCDS: [],
-    CCDCurrent: null,
+    TDRS: [],
+    TDRSCurrent: null,
 };
 
 const TDRSlice = createSlice({
@@ -11,10 +11,10 @@ const TDRSlice = createSlice({
     initialState,
     reducers: {
         getTDRS: (state: ITDR, action: PayloadAction<ITDRObject[]>) => {
-            state.CCDS = action.payload;
+            state.TDRS = action.payload;
         },
         getTDRCurrent: (state: ITDR, action: PayloadAction<ITDRObject | null>) => {
-            state.CCDCurrent = action.payload;
+            state.TDRSCurrent = action.payload;
         },
     }
 })

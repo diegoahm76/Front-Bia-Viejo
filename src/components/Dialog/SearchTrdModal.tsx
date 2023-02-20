@@ -4,7 +4,7 @@ import Subtitle from "../../components/Subtitle";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { AgGridReact } from "ag-grid-react";
 import { getClassificationCCDSService } from "../../services/CCD/CCDServices";
-import { getCCDCurrent } from "../../store/slices/CCD/indexCCD";
+import { getTDRCurrent } from "../../store/slices/TDR/indexTDR";
 
 const customStyles = {
   content: {
@@ -20,10 +20,34 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
+const SearchTrdModal = ({ isModalActive, setIsModalActive, title }) => {
 
+  const { TDRS } = useAppSelector((state) => state.TDR);
 
-  const columTRD = [
+  // Dispatch instance
+  const dispatch = useAppDispatch();
+
+  const [worldSearch, setWorldSearch] = useState<string>('');
+  const [filterTDRS, setFilterTDRS] = useState<any>([]);
+
+  useEffect(() => {
+    const filter = TDRS.filter((item) => {
+      return item.nombre.toLowerCase().includes(worldSearch.toLowerCase()) || item.version.toLowerCase().includes(worldSearch.toLowerCase());
+    });
+    console.log(worldSearch !== "")
+    if (worldSearch !== "") {
+      setFilterTDRS(filter);
+    } else {
+      setFilterTDRS(TDRS);
+    }
+  }, [worldSearch, TDRS]);
+
+  //useEffect para cargar los datos de la tabla
+  useEffect(() => {
+    dispatch(getClassificationCCDSService());
+  }, []);
+
+  const columTDRS = [
     {
       headerName: "Nombre",
       field: "nombre",
@@ -53,7 +77,7 @@ const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
       cellRendererFramework: (params) => (
         <div>
           <button className="btn text-capitalize " type="button" title="Seleccionar"
-            
+            onClick={() => { dispatch(getTDRCurrent(params.data)); setIsModalActive(false); }}
           >
             <i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>
@@ -61,22 +85,6 @@ const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
       ),
     },
   ];
-
-  const rowTRD = [
-    {
-      nombre :"TRD 1",
-      version :"1"
-    },
-    {
-        nombre :"TRD 1",
-        version :"2"
-      },
-      {
-        nombre :"TRD 1",
-        version :"3"
-      },
-]
-
   //configuración de tabla por defecto
   const defaultColDef = {
     sortable: true,
@@ -102,7 +110,7 @@ const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
     >
       <div className="row min-vh-100 ">
         <div className="col-12 mx-auto">
-        <Subtitle title={"Consultar TRD"} />
+          <Subtitle title={title} />
           <form
             className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
             data-animation="FadeIn"
@@ -115,6 +123,8 @@ const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="Buscar..."
+                    value={worldSearch}
+                    onChange={(e) => setWorldSearch(e.target.value)}
                   />
                 </div>
               </div>
@@ -126,8 +136,8 @@ const SearchTrdModal = ({ isModalActive, setIsModalActive }) => {
                   style={{ height: "275px" }}
                 >
                   <AgGridReact
-                    columnDefs={columTRD}
-                    rowData={rowTRD}
+                    columnDefs={columTDRS}
+                    rowData={filterTDRS}
                     defaultColDef={defaultColDef}
                   />
                 </div>

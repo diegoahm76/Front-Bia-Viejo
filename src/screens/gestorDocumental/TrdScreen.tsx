@@ -5,7 +5,14 @@ import Select from 'react-select';
 import Subtitle from '../../components/Subtitle';
 import { AgGridReact } from 'ag-grid-react';
 import SearchTrdModal from '../../components/Dialog/SearchTrdModal';
+import useTRD from "./hooks/useTRD";
+
+import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
+
 const TrdScreen = () => {
+
+  const { assignmentsCCD } = useAppSelector((state) => state.assignments);
+
   const [consultaTrdIsactive, setConsultaTrdIsactive] =
     useState<boolean>(false);
   const {
@@ -14,36 +21,8 @@ const TrdScreen = () => {
     formState: { errors }
   } = useForm();
 
-  const onSubmit = (data) => {};
+  // const onSubmit = (data) => {};
 
-  const columnAsigancion = [
-    {
-      headerName: 'Sección',
-      field: 'sección',
-      minWidth: 150,
-      maxWidth: 300
-    },
-
-    {
-      headerName: 'Subsección',
-      field: 'Subseccón',
-      minWidth: 150,
-      maxWidth: 300
-    },
-
-    {
-      headerName: 'serie',
-      field: 'serie',
-      minWidth: 150,
-      maxWidth: 300
-    },
-    {
-      headerName: 'subserie',
-      field: 'subserie',
-      minWidth: 150,
-      maxWidth: 300
-    }
-  ];
   const rowData = [
     {
       sección: 'Direccion general',
@@ -260,17 +239,25 @@ const TrdScreen = () => {
     }
   ];
 
-  const defaultColDef = {
-    sortable: true,
-    editable: false,
-    flex: 1,
-    filter: true,
-    wrapHeaderText: true,
-    resizable: true,
-    initialWidth: 200,
-    autoHeaderHeight: true,
-    suppressMovable: true
-  };
+  //Hooks
+  const {
+    //States
+    listCCDS,
+    title,
+    controlCreateTDR,
+    defaultColDef,
+    errorsCreateTDR,
+    saveTDR,
+    columnAsigancion,
+    //Edita States
+    setTitle,
+    //Functions
+    onSubmitCreateTDR,
+    registerCreateTDR,
+    handleSubmitCreateTDR,
+    cleanTDR,
+    getRowClass,
+  } = useTRD();
 
   return (
     <div className='row min-vh-100'>
@@ -278,7 +265,7 @@ const TrdScreen = () => {
         <div className='multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative '>
           <form
             className='row'
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmitCreateTDR(onSubmitCreateTDR)}
             id='configForm'
           >
             <Subtitle title='Tabla de retención documental' mt={3} mb={3} />
@@ -290,26 +277,26 @@ const TrdScreen = () => {
                   <samp className='text-danger'> *</samp>
                 </label>
                 <Controller
-                  name='nombreccd'
-                  control={control}
-                  rules={{ required: true }}
+                  name="ccds"
+                  rules={{
+                    required: true,
+                  }}
+                  control={controlCreateTDR}
                   render={({ field }) => (
                     <Select
                       {...field}
-                      options={[
-                        { label: 'CCD1', value: 'CCD1' },
-                        { label: 'CCD2', value: 'CCD2' },
-                        { label: 'CCD3', value: 'CCD3' },
-                        { label: 'CCD4', value: 'CCD4' }
-                      ]}
-                      placeholder='Seleccionar'
+                      value={field.value}
+                      options={listCCDS}
+                      placeholder="Seleccionar"
                     />
                   )}
                 />
-                {errors.nombreccd && (
-                  <small className='text-danger'>
-                    Este campo es obligatorio
-                  </small>
+                {errorsCreateTDR.ccds && (
+                  <div className="col-12">
+                    <small className="text-center text-danger">
+                      Este campo es obligatorio
+                    </small>
+                  </div>
                 )}
               </div>
               <div className='col-12 col-lg-3  mt-3'>
@@ -319,12 +306,12 @@ const TrdScreen = () => {
                     <samp className='text-danger'> *</samp>
                   </label>
                   <input
-                    name='nombretrd'
                     className='form-control border border-terciary border rounded-pill px-3'
                     type='text'
                     placeholder='Nombre del CCD'
+                    {...registerCreateTDR("nombre", { required: true, })}
                   />
-                  {errors.nombretrd && (
+                  {errorsCreateTDR.nombre && (
                     <div className='col-12'>
                       <small className='text-center text-danger'>
                         Este campo es obligatorio
@@ -340,12 +327,12 @@ const TrdScreen = () => {
                     <samp className='text-danger'> *</samp>
                   </label>
                   <input
-                    name='versiontrd'
                     className='form-control border border-terciary border rounded-pill px-3'
                     type='text'
-                    placeholder='Nombre del CCD'
+                    placeholder='Versión del CCD'
+                    {...registerCreateTDR("version", { required: true, })}
                   />
-                  {errors.versiontrd && (
+                  {errorsCreateTDR.version && (
                     <div className='col-12'>
                       <small className='text-center text-danger'>
                         Este campo es obligatorio
@@ -360,9 +347,10 @@ const TrdScreen = () => {
                 <div className='ag-theme-alpine' style={{ height: '200px' }}>
                   <AgGridReact
                     columnDefs={columnAsigancion}
-                    rowData={rowData}
+                    rowData={assignmentsCCD}
                     defaultColDef={defaultColDef}
-                  ></AgGridReact>
+                    getRowClass={getRowClass} // para cambiar el color de la fila
+                  />
                 </div>
               </div>
             </div>
@@ -374,6 +362,7 @@ const TrdScreen = () => {
                   title='Buscar'
                   onClick={() => {
                     setConsultaTrdIsactive(true);
+                    setTitle('Consultar TDR');
                   }}
                 >
                   <i className='fa-solid fa-magnifying-glass fs-3'></i>
@@ -389,6 +378,7 @@ const TrdScreen = () => {
                   className='btn  text-capitalize'
                   type='button'
                   title='Limpiar'
+                  onClick={() => cleanTDR()}
                 >
                   <i className='fa-solid fa-eraser fs-3'></i>
                 </button>
@@ -676,6 +666,7 @@ const TrdScreen = () => {
             <SearchTrdModal
               isModalActive={consultaTrdIsactive}
               setIsModalActive={setConsultaTrdIsactive}
+              title={title}
             />
           </form>
         </div>
