@@ -368,16 +368,19 @@ export const EntradaDeArticuloScreen = () => {
   }
 
   const busquedaArticuloModel = {
+    cod_tipo_bien: "",
     codigo_bien: "",
     cod_tipo_activo: "",
-    marca:  "",
+    marca:  { label: "", value: "" },
     nombre: "",
-    doc_identificador_nro: "",
+    doc_identificador_nro: { label: "", value: "" },
     accion: ""
   }
 
+  
   const [busquedaArticulo, setBusquedaArticulo] = useState(busquedaArticuloModel);
   const [busquedaModel, setBusquedaModel] = useState(busquedaAvanzadaModel);
+  console.log(busquedaArticulo);
 
   const changeSelectTipoDoc = (e) => {
     let doc = {...busquedaModel};
@@ -388,6 +391,18 @@ export const EntradaDeArticuloScreen = () => {
 
     setValue('tipoDocumento', doc.tipoDocumento);
     setBusquedaModel(doc);
+  }
+
+  const changeSelectMarca = (e) => {
+    let marcaEjem = { ...busquedaArticulo };
+    marcaEjem.marca = {
+      value: e.value,
+      label: e.label
+    }
+
+    setValue('marca', marcaEjem.marca);
+    setBusquedaArticulo(marcaEjem);
+    console.log(marcaEjem.marca);
   }
 
   const changeDoc = (e) => {
@@ -875,6 +890,7 @@ export const EntradaDeArticuloScreen = () => {
                   </div>
                 </div>
 
+              {busquedaArticulo.cod_tipo_bien === 'A' ? <>Hola que hace</> : ''}
                 <div>
                   <div className="row ms-2 mt-5">
                     <Subtitle title={"Entrada de activo"} mb={4} />
@@ -922,6 +938,9 @@ export const EntradaDeArticuloScreen = () => {
                             {...field}
                             options={brand}
                             placeholder="Seleccionar"
+                            {...register('marca')}
+                            value={busquedaArticulo.marca}
+                            onChange={changeSelectMarca}
                           />
                         )}
                       />
