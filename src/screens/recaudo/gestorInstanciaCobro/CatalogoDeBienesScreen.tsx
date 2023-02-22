@@ -97,13 +97,11 @@ const CatalogoDeBienesScreen = () => {
   let header1 = getHeader("globalFilter1");
   let header2 = getHeader("globalFilter2");
 
+  
+
   //armarArbol();
-  const header = "Catalogo de bienes- Viewer";
-  const footer = (
-    <div style={{ textAlign: "left" }}>
-      <Button icon="pi pi-refresh" tooltip="Reload" />
-    </div>
-  );
+
+  
   const actionTemplate = (node, column) => {
     return (
       <div>
@@ -183,6 +181,9 @@ const CatalogoDeBienesScreen = () => {
     );
   };
 
+ 
+  
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -216,7 +217,7 @@ const CatalogoDeBienesScreen = () => {
           </div>
 
           <div className="card">
-            <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
+            <TreeTable value={arrayTotal}  filterMode="strict">
               <Column
                 expander
                 body={<i className="fa-regular fa-folder fs-4"></i>}

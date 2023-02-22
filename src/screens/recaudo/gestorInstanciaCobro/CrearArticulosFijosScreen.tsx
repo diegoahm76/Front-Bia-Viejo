@@ -528,7 +528,6 @@ export const CreacionArticulosFijosScreen = () => {
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
-                        value={bienEdit.nombre}
                         {...register("nombre")}
                         onChange={handleChange}
                         required
@@ -538,11 +537,12 @@ export const CreacionArticulosFijosScreen = () => {
 
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Tipo de activo
+                      Tipo de activo<span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="cod_tipo_activo"
                       control={control}
+                       
                       render={({ field }) => (
                         <Select
                           {...field}
@@ -550,6 +550,8 @@ export const CreacionArticulosFijosScreen = () => {
                           placeholder="Seleccionar"
                           value={bienEdit.cod_tipo_activo}
                           onChange={changeSelectTipoActivo}
+                          required = {true}
+                      
                         />
                       )}
                     />
@@ -607,7 +609,7 @@ export const CreacionArticulosFijosScreen = () => {
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Tipo de depreciación
+                      Tipo de depreciación<span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="depresiacion"
@@ -625,7 +627,7 @@ export const CreacionArticulosFijosScreen = () => {
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Unidad de vida útil
+                      Unidad de vida útil<span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="unidadvida"
@@ -646,7 +648,7 @@ export const CreacionArticulosFijosScreen = () => {
                   <div className="col-12 col-lg-3  mt-3">
                     <div>
                       <label className="ms-2 text-terciary">
-                        Cantidad de vida útil
+                        Cantidad de vida útil <span className="text-danger">*</span>
                       </label>
                       <input
                         name="cantidad_vida_util"
@@ -675,7 +677,7 @@ export const CreacionArticulosFijosScreen = () => {
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Marca
+                      Marca <span className="text-danger">*</span>
                     </label>
                     <Select
                       name="marca"
@@ -810,7 +812,7 @@ export const CreacionArticulosFijosScreen = () => {
                         type="text"
                         placeholder="Nombre"
                         {...register("nombre", { required: "true" })}
-                        value={bienEdit.nombre}
+                        
                         onChange={handleChange}
                         required
                       />
@@ -824,7 +826,7 @@ export const CreacionArticulosFijosScreen = () => {
 
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Metodo de valoración
+                      Metodo de valoración <span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="tipoactivo"
@@ -862,7 +864,7 @@ export const CreacionArticulosFijosScreen = () => {
                 <div className="row">
                   <div className="col-12 col-lg-3  mt-3">
                     <label className="form-floating input-group input-group-dynamic ms-2">
-                      Unidad de medida<span className="text-danger">*</span>
+                      Unidad de medida <span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="unidadmedida"
@@ -889,7 +891,6 @@ export const CreacionArticulosFijosScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Stock minimo
-                        <span className="text-danger">*</span>
                       </label>
                       <input
                         name="stock_minimo"
@@ -910,7 +911,6 @@ export const CreacionArticulosFijosScreen = () => {
                     <div>
                       <label className="ms-2 text-terciary">
                         Stock maximo
-                        <span className="text-danger">*</span>
                       </label>
                       <input
                         name="stock_maximo"

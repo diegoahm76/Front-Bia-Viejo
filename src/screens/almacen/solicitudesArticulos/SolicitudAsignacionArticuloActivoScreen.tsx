@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Select from "react-select";
+import Select from "react-select"; 
 import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -9,16 +9,10 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import Subtitle from "../../../components/Subtitle";
+import { text } from "stream/consumers";
 
 const SolicitudAsignacionArticuloActivoScreen = () => {
-  const [formValues, setFormValues] = useState({
-    fechaInicio: "",
-  });
-
-  const [native, setNative] = useState("");
-  const onNativeChange = (e) => {
-    setNative(e.target.value);
-  };
+  
 
   const {
     register,
@@ -132,8 +126,8 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
             </h3>
             <div className="row">
               <Subtitle title="información de solicitud "
-              mt="3"
-              mb="3" />
+              mt={3}
+              mb={3} />
               <div className="col-12 col-sm-3">
                 <div>
                   <label className="ms-3 text-terciary">
@@ -177,7 +171,7 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
           >
             <div className="row">
               <Subtitle title={"Datos del responsable"}
-              mb="3" />
+              mb={3} />
               <div className="col-12 col-sm-3">
                 <label className="ms-3 text-terciary">Tipo de Documento</label>
                 <Controller
@@ -245,7 +239,7 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
           >
             <div className="row">
               <Subtitle title={"Datos del solicitante"}
-              mb="3" />
+              mb={3} />
               <div className="col-12 col-sm-3">
                 <div>
                   <label className="ms-3 text-terciary">
@@ -294,7 +288,7 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
           >
             <div className="row">
               <Subtitle title={"Datos del operario"}
-              mb="3" />
+              mb={3} />
               <div className="col-12 col-sm-3">
                 <label className="form-floating input-group input-group-dynamic ms-3 text-terciary">
                   Tipo de documento{" "}
@@ -405,9 +399,8 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
                 </label>
                 <textarea
                   className="form-control border rounded-pill px-4 border-terciary"
-                  type="text"
                   placeholder="Observaciones generales"
-                  rows="3"
+                  rows={3}
                   name="Observaciones"
                 />
               </div>
@@ -427,4 +420,6 @@ const SolicitudAsignacionArticuloActivoScreen = () => {
     </div>
   );
 };
+
+
 export default SolicitudAsignacionArticuloActivoScreen;
