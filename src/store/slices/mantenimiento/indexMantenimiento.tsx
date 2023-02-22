@@ -51,7 +51,7 @@ export const obtenerArticulos = async (dispatch, tipo?, nombre?, documento?) => 
   // const codigo = nombre === undefined ? "" : documento;
   await clienteAxios
     .get(
-      `/almacen/bienes/entradas/search-bienes/?codigo_bien=${tipo}&nombre=${nombre}&cod_tipo_activo=${documento}`
+      `/almacen/bienes/entradas/search-bienes/?codigo_bien=${tipo}&nombre=${nombre}`
     )
     .then((res) => {
       console.log(res);

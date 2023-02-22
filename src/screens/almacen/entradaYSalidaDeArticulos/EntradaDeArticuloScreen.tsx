@@ -22,6 +22,7 @@ import IconoVer from "../../../assets/iconosBotones/ver.svg";
 import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import CrearMarcaModal from "../../../components/CrearMarcaModal";
 import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal";
+import { useAppSelector } from '../../../store/hooks/hooks';
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({ value: "" });
@@ -31,6 +32,12 @@ export const EntradaDeArticuloScreen = () => {
   const [porcentage, setPorcentage] = useState([]);
   const [store, setStore] = useState([]);
   const [EstadoArticulos, setEstadoArticulos] = useState([]);
+
+  const bienSeleccionado = useAppSelector(state => state.bien.bienSeleccionado);
+
+  // const cargarDatosIniciales = () => {
+  //   const porcentajeEdit = 
+  // }
   
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -374,7 +381,8 @@ export const EntradaDeArticuloScreen = () => {
     marca:  { label: "", value: "" },
     nombre: "",
     doc_identificador_nro: { label: "", value: "" },
-    accion: ""
+    accion: "",
+    id_porcentaje_iva: { label: "", value: "" }
   }
 
   
@@ -403,6 +411,17 @@ export const EntradaDeArticuloScreen = () => {
     setValue('marca', marcaEjem.marca);
     setBusquedaArticulo(marcaEjem);
     console.log(marcaEjem.marca);
+  }
+
+  const changePorcentaje = (e) => {
+    let porcentaje = {...busquedaArticulo};
+    porcentaje.id_porcentaje_iva = {
+      value: e.value,
+      label: e.label
+    }
+
+    setValue('id_porcentaje_iva', porcentaje.id_porcentaje_iva);
+    setBusquedaArticulo(porcentaje);
   }
 
   const changeDoc = (e) => {
@@ -710,187 +729,194 @@ export const EntradaDeArticuloScreen = () => {
                 </div>
               </div>
 
+
               <div className="row mt-4">
-                <div>
-                  <Subtitle title={"Informacion de articulo"} />
-                </div>
-
-                <div>
-                  <div className=" row ms-2 mt-3">
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 me-2 text-terciary ">
-                        Unidad de medida: <span className="text-danger">*</span>{" "}
-                      </label>
-                      <Controller
-                        name="unity_info"
-                        control={control4}
-                        rules={{ required: page === 2 }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={unitys}
-                            placeholder="Seleccionar"
-                          />
+              { busquedaArticulo.cod_tipo_bien === 'C' 
+                    ? 
+                  <div>
+                    <div>
+                        <Subtitle title={"Informacion de articulo"} />
+                    </div>
+                    <div className=" row ms-2 mt-3">
+                      <div className="col-6 col-sm-3">
+                        <label className="ms-2 me-2 text-terciary ">
+                          Unidad de medida: <span className="text-danger">*</span>{" "}
+                        </label>
+                        <Controller
+                          name="unity_info"
+                          control={control4}
+                          rules={{ required: page === 2 }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={unitys}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                        {errors.options && (
+                          <p className=" form-control ms-0 text-danger">
+                            Este campo es obligatorio
+                          </p>
                         )}
-                      />
-                      {errors.options && (
-                        <p className=" form-control ms-0 text-danger">
-                          Este campo es obligatorio
-                        </p>
-                      )}
-                    </div>
-                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
-                        onClick={() => setCrearUnidadMedidaOpen(true)}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 text-terciary">
-                        Cantidad <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="number"
-                        required={page === 2}
-                        placeholder="Cantidad"
-                        {...register("Cantidad")}
-                      />
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 text-terciary">
-                        Valor unitario <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor unitario"
-                        {...register("ValUni")}
-                      />
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 me-2 text-terciary ">
-                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
-                      </label>
-                      <Controller
-                        name="options"
-                        control={control4}
-                        rules={{ required: page === 2 }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={porcentage}
-                            placeholder="Seleccionar"
-                          />
+                      </div>
+                      <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                          onClick={() => setCrearUnidadMedidaOpen(true)}
+                        >
+                          Crear
+                        </button>
+                      </div>
+                      <div className="col-6 col-sm-3">
+                        <label className="ms-2 text-terciary">
+                          Cantidad <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3 border border-terciary"
+                          type="number"
+                          required={page === 2}
+                          placeholder="Cantidad"
+                          {...register("Cantidad")}
+                        />
+                      </div>
+                      <div className="col-6 col-sm-3">
+                        <label className="ms-2 text-terciary">
+                          Valor unitario <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3 border border-terciary"
+                          type="numb"
+                          required={page === 2}
+                          placeholder="Valor unitario"
+                          {...register("ValUni")}
+                        />
+                      </div>
+                      <div className="col-6 col-sm-3">
+                        <label className="ms-2 me-2 text-terciary ">
+                          Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                        </label>
+                        <Controller
+                          name="options"
+                          control={control4}
+                          rules={{ required: page === 2 }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={porcentage}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                        {errors.options && (
+                          <p className=" form-control ms-0 text-danger">
+                            Este campo es obligatorio
+                          </p>
                         )}
-                      />
-                      {errors.options && (
-                        <p className=" form-control ms-0 text-danger">
-                          Este campo es obligatorio
-                        </p>
-                      )}
-                    </div>
-                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
-                        onClick={handleOpenModalIva}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                    <div className="col-6 col-sm-3 mt-1">
-                      <label className="ms-2 text-terciary">
-                        Valor IVA <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3 mt-2 border border-terciary"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor IVA"
-                        {...register("ValorIVA")}
-                        disabled={true}
-                      />
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 text-terciary">
-                        Valor unitario Total
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3 mt-2 border border-terciary"
-                        type="numb"
-                        required={page === 2}
-                        placeholder="Valor unitario Total"
-                        {...register("ValUni")}
-                        disabled={true}
-                      />
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="form-control ms-0">
-                        Estado del articulo{" "}
-                        <span className="text-danger">*</span>
-                      </label>
-                      <Controller
-                        name="EstadosArticulo"
-                        control={control4}
-                        rules={{ required: page === 2 }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={state}
-                            placeholder="Seleccionar"
-                          />
+                      </div>
+                      <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                          onClick={handleOpenModalIva}
+                        >
+                          Crear
+                        </button>
+                      </div>
+                      <div className="col-6 col-sm-3 mt-1">
+                        <label className="ms-2 text-terciary">
+                          Valor IVA <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3 mt-2 border border-terciary"
+                          type="numb"
+                          required={page === 2}
+                          placeholder="Valor IVA"
+                          {...register("ValorIVA")}
+                          disabled={true}
+                        />
+                      </div>
+                      <div className="col-6 col-sm-3">
+                        <label className="ms-2 text-terciary">
+                          Valor unitario Total
+                        </label>
+                        <input
+                          className="form-control border rounded-pill px-3 mt-2 border border-terciary"
+                          type="numb"
+                          required={page === 2}
+                          placeholder="Valor unitario Total"
+                          {...register("ValUni")}
+                          disabled={true}
+                        />
+                      </div>
+                      <div className="col-6 col-sm-3">
+                        <label className="form-control ms-0">
+                          Estado del articulo{" "}
+                          <span className="text-danger">*</span>
+                        </label>
+                        <Controller
+                          name="EstadosArticulo"
+                          control={control4}
+                          rules={{ required: page === 2 }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={state}
+                              placeholder="Seleccionar"
+                            />
+                          )}
+                        />
+                        {errors.options && (
+                          <p className=" form-control ms-0 text-danger">
+                            Este campo es obligatorio
+                          </p>
                         )}
-                      />
-                      {errors.options && (
-                        <p className=" form-control ms-0 text-danger">
-                          Este campo es obligatorio
-                        </p>
-                      )}
+                      </div>
+                      <div className="col-6 col-sm-3">
+                        <label className="text-terciary">
+                          Nombre Cientifico <span className="text-danger">*</span>
+                        </label>
+                        <br />
+                        <input
+                          className="form-control border rounded-pill px-3 mt-2 border border-terciary"
+                          type="text"
+                          required={page === 2}
+                          placeholder="Nombre Cientifico"
+                          {...register("NombreCient")}
+                        />
+                      </div>
+                      <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                        <button
+                          type="button"
+                          className="btn text-capitalize btn-outline-ligth px-3 mt-4 btn-min-width"
+                          title="Agregar"
+                          onClick={handleOpenModalCrearNombreCientifico}
+                        >
+                          <img src={IconoAgregar} alt="agregar" />
+                        </button>
+                      </div>
                     </div>
-                    <div className="col-6 col-sm-3">
+                    <div className="row ms-3">
                       <label className="text-terciary">
-                        Nombre Cientifico <span className="text-danger">*</span>
+                        Observaciones: <span className="text-danger">*</span>{" "}
                       </label>
-                      <br />
-                      <input
-                        className="form-control border rounded-pill px-3 mt-2 border border-terciary"
-                        type="text"
+                      <textarea
+                        className="form-control border rounded-pill px-3 border border-terciary"
+                        typeof="text"
                         required={page === 2}
-                        placeholder="Nombre Cientifico"
-                        {...register("NombreCient")}
+                        placeholder="Observaciones"
+                        {...register("Observaciones")}
                       />
                     </div>
-                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
-                      <button
-                        type="button"
-                        className="btn text-capitalize btn-outline-ligth px-3 mt-4 btn-min-width"
-                        title="Agregar"
-                        onClick={handleOpenModalCrearNombreCientifico}
-                      >
-                        <img src={IconoAgregar} alt="agregar" />
-                      </button>
-                    </div>
                   </div>
-                  <div className="row ms-3">
-                    <label className="text-terciary">
-                      Observaciones: <span className="text-danger">*</span>{" "}
-                    </label>
-                    <textarea
-                      className="form-control border rounded-pill px-3 border border-terciary"
-                      typeof="text"
-                      required={page === 2}
-                      placeholder="Observaciones"
-                      {...register("Observaciones")}
-                    />
-                  </div>
-                </div>
+                    : 
+                      ''
+              }
 
-              {busquedaArticulo.cod_tipo_bien === 'A' ? <>Hola que hace</> : ''}
+              { 
+                busquedaArticulo.cod_tipo_bien === 'A' 
+                ?
                 <div>
                   <div className="row ms-2 mt-5">
                     <Subtitle title={"Entrada de activo"} mb={4} />
@@ -899,7 +925,7 @@ export const EntradaDeArticuloScreen = () => {
                         Unidad de medida: <span className="text-danger">*</span>{" "}
                       </label>
                       <Controller
-                        name="options"
+                        name="optionsUnidadMedida"
                         control={control4}
                         rules={{ required: page === 2 }}
                         render={({ field }) => (
@@ -960,7 +986,42 @@ export const EntradaDeArticuloScreen = () => {
                         Crear
                       </button>
                     </div>
+                  <div className="col-6 col-sm-3">
+                      <label className="ms-2 text-terciary">
+                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
+                      </label>
+                      <Controller
+                          name="optionsActive"
+                          control={control4}
+                          rules={{ required: page === 2 }}
+                          render={({ field }) => (
+                            <Select
+                              {...field}
+                              options={porcentage}
+                              placeholder="Seleccionar"
+                              {...register('id_porcentaje_iva')}
+                              value={busquedaArticulo.id_porcentaje_iva}
+                              onChange={ changePorcentaje }
+                            />
+                          )}
+                        />
+                        {errors.options && (
+                          <p className=" form-control ms-0 text-danger">
+                            Este campo es obligatorio
+                          </p>
+                        )}
+                      </div>
+                      <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                          onClick={handleOpenModalIva}
+                        >
+                          Crear
+                        </button>
+                    </div>
                   </div>
+
 
                   <div className="row ms-2 align-items-end">
                     <div className="col-6 col-sm-3">
@@ -998,18 +1059,6 @@ export const EntradaDeArticuloScreen = () => {
                         required={page === 2}
                         placeholder="Vida util"
                         {...register("VidaU")}
-                      />
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 text-terciary">
-                        Porcentaje IVA: <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        className="form-control border rounded-pill px-3 border border-terciary"
-                        type="float"
-                        required={page === 2}
-                        placeholder="Porcentaje IVA"
-                        {...register("PorcentIVA")}
                       />
                     </div>
                     <div className="col-6 col-sm-3">
@@ -1124,6 +1173,9 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                   </div>
                 </div>
+                : '' 
+              }
+
                 <div className="row">
                   <div className="col-12 col-md-4">
                     <button
