@@ -23,6 +23,7 @@ import BusquedaAvanzadaModal from "../../../components/BusquedaAvanzadaModal";
 import CrearMarcaModal from "../../../components/CrearMarcaModal";
 import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal";
 import { useAppSelector } from '../../../store/hooks/hooks';
+import { IGeneric } from '../../../Interfaces/Generic';
 
 export const EntradaDeArticuloScreen = () => {
   const [selectedEntrada, setSelectedEntrada] = useState({ value: "" });
@@ -35,9 +36,12 @@ export const EntradaDeArticuloScreen = () => {
 
   const bienSeleccionado = useAppSelector(state => state.bien.bienSeleccionado);
 
-  // const cargarDatosIniciales = () => {
-  //   const porcentajeEdit = 
-  // }
+  const initialOptions: IGeneric[] = [
+    {
+      label: "",
+      value: "",
+    },
+  ];
   
   useEffect(() => {
     const getSelectsOptions = async () => {
@@ -394,7 +398,7 @@ export const EntradaDeArticuloScreen = () => {
     nombre: "",
     doc_identificador_nro: { label: "", value: "" },
     accion: "",
-    id_porcentaje_iva: { label: "", value: "" }
+    porcentaje_iva: { label: 0, value: 0 }
   }
 
   
@@ -427,12 +431,12 @@ export const EntradaDeArticuloScreen = () => {
 
   const changePorcentaje = (e) => {
     let porcentaje = {...busquedaArticulo};
-    porcentaje.id_porcentaje_iva = {
+    porcentaje.porcentaje_iva = {
       value: e.value,
       label: e.label
     }
 
-    setValue('id_porcentaje_iva', porcentaje.id_porcentaje_iva);
+    setValue('porcentaje_iva', porcentaje.porcentaje_iva);
     setBusquedaArticulo(porcentaje);
   }
 
@@ -456,11 +460,11 @@ export const EntradaDeArticuloScreen = () => {
             </h3>
             <div className={"row"} hidden={page === 2}>
               <div className={"row"}>
-                <Subtitle title={"Datos generales"} />
+                <Subtitle title={"Datos maestro"} />
                 <div className="row ms-1 mt-2">
                   <div className="col-6 col-sm-3 mt-3">
                     <label className="text-terciary">
-                      Consecutivo: <span className="text-danger">*</span>
+                      Número de entrada: <span className="text-danger">*</span>
                     </label>
                     <input
                       className="form-control border rounded-pill px-3 border border-terciary"
@@ -480,7 +484,7 @@ export const EntradaDeArticuloScreen = () => {
                       htmlFor="exampleFormControlInput1 "
                       className="text-terciary"
                     >
-                      Fecha de Ingreso: <span className="text-danger">*</span>
+                      Fecha: <span className="text-danger">*</span>
                     </label>
                     <Controller
                       name="fechaNacimiento"
@@ -503,7 +507,7 @@ export const EntradaDeArticuloScreen = () => {
 
                   <div className="col-6 col-sm-3 mt-1">
                     <label className="form-control ms-0">
-                      Origen del artículo:{" "}
+                      Tipo de entrada:{" "}
                       <span className="text-danger">*</span>
                     </label>
                     <Controller
@@ -629,6 +633,19 @@ export const EntradaDeArticuloScreen = () => {
               <div className="row ms-1 ">
                 <div className="col">
                   <label className="ms-2 text-terciary">
+                    Motivo: <span className="text-danger">*</span>{" "}
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    typeof="text"
+                    placeholder="Motivo"
+                    {...register("Motivo")}
+                  />
+                </div>
+              </div>
+              <div className="row ms-1 ">
+                <div className="col">
+                  <label className="ms-2 text-terciary">
                     Concepto: <span className="text-danger">*</span>{" "}
                   </label>
                   <textarea
@@ -636,6 +653,19 @@ export const EntradaDeArticuloScreen = () => {
                     typeof="text"
                     placeholder="Concepto"
                     {...register("Concepto")}
+                  />
+                </div>
+              </div>
+              <div className="row ms-1 ">
+                <div className="col">
+                  <label className="ms-2 text-terciary">
+                    Observaciones: <span className="text-danger">*</span>{" "}
+                  </label>
+                  <textarea
+                    className="form-control border rounded-pill px-3 border border-terciary"
+                    typeof="text"
+                    placeholder="Observaciones"
+                    {...register("Observaciones")}
                   />
                 </div>
               </div>
@@ -745,37 +775,6 @@ export const EntradaDeArticuloScreen = () => {
                     </div>
                     <div className=" row ms-2 mt-3">
                       <div className="col-6 col-sm-3">
-                        <label className="ms-2 me-2 text-terciary ">
-                          Unidad de medida: <span className="text-danger">*</span>{" "}
-                        </label>
-                        <Controller
-                          name="unity_info"
-                          control={control4}
-                          rules={{ required: page === 2 }}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              options={unitys}
-                              placeholder="Seleccionar"
-                            />
-                          )}
-                        />
-                        {errors.options && (
-                          <p className=" form-control ms-0 text-danger">
-                            Este campo es obligatorio
-                          </p>
-                        )}
-                      </div>
-                      <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
-                        <button
-                          type="button"
-                          className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
-                          onClick={() => setCrearUnidadMedidaOpen(true)}
-                        >
-                          Crear
-                        </button>
-                      </div>
-                      <div className="col-6 col-sm-3">
                         <label className="ms-2 text-terciary">
                           Cantidad <span className="text-danger">*</span>{" "}
                         </label>
@@ -812,6 +811,9 @@ export const EntradaDeArticuloScreen = () => {
                               {...field}
                               options={porcentage}
                               placeholder="Seleccionar"
+                              {...register('porcentaje_iva')}
+                              value={busquedaArticulo.porcentaje_iva}
+                              onChange={ changePorcentaje }
                             />
                           )}
                         />
@@ -928,37 +930,6 @@ export const EntradaDeArticuloScreen = () => {
                     <Subtitle title={"Entrada de activo"} mb={4} />
                     <div className="col-6 col-sm-3">
                       <label className="ms-2 me-2 text-terciary ">
-                        Unidad de medida: <span className="text-danger">*</span>{" "}
-                      </label>
-                      <Controller
-                        name="optionsUnidadMedida"
-                        control={control4}
-                        rules={{ required: page === 2 }}
-                        render={({ field }) => (
-                          <Select
-                            {...field}
-                            options={unitys}
-                            placeholder="Seleccionar"
-                          />
-                        )}
-                      />
-                      {errors.options && (
-                        <p className=" form-control ms-0 text-danger">
-                          Este campo es obligatorio
-                        </p>
-                      )}
-                    </div>
-                    <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
-                      <button
-                        type="button"
-                        className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
-                        onClick={() => setCrearUnidadMedidaOpen(true)}
-                      >
-                        Crear
-                      </button>
-                    </div>
-                    <div className="col-6 col-sm-3">
-                      <label className="ms-2 me-2 text-terciary ">
                         Marca: <span className="text-danger">*</span>{" "}
                       </label>
                       <Controller
@@ -1005,8 +976,8 @@ export const EntradaDeArticuloScreen = () => {
                               {...field}
                               options={porcentage}
                               placeholder="Seleccionar"
-                              {...register('id_porcentaje_iva')}
-                              value={busquedaArticulo.id_porcentaje_iva}
+                              {...register('porcentaje_iva')}
+                              value={busquedaArticulo.porcentaje_iva}
                               onChange={ changePorcentaje }
                             />
                           )}

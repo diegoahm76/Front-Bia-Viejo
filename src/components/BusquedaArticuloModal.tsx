@@ -71,7 +71,10 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
     modelo.modelo = "";
     modelo.kilometro = "";
     modelo.id_articulo = datos.id_bien;
-    modelo.id_porcentaje_iva = datos.id_porcentaje_iva
+    modelo.porcentaje_iva = {
+      label: datos.porcentaje_iva,
+      value: datos.id_porcentaje_iva
+    }
     setModel(modelo);
     handleClose();
   }
