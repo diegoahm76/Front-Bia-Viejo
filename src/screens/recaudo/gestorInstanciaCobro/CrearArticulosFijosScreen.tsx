@@ -12,6 +12,7 @@ import {
   editarBien,
   obtenerTodosBienes,
 } from "../../../store/slices/catalogoBienes/indexCatalogoBien";
+import Swal from "sweetalert2";
 
 const editState: any = {
   id_bien: 0,
@@ -272,6 +273,41 @@ export const CreacionArticulosFijosScreen = () => {
     setmetodoValoracionOptionss(metodoMaped);
   };
 
+  const handleValidation = () => {
+    // Crear una lista de campos requeridos con sus valores seleccionados
+    let requiredFields: any = [];
+    if (bienEdit.cod_tipo_bien.value == "A") {
+      requiredFields = [
+        { name: 'Tipo de activo', value: bienEdit.cod_tipo_activo.value },
+        { name: 'Unidad de medida', value: bienEdit.id_unidad_medida.value },
+        { name: 'Porcentaje IVA', value: bienEdit.id_porcentaje_iva.value },
+        { name: 'Tipo de depreciación', value: bienEdit.cod_tipo_depreciacion.value },
+        { name: 'Unidad de vida útil', value: bienEdit.id_unidad_medida_vida_util.value },
+        { name: 'Marca', value: bienEdit.id_marca.value },
+      ];
+    } else {
+      requiredFields = [
+        { name: 'Metodo de valoración', value: bienEdit.cod_metodo_valoracion.value },
+        { name: 'Unidad de medida', value: bienEdit.id_unidad_medida.value },
+        { name: 'Porcentaje IVA', value: bienEdit.id_porcentaje_iva.value },
+      ];
+    }
+    // Validar que todos los campos requeridos tengan un valor seleccionado
+    const invalidFields = requiredFields.filter(field => !field.value);
+    if (invalidFields.length > 0) {
+      const fieldNames = invalidFields.map(field => field.name).join(', ');
+      Swal.fire({
+        position: "center",
+        icon: "info",
+        title: `Debe seleccionar un valor para los siguientes campos requeridos: ${fieldNames}`,
+        showConfirmButton: true,
+        confirmButtonText: "Aceptar",
+      });
+      return false;
+    }
+    return true;
+  }
+
   const crearModeloData = () => {
     const bienModel: IBienes = {
       id_bien: bienEdit.id_bien !== 0 ? bienEdit.id_bien : null,
@@ -337,6 +373,10 @@ export const CreacionArticulosFijosScreen = () => {
   // };
 
   const onSubmit = () => {
+    console.log("onSubmit", handleValidation());
+    if (!handleValidation()) {
+      return;
+    }
     if (isEdit) {
       editarBien(dispatch, crearModeloData());
       obtenerTodosBienes(dispatch);
@@ -514,7 +554,7 @@ export const CreacionArticulosFijosScreen = () => {
                       placeholder="Código"
                       disabled={dataEdit.edit!}
                       value={bienEdit.codigo_bien}
-                      {...register("codigo_bien")}
+                      name="codigo_bien"
                       onChange={handleChange}
                       required
                     />
@@ -528,7 +568,7 @@ export const CreacionArticulosFijosScreen = () => {
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
                         placeholder="Nombre"
-                        {...register("nombre")}
+                        name="nombre"
                         onChange={handleChange}
                         required
                       />
@@ -539,21 +579,12 @@ export const CreacionArticulosFijosScreen = () => {
                     <label className="form-floating input-group input-group-dynamic ms-2">
                       Tipo de activo<span className="text-danger">*</span>
                     </label>
-                    <Controller
-                      name="cod_tipo_activo"
-                      control={control}
-                       
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          options={tipoActivoOptions}
-                          placeholder="Seleccionar"
-                          value={bienEdit.cod_tipo_activo}
-                          onChange={changeSelectTipoActivo}
-                          required = {true}
-                      
-                        />
-                      )}
+                    <Select
+                      options={tipoActivoOptions}
+                      placeholder="Seleccionar"
+                      value={bienEdit.cod_tipo_activo}
+                      onChange={changeSelectTipoActivo}
+                      required={true} // Hacer el campo requerido
                     />
                   </div>
                   <div className="col-12 col-lg-3  mt-3">
@@ -657,6 +688,7 @@ export const CreacionArticulosFijosScreen = () => {
                         value={bienEdit.cantidad_vida_util}
                         placeholder="Cantidad de vida util"
                         onChange={handleChange}
+                        required
                       />
                     </div>
                   </div>
@@ -812,7 +844,7 @@ export const CreacionArticulosFijosScreen = () => {
                         type="text"
                         placeholder="Nombre"
                         {...register("nombre", { required: "true" })}
-                        
+
                         onChange={handleChange}
                         required
                       />
@@ -952,41 +984,41 @@ export const CreacionArticulosFijosScreen = () => {
                   </div>
                 </div>
                 <div className="row">
-                <div className="col-12 col-lg-3  mt-3 d-flex">
-                  <div className="col-12 col-lg-6  mt-4 ">
-                    <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
-                      Visible en solicitudes :
-                    </label>
-                  </div>
-                  <div className="col-12 col-lg-6 text-center mt-3">
-                    <button
-                      className="btn btn-sm btn-tablas mt-2"
-                      type="button"
-                      title="Solicitudes"
-                      onClick={() => setCheckboxSoli(!checkboxSoli)}
-                    >
-                      {checkboxSoli == false ? (
-                        <i
-                          className="fa-solid fa-toggle-off fs-3"
-                          style={{ color: "black" }}
-                        ></i>
-                      ) : (
-                        <i
-                          className="fa-solid fa-toggle-on fs-3"
-                          style={{ color: "#8cd81e" }}
-                        ></i>
-                      )}
-                    </button>
-                  </div>
+                  <div className="col-12 col-lg-3  mt-3 d-flex">
+                    <div className="col-12 col-lg-6  mt-4 ">
+                      <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                        Visible en solicitudes :
+                      </label>
+                    </div>
+                    <div className="col-12 col-lg-6 text-center mt-3">
+                      <button
+                        className="btn btn-sm btn-tablas mt-2"
+                        type="button"
+                        title="Solicitudes"
+                        onClick={() => setCheckboxSoli(!checkboxSoli)}
+                      >
+                        {checkboxSoli == false ? (
+                          <i
+                            className="fa-solid fa-toggle-off fs-3"
+                            style={{ color: "black" }}
+                          ></i>
+                        ) : (
+                          <i
+                            className="fa-solid fa-toggle-on fs-3"
+                            style={{ color: "#8cd81e" }}
+                          ></i>
+                        )}
+                      </button>
+                    </div>
                   </div>
                   <div className="col-12 col-lg-3  mt-3 d-flex">
-                    
+
                     <div className="col-12 col-lg-6  mt-4 ">
-                    <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
-                      Solicitable por vivero:
-                    </label>
-                  </div>
-                  <div className="col-12 col-lg-6 text-center mt-3">
+                      <label className="form-floating input-group input-group-dynamic ms-2 mt-2">
+                        Solicitable por vivero:
+                      </label>
+                    </div>
+                    <div className="col-12 col-lg-6 text-center mt-3">
                       <button
                         className="btn btn-sm btn-tablas"
                         type="button"
