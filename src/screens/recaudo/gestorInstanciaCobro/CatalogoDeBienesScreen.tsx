@@ -97,13 +97,11 @@ const CatalogoDeBienesScreen = () => {
   let header1 = getHeader("globalFilter1");
   let header2 = getHeader("globalFilter2");
 
+  
+
   //armarArbol();
-  const header = "Catalogo de bienes- Viewer";
-  const footer = (
-    <div style={{ textAlign: "left" }}>
-      <Button icon="pi pi-refresh" tooltip="Reload" />
-    </div>
-  );
+
+  
   const actionTemplate = (node, column) => {
     return (
       <div>
@@ -183,6 +181,9 @@ const CatalogoDeBienesScreen = () => {
     );
   };
 
+ 
+  
+
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -214,38 +215,40 @@ const CatalogoDeBienesScreen = () => {
               </ButtonMaterial>
             </div>
           </div>
-
+          <div className="col-12 col-md-12  mt-4">
           <div className="card">
-            <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
+          
+            <TreeTable value={arrayTotal}  filterMode="strict">
               <Column
                 expander
                 body={<i className="fa-regular fa-folder fs-4"></i>}
-                style={{ width: "200px" }}
+                style={{ width: "250px" }}
               ></Column>
               <Column
                 header="Nombre"
                 field="nombre"
-                style={{ width: "800px" }}
+                style={{ width: "300px" }}
                 filter
                 filterPlaceholder="Filter por nombre"
               ></Column>
               <Column
                 field="codigo"
                 header="Código"
-                style={{ width: "300px" }}
+                style={{ width: "100px" }}
                 filter
                 filterPlaceholder="Filter por código"
               ></Column>
               <Column
                 header="Acciones"
                 body={actionTemplate}
-                style={{ textAlign: "center", width: "400px" }}
+                style={{ textAlign: "center", width: "800px" }}
               />
               {/* <Column field="agregar" header="Agregar"></Column>
                     <Column field="editar" header="Editar"></Column>
                     <Column field="eliminar" header="Eliminar"></Column> */}
             </TreeTable>
             ;
+            </div>
           </div>
         </form>
       </div>
