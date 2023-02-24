@@ -7,11 +7,11 @@ const propTypes = {
 };
 
 const MyNode = ({ nodeData }) => {
-  const { classname } = nodeData;
-  // console.log(nodeData);
+  const { className } = nodeData;
+  console.log(className);
   return (
     <div>
-      <div className={`${classname} container`}>{nodeData.title}</div>
+      <div className={`${className}`}>{nodeData.title}</div>
     </div>
   );
 };

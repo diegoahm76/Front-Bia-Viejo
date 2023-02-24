@@ -33,35 +33,32 @@
   border: 1px solid #215a88;
 }
 
-.orgchart.myChart .container {
+.orgchart.myChart .top-level {
+  border-color: #006699;
+  box-sizing: border-box;
+  background-color: #006699;
   color: #fff;
   width: 130px;
   min-height: 65px;
   padding: 2px;
-  box-sizing: border-box;
 }
 
-.orgchart.myChart .oc-node .nivel-1 {
-  border-color: #993366;
-  background-color: #993366;
-}
-
-.orgchart.myChart .oc-node .nivel-2 {
+.orgchart.myChart .oc-node .middle-level {
   border-color: #009933;
+  box-sizing: border-box;
   background-color: #009933;
+  color: #fff;
+  width: 130px;
+  min-height: 65px;
+  padding: 2px;
 }
 
-.orgchart.myChart .oc-node .nivel-3 {
-  border-color: #74ba03c8;
-  background-color: #74ba03c8;
-}
-
-.orgchart.myChart .oc-node .nivel-4 {
-  border-color: #d27205c8;
-  background-color: #d27205c8;
-}
-
-.orgchart.myChart .oc-node .nivel-5 {
-  border-color: #d24905c8;
-  background-color: #d24905c8;
+.orgchart.myChart .oc-node .bottom-level {
+  border-color: #993366;
+  box-sizing: border-box;
+  background-color: #993366;
+  color: #fff;
+  width: 130px;
+  min-height: 65px;
+  padding: 2px;
 }
