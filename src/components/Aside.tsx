@@ -780,6 +780,20 @@ const Aside = ({ showAside }) => {
                         </a>
                         <div className="collapse " id="solicitudesArticulos">
                           <ul className="nav nav-sm flex-column">
+                          <li className="nav-item">
+                              <Link
+                                className="nav-link text-white "
+                                to="almacen/solicitudes-articulos/solicitar-articulos-consumo"
+                              >
+                                <span className="sidenav-mini-icon">
+                                  <img src={Vineta} alt="vineta" />
+                                </span>
+                                <span className="sidenav-normal  ms-2  ps-1">
+                                  Solicitud de artículo <br />
+                                  de consumo
+                                </span>
+                              </Link>
+                            </li>
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
@@ -808,20 +822,7 @@ const Aside = ({ showAside }) => {
                                 </span>
                               </Link>
                             </li>
-                            <li className="nav-item">
-                              <Link
-                                className="nav-link text-white "
-                                to="almacen/solicitudes-articulos/solicitar-articulos-consumo"
-                              >
-                                <span className="sidenav-mini-icon">
-                                  <img src={Vineta} alt="vineta" />
-                                </span>
-                                <span className="sidenav-normal  ms-2  ps-1">
-                                  Solicitud de artículo <br />
-                                  de consumo
-                                </span>
-                              </Link>
-                            </li>
+                            
                             <li className="nav-item">
                               <Link
                                 className="nav-link text-white "
