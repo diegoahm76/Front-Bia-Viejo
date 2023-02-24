@@ -501,6 +501,7 @@ export const CreacionArticulosFijosScreen = () => {
   }, [flag]);
   console.log(bienEdit, "este es el bienEdir");
 
+ 
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
