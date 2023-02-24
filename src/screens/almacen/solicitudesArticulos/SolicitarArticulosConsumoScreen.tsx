@@ -12,6 +12,73 @@ import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import Subtitle from "../../../components/Subtitle";
 
 const SolicitarArticulosConsumoScreen = () => {
+  const [rowsoliconsu] = useState([
+    {
+      codigo: "2200200001",
+      nombre: "Resma de papel",
+      cantidad: "10",
+    },
+    {
+      codigo: "2200200002",
+      nombre: "fabuloso",
+      cantidad: "9",
+    },
+    {
+      codigo: "2200200003",
+      nombre: "jabon en polvo",
+      cantidad: "13",
+    },
+    {
+      codigo: "2200200004",
+      nombre: "carpetas tamaño carta",
+      cantidad: "6",
+    },
+  ]);
+
+  const columsoliconsu = [
+    { headerName: "Codigo bien", field: "codigo", minWidth: 150, maxWidth: 200 },
+    {
+      headerName: "Nombre",
+      field: "nombre",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+    {
+      headerName: "Cantidad",
+      field: "cantidad",
+      minWidth: 150,
+      maxWidth: 200,
+    },
+    {
+      headerName: "Acción",
+      field: "accion",
+      cellRendererFramework: (params) => (
+        <div>
+          <button className="btn text-capitalize " type="button" 
+          >
+            <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
+          </button>
+        </div>
+      ),
+      minWidth: 150,
+      maxWidth: 200,
+    },
+  ];
+
+  
+  const defaultColDef = {
+    sortable: true,
+    editable: false,
+    flex: 1,
+    filter: true,
+    wrapHeaderText: true,
+    resizable: true,
+    initialWidth: 200,
+    autoHeaderHeight: true,
+    suppressMovable: true,
+  };
+  
+
   const [page, setPage] = useState(1);
 
   const submit = (data) => {
@@ -222,54 +289,112 @@ const SolicitarArticulosConsumoScreen = () => {
           </div>
 
           <div className={"row"} hidden={page === 1}>
+            {/* CONSULTAR ARTICULO */}
             <div className="row">
-              {" "}
-              {/* CONSULTAR ARTICULO */}
-              <div className="row">
               <Subtitle title="Detalles" mt={3} mb={3} />
             </div>
+            <div className="col-12 col-lg-3  mt-3">
+              <label className="ms-2 text-terciary">
+                Código bien: <span className="text-danger">*</span>{" "}
+              </label>
+              <input
+                className="form-control border rounded-pill px-3 border border-terciary"
+                type="text"
+                required={page === 2}
+                placeholder="Codigo"
+                {...register("codigo_bien")}
+              />
+            </div>
+            <div className="col-12 col-lg-3  mt-3">
+              <label className="ms-2 text-terciary">Nombre del artículo:</label>
+              <input
+                className="form-control border rounded-pill px-3 border border-terciary"
+                type="text"
+                required={page === 2}
+                placeholder="Nombre Articulo"
+                disabled={true}
+              />
+            </div>
+            <div className="col-12 col-lg-2  mt-3 d-flex ">
+              <button
+                type="button"
+                className="btn text-capitalize btn-outline-ligth mt-4"
+              >
+                <i
+                  className="fa-solid fa-magnifying-glass fs-3 "
+                  title="Buscar"
+                ></i>
+              </button>
+            </div>
+            <div className="col-12 col-lg-3  mt-3 d-flex ">
+              <button
+                type="button"
+                className="btn btn-primary text-capitalize mt-4"
+              >
+                Busqueda de articulo
+              </button>
+            </div>
+            <div className="row">
               <div className="col-12 col-lg-3  mt-3">
                 <label className="ms-2 text-terciary">
-                  Código bien: <span className="text-danger">*</span>{" "}
+                  Cantidad: <span className="text-danger">*</span>{" "}
                 </label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
-                  required={page === 2}
-                  placeholder="Codigo"
-                  {...register("codigo_bien")}
+                  placeholder="Cantidad"
                 />
               </div>
               <div className="col-12 col-lg-3  mt-3">
                 <label className="ms-2 text-terciary">
-                  Nombre del artículo:
+                  Unidad de medida: <span className="text-danger">*</span>{" "}
                 </label>
+                <Controller
+                  name="options"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      options={[
+                        { label: "GRUPO1", value: "GRUPO1" },
+                        { label: "GRUPO2", value: "GRUPO2" },
+                        { label: "GRUPO3", value: "GRUPO3" },
+                        { label: "GRUPO4", value: "GRUPO4" },
+                      ]}
+                      placeholder="Seleccionar"
+                    />
+                  )}
+                />
+              </div>
+              <div className="col-12 col-lg-6  mt-3">
+                <label className="ms-2 text-terciary">Observaciones:</label>
                 <input
                   className="form-control border rounded-pill px-3 border border-terciary"
                   type="text"
-                  required={page === 2}
-                  placeholder="Nombre Articulo"
-                  disabled={true}
+                  placeholder="Observaciones"
                 />
               </div>
-              <div className="col-12 col-lg-2  mt-3 d-flex ">
+            </div>
+            <div className="row">
+              <div className="col-12 col-lg-12  mt-4  d-flex justify-content-end">
                 <button
                   type="button"
-                  className="btn text-capitalize btn-outline-ligth mt-4"
+                  title="Agregar"
+                  className="btn btn-primary text-capitalize border rounded-pill  btn-min-width"
                 >
-                  <i
-                    className="fa-solid fa-magnifying-glass fs-3 "
-                    title="Buscar"
-                  ></i>
+                  Agregar
                 </button>
               </div>
-              <div className="col-12 col-lg-3  mt-3 d-flex ">
-                <button
-                  type="button"
-                  className="btn btn-primary text-capitalize mt-4"
-                >
-                  Busqueda de articulo
-                </button>
+            </div>
+            <div>
+              <div id="myGrid" className="ag-theme-alpine ">
+                <div className="ag-theme-alpine" style={{ height: "300px", width:"900px" }}>
+                  <AgGridReact
+                    columnDefs={columsoliconsu}
+                    rowData={rowsoliconsu}
+                    defaultColDef={defaultColDef}
+                  ></AgGridReact>
+                </div>
               </div>
             </div>
           </div>

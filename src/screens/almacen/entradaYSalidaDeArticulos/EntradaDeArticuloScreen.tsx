@@ -1129,7 +1129,7 @@ export const EntradaDeArticuloScreen = () => {
                     <div className="row ms-2 mt-3">
                       <div className="col ">
                         <label className="ms-2 text-terciary">
-                          Observaciones: <span className="text-danger">*</span>{" "}
+                          Observaciones:
                         </label>
                         <textarea
                           className="form-control border rounded-pill px-3 border border-terciary"
