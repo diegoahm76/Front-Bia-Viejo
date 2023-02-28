@@ -10,6 +10,9 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import Subtitle from "../../../components/Subtitle";
+import CrearPorcentajeIvaModal from "../../../components/CrearPorcentajeIvaModal";
+import CrearMarcaModal from "../../../components/CrearMarcaModal";
+import CrearUnidadMedidaModal from "../../../components/CrearUnidadMedidaModal";
 
 const CreacionMarcasScreen = () => {
   const [rowsoliconsu] = useState([
@@ -54,7 +57,7 @@ const CreacionMarcasScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn text-capitalize " type="button" 
+          <button className="btn text-capitalize " type="button"
           >
             <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
           </button>
@@ -65,7 +68,7 @@ const CreacionMarcasScreen = () => {
     },
   ];
 
-  
+
   const defaultColDef = {
     sortable: true,
     editable: false,
@@ -77,7 +80,7 @@ const CreacionMarcasScreen = () => {
     autoHeaderHeight: true,
     suppressMovable: true,
   };
-  
+
 
   const [page, setPage] = useState(1);
 
@@ -90,6 +93,7 @@ const CreacionMarcasScreen = () => {
     setPage(1);
   };
 
+
   const {
     register,
     handleSubmit,
@@ -98,8 +102,68 @@ const CreacionMarcasScreen = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {};
-  return (<div>holaaaaaa</div>
+  const onSubmit = (data) => { };
+
+  const [crearPorcentajeOpen, setCrearPorcentajeOpen] = useState(false);
+  const handleOpenModalIva = () => {
+    setCrearPorcentajeOpen(true);
+  };
+
+  const [crearMarcaOpen, setCrearMarcaOpen] = useState(false);
+  const [crearUnidadMedidaOpen, setCrearUnidadMedidaOpen] = useState(false);
+  return (
+    <div className="row min-vh-100">
+      <div className="col-lg-12 col-md-10 col-12 mx-auto">
+        <form
+          className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative "
+          data-animation="FadeIn"
+          onSubmit={handleSubmit(submit)}
+          id="configForm"
+        >
+          <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+            <button
+              type="button"
+              className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+              onClick={handleOpenModalIva}
+            >
+              Crear porcentaje de iva
+            </button>
+          </div>
+          <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+            <button
+              type="button"
+              className=" btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+              onClick={() => setCrearMarcaOpen(true)}
+            >
+              Crear marca
+            </button>
+          </div>
+          <div className="col-6 col-sm-3 d-grid gap-2 d-md-flex justify-content-md-rigth mt-3">
+                        <button
+                          type="button"
+                          className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
+                          onClick={() => setCrearUnidadMedidaOpen(true)}
+                        >
+                          Crear unidad de medida
+                        </button>
+                      </div>
+          <CrearPorcentajeIvaModal
+            isModalActive={crearPorcentajeOpen}
+            setIsModalActive={setCrearPorcentajeOpen}
+          ></CrearPorcentajeIvaModal>
+          <CrearMarcaModal
+            isModalActive={crearMarcaOpen}
+            setIsModalActive={setCrearMarcaOpen}
+          />
+          <CrearUnidadMedidaModal
+        isModalActive={crearUnidadMedidaOpen}
+        setIsModalActive={setCrearUnidadMedidaOpen}
+      />
+        </form>
+
+      </div>
+    </div>
+
   )
 };
 

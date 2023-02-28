@@ -917,7 +917,7 @@ export const EntradaDeArticuloScreen = () => {
                           className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
                           onClick={() => setCrearUnidadMedidaOpen(true)}
                         >
-                          Crear
+                          Crear unidad de medida
                         </button>
                       </div>
                       <div className="col-6 col-sm-3">
@@ -952,7 +952,7 @@ export const EntradaDeArticuloScreen = () => {
                           className=" btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
                           onClick={() => setCrearMarcaOpen(true)}
                         >
-                          Crear
+                          Crear marca
                         </button>
                       </div>
                       <div className="col-6 col-sm-3">
@@ -986,7 +986,7 @@ export const EntradaDeArticuloScreen = () => {
                           className="btn btn-primary text-capitalize border rounded-pill px-3 mt-3 btn-min-width"
                           onClick={handleOpenModalIva}
                         >
-                          Crear
+                          Crear porcentaje de iva
                         </button>
                       </div>
                     </div>
