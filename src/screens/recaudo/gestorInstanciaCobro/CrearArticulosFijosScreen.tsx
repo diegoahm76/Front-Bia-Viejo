@@ -570,6 +570,7 @@ export const CreacionArticulosFijosScreen = () => {
                         type="text"
                         placeholder="Nombre"
                         name="nombre"
+                        value={bienEdit.nombre}
                         onChange={handleChange}
                         required
                       />
@@ -843,6 +844,7 @@ export const CreacionArticulosFijosScreen = () => {
                       <input
                         className="form-control border border-terciary border rounded-pill px-3"
                         type="text"
+                        value={bienEdit.nombre}
                         placeholder="Nombre"
                         {...register("nombre", { required: "true" })}
 
