@@ -78,7 +78,7 @@ const SearchCcdModal = ({ isModalActive, setIsModalActive, title }) => {
       cellRendererFramework: (params) => (
         <div>
           <button className="btn text-capitalize " type="button" title="Seleccionar"
-            onClick={() => { dispatch(getCCDCurrent(params.data)); setIsModalActive(false); console.log(params) }}
+            onClick={() => { dispatch(getCCDCurrent(params.data)); setIsModalActive(false); }}
           >
             <i className="fa-regular fa-pen-to-square fs-4"></i>
           </button>

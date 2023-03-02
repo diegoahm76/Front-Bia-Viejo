@@ -50,6 +50,7 @@ import AlertasVencimientoDocumentacionVehiculosScreen from "../configuracion/Ale
 import AlertasDevolucionPrestamoScreen from "../configuracion/AlertasDevolucionPrestamoScreen";
 import BusquedaPersonalScreen from "../configuracion/BusquedaPersonalScreen";
 import CreacionBodegaScreen from "../configuracion/CreacionBodegaScreen";
+import CreacionMarcasScreen from "../configuracion/CreacionMarcasScreen";
 import RegistroConductoresExternosScreen from "../configuracion/RegistroConductoresExternosScreen";
 import TraspasoElementosBodegasScreen from "../configuracion/TraspasoElementosBodegasScreen";
 import ReprogramarSolicitudVehiculoScreen from "../gestionDeVehiculos/ReprogramarSolicitudVehiculoScreen";
@@ -332,6 +333,7 @@ const AlmacenRoutes = () => {
         />
         <Route path="busquedapersonal" element={<BusquedaPersonalScreen />} />
         <Route path="creacionbodega" element={<CreacionBodegaScreen />} />
+        <Route path="creacionmarcas" element={<CreacionMarcasScreen />} />
         <Route
           path="registroconductoresexternos"
           element={<RegistroConductoresExternosScreen />}

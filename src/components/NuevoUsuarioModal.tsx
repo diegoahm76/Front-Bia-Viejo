@@ -5,6 +5,12 @@ import Select from "react-select";
 import { useEffect, useState } from "react";
 import clienteEstaciones from "../config/clienteAxiosEstaciones";
 import { crearNuevoUsuarioAction } from "../actions/estacionActions";
+import {
+  obtenerTodosUsuarios,
+  crearUsuario,
+} from "../store/slices/usuarioEstaciones/indexUsuarioEstaciones";
+import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+
 import React from "react";
 
 const customStyles = {
@@ -107,9 +113,7 @@ const NuevoUsuarioModal = ({ isModalActive, setIsModalActive }) => {
             )}
           </div>
           <div className="col-12 mb-3">
-            <label>
-              Nombre: <span className="text-danger">*</span>
-            </label>
+            <label>Nombre: </label>
             <input
               type="text"
               placeholder="Nombre"

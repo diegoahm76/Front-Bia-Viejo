@@ -1,10 +1,11 @@
 import Modal from "react-modal";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 import Subtitle from "./Subtitle";
 import React, { useEffect, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { obtenerArticulos } from "../store/slices/mantenimiento/indexMantenimiento";
 import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
+import Select from 'react-select';
 
 const customStyles = {
   content: {
@@ -18,6 +19,12 @@ const customStyles = {
   },
 };
 
+const opcTipos = [
+  { label: 'computadores', value:'Com'},
+  { label: 'No se que es xd', value:'OAc'},
+  { label: 'vehiculos', value:'Veh'}
+]
+
 Modal.setAppElement("#root");
 interface parameters {
   isModalActive: boolean, setIsModalActive: any, setModel?: any, articuloModel?: any
@@ -25,12 +32,13 @@ interface parameters {
 const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, articuloModel }: parameters) => {
   const dispatch = useAppDispatch();
   const articulos = useAppSelector((state) => state.mantenimiento);
-  const [filtersSearch, setFiltersSearch] = useState({ codigo: "", nombre: "" });
+  // const [filtersSearch, setFiltersSearch] = useState({ codigo: "", nombre: "" });
   const {
     register,
     handleSubmit,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -47,21 +55,28 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
 
 
   const getArticulos = () => {
-    obtenerArticulos(dispatch, articuloModel.tipo.value, filtersSearch.nombre, filtersSearch.codigo)
+    obtenerArticulos(dispatch, articuloModel.cod_tipo_activo, articuloModel.nombre, articuloModel.doc_identificador_nro.value)
   }
 
   const seleccionarArticulo = (datos) => {
     const modelo = { ...articuloModel }
-    modelo.codigo = datos.codigo_bien;
+    modelo.codigo_bien = datos.codigo_bien;
     modelo.nombre = datos.nombre;
-    modelo.marca = datos.marca;
+    modelo.marca = {
+      label: datos.marca,
+      value: datos.id_marca
+    };
+    modelo.cod_tipo_bien = datos.cod_tipo_bien;
     modelo.serial = datos.doc_identificador_nro;
     modelo.modelo = "";
     modelo.kilometro = "";
     modelo.id_articulo = datos.id_bien;
+    modelo.porcentaje_iva = {
+      label: datos.porcentaje_iva,
+      value: datos.id_porcentaje_iva
+    }
     setModel(modelo);
     handleClose();
-
   }
   const handleOpenAgregarProducto = () => {
     setIsModalActive(true);
@@ -71,10 +86,27 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
     setIsModalActive(false);
   };
 
-  const handleChange = (e) => {
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setModel({ ...articuloModel, [name]: value })
+  // }
+
+  const changeBusquedaArticulo = (e) => {
     const { name, value } = e.target;
-    setFiltersSearch({ ...filtersSearch, [name]: value })
+    setModel({...articuloModel, [name]:value});
   }
+
+  const changeSelectTipoCod = (e) => {
+    let tipoCod = {...articuloModel};
+    tipoCod.doc_identificador_nro = {
+      value: e.value,
+      label: e.label
+    }
+
+    setValue('doc_identificador_nro', tipoCod.doc_identificador_nro);
+    setModel(tipoCod);
+  }
+
   const onSubmit = (data) => { };
   const columnDefs = [
     {
@@ -83,18 +115,13 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
       minWidth: 180,
     },
     {
-      headerName: "marca",
-      field: "marca",
-      minWidth: 180,
-    },
-    {
-      headerName: "nombre",
+      headerName: "Nombre",
       field: "nombre",
       minWidth: 140,
     },
     {
-      headerName: "serial",
-      field: "doc_identificador_nro",
+      headerName: "Tipo Activo",
+      field: "cod_tipo_activo",
       minWidth: 140,
     },
     {
@@ -141,14 +168,14 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
               <Subtitle title="Información del articulo" mb={3} />
               <div className="col-12 col-sm-4 mt-2">
                 <div>
-                  <label className="ms-3 text-terciary">Codigo</label>
+                  <label className="ms-3 text-terciary">Codigo Bien</label>
                   <input
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
-                    placeholder="Código"
-                    name="codigo"
-                    value={filtersSearch.codigo}
-                    onChange={handleChange}
+                    placeholder="Codigo"
+                    {...register('cod_tipo_activo')}
+                    value={articuloModel.cod_tipo_activo}
+                    onChange={changeBusquedaArticulo}
                   />
                 </div>
               </div>
@@ -159,10 +186,31 @@ const BusquedaArticuloModal = ({ isModalActive, setIsModalActive, setModel, arti
                     className="form-control border border-terciary rounded-pill px-3"
                     type="text"
                     placeholder="nombre"
-                    name="nombre"
-                    value={filtersSearch.nombre}
-                    onChange={handleChange}
+                    value={articuloModel.nombre}
+                    {...register('nombre')}
+                    onChange={changeBusquedaArticulo}
                   />
+                </div>
+              </div>
+              <div className="col-12 col-sm-4 mt-2">
+                <div>
+                  <label className="ms-3 text-terciary">Tipo Activo</label>
+                  <Controller
+                    name="options"
+                    control={control}
+                    rules={{required: false}}
+                    render={({field}) => (
+                      <Select
+                        {...field}
+                        options={opcTipos}
+                        placeholder='Seleccionar'
+                        {...register('doc_identificador_nro')}
+                        value={articuloModel.doc_identificador_nro}
+                        onChange={changeSelectTipoCod}
+                      />
+                    )}
+                  />
+
                 </div>
               </div>
               <div className="col-12 col-sm-4 mt-4">

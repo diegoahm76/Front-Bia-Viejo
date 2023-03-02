@@ -16,6 +16,7 @@ import { Column } from "primereact/column";
 import { TreeTable } from "primereact/treetable";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import AddIcon from "@mui/icons-material/Add";
 
 import {
   obtenerTodosBienes,
@@ -31,6 +32,7 @@ import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import clienteAxios from "../../../config/clienteAxios";
 import clienteBack from "../../../config/clienteBack";
+import ButtonMaterial from "@mui/material/Button";
 
 const CatalogoDeBienesScreen = () => {
   const bien = useAppSelector((state) => state.bien.bien);
@@ -43,7 +45,6 @@ const CatalogoDeBienesScreen = () => {
   const [arrayTotal, setArrayTotal] = useState<INodo[]>([]);
   const [arrayRecorrido, setArrayRecorrido] = useState<number[]>([]);
 
-
   useEffect(() => {
     getBienes();
   }, []);
@@ -54,9 +55,9 @@ const CatalogoDeBienesScreen = () => {
       .then((bienes) => {
         setArrayTotal(bienes.data.data);
       })
-      .catch(() => {
-      });
-  }
+      .catch(() => {});
+  };
+  console.log(arrayTotal, "estos son todos los datos");
 
   // useEffect(() => {
   //   armarArbol(bien);
@@ -96,21 +97,20 @@ const CatalogoDeBienesScreen = () => {
   let header1 = getHeader("globalFilter1");
   let header2 = getHeader("globalFilter2");
 
+  
+
   //armarArbol();
-  const header = "Catalogo de bienes- Viewer";
-  const footer = (
-    <div style={{ textAlign: "left" }}>
-      <Button icon="pi pi-refresh" tooltip="Reload" />
-    </div>
-  );
+
+  
   const actionTemplate = (node, column) => {
     return (
       <div>
         <Button
           type="button"
-          icon="fa-regular fa-plus fs-3"
-          className="p-button-success"
-          style={{ marginRight: ".5em" }}
+          icon="fa-regular fa-plus fs-4"
+          className="p-button-success p-button-outlined"
+          title="Agregar"
+          style={{ marginRight: ".5em", color: "black", border: "none" }}
           onClick={() => {
             enviarDatos(node, false); //crear
           }}
@@ -118,9 +118,10 @@ const CatalogoDeBienesScreen = () => {
         ></Button>
         <Button
           type="button"
-          icon="fa-regular fa-pen-to-square fs-3"
-          className="p-button-warning"
-          style={{ marginRight: ".5em" }}
+          icon="fa-regular fa-pen-to-square fs-4"
+          className="p-button-white p-button-outlined"
+          title="Editar"
+          style={{ marginRight: ".5em", color: "black", border: "none" }}
           onClick={() => {
             enviarDatos(node, true); //true
           }}
@@ -128,9 +129,10 @@ const CatalogoDeBienesScreen = () => {
         ></Button>
         <Button
           type="button"
-          icon="fa-regular fa-trash-can fs-3"
-          className="p-button-danger"
-          style={{ marginRight: ".5em" }}
+          icon="fa-regular fa-trash-can fs-4"
+          className="p-button-danger p-button-outlined"
+          title="Eliminar"
+          style={{ marginRight: ".5em", color: "black", border: "none" }}
           disabled={!node.data.eliminar}
           onClick={() => {
             eliminarNodo(node); //true
@@ -140,22 +142,19 @@ const CatalogoDeBienesScreen = () => {
     );
   };
 
-
   function enviarDatos(nodo, accion) {
     if (accion) {
-      seleccionarBienEdit(dispatch, nodo.data.bien)
+      seleccionarBienEdit(dispatch, nodo.data.bien);
     } else {
-      seleccionarBienCreate(dispatch, nodo.data.bien)
+      seleccionarBienCreate(dispatch, nodo.data.bien);
     }
-
-
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   }
 
   function eliminarNodo(nodo) {
-    eliminarBien(dispatch, nodo.data.bien);
+    eliminarBien(dispatch, nodo);
     obtenerTodosBienes(dispatch);
   }
 
@@ -167,12 +166,23 @@ const CatalogoDeBienesScreen = () => {
 
   const navigate = useNavigate();
   const CrearArticulo = () => {
+    console.log("crear", initialStateBien);
     seleccionarBienCreate(dispatch, initialStateBien.bienSeleccionado);
     navigate(
       "/dashboard/Recaudo/gestor-notificacion/crear-entrada-articulos-fijos"
     );
   };
 
+  const actionTemplate2 = () => {
+    return (
+      <div>
+        <i className="fa-regular fa-folder"></i>
+      </div>
+    );
+  };
+
+ 
+  
 
   return (
     <div className="row min-vh-100">
@@ -187,45 +197,57 @@ const CatalogoDeBienesScreen = () => {
               {" "}
               Catálogo de bienes
             </h3>
-            <div className="d-flex justify-content">
-              <div className="d-grid d-flex">
-                <button
-                  className="btn-icon-green btn px-3 mt-4"
-                  type="button"
-                  title="Agregar"
-                  onClick={() => CrearArticulo()}
-                >
-                  <i className="fa-regular fa-plus fs-3"></i>
-                </button>
-              </div>
+          </div>
+
+          <div className="row">
+            <Subtitle title={"Craciaciòn de Articulos"} />
+
+            <div className="col-12 col-md-6  mt-4">
+              
+              <ButtonMaterial variant="outlined" startIcon={<AddIcon  style={{ fontSize: '30px' }}/>} 
+              className=" mb-4"
+                type="button"
+                title="Agregar"
+                color="inherit"
+                style={{ fontSize: '20px', textTransform : "none" }}
+                onClick={() => CrearArticulo()}>
+                Crear carpeta padre
+              </ButtonMaterial>
             </div>
-            <div className="card">
-              <TreeTable value={arrayTotal} footer={footer} filterMode="strict">
-                <Column
-                  field="nombre"
-                  header="Nombre"
-                  expander
-                  style={{ width: "550px" }}
-                  filter
-                  filterPlaceholder="Filter por nombre"
-                ></Column>
-                <Column
-                  field="codigo"
-                  header="Código"
-                  style={{ width: "450px" }}
-                  filter
-                  filterPlaceholder="Filter por código"
-                ></Column>
-                <Column
-                  header="Acciones"
-                  body={actionTemplate}
-                  style={{ textAlign: "center", width: "850px" }}
-                />
-                {/* <Column field="agregar" header="Agregar"></Column>
+          </div>
+          <div className="col-12 col-md-12  mt-4">
+          <div className="card">
+          
+            <TreeTable value={arrayTotal}  filterMode="strict">
+              <Column
+                expander
+                body={<i className="fa-regular fa-folder fs-4"></i>}
+                style={{ width: "250px" }}
+              ></Column>
+              <Column
+                header="Nombre"
+                field="nombre"
+                style={{ width: "300px" }}
+                filter
+                filterPlaceholder="Filter por nombre"
+              ></Column>
+              <Column
+                field="codigo"
+                header="Código"
+                style={{ width: "100px" }}
+                filter
+                filterPlaceholder="Filter por código"
+              ></Column>
+              <Column
+                header="Acciones"
+                body={actionTemplate}
+                style={{ textAlign: "center", width: "800px" }}
+              />
+              {/* <Column field="agregar" header="Agregar"></Column>
                     <Column field="editar" header="Editar"></Column>
                     <Column field="eliminar" header="Eliminar"></Column> */}
-              </TreeTable>
-              ;
+            </TreeTable>
+            ;
             </div>
           </div>
         </form>

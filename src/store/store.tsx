@@ -6,6 +6,7 @@ import assignmentsReducer from "./slices/assignments/indexAssignments";
 import bienReducer from "./slices/catalogoBienes/indexCatalogoBien";
 import bodegaReducer from "./slices/bodega/indexBodega";
 import CCDReducer from "./slices/CCD/indexCCD";
+import TDRSReducer from "./slices/TDR/indexTDR";
 import configuracionReducer from "./slices/configuracionesEstaciones/indexConfiguracionesEstaciones";
 import cvReducer from "./slices/cv/indexCv";
 import estacionesReducer from "./slices/administradorEstaciones/indexAdministradorEstaciones";
@@ -39,6 +40,7 @@ const store = configureStore({
     bien: bienReducer,
     bodegaSlice: bodegaReducer,
     CCD: CCDReducer,
+    TDR: TDRSReducer,
     configuracion: configuracionReducer,
     cv: cvReducer,
     loading: loadingReducer,

@@ -45,16 +45,17 @@ export const {
 } = mantenimientoSlice.actions;
 export default mantenimientoSlice.reducer;
 
-export const obtenerArticulos = async (dispatch, tipo, nombre?, documento?) => {
-  const name = nombre === undefined ? "" : nombre;
-  const codigo = nombre === undefined ? "" : documento;
+export const obtenerArticulos = async (dispatch, tipo?, nombre?, documento?) => {
   const elementModalId = document.getElementById("modalArticulosId")!;
+  const name = nombre === undefined ? "" : nombre;
+  // const codigo = nombre === undefined ? "" : documento;
   await clienteAxios
     .get(
-      `/almacen/bienes/catalogo-bienes/get-by-nombre-nroidentificador/?cod_tipo_activo=${tipo}&nombre=${name}&doc_identificador_nro=${codigo}`
+      `/almacen/bienes/entradas/search-bienes/?codigo_bien=${tipo}&nombre=${nombre}`
     )
     .then((res) => {
-      dispatch(getArticulos(res.data.Elementos));
+      console.log(res);
+      dispatch(getArticulos(res.data.data));
     })
     .catch((error) => {
       Swal.fire({

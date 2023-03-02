@@ -60,7 +60,6 @@ const CcdScreen = () => {
     cleanCCD,
   } = useCCD();
 
-  console.log(flagBtnFinish)
   return (
     <div className="row min-vh-100">
       <div className="col-lg-12 col-md-10 col-12 mx-auto">
@@ -414,7 +413,7 @@ const CcdScreen = () => {
                       rowData={assignmentsCCD}
                       defaultColDef={defaultColDef}
                       getRowClass={getRowClass} // para cambiar el color de la fila
-                    ></AgGridReact>
+                    />
                   </div>
                 </div>
               </div>
