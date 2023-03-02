@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { Controller, useForm } from "react-hook-form";
 import { AgGridReact } from "ag-grid-react";
@@ -10,8 +10,23 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import BusquedaDePersonalModal from "../../../components/BusquedaDePersonalModal";
 import BusquedaArticuloModal from "../../../components/BusquedaArticuloModal";
 import Subtitle from "../../../components/Subtitle";
+import clienteAxios from "../../../config/clienteAxios";
 
 const SolicitarArticulosConsumoScreen = () => {
+
+  const [unitOfMeasurement, setUnitOfMeasurement] = useState([]);
+  useEffect(() => {
+    getUnitOfMeasurement();
+  }, []);
+
+  const getUnitOfMeasurement = async () => {
+    try {
+      const { data } = await clienteAxios.get("almacen/unidades-medida/get-list/");
+      setUnitOfMeasurement(
+        data.map((item) => ({ value: item.id_marca, label: item.nombre }))
+      );
+    } catch (error: any) {}
+  };
   const [rowsoliconsu] = useState([
     {
       codigo: "2200200001",
@@ -36,7 +51,12 @@ const SolicitarArticulosConsumoScreen = () => {
   ]);
 
   const columsoliconsu = [
-    { headerName: "Codigo bien", field: "codigo", minWidth: 150, maxWidth: 200 },
+    {
+      headerName: "Codigo bien",
+      field: "codigo",
+      minWidth: 150,
+      maxWidth: 200,
+    },
     {
       headerName: "Nombre",
       field: "nombre",
@@ -54,8 +74,7 @@ const SolicitarArticulosConsumoScreen = () => {
       field: "accion",
       cellRendererFramework: (params) => (
         <div>
-          <button className="btn text-capitalize " type="button" 
-          >
+          <button className="btn text-capitalize " type="button">
             <i className="fa-regular fa-trash-can fs-4" title="Eliminar"></i>
           </button>
         </div>
@@ -65,7 +84,6 @@ const SolicitarArticulosConsumoScreen = () => {
     },
   ];
 
-  
   const defaultColDef = {
     sortable: true,
     editable: false,
@@ -77,7 +95,6 @@ const SolicitarArticulosConsumoScreen = () => {
     autoHeaderHeight: true,
     suppressMovable: true,
   };
-  
 
   const [page, setPage] = useState(1);
 
@@ -350,21 +367,16 @@ const SolicitarArticulosConsumoScreen = () => {
                   Unidad de medida: <span className="text-danger">*</span>{" "}
                 </label>
                 <Controller
-                  name="options"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      {...field}
-                      options={[
-                        { label: "GRUPO1", value: "GRUPO1" },
-                        { label: "GRUPO2", value: "GRUPO2" },
-                        { label: "GRUPO3", value: "GRUPO3" },
-                        { label: "GRUPO4", value: "GRUPO4" },
-                      ]}
-                      placeholder="Seleccionar"
-                    />
-                  )}
-                />
+                    name="UNIDAD DE MEDIDA"
+                    control={control}
+                    render={({ field }) => (
+                      <Select
+                        {...field}
+                        options={unitOfMeasurement}
+                        placeholder="Seleccionar"
+                      />
+                    )}
+                  />
               </div>
               <div className="col-12 col-lg-6  mt-3">
                 <label className="ms-2 text-terciary">Observaciones:</label>
@@ -388,7 +400,7 @@ const SolicitarArticulosConsumoScreen = () => {
             </div>
             <div>
               <div id="myGrid" className="ag-theme-alpine ">
-                <div className="ag-theme-alpine" style={{ height: "300px", width:"900px" }}>
+                <div className="ag-theme-alpine" style={{ height: "300px" }}>
                   <AgGridReact
                     columnDefs={columsoliconsu}
                     rowData={rowsoliconsu}
@@ -410,6 +422,28 @@ const SolicitarArticulosConsumoScreen = () => {
                 onClick={handlePreviousPage}
               >
                 <i className="fa-solid fa-angles-left fs-3" title="atras"></i>
+              </button>
+              <button
+                type="button"
+                className={`btn btn-primary text-capitalize border rounded-pill px-3 btn-min-width ${
+                  page === 1 && "d-none"
+                }`}
+              >
+                Anular
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-ligth text-capitalize  px-3"
+                title="Limpiar"
+              >
+                <i className="fa-solid fa-eraser fs-3" title="Limpiar"></i>
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-ligth text-capitalize  px-3"
+                title="Salir"
+              >
+                <i className="fa-solid fa-x fs-3" title="Salir"></i>
               </button>
               <button
                 className="btn  text-capitalize btn-outline-ligth px-3"
