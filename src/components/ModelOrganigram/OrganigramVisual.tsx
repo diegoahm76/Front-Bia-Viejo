@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
-import OrganizationChart from '@dabeng/react-orgchart';
 // import { ISon } from '../../Interfaces/Organigrama';
 import { useAppSelector } from '../../store/hooks/hooks';
 import clienteAxios from '../../config/clienteAxios';
@@ -335,17 +334,7 @@ export default function OrganigramVisual() {
       </Button>{' '}
       <Button style={{ color: '#fff' }} disabled variant='success'>
         Unidad de Apoyo
-      </Button>{' '} */}
-      {isLoading ? (
-        'Cargango'
-      ) : (
-        <OrganizationChart
-          datasource={dataView}
-          zoom={true}
-          chartClass='myChart'
-          NodeTemplate={MyNode}
-        />
-      )}
+      </Button>{' '} */}     
     </>
   );
 }
