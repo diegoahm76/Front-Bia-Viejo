@@ -1,77 +1,66 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
-import "ag-grid-community/dist/styles/ag-grid.css";
-import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import { Controller, useForm } from "react-hook-form";
-import { useEffect } from "react";
-import Select from "react-select"
-import { changeSesionAction, closeModalSesionAction } from "../actions/userActions";
-import { useAppDispatch, useAppSelector } from "../store/hooks/hooks";
-import { type } from "os";
-import { modalActionOff } from "../store/slices/modal/indexModal";
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { Controller, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import Select from 'react-select';
+import { useAppDispatch, useAppSelector } from '../store/hooks/hooks';
+import { modalActionOff } from '../store/slices/modal/indexModal';
 
 interface sesionType {
   label: string;
   value: {
     userName: string;
     type: string;
-  }
+  };
 }
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    zIndex: "9999",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    zIndex: '9999',
     width: '400px',
-    height: "400px"
-  },
+    height: '400px'
+  }
 };
 
-Modal.setAppElement("#root");
+Modal.setAppElement('#root');
 
 const SelectSesionModal = () => {
   const userinfo = useAppSelector((state) => state.login);
-  const modalOpen = useAppSelector((state) => state.modalSelector.isModalActive);
-  const [sesions, setSesions] = useState<sesionType[]>([])
+  const modalOpen = useAppSelector(
+    (state) => state.modalSelector.isModalActive
+  );
+  const [sesions, setSesions] = useState<sesionType[]>([]);
 
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors }
+  } = useForm();
 
   const getSesions = () => {
-    const sesionsFromRepresentante = userinfo.representante_legal?.map(
-      (representante) => {
-        const data: sesionType = {
-          label: `Representante ${representante["razon social"]}`,
-          value: {
-            userName: `Representante ${representante["razon social"]}`,
-            type: "representante"
-          },
-        }
-        return data;
-      }
-    );
-
     const userSesion: sesionType = {
       label: `Usuario ${userinfo?.userinfo.nombre_de_usuario}`,
       value: {
         userName: userinfo?.userinfo.nombre_de_usuario,
-        type: "usuario"
+        type: 'usuario'
       }
-    }
+    };
 
-    if (!userinfo.representante_legal) return setSesions([userSesion])
-
-    setSesions([...sesionsFromRepresentante, userSesion])
+    if (!userinfo.representante_legal) return setSesions([userSesion]);
   };
 
   const onSubmit = (data) => {
-    console.log(data)
+    console.log(data);
     // dispatch(changeSesionAction(data.selectSesion?.value))
   };
 
@@ -80,79 +69,77 @@ const SelectSesionModal = () => {
   };
 
   useEffect(() => {
-    getSesions()
-  }, [])
+    getSesions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // REVISAR 
+  // REVISAR
   // isOpen={userSesion.modalopen}
   return (
     <Modal
       isOpen={modalOpen}
       style={customStyles}
-      className="modal"
-      overlayClassName="modal-fondo"
+      className='modal'
+      overlayClassName='modal-fondo'
       closeTimeoutMS={300}
     >
-      <div className="row">
-        <div className="col-lg-12 mx-auto">
+      <div className='row'>
+        <div className='col-lg-12 mx-auto'>
           <form
-            className="multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative"
-            data-animation="FadeIn"
+            className='multisteps-form__panel border-radius-xl bg-white js-active p-4 position-relative'
+            data-animation='FadeIn'
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h3 className="mt-3 mb-4 mb-2 fw-light text-terciary text-center">
+            <h3 className='mt-3 mb-4 mb-2 fw-light text-terciary text-center'>
               Entornos disponibles
             </h3>
-            <div className="col-12 mt-2 mx-auto">
-              <label className="form-label">
-                Selecciona un entorno:{" "}
-                <span className="text-danger">*</span>
+            <div className='col-12 mt-2 mx-auto'>
+              <label className='form-label'>
+                Selecciona un entorno: <span className='text-danger'>*</span>
               </label>
               <Controller
-                name="selectSesion"
+                name='selectSesion'
                 control={control}
                 rules={{
-                  required: true,
+                  required: true
                 }}
                 render={({ field }) => (
                   <Select
                     {...field}
                     options={sesions}
-                    placeholder="Seleccionar"
+                    placeholder='Seleccionar'
                   />
                 )}
               />
               {errors.selectSesion && (
-                <div className="col-12">
-                  <small className="text-center text-danger">
+                <div className='col-12'>
+                  <small className='text-center text-danger'>
                     Este campo es obligatorio
                   </small>
                 </div>
               )}
             </div>
-            <div className="d-flex justify-content-end gap-2 mt-6">
+            <div className='d-flex justify-content-end gap-2 mt-6'>
               <button
-                className="btn bg-gradient-light mb-0 d-block text-capitalize"
-                type="button"
+                className='btn bg-gradient-light mb-0 d-block text-capitalize'
+                type='button'
                 onClick={handleCloseModal}
               >
                 cancelar
               </button>
               <button
-                className="btn bg-gradient-primary mb-0 d-block text-capitalize"
-                type="submit"
+                className='btn bg-gradient-primary mb-0 d-block text-capitalize'
+                type='submit'
               >
                 Seleccionar
               </button>
             </div>
           </form>
           <p
-            className="text-danger cursor-click text-capitalize position-absolute top-0 end-2 fs-4"
+            className='text-danger cursor-click text-capitalize position-absolute top-0 end-2 fs-4'
             onClick={handleCloseModal}
           >
-            <b>
-              X
-            </b>
+            <b>X</b>
           </p>
         </div>
       </div>

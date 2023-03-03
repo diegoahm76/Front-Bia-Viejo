@@ -1,69 +1,65 @@
-import React, { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import Select, { SingleValue } from "react-select";
-import clienteAxios from "../../../config/clienteAxios";
-import { formatISO } from "date-fns";
-import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import { textChoiseAdapter } from "../../../adapters/textChoices.adapter";
-import Subtitle from "../../../components/Subtitle";
-import DirecionResidenciaModal from "../../../components/DirecionResidenciaModal";
-import botonCancelar from "../../../assets/iconosBotones/cancelar.svg";
-import botonRegistrarse from "../../../assets/iconosBotones/agregar.svg";
+import React, { useEffect, useState } from 'react';
+import DatePicker from 'react-datepicker';
+import { useForm } from 'react-hook-form';
+import Select, { SingleValue } from 'react-select';
+import clienteAxios from '../../../config/clienteAxios';
+import { formatISO } from 'date-fns';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+import { textChoiseAdapter } from '../../../adapters/textChoices.adapter';
+import Subtitle from '../../../components/Subtitle';
+import DirecionResidenciaModal from '../../../components/DirecionResidenciaModal';
+import botonCancelar from '../../../assets/iconosBotones/cancelar.svg';
+import botonRegistrarse from '../../../assets/iconosBotones/agregar.svg';
 
 //interfaces
 import {
   IAuth,
   IDatosNotificacion,
-  IDefaultValues,
   IFormValues,
   IList,
   IObjectSend,
-  IPerson,
-} from "../../../Interfaces/auth";
-import { AxiosError } from "axios";
-import { setDatesFormat, setDatesFormatRevere } from "../../../utils";
+  IPerson
+} from '../../../Interfaces/auth';
+import { AxiosError } from 'axios';
 
 const defaultValues = {
-  tipoDocumentoLegal: { label: "", value: "" },
-  numero_documento_legal: "",
-  paisNotificacion: { label: "", value: "" },
-  departamentoNotificacion: { label: "", value: "" },
-  fechaNacimiento: null,
-  tipo_persona: { label: "Natural", value: "N" },
-  tipo_documento: "",
-  numero_documento: "",
-  razon_social: "",
-  dv: "",
-  primer_nombre: "",
-  segundo_nombre: "",
-  primer_apellido: "",
-  segundo_apellido: "",
-  fechaInput: "",
-  fecha_nacimiento: "",
-  ubicacion_georeferenciada: "mi casita",
-  pais_residencia: "",
-  municipio: "",
-  pais_nacimiento: "",
-  sexo: "",
-  email: "",
-  cEmail: "",
-  cod_pais_nacionalidad_empresa: "",
-  telefono_celular: "",
-  cCelular:"",
-  celular:"",
-  nombre_comercial: "",
+  tipo_persona: '',
+  tipo_documento: '',
+  numero_documento: '',
+  razon_social: '',
+  dv: '',
+  primer_nombre: '',
+  segundo_nombre: '',
+  primer_apellido: '',
+  segundo_apellido: '',
+  fechaInput: '',
+  fecha_nacimiento: '',
+  ubicacion_georeferenciada: 'mi casita',
+  pais_residencia: '',
+  municipio: '',
+  pais_nacimiento: '',
+  sexo: '',
+  email: '',
+  cEmail: '',
+  cod_pais_nacionalidad_empresa: '',
+  telefono_celular: '',
+  cCelular: '',
+  celular: '',
+  nombre_comercial: '',
   acepta_notificacion_sms: true,
   acepta_notificacion_email: true,
   acepta_tratamiento_datos: true,
-  direccionNotificacion: "",
-  municipioNotificacion: "",
+  direccionNotificacion: '',
+  municipioNotificacion: '',
+  nombreDeUsuario: '',
+  password: '',
+  password2: ''
 };
 
 const defaultErrors = {
   confirmacionEmail: false,
-  confirmacionCelular: false,
+  confirmacionCelular: false
 };
 
 const RegisterPersonaScreen = () => {
@@ -71,11 +67,10 @@ const RegisterPersonaScreen = () => {
   const [isOpenGenerator, setIsOpenGenerator] = useState<boolean>(false);
   const [yesOrNo, setYesOrNo] = useState<boolean>(false);
   const [isUser, setIsUser] = useState<boolean>(true);
-  const [completeAddress, setCompleteAddress] = useState<string>("");
-  const [idRepresentante, setIdRepresentante] = useState<string>("");
+  const [completeAddress, setCompleteAddress] = useState<string>('');
   const [errors, setErrors] = useState<IAuth>(defaultErrors);
   const [datosNotificacion, setDatosNotificacion] =
-    useState<IDatosNotificacion>({ departamento: "" });
+    useState<IDatosNotificacion>({ departamento: '' });
   const [municipioNotificacionFiltered, setMunicipioNotificacionFiltered] =
     useState<IList[]>([]);
   const [tipoDocumentoOptions, setTipoDocumentoOptions] = useState<IList[]>([]);
@@ -83,13 +78,20 @@ const RegisterPersonaScreen = () => {
   const [departamentosOptions, setDepartamentosOptions] = useState<IList[]>([]);
   const [municipiosOptions, setMunicipiosOptions] = useState<IList[]>([]);
   const [tipoDocumentoFiltrado, setTipoDocumentoFiltrado] = useState<any>([]);
-  const [tipoPersonaOptions, setTipoPersonaOptions] = useState<any[]>([]);
+  const [tipoPersonaOptions, setTipoPersonaOptions] = useState<IList[]>([]);
   const [formValues, setFormValues] = useState<IFormValues>({
-    fechaNacimiento: "",
-    tipo_persona: { label: "Natural", value: "N" },
-    digito_verificacion: "",
-    municipioNotificacion: "",
+    fechaNacimiento: '',
+    tipo_persona: { label: 'Natural', value: 'N' },
+    digito_verificacion: '',
+    municipioNotificacion: ''
   });
+  const [errorPassword, setErrorPassword] = useState<boolean | null>(null);
+  const {
+    watch,
+    handleSubmit,
+    reset,
+    formState: { errors: errorsForm }
+  } = useForm<any>({ defaultValues });
 
   // Modelo de creacion
   const [createPersonaModel, setCreatePersonaModel] = useState(defaultValues);
@@ -99,27 +101,27 @@ const RegisterPersonaScreen = () => {
     const getSelectsOptions = async () => {
       try {
         const { data: tipoPersonaNoFormat } = await clienteAxios.get(
-          "choices/tipo-persona/"
+          'choices/tipo-persona/'
         );
         const { data: tipoDocumentosNoFormat } = await clienteAxios.get(
-          "choices/tipo-documento/"
+          'choices/tipo-documento/'
         );
         const { data: paisesNoFormat } = await clienteAxios.get(
-          "choices/paises/"
+          'choices/paises/'
         );
         const { data: departamentosNoFormat } = await clienteAxios.get(
-          "choices/departamentos/"
+          'choices/departamentos/'
         );
         const { data: municipiosNoFormat } = await clienteAxios.get(
-          "choices/municipios/"
+          'choices/municipios/'
         );
-        console.log(municipiosNoFormat, "municipiosNoFormat")
+
         const documentosFormat = textChoiseAdapter(tipoDocumentosNoFormat);
         const departamentosFormat = textChoiseAdapter(departamentosNoFormat);
         const paisesFormat = textChoiseAdapter(paisesNoFormat);
         const municipiosFormat = textChoiseAdapter(municipiosNoFormat);
         const tipoPersonaFormat = textChoiseAdapter(tipoPersonaNoFormat);
-        console.log(municipiosFormat, "municipiosFormat")
+
         setTipoDocumentoOptions(documentosFormat);
         setDepartamentosOptions(departamentosFormat);
         setPaisesOptions(paisesFormat);
@@ -132,182 +134,119 @@ const RegisterPersonaScreen = () => {
     getSelectsOptions();
   }, []);
 
-  const {
-    register,
-    control,
-    watch,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { errors: errorsForm },
-  } = useForm<IDefaultValues>({ defaultValues });
+  useEffect(() => {
+    validatePassword();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [createPersonaModel]);
 
-  const dataPersona = watch();
+  const validatePassword = () => {
+    if (createPersonaModel.password !== createPersonaModel.password2) {
+      setErrorPassword(true);
+    } else {
+      setErrorPassword(false);
+    }
+  };
 
-  let elm = document.getElementById("myInput");
-  if (elm && typeof elm.focus === "function") {
-    elm.focus();
-  }
+  const submitForm = async () => {
+    if (createPersonaModel.password !== createPersonaModel.password2) {
+      setErrorPassword(true);
+      return;
+    }
+    //* Validación duplicidad de emails y celular
+    if (
+      createPersonaModel.email !== createPersonaModel.cEmail ||
+      createPersonaModel.celular !== createPersonaModel.cCelular
+    ) {
+      const dataResponse = {
+        ...defaultErrors
+      };
 
-  const submitForm: SubmitHandler<IDefaultValues> = async (
-    data: IDefaultValues
-  ) => {
-    let idRepresentante = "";
-    let fechaNacimiento = setDatesFormatRevere(dataPersona.fechaNacimiento ? dataPersona.fechaNacimiento.toLocaleString() : '')
+      if (createPersonaModel.email !== createPersonaModel.cEmail) {
+        dataResponse.confirmacionEmail = true;
+      }
 
-    const personaNatural: any = {
-      tipo_persona: dataPersona.tipo_persona.value,
-      tipo_documento: dataPersona.tipoDocumento.value,
-      numero_documento: dataPersona.numero_documento,
-      digito_verificacion: "",
-      nombre_comercial: "",
-      primer_nombre: dataPersona.primerNombre,
-      segundo_nombre: dataPersona.segundo_nombre,
-      primer_apellido: dataPersona.primerApellido,
-      segundo_apellido: dataPersona.segundo_apellido,
-      fecha_nacimiento: fechaNacimiento,
-      email: dataPersona.eMail,
-      telefono_celular: "57"+dataPersona.celular,
-      telefono_empresa_2: null,
-      sexo: "",
-      estado_civil: "",
-      pais_nacimiento: "",
-      email_empresarial: null,
-      ubicacion_georeferenciada: "string",
-      telefono_fijo_residencial: null,
-      pais_residencia: "",
-      municipio_residencia: "",
-      direccion_residencia: "",
-      direccion_laboral: "",
-      direccion_residencia_ref: "",
-      direccion_notificaciones: "",
-      cod_municipio_laboral_nal: "",
-      cod_municipio_notificacion_nal: "",
-      acepta_notificacion_sms: true,
-      acepta_notificacion_email: true,
-      acepta_tratamiento_datos: true
+      if (createPersonaModel.celular !== createPersonaModel.cCelular) {
+        dataResponse.confirmacionCelular = true;
+      }
+
+      setErrors({ ...errors, ...dataResponse });
+      setTimeout(() => {
+        setErrors({ ...errors, ...defaultErrors });
+      }, 2000);
+
+      return;
+    }
+
+    const persona: IPerson = {
+      tipo_persona: '',
+      tipo_documento: '',
+      numero_documento: '',
+      digito_verificacion: '',
+      nombre_comercial: '',
+      primer_nombre: '',
+      segundo_nombre: '',
+      primer_apellido: '',
+      segundo_apellido: '',
+      fecha_nacimiento: '',
+      email: '',
+      telefono_celular: '',
+      ubicacion_georeferenciada: '',
+      razon_social: '',
+      telefono_celular_empresa: '',
+      direccion_notificaciones: '',
+      representante_legal: '',
+      cod_municipio_notificacion_nal: ''
     };
 
     setLoading(true);
-    if (dataPersona.tipo_persona.value === "N") {
+    if (createPersonaModel.tipo_persona === 'N') {
       try {
-        const { data: dataRegisterPersona } = await clienteAxios.post(
-          "personas/persona-natural/create/",
-          personaNatural
+        await clienteAxios.post(
+          'personas/persona-natural/create/',
+          createPersonaModel
         );
-        Swal.fire({
-          title: "Registrado como persona natural",
-          text: "¿Desea registrarse como usuario?",
-          icon: "success",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            navigate("/registeruser");
-          } else {
-            resetValues();
-          }
-        });
         //* Manejo de errores por datos repetidos en la DB (email y numero documento)
       } catch (err: any) {
         console.log(err);
         setLoading(false);
         Swal.fire({
+          title: 'Este documento y correo ya estan relacionados',
           text: err.response?.data.detail,
-          icon: "warning",
-          confirmButtonColor: "#3BA9E0",
-          confirmButtonText: "Aceptar",
-        });
-        // if (err.response?.data?.email && err.response?.data?.numero_documento) {
-        //   Swal.fire({
-        //     title: "Este documento y correo ya estan relacionados",
-        //     text: "¿Desea registrarse como usuario?",
-        //     icon: "warning",
-        //     showCancelButton: true,
-        //     confirmButtonColor: "#3BA9E0",
-        //     cancelButtonColor: "#6c757d",
-        //     confirmButtonText: "Si",
-        //     cancelButtonText: "No",
-        //   }).then((result) => {
-        //     if (result.isConfirmed) {
-        //       navigate("/registeruser");
-        //     }
-        //   });
-        // } else if (err.response?.data?.numero_documento) {
-        //   Swal.fire({
-        //     title: "Este documento ya existe",
-        //     text: "¿Desea registrarse como usuario?",
-        //     icon: "warning",
-        //     showCancelButton: true,
-        //     confirmButtonColor: "#3BA9E0",
-        //     cancelButtonColor: "#6c757d",
-        //     confirmButtonText: "Si",
-        //     cancelButtonText: "No",
-        //   }).then((result) => {
-        //     if (result.isConfirmed) {
-        //       navigate("/registeruser");
-        //     }
-        //   });
-        // } else if (err.response?.data?.non_field_errors) {
-        //   //Cambiaron los errores ahora vienen en este formato
-        //   Swal.fire({
-        //     title: "Este documento ya existe",
-        //     text: "¿Desea registrarse como usuario?",
-        //     icon: "warning",
-        //     showCancelButton: true,
-        //     confirmButtonColor: "#3BA9E0",
-        //     cancelButtonColor: "#6c757d",
-        //     confirmButtonText: "Si",
-        //     cancelButtonText: "No",
-        //   }).then((result) => {
-        //     if (result.isConfirmed) {
-        //       navigate("/registeruser");
-        //     }
-        //   });
-        // } else if (err?.response!.data?.email) {
-        //   console.log(err);
-        //   Swal.fire({
-        //     title: "Este correo electronico ya existe",
-        //     text: "Verifica tus datos",
-        //     icon: "info",
-        //     confirmButtonColor: "#3BA9E0",
-        //     cancelButtonColor: "#6c757d",
-        //     confirmButtonText: "Aceptar",
-        //   });
-        // } else {
-        //   console.log(err);
-        // }
-        // return err as AxiosError;
-      }
-      setLoading(false);
-    } else {
-      try {
-        const { data: dataRepresentante } = await clienteAxios.get(
-          `personas/get-personas-naturales-by-document/${data.tipoDocumentoLegal.value}/${data.numero_documento_legal}/`
-        );
-        idRepresentante = dataRepresentante?.data?.id_persona;
-        console.log(idRepresentante, "datarepresentante legal")
-      } catch (error) {
-        console.log(error);
-        Swal.fire({
-          title:
-            "No existe un representante legal registrado con el documento ingresado",
-          text: "¿Quiere crear una persona natural?",
-          icon: "info",
+          icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
+          confirmButtonColor: '#3BA9E0',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
         }).then((result) => {
           if (result.isConfirmed) {
-            handleChangeTypePerson({ label: "Natural", value: "N" });
+            navigate('/registeruser');
+          }
+        });
+      }
+    } else {
+      try {
+        await clienteAxios.get(
+          `personas/get-personas-naturales-by-document/${createPersonaModel.tipo_documento}/${createPersonaModel.numero_documento}/`
+        );
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          title:
+            'No existe un representante legal registrado con el documento ingresado',
+          text: '¿Quiere crear una persona natural?',
+          icon: 'info',
+          showCancelButton: true,
+          confirmButtonColor: '#3BA9E0',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleChangeTypePerson({ label: 'Natural', value: 'N' });
             setFormValues({
               ...formValues,
-              tipo_persona: { label: "Natural", value: "N" },
+              tipo_persona: { label: 'Natural', value: 'N' }
             });
           }
         });
@@ -315,76 +254,152 @@ const RegisterPersonaScreen = () => {
         return error as AxiosError;
       }
 
-      const personaJuridica = {
-        tipo_persona: dataPersona.tipo_persona.value,
-        tipo_documento: dataPersona.tipoDocumento.value,
-
-        numero_documento: dataPersona.numero_documento,
-        digito_verificacion: dataPersona.dv,
-        nombre_comercial: dataPersona.nombreComercial,
-        razon_social: dataPersona.razonSocial,
-        email: dataPersona.eMail,
-        email_empresarial: dataPersona.eMail,
-        direccion_notificaciones: dataPersona.direccionNotificacion,
-        cod_municipio_notificacion_nal: dataPersona.municipioNotificacion.value,
-        cod_pais_nacionalidad_empresa: dataPersona.paisNotificacion.value,
-        telefono_celular_empresa: dataPersona.celular,
-        // representante_legal: Number(dataPersona.),
-        representante_legal: idRepresentante,
-        telefono_empresa_2: '',
-        telefono_empresa: '',
-        acepta_notificacion_sms: true,
-        acepta_notificacion_email: true,
-        acepta_tratamiento_datos: true,
-      }
-      console.log(personaJuridica, "persona juridica")
       try {
-        const { data: dataRegisterEmpresa } = await clienteAxios.post(
-          "personas/persona-juridica/create/",
-          personaJuridica
-        );
+        await clienteAxios.post('personas/persona-juridica/create/', persona);
         Swal.fire({
-          title: "Registrado como persona juridica",
-          text: "¿Desea registrarse como usuario?",
-          icon: "success",
+          title: 'Registrado como persona juridica',
+          text: '¿Desea registrarse como usuario?',
+          icon: 'success',
           showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
+          confirmButtonColor: '#3BA9E0',
+          cancelButtonColor: '#6c757d',
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
         }).then((result) => {
           if (result.isConfirmed) {
-            navigate("/registeruser");
+            navigate('/registeruser');
           } else {
             resetValues();
           }
         });
       } catch (err: any) {
-        Swal.fire({
-          title: err.response.data.detail,
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3BA9E0",
-          cancelButtonColor: "#6c757d",
-          confirmButtonText: "Si",
-          cancelButtonText: "No",
-        })
+        if (err.response?.data?.email && err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: 'Este documento y correo ya estan relacionados',
+            text: '¿Desea registrarse como usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3BA9E0',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/registeruser');
+            }
+          });
+        } else if (err.response?.data?.non_field_errors) {
+          Swal.fire({
+            title: 'Este documento ya esta relacionado',
+            text: '¿Desea registrarse como usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3BA9E0',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/registeruser');
+            }
+          });
+        } else if (err.response?.data?.numero_documento) {
+          Swal.fire({
+            title: 'Este documento ya existe',
+            text: '¿Desea registrarse como usuario?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3BA9E0',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/registeruser');
+            }
+          });
+        } else if (err.response?.data?.email) {
+          Swal.fire({
+            title: 'Este correo electronico ya existe',
+            text: 'Verifica tus datos',
+            icon: 'info',
+            confirmButtonColor: '#3BA9E0',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Aceptar'
+          });
+        } else {
+          console.log(err);
+        }
         return err as AxiosError;
-      } finally {
-        setLoading(false);
       }
     }
+
+    // Creamos el usuario
+    try {
+      const { data } = await clienteAxios.get(
+        `personas/get-personas-by-document/${createPersonaModel.tipo_documento}/${createPersonaModel?.numero_documento}`
+      );
+
+      console.log(data);
+
+      const user = {
+        email: createPersonaModel.email,
+        nombre_de_usuario: createPersonaModel.nombreDeUsuario,
+        persona: data.data.id_persona,
+        password: createPersonaModel.password,
+        id_usuario_creador: null,
+        tipo_usuario: 'E', // Debería ser por defecto que se creara en E
+        redirect_url:
+          process.env.NODE_ENV === 'production'
+            ? 'https://macareniafrontdevelop.netlify.app/#/login'
+            : 'http://localhost:3000/#/login'
+      };
+
+      const config2 = {
+        headers: {
+          'Content-type': 'application/json'
+        }
+      };
+      await clienteAxios.post('users/register-externo/', user, config2);
+
+      Swal.fire({
+        title: 'Usuario registrado correctamente',
+        text: 'Revise su bandeja de correo electronico para confirmar el registro',
+        icon: 'success',
+        confirmButtonColor: '#3BA9E0',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Continuar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/login');
+        }
+      });
+    } catch (err: any) {
+      Swal.fire({
+        title: 'Error de registro',
+        text: 'Error al registrar usuario',
+        icon: 'error',
+        showCancelButton: true,
+        confirmButtonColor: '#3BA9E0',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No'
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
   const resetValues = () => {
     reset(defaultValues);
-    setCompleteAddress("");
+    setCompleteAddress('');
   };
-  console.log(dataPersona.numero_documento_legal, 'dataPersona.numero_documento_legal')
+
   const handleChangeTypePerson = (e) => {
     const data = { ...createPersonaModel };
     data.tipo_persona = e.value;
     setCreatePersonaModel(data);
-    if (e.value === "J") {
+    if (e.value === 'J') {
       setIsUser(false);
       setYesOrNo(true);
     } else {
@@ -404,39 +419,28 @@ const RegisterPersonaScreen = () => {
   useEffect(() => {
     if (isUser) {
       const dataFiltered = tipoDocumentoOptions.filter(
-        (documento) => documento.value !== "NT"
+        (documento) => documento.value !== 'NU'
       );
       setTipoDocumentoFiltrado(dataFiltered);
     } else {
       const dataFiltered = tipoDocumentoOptions.filter(
-        (documento) => documento.value === "NT"
+        (documento) => documento.value === 'NU'
       );
       setTipoDocumentoFiltrado(dataFiltered);
     }
   }, [isUser, tipoDocumentoOptions]);
-
-
-  useEffect(() => {
-    if (dataPersona.tipo_persona.value === "J") {
-      setIsUser(false);
-      setYesOrNo(true);
-    } else {
-      setIsUser(true);
-      setYesOrNo(false);
-    }
-  }, [dataPersona.tipo_persona.value]);
 
   const handleMaxOneDigit = (e) => {
     if (e.target.value.length > 1) {
       e.target.value = e.target.value[0];
       setFormValues({
         ...formValues,
-        digito_verificacion: e.target.value[0],
+        digito_verificacion: e.target.value[0]
       });
     } else {
       setFormValues({
         ...formValues,
-        digito_verificacion: e.target.value,
+        digito_verificacion: e.target.value
       });
     }
   };
@@ -444,7 +448,7 @@ const RegisterPersonaScreen = () => {
   const getIndexColombia = () => {
     let indexColombia: string | number | null = null;
     paisesOptions.forEach((pais, index) => {
-      if (pais.value === "CO") {
+      if (pais.value === 'CO') {
         indexColombia = index;
       }
     });
@@ -454,19 +458,19 @@ const RegisterPersonaScreen = () => {
   const handleChangePaisNotificacion = (e) => {
     const objectSend: IObjectSend = {
       paisNotificacion: getIndexBySelectOptions(e.value, paisesOptions),
-      municipioNotificacion: "",
+      municipioNotificacion: ''
     };
-    if (e.value !== "CO" || !e.value) {
+    if (e.value !== 'CO' || !e.value) {
       objectSend.municipioNotificacion = null;
       reset({
         ...watch(),
-        municipioNotificacion: null,
+        municipioNotificacion: null
       });
-      setDatosNotificacion({ ...datosNotificacion, departamento: "" });
+      setDatosNotificacion({ ...datosNotificacion, departamento: '' });
     }
     setFormValues({
       ...formValues,
-      ...objectSend,
+      ...objectSend
     });
   };
 
@@ -483,9 +487,9 @@ const RegisterPersonaScreen = () => {
   };
 
   useEffect(() => {
-    if (datosNotificacion.departamento === "") {
+    if (datosNotificacion.departamento === '') {
       setMunicipioNotificacionFiltered([]);
-      setFormValues({ ...formValues, municipioNotificacion: "" });
+      setFormValues({ ...formValues, municipioNotificacion: '' });
     } else {
       const municipioIndicadores = datosNotificacion.departamento?.value?.slice(
         0,
@@ -498,6 +502,7 @@ const RegisterPersonaScreen = () => {
       setMunicipioNotificacionFiltered(municipiosCoincidentes);
       setFormValues({ ...formValues, municipioNotificacion: 0 });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [datosNotificacion.departamento]);
 
   // Cambio inputs
@@ -515,7 +520,7 @@ const RegisterPersonaScreen = () => {
   const selectDatePicker = (e) => {
     const formatData = { ...createPersonaModel };
     const data = formatISO(new Date(e), {
-      representation: "date",
+      representation: 'date'
     });
     formatData.fecha_nacimiento = data;
     formatData.fechaInput = e;
@@ -524,119 +529,67 @@ const RegisterPersonaScreen = () => {
 
   const handleChangePhone = (e) => {
     const formatData = { ...createPersonaModel };
-    formatData.telefono_celular = "57" + e.target.value;
+    formatData.telefono_celular = '57' + e.target.value;
     formatData.celular = e.target.value;
     setCreatePersonaModel(formatData);
   };
 
-  const validatePhoneNumbers = (celular, cCelular) => {
-    if (celular !== cCelular) {
-      return {
-        type: 'manual',
-        message: 'Los numeros de telefono no coinciden'
-      }
-    }
-    return true
-  }
-  const validateDate = (date: Date) => {
-    if (date === new Date()) {
-      return {
-        type: 'manual',
-        message: 'la fecha de nacimiento no puede ser mayor a la fecha actual'
-      }
-    }
-    return true
-  }
-  const today = new Date();
-
-  const validation = {
-    fechaNacimiento: {
-      required: true,
-      validate: value => value < today
-    }
-  };
-
-
-  console.log(dataPersona, 'dataPersona')
-  console.log(municipioNotificacionFiltered, 'municipioNotificacionFiltered')
-  // console.log(dataPersona, 'dataPersona')
-  // console.log(setDatesFormatRevere(dataPersona.fechaNacimiento.toLocaleString()), 'toLocaleString')
   return (
     <div
-      className="page-header align-items-start min-vh-100"
+      className='page-header align-items-start min-vh-100'
       style={{
-        backgroundColor: "rgb(4,47,74)",
+        backgroundColor: 'rgb(4,47,74)'
       }}
     >
-      <div className="container my-auto">
-        <div className="row my-4">
-          <div className="col-12 col-md-8 mx-auto">
-            <div className="card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4">
+      <div className='container my-auto'>
+        <div className='row my-4'>
+          <div className='col-12 col-md-8 mx-auto'>
+            <div className='card z-index-0 fadeIn3 fadeInBottom px-4 pb-2 pb-md-4'>
               {isUser ? (
                 <>
-                  <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">
+                  <h3 className='mt-3 ms-3 mb-2 fw-light text-terciary'>
                     Registro de persona
                   </h3>
                 </>
               ) : (
-                <h3 className="mt-3 ms-3 mb-2 fw-light text-terciary">
+                <h3 className='mt-3 ms-3 mb-2 fw-light text-terciary'>
                   Registro de empresa
                 </h3>
               )}
 
               {isUser ? (
-                <Subtitle title={"Datos personales"} mt={2} mb={0} />
+                <Subtitle title={'Datos personales'} mt={2} mb={0} />
               ) : (
-                <Subtitle title={"Datos de empresa"} mt={2} mb={0} />
+                <Subtitle title={'Datos de empresa'} mt={2} mb={0} />
               )}
               <form onSubmit={handleSubmit(submitForm)}>
-                <div className="row mx-1">
-                  <div className="col-12 col-md-6 mt-3">
-                    <label className="form-label">
-                      Tipo de persona: <span className="text-danger">*</span>
+                <div className='row mx-1'>
+                  <div className='col-12 col-md-6 mt-3'>
+                    <label className='form-label'>
+                      Tipo de persona: <span className='text-danger'>*</span>
                     </label>
-                    <Controller
-                      name="tipo_persona"
-                      rules={{ required: true }}
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={field.value}
-                          options={tipoPersonaOptions}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                    <Select
+                      // value={createPersonaModel.tipo_persona}
+                      options={tipoPersonaOptions}
+                      // defaultValue={formValues.tipo_persona}
+                      placeholder='Seleccionar'
+                      onChange={handleChangeTypePerson}
                     />
-                    {errorsForm.tipo_persona && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          Este campo es obligatorio
-                        </small>
-                      </div>
-                    )}
                   </div>
-
-                  <div className="col-12 col-md-6 mt-3">
-                    <label className="form-label">
-                      Tipo de documento: <span className="text-danger">*</span>
+                  <div className='col-12 col-md-6 mt-3'>
+                    <label className='form-label'>
+                      Tipo de documento: <span className='text-danger'>*</span>
                     </label>
-                    <Controller
-                      name="tipoDocumento"
-                      rules={{ required: true }}
-                      control={control}
-                      render={({ field }) => (
-                        <Select
-                          {...field}
-                          value={field.value}
-                          options={tipoDocumentoFiltrado}
-                          placeholder="Seleccionar"
-                        />
-                      )}
+                    <Select
+                      name='tipo_documento'
+                      options={tipoDocumentoFiltrado}
+                      placeholder='Seleccionar'
+                      onChange={handleChange}
                     />
+
                     {errorsForm.tipoDocumento && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
                           Este campo es obligatorio
                         </small>
                       </div>
@@ -644,43 +597,40 @@ const RegisterPersonaScreen = () => {
                   </div>
 
                   {isUser && (
-                    <div className="col-12 mt-4 mt-md-5 d-flex justify-content-center">
-                      <div className="form-check p-0">
+                    <div className='col-12 mt-4 mt-md-5 d-flex justify-content-center'>
+                      <div className='form-check p-0'>
                         <label
-                          className="form-check-label text-terciary me-2"
-                          htmlFor="flexCheckDefault"
+                          className='form-check-label text-terciary me-2'
+                          htmlFor='flexCheckDefault'
                         >
                           ¿Requiere nombre comercial?
                         </label>
                         <input
-                          name="yesOrNo"
-                          className="border border-terciary form-check-input mx-2"
-                          type="checkbox"
+                          name='yesOrNo'
+                          className='border border-terciary form-check-input mx-2'
+                          type='checkbox'
                           onClick={handleYesOrNo}
-                          id="flexCheckDefault"
+                          id='flexCheckDefault'
                         />
                       </div>
                     </div>
                   )}
-                  <div className="col-md-6 col-12 mt-3">
+                  <div className='col-md-6 col-12 mt-3'>
                     <div>
-                      <label className="ms-2">
-                        Número de documento:{" "}
-                        <span className="text-danger">*</span>
+                      <label className='ms-2'>
+                        Número de documento:{' '}
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="number"
-                        {...register("numero_documento", { required: true })}
-                        onBlur={() => {
-                          console.log("sali de input");
-                        }}
-                      // onChange={handleChange}
+                        className='border border-terciary form-control border rounded-pill px-3'
+                        type='number'
+                        name='numero_documento'
+                        onChange={handleChange}
                       />
                     </div>
                     {errorsForm.numero_documento && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
                           Este campo es obligatorio
                         </small>
                       </div>
@@ -688,40 +638,38 @@ const RegisterPersonaScreen = () => {
                   </div>
                   {yesOrNo && (
                     <>
-                      <div className="col-md-6 col-12 ">
-                        <div className="mt-3">
-                          <label className="ms-2">Digito verificación:</label>
-                          <span className="text-danger">*</span>
+                      <div className='col-md-6 col-12 '>
+                        <div className='mt-3'>
+                          <label className='ms-2'>Digito verificación:</label>
                           <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            maxLength={1}
-                            type="number"
-                            {...register("dv", { required: true, maxLength: { value: 1, message: "El campo debe tener como máximo 1 caracteres" } })}
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='number'
+                            onChange={handleMaxOneDigit}
                           />
                         </div>
                         {errorsForm.dv && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              {errorsForm.dv.message}
+                          <div className='col-12'>
+                            <small className='text-center text-danger'>
+                              Este campo admite solo un carácter
                             </small>
                           </div>
                         )}
                       </div>
-                      <div className="col-md-6 col-12 ">
-                        <div className="mt-3">
-                          <label className="ms-2">
-                            Nombre comercial:{" "}
-                            <span className="text-danger">*</span>
+                      <div className='col-md-6 col-12 '>
+                        <div className='mt-3'>
+                          <label className='ms-2'>
+                            Nombre comercial:{' '}
+                            <span className='text-danger'>*</span>
                           </label>
                           <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("nombreComercial", { required: true })}
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='text'
+                            required={false}
                           />
                         </div>
                         {errorsForm.nombreComercial && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
+                          <div className='col-12'>
+                            <small className='text-center text-danger'>
                               Este campo es obligatorio
                             </small>
                           </div>
@@ -731,20 +679,20 @@ const RegisterPersonaScreen = () => {
                   )}
 
                   {!isUser && (
-                    <div className="col-md-6 col-12 ">
-                      <div className="mt-3">
-                        <label className="ms-2">
-                          Razón social: <span className="text-danger">*</span>
+                    <div className='col-md-6 col-12 '>
+                      <div className='mt-3'>
+                        <label className='ms-2'>
+                          Razón social: <span className='text-danger'>*</span>
                         </label>
                         <input
-                          className="border border-terciary form-control border rounded-pill px-3"
-                          type="text"
-                          {...register("razonSocial", { required: true })}
+                          className='border border-terciary form-control border rounded-pill px-3'
+                          type='text'
+                          required={false}
                         />
                       </div>
                       {errorsForm.razonSocial && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
+                        <div className='col-12'>
+                          <small className='text-center text-danger'>
                             Este campo es obligatorio
                           </small>
                         </div>
@@ -754,141 +702,95 @@ const RegisterPersonaScreen = () => {
 
                   {isUser && (
                     <>
-                      <div className="col-md-6 col-12 mt-3">
-                        <div>
-                          <label className="ms-2">
-                            Primer nombre:{" "}
-                            <span className="text-danger">*</span>
+                      <div className='col-12 col-md-6'>
+                        <div className='mt-3'>
+                          <label className='ms-2'>
+                            Primer nombre:{' '}
+                            <span className='text-danger'>*</span>
                           </label>
                           <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("primerNombre", { required: true })}
-                          // onChange={handleChange}
-                          />
-                        </div>
-                        {errorsForm.primerNombre && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )}
-                      </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mt-3">
-                          <label className="ms-2">Segundo nombre:</label>
-                          <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("segundo_nombre", { required: false })}
-                          // onChange={handleChange}
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='text'
+                            name='primer_nombre'
+                            onChange={handleChange}
+                            required={false}
                           />
                         </div>
                       </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mt-3">
-                          <label className="ms-2">
-                            Primer apellido:{" "}
-                            <span className="text-danger">*</span>
+                      <div className='col-12 col-md-6'>
+                        <div className='mt-3'>
+                          <label className='ms-2'>Segundo nombre:</label>
+                          <input
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='text'
+                            name='segundo_nombre'
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-md-6'>
+                        <div className='mt-3'>
+                          <label className='ms-2'>
+                            Primer apellido:{' '}
+                            <span className='text-danger'>*</span>
                           </label>
                           <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("primerApellido", { required: true })}
-                          // onChange={handleChange}
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='text'
+                            name='primer_apellido'
+                            onChange={handleChange}
+                            required={false}
                           />
                         </div>
                         {errorsForm.primerApellido && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
+                          <div className='col-12'>
+                            <small className='text-center text-danger'>
                               Este campo es obligatorio
                             </small>
                           </div>
                         )}
                       </div>
-                      <div className="col-12 col-md-6">
-                        <div className="mt-3">
-                          <label className="ms-2">Segundo apellido:</label>
+                      <div className='col-12 col-md-6'>
+                        <div className='mt-3'>
+                          <label className='ms-2'>Segundo apellido:</label>
                           <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("segundo_apellido", { required: false })}
-                          // onChange={handleChange}
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='text'
+                            name='segundo_apellido'
+                            onChange={handleChange}
+                            required={false}
                           />
                         </div>
                       </div>
                     </>
                   )}
                   {isUser && (
-                    <div className="flex-column col-12 col-md-6 mt-3">
-                      <label htmlFor="exampleFormControlInput1">
-                        Fecha de nacimiento:{" "}
-                        <span className="text-danger">*</span>
+                    <div className='flex-column col-12 col-md-6 mt-3'>
+                      <label htmlFor='exampleFormControlInput1'>
+                        Fecha de nacimiento:{' '}
+                        <span className='text-danger'>*</span>
                       </label>
-                      <Controller
-                        name="fechaNacimiento"
-                        control={control}
-                        render={({ field }) => (
-                          <DatePicker
-                            {...field}
-                            id="fechaNacimiento"
-                            required
-                            locale="es"
-                            showYearDropdown
-                            peekNextMonth
-                            showMonthDropdown
-                            dropdownMode="select"
-                            scrollableYearDropdown
-                            autoComplete="off"
-                            selected={dataPersona.fechaNacimiento}
-                            className="form-control border border-terciary rounded-pill px-3"
-                            maxDate={today}
-                            dateFormat="yyyy-MM-dd"
-                          />
-                        )}
-                      />
-                      {/* <Controller
-                        name="fechaNacimiento"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <DatePicker
-                            {...field}
-                            id="fechaNacimiento"
-                            locale="es"
-                            showYearDropdown
-                            peekNextMonth
-                            showMonthDropdown
-                            dropdownMode="select"
-                            scrollableYearDropdown
-                            autoComplete="off"
-                            selected={dataPersona.fechaNacimiento}
-                            className="form-control border border-terciary rounded-pill px-3"
-                            maxDate={new Date()}
-                            dateFormat="yyyy-MM-dd"
-                          />
-                        )}
-                      /> */}
-                      {/* <DatePicker
-                        locale="es"
+                      <DatePicker
+                        locale='es'
                         showYearDropdown
                         peekNextMonth
                         showMonthDropdown
                         scrollableYearDropdown
-                        dropdownMode="select"
-                        autoComplete="off"
-                        dateFormat="dd/MM/yyyy"
+                        dropdownMode='select'
+                        autoComplete='off'
+                        dateFormat='dd/MM/yyyy'
                         selected={createPersonaModel.fechaInput}
                         onSelect={selectDatePicker}
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        placeholderText="dd/mm/aaaa"
-                        {...register("fechaNacimiento", { required: true })}
-                      /> */}
-                      {errorsForm.fechaNacimiento && errorsForm.fechaNacimiento.type === "validate" && (
-                        <small className="form-text text-danger">
-                          La fecha no puede ser igual a hoy.
-                        </small>
+                        className='border border-terciary form-control border rounded-pill px-3'
+                        placeholderText='dd/mm/aaaa'
+                      />
+
+                      {errorsForm.fechaNacimiento && (
+                        <div className='col-12'>
+                          <small className='text-center text-danger'>
+                            Este campo es obligatorio
+                          </small>
+                        </div>
                       )}
                     </div>
                   )}
@@ -896,61 +798,41 @@ const RegisterPersonaScreen = () => {
 
                 {!isUser && (
                   <>
-                    <Subtitle title={"Representante Legal"} mt={4} mb={0} />
-                    <div className="row mx-1">
-                      <div className="col-12 col-md-6 mt-3">
-                        <label className="form-label">
-                          Tipo de documento:{" "}
-                          <span className="text-danger">*</span>
+                    <Subtitle title={'Representante Legal'} mt={4} mb={0} />
+                    <div className='row mx-1'>
+                      <div className='col-12 col-md-6 mt-3'>
+                        <label className='form-label'>
+                          Tipo de documento:{' '}
+                          <span className='text-danger'>*</span>
                         </label>
-                        <Controller
-                          name="tipoDocumentoLegal"
-                          rules={{ required: true }}
-                          control={control}
-                          render={({ field }) => (
-                            <Select
-                              {...field}
-                              value={field.value}
-                              options={tipoDocumentoOptions}
-                              placeholder="Seleccionar"
-                            />
-                          )}
+                        <Select
+                          options={tipoDocumentoOptions}
+                          placeholder='Seleccionar'
                         />
-                        {errorsForm.tipoDocumentoLegal && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
+
+                        {errorsForm.tipoDocumento && (
+                          <div className='col-12'>
+                            <small className='text-center text-danger'>
                               Este campo es obligatorio
                             </small>
                           </div>
                         )}
-                        {/* <Select
-                          options={tipoDocumentoOptions}
-                          placeholder="Seleccionar"
-                        />
-
-                        {errorsForm.tipoDocumento && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
-                              Este campo es obligatorio
-                            </small>
-                          </div>
-                        )} */}
                       </div>
-                      <div className="col-md-6 col-12 mt-3">
+                      <div className='col-md-6 col-12 mt-3'>
                         <div>
-                          <label className="ms-2">
-                            Número de documento:{" "}
-                            <span className="text-danger">*</span>
+                          <label className='ms-2'>
+                            Número de documento:{' '}
+                            <span className='text-danger'>*</span>
                           </label>
                           <input
-                            className="border border-terciary form-control border rounded-pill px-3"
-                            type="text"
-                            {...register("numero_documento_legal", { required: true })}
+                            className='border border-terciary form-control border rounded-pill px-3'
+                            type='text'
+                            required={false}
                           />
                         </div>
-                        {errorsForm.numero_documento_legal && (
-                          <div className="col-12">
-                            <small className="text-center text-danger">
+                        {errorsForm.numero_documento && (
+                          <div className='col-12'>
+                            <small className='text-center text-danger'>
                               Este campo es obligatorio
                             </small>
                           </div>
@@ -961,137 +843,153 @@ const RegisterPersonaScreen = () => {
                 )}
 
                 {/* DATOS DE NOTIFICACION */}
-                <Subtitle title={"Datos de notificación"} mt={4} mb={0} />
+                <Subtitle title={'Datos de notificación'} mt={4} mb={0} />
 
-                <div className="row mx-1">
-                  <div className="col-12 col-md-6">
-                    <div className="mt-3">
-                      <label className="ms-2">
-                        E-mail: <span className="text-danger">*</span>
+                <div className='row mx-1'>
+                  <div className='col-12 col-md-6'>
+                    <div className='mt-3'>
+                      <label className='ms-2'>
+                        E-mail: <span className='text-danger'>*</span>
                       </label>
                       <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="email"
-                        onCopy={(e) => e.preventDefault()}
-                        {...register("eMail", { required: true })}
-                        // onChange={handleChange}
+                        className='border border-terciary form-control border rounded-pill px-3'
+                        type='email'
+                        // autoComplete="off"
+                        // onCopy={(e) => e.preventDefault()}
+                        name='email'
+                        onChange={handleChange}
                         required={false}
                       />
                     </div>
                     {errorsForm.eMail && (
-                      <div className="col-12">
-                        <small className="text-danger">
+                      <div className='col-12'>
+                        <small className='text-danger'>
                           Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                    {errors.confirmacionEmail && (
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
+                          Los emails no coinciden
                         </small>
                       </div>
                     )}
                   </div>
 
-                  <div className="col-12 col-md-6">
-                    <div className="mt-3">
-                      <label className="ms-2">
-                        Confirme su e-mail:{" "}
-                        <span className="text-danger">*</span>
+                  <div className='col-12 col-md-6'>
+                    <div className='mt-3'>
+                      <label className='ms-2'>
+                        Confirme su e-mail:{' '}
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        type="email"
+                        className='border border-terciary form-control border rounded-pill px-3'
+                        type='email'
                         // autoComplete="off"
                         // onPaste={(e) => e.preventDefault()}
-                        {...register("cEmail", {
-                          required: true,
-                          validate: (value) => value === watch("eMail"),
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Ingrese un correo electrónico válido"
-                          }
-                        })}
-                      // onChange={handleChange}
+                        name='cEmail'
+                        onChange={handleChange}
+                        required={false}
                       />
                     </div>
                     {errorsForm.cEmail && (
-                      <div className="col-12">
-                        <small className="text-danger">
-                          Este campo es obligatorio e igual al E-mail
+                      <div className='col-12'>
+                        <small className='text-danger'>
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                    {errors.confirmacionEmail && (
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
+                          Los emails no coinciden
                         </small>
                       </div>
                     )}
                   </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mt-3">
-                      <label className="ms-2">
-                        Celular: <span className="text-danger">*</span>
+                  <div className='col-12 col-md-6'>
+                    <div className='mt-3'>
+                      <label className='ms-2'>
+                        Celular: <span className='text-danger'>*</span>
                       </label>
                       <input
-                        className="border border-terciary form-control border rounded-pill px-3"
-                        // type="tel"
-                        // maxLength={10}
+                        className='border border-terciary form-control border rounded-pill px-3'
+                        type='tel'
+                        maxLength={10}
                         onCopy={(e) => e.preventDefault()}
-                        {...register("celular", { required: true })}
-                        //onChange={handleChangePhone}
+                        name='celular'
+                        onChange={handleChangePhone}
+                        required={false}
                       />
                     </div>
                     {errorsForm.celular && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
                           Este campo es obligatorio
                         </small>
                       </div>
                     )}
                     {errors.confirmacionCelular && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
                           Los números no coinciden
                         </small>
                       </div>
                     )}
                   </div>
 
-                  <div className="col-12 col-md-6">
-                    <div className="mt-3">
-                      <label className="ms-2">
-                        Confirme su celular:{" "}
-                        <span className="text-danger">*</span>
+                  <div className='col-12 col-md-6'>
+                    <div className='mt-3'>
+                      <label className='ms-2'>
+                        Confirme su celular:{' '}
+                        <span className='text-danger'>*</span>
                       </label>
                       <input
-                        className="border border-terciary form-control border rounded-pill px-3"
+                        className='border border-terciary form-control border rounded-pill px-3'
+                        type='tel'
                         // onPaste={(e) => e.preventDefault()}
-                        {...register("cCelular", {
-                          required: true,
-                          minLength: 10,
-                          maxLength: 10,
-                          pattern: /^[0-9]+$/,
-                          validate: (value) => value === dataPersona.celular,
-                        })}
-                       //onChange={handleChange}
+                        name='cCelular'
+                        onChange={handleChange}
+                        required={false}
                       />
                     </div>
                     {errorsForm.cCelular && (
-                      <div className="col-12">
-                        <small className="text-center text-danger">
-                          El campo está vacío  o no coinciden los números ingresados
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
+                          Este campo es obligatorio
+                        </small>
+                      </div>
+                    )}
+                    {errors.confirmacionCelular && (
+                      <div className='col-12'>
+                        <small className='text-center text-danger'>
+                          Los números no coinciden
                         </small>
                       </div>
                     )}
                   </div>
                   {!isUser && (
                     <>
-                      <div className="mt-3 col-md-12 col-12">
-                        <div className="mt-3 d-flex align-items-end">
-                          <div className="col-9 mx-2">
-                            <label className="text-terciary">
-                              Dirección de notificación:{" "}
-                              <span className="text-danger">*</span>
+                      <div className='mt-3 col-md-10 col-12'>
+                        <div className='mt-3 d-flex align-items-end'>
+                          <div className='col-12'>
+                            <label className='text-terciary'>
+                              Dirección de notificación:{' '}
+                              <span className='text-danger'>*</span>
                             </label>
                             <input
-                              className="form-control rounded-pill px-3 border border-terciary"
+                              className='form-control rounded-pill px-3 border border-terciary'
+                              readOnly
                               disabled
-                              {...register("direccionNotificacion", { required: true })}
+                              type='text'
+                              value={completeAddress}
+                              required={false}
                             />
                           </div>
                           <button
-                            type="button"
-                            className="btn bg-gradient-primary text-capitalize mb-0 mt-3"
+                            type='button'
+                            className='btn bg-gradient-primary text-capitalize mb-0 mt-3'
                             onClick={() => {
                               setIsOpenGenerator(true);
                               console.log(watch());
@@ -1102,104 +1000,133 @@ const RegisterPersonaScreen = () => {
                         </div>
                       </div>
                       {errorsForm.direccionNotificacion && (
-                        <div className="col-12">
-                          <small className="text-center text-danger">
+                        <div className='col-12'>
+                          <small className='text-center text-danger'>
                             Este campo es obligatorio
                           </small>
                         </div>
                       )}
-                      <div className="col-12 col-md-6 mt-3">
-                        <label className="form-label text-terciary">
-                          País notificación:
+                      {/* <div className="col-12 col-md-6 mt-3">
+                        <label className="form-label">
+                          Pais: <span className="text-danger">*</span>
                         </label>
                         <Controller
-                          name="paisNotificacion"
-                          rules={{ required: true }}
+                          name="pais"
                           control={control}
+                          rules={{
+                            required: true,
+                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
-                              value={field.value}
                               options={paisesOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
-                        {/* <Select
+                      </div> */}
+                      <div className='col-12 col-md-6 mt-3'>
+                        <label className='form-label text-terciary'>
+                          País notificación:
+                        </label>
+                        <Select
                           value={paisesOptions[formValues.paisNotificacion]}
                           options={paisesOptions}
                           onChange={handleChangePaisNotificacion}
-                          placeholder="Seleccionar"
-                        /> */}
+                          placeholder='Seleccionar'
+                        />
                       </div>
-                      {/* {dataPersona.paisNotificacion.value === getIndexColombia() ? ( */}
-                      <div className="col-12 col-md-6 mt-3">
-                        <label className="form-label text-terciary">
-                          Departamento notificación:{" "}
+                      {/* <div className="col-12 col-md-6 mt-3">
+                        <label className="form-label">
+                          Departamento: <span className="text-danger">*</span>
                         </label>
                         <Controller
-                          name="departamentoNotificacion"
-                          rules={{ required: true }}
+                          name="departamento"
                           control={control}
+                          rules={{
+                            required: true,
+                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
-                              value={field.value}
-                              isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                               options={departamentosOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
-                        {/* <Select
+                      </div> */}
+                      {formValues.paisNotificacion === getIndexColombia() ? (
+                        <div className='col-12 col-md-6 mt-3'>
+                          <label className='form-label text-terciary'>
+                            Departamento notificación:{' '}
+                          </label>
+                          <Select
                             options={departamentosOptions}
-                            isDisabled={dataPersona.paisNotificacion.value !== "CO"}
+                            isDisabled={
+                              paisesOptions[formValues.paisNotificacion]
+                                ?.value !== 'CO'
+                            }
                             onChange={(e) => {
                               setDatosNotificacion({
                                 ...datosNotificacion,
-                                departamento: e,
+                                departamento: e
                               });
                             }}
                             value={datosNotificacion.departamento}
-                            placeholder="Seleccionar"
-                          /> */}
-                      </div>
-                      {/* ) : (
-                        <div className="col-12 col-md-6 mt-3">
-                          <label className="form-label text-terciary">
-                            Departamento notificación:{" "}
-                          </label>
-                          <Select
-                            isDisabled={dataPersona.paisNotificacion.value !== "CO"}
-                            placeholder="Seleccionar"
-                            value={"Seleccionar"}
+                            placeholder='Seleccionar'
                           />
                         </div>
-                      )} */}
-                      {/* {dataPersona.paisNotificacion.value === getIndexColombia() ? ( */}
-                      <div className="col-12 col-md-6 mt-3">
+                      ) : (
+                        <div className='col-12 col-md-6 mt-3'>
+                          <label className='form-label text-terciary'>
+                            Departamento notificación:{' '}
+                          </label>
+                          <Select
+                            isDisabled
+                            placeholder='Seleccionar'
+                            value={'Seleccionar'}
+                          />
+                        </div>
+                      )}
+                      {/* <div className="col-12 col-md-6 mt-3">
                         <label className="form-label">
-                          Municipio notificación:{" "}
+                          Municipio: <span className="text-danger">*</span>
                         </label>
                         <Controller
-                          name="municipioNotificacion"
-                          rules={{ required: true }}
+                          name="municipio"
                           control={control}
+                          rules={{
+                            required: true,
+                          }}
                           render={({ field }) => (
                             <Select
                               {...field}
-                              value={field.value}
-                              isDisabled={dataPersona.paisNotificacion.value !== "CO"}
                               options={municipiosOptions}
                               placeholder="Seleccionar"
                             />
                           )}
                         />
-                        {/* <Select
-                            isDisabled={dataPersona.paisNotificacion.value !== "CO"}
+                      </div>
+                      {errorsForm.municipio && (
+                        <div className="col-12">
+                          <small className="text-center text-danger">
+                            Este campo es obligatorio
+                          </small>
+                        </div>
+                      )} */}
+                      {formValues.paisNotificacion === getIndexColombia() ? (
+                        <div className='col-12 col-md-6 mt-3'>
+                          <label className='form-label'>
+                            Municipio notificación:{' '}
+                          </label>
+                          <Select
+                            isDisabled={
+                              paisesOptions[formValues.paisNotificacion]
+                                ?.value !== 'CO'
+                            }
                             value={
                               municipiosOptions[
-                              formValues.municipioNotificacion
+                                formValues.municipioNotificacion
                               ]
                             }
                             onChange={(e: SingleValue<any>) =>
@@ -1208,95 +1135,163 @@ const RegisterPersonaScreen = () => {
                                 municipioNotificacion: getIndexBySelectOptions(
                                   e.value,
                                   municipiosOptions
-                                ),
+                                )
                               })
                             }
                             options={municipioNotificacionFiltered}
-                            placeholder="Seleccionar"
-                          /> */}
-                      </div>
-                      {/* ) : (
-                        <div className="col-12 col-md-6 mt-3">
-                          <label className="form-label">
-                            Municipio notificación:{" "}
+                            placeholder='Seleccionar'
+                          />
+                        </div>
+                      ) : (
+                        <div className='col-12 col-md-6 mt-3'>
+                          <label className='form-label'>
+                            Municipio notificación:{' '}
                           </label>
                           <Select
                             isDisabled
-                            placeholder="Seleccionar"
-                            value={"Seleccionar"}
+                            placeholder='Seleccionar'
+                            value={'Seleccionar'}
                           />
                         </div>
-                      )} */}
+                      )}
                     </>
                   )}
-                  <label className="text-bold mt-3">
-                    <span className="text-danger">*</span>Al hacer clic en
-                    "Registrarse", aceptas nuestras condiciones, la política de
-                    privacidad y política de cookies. Es posible que te enviemos
-                    notificaciones por SMS y/o vía correo electrónico.
-                  </label>
-                  <div className="d-flex justify-content-end mt-3">
-                    <button
-                      className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                      type="button"
-                      onClick={() => navigate("/login")}
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        <img src={botonCancelar} alt="" title="Cancelar" />
-                      )}
-                    </button>
-                    <button
-                      className="mb-0 btn-image text-capitalize bg-white border boder-none"
-                      type="submit"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <span
-                            className="spinner-border spinner-border-sm me-1"
-                            role="status"
-                            aria-hidden="true"
-                          ></span>
-                          Cargando...
-                        </>
-                      ) : (
-                        <img
-                          src={botonRegistrarse}
-                          alt=""
-                          title="Registrarse"
-                        />
-                      )}
-                    </button>
+                </div>
+
+                {/* DATOS DE NOTIFICACION */}
+                <Subtitle title={'Datos de la cuenta'} mt={4} mb={0} />
+
+                <div className='row'>
+                  <div className='col-12 col-sm-6'>
+                    <div className='mt-3'>
+                      <label className='text-terciary text-terciary ms-2'>
+                        Nombre de usuario:{' '}
+                        <span className='text-danger'>*</span>
+                      </label>
+                      <input
+                        className='form-control border border-terciary rounded-pill px-3'
+                        type='text'
+                        name='nombreDeUsuario'
+                        onChange={handleChange}
+                      />
+                    </div>
+                    {errorsForm.nombreDeUsuario && (
+                      <small className='text-danger'>
+                        Este campo es obligatorio
+                      </small>
+                    )}
+                  </div>
+
+                  <div className='col-12 col-sm-6'>
+                    <div className='mt-3'>
+                      <label className='text-terciary text-terciary ms-2'>
+                        Contraseña: <span className='text-danger'>*</span>
+                      </label>
+                      <input
+                        className='form-control border border-terciary rounded-pill px-3'
+                        type='password'
+                        onCopy={(e) => e.preventDefault()}
+                        name='password'
+                        onChange={handleChange}
+                        // {...register('password', { required: true })}
+                      />
+                    </div>
+                    {errorsForm.password && (
+                      <small className='text-danger'>
+                        Este campo es obligatorio
+                      </small>
+                    )}
+                  </div>
+
+                  <div className='col-12 col-sm-6'>
+                    <div className='mt-3'>
+                      <label className='text-terciary text-terciary ms-2'>
+                        Confirmar contraseña:{' '}
+                        <span className='text-danger'>*</span>
+                      </label>
+                      <input
+                        className='form-control border border-terciary rounded-pill px-3'
+                        type='password'
+                        onPaste={(e) => e.preventDefault()}
+                        name='password2'
+                        onChange={handleChange}
+                        // {...register('password2', { required: true })}
+                      />
+                    </div>
+                    {errorsForm.password && (
+                      <small className='text-danger'>
+                        Este campo es obligatorio
+                      </small>
+                    )}
+                    {errorPassword === true && (
+                      <small className='text-danger'>
+                        Las contraseñas no coinciden
+                      </small>
+                    )}
+                  </div>
+
+                  <div className='col-12'>
+                    <label className='text-bold mt-3'>
+                      <span className='text-danger'>*</span>Al hacer clic en
+                      "Registrarse", aceptas nuestras condiciones, la política
+                      de privacidad y política de cookies. Es posible que te
+                      enviemos notificaciones por SMS y/o vía correo
+                      electrónico.
+                    </label>
+                    <div className='d-flex justify-content-end mt-3'>
+                      <button
+                        className='mb-0 btn-image text-capitalize bg-white border boder-none'
+                        type='button'
+                        onClick={() => navigate('/login')}
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <>
+                            <span
+                              className='spinner-border spinner-border-sm me-1'
+                              role='status'
+                              aria-hidden='true'
+                            ></span>
+                            Cargando...
+                          </>
+                        ) : (
+                          <img src={botonCancelar} alt='' title='Cancelar' />
+                        )}
+                      </button>
+                      <button
+                        className='mb-0 btn-image text-capitalize bg-white border boder-none'
+                        type='submit'
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <>
+                            <span
+                              className='spinner-border spinner-border-sm me-1'
+                              role='status'
+                              aria-hidden='true'
+                            ></span>
+                            Cargando...
+                          </>
+                        ) : (
+                          <img
+                            src={botonRegistrarse}
+                            alt=''
+                            title='Registrarse'
+                          />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </form>
-              {/* <GeneradorDeDirecciones
-                keyReset="direccionNotificacion"
-                reset={reset}
-                totalValuesForm={watch()}
-                isOpenGenerator={isOpenGenerator}
-                setIsOpenGenerator={setIsOpenGenerator}
-                completeAddress={completeAddress}
-                setCompleteAddress={setCompleteAddress}
-              /> */}
 
               <DirecionResidenciaModal
                 isModalActive={isOpenGenerator}
                 setIsModalActive={setIsOpenGenerator}
-                completeAddress={dataPersona.direccionNotificacion}
-                setCompleteAddress={setValue}
+                completeAddress={completeAddress}
+                setCompleteAddress={setCompleteAddress}
                 reset={reset}
-                keyReset="direccionNotificacion"
+                keyReset='direccionNotificacion'
                 watch={watch}
               />
             </div>

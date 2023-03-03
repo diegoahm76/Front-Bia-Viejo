@@ -17,7 +17,7 @@ const RecuperacionDeContrasenaScreen = () => {
   const onSubmitRecoveryPassword: SubmitHandler<{ email: string }> = async (data: { email: string }) => {
     const bodyAxios = {
       email: data.email,
-      redirect_url: process.env.NODE_ENV === "production" ? "https://macareniafrontdevelop.netlify.app//#/actualizar-contrasena" : "http://localhost:3000/#/actualizar-contrasena",
+      redirect_url: process.env.NODE_ENV === "production" ? "https://front-bia.netlify.app/#/actualizar-contrasena" : "http://localhost:3000/#/actualizar-contrasena",
     };
     const { data: dataRecoveryPassword } = await clienteAxios.post(
       "users/request-reset-email/",
