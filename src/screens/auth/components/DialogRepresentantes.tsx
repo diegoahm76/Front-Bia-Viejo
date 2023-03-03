@@ -24,6 +24,7 @@ export const DialogRepresentantes = () => {
 
   const selectRepresentado = (value: string): void => {
     dispatch(setRepresentado(value));
+    dispatch(closeDialogRepresentante());
     dispatch(setIslogged());
   };
 
