@@ -83,7 +83,7 @@ function LoginScreen() {
                         className='text-white'
                         style={{ fontSize: '1.2rem' }}
                       >
-                        Email
+                        Nombre de usuario
                       </label>
                       <input
                         className='form-control border rounded-pill px-3 bg-white border border-0'
