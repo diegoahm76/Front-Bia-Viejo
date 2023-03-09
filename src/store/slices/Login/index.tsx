@@ -104,7 +104,7 @@ export const loginUser = async (
     const {
       data: { userinfo }
     } = await clienteAxios.post('users/login/', {
-      email,
+      nombre_de_usuario: email,
       password
     });
 

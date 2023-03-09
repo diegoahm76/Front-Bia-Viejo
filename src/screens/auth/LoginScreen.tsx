@@ -86,7 +86,6 @@ function LoginScreen() {
                         Email
                       </label>
                       <input
-                        type='email'
                         className='form-control border rounded-pill px-3 bg-white border border-0'
                         {...register('email')}
                       />
