@@ -9,7 +9,6 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
-
 import { loginUser } from "../../store/slices/Login";
 import { useAppDispatch, useAppSelector } from "../../store/hooks/hooks";
 import { isValid } from "date-fns";
@@ -41,7 +40,7 @@ function LoginScreen() {
 
   function submitHandler(dataForm) {
     //  this.setRecaptchaValue({captchaRef});
-    console.log(recaptchaValue);
+    console.log(recaptchaValue)
     console.log(isCaptchaValid);
     //event.preventDefault();
 
@@ -67,6 +66,8 @@ function LoginScreen() {
     console.log(recaptchaValue);
     console.log(dataForm.captcha);
   }
+
+
 
   const handleClickToDesbloqueo = () => {
     navigate("/desbloqueo-usuario");
@@ -122,7 +123,7 @@ function LoginScreen() {
                       Email
                     </label>
                     <input
-                      type="email"
+
                       className="form-control border rounded-pill px-3 bg-white border border-0"
                       {...register("email")}
                     />
@@ -161,9 +162,11 @@ function LoginScreen() {
                       sitekey={process.env.REACT_APP_SITE_KEY}
                       ref={captchaRef}
                       hl="es"
+
                       onChange={() => setIsCaptchaValid(true)}
                       onExpired={() => setIsCaptchaValid(false)}
                       onError={() => setIsCaptchaValid(false)}
+
                     />
                   </div>{" "}
                   *
@@ -187,7 +190,7 @@ function LoginScreen() {
                 </div>
                 <div className="d-flex justify-content-center mb-2">
                   <Link className="text-white" to="/recuperar-contrasena">
-                    <p>Olvidó su contraseña ?</p>
+                    <p>Olvidó su contraseña</p>
                   </Link>
                 </div>
               </div>

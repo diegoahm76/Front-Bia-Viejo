@@ -16,9 +16,9 @@ export interface IUserInfo {
     },
     userSesion: string;
     reintentos: boolean;
-    
-    
-    
+
+
+
 
 }
 const initialState: IUserInfo = {
@@ -72,7 +72,7 @@ export default loginSlice.reducer;
 export const loginUser = async (dispatch, email: string, password: string) => {
     await clienteAxios.post(
         "users/login/",
-        { email, password },
+        { nombre_de_usuario: email, password },
     ).then((response) => {
         dispatch(setUserInfo(response.data.userinfo));
         localStorage.setItem("userInfo", JSON.stringify(response.data.userinfo));
